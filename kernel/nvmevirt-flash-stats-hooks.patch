@@ -1,0 +1,156 @@
+diff --git a/main.c b/main.c
+index 919d39a..94f7b91 100644
+--- a/main.c
++++ b/main.c
+@@ -22,6 +22,7 @@
+ #include "simple_ftl.h"
+ #include "kv_ftl.h"
+ #include "dma.h"
++#include "aif.h"
+ 
+ /****************************************************************
+  * Memory Layout
+@@ -458,10 +459,12 @@ static void NVMEV_STORAGE_INIT(struct nvmev_dev *nvmev_vdev)
+ 		proc_create("io_units", 0664, nvmev_vdev->proc_root, &proc_file_fops);
+ 	nvmev_vdev->proc_stat = proc_create("stat", 0444, nvmev_vdev->proc_root, &proc_file_fops);
+ 	nvmev_vdev->proc_debug = proc_create("debug", 0444, nvmev_vdev->proc_root, &proc_file_fops);
++    aif_proc_init(nvmev_vdev->proc_root);
+ }
+ 
+ static void NVMEV_STORAGE_FINAL(struct nvmev_dev *nvmev_vdev)
+ {
++    aif_proc_remove(nvmev_vdev->proc_root);
+ 	remove_proc_entry("read_times", nvmev_vdev->proc_root);
+ 	remove_proc_entry("write_times", nvmev_vdev->proc_root);
+ 	remove_proc_entry("io_units", nvmev_vdev->proc_root);
+diff --git a/ssd.c b/ssd.c
+index bc91f58..9846e00 100644
+--- a/ssd.c
++++ b/ssd.c
+@@ -2,10 +2,75 @@
+ 
+ #include <linux/ktime.h>
+ #include <linux/sched/clock.h>
++#include <linux/proc_fs.h>
++#include <linux/seq_file.h>
++#include <linux/mutex.h>
+ 
+ #include "nvmev.h"
+ #include "ssd.h"
+ 
++/* This reports the genuine conventional-SSD NAND path, separate from AiF. */
++static DEFINE_MUTEX(flash_stats_lock);
++static struct ssd *flash_stats_ssds[SSD_PARTITIONS];
++static struct proc_dir_entry *flash_stats_proc;
++
++static int flash_stats_show(struct seq_file *m, void *unused)
++{
++    int p, c, l;
++    mutex_lock(&flash_stats_lock);
++    seq_puts(m, "partition,channel,lun,read_commands,read_bytes,nand_read_ns\n");
++    for (p = 0; p < SSD_PARTITIONS; p++) {
++        struct ssd *ssd = flash_stats_ssds[p];
++        if (!ssd)
++            continue;
++        for (c = 0; c < ssd->sp.nchs; c++) {
++            for (l = 0; l < ssd->sp.luns_per_ch; l++) {
++                struct nand_lun *lun = &ssd->ch[c].lun[l];
++                seq_printf(m, "%d,%d,%d,%llu,%llu,%llu\n", p,
++                           p * ssd->sp.nchs + c, l,
++                           READ_ONCE(lun->stats_read_commands),
++                           READ_ONCE(lun->stats_read_bytes),
++                           READ_ONCE(lun->stats_nand_read_ns));
++            }
++        }
++    }
++    mutex_unlock(&flash_stats_lock);
++    return 0;
++}
++
++static void flash_stats_register(struct ssd *ssd)
++{
++    int p;
++    mutex_lock(&flash_stats_lock);
++    for (p = 0; p < SSD_PARTITIONS; p++) {
++        if (!flash_stats_ssds[p]) {
++            flash_stats_ssds[p] = ssd;
++            break;
++        }
++    }
++    if (!flash_stats_proc)
++        flash_stats_proc = proc_create_single("nvmevirt_flash_stats", 0444, NULL,
++                                             flash_stats_show);
++    mutex_unlock(&flash_stats_lock);
++}
++
++static void flash_stats_unregister(struct ssd *ssd)
++{
++    int p;
++    bool any = false;
++    mutex_lock(&flash_stats_lock);
++    for (p = 0; p < SSD_PARTITIONS; p++) {
++        if (flash_stats_ssds[p] == ssd)
++            flash_stats_ssds[p] = NULL;
++        any |= flash_stats_ssds[p] != NULL;
++    }
++    mutex_unlock(&flash_stats_lock);
++    if (!any) {
++        proc_remove(flash_stats_proc);
++        flash_stats_proc = NULL;
++    }
++}
++
+ static inline uint64_t __get_ioclock(struct ssd *ssd)
+ {
+ 	return cpu_clock(ssd->cpu_nr_dispatcher);
+@@ -241,6 +306,9 @@ static void ssd_init_nand_lun(struct nand_lun *lun, struct ssdparams *spp)
+ 	}
+ 	lun->next_lun_avail_time = 0;
+ 	lun->busy = false;
++    lun->stats_read_commands = 0;
++    lun->stats_read_bytes = 0;
++    lun->stats_nand_read_ns = 0;
+ }
+ 
+ static void ssd_remove_nand_lun(struct nand_lun *lun)
+@@ -312,6 +380,7 @@ void ssd_init(struct ssd *ssd, struct ssdparams *spp, uint32_t cpu_nr_dispatcher
+ 
+ 	ssd->write_buffer = kmalloc(sizeof(struct buffer), GFP_KERNEL);
+ 	buffer_init(ssd->write_buffer, spp->write_buffer_size);
++    flash_stats_register(ssd);
+ 
+ 	return;
+ }
+@@ -319,6 +388,7 @@ void ssd_init(struct ssd *ssd, struct ssdparams *spp, uint32_t cpu_nr_dispatcher
+ void ssd_remove(struct ssd *ssd)
+ {
+ 	uint32_t i;
++    flash_stats_unregister(ssd);
+ 
+ 	kfree(ssd->write_buffer);
+ 	if (ssd->pcie) {
+@@ -396,6 +466,9 @@ uint64_t ssd_advance_nand(struct ssd *ssd, struct nand_cmd *ncmd)
+ 		} else {
+ 			nand_etime = nand_stime + spp->pg_rd_lat[cell];
+ 		}
++        lun->stats_read_commands++;
++        lun->stats_read_bytes += ncmd->xfer_size;
++        lun->stats_nand_read_ns += nand_etime - nand_stime;
+ 
+ 		/* read: then data transfer through channel */
+ 		chnl_stime = nand_etime;
+diff --git a/ssd.h b/ssd.h
+index 0f2785c..3deca8a 100644
+--- a/ssd.h
++++ b/ssd.h
+@@ -109,6 +109,10 @@ struct nand_lun {
+ 	uint64_t next_lun_avail_time;
+ 	bool busy;
+ 	uint64_t gc_endtime;
++    /* Cumulative service counters; snapshots are taken after I/O quiesces. */
++    uint64_t stats_read_commands;
++    uint64_t stats_read_bytes;
++    uint64_t stats_nand_read_ns;
+ };
+ 
+ struct ssd_channel {

@@ -1,0 +1,1419 @@
+        AiF: Accelerating On-Device LLM Inference Using In-Flash
+                               Processing
+                    Jaeyong Lee                                             Hyeunjoo Kim                                      Sanghun Oh
+            Seoul National University                                 Seoul National University                         Seoul National University
+             Seoul, Republic of Korea                                  Seoul, Republic of Korea                          Seoul, Republic of Korea
+             jylee@davinci.snu.ac.kr                                  hjkim@davinci.snu.ac.kr                            shoh@davinci.snu.ac.kr
+
+               Myoungjun Chun                                              Myungsuk Kim                                        Jihong Kim
+               Soongsil University                                Kyungpook National University                         Seoul National University
+             Seoul, Republic of Korea                               Daegu, Republic of Korea                             Seoul, Republic of Korea
+            mjchun@davinci.snu.ac.kr                                   ms.kim@knu.ac.kr                                 jihong@davinci.snu.ac.kr
+
+Abstract                                                                                  Symposium on Computer Architecture (ISCA ’25), June 21–25, 2025, Tokyo,
+While large language models (LLMs) achieve remarkable perfor-                             Japan. ACM, New York, NY, USA, 15 pages. https://doi.org/10.1145/3695053.
+                                                                                          3731073
+mance across diverse application domains, their substantial memory
+demands present challenges, especially on personal devices with
+limited DRAM capacity. Recent LLM inference engines have in-                              1   Introduction
+troduced SSD offloading for model parameters to reduce memory                             Deploying large language models (LLMs) directly on edge devices
+footprint. However, the highly memory-bound nature of on-device                           is gaining significant traction. On-device inference eliminates the
+LLMs makes inference speed heavily dependent on read bandwidth,                           need to transmit data to cloud servers, drastically reducing network
+leading to significant performance degradation due to the limited                         latency and enabling faster response times—an essential advantage
+bandwidth of SSDs. In this paper, we propose an in-flash process-                         for real-time applications such as virtual assistants, chatbots, and
+ing solution for on-device LLM, called Accelerator-in-Flash (AiF),                        autonomous vehicles. Additionally, on-device LLMs reduce oper-
+which integrates matrix-vector multiplication (GEMV) operations                           ational costs by minimizing reliance on centralized cloud infras-
+directly into flash chips. By enabling in-flash GEMV operations,                          tructure, making them a more efficient and cost-effective solution.
+AiF leverages the high internal bandwidth of flash chips without                          Keeping sensitive data locally also enhances privacy by reducing
+being constrained by the limited external bandwidth. Building on                          the risk of unauthorized access or exposure. These benefits collec-
+this core structure, AiF employs two novel flash read techniques                          tively position on-device LLMs as a compelling choice for a wide
+that were specifically optimized for reading LLM parameters stored                        range of edge computing applications.
+in flash memory. AiF achieves a 4x boost in internal read band-                              While on-device LLMs offer clear advantages, their substantial
+width during inference with minimal implementation overhead,                              memory requirements pose a critical challenge to widespread adop-
+thanks to its streamlined error correction process. Evaluations on                        tion and scalability. In general, LLMs require billions of parame-
+eight real-world LLMs reveal that AiF provides a 14.6x through-                           ters to achieve sophisticated capabilities, such as deep language
+put improvement compared to baseline SSD offloading schemes.                              understanding, complex reasoning, and coherent, context-aware
+Furthermore, AiF surpasses in-memory inference, delivering 1.4x                           generation. Consequently, these models often necessitate signif-
+higher throughput with a significantly reduced memory footprint.                          icant memory, ranging from a few GBs to hundreds of GBs. For
+                                                                                          example, popular models like Meta’s LLaMA-3 series [12] require
+CCS Concepts                                                                              8–100 billion (B) parameters, and even the smallest 8B model can
+• Hardware → Memory and dense storage; • Computer system                                  require more than 16-GB of memory space to run. In contrast, high-
+organizations → Heterogeneous systems.                                                    end smartphones typically have only 8 to 12-GB of memory, while
+                                                                                          most laptops provide around 16-GB. These memory constraints are
+Keywords                                                                                  largely dictated by factors such as battery life, cost, and the compact
+Flash Memory, In-Flash Processing, On-Device LLM Inference                                form factor of edge devices, where DRAM is soldered directly to
+                                                                                          the mainboard.
+ACM Reference Format:
+Jaeyong Lee, Hyeunjoo Kim, Sanghun Oh, Myoungjun Chun, Myungsuk
+                                                                                             One approach to alleviating memory capacity constraints is to
+Kim, and Jihong Kim. 2025. AiF: Accelerating On-Device LLM Inference                      offload model parameters to a flash-based SSD, which offers orders
+Using In-Flash Processing. In Proceedings of the 52nd Annual International                of magnitude more capacity than DRAM. However, on-device LLM
+                                                                                          inference is characterized by high read intensity and low arithmetic
+                                                                                          intensity (e.g., only 1–2 operations per byte). This makes the lower
+                                                                                          read bandwidth of SSDs (e.g., 4–8 GB/s) compared to DRAM (e.g.,
+This work is licensed under a Creative Commons Attribution 4.0 International License.     80–100 GB/s) a critical bottleneck, leading to significant perfor-
+ISCA ’25, Tokyo, Japan                                                                    mance degradation in inference speed. To mitigate the overhead
+© 2025 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-1261-6/25/06                                                          of data movement from SSDs, in-storage processing (ISP) has been
+https://doi.org/10.1145/3695053.3731073                                                   proposed as a more efficient alternative by integrating accelerators
+
+
+
+
+                                                                                    529
+ISCA ’25, June 21–25, 2025, Tokyo, Japan                                                                                                          Lee et al.
+
+
+within a SSD controller [10, 18, 22, 34, 40, 43, 48, 59, 61, 62, 75, 79, 83,     of model parameters, which were sequentially allocated within
+91]. However, existing ISP solutions fail to meet the high read band-            the same flash block, can be efficiently accessed using cr-reads,
+width demands critical for on-device LLM inference. For instance,                achieving 2.8x increase in the read bandwidth.
+real-time applications like chatbots require token generation rates                 To support reliable in-flash reads, we take a 2-step approach.
+of at least 3 tokens per second [5, 23, 32] to ensure a seamless user            First, we devised a new state encoding scheme, bias-error encoding
+experience. Achieving this level of performance for models with                  (denoted by be-enc), for TLC flash memory that favors LSB pages
+more than 30B parameters necessitates read bandwidths nearing                    over CSB and MSB pages in data reliability. The proposed be-enc
+100 GB/s. However, our analysis reveals that existing ISP solutions              scheme, which can be implemented with no additional circuit, re-
+deliver a maximum bandwidth of only 12.8–19.2 GB/s, which falls                  duces bit-error rates of LSB page by 87.5% over the other pages.
+far short of the requirements for efficient on-device LLM inference.             Second, taking advantage of this biased reliability characteristic,
+The key limitation of ISP solutions is that data read from flash chips           AiFSSD strategically stores model parameters only on LSB pages.
+must traverse bandwidth-constrained flash channels to reach the                  Thanks to the enhanced reliability of LSB pages, AiFChip can fully
+SSD controller, resulting in a significant bottleneck.                           recover data inside a flash chip with a highly compact on-chip ECC
+   In this paper, we investigate in-flash processing (IFP) solutions,            decoder dedicated to LSB pages only, while maintaining minimal
+that integrate matrix-vector multiplication (GEMV) operations                    power, performance, and area (PPA) overhead.
+directly into flash chips, as a feasible approach for supporting                    By combining the two proposed techniques, AiFChip improves
+on-device LLM inference. Since the majority of operations in on-                 the read bandwidth by 4x while reducing the energy consumption
+device LLM inference involve matrix-vector multiplications be-                   of a read operation by 72.1%. We validated the improvements of
+tween model matrices and token embedding vectors, in-flash GEMV                  AiFChip over a normal flash chip through extensive real device
+accelerators eliminate the need to transfer model parameters out of              characterization and analog and mixed-signal circuit simulations
+flash memory chips. Furthermore, IFP can leverage the high internal              using industry-standard EDA tools [6, 7, 74]. In a 1-TB AiFSSD,
+read bandwidth of multiple flash chips that operate in parallel. Since           which consists of 16 AiFChips, the internal read bandwidth reaches
+the aggregated internal bandwidth from multiple flash chips is sig-              102.4 GB/s during LLM inference with minimal impact on area and
+nificantly higher than the constrained flash channel bandwidth, IFP              power consumption.
+solutions have a potential to achieve substantial performance gains                 To evaluate the effectiveness of the AiF at the system level, we de-
+over ISP solutions.                                                              veloped a full system AiF simulator by integrating the state-of-the-
+   While prior works [16, 24, 38, 45, 77, 78] have demonstrated the              art SSD emulator, NVMeVirt [41], with the widely used on-device
+effectiveness of IFP solutions for various data-intensive applications,          LLM inference engine, llama.cpp [17]. Our evaluation results using
+these solutions are not well-suited for on-device LLM. First, they               eight real-world LLMs show that AiF provides a token generation
+still cannot meet the high read bandwidth requirements essential                 throughput of 5.74 tokens/s for 20B models (2.7 tokens/s for 40B
+for on-device LLM inference. For example, when 16 flash chips in a               models), delivering over 14.6x the performance of baseline SSD
+1-TB SSD can be read in parallel, their combined read bandwidth                  offloading without IFP. Furthermore, compared to the in-memory
+provides only up to 25.6 GB/s, which falls significantly short of the            inference, which stores the entire model in device memory, AiF
+read bandwidth required for on-device LLM inference. Second, on-                 achieves 1.4x higher throughput while significantly reducing mem-
+device LLM inference is highly sensitive to errors. Unlike the error-            ory footprint. These notable results demonstrate that AiF effectively
+resilient applications targeted by prior IFP studies [24, 38, 45], even          addresses the limitations of existing solutions and offers a promising
+minimal error rates can cause a significant drop in LLM inference                approach for efficient, cost-effective on-device LLM deployment.
+accuracy. This underscores the necessity of incorporating robust
+on-chip error correction codes (ECC). However, designing a high-                 2 Background
+throughput on-chip ECC decoder capable of handling the high error
+rates of flash memory while meeting the substantial bandwidth                    2.1 NAND Flash Organization
+requirements of LLM inference presents a considerable challenge.                 Figure 1 shows the organization of a 3D NAND flash-based SSD. A
+   To address the key limitations of existing IFP solutions, we pro-             flash cell is the smallest unit for storing data, holding bit information
+pose a novel IFP solution, Accelerator-in Flash (AiF), specifically              based on its threshold voltage (VTH ) level, which largely depends
+designed to optimize in-flash LLM inference. We refer to flash chips             on the charge in its charge trap layer. It means that different bit
+with AiF support as AiFChips, and SSDs built with these chips as                 data can be encoded by different VTH of the cell. For example, we
+AiFSSDs. Recognizing that the primary challenges of existing IFP                 can assign data value ‘0’ to a higher VTH and ‘1’ to a lower VTH . A
+solutions for in-flash LLM inference stem from flash read opera-                 set of vertically connected cells forms a NAND string. Each string
+tions, our approach centers on enhancing the conventional flash                  connects to a bitline (BL), and multiple strings on different BLs
+read procedure to ensure it operates in a fast and reliable fashion.             form a block. Cells at the same vertical location share a control gate
+To satisfy a high read-bandwidth requirement, we devise a new                    connected to a common wordline (WL), enabling all cells on that
+read command, charge-recycling read (denoted by cr-read) which                   WL to operate concurrently. Within each plane, all blocks share
+skips time-consuming two steps (i.e., the precharge and discharge                the BLs. Each BL is connected to a sense amplifier (not shown in
+steps) of the conventional flash read procedure. When successive                 Figure 1) in the peripheral circuitry, which detects the values stored
+wordlines in a block are read, we observed that most wordlines in                in the cells during read operations. Each flash chip, containing
+the block can reuse existing voltage settings between successive                 multiple planes (typically four), communicates with the controller
+reads without the precharge and discharge steps. A large volume                  through a dedicated flash channel.
+
+
+
+
+                                                                           530
+AiF: Accelerating On-Device LLM Inference Using In-Flash Processing                                                                                                                      ISCA ’25, June 21–25, 2025, Tokyo, Japan
+
+
+                                                                               Flash channel
+                         BL BL                 BL                                                                                                               𝑽𝑽𝑻𝑻𝑻𝑻 𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹                                                      𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷
+
+
+
+
+                                                                                                                                  # cells
+                                     …..
+
+
+
+
+                                                                                                   Controller
+                                                                         Chip … Chip                                                                  1        margin                                             0
+
+
+
+
+                                                                                                      SSD
+                             …                                                 Flash channel
+                                                                                                                                                                         (a) SLC (1bit/cell)                                            𝑽𝑽𝑻𝑻𝑻𝑻
+                              WL
+                             …                                           Chip … Chip
+                            Flash                                                                                                                 𝑽𝑽𝟏𝟏𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟐𝟐𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟑𝟑𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟒𝟒𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟓𝟓𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟔𝟔𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟕𝟕𝑹𝑹𝑹𝑹𝑹𝑹       𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷
+                    …
+                        …
+
+
+
+                                     …
+                             cell                                 Plane Plane Plane Plane
+       NAND                  …                         3                                                                                    LSB   1         0          0          0          0          1           1            1
+                                                                    0     1      2       3
+
+
+
+
+                                                                                                                                  # cells
+       string                                      2
+                                               1                      Peripheral circuit                                                    CSB   1         1          0          0          1          1           0            0
+                                Block 0                                                                                                           1         1          1          0          0          0           0            1
+                                                                                                                                            MSB
+                                                                                                                                                                         (b) TLC (3bits/cell)                                           𝑽𝑽𝑻𝑻𝑻𝑻
+             Figure 1: An organizational overview of an SSD.
+                                                                                                                                     Figure 3: VTH distributions of NAND flash memory.
+
+
+2.2          NAND Flash Operation
+There are three basic operations that enable access to flash memory:                                                           2.3          Multi-level Cell Technology
+program, erase, and read. To increase the VTH of a flash cell, the                                                             To increase the storage capacity, a flash cell can store multiple bits
+program operation injects electrons into the charge trap layer of                                                              by adjusting its VTH level more precisely, called m-bit multi-level
+the flash cell by applying a high voltage (e.g., > 20 V) to the WL.                                                            cell technology. It stores 𝑚 bits within a single flash cell by using
+On the contrary, the erase operation applies a high voltage (> 20V)                                                            2𝑚 distinct (VTH ) states (i.e., 𝑚 is 2 and 3 for MLC and TLC flash
+to the substrate (i.e., channel) to remove electrons from the charge                                                           memory, respectively). Figure 3 compares the VTH distribution of a
+trap layer, which decreases the VTH of all flash cells in a block.                                                             SLC with the VTH distribution of a TLC that uses different 23 states
+   During a read operation, NAND flash memory determines a cell’s                                                              to store 3 bits per cell, indicating each WL contains three pages
+data (i.e., the cell’s VTH level) by identifying whether current flows                                                         called LSB, CSB, and MSB page.
+through the corresponding BL. Figure 2 depicts the read mechanism                                                                 While multi-level cell technology offers high storage capacity, it
+of NAND flash memory that consists of three phases: 1) precharge,                                                              also brings performance degradation and reliability concerns. SLC
+2) evaluation, and 3) discharge.                                                                                               NAND, for example, requires only a single sensing operation per
+   In the precharge phase( 1 ) in Figure 2), the WLs and BLs are                                                               read, enabling faster access times. In contrast, TLC NAND requires
+charged to the specific voltages needed to read the values stored                                                              multiple sensing operations to read a page, which increases read
+on the target WL. A read reference voltage (VREF ) is applied to the                                                           latency; for instance, reading a CSB page in TLC NAND demands
+target WL in the block, while a pass-through voltage (VPASS ) is ap-                                                           three sensing operations (V𝑅𝐸𝐹 2 , V4 , and V6 ). Furthermore,
+plied to the non-target WLs. Simultaneously, the BLs are precharged                                                                                                   𝑅𝐸𝐹        𝑅𝐸𝐹
+                                                                                                                               NAND flash is inherently prone to errors due to its imperfect phys-
+in preparation for data sensing. During the evaluation phase ( 2 ),                                                            ical characteristics. Over retention time after programming, cells
+the stored values in the target cells are detected. If the (VTH ) of                                                           gradually leak stored charge, causing shifts in the VTH . These shifts
+the target cell is below VREF , the cell turns on, allowing current                                                            can lead to misjudgment of the VTH state during sensing, result-
+to flow. Conversely, if VTH is higher than VREF , the cell remains                                                             ing in read errors. SLC NAND benefits from a large VTH margin
+off, blocking the current. The sense amplifier connected to each                                                               between states, contributing to its low error rate. In contrast, TLC
+BL determines the VTH of the target cell by detecting the current                                                              NAND has a narrower VTH margin, making it more susceptible to
+sinking from the BL capacitor (𝐶𝐵𝐿 ). Due to the high resistance                                                               errors. Moreover, as cells undergo more program and erase (P/E)
+of the BL and NAND string, this sink current is minimal, causing                                                               cycles, they gradually wear out, making charge leakage more likely
+only a slight change in the voltage level of 𝐶𝐵𝐿 , even when the                                                               and leading to increased errors. As a result, modern SSD controllers
+target cell is on [63]. Finally, in the discharge phase ( 3 ), the WLs                                                         employ complex ECC engines to ensure data integrity before trans-
+and BLs of the target block are discharged to return to standby                                                                ferring the data to the host.
+state ( 0 ). Discharging the WLs and BLs ensures that subsequent
+reads, writes, or erases are unaffected by the previously accessed
+block [19, 63, 68].                                                                                                            3 Motivation
+                                                                                                                               3.1 Challenges of On-Device LLM Inference
+ 0 Standby                  1 Precharge                    2 Evaluation                     3 Discharge                        While LLMs offer powerful capabilities, their massive memory re-
+                        0  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                     𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷  0
+                                                                                                                               quirements pose a significant barrier to deploying them on resource-
+𝑾𝑾𝑳𝑳         𝑩𝑩𝑩𝑩                              𝑩𝑩𝑩𝑩                           𝑩𝑩𝑩𝑩                            𝑩𝑩𝑩𝑩
+𝑾𝑾𝑳𝑳                    0  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                     𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷  0
+                                                                                                                               constrained personal devices. According to the LLM scaling law [36],
+                        0  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                     𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷  0
+                                                                                                                               as models get larger, they not only improve generation accuracy
+𝑾𝑾𝑳𝑳         𝑽𝑽𝑫𝑫𝑫𝑫                            𝑽𝑽𝑫𝑫𝑫𝑫                         𝑽𝑽𝑫𝑫𝑫𝑫                            𝑽𝑽𝑫𝑫𝑫𝑫
+                                                                                                                               but also exhibit emergent abilities such as multi-step reasoning.
+       ...
+
+
+
+
+                                                                        ...
+
+
+
+
+                                                                                                        ...
+                                         ...
+
+
+
+
+𝑾𝑾𝑳𝑳                    0  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                     𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷  0
+𝑾𝑾𝑳𝑳                    0  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                     𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷  0
+                                                                                                                               However, this increase in parameters, often reaching billions or
+𝑾𝑾𝑳𝑳         𝑪𝑪𝑩𝑩𝑩𝑩     0  𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹                       𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹                    𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹  0                            more, comes with considerable memory requirements, creating a
+                                                                                                                               major bottleneck for on-device LLM inference. Although model
+                                                            1      0                                                           lightweighting techniques like quantization [9, 15, 20, 53, 81, 88]
+                                                                                                                               can reduce model size, they do not solve the fundamental scalability
+         Figure 2: A read sequence of NAND flash memory.                                                                       challenges. For example, models with more than 16B parameters
+
+
+
+
+                                                                                                                         531
+ISCA ’25, June 21–25, 2025, Tokyo, Japan                                                                                                                                     Lee et al.
+
+
+                                                                                               120                                              100          GPT-neox-20B
+require over 8-GB of memory, even with aggressive INT4 quantiza-                                                      102.4
+
+
+
+
+                                                                                                                                 Accuracy (%)
+                                                                                               100                                               80
+
+
+
+
+                                                                                 Internal BW
+                                                                                                       Memory                                                 LLaMA-2 13B
+tion.                                                                                           80
+
+
+
+
+                                                                                    (GB/s)
+                                                                                                                   51.2                          60            LLaMA-3 8B
+   One natural way to alleviate memory constraints is to offload                                60
+                                                                                                40          25.6                                 40
+models to SSDs. As secondary storage, SSDs offer orders of magni-                               20   12.8                                        20
+                                                                                                                          PCIe
+tude more capacity than DRAM, due to their 50x higher bit density                                0                                                0
+                                                                                                     0.5    1     2     4                             0   𝟏𝟏𝟏𝟏−𝟗𝟗 𝟏𝟏𝟏𝟏−𝟕𝟕 𝟏𝟏𝟏𝟏−𝟓𝟓 𝟏𝟏𝟏𝟏−𝟑𝟑
+and advanced multi-chip packaging technology [66]. Leveraging
+                                                                                                       SSD Capacity (TB)                                        RBER
+this additional storage, the host can perform inference for larger
+                                                                                                     (a)                          (b)
+models by dynamically loading parameters into memory on de-
+mand.                                                                            Figure 4: (a) Internal bandwidth of SSDs. (b) Impact of RBER
+   While SSDs offer large capacity, their limited read bandwidth                 on inference accuracy.
+(4-8 GB/s) becomes a critical performance bottleneck [3, 21, 82, 87].
+                                                                                 computations to occur directly within the flash chips through dedi-
+On-device LLM inference exhibits extremely low arithmetic in-
+                                                                                 cated in-flash accelerators, SSDs can effectively leverage their high
+tensity [3, 21] (only 1–2 operations per byte), primarily due to
+                                                                                 internal bandwidth to support efficient LLM inference. Furthermore,
+their single-batch processing characteristic, making inference speed
+                                                                                 since LLM inference primarily involves GEMV, which inherently
+highly dependent on the read bandwidth of model parameters. Ad-
+                                                                                 reduces data size by transforming input matrices (e.g., model pa-
+ditionally, the autoregressive nature of LLM inference necessitates
+                                                                                 rameters) into smaller output vectors (i.e., token embedding vec-
+reading the entire model parameters for each token generation
+                                                                                 tors). This high data reduction characteristic makes on-device LLMs
+step [3, 21, 71]. This dependency places an upper bound on the
+                                                                                 particularly well-suited for IFP. For instance, a large matrix (e.g.,
+token generation rate, expressed in tokens per second (tokens/s),
+                                                                                 175-MiB) stored across flash chips can be processed using its high in-
+as follows:
+                                                                                 ternal bandwidth, with only the significantly smaller output vector
+                                    𝑟𝑒𝑎𝑑 𝑏𝑎𝑛𝑑𝑤𝑖𝑑𝑡ℎ (𝐺𝐵/𝑠)                        (e.g., 16-KiB) transferred over the limited flash channel bandwidth.
+              𝑚𝑎𝑥 . 𝑡𝑜𝑘𝑒𝑛𝑠/𝑠 ≤                            .          (1)
+                                       𝑚𝑜𝑑𝑒𝑙 𝑠𝑖𝑧𝑒 (𝐺𝐵)
+                                                                                 3.3            Challenges of IFP-based LLM Inference
+This constraint implies that, with 40 GB of parameters (e.g., 40B
+model [4]) offloaded to an SSD, the maximum token generation rate                Prior works [16, 24, 38, 45, 77, 78] have demonstrated the effec-
+is theoretically limited to less than 0.1-0.2 tokens/s. From equation 1,         tiveness of IFP in various data-intensive applications. Furthermore,
+it becomes evident that supporting on-device LLMs using an SSD as                as discussed in Section 3.2.2, the inherent characteristics of LLM
+the storage medium requires increasing the SSD’s read bandwidth                  inference shows the significant potential of IFP for LLM inference.
+by at least two orders of magnitude.                                             However, we identify two key challenges in incorporating IFP for
+                                                                                 LLM inference that stem from the low-level characteristics of mod-
+                                                                                 ern SSDs.
+3.2     Existing Strategies for Limited Bandwidth
+                                                                                 Challenge 1: High Read Bandwidth Requirement. Although IFP
+3.2.1 In-Storage Processing Approach. To address the limited                     enables SSDs to fully utilize their internal bandwidth, it still falls
+external PCIe bandwidth of SSDs, numerous studies have proposed                  significantly short of the bandwidth required to meet the commonly
+ISP solutions [10, 18, 22, 34, 40, 43, 48, 59, 61, 62, 75, 79, 83, 91],          desired throughput for on-device LLM inference. Figure 4(a) shows
+which minimize data movement by processing data at the SSD con-                  the internal bandwidth of TLC SSDs. A 1-TB TLC SSD with 16
+troller and delivering only the results to the host. A key advantage             flash chips [25, 72], a popular configuration in personal devices like
+of ISP is its ability to leverage existing resources in the SSD con-             laptops and smartphones, provides an internal bandwidth of only
+troller, such as embedded processors and ECC engines, making it                  25.6 GB/s. This limitation means that when running inference on a
+a cost-effective solution. However, existing ISP solutions cannot                30B model, a 1-TB SSD only achieves less than 0.85 tokens/s even
+meet the high read bandwidth demands essential for on-device                     with IFP1 .
+LLM inference. In ISP solutions, data read from flash chips must be              Challenge 2: High Reliability Requirement. Unlike error-resilient
+transferred to the SSD controller via flash channels, which use a                applications targeted by prior IFP studies [24, 38, 45], LLM inference
+multi-drop bus topology. This topology limits data transfers to one              is highly vulnerable to errors. To examine the impact of raw bit
+flash chip per channel at a time, creating a significant bottleneck              error rate (RBER) on LLM inference, we evaluated how the model
+at the flash channels. With consumer-grade SSDs typically offer-                 accuracy changes as the number of error bits in model parameters
+ing up to 8 channels [25, 64, 72], each limited to 1.6–2.4 GB/s of               increases by injecting bitflip errors into model matrices.2 Figure 4(b)
+bandwidth, ISP solutions can only achieve an aggregate bandwidth                 shows the average model accuracy as RBER increases, revealing no-
+of 12.8–19.2 GB/s. In contrast, on-device LLM inference often re-                table sensitivity to even extremely low RBER ranges. For example,
+quires read bandwidths nearing 100 GB/s, rendering ISP solutions                 the LLaMA-3 8B model (INT8-quantized) experiences an accuracy
+inadequate for such demanding requirements.                                      drop of over 60% at an RBER of 10 −7 , which is far below the typi-
+3.2.2 In-Flash Processing Approach. Another strategy to in-                      cal RBER ranges of NAND flash memory (> 10 −3 ). This highlights
+crease the read bandwidth of SSDs for LLM inference is to employ                    1 One way to increase internal bandwidth is to scale up SSD capacity by adding
+SSDs with in-flash processing capabilities. Modern SSDs are com-                 more flash chips (e.g., 4-TB capacity). However, this significantly raises the cost of
+posed of multiple flash chips (e.g., 16 chips in a 1-TB SSD), whose              edge devices, undermining the benefit of IFP.
+                                                                                    2 For accuracy evaluation on HellaSwag [89], all models were quantized to INT8.
+aggregate read bandwidth—referred to as internal bandwidth—far                   We then injected RBER-based bit-flips probabilistically, but only in the QKV projection
+surpasses the constrained bandwidth of flash channels. By enabling               and FFN weight matrices (see Figure 15).
+
+
+
+
+                                                                           532
+AiF: Accelerating On-Device LLM Inference Using In-Flash Processing                                                                                               ISCA ’25, June 21–25, 2025, Tokyo, Japan
+
+
+             50                                            15                                                                                              AiFSSD                          AiFChip
+             40
+Area (𝒎𝒎𝒎𝒎𝟐𝟐 )
+
+
+
+
+                                               Power (W)
+             30                                            10                                                                                 2            × =             × =      Plane Plane Plane Plane
+                                                                                                     Host                   𝒙𝒙𝒏𝒏                                                      0     1     2     3
+             20                                                                                                                                                                      PB    PB     PB       PB
+                                                            5                                   𝑨𝑨𝒎𝒎,𝒏𝒏      𝒙𝒙𝒏𝒏 𝒚𝒚𝒎𝒎                               AiFChip 0         AiFChip 1
+             10                                                                                                             1
+
+
+
+
+                                                                                                                                   SSD Controller
+              0                                             0                                             × =
+                    12.8 25.6 51.2 102.4                                                                                    𝒚𝒚𝒎𝒎
+                                                               12.8 25.6 51.2 102.4                                                                        × =             × =
+                                                                                               Stored
+                  Decoding throughput (GB/s)                Decoding throughput (GB/s)         on SSD
+                                                                                                                            3                        AiFChip 2         AiFChip 3          PEs      𝐄𝐄𝐄𝐄𝐄𝐄𝐋𝐋𝐋𝐋𝐋𝐋𝐋𝐋
+                      (a) Area overhead            (b) Power overhead
+                       Figure 5: PPA impact of ECC decoder.
+
+                                                                                                                       Figure 6: A structural overview of AiF.
+that LLM inference is not inherently error-tolerant, making ECC
+decoder within the flash chip (i.e., on-chip ECC) indispensable to                                                                                                          Norm         GeLU               Add
+                                                                                                          Vector arithmetic                         GEMV
+ensure the inference accuracy.                                                                                                                                          Host:    GEMV
+    While on-chip ECC is essential, it introduces significant over-                                                                                              (a)
+                                                                                                                                                                         SSD:
+
+
+
+
+                                                                                                                 FC layer
+
+
+
+
+                                                                                                                                     FC layer
+                                                                                                                                                                                   I/O            I/O
+                                                                                               …                                                     + …
+
+
+
+
+                                                                                                     Norm.
+
+
+
+
+                                                                                                                            GeLU
+heads in power, performance, and area (PPA) perspective. This                                                                                       Add
+is because on-chip ECC decoders must achieve high decoding                                                                                                       (b)     Host:
+                                                                                                <Feedforward Network of LLaMA-2>                                       AiFSSD:                  Saved
+throughput while maintaining a robust error correction capability
+(i.e., high hardware complexity) to accommodate the high RBER
+of NAND flash memory. For conventional off-chip ECC decoders                                   Figure 7: A comparison of (a) the baseline SSD offloading
+implemented at the SSD controller, error correction is primarily                               scheme and (b) AiF.
+performed on data delivered to the host via the PCIe interface, re-
+sulting in the decoding throughput requirement is dependent on
+the external bandwidth. In contrast, on-chip ECC decoders perform                              with two components: 1) ECCLITE , a ligheweight on-chip ECC de-
+error correction directly within each flash chip, requiring the total                          coder, and 2) product elements (PEs), consisting of multipliers and
+correction throughput across all flash chips to match the SSD’s                                an adder tree for vector products.
+internal bandwidth. Since the overhead of ECC scales linearly with                                Figure 7 illustrates an example of the computational process of
+throughput, this imposes a substantial burden on SSDs.                                         AiF by comparing its execution timeline with the baseline SSD of-
+    Figure 5 illustrates the estimated area and power consumption of                           floading scheme during the processing of the feed-forward network
+a BCH-based ECC decoder at increasing decoding throughputs. The                                in LLaMA-2. In the baseline SSD offloading scheme, the matrix
+ECC decoder is configured to correct 50-bit errors per 1-KiB, based                            must first be loaded from the SSD into memory for GEMV, creat-
+on flash error rates from our real device characterizations (Sec-                              ing a significant I/O bottleneck. In contrast, AiF utilizes the SSD’s
+tion 4.3) and prior studies [49, 68]. To achieve 102.4 GB/s through-                           high internal bandwidth to perform GEMV, effectively reducing the
+put, the cumulative on-chip ECC decoders demand 40.12 𝑚𝑚 2 of                                  GEMV computation time. AiFSSD can be integrated with any LLMs
+silicon area and consume 10.694 W, which far exceeds the power                                 by focusing solely on GEMV, the primary bottleneck in on-device
+budget of consumer-grade SSDs (6-8 W [25, 72]). These results                                  LLM inference, while leaving model-specific vector operations (e.g.,
+emphasize the substantial PPA overhead of high-throughput yet                                  activation functions) to the host. This decoupling enhances AiF’s
+complex on-chip ECC, presenting significant challenges for apply-                              flexibility across various models.
+ing IFP to on-device LLM inference.                                                               To address the key limitations of existing IFP solutions (Sec-
+                                                                                               tion 3.3), which primarily arise from flash read operations, we focus
+                                                                                               on redesigning the conventional flash read procedure to specifically
+4 AiF: Accelerator-in-Flash                                                                    optimize it for in-flash LLM inference. We introduce two simple yet
+4.1 Overview                                                                                   highly effective techniques, charge-recycling read (Section 4.2) and
+We propose AiF, a novel IFP solution specifically designed to opti-                            bias-error encoding (Section 4.3), that significantly enhance both
+mize in-flash LLM inference. Figure 6 presents a structural overview                           the bandwidth and reliability of parameter reads during inference.
+of AiF. A key component of AiF is the AiFSSD, which is composed                                These two techniques combined allow AiF to satisfy the high band-
+of multiple GEMV-enabled flash chips, referred to as AiFChips. (For                            width demands of on-device LLM inference (Challenge 1) while
+simplicity, only four chips are depicted.) Unlike baseline SSD of-                             maintaining inference accuracy through robust error correction,
+floading schemes that rely on time-consuming I/O to load matrices                              even with the highly compact on-chip ECCLITE (Challenge 2).
+during inference, AiF performs GEMV directly on the AiFChips
+where the matrices are stored. Each matrix is divided into equal-                              4.2         Charge-Recycling Read
+sized sub-matrices and stored sequentially across the AiFChips.                                4.2.1 Key Idea. Cr-read is a technique that specializes the flash
+This enables the AiFSSD to fully utilize the high internal bandwidth                           read sequence for bulk reads within a block. As described in Sec-
+of the SSD by operating all AiFChips simultaneously. During GEMV                               tion 2.2, conventional flash chips include a discharge phase at the
+operations, the SSD controller aggregates the sub-vectors from each                            end of each read sequence to return to a standby state. This pro-
+chip, combines them, and sends the resulting vector back to the host.                          cess ensures that a subsequent flash operation can start from the
+To support on-chip GEMV operations, each AiFChip is equipped                                   known initial state of block access. However, we observe that a
+
+
+
+
+                                                                                         533
+ISCA ’25, June 21–25, 2025, Tokyo, Japan                                                                                                                                                                                            Lee et al.
+
+
+ 1 Precharge                   2 Evaluation                         3 Recycling                     4 Evaluation                                READ 𝑾𝑾𝑾𝑾𝟏𝟏                                             tR
+                                                                                                                                                READ 𝑾𝑾𝑾𝑾𝟐𝟐
+0  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷 m 𝑩𝑩𝑩𝑩         𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷 𝑩𝑩𝑩𝑩                         𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷 𝑩𝑩𝑩𝑩                𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷         𝑩𝑩𝑩𝑩               (a) READ 𝑾𝑾𝑾𝑾𝟑𝟑 tPRE tEVAL tDISCH
+
+
+
+
+                                                               Recycled
+                                           ...
+                 ...
+
+
+
+
+                                                                                       ...
+0  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷
+
+
+
+
+                                                                                                                  ...
+                              𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                                  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                 𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷
+
+
+
+
+                                                                                                                                                     ...
+                   4                                                                                                                            READ 𝑾𝑾𝑾𝑾𝑵𝑵
+0  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷     3 𝑽𝑽𝑫𝑫𝑫𝑫 𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷           𝑽𝑽𝑫𝑫𝑫𝑫                   𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷         𝑽𝑽𝑫𝑫𝑫𝑫 𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷          𝑽𝑽𝑫𝑫𝑫𝑫
+                                                                                                                                                READ 𝑾𝑾𝑾𝑾𝟏𝟏
+0  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷     2        𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                                    𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                                                                    tR               𝑾𝑾𝑾𝑾𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷 : 𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷
+                                                                                                                                               READ 𝑾𝑾𝑾𝑾𝟐𝟐
+0  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷
+                                                                                                                                           (b) READ 𝑾𝑾𝑾𝑾
+                                                                                                                                                                                         tRECY
+                                                                                                                                                                                                   𝑾𝑾𝑾𝑾𝑵𝑵𝑵𝑵𝑵𝑵𝑵𝑵 : 𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷  𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹
+                   1                                      𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷  𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹                      𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹                                              𝟑𝟑
+
+
+
+
+                                                                                                                                                     ...
+0  𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹       0          𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹                    𝑽𝑽𝑹𝑹𝑹𝑹𝑹𝑹  𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                      𝑽𝑽𝑷𝑷𝑷𝑷𝑷𝑷𝑷𝑷                                 READ 𝑾𝑾𝑾𝑾𝑵𝑵                                                       Saved latency
+
+
+                                                                                                                                           Figure 9: A comparison of (a) conventional read sequence
+             Figure 8: An operational overview of cr-read.                                                                                 and (b) cr-read.
+
+conventional return-to-initial state machine for flash operations                                                                          partially charges the previously read WL, raising it from VREF to
+may miss optimization opportunities when additional information                                                                            VPASS . In addition, since the voltage drop across the BLs during
+is available for successive flash operations. Unlike general flash                                                                         evaluation is minimal, only a small amount of current is required
+access workloads where subsequent flash operations are difficult                                                                           to recharge the BLs for sensing the next WL. Consequently, cr-read
+to predict, in-flash LLM inference exhibits strong spatial locality                                                                        substantially reduces energy consumption during read operations.
+when reading model matrices within a flash block. As a result, most                                                                           To maximize the bandwidth and energy efficiency of AiFChips
+voltages applied to WLs and BLs from previous reads can be safely                                                                          during inference, AiFSSD arranges LLM parameters in a layout
+reused without requiring the discharge phase. By leveraging these                                                                          optimized for cr-read. Since cr-read achieves peak efficiency when
+voltage recycling opportunities inherent in reading successive WLs                                                                         multiple WLs within the same block are read consecutively, AiFSSD
+within a block, cr-read enables AiFChip to read large volumes of                                                                           organizes each matrix within a same block, allowing for bulk read-
+LLM parameters much faster.                                                                                                                ing of the entire matrix through consecutive cr-read operations.
+   Figure 8 illustrates how the proposed cr-read scheme works                                                                              Since LLM parameters have write once read many characteristics,
+when WL0 and WL1 are successively read. In cr-read, after sensing                                                                          AiFSSD can statically pre-arrange each matrix within the same
+a target WL ( 2 in Figure 8), the WLs and BLs are not fully dis-                                                                           block. Once a matrix is organized within a block, cr-read can be
+charged. Instead, only the next read WL discharges from VPASS to                                                                           applied for all inference requests to a given model.
+VREF , while the previously read WL charges from VREF to VPASS ,
+with all other WLs holding VPASS for the next read ( 3 ). Addition-                                                                        4.2.2 Evaluation of cr-read. To validate the effectiveness and
+ally, the BLs are only slightly recharged to compensate for any                                                                            practical feasibility of the proposed cr-read scheme, we conducted
+voltage drop during the previous evaluation phase. Although cr-                                                                            various characterization studies using both SPICE circuit-level sim-
+read can only be applied when successive reads to the same block                                                                           ulations4 and real NAND flash cell array5 . To accurately represent
+are requested without any interval, it significantly enhances both                                                                         the flash cell model in our simulations, we fine-tuned the cell model
+read latency and energy efficiency—key design requirements for                                                                             based on actual measurements from a fabricated real flash cell ar-
+on-device LLM inference. Figure 9 compares cr-read with conven-                                                                            ray. To ensure the accuracy of our simulations, we compared the
+tional reads when reading 𝑛 WLs consecutively within a block. As                                                                           tR and power obtained from our simulator with the measured tR
+shown in Figure 9(a), conventional reads require time-consuming                                                                            (single sensing read) of 28 us from the actual product and a reported
+precharge and discharge phases for each WL. The read latency (tR)                                                                          power value of 24.22 mW [19, 30]. The differences in tR and power
+for each WL in conventional reads can be expressed as:                                                                                     consumptions were 2.9% and 0.9%, respectively.
+                                                                                                                                           Read Latency Validation. Figure 10(a) compares the read la-
+                              tR = (tPRE + tEVAL + tDISCH)                                                                     (2)
+                                                                                                                                           tency (tR) of conventional reads and cr-read. By replacing the
+where tPRE, tEVAL, and tDISCH represent the latencies of the prech                                                                         time-consuming prech arge and discharge phases with an efficient
+arge, evaluation, and discharge phases, respectively3 . In contrast,                                                                       recycling phase, which introduces only a 6.04 µs delay due to re-
+as shown in Figure 9(b), cr-read requires only two phases per read:                                                                        duced capacitive loads and voltage swing range, cr-read reduces
+recycling and evaluation (except for the first and last WL reads).
+Therefore, in cr-read, tR is given by:                                                                                                         4 Following established methodologies [65, 70, 76], we first conducted measurements
+
+                                       tR = (tRECY + tEVAL)                                                                    (3)         on real charge trap flash (CTF) cells, which are widely used for 3D flash memory
+                                                                                                                                           devices. We focused on the 𝐼𝑑 -𝑉𝑔 (drain current vs. gate voltage) characteristics. These
+where tRECY denotes the latency of the recycling phase. Moreover,                                                                          provide a foundation for an accurate flash cell model that reflects actual cell behavior.
+tRECY is considerably shorter than tPRE because tPRE requires                                                                              Second, based on the data collected from measurements, we fine-tuned the cell model
+                                                                                                                                           using the BSIM [1, 11]. At this stage, we verified the model’s reliability by comparing
+charging all WLs from 0 V to VPASS (6 V) (i.e., full-range voltage                                                                         the 𝐼𝑑 -𝑉𝑔 curves of the tuned BSIM model to those of the real CTF cells, observing
+swing), resulting in a high RC delay. In contrast, tRECY only needs                                                                        an 8.02% difference in drain current, which falls within an acceptable range. Third,
+                                                                                                                                           circuit modeling. We leveraged the tuned BSIM models and Cadence’s Virtuoso [7] to
+to charge a single WL from VREF (3.5 V) to VPASS (6 V). The cr-read                                                                        design the NAND flash cell array. The required WL and BL capacitance values were
+scheme is effective as well in reducing the energy consumption                                                                             obtained from previous research [35, 42, 60]. Lastly, for simulation, we used Cadence’s
+during read operations. Unlike conventional reads, cr-read only                                                                            Spectre [6], an industry-standard SPICE simulator for analog and mixed-signal circuits.
+                                                                                                                                               5 Although simulations offer precise estimations, unexpected real-world factors may
+                                                                                                                                           impact cr-read ’s correct operation on actual flash chips. To ensure the functionality
+   3 In this section, we assume that the WLs operate as SLC NAND, requiring only                                                           of cr-read, we conducted additional testing on a fabricated CTF cell array chip. This
+single sensing. This is because applying the bias-error encoding technique, which will                                                     array, a 9 (WLs) by 9 (BLs) cell configuration, allows fine-grained control over each
+be detailed in Section 4.3, allows all LLM parameters to be read as if they were SLC.                                                      WL and BL, enabling us to validate cr-read ’s behavior in a realistic environment.
+
+
+
+
+                                                                                                                                     534
+  AiF: Accelerating On-Device LLM Inference Using In-Flash Processing                                                                                                           ISCA ’25, June 21–25, 2025, Tokyo, Japan
+
+
+                    30                                               40                                                                 30                                                           160
+
+
+
+
+                                                                                                                   Internal bandwidth
+
+
+
+
+                                                                                                                                                                                Max. number of bit
+                                         tPRE                                 Conventional         cr-read                                      25.6                                                       @ 1-yr retention + 30℃
+
+
+
+
+                                                                                                                                                                                 errors per 1-KiB
+Read latency (tR)
+
+
+
+
+                                                                                                                                        25
+
+
+
+
+                                                  BL current (uA)
+                                         tEVAL                       30                                                                                20.48                                         120
+                    20                   tDISCH                      20                                                                 20                  17.06
+                                                                                                                                                                 14.62                                     LDPC (soft)
+
+
+
+
+                                                                                                                         (GB/s)
+                                                                                                                                        15                                                           80                    ECC
+                                         tRECY                                                                                                                           12.8                              LDPC (hard)    margin
+                                                                     10
+                                                                                                                                        10
+                    10                                                0                                                                         External bandwidth                                   40
+                                                                                                                                         5
+                                                                    -10                                                                  0                                                            0
+                    0                                               -20                                                                      40 50 60 70 80                                                 0    1    2      3    4
+                         Conventional cr-read                             0   100    200     300      400                                      Page read latency (tR)                                            P/E cycles (K)
+                          (a) Improved tR                                     (b) Functionality test                                         (a) Internal bandwidth                                        (b) Large ECC margin
+
+                             Figure 10: Evaluation results of cr-read.                                               Figure 11: Characteristics of modern SSDs: (a) Variations of
+                                                                                                                     internal bandwidth over varying tR and (b) Changes in bit
+   tR by 64%. This substantial reduction in tR allows the AiFChip to                                                 errors over increasing P/E cycles.
+   achieve an effective bandwidth of 6.4 GB/s when consecutive cr-
+   reads are applied within a block, representing a 2.8x improvement                                                includes more than just page read latency; it encompasses data
+   over conventional flash chips.                                                                                   traversal through multiple layers, such as the flash channel, PCIe
+   Energy Efficiency Validation. By minimizing the repetitive prech                                                 interface, and kernel I/O stack. As a result, slight increases in tR
+   arge of WLs and BLs, cr-read significantly improves the energy                                                   can be amortized within the overall latency, exerting limited effect
+   efficiency of flash reads. Simulation results indicate that cr-read                                              on perceived performance.
+   reduces read energy consumption by 72.1%, from 18.278 pJ/bit to                                                  Observation 2: Large ECC margin. As previous studies have
+   5.098 pJ/bit.                                                                                                    shown, the error correction capability of the ECC engine employed
+   Functionality Validation. To validate the real-world functionality                                               in modern SSDs significantly surpasses the actual RBER of flash
+   of cr-read, we perform experiments using a fabricated CTF cell                                                   pages, resulting in a large ECC margin [8, 49, 68]. Figure 11(b)
+   array. In these experiments, we read the same set of pages using                                                 shows the maximum number of bit errors per 1-KiB data across
+   both conventional reads and cr-reads, then compare the resulting                                                 various P/E cycles, based on our characterization of 160 real TLC
+   data to determine whether cr-read introduces any data distortion.                                                flash chips6 . We also plot the correction capabilities for both hard
+   Since the tested chip lacks dedicated sense amplifiers, we indirectly                                            and soft decision decoding in LDPC-based ECC decoders commonly
+   assess the data by measuring the current flowing through the BLs                                                 used in SSDs. As shown in the figure, a significant ECC margin
+   during the evaluation phase. As illustrated in Figure 10(b), the                                                 exists even under the worst-case operating conditions prescribed
+   measured BL current during cr-read matches that of conventional                                                  by manufacturers (e.g., a 1-year retention time at 4K P/E cycles).
+   reads (i.e., produces identical results), confirming that cr-read does                                           This substantial margin stems from two factors: the significant
+   not alter the read data and functions correctly.                                                                 portion of ECC parity reserved in modern SSDs (e.g., 2 KB of parity
+                                                                                                                    per 16-KiB data [49]) and the robust error correction capabilities
+  4.2.3 Feasibility. Another key advantage of cr-read is its ease of                                                provided by LDPC soft-decision decoding [44, 52, 90].
+  implementation. Implementing cr-read requires two main functions:                                                    Based on these observations, the proposed be-enc scheme intel-
+  voltage control for each WL and timing control for precharge and                                                  ligently manages tR and data reliability for the three pages stored
+  discharge phases, both already supported by flash chips. Voltage                                                  within a single WL of TLC NAND flash memory. Be-enc intention-
+  control can be managed through the X-decoder [37], which selects                                                  ally introduces heterogeneity in the reliability and performance
+  and drives the appropriate WLs with the required voltages, while                                                  between pages, storing IFP data (i.e., LLM parameters) only on the
+  timing control can be adjusted by modifying the timer code in                                                     most reliable and fastest pages. By prioritizing the pages contain-
+  the flash scheduler [80]. These adjustments involve only minor                                                    ing IFP data, be-enc effectively increases the SSD’s internal read
+  modifications to the existing flash chip logic.                                                                   bandwidth during inference while simplifying the on-chip ECC
+                                                                                                                    requirements. Be-enc is achieved through the reconfiguration of
+   4.3                   Bias-Error Encoding                                                                        the VTH state encoding in flash memory. It is important to note
+   4.3.1 Key Idea. Be-enc effectively reduces bit error rates in the                                                that prioritizing the reliability of IFP data over general I/O data
+   stored LLM model while slightly sacrificing both read latency and                                                ensures that IFP data can be reliably decoded within a flash chip
+   bit error rates for read operations to general pages, i.e., pages that                                           using a compact on-chip ECC decoder. Furthermore, Observations
+   do not store the LLM model. This design is based on two key ob-                                                  1 and 2 (above) indicate that general I/O data does not experience
+   servations: 1) increased tR for general pages has minimal impact                                                 significant degradation in performance or reliability as a result.
+   on system-level performance, and 2) modern SSDs have a large                                                        Figure 12 illustrates how the prioritized be-enc scheme differs
+   ECC-capability margin.                                                                                           from the conventional VTH state encoding. Figure 12(a) shows the
+   Observation 1: tR Tolerance. Figure 11(a) shows the internal                                                     conventional VTH state encoding used in TLC NAND, where (x,
+   bandwidth of a 1-TB SSD as read latency (tR) is incrementally                                                    y, z) coding represents the number of sensing operations required
+   increased from 40 µs to 80 µs. Despite the increase in tR, the internal                                              6We characterized 160 real 3D TLC flash chips using an FPGA-based testing platform
+   bandwidth remains constrained by the external bandwidth (e.g., 4-8                                               equipped with a custom flash controller and a temperature-controlled environment.
+   GB/s). This indicates that even as tR rises (and flash chip bandwidth                                            To ensure comprehensive testing, we selected 120 blocks from each chip, evenly
+   decreases), the effective user-perceived read bandwidth of the SSD                                               distributed across various physical locations, and evaluated all wordlines (WLs) within
+                                                                                                                    each block, totaling 3,686,400 WLs (11,059,200 pages). This extensive testing setup
+   is minimally impacted. From a latency perspective, increases in                                                  enabled us to obtain statistically significant experimental results. All test procedures
+   tR also have limited impact. This is because end-to-end latency                                                  follow the JEDEC standards common in the memory industry.
+
+
+
+
+                                                                                                             535
+ ISCA ’25, June 21–25, 2025, Tokyo, Japan                                                                                                                                                                                                                                                                        Lee et al.
+                                                                                                                                                                                                                                                                                      AiFChip
+                        (L) (C) (M) (C) (L) (C) (M)                                                                      (C) (M) (C) (L) (M) (C) (M)                                                                                  1 Request
+
+
+
+
+                                                                                                                                                                                                                                                                     SREG
+                       𝑽𝑽𝟏𝟏𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟐𝟐𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟑𝟑𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟒𝟒𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟓𝟓𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟔𝟔𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟕𝟕𝑹𝑹𝑹𝑹𝑹𝑹                     𝑽𝑽𝟏𝟏𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟐𝟐𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟑𝟑𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟒𝟒𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟓𝟓𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟔𝟔𝑹𝑹𝑹𝑹𝑹𝑹 𝑽𝑽𝟕𝟕𝑹𝑹𝑹𝑹𝑹𝑹
+
+
+
+
+                                                                                                                                                                                                                                                     I/O Interface
+                                                                                                                                                                                                                         Controller
+                                                                                                                    ER P1 P2 P3 P4 P5 P6 P7
+                                                                                                                                                                                                                                                                            3
+                 ER P1                    P2 P3 P4 P5 P6 P7
+                                                                                                                                                                                                                                      2 Input vec.                                PB      PB       PB       PB
+ LSB 1              0                     0 0 0 1 1 1                                                                1 1 1 1 0 0 0 0
+ CSB 1              1                     0 0 1 1 0 0                                                                1 0 0 1 1 1 0 0
+ MSB 1              1                     1 0 0 0 0 1                                                                1 1 0 0 0 1 1 0
+                                                                                                                                                                                                       𝑽𝑽𝑻𝑻𝑻𝑻                            6                                                             5 Input vector
+
+
+
+
+                                                                                                                                                                                                                                                                            PEs
+                                                                                                      𝑽𝑽𝑻𝑻𝑻𝑻
+                 (a) Conventional (2,3,2) coding                                                                (b) LSB-prioritized (1,3,3) coding                                                                                                                                4
+                                                                                                                                                                                                                                                                     FIFO                 𝐄𝐄𝐄𝐄𝐄𝐄𝐋𝐋𝐋𝐋𝐋𝐋𝐋𝐋
+                                                                                                                                                                                                                                                                                                        Read matrix
+ Figure 12: A comparison of (a) conventional VTH state encod-                                                                                                                                                                             Figure 14: On-chip computation flow.
+ ing and (b) proposed VTH state encoding.
+                                                                                                                                                                                                                                          Table 1: Breakdown of area and power.
+ for reading each page type (i.e., LSB, CSB and MSB). In the (2,3,2)
+                                                                                                                                                                                                                                Module Name                             Area [mm2 ]             Avg. Power [mW]
+ coding, for example, the LSB page requires two sensing operations,
+ while the CSB page requires three. Modern SSDs typically use (2,3,2)                                                                                                                                                        ECCLITE                                         0.167                       45.1
+ coding to balance read time (tR) across all pages. Figure 12(b) shows                                                                                                                                                 Product Elements (PEs)                                0.026                       3.98
+                                                                                                                                                                                                                               Others                                        0.016                       2.6
+ the proposed LSB-prioritized (1,3,3) coding. By reconfiguring the
+ state encoding, the LSB page requires only one sensing operation,                                                                                                                                                                       Total                               0.209                      51.68
+ making its read performance equivalent to SLC, while the sensing
+ count for the MSB page increases from two to three. Leveraging                                                                                                                                                       those blocks containing LLM parameters experience performance
+ this intentional tR variation, AiFSSD strategically stores IFP data                                                                                                                                                  degradation. We evaluate overhead of be-enc in detail in Section 6.2.
+ only on the LSB pages. As a result, during inference, all parameters
+ are read solely from the fastest LSB pages.                                                                                                                                                                          4.4             Design of AiFChip
+    Another key advantage of be-enc is the enhanced reliability of                                                                                                                                                    This section presents the detailed design of AiFChip, highlighting
+ the LSB pages, which store IFP data. Figures 13(a) and 13(b) present                                                                                                                                                 its key architectural features and analyzing its overhead.
+ the maximum number of bit errors per 1-KiB data for each page                                                                                                                                                        Page Buffer Reuse. As illustrated in Figure 6, each AiFChip per-
+ type under (2,3,2) and (1,3,3) coding, respectively. Compared to                                                                                                                                                     forms GEMV operations by multiplying a submatrix, stored sequen-
+ (2,3,2) coding, (1,3,3) coding reduces the bit errors of LSB pages by                                                                                                                                                tially in the IFP block, with an input vector received from the host.
+ 80%. In (1,3,3) coding, LSB page errors occur only at V𝑅𝐸𝐹 4 , which                                                                                                                                                 This input vector, typically between 8-KiB and 32-KiB, is loaded
+ distinguishes the P3 and P4 states. Since these states are in the most                                                                                                                                               onto the AiFChip to serve as an operand for GEMV computations.
+ stable voltage range [39, 46, 49, 86], where fewer VTH shifts occur,                                                                                                                                                     Instead of requiring a dedicated buffer (e.g., SRAM) for loading
+ the error rates of the LSB pages remain low even under heavy wear                                                                                                                                                    the input vector, AiFChip reuses the existing page buffer (PB) al-
+ (e.g., 4K P/E cycles) and 1-year retention. This significant reduction                                                                                                                                               located to each plane. Originally, the PB functions as a temporary
+ in errors allows AiFChip to implement a lightweight on-chip ECC.                                                                                                                                                     buffer for read, program, and data transfer operations and com-
+                                                                                                                                                                                                                      prises multiple page latches, each sized to hold a single page. In TLC
+ 4.3.2 Feasibility & Overhead. Existing flash chips already sup-                                                                                                                                                      NAND, each PB includes at least four page latches [24, 26, 63, 69]:
+ port dynamic reconfiguration of the VTH state encoding at run-                                                                                                                                                       one serves as a cache buffer for data transfer, while the remaining
+ time [58, 63]. This capability allows be-enc to be applied without                                                                                                                                                   three are used as data buffers for page reads. For example, a CSB
+ requiring any hardware modifications to the flash chip.                                                                                                                                                              page read requires three page latches to store data across three sens-
+    A major drawback of be-enc is the increase in the sensing count                                                                                                                                                   ing operations. However, unlike general I/O operations, AiFChip
+ for MSB pages from 2 to 3, resulting in a longer tR for MSB pages.                                                                                                                                                   requires only a single page latch during inference. This is because
+ To minimize this overhead, AiFSSD applies be-enc selectively on a                                                                                                                                                    be-enc enables parameter reads with a single sensing operation,
+ per-block basis. Specifically, AiFSSD categorizes flash blocks into                                                                                                                                                  similar to SLC reads. As a result, the remaining two page latches
+ two groups: 1) non-IFP blocks, which handle only standard I/O                                                                                                                                                        can be repurposed as buffers to hold input vectors, eliminating the
+ operations and use the conventional (2,3,2) coding, and 2) IFP blocks,                                                                                                                                               need for additional dedicated buffers.
+ which employ (1,3,3) coding and store both LLM parameters (LSB                                                                                                                                                       On-Chip Computation Flow. Figure 14 illustrates the overall
+ pages) and general data (CSB/MSB pages). IFP blocks are allocated                                                                                                                                                    flow of on-chip GEMV computation. The process begins with the
+ dynamically from available free blocks whenever LLM parameters                                                                                                                                                       controller sending a command to initiate the GEMV operation ( 1 in
+ need to be stored. By applying be-enc selectively to IFP blocks, only                                                                                                                                                Figure 14), specifying key parameters: the input vector’s dimension,
+                                                                                                                                                                                                                      the ID of the block containing the matrix, the offset within the
+                                                                                                                                                                                                                      block, and the number of pages to read. The controller then loads
+                           @ 4K P/E + 1 year retention                                                                             @ 4K P/E + 1 year retention
+bit errors per 1-KiB
+
+
+
+
+                                                                                                          bit errors per 1-KiB
+
+
+
+
+                        100                                                                                                      100                                                                                  the input vector into the PBs ( 2 ), after which planes read matrix
+  Max. number of
+
+
+
+
+                                                                                                            Max. number of
+
+
+
+
+                         80                                                                                                       80            69      66                                                            sequentially in a continuous flow ( 3 ). As matrix segments are
+                         60     49     48       48                                                                                60                                                                                  read, the AiFChip retrieves them along with the input vector from
+                         40                                                                                                       40    80%       43% 38%
+                         20                                                                                                       20     9
+                                                                                                                                                                                                                      the PBs, performing multiplication and accumulation in the PEs
+                          0                                                                                                        0                                                                                  ( 4 ). PEs consist of INT8 multipliers and an adder tree to support
+                                              LSB                 CSB                MSB                                                            LSB                 CSB                MSB
+                                                                                                                                                                                                                      GEMV operations. Each matrix segment undergoes error correction
+                            (a) Per-page error in (2,3,2)                                                                        (b) Per-page error in (1,3,3)
+                                                                                                                                                                                                                      through ECCLITE , a compact and high-throughput on-chip ECC
+ Figure 13: Impact of VTH state encoding on page error rates.                                                                                                                                                         decoder, before computation ( 5 ). ECCLITE comprises a set of BCH
+
+
+
+
+                                                                                                                                                                                                                536
+AiF: Accelerating On-Device LLM Inference Using In-Flash Processing                                                                 ISCA ’25, June 21–25, 2025, Tokyo, Japan
+
+
+                                       Q,K,V
+      Decoder                                              Feed Forward
+                                                                                       token embedding) of the previous block as its input. Each decoder
+                        QKV     Q,K,V Multi-Head
+(a)   Decoder        Generation Q,K,V Attention
+                                                             Networks                  block is composed of three main computational stages: QKV gen-
+                                Q,K,V  (MHA)                  (FFN)                    eration, multi-head attention (MHA), and feed-forward networks
+      Decoder
+                                                                                       (FFNs). In the QKV generation stage, the input vector undergoes
+             Host:                                   Underutilized
+                                             MHA
+(b)                   QKV Gen.                             FFN
+                                                                                       linear projections to produce multiple sets of Query (Q), Key (K),
+           AiFSSD:                                                        time         and Value (V) vectors. In the MHA stage, each set of Q, K, and
+                                                                                       V vectors is processed along with previously generated K and V
+             Host:                                       × =
+                       𝒉𝒉𝟎𝟎 𝒉𝒉𝟏𝟏 𝒉𝒉𝟐𝟐 𝒉𝒉𝟑𝟑                                             vectors (stored in the KV cache in memory) to produce an attention
+(c)
+          AiFSSD:                                        × =              time         head. Each attention head is generated independently and then
+                                                                                       aggregated to form a context-aware token embedding. Finally, in
+Figure 15: Optimizing LLM inference performance through                                the FFN stage, the token embedding undergoes further refinement
+parallel host-AiFSSD execution: (a) computational flow of                              through additional linear projections before passing to the next
+LLM inference, (b) a sequential execution flow, and (c) a par-                         decoder block.
+allel execution flow.                                                                     Figure 15(b) illustrates the straightforward scheduling approach
+                                                                                       for AiF. In this scheme, AiF offloads all stages except the MHA stage
+decoders, corrects up to 10-bit errors per 1-KiB data with a 6.4                       to the AiFSSD. The host remains responsible for the MHA stage
+GB/s throughput. The correction capability of ECCLITE is based on                      because it requires access to the KV cache, which must be stored
+our characterization results in Figure 13(b). After computations,                      in memory due to its frequent updates.7 A key limitation of this
+the resulting output vector elements are stored sequentially in the                    simple scheduling approach is its sequential computation pattern,
+output FIFO. Throughout the computation, the controller polls each                     alternating between the host and AiFSSD instead of engaging them
+AiFChip in a round-robin manner to retrieve results from the FIFO                      concurrently, resulting in suboptimal performance.
+as they are generated ( 6 ), with the FIFO status tracked through the                     Figure 15(c) illustrates the execution timeline of the proposed
+flash chip’s status register (SREG).                                                   parallel scheduling scheme. To enable the overlapped inference
+Area and Power Overhead. For area and power estimation of                              with the host, AiF leverages head-level and tensor-level parallelism,
+the AiFChip, we implement the proposed logic in Verilog HDL,                           inspired by multi-GPU scheduling techniques [73]. As explained
+synthesizing the designs with Design Compiler at 45 nm technology                      above, each attention head (ℎ𝑖 ) in the MHA stage can be computed
+node and operating frequency of 200 MHz. As detailed in Table 1,                       independently with just a single set of Q, K, and V vectors. This
+the AiFChip’s estimated area overhead is 0.209 𝑚𝑚 2 , approximately                    independence allows the host to begin processing each head as soon
+0.2% of the total flash chip area. The average power consumption                       as a vector set is generated, creating an overlap between the Q, K, V
+is 51.68 mW, with over 87% attributed to ECC. Compared to the                          generation and MHA stages. Parallel execution is also applied to the
+baseline ECC decoder analyzed in Figure 5, ECCLITE requires 15.01×                     FFN stage by dividing the projection matrix into two submatrices,
+less area and consumes 14.83× less power at the same throughput,                       with the host and AiFSSD each processing one independently before
+enabled by significantly reducing its error correction capability                      aggregating the results. To enable this, the host selectively retains
+through the use of be-enc.                                                             only the necessary portions of the projection matrix in memory
+                                                                                       during the prefill phase, preparing for parallel processing of the FFN
+                                                                                       stage in the subsequent decode phase. The number of submatrices
+5     Integrating AiF into On-Device LLM Inference
+                                                                                       that can be loaded (i.e., the degree of tensor-level parallelism) is
+Designing an efficient on-device LLM inference system with AiFSSD                      determined by the available host memory capacity.
+requires substantial multi-layer development from application-level
+software to system software and down to the AiFSSD firmware.                           5.2      System Supports for AiFSSD Integration
+In this section, we outline key considerations for building such
+                                                                                       This section outlines key design considerations across multiple
+systems, aiming to provide a broader perspective on AiF.
+                                                                                       layers for efficiently integrating AiFSSD.
+                                                                                       SSD Extensions. In our design, AiFSSD introduces two specialized
+5.1     LLM Inference Workflow with AiFSSD                                             commands, (i) aif_post and (ii) aif_gemv, which extend the ex-
+LLM inference consists of two distinct phases: a prefill phase, which                  isting NVMe protocol. The aif_post command stores a matrix in
+processes the user’s input prompt in parallel, and a decode phase,                     AiFSSD with an optimized layout for IFP. It specifies (1) the matrix
+which generates tokens sequentially. In a host system with AiFSSD                      dimensions, (2) the host memory address of the matrix, and (3)
+attached, only the decode phase is offloaded to AiFSSD, while the                      the sequential LBA range for storing the matrix. Upon receiving
+prefill phase is handled by the host. This phase splitting is based                    aif_post, AiFSSD partitions the matrix into equal-sized submatri-
+on the consideration that the decode phase requires repeated reads                     ces and stores them sequentially in IFP blocks across AiFChips (see
+of the entire model for each token generation, making it a key                         Figure 6).8 These blocks are dynamically allocated from the free
+bottleneck in inference [3, 21, 82, 87]. By contrast, the prefill phase
+requires only a single read of the model and can leverage the host’s                      7 In on-device LLMs, the KV cache is typically much smaller than model weights
+high computing power to process tokens in parallel.                                    due to their low-batch characteristic. Table 3 in Section 6.1 details the weight and
+   Figure 15(a) illustrates the computational flow of LLM inference                    maximum KV cache sizes (single-batch) of the models evaluated in this work.
+                                                                                          8 Each submatrix is initially written sequentially to the LSB pages of the IFP block,
+during a decode phase. LLM inference progresses through a series                       while CSB/MSB pages accommodate incoming general data afterward [67, 84]. Al-
+of decoder blocks, where each block takes the output vector (i.e.,                     though the aif_post command ensures sequential placement of submatrices, SSD
+
+
+
+
+                                                                                 537
+ISCA ’25, June 21–25, 2025, Tokyo, Japan                                                                                                                        Lee et al.
+
+
+block list, and AiFSSD maintains a per-block bitmap to differentiate                        Linux kernel enables llama.cpp to send requests directly to AiFSSD
+them from non-IFP blocks. The aif_gemv command issues a GEMV                                from userspace via the ioctl system call.
+operation. It specifies (1) the input vector dimension, (2) the input                          During inference, llama.cpp issues GEMV requests to AiFSSD
+vector’s memory address, (3) the matrix’s LBA range, and (4) the                            whenever a matrix offloaded to the SSD requires GEMV compu-
+output vector’s memory address. Upon receiving aif_gemv, AiF-                               tation. AiFSSD then computes the GEMV delay using its internal
+SSD locates the start page addresses of each submatrix and sends                            timing model, generates an output vector, and transfers it to the
+the GEMV command, along with the input vector, to AiFChips for                              host with an interrupt. For efficient evaluation, we design the vir-
+computation (steps 1 and 2 in Figure 14).9                                                  tual AiFSSD to simulate the delay and provide the dummy vector
+System Software Modifications. In our design, host applications                             instead of performing the actual computation. Upon receiving the
+(e.g., an LLM inference engine) communicate directly with AiF-                              dummy output vector, llama.cpp continues the inference flow as if
+SSD over the NVMe raw block interface, bypassing the kernel I/O                             it were the real GEMV output. Note that the LLM inference flow
+stack. Although this approach increases application complexity, it                          is deterministic; the contents of the output vector do not affect
+provides key benefits. First, it minimizes I/O stack modifications.                         performance evaluation.
+Only the NVMe driver requires changes. With a userspace NVMe                                Evaluated Systems. We evaluate the following systems:
+library such as SPDK [85], OS-level modifications, which is often                           • In-Memory: The In-Memory scheme represents an ideal system
+a major barrier to practical deployment, can be avoided entirely.                           without memory capacity constraints, employing 128-GB of DDR5
+Second, it can maintain optimized data layout. Because the applica-                         memory (up to 86.4 GB/s bandwidth) to store all model parameters
+tion manually manages IFP data, its sequential placement remains                            in host memory. In-Memory employs an Intel Core i9-14900KS
+intact, unaffected by OS services like defragmentation. Third, it re-                       processor as a computation unit. We exclude dedicated accelerators
+duces communication delays. Bypassing the kernel I/O stack lowers                           (e.g., NPUs) for on-device LLM inference, as their low arithmetic in-
+latency, enabling more efficient GEMV execution.                                            tensity does not benefit from accelerators when memory bandwidth
+Application-level Requirements. To ensure correct AiF opera-                                is consistent.
+tion, the host application must meet two key requirements: First, it                        • Memory+SSD: The Memory+SSD scheme is a baseline scheme
+must track matrix LBAs stored in AiFSSD. The application uses the                           that offloads model parameters to a 1-TB SSD due to limited memory
+aif_post command to store each matrix in AiFSSD. It then records                            capacity. We set the memory capacity to 8-GB. In Memory+SSD,
+each matrix’s LBA range in a tensor table, a data structure file that                       the host memory can store only a portion of the model param-
+maps tensor identifiers to their corresponding LBAs. During in-                             eters. Whenever llama.cpp requires model parameters offloaded
+ference, the application consults this table to issue aif_gemv with                         to the SSD, Memory+SSD fetches them into host memory before
+the correct LBA range. Second, it must isolate IFP data. IFP data                           computation.
+must reside in a dedicated LBA space, separate from general file                            • AiF: AiF employs a 1-TB TLC AiFSSD composed of 16 AiFChips
+system data. This can be achieved by assigning it to a raw partition                        along with a host memory capacity of 8-GB. Each AiFChip achieves
+or a separate NVMe Namespace [14], created using standard Linux                             an effective bandwidth of 6.4 GB/s by employing two proposed flash
+tools like fdisk or nvme-cli in Linux.                                                      read optimization techniques: cr-read and be-enc. The maximum
+                                                                                            bandwidth of AiFSSD for acceleration is 102.4 GB/s (6.4 GB/s ×
+6     System-Level Evaluation                                                               16). To maximize generation throughput, AiF leverages head-level
+We evaluate the effectiveness of AiF at the system level by inte-                           and tensor-level parallelism to enable concurrent execution with
+grating a state-of-the-art SSD emulator [41] and an on-device LLM                           the host, as described in Section 5.1. The degree of tensor-level
+inference engine.                                                                           parallelism is limited by the available host memory capacity.
+                                                                                            • AiF−−: AiF−− operates identically to AiF, including parallel ex-
+6.1     Evaluation Setup                                                                    ecution with the host, but does not support cr-read and be-enc
+Methodology. We build a virtual AiFSSD using NVMeVirt [41], an                              techniques. In AiF−−, each flash chip provides an bandwidth of 1.6
+open-source SSD emulator. NVMeVirt supports precise timing mod-                             GB/s, limiting the maximum bandwidth of AiFSSD to 25.6 GB/s
+els of SSD internal operations, such as flash read latency, and enables                     (1.6 GB/s × 16). Although ECCLITE cannot perform error correction
+full-system evaluation by mimicking a virtual PCIe endpoint device.                         without be-enc, we assume error correction is feasible to focus on
+Leveraging these capabilities, the virtual AiFSSD accurately models                         evaluating the performance of AiF−−.
+the data flow and timing characteristics of AiFSSD. As an on-device                            Table 2 summarizes the SSD configurations used in our evalu-
+LLM inference engine, we employ llama.cpp [17], a widely adopted                            ation. We assume a 1-TB SSD with eight flash channels and two
+on-device engine that offers flexibility and low-level accessibility.                       chips per channel. For conventional SSDs with (2,3,2) coding, the
+   In order to integrate the virtual AiFSSD with llama.cpp, we ex-
+tend NVMeVirt to support aif_post and aif_gemv requests, as                                             Table 2: Evaluated SSD configurations.
+described in Section 5.2. A modified NVMe device driver in the
+                                                                                             Configuration       8 channels; 2 chips/channel; 4 planes/chip; 16-KiB page
+internal tasks such as garbage collection (GC) may introduce fragmentation. To main-         tR (2,3,2 coding)   LSB = 37𝜇s; CSB = 46𝜇s; MSB = 37𝜇s;
+tain the optimized layout, AiFSSD performs page copies while preserving the original         tR (1,3,3 coding)   LSB = 28𝜇s; CSB = 46𝜇s; MSB = 46𝜇s;
+LSB page order within the IFP block whenever GC is triggered in an IFP block.                tR (cr-read)        9.7𝜇s;
+    9 Since each submatrix is stored sequentially in IFP blocks, AiFSSD typically needs
+                                                                                             Bandwidth (PCIe)    8.0 GB/s external I/O bandwidth (PCIe 4.0, 4-lane);
+to look up the mapping table only once per GEMV command. However, if a submatrix             Bandwidth (ONFI)    2.0 GB/s flash channel I/O bandwidth;
+spans two IFP blocks, AiFSSD splits the GEMV command into two separate operations.
+
+
+
+
+                                                                                      538
+ AiF: Accelerating On-Device LLM Inference Using In-Flash Processing                                                                                                                                      ISCA ’25, June 21–25, 2025, Tokyo, Japan
+
+
+                                                                                                In-Memory                  Memory + SSD                                AiF--         AiF
+                                     LLaMA2-7B                                                       LLaMA3-8B                                                         Falcon-11B                                                    LLaMA2-13B
+Throughput (tokens/s)
+
+
+
+
+                                                               Throughput (tokens/s)
+
+
+
+
+                                                                                                                                  Throughput (tokens/s)
+
+
+
+
+                                                                                                                                                                                                 Throughput (tokens/s)
+                        20                                                               20                                                                 20                                                           10
+                                                                                                                                                                                                                          8                             7.7
+                        15                              13.1                             15                              12.9                               15
+                              10.1                                                                                                                                                                                        6    5.5
+                        10                        9.8                                    10   9.4     9.2         9.3                                       10                             9.4
+                                      9.5
+                                                                                                                                                                 6.5                                                      4                       2.9
+                         5                                                                5                                                                  5                      4.3
+                                                                                                                                                                       1.64                                               2
+                                                                                                                                                                                                                                      0.7
+                         0                                                                0                                                                  0                                                            0
+                                            (a)                                                             (b)                                                               (c)                                                           (d)
+                                     Mixtral-8x7B                                                    GPT-NeoX-20B                                                       Falcon-40B                                                   LLaMA3-70B
+
+
+
+
+                                                                                                                                                                                                 Throughput (tokens/s)
+Throughput (tokens/s)
+
+
+
+
+                                                                 Throughput (tokens/s)
+
+
+
+
+                                                                                                                                    Throughput (tokens/s)
+                        10                                                               10                                                                 5                                                             2
+                                                                                                                                                                                                                                                        1.6
+                         8                                                                8                                                                 4                                                            1.5
+                                                        6.2                                                                                                                                                                    1.2
+                         6     5.3                                                        6                                5.7                              3                              2.7
+                                                                                                                                                                                                                          1
+                         4                                                                4    3.4                                                          2    1.8
+                                                  1.9                                                                                                                                                                    0.5                  0.46
+                         2                                                                2                       1.7                                       1                    0.74
+                                      0.33                                                            0.23                                                              0.1                                                           0.06
+                         0                                                                0                                                                 0                                                             0
+                                            (e)                                                             (f)                                                                (g)                                                       (h)
+                                                    Figure 16: Throughput comparison of In-Memory, Memory+SSD, AiF−−, and AiF.
+
+                                Table 3: Evaluated LLM configurations.                                                                               baseline SSD offloading scheme. The Memory+SSD scheme oper-
+                  Model                      Weight (GiB)      KV Cache (GiB)                        # Layers           # Heads                      ates efficiently for smaller models where parameters fit in memory
+             LLaMA2-7B [55]                       6.7                 1                                 32                 32                        (Figure 16(a) and (b)). However, as the model size grows (e.g., Fig-
+             LLaMA3-8B [57]                        8                 0.5                                32                 32                        ure 16(c)), a larger proportion of parameters must be offloaded to
+              Falcon-11B [28]                     11                0.25                                40                 32                        the SSD, leading to a sharp decline in throughput. In contrast, AiF
+             LLaMA2-13B [54]                     12.9                1.1                                40                 40                        sustains high throughput for larger models by leveraging the SSD’s
+             Mixtral-8x7B [2]                 14.7 / 46.2             2                                 32                 32
+                                                                                                                                                     high internal bandwidth. On average, AiF achieves 14.6x higher
+            GPT-NeoX-20B [13]                    20.4               1.05                                44                 64
+                                                                                                                                                     throughput than Memory+SSD across the evaluated models.
+              Falcon-40B [27]                    41.4                0.1                                60                128
+             LLaMA3-70B [56]                     69.8                1.3                                80                 80
+                                                                                                                                                        Second, AiF also outperforms in-memory inference. Despite be-
+                                                                                                                                                     ing limited to 8-GB of memory, AiF achieves an average of 1.4x
+                                                                                                                                                     higher throughput than the In-Memory scheme. This is due to the
+                                                                                                                                                     AiFSSD’s high internal bandwidth of 102.4 GB/s , enhanced by cr-
+ tR values for LSB, CSB, and MSB pages are 37 µs, 46 µs, and 37 µs,
+                                                                                                                                                     read and be-enc, which exceeds the memory bandwidth of 86.5
+ respectively. For IFP blocks with (1,3,3) coding (i.e., with be-enc
+                                                                                                                                                     GB/s. Furthermore, AiF enables concurrent inference between the
+ applied), the tR values are 28 µs, 46 µs, and 46 µs, respectively. The
+                                                                                                                                                     host and the AiFSSD, allowing the host memory bandwidth and
+ tR values are obtained from measurements on a real TLC flash
+                                                                                                                                                     the internal bandwidth of the AiFSSD to be utilized simultaneously.
+ chip. When cr-read is applied, the tR value for LSB pages within
+                                                                                                                                                     This advantage becomes more pronounced for smaller models, as a
+ IFP blocks is reduced to 9.7 µs, based on evaluation results in Sec-
+                                                                                                                                                     larger portion of the submatrix can fit in host memory, increasing
+ tion 4.2.2. The external PCIe bandwidth is set to 8.0 GB/s, while
+                                                                                                                                                     the opportunities for concurrent inference.
+ each flash channel provides a bandwidth of 2.0 GB/s.
+                                                                                                                                                        Third, in-flash LLM inference without bandwidth optimization
+ Evaluated Models. We evaluate eight distinct LLMs with various
+                                                                                                                                                     has limited scalability. The AiF−− scheme achieves 4.59x higher
+ parameter sizes and architectures. Table 3 summarizes their key
+                                                                                                                                                     throughput than Memory+SSD on average by utilizing the internal
+ parameters and architectural details. All models are in INT8 for-
+                                                                                                                                                     bandwidth. However, its performance significantly declines for
+ mat, the most commonly used format for on-device LLMs. Among
+                                                                                                                                                     larger models, achieving only 0.74 tokens per second for a Falcon-
+ these, Mixtral-8x7B adopts a mixture-of-experts (MoE) architec-
+                                                                                                                                                     40B model. In contrast, AiF sustains 2.7 tokens/s for the same model.
+ ture, a variant of the transformer architecture. Unlike conventional
+                                                                                                                                                     AiF offers an average of 2.67x higher throughput than AiF−−.
+ transformers, which access the entire parameter set for each token
+                                                                                                                                                        Fourth, MoE architecture aligns well with AiF. To fully leverage
+ generation, Mixtral-8x7B dynamically selects a subset of parame-
+                                                                                                                                                     the benefits of MoE, both high storage capacity for large model
+ ters at each step. As a result, while Mixtral-8x7B has a total weight
+                                                                                                                                                     parameters and sufficient bandwidth to access them quickly are
+ size of 46.2-GiB, it requires reading only 14.7-GiB of parameters
+                                                                                                                                                     essential. In-memory systems provide high bandwidth but are lim-
+ per token generation.
+                                                                                                                                                     ited by their capacity, while SSDs offer large storage capacity but
+                                                                                                                                                     are constrained by low bandwidth. In contrast, AiFSSDs are partic-
+ 6.2                         Evaluation Results                                                                                                      ularly well-suited for MoE, as they combine high storage capacity
+ Throughput. Figure 16 presents the throughput comparison re-                                                                                        with substantial internal bandwidth. Although AiF performance
+ sults across 8 different LLMs, highlighting four key observations.                                                                                  gradually declines as model size increases (e.g., Figures 16(h)), MoE
+ First, AiF effectively mitigates the performance bottleneck of the
+
+
+
+
+                                                                                                                              539
+ISCA ’25, June 21–25, 2025, Tokyo, Japan                                                                                                                                                                                                                          Lee et al.
+
+
+                                                                           20                                                                                                                                                 AiFSSD
+                                                                                                                                                                                                                   CONV
+
+
+
+
+                                                   Throughput (tokens/s)
+                     3                                                                             1 TB            2 TB          4 TB
+energy consumption
+
+
+
+
+                                                                                                                                                              Read bandwidth (GB/s)
+                                                                           16                                                14.7                                                     10                          800                                    150
+                                                                                         13.7                                                                                                                            650
+
+
+
+
+                                                                                                                                                                                                                                     Avg. Latency (us)
+    Normalized
+
+
+
+
+                     2                   1.8                                                                                                                                          8     7.6 7.6                         606                                        105
+                                                                           12                                                                                                                                     600                                             96
+
+
+
+
+                                                                                                                                                                                                       IOPS (K)
+                                                                                                                           9.7                                                                                                                           100
+                                                                                       8.9                                                                                            6
+                            1    0.93                                      8                                 7.4                                                                                                  400
+                     1                                                           5.7                                 6.2                                                              4
+                                                                                                       4.4                                              4.3                                                                                              50
+                                                                           4                     2.7                                              2.7                                 2                           200
+                                                                                                                                            1.6
+                     0
+                           In-  AiF    AiF                                 0                                                                                                          0                             0                                     0
+                         Memory    (w/o cr-read)                                GPT-NeoX-20B    Falcon-40B         Mixtral-8x7B         LLaMA3-70B                                         Seq. read                    Rand. read                              Rand. read
+
+                         (a) Energy efficiency                                                  (b) Scalability of AiF                                                                (a) Bandwidth                     (b) IOPS                               (c) Latency
+Figure 17: (a) Comparisons of energy efficiency. (b) Throughput scalability in AiF.                                                                                                          Figure 18: Overhead analysis.
+
+
+
+enhances AiF’s scalability, enabling support for larger models while                                                                    evaluate three key metrics for read performance: sequential read
+maintaining the same SSD capacity (Figure 16(e)).                                                                                       bandwidth, random read IOPS, and latency. Figure 18 presents the
+Energy Efficiency. Next, we evaluate the energy efficiency of AiF                                                                       evaluation results, leading to two key observations. First, sequential
+and In-Memory. To understand the impact of cr-read, we also evalu-                                                                      read bandwidth remains stable despite the increased tR. As shown
+ate the energy consumption of AiF without cr-read applied. For the                                                                      in Figure 18(a), both CONV and AiFSSD maintain a consistent band-
+energy model, In-Memory assumes computations are performed on                                                                           width of 7.6 GB/s, due to the small external bandwidth relative to
+an energy-efficient NPU (1.4 TOPS/W as reported in [47]), and the                                                                       the large internal bandwidth of the SSD. Second, random reads
+host’s memory is modeled as LPDDR5 (7 pJ/bit based on [29]). Flash                                                                      exhibit slight performance degradation. In random read workloads,
+reads are modeled using the energy evaluation results from Fig-                                                                         as shown in Figures 18(b) and (c), AiFSSD experiences a 6.8% reduc-
+ure 10, while ECC and GEMV operations are based on the results in                                                                       tion in IOPS and a 9.3% increase in latency compared to CONV. For
+Table 1. Flash channel and PCIe energy consumption are assumed                                                                          random reads, only a fraction of the read page (4 KB out of 16 KB) is
+to be 5.8 pJ/bit [66] and 7.5 pJ/bit [50], respectively. Figure 17(a)                                                                   delivered to the host, alleviating the external bandwidth bottleneck
+shows the energy consumption for generating 512 output tokens                                                                           and exposing the impact of the increased tR. These suggest that
+using the Falcon-40B model, normalized to the energy consump-                                                                           if AiFSSD contains a large number of IFP blocks, it may result in
+tion of In-Memory. The results show that AiF achieves nearly a                                                                          some performance loss in random read-intensive applications. We
+2x improvement in energy efficiency when cr-read is applied. This                                                                       consider this a reasonable trade-off for the significant performance
+improvement is attributed to parameter reads being the primary                                                                          and reliability benefits be-enc provides for IFP.
+energy bottleneck in LLM inference, with cr-read reducing flash
+read energy consumption by more than 3x. Additionally, AiF and                                                                          7         Related Work
+In-Memory exhibit comparable energy consumption, with AiF con-                                                                          To our knowledge, this paper is the first to propose an IFP solution
+suming approximately 7% less energy. This indicates that AiF is a                                                                       that improves the read bandwidth and reliability of flash chips to
+more energy-efficient solution, particularly when considering the                                                                       enable efficient in-flash LLM inference. We provide a brief overview
+high static energy consumption of DRAM as its capacity increases.                                                                       of closely related work in two areas: 1) on-device LLM inference
+Scalability. Figure 17(b) presents the throughput evaluation results                                                                    and 2) in-storage (in-flash) processing to improve the performance
+for AiFSSD capacities of 1-TB, 2-TB, and 4-TB. While doubling the                                                                       of data-intensive applications.
+capacity theoretically doubles the internal bandwidth, the observed                                                                     On-Device LLM Inference. Most research on on-device LLM in-
+performance improvement scales by 1.35x to 1.68x. This sublinear                                                                        ference has focused on model lightweighting techniques through
+scalability arises from two key factors: First, as shown in Figure 7,                                                                   quantization [9, 20, 51, 53, 81, 82, 87, 88]. However, maintaining
+LLM inference involves multiple vector arithmetic operations in-                                                                        accuracy while significantly reducing model size remains a con-
+terleaved with GEMV blocks. Consequently, reducing GEMV time                                                                            siderable challenge and often demands extensive training efforts.
+alone does not result in a proportional reduction in overall infer-                                                                     Moreover, even with aggressive INT4 quantization, models exceed-
+ence time. Second, GEMV requests are handled through the NVMe                                                                           ing 16B parameters still require more than 8-GB of memory. Some
+protocol, which introduces unavoidable control overheads (e.g.,                                                                         studies have sought to minimize the performance loss associated
+interrupts, DMA) that hinder full utilization of internal bandwidth.                                                                    with offloading model parameters to SSDs by employing techniques
+Furthermore, as the number of flash chips increases with capacity,                                                                      such as I/O-computation pipelining [21], model collaboration [82],
+the control overhead grows, mainly due to the longer time required                                                                      and sparsity optimization [3, 87]. While these approaches have
+to load input vectors into flash chips via flash channels. To enhance                                                                   shown performance improvements with limited memory capac-
+AiF’s scalability, various scheduling optimizations on both the host                                                                    ity, they remain constrained by the bandwidth limitations of SSDs,
+and SSD sides are necessary. These further enhancements are left                                                                        making it challenging to perform inference on models larger than
+for future work.                                                                                                                        10B parameters.
+Overhead Analysis. To analyze the overhead of be-enc, we com-                                                                           In-Storage Processing. To overcome the limited external band-
+pare the read performance of a conventional SSD (CONV) with                                                                             width of SSDs, ISP has been widely explored across diverse appli-
+(2,3,2) coding and the AiFSSD with (1,3,3) coding. For a worst-case                                                                     cation domains such as pattern matching [31, 33], query process-
+analysis, we assume all blocks on the AiFSSD are IFP blocks. We                                                                         ing [10, 43, 59], data analytics [75, 91], genome processing [61],
+
+
+
+
+                                                                                                                            540
+AiF: Accelerating On-Device LLM Inference Using In-Flash Processing                                                                  ISCA ’25, June 21–25, 2025, Tokyo, Japan
+
+
+graph processing [34, 48, 62], and DNN [22, 40, 79]. ISP solutions                            and Guilherme Penedo. 2023. The Falcon Series of Open Language Models.
+offer the advantage of reducing data transfer over the external                               arXiv:2311.16867 [cs.CL] https://arxiv.org/abs/2311.16867
+                                                                                          [5] Marc Brysbaert. 2019. How many words do we read per minute? A review
+PCIe bandwidth and leveraging resources within the SSD controller.                            and meta-analysis of reading rate. Journal of Memory and Language 109 (2019),
+However, the bandwidth limitations of the flash channels constrain                            104047.
+                                                                                          [6] Cadence. 2024. Spectre. https://www.cadence.com/en_US/home/tools/custom-
+the maximum achievable bandwidth gains of ISP, making it insuffi-                             ic-analog-rf-design/circuit-design/virtuoso-schematic-editor.html.
+cient to handle high-bandwidth workloads such as LLM inference.                           [7] Cadence. 2024. Virtuoso. https://www.cadence.com/en_US/home/tools/custom-
+In-Flash Processing. To overcome the bottleneck caused by flash                               ic-analog-rf-design/circuit-design/virtuoso-schematic-editor.html.
+                                                                                          [8] Sungjun Cho, Beomjun Kim, Hyunuk Cho, Gyeongseob Seo, Onur Mutlu, Myung-
+channels and fully utilize the internal bandwidth of SSDs, some stud-                         suk Kim, and Jisung Park. 2024. AERO: Adaptive Erase Operation for Improving
+ies have explored IFP solutions, such as graph neural network [78],                           Lifetime and Performance of Modern NAND Flash-Based SSDs. In Proceedings
+vector search [24, 77], DNN [38, 45], and bitwise processing [16].                            of the 29th ACM International Conference on Architectural Support for Program-
+                                                                                              ming Languages and Operating Systems, Volume 3 (ASPLOS ’24). Association for
+While these efforts have successfully demonstrated the potential                              Computing Machinery, 101–118.
+of IFP solutions, prior research has largely focused on integrating                       [9] Tim Dettmers, Artidoro Pagnoni, Ari Holtzman, and Luke Zettlemoyer. 2023.
+                                                                                              QLoRA: Efficient Finetuning of Quantized LLMs. arXiv:2305.14314 [cs.LG]
+IFP into applications without adequately addressing practical chal-                           https://arxiv.org/abs/2305.14314
+lenges, such as ensuring reliability. The IFP-specialized techniques                     [10] Jaeyoung Do, Yang-Suk Kee, Jignesh M. Patel, Chanik Park, Kwanghyun Park,
+proposed by AiF for improving bandwidth and reliability can com-                              and David J. DeWitt. 2013. Query processing on smart SSDs: opportunities and
+                                                                                              challenges. In Proceedings of the 2013 ACM SIGMOD International Conference on
+plement existing approaches, offering an orthogonal enhancement                               Management of Data. 1221–1230.
+to previous work.                                                                        [11] Juan P. Duarte, Sourabh Khandelwal, Aditya Medury, Chenming Hu, Pragya
+                                                                                              Kushwaha, Harshit Agarwal, Avirup Dasgupta, and Yogesh S. Chauhan. 2015.
+                                                                                              BSIM-CMG: Standard FinFET compact model for advanced circuit design. In
+8    Conclusion                                                                               ESSCIRC Conference 2015 - 41st European Solid-State Circuits Conference (ESSCIRC).
+                                                                                              196–201.
+We have presented AiF, a novel IFP solution that integrates GEMV                         [12] Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad
+operations directly into flash chips, enabling the full utilization of                        Al-Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Amy Yang, Angela Fan,
+                                                                                              et al. 2024. The llama 3 herd of models. arXiv preprint arXiv:2407.21783 (2024).
+SSDs’ internal bandwidth for on-device LLM inference. The key fea-                       [13] EleutherAI. 2023. GPT-NeoX-20B. https://huggingface.co/EleutherAI/gpt-neox-
+ture of AiF is its IFP-specialized flash read techniques, specifically                        20b.
+designed to meet the exceptionally high bandwidth and reliability                        [14] NVM Express. 2022. NVMe Namespace. https://nvmexpress.org/resource/nvme-
+                                                                                              namespaces/
+demands of on-device LLM inference. By aligning the flash read pro-                      [15] Elias Frantar, Saleh Ashkboos, Torsten Hoefler, and Dan Alistarh. 2023. GPTQ:
+cedure with the unique requirements of on-device LLM inference,                               Accurate Post-Training Quantization for Generative Pre-trained Transformers.
+AiF achieves the high generation throughput needed while main-                                arXiv:2210.17323 [cs.LG] https://arxiv.org/abs/2210.17323
+                                                                                         [16] Congming Gao, Xin Xin, Youyou Lu, Youtao Zhang, Jun Yang, and Jiwu Shu.
+taining inference accuracy through robust on-chip error correction                            2021. ParaBit: Processing Parallel Bitwise Operations in NAND Flash Memory
+with minimal implementation overhead. Our experimental results                                based SSDs. In MICRO-54: 54th Annual IEEE/ACM International Symposium on
+                                                                                              Microarchitecture. 59–70.
+using a full-system AiF simulator demonstrate that AiF provides                          [17] Georgi Gerganov. 2023. ggerganov/llama. cpp: Port of facebook’s llama model in
+a 14.6x throughput improvement over the baseline SSD offload-                                 c/c++.
+ing scheme. Furthermore, AiF outperforms in-memory inference,                            [18] Donghyun Gouk, Miryeong Kwon, Hanyeoreum Bae, and Myoungsoo Jung. 2024.
+                                                                                              DockerSSD: Containerized In-Storage Processing and Hardware Acceleration for
+achieving 1.4x higher throughput while significantly reducing mem-                            Computational SSDs. In 2024 IEEE International Symposium on High-Performance
+ory footprint, demonstrating it as a practical and scalable solution                          Computer Architecture (HPCA). 379–394.
+for efficient on-device LLM deployment.                                                  [19] Laura M. Grupp, Adrian M. Caulfield, Joel Coburn, Steven Swanson, Eitan Yaakobi,
+                                                                                              Paul H. Siegel, and Jack K. Wolf. 2009. Characterizing flash memory: Anomalies,
+                                                                                              observations, and applications. In 2009 42nd Annual IEEE/ACM International
+Acknowledgments                                                                               Symposium on Microarchitecture (MICRO). 24–33.
+                                                                                         [20] Cong Guo, Jiaming Tang, Weiming Hu, Jingwen Leng, Chen Zhang, Fan Yang,
+This work was supported in part by the Institute for Information                              Yunxin Liu, Minyi Guo, and Yuhao Zhu. 2023. OliVe: Accelerating Large Language
+& Communications Technology Planning & Evaluation (IITP) un-                                  Models via Hardware-friendly Outlier-Victim Pair Quantization. In Proceedings
+                                                                                              of the 50th Annual International Symposium on Computer Architecture (ISCA ’23).
+der Grant RS-2024-00347394, and in part by the Ministry of Sci-                               ACM, 1–15.
+ence and ICT (MSIT), Republic of Korea, under Grant RS-2024-                             [21] Liwei Guo, Wonkyo Choe, and Felix Xiaozhu Lin. 2023. STI: Turbocharge NLP
+                                                                                              Inference at the Edge via Elastic Pipelining. In Proceedings of the 28th ACM
+00456287 (Global Scholars Invitation Program). Myungsuk Kim was                               International Conference on Architectural Support for Programming Languages and
+supported by the National Research Foundation of Korea (RS-2024-                              Operating Systems, Volume 2. 791–803.
+00414964). The ICT at Seoul National University provided research                        [22] Saransh Gupta, Justin Morris, Mohsen Imani, Ranganathan Ramkumar, Jeffrey
+                                                                                              Yu, Aniket Tiwari, Baris Aksanli, and Tajana Šimunić Rosing. 2020. THRIFTY:
+facilities for this study. (Corresponding author: Jihong Kim.)                                training with hyperdimensional computing across flash hierarchy. In Proceedings
+                                                                                              of the 39th International Conference on Computer-Aided Design.
+                                                                                         [23] Perttu Hämäläinen, Mikke Tavast, and Anton Kunnari. 2023. Evaluating Large
+References                                                                                    Language Models in Generating Synthetic HCI Research Data: a Case Study.
+ [1] 2020. BSIM-CMG Technical Manual. http://bsim.berkeley.edu/models/bsimcmg/           [24] Han-Wen Hu, Wei-Chen Wang, Yuan-Hao Chang, Yung-Chun Lee, Bo-Rong Lin,
+     Accessed: Apr. 1, 2020. [Online]. Available: http://bsim.berkeley.edu/models/            Huai-Mu Wang, Yen-Po Lin, Yu-Ming Huang, Chong-Ying Lee, Tzu-Hsiang Su,
+     bsimcmg/.                                                                                Chih-Chang Hsieh, Chia-Ming Hu, Yi-Ting Lai, Chung-Kuang Chen, Han-Sung
+ [2] Mistral AI. 2023. Mixtral-8x7B. https://huggingface.co/mistralai/Mixtral-8x7B-           Chen, Hsiang-Pang Li, Tei-Wei Kuo, Meng-Fan Chang, Keh-Chung Wang, Chun-
+     v0.1.                                                                                    Hsiung Hung, and Chih-Yuan Lu. 2022. ICE: An Intelligent Cognition Engine
+ [3] Keivan Alizadeh, Iman Mirzadeh, Dmitry Belenko, Karen Khatamifard, Minsik                with 3D NAND-based In-Memory Computing for Vector Similarity Search Ac-
+     Cho, Carlo C Del Mundo, Mohammad Rastegari, and Mehrdad Farajtabar. 2024.                celeration. In 2022 55th IEEE/ACM International Symposium on Microarchitecture
+     LLM in a flash: Efficient Large Language Model Inference with Limited Memory.            (MICRO). 763–783.
+     arXiv:2312.11514 [cs.CL]                                                            [25] SK Hynix. 2022. SK Hynix Platinum P41. https://www.techpowerup.com/ssd-
+ [4] Ebtesam Almazrouei, Hamza Alobeidli, Abdulaziz Alshamsi, Alessandro Cappelli,            specs/sk-hynix-platinum-p41-1-tb.d588.
+     Ruxandra Cojocaru, Mérouane Debbah, Étienne Goffinet, Daniel Hesslow, Julien
+     Launay, Quentin Malartic, Daniele Mazzotta, Badreddine Noune, Baptiste Pannier,
+
+
+
+
+                                                                                   541
+ISCA ’25, June 21–25, 2025, Tokyo, Japan                                                                                                                                 Lee et al.
+
+
+[26] Jae-Woo Im, Woo-Pyo Jeong, Doo-Hyun Kim, Sang-Wan Nam, Dong-Kyo Shim,                  [47] Sang Min Lee, Hanjoon Kim, Jeseung Yeon, Juyun Lee, Younggeun Choi, Minho
+     Myung-Hoon Choi, Hyun-Jun Yoon, Dae-Han Kim, You-Se Kim, Hyun-Wook                          Kim, Changjae Park, Kiseok Jang, Youngsik Kim, Yongseung Kim, Changman
+     Park, Dong-Hun Kwak, Sang-Won Park, Seok-Min Yoon, Wook-Ghee Hahn,                          Lee, Hyuck Han, Won Eung Kim, Rui Tang, and Joon Ho Baek. 2022. A 64-
+     Jin-Ho Ryu, Sang-Won Shim, Kyung-Tae Kang, Sung-Ho Choi, Jeong-Don Ihm,                     TOPS Energy-Efficient Tensor Accelerator in 14nm With Reconfigurable Fetch
+     Young-Sun Min, In-Mo Kim, Doo-Sub Lee, Ji-Ho Cho, Oh-Suk Kwon, Ji-Sang Lee,                 Network and Processing Fusion for Maximal Data Reuse. IEEE Open Journal of
+     Moo-Sung Kim, Sang-Hyun Joo, Jae-Hoon Jang, Sang-Won Hwang, Dae-Seok                        the Solid-State Circuits Society 2 (2022), 219–230.
+     Byeon, Hyang-Ja Yang, Ki-Tae Park, Kye-Hyun Kyung, and Jeong-Hyuk Choi.                [48] Yunjae Lee, Jinha Chung, and Minsoo Rhu. 2022. SmartSAGE: training large-scale
+     2015. 7.2 A 128Gb 3b/cell V-NAND flash memory with 1Gb/s I/O rate. In 2015                  graph neural networks using in-storage processing architectures. In Proceedings
+     IEEE International Solid-State Circuits Conference - (ISSCC) Digest of Technical            of the 49th Annual International Symposium on Computer Architecture. 932–945.
+     Papers. 1–3.                                                                           [49] Qiao Li, Min Ye, Yufei Cui, Liang Shi, Xiaoqiang Li, Tei-Wei Kuo, and Chun Jason
+[27] Technology Innovation Institute. 2023. Falcon-40B. https://huggingface.co/                  Xue. 2020. Shaving Retries with Sentinels for Fast Read over High-Density 3D
+     tiiuae/falcon-40b.                                                                          Flash. In 2020 53rd Annual IEEE/ACM International Symposium on Microarchitec-
+[28] Technology Innovation Institute. 2024. Falcon-11B. https://huggingface.co/                  ture (MICRO). 483–495.
+     tiiuae/falcon-11B.                                                                     [50] Shenggao Li, Fulvio Spagna, Ji Chen, Xiaoqing Wang, Luke Tong, Sujatha Gowder,
+[29] Thomas Pawlowski J. 2019. Prospects for Memory. In Workshop on Memory                       Wenyan Jia, Roan Nicholson, Sita Iyer, Rui Song, Lily Li, Meng-hung Chen,
+     Centric High Performance Computing (MCHPC).                                                 Amanda Tran, Michael De Vita, Deepar Govindrajan, Marcus Pasquarella, Dave
+[30] Hyun Sik Jeong and Seong Hwan Cho. 2021. Word-line and Charge-pump mod-                     Bradley, Frank Verdico, Matt Duwe, Eric Lee, and Michelle Wigton. 2018. A
+     eling of NAND Flash using Standard CMOS Logic Process. Journal of Integrated                Power and Area Efficient 2.5-16 Gbps Gen4 PCIe PHY in 10nm FinFET CMOS. In
+     Circuits and Systems 7, 4 (2021).                                                           2018 IEEE Asian Solid-State Circuits Conference (A-SSCC). 5–8.
+[31] Won Seob Jeong, Changmin Lee, Keunsoo Kim, Myung Kuk Yoon, Won Jeon, My-               [51] Ji Lin, Jiaming Tang, Haotian Tang, Shang Yang, Wei-Ming Chen, Wei-Chen
+     oungsoo Jung, and Won Woo Ro. 2020. REACT: Scalable and High-Performance                    Wang, Guangxuan Xiao, Xingyu Dang, Chuang Gan, and Song Han. 2024. AWQ:
+     Regular Expression Pattern Matching Accelerator for In-Storage Processing. IEEE             Activation-aware Weight Quantization for LLM Compression and Acceleration.
+     Transactions on Parallel and Distributed Systems 31, 5 (2020), 1137–1151.                   arXiv:2306.00978 [cs.CL] https://arxiv.org/abs/2306.00978
+[32] Yunho Jin, Chun-Feng Wu, David Brooks, and Gu-Yeon Wei. 2023. S3 : In-                 [52] Li-Wei Liu, Mu-Hua Yuan, Yen-Chin Liao, and Hsie-Chia Chang. 2022. A 38.64-
+     creasing GPU Utilization during Generative Inference for Higher Throughput.                 Gb/s Large-CPM 2-KB LDPC Decoder Implementation for nand Flash Memories.
+     arXiv:2306.06000 [cs.AR] https://arxiv.org/abs/2306.06000                                   IEEE Open Journal of Circuits and Systems 3 (2022), 180–191.
+[33] Sang-Woo Jun, Huy T. Nguyen, Vijay Gadepally, and Arvind. 2016. In-storage em-         [53] Shih-yang Liu, Zechun Liu, Xijie Huang, Pingcheng Dong, and Kwang-Ting
+     bedded accelerator for sparse pattern processing. In 2016 IEEE High Performance             Cheng. 2023. LLM-FP4: 4-Bit Floating-Point Quantized Transformers. In Proceed-
+     Extreme Computing Conference (HPEC). 1–7.                                                   ings of the 2023 Conference on Empirical Methods in Natural Language Processing.
+[34] Sang-Woo Jun, Andy Wright, Sizhuo Zhang, Shuotao Xu, and Arvind. 2018.                      Association for Computational Linguistics, 592–605.
+     GraFBoost: Using Accelerated Flash Storage for External Graph Analytics. In            [54] Meta Llama. 2023. LLaMA2-13B. https://huggingface.co/meta-llama/Llama-2-
+     2018 ACM/IEEE 45th Annual International Symposium on Computer Architecture                  13b-hf.
+     (ISCA). 411–424.                                                                       [55] Meta Llama. 2023. LLaMA2-7B. https://huggingface.co/meta-llama/Llama-2-7b-
+[35] Ming-Yen Kao, Fredo Chavez, Sourabh Khandelwal, and Chenming Hu. 2022.                      hf.
+     Deep Learning-Based BSIM-CMG Parameter Extraction for 10-nm FinFET. IEEE               [56] Meta Llama. 2024. LLaMA3-70B. https://huggingface.co/meta-llama/Meta-
+     Transactions on Electron Devices 69, 8 (2022), 4765–4768.                                   Llama-3-70B.
+[36] Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess,              [57] Meta Llama. 2024. LLaMA3-8B. https://huggingface.co/meta-llama/Meta-Llama-
+     Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. 2020.                  3-8B.
+     Scaling Laws for Neural Language Models. arXiv:2001.08361 [cs.LG] https:               [58] Yina Lv, Liang Shi, Qiao Li, Congming Gao, Yunpeng Song, Longfei Luo, and
+     //arxiv.org/abs/2001.08361                                                                  Youtao Zhang. 2023. MGC: Multiple-Gray-Code for 3D NAND Flash based
+[37] O. Khouri, R. Micheloni, A. Sacco, G. Campardo, and G. Torelli. 2000. Program               High-Density SSDs. In 2023 IEEE International Symposium on High-Performance
+     word-line voltage generator for multilevel flash memories. In ICECS 2000. 7th IEEE          Computer Architecture (HPCA). 122–136.
+     International Conference on Electronics, Circuits and Systems (Cat. No.00EX445),       [59] Vikram Sharma Mailthody, Zaid Qureshi, Weixin Liang, Ziyan Feng, Simon Garcia
+     Vol. 2. 1030–1033 vol.2.                                                                    de Gonzalo, Youjie Li, Hubertus Franke, Jinjun Xiong, Jian Huang, and Wen-mei
+[38] Junkyum Kim, Myeonggu Kang, Yunki Han, Yang-Gon Kim, and Lee-Sup Kim.                       Hwu. 2019. DeepStore: In-Storage Acceleration for Intelligent Queries. In Proceed-
+     2023. OptimStore: In-Storage Optimization of Large Scale DNNs with On-Die                   ings of the 52nd Annual IEEE/ACM International Symposium on Microarchitecture.
+     Processing. In 2023 IEEE International Symposium on High-Performance Computer               224–238.
+     Architecture (HPCA). 611–623.                                                          [60] Hikaru Makino and Toru Tanzawa. 2022. A 30% Power Reduction Circuit Design
+[39] Myungsuk Kim, Youngsun Song, Myoungsoo Jung, and Jihong Kim. 2018. SARO:                    for NAND Flash by Utilizing 1.2V I/O Power Supply to Bitline Path. In IEEE Asia
+     A State-Aware Reliability Optimization Technique for High Density NAND Flash                Pacific Conference on Postgraduate Research in Microelectronics and Electronics
+     Memory. In Proceedings of the 2018 Great Lakes Symposium on VLSI (GLSVLSI                   (PrimeAsia). 10–13.
+     ’18). 255–260.                                                                         [61] Nika Mansouri Ghiasi, Jisung Park, Harun Mustafa, Jeremie Kim, Ataberk Ol-
+[40] Shine Kim, Yunho Jin, Gina Sohn, Jonghyun Bae, Tae Jun Ham, and Jae W. Lee.                 gun, Arvid Gollwitzer, Damla Senol Cali, Can Firtina, Haiyu Mao, Nour Almad-
+     2021. Behemoth: A Flash-centric Training Accelerator for Extreme-scale DNNs.                houn Alserr, Rachata Ausavarungnirun, Nandita Vijaykumar, Mohammed Alser,
+     In 19th USENIX Conference on File and Storage Technologies (FAST 21). 371–385.              and Onur Mutlu. 2022. GenStore: a high-performance in-storage processing sys-
+[41] Sang-Hoon Kim, Jaehoon Shim, Euidong Lee, Seongyeop Jeong, Ilkueon Kang,                    tem for genome sequence analysis. In Proceedings of the 27th ACM International
+     and Jin-Soo Kim. 2023. NVMeVirt: A Versatile Software-defined Virtual NVMe                  Conference on Architectural Support for Programming Languages and Operating
+     Device. In 21st USENIX Conference on File and Storage Technologies (FAST 23).               Systems. 635–654.
+     Santa Clara, CA, 379–394.                                                              [62] Kiran Kumar Matam, Gunjae Koo, Haipeng Zha, Hung-Wei Tseng, and Murali
+[42] Junnosuke Kondo and Toru Tanzawa. 2022. Pre-Emphasis Pulse Design for                       Annavaram. 2019. GraphSSD: graph semantics aware SSD. In Proceedings of the
+     Reducing Bit-Line Access Time in NAND Flash Memory. Electronics 11 (2022).                  46th International Symposium on Computer Architecture. 116–128.
+[43] Gunjae Koo, Kiran Kumar Matam, Te I., H.V. Krishna Giri Narra, Jing Li, Hung-          [63] Rino Micheloni, Luca Crippa, and Alessia Marelli. 2010. Inside NAND Flash
+     Wei Tseng, Steven Swanson, and Murali Annavaram. 2017. Summarizer: Trading                  Memories. Springer.
+     Communication with Computing Near Storage. In 2017 50th Annual IEEE/ACM                [64] Micron. 2023. Crucial T500. https://www.techpowerup.com/ssd-specs/crucial-
+     International Symposium on Microarchitecture (MICRO). 219–231.                              t500-1-tb.d1771.
+[44] Shiuan-Hao Kuo. 2019. Ultra MMI : an LDPC decoder that doubles throughput              [65] Subrat Mishra, Hussam Amrouch, Jerin Joe, Chetan K. Dabhi, Karansingh Thakor,
+     at end-of-life.. In Flash Memory Summit.                                                    Yogesh S. Chauhan, Jörg Henkel, and Souvik Mahapatra. 2019. A Simulation
+[45] Hunjun Lee, Minseop Kim, Dongmoon Min, Joonsung Kim, Jongwon Back,                          Study of NBTI Impact on 14-nm Node FinFET Technology for Logic Applications:
+     Honam Yoo, Jong-Ho Lee, and Jangwoo Kim. 2022. 3D-FPIM: An Extreme Energy-                  Device Degradation to Circuit-Level Interaction. IEEE Transactions on Electron
+     Efficient DNN Acceleration System Using 3D NAND Flash-Based In-Situ PIM Unit.               Devices 66, 1 (2019), 271–278.
+     In 2022 55th IEEE/ACM International Symposium on Microarchitecture (MICRO).            [66] Daehoon Na, Jang-woo Lee, Seon-Kyoo Lee, Hwasuk Cho, Junha Lee, Manjae
+     1359–1376.                                                                                  Yang, Eunjin Song, Anil Kavala, Tongsung Kim, Dong-Su Jang, Youngmin Jo,
+[46] Jaeyong Lee, Myungsunk Kim, Wonil Choi, Sanggu Lee, and Jihong Kim. 2022.                   Ji-Yeon Shin, Byung-Kwan Chun, Tae-sung Lee, Byunghoon Jeong, Chi-Weon
+     TailCut: improving performance and lifetime of SSDs using pattern-aware state               Yoon, Dongku Kang, Seungjae Lee, Jungdon Ihm, Dae Seok Byeon, Jinyub Lee,
+     encoding. In Proceedings of the 59th ACM/IEEE Design Automation Conference                  and Jai Hyuk Song. 2021. A 1.8-Gb/s/Pin 16-Tb NAND Flash Memory Multi-Chip
+     (San Francisco, California) (DAC ’22). 409–414.                                             Package With F-Chip for High-Performance and High-Capacity Storage. IEEE
+                                                                                                 Journal of Solid-State Circuits 56, 4 (2021), 1129–1140.
+
+
+
+
+                                                                                      542
+AiF: Accelerating On-Device LLM Inference Using In-Flash Processing                                                                   ISCA ’25, June 21–25, 2025, Tokyo, Japan
+
+
+[67] Jisung Park, Jaeyong Jeong, Sungjin Lee, Youngsun Song, and Jihong Kim. 2016.          [87] Rongjie Yi, Liwei Guo, Shiyun Wei, Ao Zhou, Shangguang Wang, and Mengwei
+     Improving performance and lifetime of NAND storage systems using relaxed pro-               Xu. 2023. EdgeMoE: Fast On-Device Inference of MoE-based Large Language
+     gram sequence. In Proceedings of the 53rd Annual Design Automation Conference               Models.
+     (DAC ’16). Association for Computing Machinery, Article 63, 6 pages.                   [88] Zhihang Yuan, Lin Niu, Jiawei Liu, Wenyu Liu, Xinggang Wang, Yuzhang
+[68] Jisung Park, Myungsuk Kim, Myoungjun Chun, Lois Orosa, Jihong Kim, and Onur                 Shang, Guangyu Sun, Qiang Wu, Jiaxiang Wu, and Bingzhe Wu. 2023.
+     Mutlu. 2021. Reducing solid-state drive read latency by optimizing read-retry. In           RPTQ: Reorder-based Post-training Quantization for Large Language Models.
+     Proceedings of the 26th ACM International Conference on Architectural Support for           arXiv:2304.01089 [cs.CL] https://arxiv.org/abs/2304.01089
+     Programming Languages and Operating Systems. 702–716.                                  [89] Rowan Zellers, Ari Holtzman, Yonatan Bisk, Ali Farhadi, and Yejin Choi. 2019.
+[69] Jae-Woo Park, Doogon Kim, Sunghwa Ok, Jaebeom Park, Taeheui Kwon, Hyunsoo                   HellaSwag: Can a Machine Really Finish Your Sentence? https://arxiv.org/abs/
+     Lee, Sungmook Lim, Sun-Young Jung, Hyeongjin Choi, Taikyu Kang, Gwan                        1905.07830
+     Park, Chul-Woo Yang, Jeong-Gil Choi, Gwihan Ko, Jaehyeon Shin, Ingon Yang,             [90] Kai Zhao, Wenzhe Zhao, Hongbin Sun, Xiaodong Zhang, Nanning Zheng, and
+     Junghoon Nam, Hyeokchan Sohn, Seok-In Hong, Yohan Jeong, Sung-Wook Choi,                    Tong Zhang. 2013. LDPC-in-SSD: Making Advanced Error Correction Codes
+     Changwoon Choi, Hyun-Soo Shin, Junyoun Lim, Dongkyu Youn, Sanghyuk Nam,                     Work Effectively in Solid State Drives. In 11th USENIX Conference on File and
+     Juyeab Lee, Myungkyu Ahn, Hoseok Lee, Seungpil Lee, Jongmin Park, Kichang                   Storage Technologies (FAST 13). 243–256.
+     Gwon, Woopyo Jeong, Jungdal Choi, Jinkook Kim, and Kyo-Won Jin. 2021. 30.1             [91] Chen Zou and Andrew A. Chien. 2022. ASSASIN: Architecture Support for
+     A 176-Stacked 512Gb 3b/Cell 3D-NAND Flash with 10.8Gb/mm2 Density with                      Stream Computing to Accelerate Computational Storage. In 2022 55th IEEE/ACM
+     a Peripheral Circuit Under Cell Array Architecture. In 2021 IEEE International              International Symposium on Microarchitecture (MICRO). 354–368.
+     Solid-State Circuits Conference (ISSCC), Vol. 64. 422–423.
+[70] Sung-Ho Park, Dongseok Kwon, Ho-Nam Yoo, Jong-Won Back, Joon Hwang,
+     Yeongheon Yang, Jae-Joon Kim, and Jong-Ho Lee. 2022. Retention Improvement
+     in Vertical NAND Flash Memory Using 1-bit Soft Erase Scheme and its Effects
+     on Neural Networks. In 2022 International Electron Devices Meeting (IEDM). 5.5.1–
+     5.5.4.
+[71] Pratyush Patel, Esha Choukse, Chaojie Zhang, Aashaka Shah, Íñigo Goiri, Saeed
+     Maleki, and Ricardo Bianchini. 2024. Splitwise: Efficient generative LLM inference
+     using phase splitting. arXiv:2311.18677 [cs.AR] https://arxiv.org/abs/2311.18677
+[72] Samsung. 2022. Samsung 990 PRO. https://www.techpowerup.com/ssd-specs/
+     samsung-990-pro-1-tb.d861.
+[73] Mohammad Shoeybi, Mostofa Patwary, Raul Puri, Patrick LeGresley, Jared Casper,
+     and Bryan Catanzaro. 2020. Megatron-LM: Training Multi-Billion Parameter
+     Language Models Using Model Parallelism. arXiv:1909.08053 [cs.CL] https:
+     //arxiv.org/abs/1909.08053
+[74] Synopsys. 2024. Design Compiler. https://www.synopsys.com/implementation-
+     and-signoff/rtl-synthesis-test/dc-ultra.html.
+[75] Mahdi Torabzadehkashi, Siavash Rezaei, Ali Heydarigorji, Hosein Bobarshad,
+     Vladimir Alves, and Nader Bagherzadeh. 2019. Catalina: In-Storage Processing
+     Acceleration for Scalable Big Data Analytics. In 2019 27th Euromicro International
+     Conference on Parallel, Distributed and Network-Based Processing (PDP). 430–437.
+[76] Chien-Ting Tung and Chenming Hu. 2023. Neural Network-Based BSIM Tran-
+     sistor Model Framework: Currents, Charges, Variability, and Circuit Simulation.
+     IEEE Transactions on Electron Devices 70, 4 (2023), 2157–2160.
+[77] Yitu Wang, Shiyu Li, Qilin Zheng, Linghao Song, Zongwang Li, Andrew Chang,
+     Hai "Helen" Li, and Yiran Chen. 2024. NDSEARCH: Accelerating Graph-Traversal-
+     Based Approximate Nearest Neighbor Search through Near Data Processing.
+     arXiv:2312.03141 [cs.AR]
+[78] Yuyue Wang, Xiurui Pan, Yuda An, Jie Zhang, and Glenn Reinman. 2024. Beacon-
+     GNN: Large-Scale GNN Acceleration with Out-of-Order Streaming In-Storage
+     Computing. In 2024 IEEE International Symposium on High-Performance Computer
+     Architecture (HPCA). 330–344.
+[79] Mark Wilkening, Udit Gupta, Samuel Hsia, Caroline Trippel, Carole-Jean Wu,
+     David Brooks, and Gu-Yeon Wei. 2021. RecSSD: near data processing for solid
+     state drive based recommendation inference. In Proceedings of the 26th ACM
+     International Conference on Architectural Support for Programming Languages and
+     Operating Systems (ASPLOS ’21). 717–729.
+[80] Samkyu Won, Yujong Noh, Hyunchul Cho, Jeil Ryu, Sung-Un Choi, Sungdae
+     Choi, DuckJu Kim, Junseop Chung, Bong-Seok Han, and Eui-Young Chung. 2011.
+     High-voltage wordline generator for low-power program operation in NAND
+     flash memories. IEEE Asian Solid-State Circuits Conference 2011 (2011), 169–172.
+[81] Guangxuan Xiao, Ji Lin, Mickael Seznec, Hao Wu, Julien Demouth, and Song Han.
+     2024. SmoothQuant: Accurate and Efficient Post-Training Quantization for Large
+     Language Models. arXiv:2211.10438 [cs.CL] https://arxiv.org/abs/2211.10438
+[82] Daliang Xu, Wangsong Yin, Xin Jin, Ying Zhang, Shiyun Wei, Mengwei Xu, and
+     Xuanzhe Liu. 2023. LLMCad: Fast and Scalable On-device Large Language Model
+     Inference. arXiv:2309.04255 [cs.NI]
+[83] Weihong Xu, Jaeyoung Kang, and Tajana Rosing. 2022. A near-storage framework
+     for boosted data preprocessing of mass spectrum clustering. In Proceedings of the
+     59th ACM/IEEE Design Automation Conference. 313–318.
+[84] Li Yan, Hsu Cynthia, and Oowada Ken. 2014. Non-Volatile Memory And Method
+     With Improved First Pass Programming. U.S Patent 8811091, 2014.
+[85] Ziye Yang, James R. Harris, Benjamin Walker, Daniel Verkamp, Changpeng Liu,
+     Cunyin Chang, Gang Cao, Jonathan Stern, Vishal Verma, and Luse E. Paul. 2017.
+     SPDK: A Development Kit to Build High Performance Storage Applications. In
+     2017 IEEE International Conference on Cloud Computing Technology and Science
+     (CloudCom). 154–161.
+[86] Min Ye, Qiao Li, Congming Gao, Shun Deng, Tei-Wei Kuo, and Chun Jason Xue.
+     2022. Stop unnecessary refreshing: extending 3D NAND flash lifetime with
+     ORBER. CCF Trans. High Perform. Comput. 4, 3 (2022), 281–301.
+
+
+
+
+                                                                                      543
+

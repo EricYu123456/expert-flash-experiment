@@ -1,0 +1,565 @@
+diff --git a/Kbuild b/Kbuild
+index 11bb91b..39bd70a 100644
+--- a/Kbuild
++++ b/Kbuild
+@@ -1,11 +1,11 @@
+ # Select one of the targets to build
+-CONFIG_NVMEVIRT_NVM := y
+-#CONFIG_NVMEVIRT_SSD := y
++#CONFIG_NVMEVIRT_NVM := y
++CONFIG_NVMEVIRT_SSD := y
+ #CONFIG_NVMEVIRT_ZNS := y
+ #CONFIG_NVMEVIRT_KV := y
+ 
+ obj-m   := nvmev.o
+-nvmev-objs := main.o pci.o admin.o io.o dma.o
++nvmev-objs := main.o pci.o admin.o io.o dma.o aif.o
+ ccflags-y += -Wno-unused-variable -Wno-unused-function
+ 
+ ccflags-$(CONFIG_NVMEVIRT_NVM) += -DBASE_SSD=INTEL_OPTANE
+diff --git a/io.c b/io.c
+index ae3ceb7..785a3c7 100644
+--- a/io.c
++++ b/io.c
+@@ -8,6 +8,7 @@
+ 
+ #include "nvmev.h"
+ #include "dma.h"
++#include "aif.h"
+ 
+ #if (SUPPORTED_SSD_TYPE(CONV) || SUPPORTED_SSD_TYPE(ZNS))
+ #include "ssd.h"
+@@ -50,6 +51,8 @@ static unsigned int __do_perform_io(int sqid, int sq_entry)
+ {
+ 	struct nvmev_submission_queue *sq = nvmev_vdev->sqes[sqid];
+ 	struct nvme_rw_command *cmd = &sq_entry(sq_entry).rw;
++	if (cmd->opcode == AIF_OPCODE)
++		return sizeof(struct aif_command);
+ 	size_t offset;
+ 	size_t length, remaining;
+ 	int prp_offs = 0;
+@@ -142,6 +145,8 @@ static unsigned int __do_perform_io_using_dma(int sqid, int sq_entry)
+ {
+ 	struct nvmev_submission_queue *sq = nvmev_vdev->sqes[sqid];
+ 	struct nvme_rw_command *cmd = &sq_entry(sq_entry).rw;
++	if (cmd->opcode == AIF_OPCODE)
++		return sizeof(struct aif_command);
+ 	size_t offset;
+ 	size_t length, remaining;
+ 	int prp_offs = 0;
+@@ -471,7 +476,10 @@ static size_t __nvmev_proc_io(int sqid, int sq_entry, size_t *io_size)
+ 	static unsigned long long counter = 0;
+ #endif
+ 
+-	if (!ns->proc_io_cmd(ns, &req, &ret))
++	if (cmd->common.opcode == AIF_OPCODE) {
++		if (!aif_process(&req, &ret))
++			return false;
++	} else if (!ns->proc_io_cmd(ns, &req, &ret))
+ 		return false;
+ 	*io_size = __cmd_io_size(&sq_entry(sq_entry).rw);
+ 
+diff --git a/main.c b/main.c
+index 919d39a..94f7b91 100644
+--- a/main.c
++++ b/main.c
+@@ -22,6 +22,7 @@
+ #include "simple_ftl.h"
+ #include "kv_ftl.h"
+ #include "dma.h"
++#include "aif.h"
+ 
+ /****************************************************************
+  * Memory Layout
+@@ -458,10 +459,12 @@ static void NVMEV_STORAGE_INIT(struct nvmev_dev *nvmev_vdev)
+ 		proc_create("io_units", 0664, nvmev_vdev->proc_root, &proc_file_fops);
+ 	nvmev_vdev->proc_stat = proc_create("stat", 0444, nvmev_vdev->proc_root, &proc_file_fops);
+ 	nvmev_vdev->proc_debug = proc_create("debug", 0444, nvmev_vdev->proc_root, &proc_file_fops);
++    aif_proc_init(nvmev_vdev->proc_root);
+ }
+ 
+ static void NVMEV_STORAGE_FINAL(struct nvmev_dev *nvmev_vdev)
+ {
++    aif_proc_remove(nvmev_vdev->proc_root);
+ 	remove_proc_entry("read_times", nvmev_vdev->proc_root);
+ 	remove_proc_entry("write_times", nvmev_vdev->proc_root);
+ 	remove_proc_entry("io_units", nvmev_vdev->proc_root);
+diff --git a/ssd.c b/ssd.c
+index bc91f58..9846e00 100644
+--- a/ssd.c
++++ b/ssd.c
+@@ -2,10 +2,75 @@
+ 
+ #include <linux/ktime.h>
+ #include <linux/sched/clock.h>
++#include <linux/proc_fs.h>
++#include <linux/seq_file.h>
++#include <linux/mutex.h>
+ 
+ #include "nvmev.h"
+ #include "ssd.h"
+ 
++/* This reports the genuine conventional-SSD NAND path, separate from AiF. */
++static DEFINE_MUTEX(flash_stats_lock);
++static struct ssd *flash_stats_ssds[SSD_PARTITIONS];
++static struct proc_dir_entry *flash_stats_proc;
++
++static int flash_stats_show(struct seq_file *m, void *unused)
++{
++    int p, c, l;
++    mutex_lock(&flash_stats_lock);
++    seq_puts(m, "partition,channel,lun,read_commands,read_bytes,nand_read_ns\n");
++    for (p = 0; p < SSD_PARTITIONS; p++) {
++        struct ssd *ssd = flash_stats_ssds[p];
++        if (!ssd)
++            continue;
++        for (c = 0; c < ssd->sp.nchs; c++) {
++            for (l = 0; l < ssd->sp.luns_per_ch; l++) {
++                struct nand_lun *lun = &ssd->ch[c].lun[l];
++                seq_printf(m, "%d,%d,%d,%llu,%llu,%llu\n", p,
++                           p * ssd->sp.nchs + c, l,
++                           READ_ONCE(lun->stats_read_commands),
++                           READ_ONCE(lun->stats_read_bytes),
++                           READ_ONCE(lun->stats_nand_read_ns));
++            }
++        }
++    }
++    mutex_unlock(&flash_stats_lock);
++    return 0;
++}
++
++static void flash_stats_register(struct ssd *ssd)
++{
++    int p;
++    mutex_lock(&flash_stats_lock);
++    for (p = 0; p < SSD_PARTITIONS; p++) {
++        if (!flash_stats_ssds[p]) {
++            flash_stats_ssds[p] = ssd;
++            break;
++        }
++    }
++    if (!flash_stats_proc)
++        flash_stats_proc = proc_create_single("nvmevirt_flash_stats", 0444, NULL,
++                                             flash_stats_show);
++    mutex_unlock(&flash_stats_lock);
++}
++
++static void flash_stats_unregister(struct ssd *ssd)
++{
++    int p;
++    bool any = false;
++    mutex_lock(&flash_stats_lock);
++    for (p = 0; p < SSD_PARTITIONS; p++) {
++        if (flash_stats_ssds[p] == ssd)
++            flash_stats_ssds[p] = NULL;
++        any |= flash_stats_ssds[p] != NULL;
++    }
++    mutex_unlock(&flash_stats_lock);
++    if (!any) {
++        proc_remove(flash_stats_proc);
++        flash_stats_proc = NULL;
++    }
++}
++
+ static inline uint64_t __get_ioclock(struct ssd *ssd)
+ {
+ 	return cpu_clock(ssd->cpu_nr_dispatcher);
+@@ -241,6 +306,9 @@ static void ssd_init_nand_lun(struct nand_lun *lun, struct ssdparams *spp)
+ 	}
+ 	lun->next_lun_avail_time = 0;
+ 	lun->busy = false;
++    lun->stats_read_commands = 0;
++    lun->stats_read_bytes = 0;
++    lun->stats_nand_read_ns = 0;
+ }
+ 
+ static void ssd_remove_nand_lun(struct nand_lun *lun)
+@@ -312,6 +380,7 @@ void ssd_init(struct ssd *ssd, struct ssdparams *spp, uint32_t cpu_nr_dispatcher
+ 
+ 	ssd->write_buffer = kmalloc(sizeof(struct buffer), GFP_KERNEL);
+ 	buffer_init(ssd->write_buffer, spp->write_buffer_size);
++    flash_stats_register(ssd);
+ 
+ 	return;
+ }
+@@ -319,6 +388,7 @@ void ssd_init(struct ssd *ssd, struct ssdparams *spp, uint32_t cpu_nr_dispatcher
+ void ssd_remove(struct ssd *ssd)
+ {
+ 	uint32_t i;
++    flash_stats_unregister(ssd);
+ 
+ 	kfree(ssd->write_buffer);
+ 	if (ssd->pcie) {
+@@ -396,6 +466,9 @@ uint64_t ssd_advance_nand(struct ssd *ssd, struct nand_cmd *ncmd)
+ 		} else {
+ 			nand_etime = nand_stime + spp->pg_rd_lat[cell];
+ 		}
++        lun->stats_read_commands++;
++        lun->stats_read_bytes += ncmd->xfer_size;
++        lun->stats_nand_read_ns += nand_etime - nand_stime;
+ 
+ 		/* read: then data transfer through channel */
+ 		chnl_stime = nand_etime;
+diff --git a/ssd.h b/ssd.h
+index 0f2785c..3deca8a 100644
+--- a/ssd.h
++++ b/ssd.h
+@@ -109,6 +109,10 @@ struct nand_lun {
+ 	uint64_t next_lun_avail_time;
+ 	bool busy;
+ 	uint64_t gc_endtime;
++    /* Cumulative service counters; snapshots are taken after I/O quiesces. */
++    uint64_t stats_read_commands;
++    uint64_t stats_read_bytes;
++    uint64_t stats_nand_read_ns;
+ };
+ 
+ struct ssd_channel {
+diff --git a/aif.c b/aif.c
+new file mode 100644
+index 0000000..a313bc5
+--- /dev/null
++++ b/aif.c
+@@ -0,0 +1,270 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Trace-driven AiF timing extension; does not calculate matrix products. */
++#include <linux/highmem.h>
++#include <linux/io.h>
++#include <linux/math64.h>
++#include <linux/proc_fs.h>
++#include <linux/seq_file.h>
++#include <linux/spinlock.h>
++#include "nvmev.h"
++#include "aif.h"
++
++struct aif_counter {
++	u64 useful_bytes, physical_pages, read_rounds, cold_reads, service_ns, commands;
++};
++static struct aif_counter counters[AIF_MAX_CHIPS];
++static u64 command_count, total_model_ns, total_active_chips;
++struct aif_cost_counter {
++	u64 flash_ns, control_ns, host_ns, input_ns, output_ns;
++	u64 vector_input_bytes, vector_output_bytes, chip_matrix_commands;
++	u64 pcie_input_bytes, pcie_output_bytes;
++};
++static struct aif_cost_counter cost_totals;
++static unsigned int versions_seen;
++static DEFINE_SPINLOCK(aif_lock);
++
++static u64 vector_transfer_ns(u64 total, const struct aif_command_v2 *d,
++			      unsigned int nchips, bool output)
++{
++	u64 duration = DIV_ROUND_UP_ULL(total, 8);
++	unsigned int channel, i;
++	for (channel = 0; channel < 8; channel++) {
++		u64 bytes = 0;
++		for (i = channel; i < nchips; i += 8)
++			bytes += output ? le64_to_cpu(d->chip[i].output_bytes) :
++				 le64_to_cpu(d->chip[i].input_bytes);
++		duration = max(duration, DIV_ROUND_UP_ULL(bytes, 2));
++	}
++	return duration;
++}
++
++static u64 chip_service_ns(u64 pages, u64 rounds, u64 cold)
++{
++	u64 nand_ns = rounds * 9700ULL + cold * 18300ULL;
++	u64 bandwidth_ns = DIV_ROUND_UP_ULL(pages * 16384ULL * 5ULL, 32ULL);
++	return max(nand_ns, bandwidth_ns);
++}
++
++bool aif_process(struct nvmev_request *req, struct nvmev_result *ret)
++{
++	union {
++		struct aif_command v1;
++		struct aif_command_v2 v2;
++		struct aif_command_v3 v3;
++	} d;
++	struct aif_cost_counter cost = {0};
++	u64 paddr = le64_to_cpu(req->cmd->rw.prp1), duration = 0;
++	void *mapped;
++	unsigned int i, active = 0, version, nchips, payload_size;
++	u32 control_ns = 0, host_ns = 0;
++	u32 declared_size = le32_to_cpu(req->cmd->common.cdw10[0]);
++	unsigned long flags;
++	BUILD_BUG_ON(sizeof(struct aif_command) != AIF_V1_SIZE);
++	BUILD_BUG_ON(sizeof(struct aif_command_v2) != AIF_V2_SIZE);
++	BUILD_BUG_ON(sizeof(struct aif_command_v3) != AIF_V2_SIZE);
++	BUILD_BUG_ON(AIF_V2_SIZE > PAGE_SIZE);
++
++	/* The replay client guarantees a page aligned, single-page payload. */
++	if ((paddr & (PAGE_SIZE - 1)) || !pfn_valid(paddr >> PAGE_SHIFT)) {
++		ret->status = NVME_SC_INVALID_FIELD;
++		return true;
++	}
++	mapped = kmap_atomic(pfn_to_page(paddr >> PAGE_SHIFT));
++	/* Inspect only the common header before selecting a bounded payload size. */
++	memcpy(&d, mapped, 12);
++	version = le32_to_cpu(d.v1.version);
++	nchips = le32_to_cpu(d.v1.nchips);
++	payload_size = version == 1 ? AIF_V1_SIZE : AIF_V2_SIZE;
++	if (le32_to_cpu(d.v1.magic) != AIF_MAGIC ||
++	    (version != 1 && version != 2 && version != 3) || !nchips || nchips > AIF_MAX_CHIPS ||
++	    (version == 1 && declared_size && declared_size != AIF_V1_SIZE) ||
++	    (version >= 2 && declared_size != AIF_V2_SIZE)) {
++		kunmap_atomic(mapped);
++		ret->status = NVME_SC_INVALID_FIELD;
++		return true;
++	}
++	memcpy(&d, mapped, payload_size);
++	kunmap_atomic(mapped);
++	if (version == 1 && le32_to_cpu(d.v1.reserved)) {
++		ret->status = NVME_SC_INVALID_FIELD;
++		return true;
++	}
++	if (version >= 2) {
++		control_ns = le32_to_cpu(d.v2.per_chip_control_ns);
++		host_ns = le32_to_cpu(d.v2.per_host_command_ns);
++		if (control_ns > 1000000000U || host_ns > 1000000000U ||
++		    (version == 2 && (d.v2.reserved[0] || d.v2.reserved[1] || d.v2.reserved[2])) ||
++		    (version == 3 && d.v3.reserved)) {
++			ret->status = NVME_SC_INVALID_FIELD;
++			return true;
++		}
++		cost.host_ns = host_ns;
++	}
++	for (i = 0; i < nchips; i++) {
++		u64 pages, useful, rounds, cold;
++		if (version == 1) {
++			pages = le64_to_cpu(d.v1.chip[i].physical_pages);
++			useful = le64_to_cpu(d.v1.chip[i].useful_bytes);
++			rounds = le32_to_cpu(d.v1.chip[i].read_rounds);
++			cold = le32_to_cpu(d.v1.chip[i].cold_reads);
++		} else {
++			const struct aif_chip_demand_v2 *chip = &d.v2.chip[i];
++			u64 input = le64_to_cpu(chip->input_bytes);
++			u64 output = le64_to_cpu(chip->output_bytes);
++			u64 matrices = le32_to_cpu(chip->matrix_command_count);
++			pages = le64_to_cpu(chip->physical_pages);
++			useful = le64_to_cpu(chip->useful_bytes);
++			rounds = le32_to_cpu(chip->read_rounds);
++			cold = le32_to_cpu(chip->cold_reads);
++			/* These limits bound all sums/products below well within u64. */
++			if (input > (1ULL << 40) || output > (1ULL << 40) ||
++			    matrices > (1U << 20) || chip->reserved || (useful && !matrices)) {
++				ret->status = NVME_SC_INVALID_FIELD;
++				return true;
++			}
++			cost.vector_input_bytes += input;
++			cost.vector_output_bytes += output;
++			cost.chip_matrix_commands += matrices;
++		}
++		/* Bound descriptors before arithmetic; 16-KiB pages, 4 planes/chip. */
++		if (pages > (1ULL << 30) || useful > pages * 16384ULL ||
++		    cold > rounds || rounds > pages || pages > rounds * 4 ||
++		    (pages && !rounds)) {
++			ret->status = NVME_SC_INVALID_FIELD;
++			return true;
++		}
++		/* 6.4 decimal GB/s per chip; max, not additive bandwidth penalty. */
++		cost.flash_ns = max(cost.flash_ns, chip_service_ns(pages, rounds, cold));
++		active += useful != 0;
++	}
++	if (version >= 2) {
++		cost.pcie_input_bytes = version == 3 ? le32_to_cpu(d.v3.pcie_input_bytes) :
++			cost.vector_input_bytes;
++		cost.pcie_output_bytes = version == 3 ? le32_to_cpu(d.v3.pcie_output_bytes) :
++			cost.vector_output_bytes;
++		if (cost.pcie_input_bytes > cost.vector_input_bytes ||
++		    cost.pcie_output_bytes > cost.vector_output_bytes) {
++			ret->status = NVME_SC_INVALID_FIELD;
++			return true;
++		}
++		cost.control_ns = cost.chip_matrix_commands * control_ns;
++		cost.input_ns = vector_transfer_ns(cost.pcie_input_bytes, &d.v2, nchips, false);
++		cost.output_ns = vector_transfer_ns(cost.pcie_output_bytes, &d.v2, nchips, true);
++	}
++	duration = cost.flash_ns + cost.control_ns + cost.host_ns +
++		   cost.input_ns + cost.output_ns;
++	if (duration > U64_MAX - req->nsecs_start) {
++		ret->status = NVME_SC_INVALID_FIELD;
++		return true;
++	}
++	spin_lock_irqsave(&aif_lock, flags);
++	command_count++;
++	total_model_ns += duration;
++	total_active_chips += active;
++	versions_seen |= 1U << (version - 1);
++	cost_totals.flash_ns += cost.flash_ns;
++	cost_totals.control_ns += cost.control_ns;
++	cost_totals.host_ns += cost.host_ns;
++	cost_totals.input_ns += cost.input_ns;
++	cost_totals.output_ns += cost.output_ns;
++	cost_totals.vector_input_bytes += cost.vector_input_bytes;
++	cost_totals.vector_output_bytes += cost.vector_output_bytes;
++	cost_totals.chip_matrix_commands += cost.chip_matrix_commands;
++	cost_totals.pcie_input_bytes += cost.pcie_input_bytes;
++	cost_totals.pcie_output_bytes += cost.pcie_output_bytes;
++	for (i = 0; i < nchips; i++) {
++		u64 service;
++		if (version == 1) {
++			counters[i].useful_bytes += le64_to_cpu(d.v1.chip[i].useful_bytes);
++			counters[i].physical_pages += le64_to_cpu(d.v1.chip[i].physical_pages);
++			counters[i].read_rounds += le32_to_cpu(d.v1.chip[i].read_rounds);
++			counters[i].cold_reads += le32_to_cpu(d.v1.chip[i].cold_reads);
++			service = chip_service_ns(le64_to_cpu(d.v1.chip[i].physical_pages),
++				le32_to_cpu(d.v1.chip[i].read_rounds), le32_to_cpu(d.v1.chip[i].cold_reads));
++		} else {
++			counters[i].useful_bytes += le64_to_cpu(d.v2.chip[i].useful_bytes);
++			counters[i].physical_pages += le64_to_cpu(d.v2.chip[i].physical_pages);
++			counters[i].read_rounds += le32_to_cpu(d.v2.chip[i].read_rounds);
++			counters[i].cold_reads += le32_to_cpu(d.v2.chip[i].cold_reads);
++			service = chip_service_ns(le64_to_cpu(d.v2.chip[i].physical_pages),
++				le32_to_cpu(d.v2.chip[i].read_rounds), le32_to_cpu(d.v2.chip[i].cold_reads));
++		}
++		counters[i].service_ns += service;
++		counters[i].commands += service != 0;
++	}
++	spin_unlock_irqrestore(&aif_lock, flags);
++	ret->nsecs_target = req->nsecs_start + duration;
++	return true;
++}
++
++static int aif_stats_show(struct seq_file *m, void *v)
++{
++	struct aif_counter snapshot[AIF_MAX_CHIPS];
++	u64 count, ns, active;
++	unsigned int versions;
++	const char *model;
++	unsigned long flags;
++	unsigned int i;
++	spin_lock_irqsave(&aif_lock, flags);
++	memcpy(snapshot, counters, sizeof(snapshot));
++	count = command_count; ns = total_model_ns; active = total_active_chips;
++	versions = versions_seen;
++	spin_unlock_irqrestore(&aif_lock, flags);
++	model = versions == 4 ? "metadata_only_int8_v3" :
++		versions == 2 ? "metadata_only_int8_v2" :
++		versions > 1 ? "metadata_only_int8_mixed" : "metadata_only_int8_v1";
++	seq_printf(m, "model %s\ncommands %llu\nmodel_ns %llu\nactive_chip_commands %llu\n", model, count, ns, active);
++	seq_puts(m, "chip,useful_bytes,physical_pages,read_rounds,cold_reads,service_ns,active_commands\n");
++	for (i = 0; i < AIF_MAX_CHIPS; i++)
++		seq_printf(m, "%u,%llu,%llu,%llu,%llu,%llu,%llu\n", i,
++			snapshot[i].useful_bytes, snapshot[i].physical_pages,
++			snapshot[i].read_rounds, snapshot[i].cold_reads,
++			snapshot[i].service_ns, snapshot[i].commands);
++	return 0;
++}
++static int aif_v2_stats_show(struct seq_file *m, void *v)
++{
++	struct aif_cost_counter cost;
++	unsigned long flags;
++	spin_lock_irqsave(&aif_lock, flags);
++	cost = cost_totals;
++	spin_unlock_irqrestore(&aif_lock, flags);
++	seq_printf(m, "flash_ns %llu\ncontrol_ns %llu\nhost_ns %llu\ninput_ns %llu\noutput_ns %llu\nvector_input_bytes %llu\nvector_output_bytes %llu\nchip_matrix_commands %llu\n",
++		cost.flash_ns, cost.control_ns, cost.host_ns, cost.input_ns,
++		cost.output_ns, cost.vector_input_bytes, cost.vector_output_bytes,
++		cost.chip_matrix_commands);
++	seq_printf(m, "pcie_input_bytes %llu\npcie_output_bytes %llu\n",
++		cost.pcie_input_bytes, cost.pcie_output_bytes);
++	return 0;
++}
++static int aif_stats_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, aif_stats_show, NULL);
++}
++static ssize_t aif_stats_write(struct file *f, const char __user *buf, size_t n, loff_t *pos)
++{
++	unsigned long flags;
++	/* Reset only between synchronous replays. */
++	spin_lock_irqsave(&aif_lock, flags);
++	memset(counters, 0, sizeof(counters));
++	memset(&cost_totals, 0, sizeof(cost_totals));
++	command_count = total_model_ns = total_active_chips = 0;
++	versions_seen = 0;
++	spin_unlock_irqrestore(&aif_lock, flags);
++	return n;
++}
++static const struct proc_ops aif_stats_ops = {
++	.proc_open = aif_stats_open, .proc_read = seq_read,
++	.proc_lseek = seq_lseek, .proc_release = single_release,
++	.proc_write = aif_stats_write,
++};
++void aif_proc_init(struct proc_dir_entry *parent)
++{
++	proc_create("aif_stats", 0600, parent, &aif_stats_ops);
++	proc_create_single("aif_v2_stats", 0400, parent, aif_v2_stats_show);
++}
++void aif_proc_remove(struct proc_dir_entry *parent)
++{
++	remove_proc_entry("aif_stats", parent);
++	remove_proc_entry("aif_v2_stats", parent);
++}
+diff --git a/aif.h b/aif.h
+new file mode 100644
+index 0000000..bb478aa
+--- /dev/null
++++ b/aif.h
+@@ -0,0 +1,66 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef NVMEV_AIF_H
++#define NVMEV_AIF_H
++
++#define AIF_OPCODE 0xc1
++#define AIF_MAGIC 0x31464941U
++#define AIF_MAX_CHIPS 16
++#define AIF_V1_SIZE 400
++#define AIF_V2_SIZE 800
++
++/* Little endian wire ABI. Metadata only: no weights or GEMV outputs. */
++struct aif_chip_demand {
++	__le64 useful_bytes;
++	__le64 physical_pages;
++	__le32 read_rounds;
++	__le32 cold_reads;
++};
++struct aif_command {
++	__le32 magic;
++	__le32 version;
++	__le32 nchips;
++	__le32 reserved;
++	struct aif_chip_demand chip[AIF_MAX_CHIPS];
++};
++
++/* v2 adds explicit experimental controller and vector-transfer cost metadata. */
++struct aif_chip_demand_v2 {
++	__le64 useful_bytes;
++	__le64 physical_pages;
++	__le32 read_rounds;
++	__le32 cold_reads;
++	__le64 input_bytes;
++	__le64 output_bytes;
++	__le32 matrix_command_count;
++	__le32 reserved;
++};
++struct aif_command_v2 {
++	__le32 magic;
++	__le32 version;
++	__le32 nchips;
++	__le32 per_chip_control_ns;
++	__le32 per_host_command_ns;
++	__le32 reserved[3];
++	struct aif_chip_demand_v2 chip[AIF_MAX_CHIPS];
++};
++
++/* v3 separates one host transfer from the controller's per-chip fanout. */
++struct aif_command_v3 {
++	__le32 magic;
++	__le32 version;
++	__le32 nchips;
++	__le32 per_chip_control_ns;
++	__le32 per_host_command_ns;
++	__le32 pcie_input_bytes;
++	__le32 pcie_output_bytes;
++	__le32 reserved;
++	struct aif_chip_demand_v2 chip[AIF_MAX_CHIPS];
++};
++
++struct nvmev_request;
++struct nvmev_result;
++struct proc_dir_entry;
++bool aif_process(struct nvmev_request *req, struct nvmev_result *ret);
++void aif_proc_init(struct proc_dir_entry *parent);
++void aif_proc_remove(struct proc_dir_entry *parent);
++#endif
