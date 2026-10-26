@@ -1,0 +1,311 @@
+{
+  "description": "Report figures from saved v3 controller-fanout analysis; no new hardware experiments.",
+  "result_date": "2026-10-19",
+  "report_date": "2026-10-23",
+  "sources": {
+    "main": "results/summary.json",
+    "fixed": "NFS runs/{model}-aif/overhead_fanout/overhead_placement.csv",
+    "control": "NFS runs/{model}-aif/learned_overhead_fanout/heldout_control_sensitivity.csv",
+    "nfs_root": "/home/nfs_client/ericyu/expert_flash_experiment",
+    "control_fixed": "NFS runs/{model}-aif/overhead_fanout/control_sensitivity.csv"
+  },
+  "main": [
+    {
+      "model": "granite",
+      "baseline_16_separate_ms": 18.920064,
+      "baseline_16_stacked_ms": 12.703488,
+      "selected_group_stacked_ms": 8.378169833333333,
+      "learned_group_stacked_ms": 7.451560499999999,
+      "selected_groups": [
+        4
+      ],
+      "speedup_vs_16_separate": 2.539074063748124,
+      "improvement_vs_16_stacked": 0.41342405329937737,
+      "improvement_vs_group_stacked": 0.11059806040774345
+    },
+    {
+      "model": "olmoe",
+      "baseline_16_separate_ms": 16.567552,
+      "baseline_16_stacked_ms": 13.648384,
+      "selected_group_stacked_ms": 13.389925166666666,
+      "learned_group_stacked_ms": 12.824207916666666,
+      "selected_groups": [
+        8
+      ],
+      "speedup_vs_16_separate": 1.291896708760343,
+      "improvement_vs_16_stacked": 0.06038634928012976,
+      "improvement_vs_group_stacked": 0.04224947062499773
+    },
+    {
+      "model": "deepseek",
+      "baseline_16_separate_ms": 24.916736,
+      "baseline_16_stacked_ms": 21.332688,
+      "selected_group_stacked_ms": 21.332688,
+      "learned_group_stacked_ms": 21.015055708333332,
+      "selected_groups": [
+        8
+      ],
+      "speedup_vs_16_separate": 1.1856611919481848,
+      "improvement_vs_16_stacked": 0.014889464078163495,
+      "improvement_vs_group_stacked": 0.014889464078163495
+    }
+  ],
+  "models": {
+    "granite": {
+      "fixed_stacked": [
+        {
+          "g": 1,
+          "ms": 11.412999083333334
+        },
+        {
+          "g": 2,
+          "ms": 9.109591833333335
+        },
+        {
+          "g": 4,
+          "ms": 8.378169833333333
+        },
+        {
+          "g": 8,
+          "ms": 9.055249583333334
+        },
+        {
+          "g": 16,
+          "ms": 12.703488
+        }
+      ],
+      "control_sweep": [
+        {
+          "chip_control_us": 0.0,
+          "g16_stacked_ms": 11.167488,
+          "selected_learned_ms": 7.0675605,
+          "selected_g": [
+            4
+          ]
+        },
+        {
+          "chip_control_us": 0.1,
+          "g16_stacked_ms": 11.781888,
+          "selected_learned_ms": 7.2211605,
+          "selected_g": [
+            4
+          ]
+        },
+        {
+          "chip_control_us": 0.25,
+          "g16_stacked_ms": 12.703488,
+          "selected_learned_ms": 7.451560499999999,
+          "selected_g": [
+            4
+          ]
+        },
+        {
+          "chip_control_us": 0.5,
+          "g16_stacked_ms": 14.239488,
+          "selected_learned_ms": 7.8355605,
+          "selected_g": [
+            4
+          ]
+        },
+        {
+          "chip_control_us": 1.0,
+          "g16_stacked_ms": 17.311488,
+          "selected_learned_ms": 9.171139583333334,
+          "selected_g": [
+            1
+          ]
+        },
+        {
+          "chip_control_us": 2.0,
+          "g16_stacked_ms": 23.455488,
+          "selected_learned_ms": 9.555139583333334,
+          "selected_g": [
+            1
+          ]
+        },
+        {
+          "chip_control_us": 5.0,
+          "g16_stacked_ms": 41.887488,
+          "selected_learned_ms": 10.707139583333335,
+          "selected_g": [
+            1
+          ]
+        }
+      ]
+    },
+    "olmoe": {
+      "fixed_stacked": [
+        {
+          "g": 1,
+          "ms": 30.326588125
+        },
+        {
+          "g": 2,
+          "ms": 20.62096383333333
+        },
+        {
+          "g": 4,
+          "ms": 15.61653475
+        },
+        {
+          "g": 8,
+          "ms": 13.389925166666666
+        },
+        {
+          "g": 16,
+          "ms": 13.648384
+        }
+      ],
+      "control_sweep": [
+        {
+          "chip_control_us": 0.0,
+          "g16_stacked_ms": 12.624384,
+          "selected_learned_ms": 12.312207916666667,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 0.1,
+          "g16_stacked_ms": 13.033984,
+          "selected_learned_ms": 12.517007916666666,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 0.25,
+          "g16_stacked_ms": 13.648384,
+          "selected_learned_ms": 12.824207916666666,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 0.5,
+          "g16_stacked_ms": 14.672384,
+          "selected_learned_ms": 13.336207916666666,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 1.0,
+          "g16_stacked_ms": 16.720384,
+          "selected_learned_ms": 14.360207916666667,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 2.0,
+          "g16_stacked_ms": 20.816384,
+          "selected_learned_ms": 16.466830333333334,
+          "selected_g": [
+            4
+          ]
+        },
+        {
+          "chip_control_us": 5.0,
+          "g16_stacked_ms": 33.104384,
+          "selected_learned_ms": 19.538830333333333,
+          "selected_g": [
+            4
+          ]
+        }
+      ]
+    },
+    "deepseek": {
+      "fixed_stacked": [
+        {
+          "g": 1,
+          "ms": 56.65654266666667
+        },
+        {
+          "g": 2,
+          "ms": 37.45787583333333
+        },
+        {
+          "g": 4,
+          "ms": 26.526396833333333
+        },
+        {
+          "g": 8,
+          "ms": 21.604564333333332
+        },
+        {
+          "g": 16,
+          "ms": 21.332688
+        }
+      ],
+      "control_sweep": [
+        {
+          "chip_control_us": 0.0,
+          "g16_stacked_ms": 20.084688,
+          "selected_learned_ms": 20.391055708333337,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 0.1,
+          "g16_stacked_ms": 20.583888,
+          "selected_learned_ms": 20.64065570833333,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 0.25,
+          "g16_stacked_ms": 21.332688,
+          "selected_learned_ms": 21.015055708333332,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 0.5,
+          "g16_stacked_ms": 22.580688,
+          "selected_learned_ms": 21.63905570833333,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 1.0,
+          "g16_stacked_ms": 25.076688,
+          "selected_learned_ms": 22.88705570833333,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 2.0,
+          "g16_stacked_ms": 30.068688,
+          "selected_learned_ms": 25.38305570833333,
+          "selected_g": [
+            8
+          ]
+        },
+        {
+          "chip_control_us": 5.0,
+          "g16_stacked_ms": 45.044688,
+          "selected_learned_ms": 30.889605375,
+          "selected_g": [
+            4
+          ]
+        }
+      ]
+    }
+  },
+  "assumptions": {
+    "protocol": "metadata_only_int8_v3",
+    "controller_fanout": true,
+    "main_chip_command_us": 0.25,
+    "host_phase_us": 2,
+    "input_bytes_per_element": 1,
+    "output_bytes_per_element": 4,
+    "control_sweep_policy": "training-selected g and stacking at each cost, evaluated on held-out prompt; mean of three folds",
+    "fixed_stacked_policy": "unlearned modulo layout; all three prompt traces combined"
+  }
+}
