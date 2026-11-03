@@ -1,0 +1,100 @@
+{
+  "status": "complete",
+  "protocol_sha256": "32213b7b76cba5c18254f8bb13c7cfb8091c1db6c800468a541c4020e66c6b33",
+  "source_freeze_sha256": "e02ea7549e558b5d6fbbc7f8018b76bdb5b1e132950a73ca541b15eec6793798",
+  "union_json_sha256": "3508c8e2032d90727ec824a8a2d1a834c16cbb398f804268c5f27667296ca62d",
+  "canonical_weights_files": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/bound/deepseek/weights/expert5/gate.scales.f32": "f215b2435629465c63559474ddbec80d30b4c5e3fcc0c4d2793f847ccfc9dc30",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/bound/deepseek/weights/expert5/up.i8": "ac61041e9d3712d614a2541930f635e3c4751898f5c1468d4320795b9493a427",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/bound/deepseek/weights/expert5/down.scales.f32": "fa5572523f428e91b11567b8e9498c426007355fc91d27a89c0a6480de62e72d",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/bound/deepseek/weights/expert5/up.scales.f32": "9edb1cd2bc71b4638762ce828680330dc459fecceb945ddb4117f764eb992c63",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/bound/deepseek/weights/expert5/down.i8": "f9c2269cd068510e95641d18ec3a4f6e189aff58ad7e07ce3851ecb86658c1d6",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/bound/deepseek/weights/expert5/gate.i8": "c2b4980af54caa668869fc03f224d446dd26ee5f7c2eedcd0c8f1254bf62945f",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/bound/deepseek/weights/expert5/weights.json": "3f151d4bb713e6a608239f31f021aa9b30dee7bc3b4e55406b1031c34e24f228"
+  },
+  "model": "deepseek",
+  "expert": 5,
+  "shape": [
+    29629,
+    2048
+  ],
+  "dtype": "<f4",
+  "production_passes": 1,
+  "expert_rows": 29629,
+  "F32_data_bytes": 242720768,
+  "integer_MAC": 256313131008,
+  "wall_seconds": 15.880284330341965,
+  "counts_before": {
+    "common_frozen_geometry_design": {
+      "tree_FP64_MAC": 303400960,
+      "P_FP64_MAC": 7767064576,
+      "quantized_elements": 3792512
+    },
+    "production_Y": {
+      "quantized_elements": 511989120,
+      "integer_MAC": 1281565655040,
+      "internal_sampled_I64_MAC": 28730880,
+      "rescaled_F32_elements": 720577280,
+      "whole_I_product_elements": 208588160,
+      "pinned_SiLU_and_fused_audit_elements_each": 208588160
+    },
+    "fixed_C_fit_and_actual_bias": {
+      "quantized_elements": 41943040,
+      "integer_MAC": 38835322880,
+      "internal_sampled_I64_MAC": 184320,
+      "rescaled_F32_elements": 303400960,
+      "sequential_F64_weighted_residual_elements": 303400960
+    },
+    "archive_B1_private_I64_IPC_audits": {
+      "integer_MAC": 901775360,
+      "internal_sampled_I64_MAC": 1292160,
+      "rescaled_F32_elements": 911360,
+      "F32_bias_add_elements": 327680,
+      "independent_fullrow_C_I64_MAC": 5242880,
+      "quantized_elements": 355840,
+      "independent_fullrow_I64_MAC": 173015040,
+      "whole_I_product_elements": 140800,
+      "pinned_SiLU_and_fused_audit_elements_each": 140800,
+      "tree_FP64_MAC": 819200,
+      "P_FP64_MAC": 20971520
+    }
+  },
+  "counts_after": {
+    "common_frozen_geometry_design": {
+      "tree_FP64_MAC": 303400960,
+      "P_FP64_MAC": 7767064576,
+      "quantized_elements": 3792512
+    },
+    "production_Y": {
+      "quantized_elements": 614386944,
+      "integer_MAC": 1537878786048,
+      "internal_sampled_I64_MAC": 34477056,
+      "rescaled_F32_elements": 864692736,
+      "whole_I_product_elements": 250305792,
+      "pinned_SiLU_and_fused_audit_elements_each": 250305792
+    },
+    "fixed_C_fit_and_actual_bias": {
+      "quantized_elements": 41943040,
+      "integer_MAC": 38835322880,
+      "internal_sampled_I64_MAC": 184320,
+      "rescaled_F32_elements": 303400960,
+      "sequential_F64_weighted_residual_elements": 303400960
+    },
+    "archive_B1_private_I64_IPC_audits": {
+      "integer_MAC": 901775360,
+      "internal_sampled_I64_MAC": 1292160,
+      "rescaled_F32_elements": 911360,
+      "F32_bias_add_elements": 327680,
+      "independent_fullrow_C_I64_MAC": 5242880,
+      "quantized_elements": 355840,
+      "independent_fullrow_I64_MAC": 173015040,
+      "whole_I_product_elements": 140800,
+      "pinned_SiLU_and_fused_audit_elements_each": 140800,
+      "tree_FP64_MAC": 819200,
+      "P_FP64_MAC": 20971520
+    }
+  },
+  "files": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/fit/deepseek/expert5/Y.npy": "cba383c52486b18edcfb0e541422c47659c6ea8b7600b3e4baf9feec31f40f83"
+  }
+}

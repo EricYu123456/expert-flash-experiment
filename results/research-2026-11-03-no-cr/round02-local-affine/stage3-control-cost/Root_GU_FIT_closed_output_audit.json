@@ -1,0 +1,148 @@
+{
+  "status": "GU_FIT_closed_output_integrity_pass",
+  "at_utc": "2026-11-03T07:15:44.940231+00:00",
+  "GU_FIT_complete_sha256": "be14e6812dc0601361886d0172fc9444698e61c8516b2e087ad405180d5b148b",
+  "source_freeze_sha256": "87832ea2e8f7161927be062bf477892de334bb89cb345ff35bfa7d24e15c04bf",
+  "NL_registry_sha256": "20d3ca955d4c0436afc34386c9223ffdc8c211f3b6c96cce0e5acf529de94414",
+  "independent_output_hash_and_stat_stability_audit": {
+    "files": 934,
+    "bytes": 6583381331,
+    "all_match": true
+  },
+  "exact_production_and_calibration_counts": {
+    "production_expert_rows": 236888,
+    "production_GU_integer_MACs": 1179989835776,
+    "production_GU_target_bytes": 2304667648,
+    "GU_prediction_FMA": 73749364736,
+    "Down_calibration_integer_MACs": 589994917888
+  },
+  "operators": [
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "expert": 14,
+      "rows": 29629,
+      "pooled_solve": {
+        "rank": 128,
+        "df": 128.0,
+        "condition": 13.667927860538887
+      },
+      "archive_B1_batch_bits": true
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "expert": 40,
+      "rows": 29629,
+      "pooled_solve": {
+        "rank": 128,
+        "df": 128.0,
+        "condition": 13.667927860538887
+      },
+      "archive_B1_batch_bits": true
+    },
+    {
+      "model": "deepseek",
+      "layer": 13,
+      "expert": 10,
+      "rows": 29629,
+      "pooled_solve": {
+        "rank": 128,
+        "df": 128.0,
+        "condition": 11.817604453979651
+      },
+      "archive_B1_batch_bits": true
+    },
+    {
+      "model": "deepseek",
+      "layer": 13,
+      "expert": 56,
+      "rows": 29629,
+      "pooled_solve": {
+        "rank": 128,
+        "df": 128.0,
+        "condition": 11.817604453979651
+      },
+      "archive_B1_batch_bits": true
+    },
+    {
+      "model": "olmoe",
+      "layer": 0,
+      "expert": 6,
+      "rows": 29593,
+      "pooled_solve": {
+        "rank": 128,
+        "df": 128.0,
+        "condition": 17.468686649394233
+      },
+      "archive_B1_batch_bits": true
+    },
+    {
+      "model": "olmoe",
+      "layer": 0,
+      "expert": 17,
+      "rows": 29593,
+      "pooled_solve": {
+        "rank": 128,
+        "df": 128.0,
+        "condition": 17.468686649394233
+      },
+      "archive_B1_batch_bits": true
+    },
+    {
+      "model": "olmoe",
+      "layer": 8,
+      "expert": 3,
+      "rows": 29593,
+      "pooled_solve": {
+        "rank": 128,
+        "df": 128.0,
+        "condition": 13.100696027053072
+      },
+      "archive_B1_batch_bits": true
+    },
+    {
+      "model": "olmoe",
+      "layer": 8,
+      "expert": 9,
+      "rows": 29593,
+      "pooled_solve": {
+        "rank": 128,
+        "df": 128.0,
+        "condition": 13.100696027053072
+      },
+      "archive_B1_batch_bits": true
+    }
+  ],
+  "direct_CXX_vs_frozen_reference_audits": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/NL/deepseek/layer1/audit/closure.json",
+      "sha256": "b8a331f23bb706023cf514ef4e95eac7fe133b619833951a1073e3d29abb71a4",
+      "checks": 8,
+      "output_elements_compared": 65536
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/NL/deepseek/layer13/audit/closure.json",
+      "sha256": "938535a916ffbf697a93602ff25f07f76b18ffd362a5e64719f11b60fba0fada",
+      "checks": 8,
+      "output_elements_compared": 65536
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/NL/olmoe/layer0/audit/closure.json",
+      "sha256": "e63e5cf51df1570359ee88ec7faa6a31a28d56fd74998a52ef5abec9afcab0d8",
+      "checks": 8,
+      "output_elements_compared": 65536
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/NL/olmoe/layer8/audit/closure.json",
+      "sha256": "babd7c715b2ff2b4e96a30b6962ed77978c8046c0464612bbdeb38dacd0353d5",
+      "checks": 8,
+      "output_elements_compared": 65536
+    }
+  ],
+  "all_original_FIT_BIND_content_and_stats_prepost_equal_reported": true,
+  "new_data_or_model_execution_by_Root": false,
+  "no_quality_or_latency_scientific_decision": true,
+  "new_phase_authorized": false,
+  "additional_audit_operation_ledger": "executor closure will retain source-derived separate categories; not included in production counts"
+}

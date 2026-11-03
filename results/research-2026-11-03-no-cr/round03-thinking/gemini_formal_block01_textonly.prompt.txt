@@ -1,0 +1,22 @@
+你是Round3 Gemini3.8FlashHigh正式候選思考者。這次**完全不使用任何工具，不讀寫檔案，不執行shell或任何程式**。你已被提供完成本區段所需的來源事實；你不用自己搜尋/列目錄/讀歷史對話，不再嘗試先前被無人模式拒絕的ls。只以本文內容做嚴謹數學和架構推導，直接回覆完整Markdown設計備忘錄，由Root保存你的回答。不要呼叫finish等工具；直接文字完成。
+
+候選scope（並非實驗採納）：原生mixed-Q4_K/Q6_K的FFN，在普通NAND上以256-input量化block作為codepacking/有限inputsubset-LUT livewindow/producerconsumer量子，尋找是否存在一個NAND-specific area/service/capacity區間，勝過fulltableposting與samearea nibbleexpander+MAC；普通loader/CPU/cache得sameformat/earlyinfo/replicas/hostbudget。T-MAC、CodeGEMM、PALUTE、Bit-serialWeightPools、SLIMfusion已知；不是靠移植或只有W4減bytes稱新意。SourceOLM allhost是可信強對照，不預言一定贏。
+
+計時：Root formalstart10:35:14UTC，Sol實際10:36:10；你之前exploration全部0credit，舊formal429與freshshell權限失敗也0credit。本次起僅記實際successful substantive CLI work。未滿你和Sol各1800s且criticvaluegate之前不准稱passed/實驗授權。禁止sleep/空轉/回報conversationcumulative時長。本區段思考內容需有實質新結論，不用為時鐘冗長重複。
+
+已由Sol與黑臉各自查本地pinnedGGML來源的事實（你可以使用但應標為提供的sourcefacts，不要假裝自己讀source）：
+- Q4_K每256weights=144B：128B nibbles+12B subgroup scales/min+FP16d/dmin兩個；每32 subgroup為 w=d*s*q−dmin*m，s,m為6-bit。Q6_K256weights=210B：128low4+64high2+16signedscale+FP16d；每16group q∈[-32,31]且signedscale。
+- Q8_K inputs每256values signed-max scale（scale可能負），q8codes/每16 bsums；保留signedmax/ties/zero rules是契約。
+- Generic Q4K/Q6K dot每outputrow保8條跨256-block F32 sums，Q4另mincorrection；整數總和相同不代表提前合lane後F32bit相同。Q4generic可考慮kmod8的stridedg4，Q6每16scale每lane僅2元素，可能g2或更多state；x86AVX2是另一種ABI，不能混稱。這裡先選**generic8lane prospective reference**，別改成unprovedx86exact。
+- 一個g4子集合表L(mask)=sum(a_j*bit(mask,j)),a_j∈[-128,127]，16entries×I16=32B，Q4每4weights4lookups、Q6每4weights6lookups（只integer identity；genericQ6若g2則自己算）。inputT256全g4表2KiB；整H2048全表16KiB。singlewindow q8raw僅256B。表可寄存器/bank/broadcast/MUX，不強制16portSRAM，也不免費16reads/cycle。
+- AiF16chips×4planes×16KiB，ordinaryLSB28us；CR9.7us完全排除；一chip完整fourplane wave64KiB，全16chips總1MiB。ECC6.4GB/s不是MACrate；200MHz/.026mm²AiF PE沒有已知lane數。假設16MAC不能當原生實測。不能無technologylibrary量PPA或移植SLIM.07面積。
+- OLMshape示例H2048 I1024三投影若全Q4_K，GU2.25MiB、Down1.125MiB；16chipglobal wave1MiB，分phase最低ceil(2.25)+ceil(1.125)=5waves，不是3。256-neuron GUtile.5625MiB、Downcolumntile.28125MiB，簡單firstGU+3mixed+lastDown也5waves；這是構造例，不是全域定理。frontier同樣給MAC/ordinaryload，不能把它利益全歸LUT。
+- GU同一token同layer input可攤Kexperts；每expert Down h不同。若要256neuron quantizer本地ready，需要其完整256G/Uoutputs在某owner；跨chipgather或讓wholequantblockco-located後增加Downpartialoutputs均有成本。非線性unit/hostF32scale處理也需付費。
+
+請這一區段深入完成：
+1. 在generic8lane reference下，從數學給一個無須執行的小型F32非結合反例，說明I32總和相同為何不能宣稱sourceexact；然後提出**不改numeric contract**的g4Q4/至少g2Q6 integerlookup分組及8lane floatcarry的合法邊界（不能確證處標缺口）。不要把較小ULP轉成PPL0。
+2. 為T256 window×R個activeoutputrows列同時存活state公式：LUT/rawq/8F32carry/min補正/scale+offset metadata/correctedECCcodeword/rowID/outputFIFO，明確哪些可能共用及會互爭port。給R=128、256、448時的**紙上**字節帳示例，分Q4和Q6，必要metadata未知則列區間/參數不編數。不要把pagebuffer64KiB當randommultiport SRAM。
+3. 在16KiB頁/4planes下，給一個合法packedblock讀取候選構造，與同area/directMAC共享布局；標row/quantblock跨頁、ECC先後、tablewindow更新與8lane carry生命期。只構造/不run，不承諾全時間上界。
+4. 作出**可以被否證的**單一tradeoff命題：例如budget低於某effectiveMAC數時lookupwindow有機會，budget高到雙方sensebound時無exposedlatency利益。用g4Q4約1lookup/weight、g2Q6成本、codedbytes144/210和tR做service必要條件，所有lanes/ports/clock需是變數；samearea PPA未解，不許假裝已勝。點出至少一個真正致命反例和一個仍值得下一正式block研究的未知（如不存在非平庸未知就thought-veto，仍0機會消耗）。
+
+請用有連貫論證的設計備忘錄，清楚標『提供的source事實』『本段推導』『未驗證假設』。只直接文字，不工具。

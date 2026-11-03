@@ -1,0 +1,89 @@
+{
+  "reviewer": "critic_sol",
+  "at_utc": "2026-11-03 07:46:15 UTC",
+  "verdict": "The fixed NL8 passes its preregistered exposed-data development mean-quality screen on both models. Continue the same Round2; failed-round increment0 is scientifically appropriate. This does not establish C-versus-NL superiority, equal quality, strict Pareto dominance, full-model approximation quality, deployment performance or publication value.",
+  "same_round": 2,
+  "failure_increment": 0,
+  "cumulative_failed_rounds_unchanged": 1,
+  "bindings": {
+    "DEV_QUALITY_complete_sha256": "616a16f87e7b7690d0f087f361304161ae977f85c97bc898ec32ff310cb9abea",
+    "executor_closure_sha256": "40d387308347776806b390ab583679ff46ce6a640652212f92395a6acb9ab2e5",
+    "summary_sha256": "48df5b635f7e9416175fff2d6fd3ab4dea880862e341e0b87e3995f80ef3a05a",
+    "Root_independent_statistics_audit_sha256": "bece2bc48870ed89f957678e986e81725e0d82e3310fb7ac396f34ca9b36123e",
+    "source_rev006_sha256": "87832ea2e8f7161927be062bf477892de334bb89cb345ff35bfa7d24e15c04bf",
+    "NL_registry_sha256": "20d3ca955d4c0436afc34386c9223ffdc8c211f3b6c96cce0e5acf529de94414"
+  },
+  "independent_read_only_reconstruction": {
+    "output_manifest": {"files": 20, "bytes": 12028821, "hash_mismatches": 0},
+    "primary_NL_NLL_rows": 8192,
+    "data_checks": "Read both closed result files and checked all32 book/model jobs, immutable GT512 IDs, four128-token chunks, exactly256 finite NLL per job, logits/input255..510 and next-token targets256..511. Recomputed book means directly from per-token NLL and matched the same ordered16 old B/C/source books.",
+    "bootstrap": "Independently generated10000 shared paired-book draws with seed2026110303; recomputed both book-mean deltas, SDddof1, centered max-absolute standardized cutoff and95th linear-quantile simultaneous bands. No candidate module, inference, fit or new scoring was invoked.",
+    "recomputed_cutoff": 2.2128560905868437,
+    "family_defined": true,
+    "identity_checks": "Verified1459 before/after SHA/stat identity records equal, same-review reauthorization and the Root-owned external gate's successful child status and unchanged hash/stat bindings. These are preserved execution identities, not a retroactive repair of historical input provenance or a new whole-GGUF content hash."
+  },
+  "primary_development_endpoints": {
+    "margin_NLL_ln1p02": 0.01980262729617973,
+    "deepseek": {
+      "NL_minus_B_mean_NLL": 0.002990888657446067,
+      "simultaneous95_NLL_band": [-0.006789468053288911, 0.012771245368181045],
+      "relative_subset_PPL_upper_percent": 1.2853146008651566,
+      "upper_strictly_below_margin": true
+    },
+    "olmoe": {
+      "NL_minus_B_mean_NLL": 0.002359749024654703,
+      "simultaneous95_NLL_band": [-0.004647898218796421, 0.009367396268105828],
+      "relative_subset_PPL_upper_percent": 0.9411407641175953,
+      "upper_strictly_below_margin": true
+    },
+    "interpretation": "This is the frozen two-endpoint16-book average-budget rule. The books were already exposed; bootstrap intervals are developmental and approximate, not fresh confirmatory or population/outlier guarantees. Both bands include zero and do not prove zero degradation."
+  },
+  "controls_and_exposure": {
+    "first_book_controls": "Both models' prospectively fixed first-book actual nohook/observer/copy-original, B/copy-B and NL/copy-NL comparisons PASS. Historical source/B/C/D checksum/trace/NLL consistency is PASS and explicitly is not historical full-vector memcmp.",
+    "actual_contexts_per_model": 24,
+    "reserved_max_contexts_per_model": 39,
+    "conditional_zeroB_contexts_executed": 0,
+    "deepseek": {
+      "joined_NL_zone_entries": 132,
+      "all_returned_rows": 3599,
+      "prefix_rows": 1765,
+      "scored_predecessor_rows": 1830,
+      "unused511_rows": 4,
+      "canonical_fallback_rows": 0,
+      "causal0through510_rows": 3595,
+      "fraction_of_all_routed_expert_calls": 0.0028185997792162178
+    },
+    "olmoe": {
+      "joined_NL_zone_entries": 116,
+      "all_returned_rows": 4770,
+      "prefix_rows": 3182,
+      "scored_predecessor_rows": 1579,
+      "unused511_rows": 9,
+      "canonical_fallback_rows": 0,
+      "causal0through510_rows": 4761,
+      "fraction_of_all_routed_expert_calls": 0.0045493288282778864,
+      "layer8_expert3_scored_replacements": 5
+    },
+    "scope": "Independently joined every primary NL CXX scatter count to worker context/book/layer/expert/zone and checked fallback0. Different C/NL exposure reflects their own live trajectories. Call fractions use16*511*K*routed-layers; they are not weight/MAC/time fractions and cannot linearly extrapolate quality. The eight-op intervention remains sparse despite complete whole-model logits."
+  },
+  "descriptive_only": {
+    "deepseek_NL_minus_C_mean_NLL": 0.00007348645628639516,
+    "olmoe_NL_minus_C_mean_NLL": -0.002328117975911412,
+    "deepseek_NL_minus_source_mean_NLL": 0.0033398956734464608,
+    "olmoe_NL_minus_source_mean_NLL": 0.0003496895095685404,
+    "outliers_preserved": "Deep book38214 NL-B=.03652490 and OLM book42306=.04453931 remain in all means/resamples. Four Deep books and one OLM book exceed ln1.02 individually. Passing the mean screen is not a per-book bound; no deletion, weighting change or new endpoint is warranted.",
+    "no_selection": "Carry C and NL as developmentally viable competitors under the shared mean budget. Do not infer equal quality or a C/NL winner from two separate passes, or tune the passed C8/NL8 on these books."
+  },
+  "resource_and_method_limits": [
+    "Reference execution OS0,264.414s, observed aggregate RSS18773528576 B below32e9 cap, no recorded violations and all seven owned processes gone. Reference-GGUF/overwritten work makes this neither compact8GB deployment evidence nor actual inference speed.",
+    "The viable pooled-GU/nonlinear control weakens any claim that conditional output slopes alone are necessary for the eight-op quality result. It does not refute C: active work, bank/residency and whole-DAG latency can differ. Existing CPU benchmarks are partial/shape proxies and cross-phase cache histories differ; no strict system Pareto conclusion follows.",
+    "Original Stage0/1 comparison families remain inconclusive; the old C8 partial pass remains unchanged. A successful plumbing/development screen cannot be counted as a failed method merely to advance the requested campaign. Conversely, this pass is not publication success."
+  ],
+  "bounded_next_step": [
+    "A separately frozen earliest-MoE-layer all64 C-versus-B quality stage is a reasonable next necessary test: DeepL1 with dense0 unchanged and OLM L0, all other layers source, distinct artifact/version. Preserve old8 artifacts and maps. Freeze new-expert fit/regularization rules, common TRAIN targets/geometry, bounded query/resource budgets, fresh evaluation windows and exact failure unit before new outcomes.",
+    "Use the prior fixed-GT source proof only under identical complete token history, positions, fresh state, batch splitting and numerics, with prospective X/IDs/alpha bit checks. It does not make old inputs on-policy for new free generation. One-layer quality is not all-routed/all-depth quality or a general10% E2E result.",
+    "C64-first can save unnecessary NL64 work if the candidate fails its prespecified bounded deployment-quality requirement. If C64 remains viable and conditional-bank/hardware necessity is pursued, same-coverage nonlinear/factor controls cannot be permanently omitted: current NL8 evidence cannot be transferred to NL64 or used as a matched64 baseline. Shared teacher targets may be reused under immutable bindings; no adaptive fresh-book tuning.",
+    "In parallel, finish a finite inclusive host/cache/ordinary-load cost worksheet for the intended deployment scope and any explicit replication/short-row construction. At one layer, the C map bank alone is512MiB, making all-host/cache a mandatory strong control. Proceed beyond this stage only if a useful matched-quality whole-DAG opportunity survives; no architecture or larger rollout is automatically authorized."
+  ],
+  "authorization": "Read-only scientific adjudication only. No first64/all-routed stage, new fit/data/rank/format, RTL/synthesis/simulation, candidate execution, TEST access or automatic push is authorized. All executed phases are complete and remain stopped pending a new explicit prospective protocol/release."
+}

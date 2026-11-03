@@ -1,0 +1,16 @@
+Round3探索block02，仍未採候選/newmethodclock0，禁止任何模型/weights/X/Y/FIT/quality-body/books/TEST讀取，禁任何候選/數值/fit/sim/RTL執行，不改code或舊note。只寫 round03-thinking/gemini_exploration_block02_correction_and_frontier.md。讀你block01原稿、round03_research_charter.json、research_terra_landscape.md；可讀critic_frontier或Gem correction note（若已存在）。
+
+Root與真正黑臉已找到你初稿多個重大錯誤，請先正面逐項更正並保留原稿：
+1 任意W=UV+R只有完整R才代數成立；rank64 SVD的尾項通常dense，截只5%是新近似，UV+R還會改F32reassoc，絕不保bitwise或PPL0。不要把LoSparse jointtraining說exact decomposition。
+2 nonlinear F_e-F_base不是權重相減自動變成ΔW x。base係數應Σliveα，Deep/OLM selectedalpha不必和1。精確base也無全模型qualitylowerbound、90%保護/1page全部未證。
+3 OLM H2048 I1024三投影W8=6MiB（未算metadata）；Down1/3不是>half。R2單leaf256KiB、C32每expert8MiB/每layer512MiB，單leaf不能冒充fullbank。bitplanes占4planes不降低總N*b/8資訊工作量。
+4 SLIM2507.09201v1§5.4已在die/channel PE做fused neuronwise gate/up/downPsum，不是必須DRAM-PIM，也不以挪地點稱新。R2結果只否定frozen配置，沒有辨識崩潰根因，不能說證明非線性絕對不可丟或所有低rank不行。
+5 從來未做/首創/<0.05%PPL/少於200us等全無證據不得再寫成事實。
+
+初稿A/B現已thought-veto，不消耗8機會，不進實驗或開clock。方向探索要繼續但大膽假設須標假設，小心求證從簡單矩陣與數值反例開始。
+
+Sol目前認為較值得紙上推的是：source混合Q4_K/Q6_K等原生block arithmetic 在ordinaryNAND die直接算，沿真正量化block boundary推進GU→SiLU→Down（非R2surrogate）。但T-MAC2407.00088已bitwiseLUT、CodeGEMM2512.17970已centroid×activation Psumbook/index gather、SLIM已FFNfusion，純移植完全不夠。請你從大方向審視是否存在一個**真正NAND特有的必要資源tradeoff**：輸入lookup表posting/小RF或SRAM容量、weightcode的合法頁packing、ECC交付、PE端port/finitebuffer lifetime、commonGUinput在Kexperts攤還（Down各expert h不同不可假設共table）、coarse flashwave和metadata輸出尺度。強基準必須給sameformat/earlyinfo/hostbudget的ordinaryload CPU/TMAC，以及samearea/power的更多MAC+nibbleexpand nearflash，不能故意把baseline保留W8或wholeglobalA8 barrier。
+
+請先在紙上檢查（不是run）2種相反構造：a)小LUT但很多輸入epoch/細page packing時，savedbytes是否全被padding/inputtax消掉；b)較大表完整resident時，SRAM/ports和inputbroadcast是否比多MAC更貴。SourceGGUF numericexact需分清I32 algebra vsF32reduceorder/row/group scales/offset，不能隨口claimbitwise。sourceOLM allhost可能更強，機制泛用不等每個模型都快。
+
+最後給一個可值得正式>=1800s雙thinker思考的最窄命題與一個能直接否決它的簡潔counterexample；若你認為全都只是knownport則明說並另外提出至多2個全新macro問題。不要寫新實作/試驗或大量細節，只保留一個可被下一輪真正黑臉攻擊的系統問題與明確未證假設。此CLI elapsed只能記exploration，不能算已選candidate clock。

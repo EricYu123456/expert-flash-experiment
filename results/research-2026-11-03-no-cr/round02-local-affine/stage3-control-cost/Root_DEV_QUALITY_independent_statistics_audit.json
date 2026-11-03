@@ -1,0 +1,81 @@
+{
+  "status": "closed_output_integrity_statistics_and_scatter_joins_pass",
+  "at_utc": "2026-11-03T07:33:56.062840+00:00",
+  "DEV_QUALITY_complete_sha256": "616a16f87e7b7690d0f087f361304161ae977f85c97bc898ec32ff310cb9abea",
+  "independent_output_hash_stat_audit": {
+    "files": 20,
+    "bytes": 12028821,
+    "all_match": true
+  },
+  "finite_NL_NLL": 8192,
+  "bootstrap_seed": 2026110303,
+  "bootstrap_draws": 10000,
+  "ddof": 1,
+  "linear95_centeredmaxabsT_cutoff": 2.21285609058684,
+  "primary_family_inconclusive": false,
+  "endpoints": [
+    {
+      "model": "deepseek",
+      "NL_minus_B_mean_NLL": 0.002990888657446067,
+      "simultaneous95_NLL_band": [
+        -0.006789468053288911,
+        0.012771245368181045
+      ],
+      "simultaneous95_relative_subset_PPL_band": [
+        -0.006766471688858934,
+        0.012853146008651567
+      ],
+      "upper_below_ln1p02": true
+    },
+    {
+      "model": "olmoe",
+      "NL_minus_B_mean_NLL": 0.002359749024654703,
+      "simultaneous95_NLL_band": [
+        -0.004647898218796421,
+        0.009367396268105828
+      ],
+      "simultaneous95_relative_subset_PPL_band": [
+        -0.0046371134551679,
+        0.009411407641175951
+      ],
+      "upper_below_ln1p02": true
+    }
+  ],
+  "descriptive": [
+    {
+      "model": "deepseek",
+      "mean_NL_minus_C": 7.348645628639516e-05,
+      "mean_NL_minus_source": 0.0033398956734464608
+    },
+    {
+      "model": "olmoe",
+      "mean_NL_minus_C": -0.002328117975911412,
+      "mean_NL_minus_source": 0.0003496895095685404
+    }
+  ],
+  "exposure_joins": [
+    {
+      "model": "deepseek",
+      "NL_finite_NLL": 4096,
+      "joined_NL_returned_rows": 3599,
+      "NL_canonical_fallback_rows": 0,
+      "NL_ledger_entries": 132,
+      "firstbook_controls_pass": true,
+      "zero_causal_books": 0
+    },
+    {
+      "model": "olmoe",
+      "NL_finite_NLL": 4096,
+      "joined_NL_returned_rows": 4770,
+      "NL_canonical_fallback_rows": 0,
+      "NL_ledger_entries": 116,
+      "firstbook_controls_pass": true,
+      "zero_causal_books": 0
+    }
+  ],
+  "development_only": true,
+  "no_new_candidate_or_fit_execution_by_Root": true,
+  "no_fullcoverage_latency_or_publication_claim": true,
+  "no_Round2_scientific_failure_or_success_decision": true,
+  "new_phase_authorized": false
+}

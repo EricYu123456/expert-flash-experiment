@@ -1,0 +1,9 @@
+第三輪新的宏觀探索，source/theory only。你是使用者指定的 Gemini 藍軍思考者（目前3.8 Flash High，Gemini4 Argon quota429已保留且不能額外付費）。讀且只需讀 results/research-2026-11-03-no-cr/round03-thinking/round03_research_charter.json，必要時再讀 docs/research_2026_11_03_project_understanding.md、docs/slim_aif_baseline_source_audit_terra.md、docs/moe_shared_projection_generality_terra.md，以及round02的Root_round02_scientific_adjudication.final.json。不要讀模型/weights/activation/X/Y/FIT/quality-body/books/TEST，不跑候選或任何驗證/fit/simulator，不寫或改任何實驗程式或舊產物。只允許寫 results/research-2026-11-03-no-cr/round03-thinking/gemini_exploration_block01.md。
+
+R2已真正實驗失敗：全最早MoE層64 experts的固定C32/r128W8 unconditional local-affine，OLMoE C-B PPL+15.8%/sim95+10.6..21.3%，16/16books都超2%；Deep未定。這只否定這個有限配置，不是所有近似方法不可能。現在累計2次實驗失敗，還有8次。新方向思考否決不扣機會。這次是初始exploration，候選未選，不計入未來某個候選的1800秒門檻，禁止宣稱已滿半小時。實際CLI elapsed由Root記錄，不許sleep/空轉或以對話累積duration代替本次工作。
+
+請發揮想像力、大膽假設小心求證，以大方向為主，提出至少6個本質不同的noCR/ordinaryNAND in-flash MoE方向（有無shared都適用）。至少兩個精確數值/表示方向，其餘近似須交代來源函數與品質預算。不要只重貼placement/replication/cache/prefetch、W4 unpack、R2 rank/guard/data修補或已知localFFN線性化/共用basis。從必要工作、讀取與數值相依、FFN非線性計算位置、少量PE/控制改動等根本思考，也可以提出你覺得瘋狂但可有限求證的新路線。
+
+對每方向給：核心假設與為何有價值；權重/輸入/中間量在哪裡；ordinary loader/CPU得到同樣cache/earlyinfo/layout/hostbudget後會否消解收益；AiF所需實際改動與未證硬體前提；最強已知先例/可能先例（不可用未找到等於新穎）；一個最小可否證實驗的概念（不實作/不跑）。你也扮演自我黑臉指出至少一個致命反例，但Root另有真正黑臉，所以不要只寫空泛疑慮。最後挑最值得進正式>=30m候選思考的兩條，說明怎樣的理論/來源反例會讓你放棄。
+
+已知硬體：16chips×4planes×16KiB，ordinary LSB28us；CR9.7us完全排除。ECC6.4GB/s不是PErate。lane/RF/PB/ECC/FIFO細節未知，hypothetical16lane/200MHz/RF128B只是需驗證minorchange，不能當native實測。source OLM mixedQ4 allhost仍是可信強基準，不可因referenceharness RSS大而排除；SLIM、FlashJacobian、EBC、MoLAE已知。不要宣稱任何E2E10%或publication success。完成一次有限有內容的note後結束，Root將協調Sol/Terra/黑臉交互攻防與正式方法時鐘。

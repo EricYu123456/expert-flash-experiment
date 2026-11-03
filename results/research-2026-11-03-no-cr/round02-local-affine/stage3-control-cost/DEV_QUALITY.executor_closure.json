@@ -1,0 +1,838 @@
+{
+  "status": "complete_DEV_QUALITY_only_stopped_pending_Root_critic_decision",
+  "at_utc": "2026-11-03T07:33:43.726209+00:00",
+  "research_round": 2,
+  "source_revision": 6,
+  "source_freeze_sha256": "87832ea2e8f7161927be062bf477892de334bb89cb345ff35bfa7d24e15c04bf",
+  "protocol_sha256": "5f21869ae968057a09ed1f5f64cf06f83aa22fa1dc442303fa6ce5c25f9b58be",
+  "phase_order_amendment_sha256": "cd8fb02247d0be93850c598097d95963c3538607118553d1b4941da1a64a835b",
+  "review_sha256": "8dfb35d6d4c171577f44abb52203f384d818922b6085a631b5e3807df2f5fda2",
+  "DEV_QUALITY_complete_sha256": "616a16f87e7b7690d0f087f361304161ae977f85c97bc898ec32ff310cb9abea",
+  "summary_sha256": "48df5b635f7e9416175fff2d6fd3ab4dea880862e341e0b87e3995f80ef3a05a",
+  "NL_registry_sha256": "20d3ca955d4c0436afc34386c9223ffdc8c211f3b6c96cce0e5acf529de94414",
+  "CLI_OS_launch_exit": {
+    "phase": "DEV_QUALITY_only",
+    "started_at_utc": "2026-11-03T07:27:18.031443+00:00",
+    "PID": 2706522,
+    "wrapper_PID": 2706521,
+    "argv": [
+      "taskset",
+      "-c",
+      "0-7",
+      "/home/ericyu/miniconda3/bin/python3",
+      "scripts/research_20261103_local_affine_stage3_run.py",
+      "dev-quality",
+      "--source-review",
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/Root_source_review.rev006.DEV_QUALITY.approved.json"
+    ],
+    "cwd": "/home/ericyu/expert_flash_experiment",
+    "log": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.executor_wrapper.log",
+    "source_review_sha256": "8dfb35d6d4c171577f44abb52203f384d818922b6085a631b5e3807df2f5fda2",
+    "source_revision": 6,
+    "source_freeze_sha256": "87832ea2e8f7161927be062bf477892de334bb89cb345ff35bfa7d24e15c04bf",
+    "current_sources_match_frozen": {
+      "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_harness.cpp": "b9261d57d361c79d8f26aeb30b8abbf76231aa8200a07b8e83ac58db7a660d0a",
+      "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_core.py": "5dbb54e5107fd626470b0c73a828b2da01bffd197b9583e44758b2e9eb542f17",
+      "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_numeric.cpp": "6585758f03bb09e43e8fd21af0ef6990a5d08d5efc553cfa6550325718bde8d2",
+      "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_numeric.hpp": "6d2ed8aa7f1f5720be85a09aaed224d6288e8d03089cedfc73331e22bbf0ddd1",
+      "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_worker.py": "d5bdfff9b5c89205f4b1245b4ad4241a65ab1f0c23dca6ad816779f2f56badd5",
+      "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_run.py": "4872246d5501341a8ffc7807b745a8d9e0a1ba7a386aefb75c4dfe060e1ffa61",
+      "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_synthetic.py": "dff23f86db4fc376ac35f56c29c5923142820638c7c056adb6b7dbb921847830"
+    },
+    "external_gate_before": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.external_gate.before.json",
+    "external_gate_before_sha256": "79542c25f4db091d50ff7ff4eb3d531489dfafeae9cc532ab987d7770a4365a2",
+    "CPU_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "budget_seconds": 3600,
+    "reference_harness_RSS_cap_bytes": 32000000000,
+    "RSS_contract_scope": "Referenceharness loads source GGUF and original overwritten work; not deployment8GB proof.",
+    "disk_free_before_bytes": 162249924608,
+    "mandatory_contexts_per_model": 24,
+    "reserved_max_contexts_per_model": 39,
+    "bookbody_newdata_fits_TEST_authorized": false,
+    "completed_at_utc": "2026-11-03T07:31:42.445496+00:00",
+    "returncode": 0,
+    "wall_seconds": 264.4140712399967,
+    "disk_free_after_bytes": 162233188352
+  },
+  "phase_resource_cleanup_exit": {
+    "started_at_utc": "2026-11-03T07:27:18.458645+00:00",
+    "completed_at_utc": "2026-11-03T07:31:42.414951+00:00",
+    "PID": 2706541,
+    "returncode": 0,
+    "wall_seconds": 263.9563287347555,
+    "peak_observed_aggregate_RSS_bytes": 18773528576,
+    "sampling_interval_seconds": 0.2,
+    "observed_peak_is_lower_bound": true,
+    "violations": [],
+    "exception": null,
+    "samples": 1278,
+    "CPU_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "lifecycle": {
+      "supervisor_PID": 2706522,
+      "subreaper_enabled": true,
+      "root_PID": 2706541,
+      "forced_cleanup": false,
+      "unexpected_descendants_after_normal_root_exit": false,
+      "owned_processes": {
+        "2706541": {
+          "identity": {
+            "PID": 2706541,
+            "starttime_ticks": 250974979,
+            "PPID": 2706522,
+            "process_group": 2706541,
+            "session": 2706541,
+            "state": "R"
+          },
+          "ownership_reason": "explicit_Popen_root"
+        },
+        "2706560": {
+          "identity": {
+            "PID": 2706560,
+            "starttime_ticks": 250975741,
+            "PPID": 2706541,
+            "process_group": 2706560,
+            "session": 2706560,
+            "state": "S"
+          },
+          "ownership_reason": "descendant_of_owned_identity"
+        },
+        "2706562": {
+          "identity": {
+            "PID": 2706562,
+            "starttime_ticks": 250975743,
+            "PPID": 2706560,
+            "process_group": 2706562,
+            "session": 2706560,
+            "state": "R"
+          },
+          "ownership_reason": "descendant_of_owned_identity"
+        },
+        "2706627": {
+          "identity": {
+            "PID": 2706627,
+            "starttime_ticks": 250977902,
+            "PPID": 2706562,
+            "process_group": 2706562,
+            "session": 2706560,
+            "state": "S"
+          },
+          "ownership_reason": "descendant_of_owned_identity"
+        },
+        "2706809": {
+          "identity": {
+            "PID": 2706809,
+            "starttime_ticks": 250992714,
+            "PPID": 2706541,
+            "process_group": 2706809,
+            "session": 2706809,
+            "state": "S"
+          },
+          "ownership_reason": "descendant_of_owned_identity"
+        },
+        "2706810": {
+          "identity": {
+            "PID": 2706810,
+            "starttime_ticks": 250992716,
+            "PPID": 2706809,
+            "process_group": 2706810,
+            "session": 2706809,
+            "state": "R"
+          },
+          "ownership_reason": "descendant_of_owned_identity"
+        },
+        "2706861": {
+          "identity": {
+            "PID": 2706861,
+            "starttime_ticks": 250993939,
+            "PPID": 2706810,
+            "process_group": 2706810,
+            "session": 2706809,
+            "state": "R"
+          },
+          "ownership_reason": "descendant_of_owned_identity"
+        }
+      },
+      "preexisting_children_excluded": {},
+      "pidfd_signals": [],
+      "adopted_children_reaped": [],
+      "remaining_owned_identities": [],
+      "all_owned_processes_gone": true,
+      "wall_seconds": 0.04189067706465721
+    }
+  },
+  "external_gate_enforcement": {
+    "before_after_receipt": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.external_gate.before_after.json",
+    "sha256": "573de7344f25825d1bd35f460b1e0fcf81a75e6c012019255f7ed9a1e2ba0ece",
+    "all_external_SHA_and_stat_equal": true,
+    "contract": "Root-owned external approval wrapper; frozen core.authorize does not check external_gate_bindings. No source edit."
+  },
+  "new_output_hash_audit": {
+    "status": "PASS",
+    "started_at_utc": "2026-11-03T07:33:43.629732+00:00",
+    "completed_at_utc": "2026-11-03T07:33:43.640941+00:00",
+    "wall_seconds": 0.011199675034731627,
+    "files": 20,
+    "bytes": 12028821,
+    "mismatches": [],
+    "all_read_prepost_stat_equal": true
+  },
+  "dependencies": {
+    "all_before_after_current_SHA_and_stat_equal": true,
+    "files": 1459,
+    "frozen_runner_same_review_reauthorized_after_summary": true,
+    "evidence": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/dev-quality/dependency_identity.prepost.json",
+    "source_GGUF_stat_matches_prior_identity_before_after": true,
+    "source_GGUF_evidence": "Frozen dev() compares size/mtime_ns/dev/inode to historical model identity before loading and after harnessexit; no new fullmodelhash and not a new originalmodeltrajectory capture."
+  },
+  "data_closure": {
+    "models": 2,
+    "same_exposed_PG16_book_IDs": [
+      56719,
+      356,
+      16959,
+      8545,
+      41074,
+      7510,
+      49091,
+      54098,
+      48089,
+      11155,
+      25066,
+      27688,
+      38214,
+      34016,
+      50355,
+      42306
+    ],
+    "stored_NL_NLL_targets": 8192,
+    "all_NL_NLL_finite": true,
+    "all_target_positions256through511_IDs_match": true,
+    "actual_total_fresh_contexts": 48,
+    "actual_total_input_states": 24576,
+    "actual_total_scored_tokens_allcontexts_source_derived": 12288,
+    "score_count_scope": "OnlyNL8192scores newlystored pertoken here. Othercontrol invocations compute256NLL each and controlbits/consistency are audited; not every controlNLLarray is retained in this new result.",
+    "source_reported0_internal_observer1_distinct_from_nohook0": true,
+    "no_retokenization_or_bookbody_reads": true
+  },
+  "models": {
+    "deepseek": {
+      "model_id": 1,
+      "books_complete": 16,
+      "NL_scored_tokens": 4096,
+      "actual_context_count": 24,
+      "mandatory_contexts": 24,
+      "conditional_zeroB_contexts": 0,
+      "actual_context_IDs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32,
+        34,
+        36,
+        38
+      ],
+      "reserved_context_capacity": 39,
+      "actual_context_evidence": "Successful frozen harness firstbook9 invocations +15laterNL invocations + reported conditional zeroB replay branches; not reserved capacity or a claim of separately logged per-invocation starts.",
+      "fresh_KV_per_invocation": true,
+      "same_immutable_native512_IDs_eacharm": true,
+      "four_chunks_128_per_context": true,
+      "last_input511_extra_unused_in_NLL": true,
+      "firstbook_controls": {
+        "actual_B_copycanonical_logits_trace_memcmp": true,
+        "actual_NL_copyNL_logits_trace_memcmp": true,
+        "actual_source_copyoriginal_logits_trace_memcmp": true,
+        "actual_source_nohook_observer_memcmp": true,
+        "historical_full_vector_memcmp_claim": false,
+        "historical_source_B_C_D_64bit_checksum_trace_and_NLL_equal": true
+      },
+      "zero_causal_both_books": 0,
+      "NL_worker_CPP_exposure_join_complete": true,
+      "NL_exposure_by_zone": {
+        "unscored_inputs_0_254": {
+          "actual_NL_scattered_rows": 1765,
+          "canonical_fallback_rows": 0,
+          "approximate_returned_rows": 1765
+        },
+        "scored_predecessors_255_510": {
+          "actual_NL_scattered_rows": 1830,
+          "canonical_fallback_rows": 0,
+          "approximate_returned_rows": 1830
+        },
+        "unused_input_511": {
+          "actual_NL_scattered_rows": 4,
+          "canonical_fallback_rows": 0,
+          "approximate_returned_rows": 4
+        }
+      },
+      "worker_all_control_arm_totals": {
+        "7": {
+          "returned_rows": 3599,
+          "canonical_fallback_rows": 0
+        },
+        "3": {
+          "returned_rows": 181,
+          "canonical_fallback_rows": 0
+        },
+        "4": {
+          "returned_rows": 181,
+          "canonical_fallback_rows": 0
+        },
+        "5": {
+          "returned_rows": 183,
+          "canonical_fallback_rows": 0
+        },
+        "6": {
+          "returned_rows": 183,
+          "canonical_fallback_rows": 0
+        },
+        "8": {
+          "returned_rows": 180,
+          "canonical_fallback_rows": 0
+        }
+      },
+      "exposure_semantics": "Expert contributions, not unique token coverage. NL returned/scatteredrows actual; other source historical potential hits not substituted. Inputs0..510 causal; input511 diagnostic only.",
+      "reference_harness_PID": 2706560,
+      "reference_harness_OS_returncode": 0,
+      "reference_harness_wall_seconds": 169.69010947272182,
+      "observed_aggregate_peak_RSS_bytes": 18732302336,
+      "owned_processes": {
+        "2706560": {
+          "identity": {
+            "PID": 2706560,
+            "starttime_ticks": 250975741,
+            "PPID": 2706541,
+            "process_group": 2706560,
+            "session": 2706560,
+            "state": "R"
+          },
+          "ownership_reason": "explicit_Popen_root"
+        },
+        "2706562": {
+          "identity": {
+            "PID": 2706562,
+            "starttime_ticks": 250975743,
+            "PPID": 2706560,
+            "process_group": 2706562,
+            "session": 2706560,
+            "state": "R"
+          },
+          "ownership_reason": "descendant_of_owned_identity"
+        },
+        "2706627": {
+          "identity": {
+            "PID": 2706627,
+            "starttime_ticks": 250977902,
+            "PPID": 2706562,
+            "process_group": 2706562,
+            "session": 2706560,
+            "state": "R"
+          },
+          "ownership_reason": "descendant_of_owned_identity"
+        }
+      },
+      "cleanup_all_owned_gone": true,
+      "meanNLL_NL_from_stored_targets": 2.674415846385308
+    },
+    "olmoe": {
+      "model_id": 2,
+      "books_complete": 16,
+      "NL_scored_tokens": 4096,
+      "actual_context_count": 24,
+      "mandatory_contexts": 24,
+      "conditional_zeroB_contexts": 0,
+      "actual_context_IDs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32,
+        34,
+        36,
+        38
+      ],
+      "reserved_context_capacity": 39,
+      "actual_context_evidence": "Successful frozen harness firstbook9 invocations +15laterNL invocations + reported conditional zeroB replay branches; not reserved capacity or a claim of separately logged per-invocation starts.",
+      "fresh_KV_per_invocation": true,
+      "same_immutable_native512_IDs_eacharm": true,
+      "four_chunks_128_per_context": true,
+      "last_input511_extra_unused_in_NLL": true,
+      "firstbook_controls": {
+        "actual_B_copycanonical_logits_trace_memcmp": true,
+        "actual_NL_copyNL_logits_trace_memcmp": true,
+        "actual_source_copyoriginal_logits_trace_memcmp": true,
+        "actual_source_nohook_observer_memcmp": true,
+        "historical_full_vector_memcmp_claim": false,
+        "historical_source_B_C_D_64bit_checksum_trace_and_NLL_equal": true
+      },
+      "zero_causal_both_books": 0,
+      "NL_worker_CPP_exposure_join_complete": true,
+      "NL_exposure_by_zone": {
+        "unscored_inputs_0_254": {
+          "actual_NL_scattered_rows": 3182,
+          "canonical_fallback_rows": 0,
+          "approximate_returned_rows": 3182
+        },
+        "scored_predecessors_255_510": {
+          "actual_NL_scattered_rows": 1579,
+          "canonical_fallback_rows": 0,
+          "approximate_returned_rows": 1579
+        },
+        "unused_input_511": {
+          "actual_NL_scattered_rows": 9,
+          "canonical_fallback_rows": 0,
+          "approximate_returned_rows": 9
+        }
+      },
+      "worker_all_control_arm_totals": {
+        "7": {
+          "returned_rows": 4770,
+          "canonical_fallback_rows": 0
+        },
+        "3": {
+          "returned_rows": 290,
+          "canonical_fallback_rows": 0
+        },
+        "4": {
+          "returned_rows": 290,
+          "canonical_fallback_rows": 0
+        },
+        "5": {
+          "returned_rows": 290,
+          "canonical_fallback_rows": 0
+        },
+        "6": {
+          "returned_rows": 292,
+          "canonical_fallback_rows": 0
+        },
+        "8": {
+          "returned_rows": 290,
+          "canonical_fallback_rows": 0
+        }
+      },
+      "exposure_semantics": "Expert contributions, not unique token coverage. NL returned/scatteredrows actual; other source historical potential hits not substituted. Inputs0..510 causal; input511 diagnostic only.",
+      "reference_harness_PID": 2706809,
+      "reference_harness_OS_returncode": 0,
+      "reference_harness_wall_seconds": 79.00173514522612,
+      "observed_aggregate_peak_RSS_bytes": 8676352000,
+      "owned_processes": {
+        "2706809": {
+          "identity": {
+            "PID": 2706809,
+            "starttime_ticks": 250992714,
+            "PPID": 2706541,
+            "process_group": 2706809,
+            "session": 2706809,
+            "state": "R"
+          },
+          "ownership_reason": "explicit_Popen_root"
+        },
+        "2706810": {
+          "identity": {
+            "PID": 2706810,
+            "starttime_ticks": 250992716,
+            "PPID": 2706809,
+            "process_group": 2706810,
+            "session": 2706809,
+            "state": "R"
+          },
+          "ownership_reason": "descendant_of_owned_identity"
+        },
+        "2706861": {
+          "identity": {
+            "PID": 2706861,
+            "starttime_ticks": 250993939,
+            "PPID": 2706810,
+            "process_group": 2706810,
+            "session": 2706809,
+            "state": "S"
+          },
+          "ownership_reason": "descendant_of_owned_identity"
+        }
+      },
+      "cleanup_all_owned_gone": true,
+      "meanNLL_NL_from_stored_targets": 2.4474604542549994
+    }
+  },
+  "statistics": {
+    "development_only_exposed_validation16": true,
+    "book_ids": [
+      56719,
+      356,
+      16959,
+      8545,
+      41074,
+      7510,
+      49091,
+      54098,
+      48089,
+      11155,
+      25066,
+      27688,
+      38214,
+      34016,
+      50355,
+      42306
+    ],
+    "primary_family_inconclusive": false,
+    "seed": 2026110303,
+    "repeats": 10000,
+    "bootstrap_SD_ddof": 1,
+    "quantile_method": "linear",
+    "margin_NLL": 0.01980262729617973,
+    "classification": "Root+critic only, no automatic scientific decision",
+    "no_PG_selection": true,
+    "models": {
+      "deepseek": {
+        "meanNLL_source_B_C_D": [
+          2.6710759507118618,
+          2.671424957727862,
+          2.674342359929022,
+          2.670861376362986
+        ],
+        "meanNLL_NL": 2.6744158463853083,
+        "per_book_NL_meanNLL": [
+          2.62693583063135,
+          2.0156210949063382,
+          2.7578871885897147,
+          2.8448728491933957,
+          2.8678728443276515,
+          2.811244476691803,
+          2.449603539854376,
+          2.359687889816621,
+          1.9417057861480207,
+          3.309164507013831,
+          2.6599942081345707,
+          2.256836074635084,
+          3.146219983786155,
+          3.255953988230123,
+          2.4317168231999604,
+          3.0553364570059327
+        ],
+        "primary_NL_minus_B": {
+          "Delta_hat": 0.002990888657446067,
+          "bootstrapSD": 0.004419788865773584,
+          "simultaneous95_NLL_band": [
+            -0.006789468053288911,
+            0.012771245368181045
+          ],
+          "simultaneous95_relative_PPL_band": [
+            {
+              "relative_PPL_change": -0.006766471688858934,
+              "overflow": false
+            },
+            {
+              "relative_PPL_change": 0.012853146008651567,
+              "overflow": false
+            }
+          ],
+          "per_book_delta": [
+            0.004489277184473117,
+            0.02363134442925019,
+            -0.015424978156826086,
+            -0.0015190016882575819,
+            -0.04112342450705064,
+            -0.006822925082336173,
+            -0.0021226861990846224,
+            -0.005136313379774382,
+            0.020791264646029317,
+            0.006637545649769372,
+            0.003194385401901201,
+            0.004636831739273095,
+            0.036524900205210376,
+            0.020521280562466604,
+            0.011116280775714582,
+            -0.011539563061621294
+          ]
+        },
+        "descriptive_NL_minus_C": {
+          "mean_delta_NLL": 7.348645628639516e-05,
+          "per_book_delta": [
+            -0.015630041461616173,
+            0.018359916658555298,
+            -0.0007974251971214485,
+            0.00961406881315563,
+            -0.013302730698923071,
+            -0.011798877843089084,
+            0.0038388485601474898,
+            -0.0034023118406607544,
+            -0.017659131498286573,
+            0.0054740591896922375,
+            0.005231449517860032,
+            -0.0011508302953200378,
+            -0.003227929075350744,
+            0.011237649125703797,
+            0.006662433720737937,
+            0.0077266356250977886
+          ]
+        },
+        "unchanged_C_minus_B": {
+          "mean_delta_NLL": 0.0029174022011596717,
+          "per_book_delta": [
+            0.02011931864608929,
+            0.005271427770694892,
+            -0.014627552959704637,
+            -0.011133070501413211,
+            -0.027820693808127572,
+            0.004975952760752911,
+            -0.005961534759232112,
+            -0.0017340015391136276,
+            0.03845039614431589,
+            0.0011634864600771344,
+            -0.002037064115958831,
+            0.005787662034593133,
+            0.03975282928056112,
+            0.009283631436762807,
+            0.004453847054976645,
+            -0.019266198686719083
+          ]
+        }
+      },
+      "olmoe": {
+        "meanNLL_source_B_C_D": [
+          2.447110764745431,
+          2.4451007052303453,
+          2.449788572230911,
+          2.4504693893388088
+        ],
+        "meanNLL_NL": 2.447460454255,
+        "per_book_NL_meanNLL": [
+          2.3433040807319934,
+          1.7230494158009508,
+          2.4937721476409003,
+          2.815944985422769,
+          2.4773922161405473,
+          2.531416998308161,
+          2.2373785855431585,
+          2.1912362306673154,
+          1.5982273447097701,
+          2.5179526535826273,
+          2.176857159573516,
+          2.151970005744907,
+          3.156977191307133,
+          3.221403623793414,
+          2.3963720087716522,
+          3.1261126203411775
+        ],
+        "primary_NL_minus_B": {
+          "Delta_hat": 0.002359749024654703,
+          "bootstrapSD": 0.0031667885106765915,
+          "simultaneous95_NLL_band": [
+            -0.004647898218796421,
+            0.009367396268105828
+          ],
+          "simultaneous95_relative_PPL_band": [
+            {
+              "relative_PPL_change": -0.0046371134551679,
+              "overflow": false
+            },
+            {
+              "relative_PPL_change": 0.009411407641175951,
+              "overflow": false
+            }
+          ],
+          "per_book_delta": [
+            0.00135324397763803,
+            -0.014694399861913565,
+            0.005573950940780392,
+            0.00932532373875894,
+            0.009642272682915287,
+            -0.004073056800351971,
+            0.007740828489146256,
+            -0.0004681081972801593,
+            -0.004887712122116028,
+            7.000773639331825e-05,
+            -0.014478818660889736,
+            -0.0004548304833842387,
+            0.003976863872860115,
+            -0.003038736789027663,
+            -0.0023701517610019707,
+            0.044539307631948244
+          ]
+        },
+        "descriptive_NL_minus_C": {
+          "mean_delta_NLL": -0.002328117975911412,
+          "per_book_delta": [
+            0.0020772254120213773,
+            -0.013694342308379737,
+            -0.0013058572270097102,
+            0.006019114824810323,
+            0.0038381516058860754,
+            0.00036704095138295756,
+            0.005829790978699734,
+            -0.0009602018160146386,
+            0.0009562820030195596,
+            -0.0016841055623011414,
+            -0.017705896891249573,
+            5.020649143450129e-05,
+            0.0015768092756598406,
+            -0.014047946674280443,
+            -0.002600136309484302,
+            -0.005966022368777413
+          ]
+        },
+        "unchanged_C_minus_B": {
+          "mean_delta_NLL": 0.004687867000566115,
+          "per_book_delta": [
+            -0.0007239814343833473,
+            -0.0010000575535338285,
+            0.006879808167790102,
+            0.003306208913948616,
+            0.005804121077029212,
+            -0.004440097751734928,
+            0.0019110375104465227,
+            0.0004920936187344793,
+            -0.005843994125135588,
+            0.0017541132986944596,
+            0.0032270782303598367,
+            -0.00050503697481874,
+            0.002400054597200274,
+            0.01100920988525278,
+            0.00022998454848233152,
+            0.05050533000072566
+          ]
+        }
+      }
+    },
+    "TEST_opened": false,
+    "cutoff": 2.21285609058684,
+    "shared_draws_array_hash": "c538dfde1f27588b9a80f65f8f724da51e48ee3568c5ab157ef18b61b44ecac2",
+    "reason": null
+  },
+  "source_current_equals_immutable": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_harness.cpp": "b9261d57d361c79d8f26aeb30b8abbf76231aa8200a07b8e83ac58db7a660d0a",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_core.py": "5dbb54e5107fd626470b0c73a828b2da01bffd197b9583e44758b2e9eb542f17",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_numeric.cpp": "6585758f03bb09e43e8fd21af0ef6990a5d08d5efc553cfa6550325718bde8d2",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_numeric.hpp": "6d2ed8aa7f1f5720be85a09aaed224d6288e8d03089cedfc73331e22bbf0ddd1",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_worker.py": "d5bdfff9b5c89205f4b1245b4ad4241a65ab1f0c23dca6ad816779f2f56badd5",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_run.py": "4872246d5501341a8ffc7807b745a8d9e0a1ba7a386aefb75c4dfe060e1ffa61",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage3_synthetic.py": "dff23f86db4fc376ac35f56c29c5923142820638c7c056adb6b7dbb921847830"
+  },
+  "receipt_files": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.complete.json": {
+      "sha256": "616a16f87e7b7690d0f087f361304161ae977f85c97bc898ec32ff310cb9abea",
+      "bytes": 5349
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/Root_source_review.rev006.DEV_QUALITY.approved.json": {
+      "sha256": "8dfb35d6d4c171577f44abb52203f384d818922b6085a631b5e3807df2f5fda2",
+      "bytes": 8465
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.executor_exit.json": {
+      "sha256": "c815941cbb4f9153a2ebe14a633df4739960a9f7b5829c4775c553a75ab49e06",
+      "bytes": 3020
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.executor_exposure_join.csv": {
+      "sha256": "0e14c074dce285f633b3311007f2fdbe1f7506b0637a8f8511fdeb1533f51513",
+      "bytes": 21711
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.executor_launch.json": {
+      "sha256": "ea09b9ce7c9c4e91e2df7f02b16e273e172f258bb305c6cfc833cfde9aa60012",
+      "bytes": 2865
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.executor_output_hash_audit.json": {
+      "sha256": "6ea14788489d7964673a5d3715b82cb143aa6928ffbab17e2b6c4eeed930811e",
+      "bytes": 272
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.executor_per_book_NLL.csv": {
+      "sha256": "adb7f603ced64d6bda1cd53f7618f9dcc73c0174fc5a797d9f920d7734894819",
+      "bytes": 3725
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.executor_wrapper.log": {
+      "sha256": "61d56ec0596842d8d07ea87977999495b3701108ede705eb4f3e1bbb5e41576c",
+      "bytes": 235
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.external_gate.before.json": {
+      "sha256": "79542c25f4db091d50ff7ff4eb3d531489dfafeae9cc532ab987d7770a4365a2",
+      "bytes": 1358
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/DEV_QUALITY.external_gate.before_after.json": {
+      "sha256": "573de7344f25825d1bd35f460b1e0fcf81a75e6c012019255f7ed9a1e2ba0ece",
+      "bytes": 2454
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/launches/DEV_QUALITY.attempt001/exit.json": {
+      "sha256": "89d9409a211cfb446d39836e11149910469349592526baed8322e7c50bd0992d",
+      "bytes": 3010
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/launches/DEV_QUALITY.attempt001/launch.json": {
+      "sha256": "8790c38668579d52fe6ceca5b751a7d3b9da0fc947983aa1ce0545dc684ed5b0",
+      "bytes": 1105
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/launches/DEV_QUALITY.attempt001/resource_samples.jsonl": {
+      "sha256": "38de74454dde456e514520d6af12fc6812e5ca0362fbbd43585e07e227e3a863",
+      "bytes": 3774125
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/launches/DEV_QUALITY.attempt001/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage3-control-cost/launches/DEV_QUALITY.attempt001/stdout.log": {
+      "sha256": "e770b10f05e58aeee315eb46d2e8b9c88c34785a39632a1cf46ed5b6dd3a43b3",
+      "bytes": 520
+    }
+  },
+  "interpretation_limits": [
+    "AlreadyexposedPG16 development only; no new independentconfirmatoryquality or data selection.",
+    "Only8pilotoperators replaced; sourceGGUF shared/dense and allother routedexperts unchanged, no fullmodelcanonicalW8 claim.",
+    "Firstbookactualcopy fullvector memcmp; historicalsource/B/C/D onlychecksum/trace/targetNLLconsistency, nothistoricalfullvectorbitproof.",
+    "Referenceharness32e9 budget explicitlyloads originalmodel and overwrittenwork; observedRSS/wall is not compresseddeployment8GB or service latency.",
+    "NLminusB twoendpoint family fixed; NLminusC descriptive only. Root+critic decide; no automatic method success/failure.",
+    "Wholemodelinclusivecapacity/nativePE/ECC/FIFO/flash/costDAG/novelty/publication remainunresolved."
+  ],
+  "new_fits_or_production_teacher_queries": 0,
+  "new_books_or_states_FOR_FIT": 0,
+  "TEST_opened": false,
+  "next_phase_started": false,
+  "source_changes": false,
+  "automatic_push": false,
+  "automatic_scientific_classification": false
+}

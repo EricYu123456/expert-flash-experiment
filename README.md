@@ -1,6 +1,6 @@
 # MoE FFN 的 AiF chip 分組與放置實驗
 
-目前研究主線是 **不依賴 CR-read、適用有／無 shared expert 的 MoE in-flash 方法**。進度與判定見 [研究紀錄](docs/research_2026_11_03_campaign.md)、[專案理解](docs/research_2026_11_03_project_understanding.md)及 [即時狀態](results/research-2026-11-03-no-cr/state.json)。截至 2026-11-03，第二輪的固定八算子局部品質檢驗通過；Stage3 CPU 成本測量完成，等待成本與強基準審查。尚未證實完整模型的延遲收益或投稿價值。下方保留較早的配置與 CR-read 實驗背景。
+目前研究主線是 **不依賴 CR-read、適用有／無 shared expert 的 MoE in-flash 方法**。進度與判定見 [研究紀錄](docs/research_2026_11_03_campaign.md)、[專案理解](docs/research_2026_11_03_project_understanding.md)及 [即時狀態](results/research-2026-11-03-no-cr/state.json)。截至 2026-11-03，第二輪最早層全64-expert固定配置已完成品質驗證：OLMoE相對subset-PPL退化95%區間為10.62%–21.25%，超過2%預定門檻，判此配置有界失敗；DeepSeek保留未定。已依使用者於 2026-11-03 的要求停止研究並保存最後快照。累計兩次實驗失敗、剩八次機會；第三輪候選尚未進入實驗，十輪尚未完成。尚未證實完整模型延遲收益或投稿價值。下方保留較早的配置與 CR-read 實驗背景。
 
 GitHub 保存程式、協定、審查紀錄及適合版控的結果。大型原始張量、模型、資料快取和重複產物保留在研究機器；範圍與檔案清單見 [版本保存說明](docs/github_snapshot.md)。
 

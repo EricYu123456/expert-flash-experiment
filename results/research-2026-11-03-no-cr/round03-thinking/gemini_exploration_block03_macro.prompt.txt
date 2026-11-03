@@ -1,0 +1,17 @@
+你是使用者指定藍方Gemini4 Argon High額度耗盡後之合法fallback Gemini3.8FlashHigh/high。這次必須純文字，禁止任何工具（包含read/write/shell/web/finish）。Root提供事實，由Root將完整Markdown存檔。不要製造來源、實驗、PPA常數與思考秒數。
+
+狀態：round3, started2, validexperimental_failures2, remaining8。原生Q4_K/Q6_K LUT-window具體候選在思考階段Root接受獨立Sol和Critic之value/necessity thought-veto，不是所有LUT不可能，也不是一次實驗失敗，未滿1800s不得宣稱門檻passed。你的上段正式memo有144.574s wall但仍許多錯誤，不能當反證依據。這段是新方向廣搜exploration，formalclock0。
+
+先用不超過800字修正你上一段：g4Q4是64組×4bitplane=256fetch/256weights，不是1fetch/4weights。Q6g2需128×6=768fetch，不是低估。Batch1輸入仍被每個outputrow/selectedexpert共用，建表可跨R攤提。2^24處F32 ULP=2，差2是1ULP。page完整block不保證ECCcodeword完整block。inflash路徑不能硬插外部NVDDR40us必付。Q4工作集table數值加總錯，不能當硬下界。250–350GE/<2ns沒有library來源不可用。全rowF32carry acrossblocks最後才source序reduce。所有min/scales/FMA與AVX2/generic區別保留。不能再把未知library常數當MAC必勝。Root有限veto真正理由：sameformat/pages/ECC/frontier交給native4/6×8MAC後，目前沒有NAND獨有資源差，剩下knownLUT-engine perarea常數。LUTTensorCore2408.06003、FIGLUT2503.06862、Geens2604.25183、PALUTE2606.08891等是Root提供已核prior，不是你這次親讀。
+
+現在重新大膽探索MoE in-flash(noCRread)大方向，與Sol並行。硬體AiF ordinaryLSB28us、16chips×4planes×16KiB、ECC6.4GB/s、45nm200MHzPE但原生lanes未知；PB不是multiportSRAM；可做有付帳的小改。MoE原本有/無sharedexpert都要可作用。不能從假設高precision換成sourceQ4就把壓縮收益獨占。所有ordinary-loader/optimizedCPU控制拿到同壓縮、同router信息、同cache/replica/capacity。目標全模型latency/energy且publicationworthy，不能只算局部kernel。8GB inclusivememory target；原4.21GBOLMGGUF allhost可能fits但還沒完整closure，不能禁止baseline常駐或保證CPUalwayswins。不得讀model、weights、TRAIN/VAL/TEST、舊fit arrays，不得candidatecode/benchmark/sim/RTL。
+
+已失敗R2：32leaf/rank128 perexpert local-affine distill，first64earliestlayer替換，OLM new16books GT C-B PPL+15.81%, simultaneous95%[+10.62,+21.25]超2%budget；Deep+4.28%bandcrossing。只有boundedfailure，不是所有共同basis/非線性不能。舊local-affine缺少充分非線性可以是假說，但不是已證cause。
+
+一個可批評的大膽新想法：共享『非線性神經元atompool』(pairedgate/up rows)跨routedexperts，expert-specific稀疏或lowbitDown coeff；選中專家的unionfeatures只算一次，原本sharedexpert可無。允許jointdistill（但TRAIN開封需新protocol，現在禁止）。保留SwiGLU非線性而非舊linearleaf。要問pool所需大小、非線性atom重用是否夠、denseDown可能吞讀取節省、expert-specific routing/alpha不能簡化成sum1、來源MoEMerge/MoELoRA/MoESVD/pooledneuron可能早做過、普通載入同表示也受益。絕不預設採用此方案。
+
+另外想到rawcompute-beforeECC+errorlocationpatch，但Terra找到Intel US11513893B2 Fig2/4已明確原rawweightMAC和ECC並行，以a*2^bit±修正，結果hold到decode完成。AiF§4.4是ECCLite後compute。不能把vanillaoverlap當新方法。可用來刺激真正NAND特有差異，不可僅搬prior。
+
+請以大方向為主，提出至少6個互相不同的macro機制，包含你獨立發想。每個說清：究竟省了哪個必要Flash讀取/傳輸/非線性/同步工作；適用有無shared；為何同信息普通loader無法完全拿同收益（如能則誠實承認hardware需另外價值）；最致命直覺反例；可能最強prior但不捏來源；能在半小時正式推導後進行的一個最早kill-test（現在只提出不執行）。最後選最多2個值得繼續深入，並解釋沒有證據的假設。允許說所有6方向不值得，但不要自己依空想PPA/資料分佈判死。對atompool尤其提出可學與不可學兩個constructive例子、用參數H,I,E,K,M和coefficientdensity d寫讀取/compute/quality tradeoff，別從compressionfactor偷換到latency。至少一個方向必須完全不同於weight/activationlowrank、MoEcache、prefetch/bitprecision/LUTrename。
+
+請深入推導但保持可review的連貫文字；不灌水、不等待湊時、不宣稱已想滿半小時。不許工具，直接Markdown交付。

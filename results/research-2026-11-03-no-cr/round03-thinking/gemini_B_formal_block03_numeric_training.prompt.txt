@@ -1,0 +1,16 @@
+B formalblock03。同候選GU-onlyM4I,sI,T128,sourceoriginalrouter+actualα+optionalsharedbranch,Down私有。純文字禁止任何工具，Root存檔，無data/weight/book/FIT/VAL/TEST/code/probe。B已有正式112.73143743+151.120427791秒實質完成工作；空檔不算，未滿1800，請勿宣稱gatepassed。前述所有探索/A不轉移。
+
+B02修正有用，但又冒出不成立斷言，請先短列撤銷：
+1) Deep27是first**dense**layer+26routed，每routedlayer另有sharedbranch，不是1shared/26routed。Deep跨26GU池W8=572MiB（26*22MiB），不是572.5；Q4shape乘.5625=321.75MiB，且I1408 Down不能假native256Q4K皆可。
+2) supports相同不必s=M：每expert同s=I subset亦能wholeUreuse。PCoMoEiff規則全部撤銷，勿加新武斷iff。
+3) 全層weightbytefit不足以證inclusive8GB完全fit；更不證CPU/NPU總延遲必優。要符號break-even，不推『>=4GBhost即veto』，不改成DRAMless救命。HostcachedGU+flashDown保留，能否贏由measured/derivedservice决定。
+4) 5000steps/grid/fixedRelMSE2倍/.05/UG30/6waves全未凍結，不可稱批准killcriteria。GT原source NLL才品質，TRAINMSE+Down condition不是替代品。若某finite optimizer發散不是capacity下界；技術NaN/未完成/不收斂必有hold/recipeboundaries，不任意消耗機會。
+5) 自然路由稀有並非必然無法訓練，α^1/τ選不能創造zero-expert新states；offrouteanchor要明示/付帳。λanchor>0降低cancellation而不保證泛化，α可真非負但不假sum1；不能以3倍rareMSE/激活零自訂科學死亡線。
+6) 固定s的additive penalty常數，但同poolqualityloss的jointtraining仍可學優質support；不是baseline必須independentgreedy。每group由三groupsVenn例子省25%是GU等costgroup指標，不是整FFN/完整延遲25%。
+
+本block目標：**定義可執行的數值和訓練架構，避開錯誤no-go，仍以宏觀必要性為主。** 三個深入問題：
+A. 數值/phase契約比較。AiF原INT8MAC，各rowscale及globalA8可沿既有canonicalW8：q∈[-127127]、s=maxabs/127、tiesaway、zero s1、I32dot、hostF32rowscale*xscale乘integer、hostSiLU。源模型nativeQ4K/Q6K/Q8_0不是同數值。若candidate沿W8 GU/Down且每expertwholeI A8，φgroupF32共用但各expertamax不一，不能共用Downcodes；必須group完成→存φ→組各expertI→amax/quant→Down。原sharedbranch仍原source獨立。若改T128 blockquant則每blockscale/partial/F32sum與qualitychange新增、須paid。比較這兩選擇**完整dependency DAG、inputs/outputs/state memory bytes**，不選對自己有利的一半。不強制PE有sourceQ4decode或freeFPFMA，不把ECC6.4當MAC速率。對W8student vsuniformnativeQ4K之bytebreak-even：H(2U+KI)<1.6875KHI ⇒U<.34375KI，K8<2.75I，K6<2.0625I。若DownsourceQ6K threshold改變要自行推核。W8student可能quality較好也仍需source-nativequality/latency，不把W8/W8省字節當部署收益。
+B. 有限善意training設計，不捏硬體速度。4代表sourceexperts GU拼poolseed可作一初始化；seedexpert由TRAIN固定規則選後可joint更新全部GU，不是4固定basis。每expertfullDownM smoothgroupwarmup，之後hard sI masks fixedsupportfinetune。全DownM訓練537MweightsOLM，F32weights+grad+Adam兩矩8GiB另GU/activation；部署sI才134MDown，訓練峰值可超8GBdeployment。若一開始hardmask、unselectedD=0則maskgrad可能零，給出簡單導數，說明softwarmup/非零初始化/替換ridge何者真修哪個問題。請推一可review三階段概念（不擅凍具體steps/lr），jointmixture+perexpertanchor、rare-flooruniquevsresample/offroute、TRAINbooksplit的checkpoint/progress與freshquality隔離。初始30kstates/64/K8平均3750expertrows，不是>=M4096保證，樣本與parametercount不是quality定理。Sourcepriorprovided：PCoMoE25K Alpaca+SQuADbatch32只gateLoRAr16/pathcompat、expertweightsfrozen；MoM300Mdense→MoE20Btokens，不證30khiddenstates jointGU充分；DERN C4 128×2048激活加權tripletcluster是免訓練重組，不證4整expertseed最佳。怎樣把finitecompute-budget失敗誠實界定而不擴大到family，也不以未看VAL反覆救援？
+C. Primary品質bridge。建議未來單一預定midlayerall64，源模型S原native；unsharedcanonicalW8 B作quantizationbridge；studentC用與B同canonicalquantizer。PrimaryC−S GTNLL/prespecifiedbudget，B−S診斷，C−B次要，不用MSE替GT。源layer是firstchangedlayer，其入口x/router/α在GT下是否逐位可比，考慮該層前prefixKV與後層KV依賴，給嚴格條件與一反例（多層替換後不再相同）。Copy source identity/control應測什麼才排wire錯，不要求反覆跑源模型。若B−S已harm但C−Spass/failed如何報，不能挑掉不利source。只提prospectiveprotocol，不凍新threshold、不執行。
+
+最後給一個**仍有正面可能**的來源足以支持大模型/較低DRAMGU容量區域的條件式案例（用H,I,L,BW符號與paidbudget，不能造數字），以及一個有足夠state卻因source低位元比W8低而失敗的反例。保留開放性，勿再結尾強迫DRAMless。請仔細完成可審備忘錄。

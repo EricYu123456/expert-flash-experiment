@@ -1,0 +1,60 @@
+{
+  "reviewer": "critic_sol",
+  "at_utc": "2026-11-03T09:48:57Z",
+  "verdict": "ACQUIRE_TOKEN_CLOSURE_PASS_QUALITY_SOURCE_READY",
+  "blocking_findings": [],
+  "scope": "Finite read-only closed acquisition bytes/metadata, independent standard integrity/window checks, token-artifact ordering and hashes. No network, tokenizer, model, teacher, fit, predict, quality or TEST execution; no book substitution or recipe change.",
+  "bindings": {
+    "protocol_sha256": "32213b7b76cba5c18254f8bb13c7cfb8091c1db6c800468a541c4020e66c6b33",
+    "source_revision": 2,
+    "source_freeze_sha256": "e02ea7549e558b5d6fbbc7f8018b76bdb5b1e132950a73ca541b15eec6793798",
+    "FIT_complete_sha256": "8992b8f06d70e6a35e376c8f814e5e6d1cb0fd8b40425772114aa48678f87ae1",
+    "C64_registry_sha256": "8b8515274c31e4d2a6aa16a6c8c5e5c80e42972d20e4c803a7eb723e192a871b",
+    "ACQUIRE_complete_sha256": "187e25dd2c4b6ea28420aedd2b06add6cdaef01c90799f967da49c486ad36670",
+    "ACQUIRE_executor_closure_sha256": "c2fe870d2cce767ab9b3178843a23e240d9aa90060e39c568b75d6a99256abef",
+    "Root_ACQUIRE_audit_sha256": "c192427a17a5f47d5a834a987b2e59baa1c22b1ec4edea1f9387ebc300ab7b59",
+    "QUALITY_source_PRE_REVIEW_sha256": "6e9e53c92bc8d1d788b9d0d66cd4b4e24caa2a24fea7e56354fae5bdf614298f"
+  },
+  "independent_hash_closure": {
+    "ACQUIRE_outputs": 48,
+    "ACQUIRE_bytes": 9115225,
+    "other_mapping_counts": {"FIT_outputs": 622, "runtime_payload": 1028, "source_generated": 285},
+    "merged_unique_files": 1859,
+    "merged_unique_bytes": 32302423841,
+    "sha256_mismatches": 0,
+    "during_hash_stat_changes": 0,
+    "interpretation": "Actual current FIT/runtime and exact-source files equal their authoritative hashes. The frozen acquisition source separately performed full FIT/runtime SHA/stat before/after equality and review reauthorization; that successful assertion is retained. No independently saved historical stat snapshot is invented."
+  },
+  "raw_and_window_semantics": {
+    "objects": 16,
+    "raw_bytes": 5881269,
+    "suffix_bytes": 2881331,
+    "checks": "For every object independently matched exact protocol metadata/order, URL and pinned generation, returned generation/header length/identity encoding, actual byte length, advertised MD5 and raw SHA. Strict UTF8 with CRLF-then-CR normalization, Unicode midpoint, first following LF/start, suffix bytes and SHA independently recompute exactly.",
+    "no_substitution": true,
+    "content_or_loss_selection": false
+  },
+  "token_artifacts": {
+    "deepseek": {"jobs": 16, "IDs_each": 512, "insufficient": 0, "canonical_sorted_jobs_JSON_sha256": "ade4d36a1bc30aa8bb3a8bb3a53545ed52a7963408e9c3111e858197d85634e5"},
+    "olmoe": {"jobs": 16, "IDs_each": 512, "insufficient": 0, "canonical_sorted_jobs_JSON_sha256": "f3f0419927987682f327963d0c43bf0c764c46c9f34da75c3bb833fe9f001fff"},
+    "semantic_binding": "Model IDs, ordered book IDs/suffix plans and actual tokenize command match; each job records complete/native add_special=true/parse_special=false and512 nonnegative integer IDs. The reviewed pinned source tokenizes the whole suffix jointly before first512 truncation. No separate context/continuation tokenization or universal BOS-ID assumption.",
+    "execution_evidence": "Both tokenize processes OS0, vocab_only=true, no model forward, zero violations and all owned children gone. Tokenizer semantic provenance is the closed pinned invocation; reviewer did not rerun it."
+  },
+  "resource_and_cleanup": {
+    "phase_OS_returncode": 0,
+    "phase_seconds": 135.01579902227968,
+    "peak_observed_aggregate_RSS_bytes": 216731648,
+    "resource_violations": 0,
+    "all_owned_processes_gone": true,
+    "unexpected_live_descendants": false,
+    "within_frozen_acquisition_1800s_8e9_limits": true,
+    "deployment_inference_performance_claim": false
+  },
+  "QUALITY_gate_carried_forward": {
+    "disposition": "Existing fitted-artifact and acquisition/token prerequisites are fulfilled. No new source bug or criterion is introduced; unchanged rev002 QUALITY source pre-review remains applicable. Root may issue a separate QUALITY_C64-only exact-source approval bound to FIT, registry, this acquisition closure and the prescribed resources.",
+    "preserved_method": "Source/B64/C64 own KV and native routes; actual full512 earliest Up-X/ordered-ID/final-MUL-alpha equality; fixed first-book all-vocabulary/copy controls; typed all64 scatter/exposure; targets256..511 from logits255..510; fixed two-endpoint paired16-book10000/shared seed2026110304 max-abs-T bands and ln1.02 budget. Undefined/crossing/integrity problems remain inconclusive without changing books or model.",
+    "still_closed": "This receipt does not itself run QUALITY. No new fit, D/NL/SO expansion, free generation, hardware execution/simulation, TEST or automatic push is authorized."
+  },
+  "scientific_status": "Acquisition/token correctness only; no quality, speed, native necessity, wholemodel>=10% or publication result. Same Round2 continues.",
+  "round": 2,
+  "failure_increment": 0
+}

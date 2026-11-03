@@ -1,0 +1,45 @@
+{
+  "reviewer": "critic_sol",
+  "at_utc": "2026-11-03 07:37:01 UTC",
+  "scope": "Same-Round2 source/theory only. No RTL/synthesis/simulation/candidate execution, new data, running DEV output, TEST or source/protocol edits. One independent review JSON only.",
+  "construction_note_sha256": "6958b2877e22bc1b678e020d9649d7aafad47e37e01ed2d1d8b0a242f7978e4c",
+  "lane_PPA_source_note_sha256": "cbb36cdda94e5c6362c06deeb5753941a55454e5bcfc4186303ef943c4555544",
+  "verdict": "Internally coherent conditional construction, with no fatal storage/arithmetic contradiction found. Native compatibility, minor incremental PPA and system necessity remain unproved. Do not select or implement it from these notes alone.",
+  "arithmetic_and_storage_pass": [
+    "128RF+1024 corrected staging+32 holding+512 FIFO=1696 B/chip,27136 B across16 chips. This is the stated payload subtotal, not total area or all implementation state. Accumulator, reduction/pipeline registers, tags/descriptors, SRAM peripheral logic, ECC/parity scratch, mux/ports and control remain additional.",
+    "For signed[-128,127], product maximum16384 fits signed16,16-product positive maximum262144 needs signed20, and128-product maximum2097152 needs signed23. Canonical[-127,127] row maximum2064512 fits signed22. I32 accumulation without narrowing/saturation is safe; host must retain the frozen cast/scale/bias/alpha rules.",
+    "Each1KiB payload contains eight complete r128 rows; each16KiB plane has16 codewords and128 I32 results. A single128-entry FIFO suffices for that plane when credits include in-flight rows and the pipeline is empty before drain. There are64 codewords per chip-wave,1024 across16 active chips, not64 for the entire array.",
+    "A64KiB chip-wave has4096 ideal16-product issue cycles,20.48us at200MHz. Separate staging fill/consume and plane-level write/drain phases avoid a logical dual-port requirement. This does not prove the physical PB/ECC delivery port exists."
+  ],
+  "critical_unclosed_contracts": [
+    "The staged payload and row geometry require a usable1KiB corrected-payload interface, parity placement outside useful weight rows, PB-to-ECC transfer, decoder scratch and backpressure. A6.4GB/s decoder headline supplies neither that interface nor a successful worst-case codeword-service bound. Ordinary LSB/be-enc ownership is essential; CSB latch/ECC capabilities cannot be imported for free.",
+    "Latency p does not by itself guarantee initiation interval1. The reduction plus feedback accumulator must accept one16-product partial sum each cycle at the declared frequency, preserve row tags and clear only after the final retirement. If accumulator feedback or synchronous staging delivery inserts bubbles, the issue demand changes. The chosen per-codeword pipeline flush pays64*(p+b)/f; each extra cycle costs0.32us per chip-wave at200MHz.",
+    "PREP_READ cannot precede the information that determines the region, selected expert IDs, miss decision and legal physical addresses. It can remove P-to-sense only after those prerequisites. q-ready must be the actual time under concurrent command/control/P CPU and memory work; inserting isolated P timings while giving control a free core is invalid.",
+    "The proposed serial plane/chip drains consume real channel/controller/host service and tag/ack overhead. Each chip emits2048 I32 bytes per wave,32768 B across16 chips. Drained partial outputs need host-side storage/validity until whole expert/context success, including all four contributing chips; original slot-order combination cannot commit a failed or out-of-order partial result. Count this bounded host buffer and rollback/abort bookkeeping.",
+    "A finite PB-hold timeout, q deadline, fair drain reservation and finite ECC retry/abort policy are necessary. The completion inequality is a correct conservative schedule only inside successful-read and genuinely supplied per-stage upper envelopes. Nominal28us tR,200MHz or peak link/decoder rates are not verified worst-case envelopes.",
+    "RF, staged correction, new command state, I32 output format, held-page lifetime and FIFO handshake constitute a real interface change.1696B does not prove a minor increment; native lane/port/FIFO internals are unknown. Unrelated scalar-MAC PPA times16 cannot establish this integrated block's area, timing, energy or incremental area over AiF."
+  ],
+  "placement_and_replication": {
+    "two_wave_limit": "Four g4 groups with K6/K8 gives a best balanced two-wave shape, not an arbitrary-route guarantee. With one copy, all selected experts may reside in one group and require6/8 group uses. Per-plane block/page/LSB address constraints, bad-block remapping and controller mapping must close.",
+    "sufficient_hypothetical_copy_policy": "Four complete group replicas of every context map would permit arbitrary selected experts to be assigned among the four groups, subject to legal page layout and command ownership. This is prospective and not selected/frozen placement.",
+    "map_bytes_only": {
+      "Deep_one_copy": 13958643712,
+      "Deep_four_copies": 55834574848,
+      "OLM_one_copy": 8589934592,
+      "OLM_four_copies": 34359738368
+    },
+    "fairness": "Add scales/metadata policy, LSB usable capacity, spare/ECC/FTL reserves, retained fallback originals and addresses/replica-control overhead. Give ordinary-load CPU the same copies/layout/scheduling capabilities. Host cache stores one canonical map copy; flash copies do not multiply the usable host-cache budget. Fallback operators do not inherit the r128 two-wave count."
+  },
+  "strongest_necessity_challenges": [
+    "The same-bank ordinary loader can start after addresses are ready, overlap DMA with host P, compute completed rows and free its PB for another read. It need not wait for this PE's serial plane/FIFO barriers. Compare attainable schedules under identical finite resources; raw tR plus8GB/s payload division is only a bound, not validated commodity-NVMe latency.",
+    "Give the ordinary loader the same corrected-data/command enhancements and capacity, and give CPU controls all-host/cache and target-ISA optimizations. Current EPYC AVX2 proxy timings do not prove an optimized i9 VNNI host floor. Conversely, different full-bank residency can matter even when one C_CPU cohort is faster than D_CPU.",
+    "The current eight-op C bank is small enough to require a serious all-host/cache control. Even a single earliest-layer all64 r128/C32 bank has only536870912 B of map coefficients before scales/bias/geometry; a quality expansion at that scope alone cannot establish a large-bank flash need. Host residency does not mathematically forbid compute acceleration, but removes an unproved compulsory-weight-miss argument.",
+    "A fully specified r128 dense dot engine is not automatically a publication contribution. The research value must come from the quality/capacity/active-work separation versus global/nonlinear/factor methods and a legal whole-DAG advantage, with native shared/dense/attention/KV and host contention preserved."
+  ],
+  "bound_interpretation": "max(28,10.24,20.48) and the nominal sum58.72us are unachieved ideal accounting points.48.48us/wave and96.96us for a chip busy in both waves apply only to this SenseReady-before-PE/no-next-read-overlap16-lane construction under its stated nominal sense premise. They are not universal AiF lower bounds or evidence that either array/control/output schedule exists.",
+  "bounded_next_step_without_execution": [
+    "Freeze one interface/ownership worksheet: useful payload/parity mapping, legal multiplane addresses, staging read latency and II, FIFO credits, host rollback storage, context timeout/retry and named E/P/Q/D envelope sources. Separate demonstrated values from unsupported assumptions.",
+    "Construct a finite analytical cost comparison over miss counts0..K and declared cache/placement cases, including one-copy imbalance and fully charged four-copy guarantees. Compare the same-bank ordinary loader and all-host/hybrid controls with the same early-address capability; do not use two lower-bound ordering as dominance proof.",
+    "Proceed to any separately authorized RTL/STA/PPA only if a material matched-quality whole-DAG crossover survives that comparison. Lack of a surviving point can reject this bounded construction; failure of one service assumption cannot reject all in-flash designs. No extra experiments, grids, quality tuning or method-clock credit are authorized by this review."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "reviewer": "critic_sol",
+  "at_utc": "2026-11-03 07:16:56 UTC",
+  "status": "approved_source_only",
+  "source_phase": "BENCH_NL",
+  "blocking_findings": [],
+  "bindings": {
+    "source_revision": 6,
+    "source_freeze_sha256": "87832ea2e8f7161927be062bf477892de334bb89cb345ff35bfa7d24e15c04bf",
+    "base_protocol_sha256": "5f21869ae968057a09ed1f5f64cf06f83aa22fa1dc442303fa6ce5c25f9b58be",
+    "phase_order_amendment_sha256": "cd8fb02247d0be93850c598097d95963c3538607118553d1b4941da1a64a835b",
+    "BIND_complete_sha256": "5f666211e98c1ed8f12af234835ffdd96a74971aa35897179070158f13e66ea8",
+    "BENCH_BCD_complete_sha256": "028165488af6ce2106739078b94158829a52bf6eb45a658f41b7ec6ab4984192",
+    "GU_FIT_complete_sha256": "be14e6812dc0601361886d0172fc9444698e61c8516b2e087ad405180d5b148b",
+    "NL_registry_sha256": "20d3ca955d4c0436afc34386c9223ffdc8c211f3b6c96cce0e5acf529de94414",
+    "NL_payload_manifest_sha256": "6405514b6c678dd58af639d023096b4fb2e8fe44756ab6f9c59dc1839279621f",
+    "original_refreshed_registry_sha256": "16069fb3111899d3adc28e668e0b29529b06804a829e81533247e8b49ebca5cc"
+  },
+  "allowed_metadata_integrity_review": {
+    "scope": "Read and hash GU completion/registry/payload-manifest metadata, eight fit reports and four numerical-audit closures only. No model/weight/activation/target arrays, new predictions, DEV or TEST were read or executed.",
+    "fit_reports": "All eight metadata hashes match GU_FIT.complete; report model hashes match the registry. All report eta0, rank128, one production GU pass, one cached GU-FMA pass, one Down calibration pass, archive B1/batch bits and inherited C support. Each of32 leaves is nonempty,919-934 raw rows; pooled condition range11.8176-17.4687. These are numerical-support checks, not sample independence, convergence or quality evidence.",
+    "audit_closures": "All four metadata hashes match GU_FIT.complete and status=passed. All32 operator-arm checks cover four vectors and8192 output elements each,262144 reported bit-equal outputs total. Canonical GU/private activation/A8 scales, I64 exact dots and natural/full-K/empty final-alpha slot order are explicitly PASS. Audit work is marked additional, not another GU production pass.",
+    "recomputed_totals": {
+      "production_expert_rows": 236888,
+      "production_GU_integer_MACs": 1179989835776,
+      "production_GU_target_bytes": 2304667648,
+      "GU_prediction_FMA": 73749364736,
+      "Down_calibration_integer_MACs": 589994917888
+    },
+    "full_payload_closure": "The934 actual output files and their6.583GB bodies are Root's independent hash-review scope. This source-only approval is conditional on that closure and does not claim a second payload read by the critic."
+  },
+  "source_closure": [
+    "Reviewed immutable rev006 run/core/numeric source hashes still match their freeze. bench selects only arm7 and the newly frozen NL layer manifests while reusing the exact BIND typed32-row samples/IDs/live-alpha. It adds all GU_FIT output dependencies to the full FIT/BIND before/after SHA/stat identity checks.",
+    "A nonempty cohort selects one shared tree leaf and centered input, runs P128/quantization once, then performs FP32 GU coefficients with the frozen eight-lane FMA reduction, separate F32 input scaling and leaf GU biases. Each expert runs pinned full-I SiLU-times-Up and its own whole-I dynamic A8 max/scale; exact W8 original Down follows, then F32 output bias, separate alpha multiplication and selected-slot-order F32 addition. No pre-lift alpha merge or common private activation max is substituted.",
+    "Persistent eight-worker team, actual RN/MXCSR guards, cross-slot GU dispatch, output-row cohort dispatch and preallocated/counted scratch remain unchanged. Timed activation does not execute the fused comparison; that is audit-only. Unsupported leaves retain canonical fallback and zero live slots return before selector/P.",
+    "Five warmups and31 timed invocations remain fixed for operator0/operator1/natural-partial/full-K-resource-only cases and warm/cold conditions. Timed indices are0..30 from the32-row pool; row31 is not timed. Cold uses each worker's disjoint128MiB portion of one1GiB pollution buffer before invocation, with its barrier outside timing.",
+    "Full-K uses physically distinct copies of two fitted templates and actual-alpha shape vectors, with the resource-only label preserved. Natural partial cases remain partial pilot contributions; neither is full64-expert quality or full FFN latency.",
+    "The separate NL phase retains its600-second checkpoint and8e9 research-RSS cap, actual machine/load metadata,0.2-second descendant RSS/affinity samples and reviewed subreaper/pidfd cleanup. It does not repeat BCD or enlarge the combined1200-second benchmark allowance."
+  ],
+  "cross_phase_cost_limits": [
+    "BCD rotates three arms and can change cache state between them; NL-only repeats one arm. Warm-resident labels therefore do not establish identical cross-arm cache histories. Different phase time/load/frequency conditions also remain. Report both frozen scenarios and raw timing metadata; do not present a simultaneous or perfectly matched-cache race or add unapproved repeats.",
+    "The1GiB pollution procedure is a defined cache condition, not a deployment miss distribution. Native GGML activation is linked into otherwise AVX2 direct loops. Measurements remain EPYC operator proxies, not target-i9 best kernels, AiF/PCIe service, inclusive8GB fit or whole-DAG speedup.",
+    "GU completion and audit PASS establish numerical plumbing only. NL model quality, full-route coverage, publication value and conditional flash-necessity questions remain open; no automatic scientific classification follows."
+  ],
+  "actual_release_gate": "Root must first finish the independent934-output hash closure, then issue a new BENCH_NL-only approval binding exact rev006/base/amendment/upstream/BIND/BENCH_BCD/GU_FIT identities and the NL registry. This JSON does not authorize execution. DEV_QUALITY and all other new data/coverage/formats/TEST remain separately closed.",
+  "reviewer_actions": "Only source and explicitly permitted closed metadata were read; only this new JSON was written. No candidate, fitting, measurement, build or test execution, no source/protocol/result edits and no automatic push."
+}

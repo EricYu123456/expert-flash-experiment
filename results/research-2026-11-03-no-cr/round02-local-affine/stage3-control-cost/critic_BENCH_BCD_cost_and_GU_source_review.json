@@ -1,0 +1,69 @@
+{
+  "reviewer": "critic_sol",
+  "at_utc": "2026-11-03 07:04:52 UTC",
+  "scope": "Read-only closed BENCH_BCD output analysis and frozen GU_FIT source review; only this new JSON was written. No candidate, fitting, model, measurement or TEST execution and no GU production/DEV payload reading.",
+  "same_round": 2,
+  "scientific_failure_increment": 0,
+  "verdict": "Complete the fixed NL8 mechanism control within the existing round. GU_FIT is source-ready with no implementation blocker; Root must separately authorize actual GU_FIT execution. The current cost window is conditional and does not establish flash necessity, target-host superiority, deployment success or Round2 failure.",
+  "bindings": {
+    "source_revision": 6,
+    "source_freeze_sha256": "87832ea2e8f7161927be062bf477892de334bb89cb345ff35bfa7d24e15c04bf",
+    "base_protocol_sha256": "5f21869ae968057a09ed1f5f64cf06f83aa22fa1dc442303fa6ce5c25f9b58be",
+    "phase_order_amendment_sha256": "cd8fb02247d0be93850c598097d95963c3538607118553d1b4941da1a64a835b",
+    "reused_rev003_BIND_complete_sha256": "5f666211e98c1ed8f12af234835ffdd96a74971aa35897179070158f13e66ea8",
+    "BENCH_BCD_complete_sha256": "028165488af6ce2106739078b94158829a52bf6eb45a658f41b7ec6ab4984192",
+    "executor_closure_sha256": "73d22b6aaa2a1d7393100ba40e5c72d37b3646f1a655117432759c4f4d9da3a7",
+    "Root_closed_output_audit_sha256": "05022ce67edac5dca8e5c39b0373f0f93a215d13fb516997bc318a39faa566cf",
+    "prior_BENCH_source_review_sha256": "306280454428cee01adc87513f538e9f0276b399efd29a32f43cbe4478da9db9"
+  },
+  "independent_closed_output_checks": {
+    "manifest_files": 30,
+    "manifest_bytes": 3695916,
+    "hash_mismatches": 0,
+    "raw_trials": 2976,
+    "cases": 96,
+    "checks": "Recomputed all96 case median/p10/p90/p95/min from all2976 raw trials; checked each trial0..30 and input row0..30, exact three-arm cyclic order, natural live-slot histograms and every matching warm/cold per-input output checksum. No outlier was dropped. Checksum consistency is not literal full-vector memcmp.",
+    "resource_and_identity_evidence": "Closed executor receipts show phase OS0, observed aggregate RSS peak1402044416 B, no resource violations and all five registered phase/numeric processes gone. Frozen source performs complete FIT470 plus BIND698 before/after contentSHA/stat checks; successful assertion is recorded, not an invented separately saved historical stat snapshot. Root separately rechecked source524 and eight upstream hashes."
+  },
+  "full_K_resource_only_median_microseconds": {
+    "labels": ["B", "C", "D"],
+    "deepseek.L1": {"warm": [817.970, 153.522, 306.034], "cold": [1725.752, 211.472, 534.556]},
+    "deepseek.L13": {"warm": [826.551, 156.882, 327.354], "cold": [1729.382, 449.446, 641.888]},
+    "olmoe.L0": {"warm": [858.881, 211.063, 383.425], "cold": [1842.194, 485.547, 883.082]},
+    "olmoe.L8": {"warm": [909.691, 188.633, 442.745], "cold": [1829.204, 271.334, 876.262]},
+    "scope": "Two fitted expert templates repeated in physically distinct arrays, with frozen actual-alpha vectors. This is an operator/cohort shape proxy, not all64 expert quality, actual full-layer routing or full FFN/shared/attention/KV latency. AVX2 direct integer/FMA loops include pinned GGML native activation; this is EPYC service, not i9 or AiF measurement."
+  },
+  "natural_partial_live_slot_histograms_0_1_2": {
+    "deepseek.L1": [24, 7, 0],
+    "deepseek.L13": [25, 5, 1],
+    "olmoe.L0": [21, 9, 1],
+    "olmoe.L8": [28, 3, 0],
+    "interpretation": "The natural-partial median is dominated by zero-hit early returns. It cannot be used as complete MoE service. Thirty-one timed rows are drawn from the prespecified32-row pool; row31 was not timed."
+  },
+  "finite_cost_window": [
+    "C_CPU is faster than the frozen D_CPU in every reported full-K warm/cold median. This supports a local operator implementation result; it does not prove that C's larger region bank requires in-flash computation, or that a smaller resident D bank cannot win a legal memory/cache schedule.",
+    "C warm selector medians are about11.5-11.8us and input projection/A8 medians29.2-30.2us; its output-team medians110.6-166.9us include integer maps, output bias and final-alpha combination. These stage medians are descriptive and do not add exactly to a total median. In-flash replacement retains selector/P work and still needs commands/input transfer, scale/bias/alpha processing and result handling. C_CPU minus56us is not a measured benefit or a valid whole-DAG estimator.",
+    "The remaining conditional opportunity is whether a legal flash read/ECC/PE/drain plus host-completion schedule replaces enough output work and miss transfer to beat the best same-capability baseline. No PE throughput, finite FIFO/backpressure, short-row ABI, cross-cohort overlap or inclusive whole-model8e9/8GiB closure has been established here. The native LSB contract and capacity must close; ordinary CSB46us alone does not supply native input-latch/ECC computation.",
+    "The strongest alternatives remain identical-bank ordinary loading plus CPU execution with the same legal cache, all-host/cache placements, original flash-GU plus host-Down, and compact factor/nonlinear controls. Raw tR plus PCIe payload division is not a validated NVMe schedule. Shared/routed standalone walltimes cannot be summed as an unavoidable latency lower bound.",
+    "Cold means the frozen1GiB eight-worker cache-pollution procedure, not a measured deployment miss distribution. Large retained tails matter: C cold p90/p95 at DeepL1 are520/1099us, at OLM L8 544/1116us. No new repetitions or tail deletion are justified automatically; target bandwidth/ISA, warm cache hit rate and whole-DAG crossover remain unmeasured.",
+    "The CPU operator reductions versus B exceed10%, but that is an engineering flag only. It supplies neither publication novelty nor full-model quality/E2E evidence. There is no validated baseline-versus-best-legal-candidate dominance certificate, so this checkpoint neither kills nor validates the Round2 method."
+  ],
+  "why_fixed_NL8_remains_worth_completing": "The fixed P128-to-predicted-GU plus pinned SwiGLU and original canonical Down control tests whether the small latent representation and retained nonlinearity explain useful approximation without requiring context-specific output slopes. B/C/D timings alone cannot answer this quality/capacity tradeoff. Its global GU slopes plus regional intercepts have a different bank/residency and active-work balance, so hypothetical all-pin failure is not universal hybrid dominance. One frozen eta0 pass is a bounded necessary mechanism control, not another method, parameter search or guaranteed publication contribution. Failure of this recipe would not exclude stronger trained nonlinear controls.",
+  "GU_FIT_source_review": {
+    "source_ready": true,
+    "implementation_blockers": [],
+    "checked": [
+      "Immutable rev006 core.py:65-72 reloads the exact ordered oldFIT120 plus PGTRAIN16 union and authoritative shared targets. Rows29629/29593 per layer are hash-bound; all union rows have unit weight. Geometry, P128/C32, C/D maps, original W8 weights and unsupported masks remain fixed. No PG validation, routing-hit filtering, new states or new basis/rank/format selection is introduced.",
+      "core.py:161-181 uses the same within-leaf-centered decoded-A8 covariance system; eta0/lambda-infinity yields the optimal pooled prior used as FP32 G/U slopes. Biases use the actual eight-lane-FMA prediction after F32 input scaling, with frozen sequential-F64 residual means; then pinned full-I SwiGLU, each private whole-I A8 quantizer and original canonical Down produce a single output residual-bias calibration. No retuning loop or post-output-add bias iteration is present.",
+      "One canonical GU production pass is persisted and cached. Expected totals are236888 expert rows,1179989835776 GU integer MACs,2304667648 raw GU target bytes,73749364736 projected-GU FMAs and589994917888 Down calibration integer MACs. Archive/B1 and direct CXX/private-intermediate audits are additional paid work, explicitly separate from production-pass counts.",
+      "Finite FP32 archive/shape/support checks, model hashes, B1-versus-batch bit equality, new NL7/COPY_NL8 registry bound to the original refreshed preprocessor, original-Down aliasing and canonical fallback are retained. Fixed real-four-vector auditing must pass before later phases. Generated rank-deficient eta0/archive/B1/fallback/CXX numerics and runner-cleanup coverage were already reviewed; none was rerun here.",
+      "Phase authorization binds exact rev006/base/amendment/upstream/BIND/BENCH receipts. GU_FIT has a separate5400-second checkpoint,8e9 research-RSS cap, preserved lifecycle diagnostics and frozen16GB incremental-disk budget. Root reports168.8GB available and current524-source/eight-upstream hashes all matching; this does not imply deployment8GB fit."
+    ]
+  },
+  "actual_execution_holds": [
+    "All candidate activity remains stopped until Root issues a new GU_FIT-only actual approval binding this cost checkpoint, rev006 and the exact BIND/BENCH_BCD completion hashes. This JSON is a scientific/source review, not an executable phase approval.",
+    "Any changed source/dependency, numeric/audit mismatch or resource/checkpoint failure requires a technical hold with evidence preserved. Do not alter targets, masks, rows, tolerances or fit recipe to repair a scientific result.",
+    "BENCH_NL, DEV_QUALITY, first64/all-routed expansion, new data/ranks/formats and TEST are separately closed. Later NL quality uses the already frozen development-only PG16 protocol; no automatic winner selection, strict Pareto claim, publication claim or Round2 failure follows."
+  ],
+  "disposition": "Same-Round2 continuation is scientifically justified; GU_FIT source is ready for Root's separate release. Original Stage0/1 inconclusive families, the passed eight-op partial quality screen and failed-round count remain unchanged. This new local review is not authorization to push subsequent changes."
+}

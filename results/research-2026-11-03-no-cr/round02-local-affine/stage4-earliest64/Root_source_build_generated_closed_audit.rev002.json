@@ -1,0 +1,92 @@
+{
+  "status": "passed_independent_closed_source_build_generated_audit_not_real_phase_release",
+  "at_utc": "2026-11-03T08:42:04.294982+00:00",
+  "source_revision": 2,
+  "source_freeze_sha256": "e02ea7549e558b5d6fbbc7f8018b76bdb5b1e132950a73ca541b15eec6793798",
+  "files_hashed": 285,
+  "file_bytes": 107855063,
+  "parents_hashed": 13,
+  "file_identity_prepost_stable": true,
+  "live7_exactly_match_frozen": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage4_core.py": "075a0874abbbb3adc038987b6f2b6692593eb02c9d0ca36c13c0949bce3519b2",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage4_fit.py": "62b0f841fee704fb6877d3c681ce07a16502f0d6c9e9b55a6357e4e5db887114",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage4_harness.cpp": "a9bc6ed0a0277a0c46eb8584c56bc3560095d77395aa275ecdcb1b834e544603",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage4_run.py": "4f080787e2036dcb61a5d5cf205c8cfd8c3c53f8c93a2aa229fd6bcdbdfe3028",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage4_synthetic.py": "50ea692acb2a975d462213971b6605fe1a8355e84d1a12cf094062df97640a4d",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage4_weights.cpp": "dddc22856805dd17b6c0c946995bcc91e867fb2c6233ec7efd2a67d661db7faf",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage4_worker.py": "1a7160768f07bbaef6717714f91293405a626a55c11156c115dd64d815e9d083"
+  },
+  "old37_unchanged": true,
+  "metadata_selection_independently_equal": {
+    "deepseek": {
+      "expert": 26,
+      "all256_original_records_digests_order_match": true,
+      "four_audit_rows": [
+        13180,
+        20800,
+        25213,
+        24426
+      ]
+    },
+    "olmoe": {
+      "expert": 1,
+      "all256_original_records_digests_order_match": true,
+      "four_audit_rows": [
+        10941,
+        26712,
+        20879,
+        26973
+      ]
+    }
+  },
+  "build_and_generated_process_checks": [
+    {
+      "name": "build0",
+      "exit_sha256": "c1188a405a85d96ead4cf1daafdc46a5e40315d92ca120ca519d342f0f1fb549",
+      "wall_seconds": 1.8564398251473904,
+      "observed_aggregate_peak_RSS_bytes": 374566912,
+      "OS0_resource_valid_owned_cleanup": true
+    },
+    {
+      "name": "build1",
+      "exit_sha256": "fbd74f5cdb4ba2ca0aad2e57f32405875cf6b679f57e3a18011edfd08e8f5681",
+      "wall_seconds": 6.486173622310162,
+      "observed_aggregate_peak_RSS_bytes": 650354688,
+      "OS0_resource_valid_owned_cleanup": true
+    },
+    {
+      "name": "test0",
+      "exit_sha256": "621b267c14116e975a76fdc44388974b6288606e2d04905fd74c05ebc52c192d",
+      "wall_seconds": 0.2437637378461659,
+      "observed_aggregate_peak_RSS_bytes": 127275008,
+      "OS0_resource_valid_owned_cleanup": true
+    },
+    {
+      "name": "test1",
+      "exit_sha256": "93d9da177805cc269852a30ec3f715f490867a5f2be662f88131521473d5aee1",
+      "wall_seconds": 0.65258673671633,
+      "observed_aggregate_peak_RSS_bytes": 196251648,
+      "OS0_resource_valid_owned_cleanup": true
+    },
+    {
+      "name": "test2",
+      "exit_sha256": "6ec1092081669e5e0c3fa287a9841b55a199b397fee93ab4d1f0770fb09553ce",
+      "wall_seconds": 26.00781640317291,
+      "observed_aggregate_peak_RSS_bytes": 1729765376,
+      "OS0_resource_valid_owned_cleanup": true
+    }
+  ],
+  "generated_receipt_sha256": "100bb9ab65109cbe3087c8755a87c08deaeb1b07295cf302453aa0444dd775a5",
+  "rev001_to_rev002_source_changes": [
+    {
+      "file": "research_20261103_local_affine_stage4_core.py",
+      "unified_diff": "--- \n+++ \n@@ -202,7 +202,7 @@\n \n def paired_summary(values,books):\n     v=np.asarray(values,np.float64);assert v.shape==(2,16,3) and len(books)==len(set(books))==16\n-    result={'book_ids':list(books),'primary_family':'two model C64-minus-B64 paired-book meanNLL endpoints','primary_family_inconclusive':True,'seed':2026110304,'repeats':10000,'ddof':1,'quantile_method':'linear','margin_NLL':math.log(1.02),'automatic_scientific_classification':False,'models':{}}\n+    result={'book_ids':list(books),'primary_family':'two model C64-minus-B64 paired-book meanNLL endpoints','primary_family_inconclusive':True,'bootstrap_defined':False,'both_upper_strictly_below_margin':False,'any_lower_strictly_above_margin':False,'interval_relation':'crossing_boundary_or_undefined','budget_disposition':'Root+critic decide; interval relation only','seed':2026110304,'repeats':10000,'ddof':1,'quantile_method':'linear','margin_NLL':math.log(1.02),'automatic_scientific_classification':False,'models':{}}\n     if not np.isfinite(v).all():result['reason']='missing/nonfinite book or endpoint; no drop/redraw';return result\n     delta=v[:,:,2]-v[:,:,1];hat=delta.mean(axis=1);draws=np.random.default_rng(2026110304).integers(0,16,(10000,16));boot=delta[:,draws].mean(axis=2);sd=boot.std(axis=1,ddof=1);valid=np.isfinite(sd).all() and (sd>0).all()\n     cutoff=float(np.quantile(np.max(np.abs((boot-hat[:,None])/sd[:,None]),axis=0),.95,method='linear')) if valid else None\n"
+    },
+    {
+      "file": "research_20261103_local_affine_stage4_synthetic.py",
+      "unified_diff": "--- \n+++ \n@@ -80,7 +80,7 @@\n     # using one stored map per archive. No deployment-RAM inference is made.\n     zero=np.zeros((32,2048,128),np.int8);scale=np.ones((32,2048),np.float32)\n     for e in range(64):\n-        model={'qmaps':zero,'scales':scale,'bias':np.full((32,2048),e/1000,np.float32),'map_hashes':['zero']*32,'unsupported':[31] if e==7 else []};path,key=old.archive_model(bank,model);ops.append({'expert':e,'local_model_path':path,'local_model_hash':key})\n+        model={'qmaps':zero,'scales':scale,'bias':np.full((32,2048),e/1000,np.float32),'map_hashes':['zero']*32,'unsupported':[31] if e==63 else []};path,key=old.archive_model(bank,model);ops.append({'expert':e,'local_model_path':path,'local_model_hash':key})\n     models={};payload={}\n     for name,I,layer in [('deepseek',1408,1),('olmoe',1024,0)]:\n         wf=folder/name;wf.mkdir();paths=[]\n@@ -170,7 +170,7 @@\n         jobs,ctx=s.context_plan(list(range(16)));assert len(ctx)==52 and len({c for j in jobs for c in j['contexts'].values()})==52\n         values=rng.standard_normal((2,16,3))*.03+2;values[:,:,2]=values[:,:,1]+rng.standard_normal((2,16))*.01;summary=s.paired_summary(values,list(range(16)));assert summary['bootstrap_defined']\n         draws=np.random.default_rng(2026110304).integers(0,16,(10000,16));delta=values[:,:,2]-values[:,:,1];boot=np.stack([np.asarray([sum(delta[m,j] for j in row)/16 for row in draws]) for m in range(2)]);sd=boot.std(axis=1,ddof=1);cut=float(np.quantile(np.max(np.abs((boot-delta.mean(axis=1)[:,None])/sd[:,None]),axis=0),.95,method='linear'));assert abs(cut-summary['cutoff'])<1e-12\n-        assert s.paired_summary(np.zeros((2,16,3)),list(range(16)))['primary_family_inconclusive'];missing=values.copy();missing[1,3,2]=np.nan;assert s.paired_summary(missing,list(range(16)))['primary_family_inconclusive'];cross=values.copy();cross[:,:,2]=cross[:,:,1]+np.log(1.02)+rng.standard_normal((2,16))*.03;crossing=s.paired_summary(cross,list(range(16)));assert crossing['bootstrap_defined'] and crossing['interval_relation']=='crossing_boundary_or_undefined' and crossing['primary_family_inconclusive']\n+        assert s.paired_summary(np.zeros((2,16,3)),list(range(16)))['primary_family_inconclusive'];missing=values.copy();missing[1,3,2]=np.nan;assert s.paired_summary(missing,list(range(16)))['primary_family_inconclusive'];cross=values.copy();noise=rng.standard_normal((2,16))*.03;noise-=noise.mean(axis=1)[:,None];cross[:,:,2]=cross[:,:,1]+np.log(1.02)+noise;crossing=s.paired_summary(cross,list(range(16)));assert crossing['bootstrap_defined'] and crossing['interval_relation']=='crossing_boundary_or_undefined' and crossing['primary_family_inconclusive']\n         large=values.copy();large[:,:,2]+=1000;json.dumps(s.paired_summary(large,list(range(16))),allow_nan=False)\n         lifecycle=lifecycle_fixtures(folder,base.worker.pid)\n         result={'status':'passed','generated_only':True,'actual_model_weights_capture_targets_fittedpayload_books_eval_read':False,'old37_sources_unchanged':s.old_checks(),'FP64_integer_DGEMM_worst_signed_I64_all_channels':True,'ties_away_nearhalf_F32ratio_reference':True,'private_fullI1024_1408_actual_quantization':True,'fixed_local_only_complete_fit_archive_and_allrow_I64_B1_IPC':audit,'provenance_selection_keyorder_and_badrow':True,'atomic_completeY_reuse_zero_requery_and_partial_failclosed':True,'unsupported_in_archive_identity':True,'runtime_registry64_models':all64,'actual52_context_plan':True,'bootstrap_independent_loop_and_crossing_SD_missing_overflow':True,'numeric_ledger_generated_only':num.receipt(),'lifecycle':lifecycle};s.atomic_json(folder/'receipt.json',result);print(json.dumps({'status':'passed','generated_only':True,'receipt':str(folder/'receipt.json')}),flush=True)\n"
+    }
+  ],
+  "science_failure_increment": 0,
+  "real_phase_released": false
+}

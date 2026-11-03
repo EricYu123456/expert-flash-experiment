@@ -1,0 +1,99 @@
+{
+  "reviewer": "critic_sol",
+  "at_utc": "2026-11-03T10:12:05Z",
+  "verdict": "VALID_BOUNDED_FIRST64_V1_NECESSARY_QUALITY_FAILURE",
+  "blocking_integrity_findings": [],
+  "scope": "Independent read-only closed outputs, token NLL/statistics and exposure reconstruction. No candidate, model, teacher, fit, tokenizer, new evaluation/data, simulation or TEST execution; no outlier removal or recipe change.",
+  "bindings": {
+    "protocol_sha256": "32213b7b76cba5c18254f8bb13c7cfb8091c1db6c800468a541c4020e66c6b33",
+    "source_revision": 2,
+    "source_freeze_sha256": "e02ea7549e558b5d6fbbc7f8018b76bdb5b1e132950a73ca541b15eec6793798",
+    "registry_sha256": "8b8515274c31e4d2a6aa16a6c8c5e5c80e42972d20e4c803a7eb723e192a871b",
+    "QUALITY_complete_sha256": "2572483084112ac212c1aad3194d784c68b1063831d2f764334960943015faf6",
+    "summary_sha256": "e6b344ec1b5a01d8f619359d549d6ce8c459d0019ad56d165f2fb02c0a9e3a4f",
+    "executor_closure_sha256": "db38ee2a65941f3446e884f7775f0db86e12b41a0cb5562f9f4c6909869ff0d8",
+    "Root_independent_statistical_audit_sha256": "07743503dbc5bb017b37509ab8144742b336185ea3a2cd3b1d9d15d1e357c567"
+  },
+  "integrity_closure": {
+    "outputs_hashed": 20,
+    "output_bytes": 24763862,
+    "SHA_mismatches": 0,
+    "during_read_stat_changes": 0,
+    "saved_FIT_runtime_ACQUIRE_dependencies": 1574,
+    "saved_before_after_SHA_stat_records_exactly_equal": true,
+    "current_dependency_stat_mismatches": 0,
+    "current7_and_old37_source_SHA_mismatches": 0,
+    "actual_contexts": 104,
+    "contexts_per_model": 52,
+    "books_per_model": 16,
+    "short_missing_or_nonfinite_books": 0,
+    "firstbook_controls": "Both models report all executed literal full-vocabulary nohook/observer/copyOriginal and9-10/11-12 copy controls passed. Their owned-trace controls and strict numerical environment are the approved executed checks, not a new reviewer replay.",
+    "earliest_invariance": "For each model and each source-B/source-C pair, all8192 positions across16 books have zero actual owned Up-X, ordered-ID or final-MUL-alpha bit mismatches. No later-layer state equality or free-generation claim.",
+    "finite_token_NLLs_checked": 24576,
+    "token_semantics": "All three arms use their own KV/routes and immutable GT512 IDs. Every target256..511, predecessor255..510 and native target ID was independently checked; unused511 exposure remains separate."
+  },
+  "independent_scatter_reconstruction": {
+    "summary_exposure_records_rebuilt_exactly": 18432,
+    "all_worker_event_records_joined": true,
+    "including_firstbook_copy_event_counts": true,
+    "deepseek": {"worker_events": 4484, "C_rows_unscored": 24480, "C_rows_scored_predecessors": 24576, "C_rows_unused511": 96, "C_rows_total": 49152, "C_causal_rows": 49056, "fallback_rows": 0, "experts_actually_hit": 64},
+    "olmoe": {"worker_events": 4584, "C_rows_unscored": 32640, "C_rows_scored_predecessors": 32768, "C_rows_unused511": 128, "C_rows_total": 65536, "C_causal_rows": 65408, "fallback_rows": 0, "experts_actually_hit": 64},
+    "limit": "Complete earliest-layer selected-slot replacement is observed. No claim that every expert-leaf pair or all model layers was exercised."
+  },
+  "independent_primary_statistics": {
+    "unit": "Paired16-book mean of each256-token NLL window, two fixed model C64-minus-B64 endpoints",
+    "draws": 10000,
+    "seed": 2026110304,
+    "ddof": 1,
+    "method": "Shared book indices, centered max-abs-T, linear95 quantile; independently recomputed with a scalar resample-mean loop, matching frozen output within1e-12.",
+    "draw_array_hash": "b1d0130d938dc282a1ee2cfa5e17fb559e8f0c4a238c2ab038b26b74276b8864",
+    "cutoff": 2.1957914557002103,
+    "margin_NLL": 0.01980262729617973,
+    "family_defined": true,
+    "deepseek": {
+      "C_minus_B_mean_NLL": 0.0419045993980504,
+      "simultaneous95_NLL_band": [-0.0026040958654469856, 0.08641329466154779],
+      "relative_PPL_point": 0.04279499073540423,
+      "simultaneous95_relative_PPL_band": [-0.00260070814909285, 0.09025683253182147],
+      "individual_endpoint_disposition": "Inconclusive against the2% margin; neither pass nor valid harm established.",
+      "largest_harm_book_retained": 1022,
+      "largest_book_delta_NLL": 0.23052460295445032
+    },
+    "olmoe": {
+      "C_minus_B_mean_NLL": 0.14682200555039848,
+      "simultaneous95_NLL_band": [0.10094347631472385, 0.19270053478607313],
+      "relative_PPL_point": 0.1581478008021725,
+      "simultaneous95_relative_PPL_band": [0.10621411269789939, 0.21251963169377097],
+      "individual_endpoint_disposition": "Valid harmful lower bound exceeds the frozen ln1.02 margin.",
+      "books_above_frozen_margin": 16,
+      "minimum_book_delta_NLL": 0.06055887315128672,
+      "largest_harm_book_retained": 2383,
+      "largest_book_delta_NLL": 0.3669507948314785
+    },
+    "no_subset_rescue": "Deep's crossing interval does not erase OLM's valid simultaneous lower-bound violation. Both endpoints and every book/outlier remain in the same prespecified family."
+  },
+  "canonical_reference_review": {
+    "deepseek_B_minus_source_mean_NLL": -0.00017360869752651442,
+    "olmoe_B_minus_source_mean_NLL": 0.001012217308564961,
+    "olmoe_B_minus_source_book_range": [-0.007974957199913923, 0.011775644741217395],
+    "olmoe_C_minus_source_mean_NLL": 0.14783422285896347,
+    "assessment": "No observed canonical-reference degradation of a scale explaining OLM's C-minus-B harm; copy/numeric/input/routing integrity is valid. These source-reference differences are descriptive, not a new source-equivalence test. The failure is attributed to the declared approximation configuration, not silently to B-versus-source quantization."
+  },
+  "resources": {
+    "phase_OS_returncode": 0,
+    "phase_seconds": 897.4091594591737,
+    "wrapper_seconds": 897.824751,
+    "peak_observed_aggregate_RSS_bytes": 19955654656,
+    "resource_violations": 0,
+    "all_owned_processes_gone": true,
+    "interpretation": "Within the3600s/32e9 reference-harness limits. Source-derived unmetered work remains explicitly an upper/accounting description. Harness wall/RSS, overwritten source work, IPC and controls are not deployed8GB or speed evidence."
+  },
+  "scientific_adjudication": {
+    "failure_unit": "Only frozen first64-v1: complete earliest-MoE-layer C32/r128/W8/normal/unguarded local maps with immutable shared geometry, old-four exceptions and the adopted finite all-x calibration recipe under the2% GT-window budget.",
+    "decision": "Approve recording one bounded Round2 scientific quality failure under the prospective protocol and moving to fresh Round3 research. Completing deferred D/NL/SO controls is unnecessary to establish this adopted configuration's budget violation; their families are not declared inferior or impossible.",
+    "not_proven": "No universal local-affine/common-P family impossibility, calibration convergence, all-layer/generation-quality theorem, hardware no-go, speed regression or wholemodel>=10% result. The first-layer progression criterion is the adopted protocol gate, not a mathematical necessity for every possible all-layer model.",
+    "preserve": "Original Stage0/1 complete families remain inconclusive; earlier C8/NL8 partial development passes retain their original limited meaning.",
+    "campaign_counter_recommendation": {"failure_increment": 1, "failed_rounds_after_Root_recording": 2, "remaining_of_10": 8},
+    "next_step_limit": "Fresh Round3 thinking requires its own method/time/protocol gates. No rank/guard/data/variant rescue, deferred-control execution, new experiment, TEST or automatic push is authorized here."
+  }
+}

@@ -1,0 +1,12 @@
+你是B正式藍方Gemini3.8FlashHigh/high，Argonquota耗盡之合法fallback。候選同一GU-only共同非線性pool M4I,sI,T128、原router/actualα/sharedbranch不變、privateDown，普通read無CRread。這是預先列明的同候選獨立深入問題，非新方法，禁止任何工具、資料/weights/books/FIT/VAL/TEST讀取或code/probe/sim。純文字Root存檔。你的formal有效時間只以各CLI completedagentresponse receipt累加；其他agents/空檔/探索/舊A不算，禁止自己claim達1800或approveexperiment。所有事實/推導/未驗假說區分清楚，不能為湊時間灌水或等待。若真致命可以指出earlythoughtveto，但無資料時別假CPU必勝/PPL/capacity下界。此前memo錯誤原件保留；不要再自訂killthreshold、全局不可能、DRAMless救命、free多port/量化bitidentity。請先內部驗算和找反例再交出深入可審備忘錄。
+
+本block專注大方向：共享GU後是否仍保留足夠的專家功能差異？不是再列metadata表。
+
+1. 精確分析實數family y(x)=Σ_selectede α_e(x)D_e Φ_Ae(x)，φ_j=SiLU(g_jx)*(u_jx)。若所有expert同supportI，寫成input-dependent Down D(x)=Σα_e(x)D_e。證明這**不必等於固定單一DenseFFN**；給H2、E2、I1、router對x分區、D1/D2不同的explicit例，及αconstant/identicalD時才退化的充分例。不得再以M=I就保證品質+15%或專家能力collapse。分清『common nonlinear representation』與『expert outputs相同』，這是B真正樂觀的可能性。
+2. source teacherGU已共享而Down各異是B exactrealconstructivepositive；source所有features線性獨立且需要每expertdisjoint才是無壓縮counterexample，但要界定finiteinputset與全域，不能只以SiLU非同次證M4I不夠。固定X sample所有expertY concat rank≤M只在共同linearfeatureABI下；實際只自然routed部分矩陣和αmix，不可offrouteSVD tail當GT品質no-go。α(x)變動使mixtureacrosssamples未必rank≤M，給短反例。globalperexpertA8會再改featuremap，列rank前提。
+3. 重新審SiLU對稱，不只無齊次：用s(z)=z/(1+exp(-z))，證s(z)−s(-z)=z。因此φ(g,u)與φ(-g,u)差為(gx)(ux)，而φ(g,u)+φ(-g,-u)=(gx)(ux)。這是否允許無代價gate符號canonicalization？明確否：還需bilinearfeature/coeff，跨g不同又非全shared；upsign/scale在real可Down補，FP32/quant不是bitproof。這作為B初始化可用/不可用對稱邊界，**不把新增polynomialatom當本B實驗配置**，那是另方向須另clock。
+4. 在||x||≤R的bounded domain，推兩個近原子誤差上界，不用虛構globalPPL定理。可用SiLU導數界 L≤1+1/e（先驗算：|z|σ(z)(1−σ(z))≤|z|exp(-|z|)≤1/e）。證|φ(g,u)−φ(g′,u′)|≤R²[L||u|| ||g−g′||+||g′|| ||u−u′||]之類合法界，列所有norm/scale假設。輸出Down與routealpha的errorbound要用Σ|α|且不可sum1。為何這bound多半鬆、不能推NLL/PPL或路由stable？LayerNorm/attention/nearzero tokenmargin反例。其真正用途是否只是seedmetric/diagnostic？
+5. 64response signature的positive與failureconstructive例。相同64responses未必同function；若Xsig span低維，g在正交補改變則sig相同而holdout變。Evenfullspan對finiteSiLU nonlinear仍不保同function。選M真sourceatom+jointupdates比平均gate向量的功能差異，norm/sign只用於距離、實際g/u保持source可減init量化變動；不可稱initexact整模型。
+6. 提出有辨識力的learning實驗預測：若Down足夠保多樣且共GU有冗餘，重建-onlycommonpool可先達低品質損，而cohortpenalty進一步降activeunion；若專家GU表徵真互補，quality–uniontradeoff會陡。哪些TRAIN曲線/holdoutGT可分optimizer問題與表達限制，哪些不能？firstfinitequalitynegative只fixedrecipe，不做familytheorem。不要擅選超參數或讀數據。
+
+最後作一輪自我黑臉：你最樂觀的『Down保diversity』是否只是重述shared-bottommultitask/AdaShare/PCoMoE？最窄新增問題仍是fixedexistingMoE、samecohortpartialfeaturepool的quality-activework frontier，不稱已新穎。

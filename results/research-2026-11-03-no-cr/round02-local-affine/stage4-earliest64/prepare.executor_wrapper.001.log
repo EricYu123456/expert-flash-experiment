@@ -1,0 +1,16 @@
+{"launched_PID": 2713891, "phase_folder": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/freezes/rev001/build0", "at_utc": "2026-11-03T08:38:59.062235+00:00"}
+{"launched_PID": 2713901, "phase_folder": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/freezes/rev001/build1", "at_utc": "2026-11-03T08:39:00.919045+00:00"}
+{"launched_PID": 2713909, "phase_folder": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/freezes/rev001/test0", "at_utc": "2026-11-03T08:39:07.405165+00:00"}
+{"launched_PID": 2713910, "phase_folder": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/freezes/rev001/test1", "at_utc": "2026-11-03T08:39:07.649142+00:00"}
+{"launched_PID": 2713966, "phase_folder": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage4-earliest64/freezes/rev001/test2", "at_utc": "2026-11-03T08:39:08.299348+00:00"}
+Traceback (most recent call last):
+  File "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage4_run.py", line 328, in <module>
+    if a.command=='prepare':prepare()
+                            ~~~~~~~^^
+  File "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage4_run.py", line 224, in prepare
+    for i,cmd in enumerate(tests):receipts.append(monitored(cmd,rd/f'test{i}',8000000000,max(.01,deadline-time.monotonic())))
+                                                  ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ericyu/expert_flash_experiment/scripts/research_20261103_local_affine_stage4_run.py", line 199, in monitored
+    assert rc==0 and not violations and life['all_owned_processes_gone'] and not life['unexpected_descendants_after_normal_root_exit'],'preserved tooling/resource/checkpoint/lifecycle failure; same stage needs review';return receipt
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: preserved tooling/resource/checkpoint/lifecycle failure; same stage needs review

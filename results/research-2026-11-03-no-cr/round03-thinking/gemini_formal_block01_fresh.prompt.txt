@@ -1,0 +1,19 @@
+Round3正式候選思考Block01，與先前exploration分開。請讀 candidate03_native_mixed_format_formal_thinking.v1.json（Root formalstart10:35:14UTC）；你自己的actualclock只能從本次CLI真start開始，Root測elapsed。已探索block01/02共384s不credited。選為待否證研究候選非實驗採納：需要你與Sol各>=1800s真實同候選source/math工作、critic valuegate和新protocol才可實驗，禁止sleep/空轉/拿conversation cumulative time宣稱滿足。
+
+仍禁止任何model/weights/X/Y/FIT/qualitybody/books/TEST讀取，禁止候選code/build/numericalprobe/fit/sim/RTL/synthesis執行。不改oldnotes/code，僅寫round03-thinking/gemini_formal_block01_fresh_numeric_resource.md。可讀charter/own先前note/research_terra_compressed_native_followup.md/thinker_sol_exploration.md/critic_frontier.md，及pinned llama.cpp來源（不是模型）來核對。請以可公開的設計結論/公式/來源記錄，非空泛願景。
+
+你block02仍有新的過強結論必須不用：16lane不必16portSRAM（可按group broadcast小table/MUX/bank/time），不准無library卻稱>.07mm²；OLM可能hostfit不證CPU永遠快；Q4K每256weights144B不是128B，2GU+Down3waves未算metadata/ceil/barrier；chipcollision>99.9%/任意16waves沒有layout不是證明；不能因一個可行hostschedule或兩個LB就稱domination。PALUTE/TMAC/CodeGEMM/SLIM都是已知，RF2KiB/window不是新意本身。
+
+正式唯一命題：native256-input quantizationblock作為NAND codepacking/有限LUT livewindow/producerconsumer的共同量子，是否有一個**具體可實現的area/service/capacity區間**優於完整LUTposting與equalarea nibbleexpander+MAC，且sameformat普通load/CPU有相同earlyinfo/cache/replicas？不預言會有，真的反例可thoughtveto不扣8。
+
+最新經Sol/critic核對的事實：generic GGML Q4K與Q6K dot各outputrow保8條跨256block F32 sums，Q4另mincorrection；連續4activation g4查表若提前合併不同F32lane，即使I32total相同也非bitexact。Q4 generic可能stride8 g4保32-subgroup/lane，Q6每16scale只有每lane2元素需g2/額外state；x86AVX2另一個ABI可contiguous4但Q4有4minlanes/FMA，Q6bsums補offset，必須選單一後端。Q8K inputblockscale可帶負號！不能套canonical正amaxscale。請自己讀必要source確認，若不能確認就標未證，不假造source line。
+
+本block只做兩件有深度的工作：
+A. 選generic vs x86AVX2作prospective numericABI的取捨，推你願背書的integer/float狀態與Q4scale/min/Q6highbits/scale/bsums運算順序。給一個小型**紙上**counterexample說明為何integer等價不等F32等價；不要跑程式或斷言ULP小就PPL0。
+B. 給兩個可合法比較的finite構造：native256-inputwindow+rowbatch以及full-inputtable；逐項標lookup/table/8laneFp32carry/metadata/correctedECC/staging/outputs的同時存活量、possible ports/broadcast與誰持有。用16KiBpage和4planes去取整，不把64KiBwave當一個free randomscratch。直接MAC對照同weightformat/同area/同buffers/相同早期read及FP32numericABI，列一個能證window不可能更好的區域和一個仍待PPA/可行排程的區域（不存在就直說）。不要為了顯示可行而強制對照完整LUT或W8。
+
+額外：GU共input可攤K，Down各h_e私有；原生quantblock readiness可能要跨chip收集256h的amax，或用wholeblockneuronownership避免收集但付Down column partialsum回傳/FP32order，請宏觀指出這個owner不免費，不能聲稱『一chip2KiB h就完成整expert』。保留sourceSwiGLU還需要LUT/FP32精度契約，沒有免費硬體zeroPPL。
+
+請務實深入，最後標此次可確認/被否定/未解3組結論和接下來正式block最該攻的單一問題。此次只記individual CLI substantive elapsed，未累計1800不得宣稱timegate通過。
+
+補充：這是經READY成功的新conversation。舊conversation正式block因429未完成，0credit；READY4.77s只是availabilitycheck亦0credit。從這次actualstart重新記Gem候選有效工作，與Sol10:36:10起的工作不能相加。請不要讀舊conversation或歷史長context，按本文必要source核對。

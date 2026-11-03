@@ -1,0 +1,74 @@
+{
+  "status": "passed_independent_closed_PREFLIGHT_audit_no_FIT_release",
+  "at_utc": "2026-11-03T08:56:43.831806+00:00",
+  "complete_sha256": "082bec618a42646450dc4f3185dedf201bc168fe50dd50bececedd2a9e8ddf51",
+  "new_files_hashed": 4,
+  "new_bytes_hashed": 4700193,
+  "BIND_1550_current_files_hashed_equal_frozen": true,
+  "closed_output_checks": {
+    "deepseek": {
+      "expert": 26,
+      "selection_original_records_exact": true,
+      "Y_file_sha256": "3ca23c67d7d86612c75022d6e03b5f4ecaae8049871130d47df038dd7b8ba176",
+      "F32_Y_shape": [
+        256,
+        2048
+      ],
+      "retained_finite_F32_elements": 524288,
+      "batch_archive_all256_B1_every_H_bit_check": true,
+      "four_private_I64_and_own_amax_scale_bits": true,
+      "report_wall_seconds_including_B1_IO_audits": 7.076625976711512
+    },
+    "olmoe": {
+      "expert": 1,
+      "selection_original_records_exact": true,
+      "Y_file_sha256": "825659a7868dae11c3bf147e90f6dbf27405d6802c54259d9c394dd8c8a0395c",
+      "F32_Y_shape": [
+        256,
+        2048
+      ],
+      "retained_finite_F32_elements": 524288,
+      "batch_archive_all256_B1_every_H_bit_check": true,
+      "four_private_I64_and_own_amax_scale_bits": true,
+      "report_wall_seconds_including_B1_IO_audits": 7.0401789038442075
+    }
+  },
+  "actual_primitive_ledger": {
+    "preflight_extra_teacher256": {
+      "quantized_elements": 1671168,
+      "integer_MAC": 3825205248,
+      "internal_sampled_I64_MAC": 95616,
+      "rescaled_F32_elements": 2293760,
+      "whole_I_product_elements": 622592,
+      "pinned_SiLU_and_fused_audit_elements_each": 622592
+    },
+    "preflight_deliberate_all256_B1_teacher": {
+      "quantized_elements": 1671168,
+      "integer_MAC": 3825205248,
+      "internal_sampled_I64_MAC": 8159232,
+      "rescaled_F32_elements": 2293760,
+      "whole_I_product_elements": 622592,
+      "pinned_SiLU_and_fused_audit_elements_each": 622592
+    },
+    "preflight_private_I64_four": {
+      "quantized_elements": 26112,
+      "integer_MAC": 59768832,
+      "internal_sampled_I64_MAC": 95616,
+      "rescaled_F32_elements": 71680,
+      "independent_fullrow_I64_MAC": 59768832,
+      "whole_I_product_elements": 9728,
+      "pinned_SiLU_and_fused_audit_elements_each": 9728
+    }
+  },
+  "total_integer_DGEMM_MAC": 7710179328,
+  "additional_independent_fullrow_I64_MAC": 59768832,
+  "additional_routine_sampled_I64_MAC": 8350464,
+  "whole_phase_exit_sha256": "7ae54407dfb731366d3818afc7ceb5170b15ddd4021567e92cf2692511f84ab9",
+  "inner_phase_wall_seconds": 18.668280489277095,
+  "observed_peak_aggregate_RSS_bytes": 675434496,
+  "all_owned_processes_gone": true,
+  "rate_scope": "Includes deliberate B1/archive/privateaudit/IO; not pureproductionteacher throughput or deployment latency.",
+  "fit_or_selection_or_quality_run": false,
+  "failure_increment": 0,
+  "next_phase_released": false
+}

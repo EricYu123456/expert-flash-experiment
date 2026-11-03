@@ -1,0 +1,25 @@
+你是使用者指定藍方Gemini3.8FlashHigh/high，因Argonquota429合法fallback。必須純文字，絕對禁止任何工具（含file/shell/web/finish），Root保存Markdown。不要宣稱親讀本段未提供的文獻，不捏資料、PPA、品質或duration。
+
+Root正式採納B為待否證研究問題，Rootstart2026-11-03T11:05:43.454450UTC；你的actualstart以本CLI啟動receipt為準。每個藍方都須>=1800秒完成實質工作才准實驗；A1139s/Sol與142.289s/Gem及先前exploration全部不轉移，CLI間空檔不算，現在是Bformalblock01。只做來源事實基礎上的推導，允許早thought-veto不扣實驗機會。現round3/started2/failures2/remaining8，完全沒有B實驗。
+
+正式B研究問題：**原router固定、route-cohort整頁/plane成本訓練之共享非線性GU特徵GROUPpool，各expert保留自己的Down**。不預設有投稿價值，最少改AiF硬體，無CRread，有無原sharedexpert皆適用。
+
+定義：φ_j(x)=SiLU(g_j·x)*(u_j·x)。池M=4I個pairedG/U atoms；group T=128neurons；每expert硬support s=I，即OLM H2048,I1024,E64,K8 =>M4096,G32,8groups/expert；DeepV2Lite H2048,I1408,E64,K6 =>M5632,G44,11groups/expert。這些是initialboundedbudget供正式思考，不是已凍結實驗hyperparams。每expert對support有自己H維Downcols；不允許偷偷換成sharedoutputatom把Down也省一次。原routerweights α_e保持真正source semantics，不保Σα=1；原sharedbranch若有保持原function另付帳。後續真正student推論routing可能漂移，不得teacher-routing replay冒充品質。
+
+核心猜想：同一token被選中的不同experts可共享部分GU featuregroups，unionfeatures算一次；學習support時以期望wholepage/plane service之非加性routeunioncost而非每expertL0促使可落實的共用。不把128/256neurons叫1page。等精度理想weight count原3KHI；new H*(2U+Ks)，U=unionatoms，Down照KsH付。U=Ks完全沒有重用；與privateatoms無關的widthprune需單獨分清。完全sharedU=s是Goldilocks容量風險。相同每expertgroups也能支持圖union2或4，相同union也能因layout讀1或2page；page數不等同plane waves。
+
+強sourceprior（Root/Terra/Critic核查提供，不是你本次親讀）：LLaMA-MoE EMNLP24 overlappingSwiGLUneurons；DERN EMNLP25 neurontriplets重組；PCoMoE arXiv2609.01024§4.3 wholeU_i一次重用至多D_j，改pathrouter需finetune且前兩層不prune；ModularMoE ACL26Findings.174§3.2–3.4從dense分disjointmodules、taskexperts硬mask、taskloss/fixedcardinality/LoRA，已有sharednonlineargroups，非NANDcohortpageobjective；Mixture-of-Masks ACL25 .768學sharedFFNneuronmasks+L0；SpecFit2610.15417已有跨drafttokens expertunion cost；AppleLLMinaFlash ACL24 .678 rowcolumnbundling、熱門neuron重讀反例。不能稱sharedatoms/learnedmask/unioncost本身first。
+
+真正matchedcontrols：同pool/support/precision/teacher/training預算，獨立support/additive稀疏＋最佳postlayout，及coactivation/pairwisecontrol以隔離高階unionobjective是否必要；wholeU/PCoMoE與nonlinearlatent在後續valuegate；同studentrepresentation/layout/earlyinfo/replicas/cache普通flashloader與optimizedallhost；originalnativeQ4/Q8 source是性能品質基準，不能只給重W8 baseline。
+
+AiFfacts：ordinaryLSB28us;16chips×4planes×16KiB;ECC6.4GB/s/chip不是MACrate；200MHz45nmPElanes未知；PB非multiportSRAM。rawW8GU一group128/H2048是524288B=.5MiB(不含rowscales)，Q4_K同shape是294912B=.28125MiB=18pages(不含extradescriptors)，不是1page。全局理想wave1MiB僅下界，要wholepage/planeaddress合法及occupiedoutput/input/ECCstates。CR9.7us禁用。新studentquantizer/FPAB I未凍結，若用W8rowquant+wholeexpertA8，sharedφ不代表各expertDownquantizedh相同amax，可先共用F32h但各自quantize。若改blockquantizer則品質變動要全算；不能只借blocksharing優點不付精度控制。
+
+前R2 C32leaf/r128 local-affine第一層all64有界失敗，OLM16freshbook subsetPPL+15.81%band[+10.62,+21.25]超2%budget，Deepcrossing。這不是全pool不可學也不是nonlinearitymissing已證cause。B新的非線性pool擬保留原GU非線性，但必須specifiedfinitejointtraining，不可用隨便未訓練seed失敗當所有可學pool失敗。品質最早必要測試可在一個預定中間層all64替換，不強制最敏感early層；但單層pass不能冒充全模型加速/全層品質。既有TRAIN16PG約30kpositions（再次載入需未來protocol），32VALbodies已exposed，18未看，TEST保持封存。現在禁止任何model/weights/TRAIN/VAL/FIT/quality-body/TEST讀取或程式建置/數值probe/fit/sim/RTL。
+
+本block請深度思考大方向與可學性，不把時間花在微觀code。請分四部但連貫寫：
+1) 真正新研究命題：constructive sharedC+privateP_e例子與disjointcounterexample，明確PCoMoEwholeU何時可模擬及何時須增加pathbudget/Downrepresentation。精確界定unionobjective可能有不同最佳解的必要條件；不要用新術語替代新工作。
+2) 能學/不能學的**數學可檢驗constructive**例子：不要再用語義『inductionexpert』當proof。可用小H和explicitSwiGLUatoms/positivefeature scaling symmetry，描述共享池函數span與perexpertDown。SiLU非同次不能把gate arbitraryscaling搬Down；up scaling是可搬的，negativeup係數亦可由Down吸收。分清exactreal/quantized/F32。
+3) M=4I,s=I,T128 的bank/activework/Goldilocks：有限parametercount和randomsupport只是illustration不是quality證據，推導selectedcohort重疊和GU最大收益/Downfloor、同池hostresidency翻轉，容量大/小兩反例。不要捏命中率、readcost、latencyguarantee。
+4) 有限distillation概念：originalrouterfixed, all64originalexperts是否需要all-xteacherqueries、routed-onlysamplecoverage與rareexpert，initfromexistingneurons與learnnewGUpool的區別；jointmixtureloss與perexpertloss各風險（cancellation/generalization），groupmask怎樣學但trainingfair；最早一個有意義necessarykill-test應檢驗什麼、不能斷言什麼。所有只是proposal不執行。給出一個可接受thought-veto條件與一個值得接續Bblock02的具體openquestion。
+
+明記已知事實/推導/未驗證假設。禁止fabricatePPA、免費host/全片resident、浮點bitexact、PPL保證。深入完整給出可reviewMarkdown，不要湊時等待，不要說本block達半小時。
