@@ -1,0 +1,79 @@
+{
+  "schema": "expert_flash.second_heldout_protocol.draft.v1",
+  "state": "DRAFT only; waiting for root frozen W8 train-compiled plan hashes",
+  "seed": 20261104,
+  "source_specs": [
+    {
+      "key": "openbookqa_main_test",
+      "repo": "allenai/openbookqa",
+      "revision": "388097ea7776314e93a529163e0fea805b8a6454",
+      "config": "main",
+      "split": "test",
+      "kind": "qa_mc",
+      "file": "main/test-00000-of-00001.parquet",
+      "rows": 500,
+      "bytes": 55535,
+      "expected_sha256": "cd5483e366daa230c1c87bbdc512d8b7229f14f6dd04d19fc8b1a3855aaaa8a3",
+      "metadata_license": [
+        "unknown"
+      ],
+      "license_note": "Pinned HF card marks data license unknown. Official model-code repository has Apache2.0; it is not asserted to license this externally hosted dataset.",
+      "publisher_repo": "https://github.com/allenai/OpenBookQA",
+      "publisher_commit": "b51971646e9371a61508d9953fc706645e194a71"
+    },
+    {
+      "key": "boolq_validation",
+      "repo": "google/boolq",
+      "revision": "35b264d03638db9f4ce671b711558bf7ff0f80d5",
+      "config": "default",
+      "split": "validation",
+      "kind": "qa_bool",
+      "file": "data/validation-00000-of-00001.parquet",
+      "rows": 3270,
+      "bytes": 1257630,
+      "expected_sha256": "52355d11524b4b874a9b9dcc278feb10f672d52c4f4eff9872e695ede59820f8",
+      "metadata_license": [
+        "cc-by-sa-3.0"
+      ],
+      "license_note": "Official Google dataset README and pinned HF card both state CC-BY-SA3.0.",
+      "publisher_repo": "https://github.com/google-research-datasets/boolean-questions",
+      "publisher_commit": "90af34107399cc7a446b373dc4ee35b8001da7c2"
+    }
+  ],
+  "selection": {
+    "count_per_dataset": 8,
+    "ranking": "Ascending SHA256(UTF8(decimal_seed + verticalbar + source_key + verticalbar + source_id)); tie break source_id. Seed20261104. No tokenizer/model/answer-based selection.",
+    "openbookqa_source_id": "Publisher id string; duplicates or empty ids fail integrity checks.",
+    "boolq_source_id": "Canonical decimal zero-based pinned validation Parquet row index; HFschema has no publisher id field. It is a source-row id, not a claimed original Google id.",
+    "openbookqa_eligibility": "Nonempty string question_stem; exactly4nonempty string choices with4distinct nonempty labels. No length truncation or answerKey inspection.",
+    "boolq_eligibility": "Nonempty string passage and question. Full text preserved; no length, difficulty, answer or model-based filter.",
+    "openbookqa_render": "question_stem.strip()+LF+source-order label.strip()+dot+space+choice_text.strip(), LF-separated, final LF. No facts, answer or answer cue added.",
+    "boolq_render": "Literal Passage: +LF+passage.strip()+LF+LF+literal Question: +LF+question.strip()+LF. No answer or answer cue added.",
+    "item_order": "OpenBookQA ranks00..07, then BoolQ ranks00..07, same16prompt bytes supplied to both G4andDeep.",
+    "failures": "Fewer than8eligible, duplicate ids, duplicate selected prompts or invalid selected answers fail; do not relax/resample.",
+    "answers": "Read answer columns only after chosen row indices are fixed. Store labels/booleans in answers/answers.json; never append them to prompts."
+  },
+  "required_binding_schema": {
+    "models": [
+      "granite4tiny",
+      "deepseek"
+    ],
+    "model_checkpoint_sha256": {
+      "granite4tiny": "64hex",
+      "deepseek": "64hex"
+    },
+    "frozen_inputs": [
+      {
+        "path": "absolute or workspace-relative",
+        "sha256": "64hex",
+        "role": "train_compiled_plans",
+        "models": [
+          "granite4tiny",
+          "deepseek"
+        ]
+      }
+    ]
+  },
+  "no_target_payload_downloaded": true,
+  "metadata_state_sha256": "596841a18d4efcbbd700e3a47c7cdcf0f222b43aafc8d26e62e18205f877d9da"
+}

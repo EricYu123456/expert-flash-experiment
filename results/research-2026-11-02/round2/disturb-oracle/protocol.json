@@ -1,0 +1,47 @@
+{
+  "scope": "Read-count-derived disturbance work bounds on frozen physical MoE layouts.\n\nSensitivity only: no device RBER calibration, stochastic retry injection, new\ndecoder, changed quantization, replication, or additional NAND command assumed.\nThe fluid WL-reclaim and fractional-packing results are unattainable lower\nbounds, not implementations of reclaim in the current AiF ABI.\n",
+  "script_sha256": "ef1ed02790569d9228af7a70cf5d5d3e7fc4243fc9f4646cb5595bb4355c9a9a",
+  "read_us": 28,
+  "chips": 16,
+  "planes_per_chip": 4,
+  "lsb_wl_per_block": 192,
+  "use_cr": false,
+  "copies": 1,
+  "alphas": [
+    1,
+    8.4,
+    9
+  ],
+  "erc_thresholds": [
+    10000,
+    50000,
+    100000,
+    500000,
+    767000,
+    1000000
+  ],
+  "program_us": [
+    300,
+    380,
+    700
+  ],
+  "erase_us": [
+    3500,
+    5000
+  ],
+  "source": "Frozen true-chosen physical_plan files and all 200 train prompt marginals; no test_routes opened.",
+  "stress_model": "ERC[j]=Rblock-R[j]+(alpha-1)*(R[j-1]+R[j+1]); only valid expert LSB pages need protection.",
+  "interpretation": [
+    "Parameters are sensitivity axes, not measured AiF device calibration. Alpha9/767K resembles one STRAW Good@2K point from different NAND, not a joint calibration.",
+    "All physical ordinary-read pages, including intra-page byte padding, are counted. Empty wave/block slots are invalid and not copied.",
+    "Global hotness sorting changes only existing stream addresses, preserving rows/chips/page counts/waves/block-run counts. Equal-shape slot sort has exactly identical capacity; repack is included only if every chip fits original capacity.",
+    "Block RR copies all valid pages when maximum WL stress reaches threshold. Fluid ideal WL-RR copies only each WL at its own stress rate. Finite training-pass projections use floor(accumulated stress/threshold), not iid faults.",
+    "Ideal WL-RR and fractional grouping are lower bounds with free metadata, no new implemented ABI functionality. Their use only strengthens the no-go screen.",
+    "Fractional bound permits arbitrary page fragmentation and fractional block occupancy, relaxing whole-row stream/program-order constraints; it cannot overstate minimum base stress.",
+    "Read+program per copied page and erase per block are exposed sensitivity costs. Ideal WL erase floor is copies/192. Copy-induced extra disturbance, retention loss, retry feedback, ECC parity, ordinary CSB/MSB data and spare-space GC are omitted.",
+    "No RBER-to-ECC-retry mapping is calibrated. No external retry noise or new decoder is added. This estimates read-count-derived reclaim work, not numerical ECC failures or correctability.",
+    "The current ABI is not claimed to implement per-WL reclaim. Real page copying/erase must use existing controller paths, legal program order and spare blocks; no voltage/decoder/CIM changes are proposed.",
+    "Serialized NAND resource work/duty is not a bound on token p99 or an end-to-end performance measurement. Background overlap and bounded suspend require an event simulator.",
+    "Linear marginal counts cannot reveal coactivation benefit; threshold timing/reset/queue effects need separate validation if this work bound is material."
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "status": "PASS",
+  "protocol_sha256": "84e100600d882eb809d85fa1bdc3e469b0fb9a885e5627c60479339078a84a7a",
+  "raw_layers": 27,
+  "MoE_raw_layer_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26
+  ],
+  "dense_leading_raw_layer": 0,
+  "target_FFN_weight_names": 159,
+  "MoE_weight_names": 156,
+  "dense_weight_names": 3,
+  "all_layer_token_shape_coverage_exact": true,
+  "coverage_callback_records": 3180,
+  "coverage_keys": 1272,
+  "unique_placed_output_rows": 261318400,
+  "cross_run_F32_scalars_compared": 261318400,
+  "cross_run_vocabulary_logits_compared": 1024000,
+  "same_input_I64_mismatches": 0,
+  "cross_run_F32_bit_mismatches": 0,
+  "cross_run_logit_bit_mismatches": 0,
+  "placed_rows_by_kind": {
+    "dense": 6366976,
+    "routed": 201836544,
+    "shared": 53114880
+  },
+  "shared_cache_entries": 78,
+  "shared_hidden2816_single_down_verified": true,
+  "dense_cache_entries": 3,
+  "cache_entries": 5067,
+  "details": [
+    {
+      "id": "train_programming_short_015",
+      "prefill_tokens": 82,
+      "decode_tokens": 4,
+      "MoE_route_records_per_mode": 2236,
+      "routes_byte_exact": true,
+      "generated_tokens_identical": true,
+      "snapshots": [
+        {
+          "kind": "ffn_outputs",
+          "floats": 84486400,
+          "sha256": "67c2605b870eb7e3e448507a27684b744eb9311f450a76f5d2b61f1599bea33c"
+        },
+        {
+          "kind": "logits",
+          "floats": 512000,
+          "sha256": "dc8b5d8aefbb355f6929e9544e25d71d6989307f3b0faf0683290a6f23e7efae"
+        }
+      ]
+    },
+    {
+      "id": "train_summarization_short_027",
+      "prefill_tokens": 176,
+      "decode_tokens": 4,
+      "MoE_route_records_per_mode": 4680,
+      "routes_byte_exact": true,
+      "generated_tokens_identical": true,
+      "snapshots": [
+        {
+          "kind": "ffn_outputs",
+          "floats": 176832000,
+          "sha256": "71cf2e8d05e481c1be121999ba02390f363d807d78f97b7eb5fdcb60b96540de"
+        },
+        {
+          "kind": "logits",
+          "floats": 512000,
+          "sha256": "1a90b0b5ce968bef8f94db807708806c20157543f18b09d66fea0542fcfe0a4e"
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Same fixed-format CPU functional reference, not native AiF arithmetic/ABI or hardware performance.",
+    "Two existing TRAIN prompts and4decode steps; no quality or heldout generalization claim.",
+    "Dense raw0 included separately; it is not a27th MoE layer."
+  ]
+}

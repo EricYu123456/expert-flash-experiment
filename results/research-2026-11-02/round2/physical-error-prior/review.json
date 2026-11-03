@@ -1,0 +1,125 @@
+{
+  "created_utc": "2026-11-01T21:25:08.380239+00:00",
+  "status": "evidence sealed; no invented spatialcovariance experiment run",
+  "verdict": {
+    "aif_quality_mapping": "No-go under current demonstrated digitalECCcontract; rawBER isnot residualinferenceerror.",
+    "analog_sensitivity_mapping": "Directprior existsfor retraining-free sensitiveexpert digitalassignment and posttraining vulnerable-siteweightremapping.",
+    "coactivation_covariance_mapping": "Notdirectlyverified inreviewedprimarysources; remains conditional, notclearednovelty. No usablecalibrated3DNANDaddresscovariance datasetobtained."
+  },
+  "sources": [
+    {
+      "id": "aif2025",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "year": 2025,
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "github": null,
+      "read_depth": "Local supplied fullpaper§3.2,4.3,4.4/Fig11–14 read.",
+      "evidence": "DigitalINT8 PE consumes each segment after ECCLITE correction. RawBER characterization is preECC. No calibrated residual output-error distribution is established.",
+      "decision": "Do not inject rawBER as AiF inference noise or disable ECC/new read modes under placement-only scope."
+    },
+    {
+      "id": "moe_analog2026",
+      "title": "Robust Heterogeneous Analog-Digital Computing for Mixture-of-Experts Models with Theoretical Generalization Guarantees",
+      "year": 2026,
+      "version": "arXiv2603.02633v1",
+      "url": "https://arxiv.org/html/2603.02633v1",
+      "github": null,
+      "read_depth": "Primary fulltext§2.2,3,5.1–5.3 read; abstract and全文 search. No author artifact link verified.",
+      "evidence": "Retraining-free maximum-neuron-norm expert ranking assigns sensitive experts to digital and remaining experts to analog; DeepSeekMoE/OLMoE tested. Gaussian programming model is calibrated from a64corePCM chip; DAC/ADC simulation uses AIHWKIT-Lightning.",
+      "limit": "No expertcoactivation-conditioned physicalsite covariance placement found in inspected sections. The model is PCM/crossbar, notNAND. Sensitive-expert placement itself has directprior."
+    },
+    {
+      "id": "dynmap2026",
+      "title": "Dyn-A-Map: Dynamic AI-Model Mapping for robust and accurate MRAM-based analog edge computing",
+      "year": 2026,
+      "venue": "npjUnconventionalComputing3:27",
+      "url": "https://www.nature.com/articles/s44335-026-00072-6",
+      "github": "https://github.com/prismlabarizona/Dyn-A-Map",
+      "commit": "ce68987a2049a08694a87b60bfbccb1e204c66d0",
+      "read_depth": "FetchedpublisherfullHTML; readabstract,VIS/FOWmappingmethod,swapworkflow,data/codeavailability. ReadofficialREADMEandcorePythonremapcode.",
+      "evidence": "Posttraining mapping relocates important weights away from vulnerable subarrays withoutretraining; SPICE/MonteCarloSOT-MRAM study.",
+      "limit": "Strongdirectprior for sensitivity-versus-site quality. Not3DNAND/MoE, no measuredcross-expertcovariance. Fullsimulationdataset notpublic; code ispublic."
+    },
+    {
+      "id": "hilal2026",
+      "title": "HILAL: Hessian-Informed Layer Allocation for Heterogeneous Analog–Digital Inference",
+      "year": 2026,
+      "venue": "DATE2026",
+      "url": "https://research.ibm.com/publications/hilal-hessian-informed-layer-allocation-for-heterogeneous-analog-digital-inference",
+      "github": null,
+      "read_depth": "ReadofficialIBMabstract and indexedprimaryDATEPDFabstract; directPDFfetch404, notfullpaper.",
+      "evidence": "Hessianexpectedloss/spectral metrics guide sensitive layer digitalversusanalog assignment; later noise-injection retraining is outsideour scope.",
+      "limit": "Hessian-aware sensitivity assignment isalreadyprior; no claim aboutdetailedphysicalsitealgorithm withoutfulltext."
+    },
+    {
+      "id": "nand2025sim",
+      "title": "A compute-in-memory architecture and system-technology codesign simulator based on3DNANDflash",
+      "year": 2025,
+      "venue": "ActaPhysicaSinica74(24):248502",
+      "url": "https://wulixb.iphy.ac.cn/en/article/doi/10.7498/aps.74.20250891",
+      "github": "https://github.com/zhenghao21/CIM-Simulator-based-3D-NAND",
+      "commit": "e9de1a5e0deff03209810e195da549f7a2ddf34d",
+      "read_depth": "Readpublisherabstract/architecture/current-noise statements,officialREADME,config.py,andhardware_block_epoch_last.pyprogrammingnoise sections.",
+      "evidence": "Public3DNANDnumericbehavioralsimulator; tensorweights multiply independent torch.normal draws withglobalMEAN/SCALE duringprogramming. Codecontainsphysicalcoordinates but noaddress-dependent noiseprofile ininspectedpaths.",
+      "limit": "SLslicingmanufacturingarchitecture differsfromAiF. Publiciidσmodel isnotmeasuredWL/tier/channelcovariance data; cannotinsert fabricatedcovariance andcallitcalibrated."
+    },
+    {
+      "id": "crosssim",
+      "title": "CrossSim official analog accuracy simulator;SONOSdevice model",
+      "year": 2026,
+      "url": "https://github.com/sandialabs/cross-sim",
+      "github": "https://github.com/sandialabs/cross-sim",
+      "commit": "b1f4755188ea7b38a71f61075cff7045ab6b589f",
+      "read_depth": "ReadREADME,simulator/devices/readme.md,andcustom/SONOS.pyempiricalmodelimplementation.",
+      "evidence": "SONOSmodel fitsprogramming/drift/readnoise statistics from128Kmeasured40nmcharge-trapdevices (AgrawalIEDM2022,IEEE10019564). Random2Dnormal samples arestate-scaled; readnoise iswhite withnotemporalcorrelation.",
+      "limit": "Real empiricalmarginalmodel, not3DNANDspatialcovariance data. CrossbarIRdrop models cannotbeassumed quantitatively correct forNANDstrings."
+    },
+    {
+      "id": "nand2018",
+      "title": "Improving3DNANDFlashMemoryLifetimebyToleratingEarlyRetentionLossandProcessVariation",
+      "year": 2018,
+      "venue": "POMACS/SIGMETRICS2018",
+      "url": "https://www.pdl.cmu.edu/PDL-FTP/NVM/18sigmetrics_3dflash.pdf",
+      "github": null,
+      "read_depth": "PrimaryauthorPDFabstract/measurementmodel/LaVAR andLI-RAIDoverview read; nofullproofaudit.",
+      "evidence": "Measuredlayer RBER variation,earlyretentionloss,neighborretentioninterference. Layer-aware reading and RAIDgrouping already addressreliabilityheterogeneity.",
+      "limit": "PreECCbiterrors, notanalogMACerror. Publishedmarginalcurves do not establishcross-expertnoise covariance."
+    },
+    {
+      "id": "heatwatch2018",
+      "title": "HeatWatch: Improving3DNANDFlashMemoryDeviceReliabilitybyExploitingSelf-RecoveryandTemperatureAwareness",
+      "year": 2018,
+      "venue": "HPCA2018",
+      "url": "https://research.ece.cmu.edu/safari/pubs/heatwatch-3D-nand-errors-and-self-recovery_hpca18.pdf",
+      "github": "https://github.com/CMU-SAFARI/HeatWatch",
+      "read_depth": "Readprimaryexperimentalmethod/dataavailability andpaper reference56.",
+      "evidence": "PaperdeclarespublicrawNANDcharacterization data; measurementsbypassECC tostudyretention/temperature.",
+      "limit": "CurrentofficialGitHub/API/rawREADME404. GitHubsearchfoundnounambiguousofficialmirror. DatasetNOTobtained; donotclaimavailable."
+    },
+    {
+      "id": "nand_address2014",
+      "title": "A reliability enhanced address mapping strategy for three-dimensional(3-D)NANDflashmemory",
+      "year": 2014,
+      "venue": "IEEETVLSI22(11):2402–2410",
+      "url": "https://doi.org/10.1109/TVLSI.2013.2288687",
+      "github": null,
+      "read_depth": "Authoruniversityprimarymetadata/abstractonly:https://research.polyu.edu.hk/en/publications/a-reliability-enhanced-address-mapping-strategy-for-three-dimensi/",
+      "evidence": "Physicalpagepermutation separatestheaddresses ofconsecutive logicalpages toreduceadjacentpagedisturbance.",
+      "limit": "Physicalreliabilityremapping isold. Fullalgorithm notread, norelevanceclaimaboutMoEcoactivation."
+    }
+  ],
+  "necessary_math": {
+    "output_error": "delta_y=sum_e alpha_e epsilon_e; E||delta_y||²=sum_e alpha_e² E||epsilon_e||²+2sum_e<f alpha_e alpha_f E<epsilon_e,epsilon_f>.",
+    "zero_control": "For unknown future error draws exchangeable across sites and a mapping independent of those draws, permutationpreservingweights/scales/ADCarraygeometry hasidentical expectederrorlaw. This doesnotexclude post-characterization selectionusingfixedmeasuredsitequalities.",
+    "nonzero_condition": "Coactivation adds a new pairwiseMSEterm only with relevant nonzero cross-expert errorcovariance and output/sensitivity alignment. Correlatedvariancealone neednotproduce nonzero E<epsilon_e,epsilon_f>.",
+    "tail_caveat": "Evenzerocovariance canallowhigher-order jointtaildependence; itmustbemeasured andtested with failure/qualitytailmetrics,notassertedfromdifferentmarginalBERs.",
+    "trace_requirement": "RouterIDs alone insufficient: needalpha,expertoutputs orJacobian/sensitivityestimates and fixed physicalnoise/domainmeasurements. Currentlatencyroutecachedoesnotestablishthese."
+  },
+  "minimal_falsifiable_protocol": [
+    "Firstobtainexistingbackend residualerror/sitecovariancemeasurements afteractualcorrection/calibration; separate fixedprogrammingvariation andfreshreadnoise. Stopifidentityorexchangeableiidexplainsdata.",
+    "Holdweights/router/quantization/scales/hardware/capacityfixed. Compare random/legalphysicalpermutations,frequencyonly,MaxNNScore,Hessian/sensitivityHungarianassignment,Dyn-A-Map-stylefaultawareassignment,andcovariance-awareplacement.",
+    "Fitplacementonlyoncalibration/train. Holdoutphysicalregions/devices andprompts; reportqualityandnativecapacity/commands equally. Includeiid/noiseoff andsame-marginals/differentcoactivationcontrols.",
+    "Ifcovariance-awaremappingmatchesmarginalsensitivitybaseline orcovariancesareunstableafterreprogramming/readtime,retirethecoactivationmechanism."
+  ],
+  "decision": "Archiveuntilrealspatial/residualerrordataavailable. Do notstartaMoEexperimentbychoosingarbitrarycorrelationstrength orturningoffAiFECC."
+}

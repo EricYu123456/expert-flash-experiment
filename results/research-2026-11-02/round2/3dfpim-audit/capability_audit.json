@@ -1,0 +1,230 @@
+{
+  "research_date": "2026-11-02",
+  "backend": "3D-FPIM (MICRO 2022), original author software artifact",
+  "repository": {
+    "url": "https://github.com/SNU-HPCS/3D-FPIM",
+    "checkout": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/3dfpim-audit/upstream",
+    "commit": "bd17a3a3c7a6a2ef98beb7a5379e2110f94df706",
+    "license": "MIT; included PUMA/NVSim/TQT notices retained",
+    "tracked_source_modified": false
+  },
+  "maturity": "Published mixed-signal NAND PIM architecture; public compiler and subarray circuit model, not a fabricated PIM chip or a validated host runtime.",
+  "read_depth": {
+    "paper": "Official abstract and author homepage; full MICRO paper not obtained. No claim of reading the original figures or Table II.",
+    "repository": "Top-level and all component READMEs, hardware constants, generic matrix tiling/MVM construction, partitioner/movement insertion, placer, code generation, linearization, load balancing, circuit config/output latency formulas, limited quant-model source.",
+    "execution": "Both builds pass. Original mlp_l5 static code generation passes. Independent fixed-inventory two-expert route probe passes 18 cases. NVSim execution fails before circuit evaluation due to missing generated geometry config."
+  },
+  "hardware_parameters_unchanged": {
+    "MVMU_dimension": 128,
+    "MVMU_depth": 64,
+    "MVMUs_per_core": 1,
+    "cores_per_tile": 24,
+    "input_registers_per_core": 128,
+    "output_registers_per_core": 128,
+    "general_register_file_entries": 512,
+    "configured_max_tiles": 224,
+    "input_output_reserved_tiles": 2,
+    "NVSim_process_nm": 22,
+    "NVSim_InputPrecision": 5,
+    "NVSim_mux_sense_amp": 2,
+    "NVSim_lp_decoder": 1,
+    "NVSim_force_subarray": "130x256"
+  },
+  "native_layout": {
+    "logical_matrix_tile": "At most 128 output rows by (128 input columns * 64 stacks); every ConstantMatrixTile is assigned its own virtual MVMU and, with original one-MVMU/core config, its own core.",
+    "execution": "For C input columns, one core receives ceil(C/128) 128-element input chunks up to 64 depths. Existing mvm instruction carries xb_nma, depth, stacks, precision, slideId and isLast. Partial sums across >8192-column matrix tiles use native ALU ADD in the compiler.",
+    "input_sharing": "Core has an independent input register bank. Same logical input tile is sent once per receiving tile and loaded once per receiving core, already in original partitioner; intermediate producer is stored once and sent once per destination tile. Shared-input and distinct-input toy graphs both compile.",
+    "unverified": "No public binary weight programmer or accumulator-reset specification was found. Do not pack several private experts into unused depths of one MVMU merely because the textual instruction has a depth field. No new context or decoder is assumed."
+  },
+  "offline_route_trace_result": {
+    "status": "SUPPORTED at original compiler textual-trace level, with fixed full matrix inventory and original row/column/random mapping.",
+    "method": "Create all weight matrices in the same order for every route. Build operations only for selected experts. Inactive matrix tiles retain assigned core slots even with zero MVM users.",
+    "toy": "Two 512x512 matrices, four output-row tiles per expert, four depths per row tile, eight cores total in compute tile 2. expert0-only uses cores 0..3; expert1-only uses cores 4..7; both preserve those addresses.",
+    "passes": 18,
+    "probe_artifact": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/3dfpim-audit/route_trace_probe.json",
+    "route_compile_is_not_runtime": "The experiment proves representability and stable symbolic physical address selection. Host trace upload/dispatch, binary encoding, programmed analog weights, numerical correctness, and native scheduling costs remain unverified.",
+    "no_branch_requirement": "Top-K known outside the device permits straight-line per-route traces without device branching. Recompiling each route is an offline audit technique, not a deployable online compiler-cost claim.",
+    "KaHIP": "Must freeze a trained/all-graph assignment once, then emit each route using that same assignment. Repartitioning the selected graph per query would move persistent weights and is invalid."
+  },
+  "cost_reproducibility": {
+    "available": "Exact MVM depth/instruction counts, active cores/tiles, static load/store/send/receive lengths, compiler register spills, original heuristic load expression.",
+    "movement_unit_caution": "printReport labels counters as bytes, but increments use Operation::length() with no explicit dtype multiplier. Preserve reported units or call them vector-element movement counts until a numeric ABI is specified.",
+    "two_expert_shared_both": {
+      "MVMs": 32,
+      "load_report_units": 4096,
+      "store_report_units": 1024,
+      "send_report_units": 1536,
+      "receive_report_units": 1536
+    },
+    "two_expert_private_both": {
+      "MVMs": 32,
+      "load_report_units": 4096,
+      "store_report_units": 1024,
+      "send_report_units": 2048,
+      "receive_report_units": 2048
+    },
+    "heuristic_constants": {
+      "STACK_REUSE_LATENCY": 105,
+      "STACK_SHIFT_LATENCY": 170,
+      "PRECHARGE_LATENCY": 32,
+      "ADC_LATENCY": 256
+    },
+    "load_expression": "outPixels * ((nStack-1)*(170 + 32*DACScaling) + 105 + 32*DACScaling + 256)",
+    "units": "Compiler common.h does not state the unit or derivation. Separately NVSim constant.h says ns scale, CLOCK_FREQ=1e9 and Result.cpp prints ceil(seconds*CLOCK_FREQ) as ns. This is consistent with 1ns circuit ticks, but does not establish an end-to-end compiler timing engine or validate the compiler constants.",
+    "circuit_run_blocker": "NVSim requires tech_params/config/parasitic.cfg and other geometry files generated by Calculate.py. The shipped example.cfg leaves required dimensions and temperature as FIXME; they were not guessed.",
+    "area_cycles": "Cannot reproduce calibrated subarray area/cycles, ADC/ALU/network costs or end-to-end latency with shipped material alone. README says ADC and switched-integrator HSPICE costs are in original paper Table II, which was not obtained.",
+    "known_public_issues": [
+      "https://github.com/SNU-HPCS/3D-FPIM/issues/1",
+      "https://github.com/SNU-HPCS/3D-FPIM/issues/2"
+    ]
+  },
+  "baseline_audit": {
+    "original_options": [
+      "row-major",
+      "column-major",
+      "random",
+      "KaHIP weighted communication graph",
+      "existing operand/user input affinity",
+      "optional MVM coalescing",
+      "CNN load balancing/duplication"
+    ],
+    "row_col_note": "For generic ConstantMatrix, row- and column-major branches actually use the same width-then-height loops in this commit. CNN/FC-specific branches differ. For G4 C<8192 there is only one width tile anyway.",
+    "KaHIP_bug": {
+      "location": "3DFPIM-Compiler/src/partitioner.cpp:461",
+      "observed": "assignVTilesWithKaHIP computes consumerNodeID using getVCore(producer), so producerNodeID and consumerNodeID always equal; no tile graph communication edge is added.",
+      "consequence": "Uncorrected GP_KAHIP is not a strong communication-aware comparison. A separately documented corrected adapter/graph, frozen before route evaluation, is needed. Upstream was not edited."
+    },
+    "KaHIP_dependency": "Source invokes external kaffpaE; neither kaffpaE nor kaffpa found on current PATH. No KaHIP run was claimed.",
+    "placer": "Identity virtual-to-physical tile assignment with TODO; absence of a public distance/cycle network model prevents converting permutation-only placement into claimed speedup."
+  },
+  "G4_one_layer_geometry": {
+    "dimensions": {
+      "experts": 64,
+      "hidden": 1536,
+      "intermediate": 512
+    },
+    "GU_per_expert": {
+      "row_tiles_128": 8,
+      "depths_per_core": 12,
+      "MVM_depth_instructions": 96
+    },
+    "down_per_expert": {
+      "row_tiles_128": 12,
+      "depths_per_core": 4,
+      "MVM_depth_instructions": 48
+    },
+    "single_copy_core_count": 1280,
+    "compute_tiles_ceiling": 54,
+    "total_tiles_with_reserved_IO": 56,
+    "forty_layer_core_count": 51200,
+    "one_chip_configured_compute_core_limit": {
+      "if_224_counts_IO_tiles": 5328,
+      "if_224_counts_only_compute_tiles": 5376
+    },
+    "scope": "One-layer trace study fits original parameter count. Full 40-layer G4 with original one-matrix-tile/core policy does not fit one configured chip. Do not silently use unbounded compiler tiling, assume cross-chip transport, or claim unused-depth compaction already supported.",
+    "capacity_enforcement_caveat": "N_MAX_TILE is used only in loadBalance(), whose original total_tile_num arithmetic excludes explicit reserved-IO accounting and does not round up. Generic ConstantMatrix compile() has no observed enforcement. The audit treats the original constant as a resource bound rather than trusting compile success to prove fit; either 224-tile interpretation is far below 40-layer 51200-core requirement."
+  },
+  "falsifiable_next_experiment": {
+    "question": "Under fixed native matrix tiles, does a fixed MoE layout lower selected-route input distribution plus activation redistribution/output movement versus correct weighted-graph partitioning, while preserving original core/tile capacity?",
+    "backend_scope": "Offline original-MVM trace and resource counting only; no AiF tR or CR-read used.",
+    "mechanism": "Use original per-core independent inputs and per-tile fanout domains; place GU output tiles and expert-private down consumers with route-conditioned input multicast counted once per touched tile. No matrix duplication, multi-context extension or sparse opcode.",
+    "strong_comparisons": [
+      "original row and equivalent generic column mapping",
+      "fixed random seeds",
+      "corrected fixed KaHIP communication graph",
+      "expert-contiguous affinity packing",
+      "route-frequency-weighted graph/hypergraph declustering"
+    ],
+    "reject_if": [
+      "Correct weighted partitioning/contiguous expert placement already reaches the movement lower bound.",
+      "Any alleged gain needs per-query weight remapping, newly shared private inputs, undocumented depth packing, or invented timing.",
+      "Only a movement count gain remains and no public timing/energy model can show its practical contribution."
+    ],
+    "novelty": "No publication breakthrough established. Communication-aware mapping and input-affinity are prior art; this artifact supplies a distinct backend and a means to falsify claims, not novelty by itself."
+  },
+  "evidence": [
+    {
+      "path": "3DFPIM-Compiler/src/common.h",
+      "line": 16,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/common.h#L16",
+      "claim": "Original hardware constants and compiler heuristic constants."
+    },
+    {
+      "path": "3DFPIM-Compiler/src/tensors.cpp",
+      "line": 356,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/tensors.cpp#L356",
+      "claim": "Matrix output-row and input-column/depth tiling."
+    },
+    {
+      "path": "3DFPIM-Compiler/src/operations.cpp",
+      "line": 526,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/operations.cpp#L526",
+      "claim": "Same-x row tiles, depth input chunks, and existing partial-sum ADD."
+    },
+    {
+      "path": "3DFPIM-Compiler/src/partitioner.cpp",
+      "line": 226,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/partitioner.cpp#L226",
+      "claim": "Full constant-matrix inventory assigned even if a tile has no users."
+    },
+    {
+      "path": "3DFPIM-Compiler/src/partitioner.cpp",
+      "line": 488,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/partitioner.cpp#L488",
+      "claim": "Per-core load reuse and per-tile receive reuse."
+    },
+    {
+      "path": "3DFPIM-Compiler/src/partitioner.cpp",
+      "line": 461,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/partitioner.cpp#L461",
+      "claim": "KaHIP consumer endpoint typo."
+    },
+    {
+      "path": "3DFPIM-Compiler/src/codegen.cpp",
+      "line": 34,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/codegen.cpp#L34",
+      "claim": "Text instruction generation; TODO binary ABI."
+    },
+    {
+      "path": "3DFPIM-Compiler/src/placer.cpp",
+      "line": 28,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/placer.cpp#L28",
+      "claim": "Identity physical tile assignment."
+    },
+    {
+      "path": "3DFPIM-Compiler/src/partitioner.cpp",
+      "line": 690,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/partitioner.cpp#L690",
+      "claim": "Report counters labeled bytes."
+    },
+    {
+      "path": "3DFPIM-NVSim/tech_params/example.cfg",
+      "line": 12,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-NVSim/tech_params/example.cfg#L12",
+      "claim": "Missing device parameters explicitly FIXME."
+    },
+    {
+      "path": "3DFPIM-NVSim/constant.h",
+      "line": 13,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-NVSim/constant.h#L13",
+      "claim": "1GHz/ns circuit scaling."
+    },
+    {
+      "path": "3DFPIM-NVSim/Result.cpp",
+      "line": 351,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-NVSim/Result.cpp#L351",
+      "claim": "Circuit latency output converts seconds to 1ns ticks."
+    },
+    {
+      "path": "3DFPIM-NVSim/3D_FPIM.cfg",
+      "line": 9,
+      "url": "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-NVSim/3D_FPIM.cfg#L9",
+      "claim": "Original PIM config explicitly says no fabricated PIM unit available."
+    }
+  ],
+  "build_caveats": [
+    "Observed original compiler warnings include non-void functions missing return and ignored system() return.",
+    "Observed original NVSim warnings include sscanf %d used for bool fields pimMode/lpDecoder.",
+    "No upstream fixes were applied; successful trace probes do not validate all code paths or numerical execution."
+  ]
+}

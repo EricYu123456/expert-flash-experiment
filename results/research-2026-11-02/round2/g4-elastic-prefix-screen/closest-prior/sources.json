@@ -1,0 +1,97 @@
+{
+  "created_utc": "2026-11-02T03:22:20.511494+00:00",
+  "primary_only": true,
+  "sources": [
+    {
+      "id": "Tutel-paper",
+      "title": "Tutel: Adaptive Mixture-of-Experts at Scale",
+      "version": "arXiv2206.03382v2, 2023-06-05; MLSys2023",
+      "url": "https://arxiv.org/html/2206.03382v2",
+      "actual_read": "Re-read §3.1.1–3.1.2 and Figs6–8/Table4 discussion, §3.3 overview; not a new full evaluation reading.",
+      "evidence": "Single distributed weight layout and adaptive:r permit changing parallelism without layout reformatting. DP/MP group choices use different within-group all-gathers, repeated inputs and final sums.",
+      "boundary": "Direct prior for runtime parallel-degree selection on shared parameters. Does not show the inspected NAND same-base resident short/long row-prefix mechanism; runtime all-gather is substantive and cannot be assumed free in NAND."
+    },
+    {
+      "id": "Tutel-code",
+      "title": "Official Tutel adaptive expert implementation",
+      "version": "cbebd74b4e5b10b6ed25203f60dc441c5dc58b9a",
+      "url": "https://github.com/microsoft/tutel/tree/cbebd74b4e5b10b6ed25203f60dc441c5dc58b9a",
+      "actual_read": "README adaptive descriptions; impls/moe_layer.py initialization/adaptive:r and forward lines125–143,328–357; experts/ffn.py constructor and forward lines83–119. No GPU run.",
+      "evidence": "forward accepts adaptive_r. ffn.py invokes zero_gather for both projections when DP/group gathering is required. valid_rs and hidden-size divisibility constrain the current implementation.",
+      "boundary": "Executable official GPU implementation exists. Snapshot is current main, not claimed identical to 2023 artifact. No inspected physical NAND prefix-image allocator."
+    },
+    {
+      "id": "AnchorTP",
+      "title": "AnchorTP: Resilient LLM Inference with State-Preserving Elastic Tensor Parallelism",
+      "version": "arXiv2511.11617v1, 2025-11-05",
+      "url": "https://arxiv.org/html/2511.11617v1",
+      "actual_read": "Re-read §III-A–C/Algorithm1/Fig3, implementation and discussion excerpts; not full evaluation or a verified author-code execution.",
+      "evidence": "Unequal floor/ceil shards over arbitrary GPU counts. Daemon preserves contiguous parameters; interval intersections generate Transfer tasks and missing ranges Reload tasks.",
+      "boundary": "Direct prior for retaining common rows during TP reshaping, but it performs migration/reload in a freeze window. Does not establish statically resident zero-migration prefix alternatives selected per routed query."
+    },
+    {
+      "id": "ElasticMoE",
+      "title": "ElasticMoE: An Efficient Auto Scaling Method for Mixture-of-Experts Models",
+      "version": "arXiv2510.02613v1, 2025-10-02; venue not verified",
+      "url": "https://arxiv.org/html/2510.02613v1",
+      "actual_read": "Read §4.1,4.4–4.6, §5 lifecycle overview, AppendixC limitation and D.1/D.4–D.5/E details; not all evaluation or code.",
+      "evidence": "TP explicitly stays fixed while DP/EP change. Shared HBM IPC references and virtual physical-page mappings reduce duplicate allocation; P2P moves expert weights during scaling.",
+      "boundary": "A primary system implementation of shared-memory configurations, but not evidence of different expert TP degrees or static NAND prefix images."
+    },
+    {
+      "id": "ElasticMoE-RFC",
+      "title": "RFC: Efficient Runtime-Reconfiguration of Parallelization Configuration of MoE Models",
+      "version": "vllm-ascend issue6372 opened2026-01-29; accessed2026-11-02",
+      "url": "https://github.com/vllm-project/vllm-ascend/issues/6372",
+      "actual_read": "Entire issue body, status and milestone/development metadata; official API response saved.",
+      "evidence": "Proposes concurrent different-TP instances sharing weights via HMM. TP dense/MoE support listed as M4/M5 milestones. Issue is open, with no linked branches/PRs in visible metadata.",
+      "boundary": "Specific author/developer proposal, not verified merged implementation or a demonstrated same-base prefix solver. Broader shared weights across parallel configurations cannot be claimed first."
+    },
+    {
+      "id": "overlap-DRP",
+      "title": "Ein Replikationsschema für multiple Fragmentierungen mit überlappenden Fragmenten",
+      "version": "GvDB2016, CEUR1594 pp33–38",
+      "url": "https://ceur-ws.org/Vol-1594/paper7.pdf",
+      "actual_read": "Fresh read §2.1 correctness, §3 introduction/§3.1 Definition2/examples/formulation and §3.2–3.3 overview in downloaded official proceedings; not an experimental reproduction.",
+      "evidence": "Different horizontal fragmentations share tuple intersections; tuple-level redundancy can be less than independently replicating complete fragments. Models capacity/conflicts and optional fragmentation constraints.",
+      "boundary": "Direct prior for multiple overlapping physical fragmentations and duplicate minimization. Does not enforce one dense contiguous prefix per device or NAND setup/page work; reconstruction can combine fragment intersections. PDF footer2015 conflicts with official2016 proceedings date, retained as previously noted."
+    },
+    {
+      "id": "replicated-declustering",
+      "title": "Query-Log Aware Replicated Declustering",
+      "version": "IEEE TPDS24(5),2013; online2012; DOI10.1109/TPDS.2012.113",
+      "url": "https://repository.bilkent.edu.tr/bitstreams/3e48b3b0-a708-4f57-9eb5-321cbd19928c/download",
+      "actual_read": "Reused earlier primary reading documented in route-boundary-view-audit/sources.json: §2 and3.1–3.2. Fresh web request timed out; no new fulltext reading claimed.",
+      "evidence": "Private/shared item decomposition, selective replicas under storage budgets, and query-dependent replica scheduling are established.",
+      "boundary": "Strong native-adapted packet placement/selector control; independent item choices must be coupled into coherent A/B prefixes and charged native commands/inputs, not assumed feasible for free."
+    },
+    {
+      "id": "MCBC",
+      "title": "Lower Bounds for Total Storage of Multiset Combinatorial Batch Codes Using Linear Programming",
+      "version": "IEEE TIT67(1),2021; accepted/published2020",
+      "url": "https://ymchee66.github.io/home/PDF/lbstoragejournal.pdf",
+      "actual_read": "Read abstract/introduction and §II-A Definitions1–2 and example3 (pp255–257); no later LP constructions proof read.",
+      "evidence": "Replication-based set systems minimize total storage while providing restricted per-server parallel retrieval of requested symbols.",
+      "boundary": "Direct combinatorial storage/retrieval precedent. Its item-wise retrieval budget is not one-prefix, complete-expert GU/Down causal execution or integer page/setup service. Do not transfer its bounds without compound-query/prefix constraints."
+    },
+    {
+      "id": "HDA-reused",
+      "title": "HDA-MoE: Hybrid Parallelism and Dynamic, Adaptive Scheduling for Mixture-of-Experts with 3D Near-Memory Processing",
+      "version": "arXiv2609.08682v1; official code56ea3725b2c621d4aea248f16345c34f5e06b8ed",
+      "url": "https://arxiv.org/html/2609.08682v1",
+      "code": "https://github.com/PKU-SEC-Lab/HDA-MoE-TCAD26/tree/56ea3725b2c621d4aea248f16345c34f5e06b8ed",
+      "actual_read": "Prior primary reading/code audit reused from coupled-closest-prior/sources.json, not a fresh fulltext/code reread.",
+      "evidence": "Per-expert fractional P_ic allocations, capacity/load optimization and coactivation-related communication objective; inspected code has no GU/Down phase axis or row-address replica-view registry.",
+      "boundary": "Direct heterogeneous-sharding/placement prior. Inspected formulation does not establish resident multiple-geometry prefix replicas; this is narrower than asserting HDA cannot express any such extended optimization."
+    },
+    {
+      "id": "AiF",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "version": "ISCA2025, DOI10.1145/3695053.3731073",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "actual_read": "Re-read local paper/aif.txt §4.4/Fig14 and §5.2 with prior numerical/streaming audit limits retained.",
+      "evidence": "Dense command input dimension/block/offset/page count, sequential matrix stream and output FIFO; equal-submatrix stock aif_post.",
+      "boundary": "Shared-prefix aliases/rowID scatter require controller/compiler metadata. Output scale/type, useful-row semantics, partial-row reset and finite FIFO/flow control remain unverified; two-view algebra does not prove the native ABI."
+    }
+  ]
+}

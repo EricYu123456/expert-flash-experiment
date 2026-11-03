@@ -1,0 +1,568 @@
+                                                 NVLLM: A 3D NAND-Centric Architecture Enabling Edge
+                                                              on-Device LLM Inference
+                                              Mingbo Hao, Changwei Yan, Haoyu Cui, Zhihao Yan, Yizhi Ding, Zhangrui Qian, Weiwei Shan∗
+                                                                                School of Integrated Circuits, Southeast University, Nanjing, China
+
+                                        Abstract                                                                                   To characterize this behavior, Fig. 1(b) analyzes 6.1M conversa-
+                                        The rapid growth of LLMs demands high-throughput, memory-                              tion turns from ShareGPT [32], UltraChat [5], and OASST1 [29].
+                                        capacity-intensive inference on resource-constrained edge devices,                     User prompts are overwhelmingly short, while model responses
+                                        where single-batch decoding remains fundamentally memory-bound.                        exhibit long tails. This “short-prompt, long-generation” pattern im-
+                                        Existing out-of-core GPU-based and SSD-like accelerators are lim-                      plies that edge inference is dominated by the decode phase, where
+                                        ited by DRAM-bound weight movement and inefficient storage ac-                         each token requires a full forward pass without batch-level paral-
+                                        cess granularity. We present NVLLM, a 3D NAND-centric inference                        lelism.
+                                        architecture that offloads feed-forward network (FFN) computation                          Fig. 2 shows a roofline analysis across representative hardware
+                                        into the Flash while executing attention on lightweight CMOS logic                     platforms [2, 13, 27, 28]. Under single-batch, long-generation work-
+                                        with external DRAM. Through wafer-to-wafer stacking, NVLLM                             loads, performance is heavily memory-bound during both prefill
+                                        tightly integrates multi-plane 3D NAND with compute pipelines,                         and decode. For instance, maintaining a 3 tokens/s user-perceived
+                                        error correction code (ECC) units, and buffers, enabling page-level                    rate [10, 15] for a 70B model requires only 0.42 TOPS of theoretical
+arXiv:2604.25699v2 [cs.AR] 4 Aug 2026
+
+
+
+
+                                        FFN weight access without DRAM traversal. All GEMM/GEMV                                compute—comparable to the per-token rate of an RTX 4090 running
+                                        operations are decomposed into dot-product primitives executed                         6-bit LLaMA3.3-70B [9]—yet its peak compute is over 3000× higher.
+                                        by out-of-order PE lanes, operating directly on raw NAND reads                         A multi-turn ShareGPT trace further confirms that decode iterations
+                                        with integrated ECC. Attention weights remain in DRAM, and a KV-                       lie far below hardware compute ceilings but remain bottlenecked
+                                        cache-aware scheduler sustains throughput as the context length                        by weight loading.
+                                        grows. Evaluated on OPT and LLaMA models with up to 30B param-                             Since batch-level parallelism is fundamentally limited on the
+                                        eters, NVLLM achieves a 16.7×–37.9× speedup over A800-based                            edge, datacenter-oriented optimizations [30] lose effectiveness. Edge-
+                                        out-of-core inference and up to 4.7× speedup over SSD-like designs,                    side approaches such as speculative decoding [23], lookahead de-
+                                        with only 2.7% CMOS area overhead.                                                     coding [8], early exit [34], and quantization/sparsity [36] remain
+                                                                                                                               limited by DRAM bandwidth. Increasing DRAM bandwidth (e.g.,
+                                        Keywords                                                                               HBM [16]) raises power and cost; insufficient DRAM capacity forces
+                                                                                                                               repeated parameter streaming [33], further increasing latency and
+                                        3D NAND Flash, In-Storage Computing, Near-Data Processing,
+                                                                                                                               energy. Thus, scaling DRAM alone is not a viable solution for single-
+                                        Large Language Models, On-Device AI, Error-Resilient Computing
+                                                                                                                               batch inference.
+                                                                                                                                   3D NAND Flash provides an alternative path. Single-token de-
+                                        1    Introduction                                                                      coding offers substantial compute slack, enabling near-data com-
+                                        Deploying large language models (LLMs) on edge devices is increas-                     putation to amortize data movement costs. Wafer-to-wafer (W2W)
+                                        ingly appealing for privacy, latency, and offline availability [38, 39,                3D integration [17, 40] stacks CMOS beneath or above the NAND
+                                        44]. However, achieving accurate and efficient on-device inference                     array, allowing lightweight compute without sacrificing density.
+                                        remains challenging due to strict constraints on memory capacity,                      Modern Flash products already adopt such structures [14, 35], com-
+                                        bandwidth, and power. Unlike cloud servers, edge devices cannot                        bining high density and low cost per bit with the ability to access
+                                        exploit large-batch parallelism; interactive requests arrive irreg-                    multi-megabyte feed-forward network (FFN) weights in situ.
+                                        ularly, and decoding predominantly proceeds in a single-token,                             However, several challenges arise. Raw NAND reads contain
+                                        single-batch manner [39]. As shown in Fig. 1(a), cloud workloads                       bit errors requiring error correction code (ECC), yet in-Flash com-
+                                        naturally form high arithmetic intensity [11, 41], whereas edge                        putation precedes conventional correction. Flash writes are slow
+                                        workloads do not.                                                                      (200–800 𝜇s program, 3–5 ms erase) and endurance-limited [7],
+                                                                                                                               constraining write-heavy schemes. Meanwhile, KV-cache growth
+                                        Emails: mingbohao@seu.edu.cn (Mingbo Hao); wwshan@seu.edu.cn (Weiwei Shan,             increases attention cost and can degrade decode throughput if un-
+                                        corresponding author).
+                                                                                                                               managed.
+                                        Mingbo Hao is a Ph.D. student at Southeast University, pioneering 3D NAND-centric          We propose NVLLM, a 3D NAND-centric architecture address-
+                                        computing architectures for large language model inference acceleration. This doc-     ing these challenges. FFN weights are stored in Flash, while at-
+                                        ument is an author-prepared preprint version of the manuscript, with publication-
+                                        specific formatting elements removed for improved readability. The work presents       tention weights reside in DRAM. GEMM/GEMV operations are
+                                        a system-level exploration of 3D NAND-centric LLM inference acceleration under         decomposed into dot-product primitives executed by an out-of-
+                                        heterogeneous memory hierarchies, with NVLLM serving as an initial system instan-
+                                        tiation of this research direction. This version incorporates minor refinements from
+                                                                                                                               order in-Flash pipeline. By decoupling error detection from correc-
+                                        the conference version while preserving the core design, evaluation methodology, and   tion, the pipeline operates directly on raw NAND reads, sustaining
+                                        conclusions. It is released for academic dissemination and discussion.                 throughput while tolerating bit errors. Keeping attention weights
+                                                                      Figure 2: Under the single-batch inference constraint, the
+                                                                      hardware remains heavily memory-bound for the majority
+                                                                      of the workload.
+
+
+                                                                      2 Background and Motivation
+                                                                      2.1 Large Language Models at the Edge
+                                                                      Most modern LLMs adopt multi-layer Transformer decoder archi-
+                                                                      tectures [43], where each decoder layer consists of an attention
+                                                                      module and a FFN. Attention typically employs multi-head atten-
+                                                                      tion (MHA), computing queries (𝑄), keys (𝐾), and values (𝑉 ) via
+Figure 1: (a) Comparison of edge and cloud LLM inference
+                                                                      linear projections, followed by scaled dot-product, causal masking,
+devices and their execution characteristics. (b) Analysis of
+                                                                      softmax, and weighted aggregation. FFNs expand the hidden di-
+the token-distribution patterns in human–LLM interactive
+                                                                      mension (e.g., 3.5× in LLaMA3-8B) and project it back, accounting
+conversations.
+                                                                      for roughly 70% of total parameters—around 5.3 GiB under 8-bit
+                                                                      quantization. Both attention and FFN maintain input dimensions
+                                                                      through residual connections and layer/RMS normalization.
+in DRAM reduces bandwidth pressure and preserves the random-
+                                                                         Edge deployments face fundamentally different workloads than
+access demands of the attention path. A KV-cache–aware sched-
+                                                                      cloud servers [41]. Interactive single-batch prompts dominate, leav-
+uler monitors cache growth and dynamically offloads portions of
+                                                                      ing little room for parallelism and resulting in underutilized com-
+Q/K/V/O projections to the in-Flash pipeline, maintaining stable
+                                                                      pute. Workload analysis (Fig. 3(a)) confirms that FFNs dominate
+per-token throughput under long contexts.
+                                                                      model parameters, while single-batch decoding dominates run-
+   Building on these design principles, NVLLM shows that combin-
+                                                                      time compute, making external memory access (EMA) the main
+ing in-Flash FFN execution, DRAM-resident attention weights, and
+                                                                      energy and throughput bottleneck. Multi-turn interactions increase
+KV-cache–aware scheduling effectively improves token through-
+                                                                      KV-cache size, shifting attention compute toward aggregation over
+put, reduces off-chip memory traffic, and scales to larger models
+                                                                      Q/K/V/O projections (Fig. 3(b)). These characteristics emphasize the
+under edge constraints. Evaluated on quantized OPT and LLaMA
+                                                                      memory- and bandwidth-bound nature of edge LLM inference and
+models up to 30B parameters, NVLLM achieves 16.7×–37.9× higher
+                                                                      highlight the need for architectures tailored to these constraints.
+token throughput than an out-of-core GPU under the same weight-
+offloading strategy, and up to 4.7× higher throughput over SSD-like
+in-Flash designs, while incurring only 2.7% CMOS area overhead.       2.2    3D NAND Flash for Edge LLMs
+The key contributions of this work are as follows:                    Traditional attention-focused accelerators [24, 37, 45] typically store
+                                                                      all weights in DRAM, incurring high energy and bandwidth costs
+    • We propose NVLLM, a 3D NAND-centric architecture for
+                                                                      (56–69% of total system power) and up to 1.5× extra computation.
+      edge-side LLM inference. By co-designing compute and stor-
+                                                                      Scaling DRAM alone is costly and often insufficient for single-batch
+      age through wafer-level 3D integration, NVLLM performs
+                                                                      edge inference.
+      FFN computation inside Flash and substantially reduces off-
+                                                                         3D NAND Flash provides an opportunity to offload FFN compu-
+      chip memory traffic.
+                                                                      tation near memory. Single-token decoding offers ample compute
+    • We design an in-Flash dot-product engine that sustains high
+                                                                      slack, while page-level access retrieves multi-gigabyte weights in
+      throughput under raw NAND read errors. Decoupling er-
+                                                                      situ. W2W 3D integration [12, 17] allows CMOS logic to reside
+      ror detection from correction enables out-of-order, error-
+                                                                      beneath the NAND array, enabling high-density and area-efficient
+      tolerant vector execution and unlocks an efficient area-power
+                                                                      computation. Challenges include non-negligible raw bit error rate
+      design space.
+                                                                      (RBER) in NAND Flash memory, limited write endurance [7], and
+    • We show that attention and FFN exhibit weak interdepen-
+                                                                      restricted CMOS area for logic [14, 26], as illustrated in Fig. 4.
+      dence during inference and exploit this property with a de-
+                                                                         Decoupling FFN and attention computation enables efficient in-
+      coupled execution strategy. A KV-cache-aware scheduler
+                                                                      Flash FFN execution while retaining attention in DRAM, where
+      further preserves token throughput by adaptively balancing
+                                                                      irregular data dependencies and growing KV caches are better sup-
+      attention workloads in long-context scenarios.
+                                                                      ported. FFN pipelines in Flash can exploit regular, weight-resident
+                                                                         where the CMOS periphery beneath each array footprint is area-
+                                                                         constrained. Second, and more importantly, the cluster width is
+                                                                         chosen to match the data consumption width of PE lanes. Each PE
+                                                                         lane processes a segment of 𝑑 weights per cycle, and a cluster
+                                                                         produces 𝑑 bytes per activation step on average. This alignment
+                                                                         eliminates wide multiplexers, avoids cross-lane reshaping, and en-
+Figure 3: (a) Breakdown of model parameters and per-token                ables direct streaming from cluster-level FIFOs (CFs) into lane-level
+OPs (single batch); Normalization is shown in the legend                 segment buffers with a single narrow handshake. Without such co-
+even if negligible. (b) Attention computation growth with                alignment, implementing a lane-scaled dot-product pipeline within
+increasing KV-cache size in long-context inference.                      the NAND CMOS wafer would incur prohibitive buffering and
+                                                                         routing overhead.
+                                                                            Each cluster thus forms a self-consistent weight delivery unit
+                                                                         with three buffering layers: (i) plane-level PBs, (ii) a shallow cluster
+                                                                         FIFO that absorbs WL-level read latency, and (iii) per-lane segment
+                                                                         buffers that gate data into the compute pipeline. These layers to-
+                                                                         gether hide WL RC delay, sense-amplifier variation, and multi-𝑉read
+                                                                         cycles for MLC/TLC cells, enabling deterministic, stall-free weight
+                                                                         delivery to FFN compute.
+Figure 4: (a) NAND read-induced RBER increases perplexity
+and lowers accuracy. (b) CMOS area constraints in Flash logic
+require lightweight, error-tolerant computation pipelines.               3.2    Error-Resilient Dot Product Algorithm
+                                                                         At the heart of in-Flash FFN execution is the error-resilient dot-
+                                                                         product engine (ERDPE), which performs mixed-precision (BF16
+access patterns with minimal on-chip buffering, while attention ben-
+                                                                         or INT8) dot products directly on raw NAND reads. To address
+efits from DRAM bandwidth and algorithmic optimizations. This
+                                                                         bit errors inherent to in-Flash computing, NVLLM decouples error
+division improves throughput, reduces off-chip traffic, and scales
+                                                                         detection from correction and introduces a lightweight out-of-order
+to longer contexts, motivating a NAND-centric edge architecture
+                                                                         (OoO) dot-product pipeline that implements an error-corrected dot-
+for LLM inference.
+                                                                         product (ECDP) in an out-of-order manner (OoO-ECDP).
+                                                                            To realize this execution model in hardware, NVLLM adopts
+3     NVLLM Architecture                                                 algorithm 1 that decomposes each weight column into multiple
+Fig. 5 illustrates the overall architecture of NVLLM, a wafer-to-        independent segments and schedules them based on error-check
+wafer co-designed system that executes FFN layers directly within        readiness. This algorithm provides a hardware-friendly way to
+3D NAND Flash, while performing attention and KV-cache opera-            overlap error detection, multi-cycle correction, and MAC execution
+tions on the DRAM-side NPU. This division of labor matches the           without requiring the correction units to finish beforehand.
+intrinsic characteristics of LLM workloads: FFN layers hold the
+vast majority of parameters with highly regular, weight-stationary
+access patterns and minimal activation footprint, whereas attention      3.3    ERDPE Microarchitecture
+computation is dominated by cache-resident Q/K/V/O projections           ERDPE consists of multiple OoO-ECDPs, each containing PE lanes
+and KV-dependent aggregation whose irregular data reuse is best          that execute segment-level dot products 5(b–c). For each weight
+served by DRAM bandwidth.                                                segment, a lane first performs an inline error check. If no error
+   By combining hybrid-bonded CMOS logic with Flash planes,              is detected, the segment proceeds directly to MAC accumulation.
+NVLLM eliminates DRAM round-trips for FFN weights, reduces               Otherwise, the segment is forwarded to a shared multi-cycle correc-
+EMA energy, and frees bandwidth for attention. The architecture          tor hub, while the lane continues processing other ready segments.
+is organized around three principles: (i) structured decoupling of       Corrected segments returned from the hub update the partial sums
+attention and FFN compute, (ii) plane–lane co-alignment for weight       tracked by the scoreboard.
+streaming efficiency, and (iii) error-resilient, out-of-order FFN exe-      Each OoO-ECDP implements the OoO dot-product algorithm in
+cution that matches NAND read behavior.                                  hardware and contains: (i) a segment buffer providing 2×𝑑-wide
+                                                                         weight fragments, (ii) a bit-error checker, (iii) a mixed-precision
+3.1    Clustered Plane-Lane Co-Design                                    MAC unit, and (iv) a commit buffer with scoreboard interfaces that
+3D NAND exposes data at page granularity (4–16 KiB), but page-           track segment readiness and pending corrections.
+level bandwidth from a single plane is insufficient to saturate             Segments are scheduled by readiness rather than strict order,
+compute pipelines. NVLLM therefore groups planes into clusters,          making each lane resemble a narrow out-of-order pipeline. The
+each comprising 𝑘 × 𝑘 planes sharing peripheral circuitry and syn-       scoreboard tracks whether a segment has passed error detection
+chronously returning page-buffer (PB) rows. This arrangement             (valid bit = 0), is waiting for correction (valid bit = 1), or has been
+offers two co-design advantages. First, a cluster aggregates the per-    committed (no entry). This allows the lane to continue executing
+plane read bandwidth and amortizes PB/peripheral-circuit over-           other ready segments even while others undergo multi-cycle correc-
+head, which is particularly beneficial in W2W-bonded 3D NAND,            tion. Final accumulation follows the in-order completion of weight
+                                                Figure 5: Proposed NVLLM architecture.
+
+Algorithm 1 Out-of-Order Dot Product for Error-Resilient                  This architecture allows the pipeline to sustain a full-cycle MAC
+Input: Weight vector w ∈      Rℎ×1 , Activation vector a      R1×ℎ ,
+                                                              ∈        rate even under non-zero RBER, while amortizing the correction
+     Segment factor 𝑑, Error-correcting code 𝐿(𝑛, 𝑑), Parity matrix    logic across lanes. The datapath includes fused multiply-accumulate
+                                                                       units supporting BF16 and INT8 execution, with optional widening
+     p ∈ R (𝑛−𝑑 ) × (ℎ/𝑑 ) ,
+                                                                       for high-dynamic-range Transformer layers.
+Output: Final dot product result 𝑠
+  1: Initialize accumulator 𝑠 ← 0, scoreboard 𝐵 ← ∅
+  2: Weight vector pointer 𝑝𝑡𝑟 ← 0
+                                                                       3.4    Structured Prefetch and Pipeline Scheduling
+  3: while 𝑝𝑡𝑟 < len(w) do
+  4:     w𝑑 ← w[𝑝𝑡𝑟 : 𝑝𝑡𝑟 + 𝑑 − 1]         ⊲ Current weight segment    Because NAND reads are deterministic at page granularity, prefetch-
+  5:     p𝑛−𝑑 ← p[0 : 𝑛 − 𝑑, 𝑝𝑡𝑟 ]                  ⊲ Parity segment   ing can be tightly coordinated with lane-level compute. NVLLM
+  6:     v ← Concat(w𝑑 , p𝑛−𝑑 )                                        issues prefetches on a per-cluster, per-layer schedule, filling cluster
+  7:     if Checker(v, 𝐿(𝑛, 𝑑)) then                                   FIFOs ahead of ERDPE consumption without generating additional
+  8:          𝑠 ← 𝑠 + w𝑑 · a[𝑝𝑡𝑟 : 𝑝𝑡𝑟 + 𝑑 − 1]                        random reads. The scheduler integrates with the OoO mechanism:
+  9:     else                                         ⊲ Non-blocking   segments with earlier deadlines are prefetched first, while segments
+ 10:          𝐵 ← 𝐵 ∪ {𝑝𝑡𝑟 }                                           experiencing correction stalls do not throttle the pipeline. This struc-
+ 11:          w′ ← Corrector(w𝑑 , p𝑛−𝑑 )                               ture contrasts with DRAM-oriented prefetchers that must predict
+ 12:          w[𝑝𝑡𝑟 : 𝑝𝑡𝑟 + 𝑑 − 1] ← w′                                irregular access patterns; here, FFN weights are laid out contigu-
+ 13:     end if                                                        ously across plane clusters, enabling deterministic, deadlock-free
+ 14:     𝑝𝑡𝑟 ← 𝑝𝑡𝑟 + 𝑑                                                 scheduling.
+ 15: end while
+ 16: if 𝐵 ≠ ∅ then
+                                                                       3.5    End-to-End Dataflow
+ 17:     for 𝑖𝑑𝑥 ∈ 𝐵 do
+ 18:          w𝑑 ← w[𝑖𝑑𝑥 : 𝑖𝑑𝑥 + 𝑑 − 1]                                As a 3D NAND-centric architecture, NVLLM coordinates data flow
+ 19:          𝑠 ← 𝑠 + w𝑑 · a[𝑖𝑑𝑥 : 𝑖𝑑𝑥 + 𝑑 − 1]                        across the NAND array, NAND CMOS, NPU, and DRAM. To mini-
+ 20:     end for                                                       mize energy-intensive transfers, recurrent weight accesses remain
+ 21: end if
+                                                                       within either the 3D NAND or the NPU-DRAM subsystem; notably,
+ 22: return 𝑠
+                                                                       Q/K/V/O weights are copied once into DRAM at initialization, elim-
+                                                                       inating all subsequent Flash-to-DRAM movement.
+                                                                          During prefill, the global scheduler distributes Q/K/V/O compu-
+                                                                       tation between NAND CMOS and the NPU based on their effective
+columns, ensuring numerical correctness and matching the fixed         compute capabilities. The ERDPE performs in-Flash linear projec-
+page-level read address accumulation mode of the plane side.           tions, after which the NPU fuses the 𝑄, 𝐾, and 𝑉 matrices, executes
+   A fly-weight register guarantees that each lane consumes ex-        attention, and stores 𝐾/𝑉 in DRAM. Multi-head output projection
+actly one segment per cycle without reshaping. In this design, the     follows an identical compute split, while FFN computation and the
+double-buffer structure also ensures that when a flying segment en-    final output projection are both executed on the NAND side. The
+counters an error, the MAC unit can immediately consume another        resulting logits are then transferred to the NPU for post-processing.
+weight segment. This is implemented via a bypass path between             Decode follows a similar pipeline but processes a single token per
+the fly-weight register and the PE lane. Given the extremely low       step. At the early stage of decoding, attention is executed entirely
+probability of consecutive segment errors, it is reasonable to as-     on the NPU, while FFN computation is offloaded to the NAND
+sume that another segment can be executed without delay. To avoid      side. As the KV cache grows, NPU-side attention latency becomes
+any potential loss of accuracy, once an OoO-ECDP enters this state,    non-stationary, leading to imbalance in the shared Q/K/V/O path.
+the faulty buffer is temporarily masked until the next cycle, when     NVLLM addresses this via a KV-cache-aware dynamic scheduler
+the data and corresponding check bit are transferred by the arbiter    that adaptively adjusts the NAND-NPU compute split in real time
+to the scoreboard. The segment is then automatically corrected. If     using a lightweight latency estimator and a bitmap-based dispatcher.
+the corrected weight segment matches the original, the scoreboard      Algorithm 2 illustrates a concrete instantiation of the proposed
+removes the entry directly.                                            adaptive scheduling mechanism.
+Algorithm 2 KV-Cache-Aware Scheduling
+    Input: Cycle increment Δ𝐶 (NPU cycles), NPU latency per
+    column 𝐶 NPU , weight column size 𝑢, page buffer per plane
+    cluster 𝑃, cluster-level bitmap 𝐵 (𝑛) ∈ {0, 1}1×𝐻
+    Output: Updated bitmap 𝐵 (𝑛+1)
+    Executed at the end of each forward propagation
+ 1: 𝐶 th ← ⌊𝑃/𝑢⌋ · 𝐶 NPU                                                           Figure 6: Throughput comparison result.
+ 2: if Δ𝐶 ≤ 𝐶 th then
+ 3:      return 𝐵 (𝑛)                                                    for fair comparison with these designs. Table 1 summarizes the
+ 4: end if
+                                                                         baseline configurations.
+ 5: 𝑘 ← ⌈Δ𝐶/𝐶 th ⌉
+                                                                            Performance metrics include tokens-per-second (TPS) for through-
+ 6: 𝐵 (𝑛+1) ← 𝐵 (𝑛) , 𝑐𝑛𝑡 ← 0, 𝑖 ← 𝐻 − 1
+                                                                         put, seconds per inference (s/inf) for end-to-end latency, and J/token
+ 7: while 𝑐𝑛𝑡 < 𝑘 and 𝑖 ≥ 0 do
+                                                                         for energy efficiency.
+ 8:      if 𝐵 (𝑛) [𝑖] = 1 then
+ 9:          𝐵 (𝑛+1) [𝑖] ← 0                                             4.2    Area and Power Estimation
+10:          𝑐𝑛𝑡 ← 𝑐𝑛𝑡 + 1
+                                                                         The NPU and NAND CMOS components of NVLLM were imple-
+11:      end if
+                                                                         mented in Verilog HDL and synthesized using Synopsys Design
+12:      𝑖 ←𝑖 −1
+                                                                         Compiler with TSMC 28 nm technology. Table 2 summarizes area
+13: end while
+                                                                         and power breakdowns, reporting compute units and ECC logic
+14: return 𝐵 (𝑛+1)
+                                                                         separately. The ECC module achieves 2.0× area and 1.3× power
+                                                                         reduction compared to a monolithic ECC design.
+                                                                            The NAND CMOS subsystem integrates SRAM blocks, including
+4 Evaluation                                                             a 512 KiB cache FIFO (reusing internal Flash cache resources), a
+4.1 Methodology                                                          72 KiB global buffer, and a 16 KiB activation buffer. A lightweight
+Hardware Configuration. We model the 3D NAND Flash array at              RISC-V CPU coordinates register initialization and runtime oper-
+the plane level using the 3D-FPIM framework [19], which captures         ations. Overall, the NPU occupies 0.46 mm2 , while the additional
+key technology parameters such as cell and wordline geometries,          in-Flash logic occupies 2.69 mm2 —accounting for only 2.7% of the
+parasitic capacitances, and timing characteristics validated against     total NAND CMOS area.
+commercial products. The W2W stacking in NVLLM is reflected
+by adapting the layout hierarchy in area estimation, constrained         4.3    Throughput
+by teardown analyses of consumer-grade NAND products [14].               Comparison with GPU-centric Baselines. Although the NVIDIA
+LPDDR5X DRAM serves as shared memory for Q/K/V/O weights                 A800 GPU delivers up to 624 TOPS of INT8 compute, generating
+and the KV cache, with timing and energy modeled using Ramu-             one token of OPT-30B requires only 59.9 GOPs, leaving a substan-
+lator2 [25] and DRAMPower [4]. A cycle-accurate C++ simulator            tial compute-utilization gap. Fig. 6(a) compares NVLLM, NVLLM-
+integrates the 3D-FPIM NAND and DRAM behavioral models to                12C, and NVLLM-16C against three GPU-centric baselines. NVLLM
+evaluate system-level performance under diverse LLM workloads.           operates its NAND CMOS at 350 MHz and the NPU at 500 MHz,
+   The NAND subsystem includes 32 planes organized into 2 × 2            delivering a total of 307–486 GOPS. All decoding tests are con-
+clusters, each with a 16 KiB page buffer, yielding a total capacity of   ducted under a 64-token context. Compared to GPU-SSD, NVLLM
+128 GiB. Each plane occupies 3.07 mm2 and exhibits a read latency of     achieves 22.4×–37.9× speedup, leveraging multi-plane parallelism
+5.12 𝜇s. We also evaluate scaled variants NVLLM-12C and NVLLM-           and internal 3D NAND bandwidth up to 100 GB/s, far exceeding
+16C to study architectural scalability.                                  typical PCIe Gen4 ×4 bandwidth limits of 8 GB/s. GPU-DRAM
+   Benchmark Models. We adopt the OPT series—OPT-1.3B, OPT-              offers higher bandwidth than SSD but still falls short of NVLLM,
+2.7B, OPT-6.7B, OPT-13B, and OPT-30B—as representative bench-            yielding > 2.5× lower throughput. Smaller models benefit more
+marks covering a broad parameter range. To demonstrate NVLLM’s           due to lower compute contribution relative to bandwidth.
+generality, we also evaluate LLaMA-family models. All models are            Comparison with SSD-like Architectures. Fig. 6(b) compares
+quantized to INT8 for on-device inference. Random bit flips are in-      NVLLM-16C with Cambricon-LLM, AiF, and AiF--. For LLaMA2-7B,
+jected into model weights to emulate realistic NAND RBER patterns,       NVLLM-16C outperforms these designs by 4.7×, 1.3×, and 1.7×,
+assessing robustness under non-ideal storage.                            respectively. Cambricon-LLM’s limited throughput (3.6 tokens/s) is
+   Baselines and Metrics. We compare NVLLM against conven-               due to shared Flash resources serving both in-Flash compute and
+tional GPU-based inference and SSD-like in-Flash computation             NPU weight fetches. AiFSSD achieves 13.1 tokens/s with 102.4 GB/s
+designs. GPU-centric baselines include GPU-DRAM and GPU-SSD,             internal bandwidth; AiF--, with reduced ECC/read optimizations,
+using an NVIDIA A800 GPU with DRAM or NAND Flash SSDs for                drops to 9.8 tokens/s.
+model weights, implemented via FlexGen [33]. SSD-like baselines             NVLLM’s advantage stems from hybrid-bonding enabling plane-
+comprise Cambricon-LLM [42] and AiF [20], which embed compute            level parallelism and higher internal bandwidth, and decoupled
+logic within Flash chips and coordinate multiple chips via SSD-style     attention/FFN computation in NAND CMOS, allowing fully stan-
+channels. NVLLM-16C is configured with 16 clusters and 64 planes         dalone inference without host-side coordination.
+                                            Table 1: Baseline Hardware Configuration Details
+
+      Architecture/System                   GPU-Centric                                      SSD-Like                    3D NAND-Centric
+         Design Name        GPU-DRAM      GPU-SSD       GPU-Hybrid           Cambricon-LLM        AiF         AiF--         NVLLM-16C
+       Weight Placement       DRAM       NAND Flash NAND Flash + DRAM                      NAND Flash                   NAND Flash + DRAM
+         Quantization                                                           8bit
+                                   NVIDIA A800, 80GB GPU; Intel Xeon          8ch, 2chip/ch,          8ch, 2chip/ch,          16 clusters,
+         Hardware
+                                      Gold 6348 CPU; 512GiB DRAM,         2die/chip, 2plane/die,       4plane/chip,        4 planes/cluster,
+        Configuration
+                                    16×32GiB DDR4; 5.2TB NVMe SSD         64 planes, 16KiB page 64 planes, 16KiB page   64 planes, 16KiB page
+
+
+      Table 2: Area and Power Overhead of Compute Core
+
+      Component          Module         Area (𝜇m2 )   Power (𝑚𝑊 )
+                           SFU              8,618         2.73
+                     Dot-Product Unit     144,712       170.40
+         NPU              SRAM            304,217        67.00
+                          Others            1,767         0.02
+                        NPU Total         459,314       240.15
+                       RISC-V CPU         685,284         2.76
+                     Dot-Product Unit     289,424       340.80                 Figure 7: End to end latency comparison result.
+                      Detector (x8)        82,256       159.69
+        NAND
+                      Corrector (x8)      323,608       107.66
+        CMOS
+                          SRAM           1,292,922      284.75
+                          Others           18,089         0.02
+                       NCW Total         2,691,583      895.68
+
+
+             Table 3: NVLLM Scaling Configuration
+
+   Configuration         NVLLM      NVLLM-12C      NVLLM-16C
+       NPU              4×OoO-ECDP(w/o ECC), 2×LPDDR5X, 6×16Gb           Figure 8: (a) The effect of KV-cache-aware scheduling. (b)
+    OoO-ECDP                8            12              16              Energy comparison result.
+   Plane Cluster            8            12              16
+       Plane               32            48              64
+
+                                                                         Most FFN weights remain within 3D NAND, and the decoupled ar-
+4.4     Latency Analysis                                                 chitecture minimizes transfers between NAND CMOS and the NPU.
+                                                                         Fig. 8(b) shows NVLLM’s energy advantage over Cambricon-LLM.
+End-to-end latency of NVLLM is shown in Fig. 7, compared only to
+                                                                         As model size increases, NVLLM’s relative savings grow due to FFN-
+GPU-centric baselines due to missing prefill data for Cambricon-
+                                                                         heavy workloads. NVLLM-IO is triggered only sparsely—primarily
+LLM and AiF. Prefill/decode token pairs range from 16/16 to 1024/1024.
+                                                                         during layer transitions and the final output projection—and there-
+NVLLM distributes latency more evenly: prefill accounts for 44.1%–
+                                                                         fore contributes negligibly to the overall energy. Overall, NVLLM
+45.0% versus 0.1%–6.9% (GPU-SSD) and 0.15%–5.84% (GPU-DRAM).
+                                                                         achieves 5.63× reduction in data movement energy compared to
+   This reflects fundamental differences: GPUs are compute-rich,
+                                                                         Cambricon-LLM.
+making prefill fast and decode bandwidth-limited; NVLLM decom-
+poses GEMM/GEMV into dot-product primitives, with 3D NAND +
+LPDDR5X supplying sufficient bandwidth for FFN and attention,            5   Conclusion
+keeping the prefill phase compute-bound. Increasing plane clusters       We present NVLLM, a 3D NAND-centric architecture for on-device
+with OoO-ECDP units (Table 3) further reduces prefill proportion.        LLM inference, co-designing NAND Flash, CMOS logic, NPU, and
+NVLLM-16C achieves 1.9 s, 7.5 s, 30.3 s, and 124.3 s per inference       DRAM to maximize internal bandwidth and minimize data move-
+for 32, 128, 512, and 2048 tokens, up to 28.2× faster than GPU-SSD       ment. By decoupling attention and FFN computation, leveraging
+and 2.7× faster than GPU-DRAM.                                           multi-plane parallelism, and adopting dynamic KV-cache-aware
+   Furthermore, the KV-cache-aware scheduling mechanism en-              scheduling, NVLLM achieves up to 37.9× throughput improvement,
+hances NVLLM’s latency benefits in extended decoding scenarios,          28.2× latency reduction, and 5.6× energy reduction over GPU- and
+which is validated by the ablation results shown in Fig. 8(a).           SSD-based baselines. Our results demonstrate that carefully orches-
+                                                                         trated near-data processing in 3D NAND enables efficient, scalable,
+4.5     Energy Efficiency                                                and standalone LLM inference on resource-constrained devices.
+NVLLM reduces data movement energy via decoupled attention/FFN
+design. Transfers occur along three paths: NAND array → NAND             Acknowledgments
+CMOS (NVLLM-NAND), and between NAND CMOS and the NPU                     This work was supported by the National Natural Science Founda-
+(NVLLM-IO), and between the NPU and DRAM (NVLLM-DRAM).                   tion of China under Grant Nos. 92464204 and 92464302.
+A     Discussion: NVLLM Design Choices and
+      Broader Implications
+This appendix discusses the design rationale of NVLLM, its intended
+deployment scenarios, and its broader implications for memory-
+system-driven AI workloads.
+
+A.1     Why a 3D NAND-Centric Architecture?
+NVLLM is motivated by a simple observation: as models continue
+to grow, the memory system increasingly determines the overall
+efficiency of edge AI inference. In this context, many architec-
+tural variants are foreseeable. One could imagine more aggressive
+forms of in-storage execution, deeper coupling between Flash and
+programmable accelerators, or broader mappings of Transformer
+operators into the NAND subsystem. NVLLM does not rule out
+these possibilities. Instead, it deliberately chooses a narrower and
+more concrete first step.
+   The design starts from constraints that are already present in         Figure 9: Illustrative deployment scenario of NVLLM in an
+practical 3D NAND systems, including page-granular reads, limited         edge platform. The regular FFN weight-streaming path is
+CMOS logic budget, raw read errors, non-negligible access latency,        served by the 3D NAND-centric execution substrate, while
+existing storage interfaces, and the need to preserve conventional        dynamic attention, KV-cache management, and system-level
+read/write behavior. Under these constraints, the key question is         tasks remain on the xPU–DRAM path.
+not how many operators can be theoretically mapped into Flash, but
+which part of the workload exposes a stable architectural bottleneck         Attention and KV-cache management have different character-
+that current or near-term technology can realistically address.           istics. Their behavior depends on sequence length, cache layout,
+   More broadly, NVLLM follows a problem-grounded view of archi-          sparsity, retrieval, and runtime scheduling policies. NVLLM keeps
+tecture research. Rather than treating architectural freedom itself as    these components in the xPU–DRAM domain because they benefit
+the starting point, the design starts from constraints that are visible   from flexible control, random access, and fast adaptation to algo-
+in current and near-term technology, including device behavior,           rithmic changes. This is not a claim that dynamic operators are
+process limits, storage interfaces, reliability, and system integration   outside the scope of future storage-integrated systems. Rather, it is
+cost. From this perspective, the role of architecture is to identify      a conservative partition that allows NVLLM to support an evolving
+which emerging bottlenecks have become first-order system prob-           workload landscape without forcing every emerging operator into
+lems under these constraints, and what existing technologies must         a fixed Flash-side execution model.
+support in order to make such solutions practical. NVLLM is de-              In this sense, NVLLM is designed with workload diversity in
+veloped in this spirit: it treats 3D NAND Flash as a constrained          mind. As retrieval augmentation, sparse attention, speculative de-
+but increasingly relevant execution substrate, and focuses on the         coding, KV-cache optimization, and dynamic routing become more
+part of LLM inference where model capacity, data movement, and            common [6, 18, 21, 22], the system can still preserve a stable in-
+edge-system resources already meet as an architectural problem.           Flash path for regular model-weight access while leaving dynamic
+   NVLLM answers this question by targeting the weight-dominated          runtime behavior to programmable compute and DRAM. The ar-
+and regular portion of LLM inference. This choice reflects a design       chitecture therefore separates what is structurally stable from what
+philosophy rather than a lack of alternatives. The goal is to first       is algorithmically fluid.
+solve the architectural problem that emerges when large model
+weights reside in high-capacity non-volatile storage but must be re-      A.3     Target Deployment Scenarios
+peatedly moved through a conventional storage-memory-compute              NVLLM is primarily intended for on-device LLM inference on plat-
+hierarchy. By focusing on this problem, NVLLM provides a concrete         forms where model capacity exceeds available DRAM capacity.
+point in the design space for 3D NAND-centric inference.                  Representative examples include mobile devices, AI PCs, embed-
+                                                                          ded assistants, privacy-sensitive offline applications, and embod-
+A.2     Rationale Behind the FFN/Attention                                ied AI. These systems already integrate NAND Flash, DRAM, and
+        Partition                                                         CPU/NPU subsystems, making them natural candidates for a 3D
+The FFN/attention partition in NVLLM follows directly from this           NAND-centric execution path.
+philosophy. FFN layers account for a large fraction of model param-           As illustrated in Fig. 9, a practical advantage of NVLLM is that it
+eters and exhibit regular weight-streaming behavior. Their access         preserves the native NAND read/write path and the external stor-
+pattern naturally aligns with the page-level organization and plane-      age interface. The Flash subsystem can still serve as conventional
+level parallelism of 3D NAND Flash. Executing FFN computation             storage, while selected inference phases use the NAND-side com-
+close to Flash therefore reduces repeated weight movement while           pute path. This property is important for real edge platforms, where
+keeping the in-Flash logic simple enough to respect the CMOS area         an accelerator architecture must coexist with the operating system,
+and reliability constraints of NAND devices.                              file system, storage controller, and other application workloads.
+    Although NVLLM is evaluated in the context of LLM inference,                         [8] Yichao Fu, Peter Bailis, Ion Stoica, and Hao Zhang. 2024. Break the Sequential De-
+the underlying principle is broader. Other emerging AI workloads,                            pendency of LLM Inference Using Lookahead Decoding. arXiv:2402.02057 [cs.LG]
+                                                                                             https://arxiv.org/abs/2402.02057
+such as diffusion transformers (DiTs) [31], vision-language-action                       [9] ggml org. 2023. llama.cpp: Port of Facebook’s LLaMA model in C/C++. https:
+(VLA) models [3], and multimodal foundation models [1], may                                  //github.com/ggml-org/llama.cpp
+                                                                                        [10] Perttu Hämäläinen, Mikke Tavast, and Anton Kunnari. 2023. Evaluating Large
+also contain memory-bound phases when deployed under tight                                   Language Models in Generating Synthetic HCI Research Data: a Case Study. In
+edge memory and power budgets. NVLLM does not imply that                                     Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems
+these workloads should be mapped wholesale into Flash. Instead,                              (Hamburg, Germany) (CHI ’23). Association for Computing Machinery, New York,
+                                                                                             NY, USA, Article 433, 19 pages. doi:10.1145/3544548.3580688
+it suggests a methodology: when a workload contains large, regu-                        [11] Guseul Heo, Sangyeop Lee, Jaehong Cho, Hyunmin Choi, Sanghyeon Lee,
+lar, repeatedly accessed model states alongside dynamic runtime                              Hyungkyu Ham, Gwangsun Kim, Divya Mahajan, and Jongse Park. 2024. Ne-
+computation, the regular path may be a candidate for near-Flash ex-                          upims: Npu-pim heterogeneous acceleration for batched llm inferencing. In
+                                                                                             Proceedings of the 29th ACM International Conference on Architectural Support for
+ecution, while the dynamic path remains in programmable memory                               Programming Languages and Operating Systems, Volume 3. 722–737.
+and compute.                                                                            [12] P. K. Huang, C. Y. Lu, W. H. Wei, Christine Chiu, K. C. Ting, Clark Hu, C.H.
+                                                                                             Tsai, S. Y. Hou, W. C. Chiou, C. T. Wang, and Douglas Yu. 2021. Wafer Level
+                                                                                             System Integration of the Fifth Generation CoWoS®-S with High Performance Si
+A.4     Outlook: Toward 3D NAND-Native AI                                                    Interposer at 2500 Mm2. In 2021 IEEE 71st Electronic Components and Technology
+                                                                                             Conference (ECTC). 101–104. doi:10.1109/ECTC32696.2021.00028
+        Systems                                                                         [13] HubWeb. 2025. Apple A19 Pro Chip: Technical Specifications. https://hubweb.cn/
+Looking forward, AI-oriented 3D NAND should be optimized not                            [14] Zongliang Huo, Weihua Cheng, and Simon Yang. 2022. Unleash Scaling Potential
+                                                                                             of 3D NAND with Innovative Xtacking® Architecture. In 2022 IEEE Symposium
+only for storage density, but also for its role in model execution.                          on VLSI Technology and Circuits (VLSI Technology and Circuits). 254–255. doi:10.
+Capacity, plane-level parallelism, page-buffer organization, read                            1109/VLSITechnologyandCir46769.2022.9830285
+latency, ECC behavior, storage interfaces, and CMOS logic budget                        [15] Yunho Jin, Chun-Feng Wu, David Brooks, and Gu-Yeon Wei. 2023. S3 : In-
+                                                                                             creasing GPU Utilization during Generative Inference for Higher Throughput.
+should be considered jointly. These factors determine whether high-                          arXiv:2306.06000 [cs.AR] https://arxiv.org/abs/2306.06000
+capacity non-volatile memory can become an effective execution                          [16] Taesoo Kim, Jiwon Yoon, Seonguk Choi, Haeyeon Kim, Haeseok Suh, Hyunjun
+substrate rather than only a passive repository for model weights.                           An, Jungmin Ahn, Hyunah Park, and Joungho Kim. 2024. Design and Analysis
+                                                                                             of Twin Tower High Bandwidth Memory (HBM) Architecture for Large Memory
+   NVLLM is therefore best viewed as an early architectural step                             Capacity and High Bandwidth System. In 2024 IEEE Electrical Design of Advanced
+rather than a final form of 3D NAND-native AI hardware. Its contri-                          Packaging and Systems (EDAPS). 1–3. doi:10.1109/EDAPS64431.2024.10988462
+                                                                                        [17] Cheng-Ta Ko, Kuan-Neng Chen, Wei-Chung Lo, Chuan-An Cheng, Wen-Chun
+bution is to identify a near-term, technology-grounded opportunity:                          Huang, Zhi-Cheng Hsiao, Huan-Chun Fu, and Yu-Hua Chen. 2010. Wafer-Level
+execute the stable, memory-bound portion of inference where the                              3D Integration Using Hybrid Bonding. In 2010 IEEE International 3D Systems
+model weights reside, while preserving flexibility for dynamic and                           Integration Conference (3DIC). 1–4. doi:10.1109/3DIC.2010.5751463
+                                                                                        [18] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng,
+rapidly evolving operators. More broadly, NVLLM points to a design                           Cody Hao Yu, Joseph Gonzalez, Hao Zhang, and Ion Stoica. 2023. Efficient
+direction in which storage, memory, and compute are co-designed                              Memory Management for Large Language Model Serving with PagedAttention.
+around the actual bottlenecks of large AI models, rather than treated                        In Proceedings of the 29th Symposium on Operating Systems Principles (Koblenz,
+                                                                                             Germany) (SOSP ’23). Association for Computing Machinery, New York, NY, USA,
+as separate layers connected only by data movement.                                          611–626. doi:10.1145/3600006.3613165
+                                                                                        [19] Hunjun Lee, Minseop Kim, Dongmoon Min, Joonsung Kim, Jongwon Back,
+                                                                                             Honam Yoo, Jong-Ho Lee, and Jangwoo Kim. 2022. 3D-FPIM: An Extreme Energy-
+References                                                                                   Efficient DNN Acceleration System Using 3D NAND Flash-Based In-Situ PIM Unit.
+[1] Jean-Baptiste Alayrac, Jeff Donahue, Pauline Luc, Antoine Miech, Iain Barr, Yana         In 2022 55th IEEE/ACM International Symposium on Microarchitecture (MICRO).
+    Hasson, Karel Lenc, Arthur Mensch, Katherine Millican, Malcolm Reynolds,                 IEEE, Chicago, IL, USA, 1359–1376. doi:10.1109/MICRO56248.2022.00093
+    Roman Ring, Eliza Rutherford, Serkan Cabi, Tengda Han, Zhitao Gong, Sina            [20] Jaeyong Lee, Hyeunjoo Kim, Sanghun Oh, Myoungjun Chun, Myungsuk Kim,
+    Samangooei, et al. 2022. Flamingo: a Visual Language Model for Few-Shot Learn-           and Jihong Kim. 2025. AiF: Accelerating On-Device LLM Inference Using In-
+    ing. In Advances in Neural Information Processing Systems, S. Koyejo, S. Mohamed,        Flash Processing. In Proceedings of the 52nd Annual International Symposium on
+    A. Agarwal, D. Belgrave, K. Cho, and A. Oh (Eds.), Vol. 35. Curran Associates,           Computer Architecture (ISCA ’25). Association for Computing Machinery, New
+    Inc., 23716–23736. doi:10.52202/068431-1723                                              York, NY, USA, 529–543. doi:10.1145/3695053.3731073
+[2] AMD. 2025. AMD Ryzen AI Max+ PRO 395. https://www.amd.com/en/products/              [21] Yaniv Leviathan, Matan Kalman, and Yossi Matias. 2023. Fast Inference from
+    processors/laptop/ryzen-pro/ai-max-pro-300-series/amd-ryzen-ai-max-plus-                 Transformers via Speculative Decoding. In Proceedings of the 40th International
+    pro-395.html                                                                             Conference on Machine Learning (Proceedings of Machine Learning Research,
+[3] Anthony Brohan, Noah Brown, Justice Carbajal, Yevgen Chebotar, Xi Chen,                  Vol. 202), Andreas Krause, Emma Brunskill, Kyunghyun Cho, Barbara Engel-
+    Krzysztof Choromanski, Tianli Ding, Danny Driess, Avinava Dubey, Chelsea Finn,           hardt, Sivan Sabato, and Jonathan Scarlett (Eds.). PMLR, 19274–19286.
+    Pete Florence, Chuyuan Fu, Montse Gonzalez Arenas, Keerthana Gopalakrishnan,        [22] Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin,
+    Kehang Han, Karol Hausman, et al. 2023. RT-2: Vision-Language-Action Models              Naman Goyal, Heinrich Küttler, Mike Lewis, Wen-tau Yih, Tim Rocktäschel,
+    Transfer Web Knowledge to Robotic Control. arXiv:2307.15818 [cs.RO] https:               Sebastian Riedel, and Douwe Kiela. 2020. Retrieval-Augmented Generation for
+    //arxiv.org/abs/2307.15818                                                               Knowledge-Intensive NLP Tasks. In Advances in Neural Information Processing
+[4] Karthik Chandrasekar, Christian Weis, Benny Akesson, Norbert Wehn, and Kees              Systems, H. Larochelle, M. Ranzato, R. Hadsell, M.F. Balcan, and H. Lin (Eds.),
+    Goossens. 2013. Towards variation-aware system-level power estimation of                 Vol. 33. Curran Associates, Inc., 9459–9474.
+    DRAMs: An empirical approach. In 2013 50th ACM/EDAC/IEEE Design Automation          [23] Yuhui Li, Fangyun Wei, Chao Zhang, and Hongyang Zhang. 2025. EA-
+    Conference (DAC). 1–8. doi:10.1145/2463209.2488762                                       GLE: Speculative Sampling Requires Rethinking Feature Uncertainty.
+[5] Ning Ding, Yulin Chen, Bokai Xu, Yujia Qin, Zhi Zheng, Shengding Hu, Zhiyuan             arXiv:2401.15077 [cs.LG] https://arxiv.org/abs/2401.15077
+    Liu, Maosong Sun, and Bowen Zhou. 2023. Enhancing Chat Language Models by           [24] Liqiang Lu, Yicheng Jin, Hangrui Bi, Zizhang Luo, Peng Li, Tao Wang, and Yun
+    Scaling High-quality Instructional Conversations. arXiv preprint arXiv:2305.14233        Liang. 2021. Sanger: A co-design framework for enabling sparse attention using
+    (2023).                                                                                  reconfigurable architecture. In MICRO-54: 54th Annual IEEE/ACM International
+[6] William Fedus, Barret Zoph, and Noam Shazeer. 2022. Switch Transformers:                 Symposium on Microarchitecture. 977–991.
+    Scaling to Trillion Parameter Models with Simple and Efficient Sparsity. Journal    [25] Haocong Luo, Yahya Can Tuğrul, F. Nisa Bostancı, Ataberk Olgun, A. Giray
+    of Machine Learning Research 23, 120 (2022), 1–39.                                       Yağlıkçı, , and Onur Mutlu. 2023. Ramulator 2.0: A Modern, Modular, and Exten-
+[7] Hua Feng, Debao Wei, Qi Wang, Yongchao Wang, Liyan Qiao, and Zongliang Huo.              sible DRAM Simulator.
+    2025. Temperature Effects of Program Operation in 3-D Nand Flash Memory:            [26] Rino Micheloni, Seiichi Aritome, and Luca Crippa. 2017. Array Architectures for
+    Observations, Analysis, and Solutions. IEEE Transactions on Computer-Aided               3-D NAND Flash Memories. Proc. IEEE 105, 9 (Sept. 2017), 1634–1649. doi:10.
+    Design of Integrated Circuits and Systems 44, 9 (Sept. 2025), 3313–3322. doi:10.         1109/JPROC.2017.2697000
+    1109/TCAD.2025.3539982
+[27] NVIDIA. 2020. NVIDIA A100 Tensor Core GPU. https://www.nvidia.com/content/              International Symposium on High-Performance Computer Architecture (HPCA).
+     dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet.pdf                      97–110. arXiv:2012.09852 [cs] doi:10.1109/HPCA51647.2021.00018
+[28] NVIDIA. 2025. GeForce RTX 50 Series Laptops. https://www.nvidia.cn/geforce/        [37] Hanrui Wang, Zhekai Zhang, and Song Han. 2021. Spatten: Efficient sparse atten-
+     laptops/50-series/                                                                      tion architecture with cascade token and head pruning. In 2021 IEEE International
+[29] OpenAssistant. 2023. OpenAssistant Conversations Dataset (OASST1). https:               Symposium on High-Performance Computer Architecture (HPCA). IEEE, 97–110.
+     //huggingface.co/datasets/OpenAssistant/oasst1/tree/main                           [38] Jiajun Xu, Zhiyuan Li, Wei Chen, Qun Wang, Xin Gao, Qi Cai, and
+[30] Pratyush Patel, Esha Choukse, Chaojie Zhang, Aashaka Shah, Íñigo Goiri, Saeed           Ziyuan Ling. 2024. On-Device Language Models: A Comprehensive Review.
+     Maleki, and Ricardo Bianchini. 2024. Splitwise: Efficient Generative LLM Infer-         arXiv:2409.00088 [cs.CL] https://arxiv.org/abs/2409.00088
+     ence Using Phase Splitting. In 2024 ACM/IEEE 51st Annual International Sym-        [39] Zihao Yi, Jiarui Ouyang, Zhe Xu, Yuwen Liu, Tianhao Liao, Haohao Luo, and
+     posium on Computer Architecture (ISCA). 118–132. doi:10.1109/ISCA59077.2024.            Ying Shen. 2024. A survey on recent advances in llm-based multi-turn dialogue
+     00019                                                                                   systems. Comput. Surveys (2024).
+[31] William Peebles and Saining Xie. 2023. Scalable Diffusion Models with Trans-       [40] Dube Belinda Langelihle Yolanda. 2022. Wafer to Wafer Bonding to Increase Mem-
+     formers. In 2023 IEEE/CVF International Conference on Computer Vision (ICCV).           ory Density. In 2022 China Semiconductor Technology International Conference
+     4172–4182. doi:10.1109/ICCV51070.2023.00387                                             (CSTIC). 1–4. doi:10.1109/CSTIC55103.2022.9856846
+[32] ShareAI Lab. 2023. ShareGPT-Chinese-English-90k: A Bilingual Chinese-English       [41] Gyeong-In Yu, Joo Seong Jeong, Geon-Woo Kim, Soojeong Kim, and Byung-
+     Human-Machine Dialogue Dataset. https://huggingface.co/datasets/shareAI/                Gon Chun. 2022. Orca: A distributed serving system for { Transformer-Based }
+     ShareGPT-Chinese-English-90k                                                            generative models. In 16th USENIX Symposium on Operating Systems Design and
+[33] Ying Sheng, Lianmin Zheng, Binhang Yuan, Zhuohan Li, Max Ryabinin, Beidi                Implementation (OSDI 22). 521–538.
+     Chen, Percy Liang, Christopher Re, Ion Stoica, and Ce Zhang. 2023. FlexGen:        [42] Zhongkai Yu, Shengwen Liang, Tianyun Ma, Yunke Cai, Ziyuan Nan, Di
+     High-Throughput Generative Inference of Large Language Models with a Single             Huang, Xinkai Song, Yifan Hao, Jie Zhang, Tian Zhi, Yongwei Zhao, Zidong
+     GPU. In Proceedings of the 40th International Conference on Machine Learning            Du, Xing Hu, Qi Guo, and Tianshi Chen. 2024. Cambricon-LLM: A Chiplet-
+     (Proceedings of Machine Learning Research, Vol. 202), Andreas Krause, Emma              Based Hybrid Architecture for On-Device Inference of 70B LLM. In 2024 57th
+     Brunskill, Kyunghyun Cho, Barbara Engelhardt, Sivan Sabato, and Jonathan                IEEE/ACM International Symposium on Microarchitecture (MICRO). 1474–1488.
+     Scarlett (Eds.). PMLR, 31094–31116. https://proceedings.mlr.press/v202/sheng23a.        doi:10.1109/MICRO61859.2024.00108
+     html                                                                               [43] Shulin Zeng, Jun Liu, Guohao Dai, Xinhao Yang, Tianyu Fu, Hongyi Wang,
+[34] Thierry Tambe, Jeff Zhang, Coleman Hooper, Tianyu Jia, Paul N. Whatmough,               Wenheng Ma, Hanbo Sun, Shiyao Li, Zixiao Huang, Yadong Dai, Jintao Li, Zehao
+     Joseph Zuckerman, Maico Cassel Dos Santos, Erik Jens Loscalzo, Davide Giri,             Wang, Ruoyu Zhang, Kairui Wen, Xuefei Ning, and Yu Wang. 2024. FlightLLM:
+     Kenneth Shepard, Luca Carloni, Alexander Rush, David Brooks, and Gu-Yeon                Efficient Large Language Model Inference with a Complete Mapping Flow on
+     Wei. 2023. 22.9 A 12nm 18.1TFLOPs/W Sparse Transformer Processor with                   FPGAs. arXiv:2401.03868 [cs] doi:10.48550/arXiv.2401.03868
+     Entropy-Based Early Exit, Mixed-Precision Predication and Fine-Grained Power       [44] Yue Zheng, Yuhao Chen, Bin Qian, Xiufang Shi, Yuanchao Shu, and Jiming
+     Management. In 2023 IEEE International Solid-State Circuits Conference (ISSCC).         Chen. 2025. A review on edge large language models: Design, execution, and
+     342–344. doi:10.1109/ISSCC42615.2023.10067817                                           applications. Comput. Surveys 57, 8 (2025), 1–35.
+[35] TechInsights. 2024. A Brief View of YMTC Xtacking4.0 Technology: What’s New        [45] Zhe Zhou, Junlin Liu, Zhenyu Gu, and Guangyu Sun. 2022. Energon: Toward
+     in the Chip? https://www.techinsights.com/blog/brief-view-ymtc-xtacking40-              efficient acceleration of transformers using dynamic sparse attention. IEEE
+     technology-whats-new-chip                                                               Transactions on Computer-Aided Design of Integrated Circuits and Systems 42, 1
+[36] Hanrui Wang, Zhekai Zhang, and Song Han. 2021. SpAtten: Efficient Sparse                (2022), 136–149.
+     Attention Architecture with Cascade Token and Head Pruning. In 2021 IEEE
+

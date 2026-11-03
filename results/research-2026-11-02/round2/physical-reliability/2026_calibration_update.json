@@ -1,0 +1,17 @@
+{
+  "research_date": "2026-11-02",
+  "status": "No public measured physical-WL/chip/age/PEC-to-read-retry/latency table suitable for AiF calibration was located in the inspected primary sources.",
+  "source": {
+    "title": "Experimental Study on System-Level Performance Impact of Read Disturbance in Modern SSDs",
+    "primary_url": "https://arxiv.org/html/2608.14073v1",
+    "doi": "https://doi.org/10.1145/3788092",
+    "publication": "POMACS 10(1), article10, March2026 / SIGMETRICS2026; arXiv August14,2026",
+    "read_depth": "Methodology section4 and selected section5.1/5.2 results; official author publication listing checked."
+  },
+  "confirmed": "15 NVMe SSDs, controlled temperature/lifetime and FIO direct-I/O read stress. Preconditioning attempts to remove fresh-data SLC effects. Results concern host-LBA weak spots and maintenance impact; physical FTL addresses are not controlled.",
+  "artifact_status": "No raw measurement log/dataset repository linked in inspected paper or official author listing. This bounded search does not prove none exists.",
+  "usable": "Reproducible host-level measurement protocol, not a WL-level input profile for an in-flash placement simulator.",
+  "other_bounds": "QCFlash has measured threshold data for three QLC wordlines, not a latency/retry surface. Official MQSim permits separate page-type times, but its homogeneous defaults are configuration, not measured heterogeneity.",
+  "AiF_terminology": "be-enc(1,3,3) uses reliable single-sensing LSB weight bits while CSB/MSB remain ordinary data; calling entire blocks pSLC would be inaccurate.",
+  "no_claim": "No synthetic physical reliability spread, calibrated latency gain or novel generic hot/cold mapping claimed."
+}

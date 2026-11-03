@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-11-01T22:48:12.422721+00:00",
+  "source_inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/native-full48/plans.frozen.json": "9db047b5335c4d95e45755dc62ee1b545ba97b1119ec39294d09a86299b5e505",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-trace-audit/external-doc-grounded-stride1-short/external_decode.npz": "2111de845e4e8938e2158d0fc778f7910c48879184aeb1900759cd764d5f4736",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/external-doc-grounded/summary.json": "e139f8c539453b016e232995436b7ccaae164341282030c80d0665b67039426d",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_output_fringe.py": "3507f4cae064f4a29a623307eb4dbd5faa14d3ab4c836d359de9c7a148104c7f",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_native_output_fringe.cpp": "043018164e486b5352ee8a96d199bae15dd581d87608570b4572506c0b11df8f",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/output-fringe/native_output_fringe.so": "ccfa3cd5668cd288202b86d5785a4b4b5ffcb033c3eed59be81f7f23862afb5d"
+  },
+  "modes": {
+    "0": "original useful-row output contract",
+    "1": "drain every complete row in programmed16KiB pages",
+    "2": "drain every complete row in all reserved64KiB four-plane waves"
+  },
+  "controls": "All240frozenplans unchanged, no refit; sharedincluded;1uspartials;0activation/combine; full external5519decode.",
+  "limitation": "Output-count sensitivity under fixed4B result width. No verified native row-stop/output ABI and no silicon calibration. Both channel and PCIe drain all emitted results."
+}

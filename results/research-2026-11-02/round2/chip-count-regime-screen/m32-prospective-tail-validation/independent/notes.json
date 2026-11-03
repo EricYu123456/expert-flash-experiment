@@ -1,0 +1,258 @@
+{
+  "status": "PASS_STATIC_MAP_AND_NUMERIC_CONTRACT_PREFLIGHT; WAIT_NEW_ACQUISITION_CAPTURE_BINDING",
+  "utc": "2026-11-02T05:11:40.222769+00:00",
+  "producer_protocol_sha256": "911ecbdb77dcd18ccc880870f70a6a231c0a67730bfac7ac9144eea061e9b516",
+  "static_maps": [
+    {
+      "name": "free",
+      "id": "incumbent4",
+      "static_archive": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/plans/free.frozen.npz",
+      "archive_sha256": "8e8a505cd60300f5defde180a2e4ca1bd2508dfc2c1fc9cda7473b98dc8a0913",
+      "original_plan": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/native/incumbent4.plan.npz",
+      "original_plan_sha256": "bdabb93e82613e0acbf50160a298b57cfe2fc962f0829643c4359e8f263443b9",
+      "all_static_arrays_exact_to_original": true,
+      "TRAIN_routes_removed": true,
+      "rows_sha256": "bacb6a5184fa571af4063cef714b0e93e6ccc8ca1b1ee0840320cd2199822aa3",
+      "one_copy_complete_rows": true,
+      "inventory": {
+        "valid_rows": 167424,
+        "useful_bytes": 155713536,
+        "pages": 9764,
+        "waves": 2441,
+        "jobs": 2424
+      },
+      "allocated_LSB_blocks": 32,
+      "fixed_priority": "GF"
+    },
+    {
+      "name": "common_cyclic",
+      "id": "incumbent0",
+      "static_archive": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/plans/common_cyclic.frozen.npz",
+      "archive_sha256": "6d7e1f65737d95b494d0a8be044b50e0d9cf6f7c4163a1f379a803875f3541ef",
+      "original_plan": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-cyclic-rotation-cp/native/incumbent0.plan.npz",
+      "original_plan_sha256": "d4b05bab21b356583bba0da6339c69593a499d455652c564dce63458ec3b3622",
+      "all_static_arrays_exact_to_original": true,
+      "TRAIN_routes_removed": true,
+      "rows_sha256": "88696de42061f5293575830011ad743cc33ca459c1b4ff839314891d9d40b1f0",
+      "one_copy_complete_rows": true,
+      "inventory": {
+        "valid_rows": 167424,
+        "useful_bytes": 155713536,
+        "pages": 9764,
+        "waves": 2441,
+        "jobs": 2424
+      },
+      "allocated_LSB_blocks": 32,
+      "fixed_priority": "GF"
+    },
+    {
+      "name": "phase_independent",
+      "id": "incumbent2",
+      "static_archive": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/plans/phase_independent.frozen.npz",
+      "archive_sha256": "a332ee663921a6f9ca36b1955b8eff29db1fc9ccf76785083488751f43107183",
+      "original_plan": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-independent-rotation-cp/native/incumbent2.plan.npz",
+      "original_plan_sha256": "2f94e452004185b2cec1c45f4960eae0e564b744fb201c0fdda3fc76c4935e0d",
+      "all_static_arrays_exact_to_original": true,
+      "TRAIN_routes_removed": true,
+      "rows_sha256": "ceccbd269ee6fd30fe4208f50bfe73ef9cc06dbd9d809ee91edd5edf3fd27536",
+      "one_copy_complete_rows": true,
+      "inventory": {
+        "valid_rows": 167424,
+        "useful_bytes": 155713536,
+        "pages": 9764,
+        "waves": 2441,
+        "jobs": 2424
+      },
+      "allocated_LSB_blocks": 32,
+      "fixed_priority": "GF"
+    }
+  ],
+  "numeric_contract": {
+    "source": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_w8_training_capture_granite4tiny.cpp",
+    "source_sha256": "4e99c2a318e17e85c8c91fd72b41c45fe53f1528234c4679f291edeaa5859380",
+    "helpers": [
+      {
+        "name": "quantize",
+        "body_sha256": "8bf3670bcc1004860187fe326f101f52548560ab1f877f655c59ba25e4184c3a",
+        "matches_existing_helper_identity": true
+      },
+      {
+        "name": "dot",
+        "body_sha256": "6668a90ec6eb57aa847d16d8f171f484114d124f89bfc363c287c336f7a97563",
+        "matches_existing_helper_identity": true
+      },
+      {
+        "name": "scale_output",
+        "body_sha256": "fe0495c884de190511585fcc502596760849844754e5f9cc27a1d77d2db54c1c",
+        "matches_existing_helper_identity": true
+      }
+    ],
+    "build_receipt": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/build/granite4tiny.build.json",
+    "build_receipt_sha256": "2f4a9d68631a2782c257deb14960d56cfd0e3b50a4d9acd1160714548a26963b",
+    "existing_binary_sha256": "8f5171680fdab9c0284c11af11ac214998a2087314d2302e0af869f5a8476b80",
+    "checkpoint_sha256_inherited": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+    "checkpoint_reopened": false,
+    "coefficient_model": "Existing GGUF to_float per complete row, then fixed signed W8 [-127,127]. This is the declared full-FFN W8 numeric model; it is not a claim of equivalence to original GGUF Q4 arithmetic.",
+    "row_scale": "F32 maxabs(row)/127; zero row uses1. std::round then clamp [-127,127]. Original per-row scales remain associated with complete logical rows.",
+    "activation": "Once per entire operator input vector: F32 maxabs/127 (zero vector scale1), round and clamp to A8 [-127,127]. No row/chip partial scales; Down waits for the whole nonlinear hidden vector.",
+    "dot_and_output": "CPU exact I64 sum of I8 products; F32 sw*sx, cast integer sum to F32, then F32 multiply. Compile flags disable fast-math and FP contraction.",
+    "routing": "Actual ffn_moe_topk callback IDs; all40 full-FFN layers execute, attention/router retain GGUF. Fixed16 decode steps; no synthetic topk sampler.",
+    "capture_scope": "Canonical-only full-FFN route collection. New routed rows/logits are NOT rerun in a placed mode. Prior paired G4 andDeepSeek proofs are referenced, not extended by this capture. Shared/dense still execute the unchanged packed-vs-canonical I64 check in the old operator.",
+    "critical_limit": "Collector unsharded mode computes routed canonical rows and does not execute these three M32 maps. Its legacy16-chip packed shared helper is not a new M32 paired proof."
+  },
+  "prompt_metadata_rules": {
+    "new_payload_read_by_this_preflight": false,
+    "old_test_payload_read_by_this_preflight": false,
+    "existing_TRAIN_metadata": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/selected_train_prompts.json",
+      "sha256": "8457aa3aa0e4c00861f639ef37ecc1a2dc961ee158c9777ef644f98582b749db",
+      "items": 32,
+      "text_files_opened": false
+    },
+    "required_new_exclusion": "Freeze a metadata-only catalog of every previously captured source ID (with dataset/split/revision scope) and rendered prompt text SHA. Exclude matching IDs or text SHAs under the acquisition protocol; do not open old prompt text or test routes to do so.",
+    "required_selection": "Two primary publisher-pinned sources,16 prompts each, deterministic frozen selection/rendering, no answers in prompts and no model/output-based filtering. Preserve all16 decode steps for each32 prompts.",
+    "current_status": "Producer plan protocol specifies exclusions, but the new acquisition source/ID/hash exclusion manifest and capture protocol are not yet bound here. No claim of completed cross-campaign exclusion is made.",
+    "failure_rule": "Archive incomplete capture without resampling, truncating or dropping unfavorable prompts/steps. Full512 primary metrics require complete32x16x40x6 routes and finite full-FFN coverage."
+  },
+  "numeric_evidence_separation": [
+    {
+      "evidence": "Old full-model paired CPU W8 proof",
+      "scope": "Old frozen16-chip images/data only; not these new three M32 layouts."
+    },
+    {
+      "evidence": "Root planned M32 offline materialization",
+      "scope": "Not executed or bound by this preflight. If later passing, exact existing W8 bytes/scales, physical chipbanks, explicit fixtures/TRAIN routes can prove the specified FFN mapping, not new-prompt paired full-model inference."
+    },
+    {
+      "evidence": "Prospective32-prompt capture",
+      "scope": "Canonical full-model W8 routing only unless an explicitly separate paired run is later authorized and completed."
+    },
+    {
+      "evidence": "Native NAND numeric ABI",
+      "scope": "CPU I64/F32 semantics do not validate physical PE output type/scales, accumulator reset, FIFO flow control or ECC/final status."
+    }
+  ],
+  "publication_claim_risks": [
+    "M32 is a scale variant with32 full per-chip compute owners and8 shared channels. Existing controller CE/way topology does not prove those compute contexts in manufactured AiF. Within-M32 comparisons are valid model comparisons;16→32 is not a placement-only speedup.",
+    "Only G4 layer0 labels and nominal250ns command/28us ordinary-read costs are evaluated here. No all-model/all-layer/end-to-end or calibrated-device speed claim follows.",
+    "Against phase-independent learned cyclic TRAIN control, residual mean is0.6061917% and P998.5142751%. The2%mean OR5%P99 resource gate passes through P99; this is separate from novelty or permission to expand.",
+    "At512 queries the linear empirical P99 depends on roughly the slowest6 queries;32 prompts are clusters, not512 independent samples. Predeclared prompt-cluster bootstrap/descriptive source breakdown should remain intact.",
+    "Free masks versus contiguous cyclic orbits tests a larger standard placement space. Both CP controls are time-bounded and FEASIBLE; UNKNOWN peak10 is not UNSAT. A gap is not an impossibility theorem for cyclic placement or proof of solver novelty.",
+    "Weighted hypergraph/query-aware declustering can express correlated selected-set work balance. This is a strong prior risk, not by itself a disproof of a complete native lowering/certificate system contribution. First CP, first joint mapping and first hypergraph claims are unsupported.",
+    "Addresses/counts and opaque complete-row relocation are checked, but CPU arithmetic and metadata proofs remain distinct from the unverified native output/reset contract. No independent plane inputs, free PB reuse or changed A8 quantization may be introduced.",
+    "Hold fixed all three maps, GF, primary free-versus-phase-independent comparison and input4 sensitivity before new payload. Never choose maps/baselines/priority or drop prompts from validation outcomes."
+  ],
+  "future_cost_audit_gate": "Wait for explicitly completed capture and immutable acquisition/capture manifests. Then bind their hashes, validate full route shape/order/coverage, and independently reconstruct costs under the already frozen plans/profiles. No cost evaluation occurs in this preflight.",
+  "files_semantically_read": [
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/protocol.frozen.json",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_w8_training_capture_granite4tiny.cpp",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/numeric_helper_identity.json",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/protocol.frozen.json",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/build/granite4tiny.build.json",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/selected_train_prompts.json",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_w8_training_capture.py",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_second_heldout_sources.py"
+  ],
+  "references_hash_checked": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/source-snapshot/175815d8aa40ff8d-research_20261103_m32_prospective_tail_validation.py",
+      "sha256": "175815d8aa40ff8dd2c7afe07f933bdb5e58e861ab28d03fb12e2a73fa8cf273",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/native/incumbent4.plan.npz",
+      "sha256": "bdabb93e82613e0acbf50160a298b57cfe2fc962f0829643c4359e8f263443b9",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/protocol.frozen.json",
+      "sha256": "18e728fb9ad4b0cd02cc6b04aa1aac34c55154d5173833007f35175ae246e8ab",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/native_report.json",
+      "sha256": "e3716a3091e9f440b9a7d8bb6ded4ad95870f476929366581ac15d7c613a9505",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/native_arrays.npz",
+      "sha256": "6621a5c463e2eb91c05c34a22d760e43c1c1d1c042bb867a58e8c11a950aab35",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-cyclic-rotation-cp/native/incumbent0.plan.npz",
+      "sha256": "d4b05bab21b356583bba0da6339c69593a499d455652c564dce63458ec3b3622",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-cyclic-rotation-cp/protocol.frozen.json",
+      "sha256": "da05594920fc24246ec94056a5f301af278a2d5db94c214f3e015f5c13cc002f",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-cyclic-rotation-cp/native_report.json",
+      "sha256": "b9adbaff1790e2bc6289e7cbce77ca7e34b7daf73c93fde31261448e5200fc07",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-cyclic-rotation-cp/native_arrays.npz",
+      "sha256": "8c9f275d8edfe2c0fcd0e67ddcb964dc17f59c6fbe886ac4c737a5eae13a87bb",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-independent-rotation-cp/native/incumbent2.plan.npz",
+      "sha256": "2f94e452004185b2cec1c45f4960eae0e564b744fb201c0fdda3fc76c4935e0d",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-independent-rotation-cp/protocol.frozen.json",
+      "sha256": "1a98b6eae74c7aa39f75f9d2d9d18e3b263127e87c17ad121cf4cd7c43519744",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-independent-rotation-cp/native_report.json",
+      "sha256": "056c976dceeb018e5a90a45d7c78d6f89f67e6ed8578294ad710c0f86d36c053",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-independent-rotation-cp/native_arrays.npz",
+      "sha256": "662283013a794cfcfe1dcd34b00088d1cad878781726e3f48b232977e3cd6dd2",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/source-snapshot/ef7994fa2ba37a4b-ef7994fa2ba37a4b-research_20261103_ordinary_read_native.cpp",
+      "sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/source-snapshot/7c61f09756e24f11-7c61f09756e24f11-research_20261103_ordinary_read_backend.py",
+      "sha256": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/full-ffn-integer-reference/frozen_protocol.json",
+      "sha256": "3163341827c25b210c42126ae7465c1fe8be9827aab93d314a89ef8a54975f40",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/protocol.frozen.json",
+      "sha256": "f003fdbc1c8bd02c47dca0ef4afa90affc0d1b160a2b0cb2e8c4993c99bfdde0",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/build/granite4tiny-canonical-capture",
+      "sha256": "8f5171680fdab9c0284c11af11ac214998a2087314d2302e0af869f5a8476b80",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/source-snapshot/4e99c2a318e17e85-research_20261103_w8_training_capture_granite4tiny.cpp",
+      "sha256": "4e99c2a318e17e85c8c91fd72b41c45fe53f1528234c4679f291edeaa5859380",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/selected_train_prompts.json",
+      "sha256": "8457aa3aa0e4c00861f639ef37ecc1a2dc961ee158c9777ef644f98582b749db",
+      "read_scope": "Hash only unless separately listed as code or metadata read."
+    }
+  ]
+}

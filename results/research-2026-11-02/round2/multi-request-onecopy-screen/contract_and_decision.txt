@@ -1,0 +1,144 @@
+SEALED NO-GO：未識別超出既有group/row declustering＋普通多請求multiplexing的
+新實體配置機制。這是有界可行性/prior screen，非所有配置的全域否證。
+
+硬體與數值契約
+==============
+16chips、8channels、4planes/chip、16KiB pages、192WL/block，ordinary
+28us/wave、250ns/native command。每chip同一時間只有一個完整input context；
+job從command acquire到channel output release獨占該chip。每request/expert/
+phase/native job都重新完整讀取其權重、完整input reload，輸出完整rows。
+相同expert被多request選中時，讀取次數仍等於request multiplicity，不去重。
+不使用PB replay、weight/input cache residency、新MAC、多plane獨立contexts、
+weight replicas、改routing、partial dots或任何跨request共用activation。
+
+每request有自己的GU host submit、共同layer-input PCIe upload；所有GU native
+jobs均指向該request自己的upload。每expert須收齊其全部GU rows並完成host
+activation，才產生自己的private Down upload及jobs。Down與shared分支亦不跨
+request共用input。host output/combine及chip ownership同原Graph契約。
+既有output_fringe=1、nominal4B output與input reload成本沿用固定Service，
+不因此聲稱原生AiF arithmetic/scaling/output ABI已驗證。
+
+工作負載
+========
+G4 layer0 inputcopy1，以及Deep layer0 inputcopy4，皆cmd250；Deep inputcopy4
+是既有per-plane reload成本情境，不是已證的broadcast ABI。每模型32個既有
+W8 TRAIN prompts×16decode steps。B=2/4/8時，把相鄰不同prompt IDs分組，
+同一decode index的B個requests全部在time0 ready。每B各涵蓋全部512requests，
+對應256/128/64cohorts。這是trace-derived synthetic serving schedule；沒有
+real arrivals、queue admission、deadline、attention、下一token生成或SLO資料。
+報的是單層all-ready cohort makespan，不是完整模型throughput或TBT/SLO。
+
+舊分支邊界
+==========
+已讀docs/research_2026_11_02.md與_round2.md，以及replay-oracle source/report。
+舊replay-oracle的B1/4/16、q>1機制需要raw-PB replay及多vector/accumulator
+SRAM；它也在q1路徑容許符合64KiB條件的cohort input caching。本次兩者都不
+提供。queue/copy與erase/parity分支的busy-chip、replicas或額外numeric ABI亦
+未使用。舊研究已否定把phase-width、free masks或replicated declustering本身
+重新命名為演算法。本次只增加現有Graph的輕量多request DAG合併adapter，
+每個request的原始資料依賴與原生jobs完整保留，並非新硬體simulator。
+
+必要下界
+========
+對cohort Q，request q選到expert e；phase p、chip c的固定jobs為J(e,p,c)。
+每job j的完整columns為Cj，pages=ceil(Rj*Cj/16384)，waves=ceil(pages/4)。
+若超過192WL，原lowerer先拆成完整row、各自full-input的block jobs。
+
+定義每job的chip ownership工作：
+ d_j = command250 + fullinput_channel_transfer(Cj*copies)
+       + ordinary_read28000*waves_j + emitted_output_channel_transfer。
+ W_c(Q)=Σ(q,e,p,j on c) d_j。
+同chip不可重疊ownership，因此T(Q)>=host_initial_submit+max_c W_c(Q)。
+此和保留request multiplicity，即使兩個request使用相同expert也加兩次。
+另有serialized command、host、PCIe與各channel的總resource-work下界，取max；
+actual native Graph另保留每request GU→activation→private Down critical path。
+
+不受具體配置限制的更鬆有用係數下界：
+  U(Q)=2000 + [B*(K*3*D*I + 3*D*SI)/65536]/16 *28000。
+每次完整讀取所有selected coefficients的假設下，這只是總NAND工作/16；
+它忽略row/wave取整、load skew、commands、reload、channels與因果，並不保證
+可達。G4 U=2000+B*504000ns；Deep U=2000+B*1848000ns。
+每request至少K+1個GU與K+1個Down native jobs，所以最鬆command-resource
+下界是14*B*250ns（加初始submit）；實際jobs通常很多，不能免費合成多input
+GEMM或降低權重讀取次數來達到這個下界。
+
+對照與搜尋範圍
+==============
+G4 strong=compact-coupled-solver/continuation/native/0107.npz；Deep strong=
+native-joint-refinement/pilot-v1/deepseek.L0.input4.independent_paired.seed20261106。
+兩者均是既有強one-copy maps。每phase加入frozen TRAIN-fit group widths1..16、
+已有balanced/integer whole-row profiles，shared保持各strong map原geometry。
+每B從完整有限pair pool選mean necessary-work LB最低的static pair，再以相同
+GF/DF scheduler比較：strong、best simple width、best phase profile、g<=4。
+候選labels未針對cohorts重新fit，pair也不是完整native-objective exhaustive
+winner；因此不能從其負結果推出任何所有width/refit的全域最優性。
+所有寬度本身與placement primitive皆為既有方法。
+
+結果
+====
+模型/B    strong可行mean(ms)  相對逐request串行的普通multiplex收益  固定map剩餘排程上界
+G4/2        1.108238                    1.243982%                       0.297627%
+G4/4        2.189079                    2.464656%                       0.166735%
+G4/8        4.341108                    3.290069%                       0.084429%
+Deep/2      3.899093                    0.530796%                       0.163399%
+Deep/4      7.765739                    0.944676%                       0.080022%
+Deep/8     15.487451                    1.225473%                       0.049722%
+
+最後一欄=1-fixedlayout_resource_LB/feasible_strong_T；它是同map上可再改善的
+樂觀上限，非已實現收益。普通multiplex已取得的1–3%不能歸給新physical map。
+
+g<=4確實降低job/command數：B8的G4從1600減至640、Deep從1792減至640，
+但mean變4.654848/16.960313ms，均較strong慢。較少inputreload與commands的
+收益被不均衡較長jobs抵銷。最好的既有simple-width LB控制在B8分別是
+G4 disjoint8+cyclic12（4.404770ms）、Deep disjoint8+cyclic15（16.085413ms）；
+它們仍不勝strong。加入既有不等rows profile亦沒有超過strong。
+
+在strong map上，將所有commands與所有ONFI input reload成本樂觀設為0，
+其餘工作不變，B8 mean改善上界僅G4 1.957684%、Deep 2.875235%；command
+單獨設0的上界為0.660319%/0.230513%。這些是不可實作的零成本relaxations，
+不是偷偷引入PB reuse或免費selector；實際改group還會改weight balance。
+
+對更鬆U的剩餘配置+排程總上限，B8為G4 7.074411%、Deep 4.529157%；
+B2為8.864349%/5.157440%。此量包含一般row packing、hotness/declustering及
+舊group-width機制，不能當作reload、privateDown readiness的可達新收益。
+它只表示本次沒有證明所有one-copy maps皆不可能再改善。
+
+Closest prior與判斷
+==================
+PlaceMoE研究MoE訓練，分開hierarchical token-deduplicated通信與不去重的
+token–expert compute assignments，聯合placement、replicas與source-aware
+copy mapping。它支持必須區分通信/計算load，但其通信dedup不能搬成此處
+單context NAND sensing或input reload去重。
+Primary：https://arxiv.org/html/2610.14798v1（§II-B/C、III-A/B/C）
+
+HDA-MoE是3D DRAM/NMP hybrid TP/EP placement與link balance；runtime
+pre-broadcast hot experts並greedy dispatch到已有copy，另有改gating的獨立
+機制。可轉用的是既有split-width/communication-load tradeoff與調度對照，
+不能免費假定NAND weight broadcast/重寫，也不能改routing。本次沒有這些能力。
+Primary：https://arxiv.org/html/2609.08682v1（§V-B/C，V-D僅劃出排除範圍）
+
+MoEShard以expert tensor sharding平衡GPU負載並減少kernel launches，評估的是
+encoder MoE/TTFT；同樣顯示更細expert平行度不是新問題。其row/column
+decomposition與GPU fusion不構成AiF partial-output或multiinput ABI證據。
+Primary：https://euromlsys.eu/pdf/euromlsys25-12.pdf（abstract、§1）
+
+ElasticMoE的已讀abstract針對GPU/NPU serving scale-up、weight/KV remapping與
+expert redistribution；不是本地單chip context或NAND page-sharing能力。
+Primary：https://arxiv.org/abs/2510.02613（僅abstract，未聲稱讀完整文）
+
+結論是保留現有phase-specific widths/不等rows作generic controls，不展開
+重型serving/alllayer/heldout。本次未找到來自多request reload/command與
+GU→privateDown readiness、又不能被普通multiplexing/既有hybrid sharding
+解釋的新增physical primitive或有實證支持的配置優勢。不作優先權普查或
+全域不可能定理；也不以放寬hardware取得新正結果。
+
+獨立檢查
+========
+兩模型各512個single-request costs與原frozen baseline逐值相同。
+24張model/B/map契約檢查皆有每個logical full row exactly once、one-copy、
+完整原input columns、各activechip/phase一個block-containedjob。
+只抽兩條資源timeline：G4 B2（2062nodes/400jobs）與Deep B8
+（9208nodes/1792jobs），native與獨立Python graph逐node trace完全相同，
+逐dependency、全部resource不重疊、chip acquire/release locks核對通過。
+每request GU upload node不同，每expert Down upload node私有，無跨request
+input owner或權重sensing去重。所有frozen inputs hash前後一致。

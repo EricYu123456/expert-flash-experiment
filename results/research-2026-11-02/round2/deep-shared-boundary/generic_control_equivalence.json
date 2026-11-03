@@ -1,0 +1,22 @@
+{
+  "status": "PASS constructive fixed-copy generic-control equality",
+  "source_sha256": "ddcbb3857206a56672537abacffb7820d0faf799fd53596f195c9dff457bcc3a",
+  "original_oracle_sha256": "7c140f2e55b57c3c33b48d74a4f3ba129921c2dc780ff8b3055b35b6786e8e70",
+  "checked_pair_queries": 2129920,
+  "maximum_native_bound_difference_ns": 0,
+  "model": "Each pair has22 full32row\u00d72048I8 tiles; first11-r onlyA, last11-r onlyB, middle2r on both owners.",
+  "proof": [
+    "Any generic independent two-choice assignment of the2r replicated tiles gives A some a in[11-r,11+r] tiles and B22-a.",
+    "A positive owner must pay at least one native command and one full input. Each tile pays28000ns read/compute plus64ns output-channel drain.",
+    "For every feasible a, choose A the first a tiles and B the remaining suffix. Both are within fixed stored ranges; each positive owner uses exactly one contiguous native call.",
+    "Therefore optimal coalescing attains the lower per-chip occupancy for that tile-count assignment, with no new contexts, sparse instruction, or physical concatenation.",
+    "Minimizing max(uA+28064a+1274[a>0],uB+28064(22-a)+1274[a<22]) is exactly the fixed-pair generic replicated-tile retrieval control under these occupancy costs.",
+    "The interior optimum is nearest to(22+(uB-uA)/28064)/2, clipped to[11-r,11+r], with endpoints checked for zero-shard command elimination."
+  ],
+  "implication": "The fixed-copy split selector is not a new allocation algorithm. A cost-aware generic tile replica selector with optimal contiguous coalescing can exactly match it.",
+  "limits": [
+    "Equality covers the fixed paired owner/copy graph and native-chip occupancy objective; it is not a theorem that all placements or true DAG schedules are solved.",
+    "uA/uB include future routed/shared-down occupancy, not measured initial availability. Full DAG replay is still needed.",
+    "A systems contribution can remain in physical image lowering, owner/budget selection, runtime costs and validated dependence-aware planning; expressibility alone does not disprove it."
+  ]
+}

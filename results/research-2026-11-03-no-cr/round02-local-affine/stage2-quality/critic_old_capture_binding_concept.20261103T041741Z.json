@@ -1,0 +1,31 @@
+{
+  "reviewer": "/root/critic_sol",
+  "reviewed_at_utc": "2026-11-03 04:17:41 UTC",
+  "status": "approved_concept_only",
+  "scope": "Same-Round2 BIND_OLD_CAPTURE supplemental audit before FIT_REFRESH",
+  "evidence_correction": {
+    "historical_capture_input_hashes_available": false,
+    "prior_1961_file_output_hash_closure_includes_capture_inputs": false,
+    "current_hash_cannot_establish_historical_capture_identity": true,
+    "exact_canonical_output_match_does_not_prove_historical_input_identity": true
+  },
+  "required_contract": [
+    "Compare against frozen old target bytes whose SHA is already bound by the historical immutable output receipt, rather than accepting newly hashed substitute targets.",
+    "Bind current capture inputs, complete ordered row metadata, FIT120 selection and all eight operator target mappings; validate row counts, dimensions and identity before recomputation.",
+    "Use pinned canonical weights and numerical implementation/environment; preserve exact bitwise mismatch diagnostics without changing source captures or frozen labels.",
+    "Ensure capture, metadata and target contents remain stable across the audit using content hashes and stat evidence; the audit PASS is atomic only after all prescribed old FIT120/eight-operator comparisons pass.",
+    "Bind FIT_REFRESH release to the audit-completion receipt plus exact current capture, metadata, historical target, weights, numerical source/binary and audit-source hashes.",
+    "Account for all verification queries separately; introduce no new model states, calibration rows, fit grid or second refresh. Every family uses the same verified labels."
+  ],
+  "mismatch_policy": "Hold FIT_REFRESH and investigate numerical/provenance/wiring causes. Preserve mismatches; do not overwrite labels, relax equality, exclude rows or refit around failures. A technical mismatch is not a scientific failed round.",
+  "permitted_conclusion_after_pass": "The currently pinned X and row mapping have exact canonical targets equal to the historically frozen Y, establishing a usable supervised binding for the new refit.",
+  "excluded_conclusion": "The audit does not reconstruct or certify historical capture input provenance, nor independently validate the original historical state trajectories.",
+  "actual_audit_or_data_authorized_by_this_receipt": false,
+  "reviewer_actions": [
+    "Reviewed the parent-proposed audit contract only.",
+    "Read only the existing critic research note.",
+    "Did not read or hash activation, row, weight, target or corpus payloads.",
+    "Did not execute candidate code, numerical recomputation or probes."
+  ],
+  "source_gate": "Collector/audit/fixed-fit source and immutable hash review remain required; Root must separately release BIND_OLD_CAPTURE and later FIT_REFRESH."
+}

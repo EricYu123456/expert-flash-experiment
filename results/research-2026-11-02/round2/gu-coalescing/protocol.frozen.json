@@ -1,0 +1,23 @@
+{
+  "created_utc": "2026-11-01T23:21:13.026031+00:00",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_gu_coalescing.py": "514ee3417a32b8bbe2338557d7dc47ec41c49ef359825cd7ea39dcd38b59ac89",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_gu_coalescing.cpp": "a94ab902dc61eedb22fe33554a640cfb1096f2eb50eb4f2c206c2450f73c22ab",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/native-full48/plans.frozen.json": "9db047b5335c4d95e45755dc62ee1b545ba97b1119ec39294d09a86299b5e505",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-trace-audit/train_decode.npz": "953e8db87d4bc4a5b5b9a77f5aebae1578b1e522df5bf3ac6a32a591f9e8b145",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/gu-coalescing/gu_coalescing.so": "b9e0a83311bdb1b2eaa2ba1755c864cec2ce281e87f49da06b48fca48ce74251"
+  },
+  "train_only": "All16originaltrainrequests, steps0,4,...796;3200queries/layer;first3layers;noexternal/test.",
+  "geometry": "Original frozen GU ownership unchanged, fullH2560 only, one copy. Reorder complete rows; down unchanged and not merged.",
+  "contracts": {
+    "strict_WL": "128rows=5waves, blockcapacity4864rows/190waves; no plane-start extension.",
+    "conditional_page": "32rows=5pages, blockcapacity4896rows/765pages; arbitraryplane/page start NOT verified.",
+    "aligned_stride": "Each expert begins at joint row/address boundary; padded complete dummy rows count toward storage/read/output.",
+    "dense_stream": "Tight row stream; selected intervals require preceding legal-start prefix. Inactive rows really read/compute/output."
+  },
+  "objective": "Per-chip exact DP aggregate context ns=28us*waves+250ns/call+C/2ns input+2ns/emitted4B row; complete-wave outputs; sharedalwaysactive.",
+  "relaxation": "All GU work initially ready; independent chips; channel/controller/PCIe queues and expert GU->activation->down DAG not scheduled. Mean/P99 are scalar work bounds, not attainable FFN times.",
+  "no_CR": true,
+  "no_new_hardware": true,
+  "no_replication": true
+}

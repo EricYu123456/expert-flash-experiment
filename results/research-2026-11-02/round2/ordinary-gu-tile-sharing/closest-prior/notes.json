@@ -1,0 +1,27 @@
+{
+  "status": "bounded_audit_complete",
+  "conclusion": "No inspectedprimarysourceexplicitlyshows theexact176rowhalf-wave,single-copy,overlapping-singleton/coactive ordinarydenseGEMV mechanism. This is not proof of firstness. Co-loading,overfetch/discard,sameinputgrouping andpagepacking arealreadydirectprior;anysystemclaimneedsstrongmatchednativecontrols.",
+  "hardware_boundary": [
+    "C2048divides64KiB:wordlineboundaryalwaysstartsacompleterow. Readviewsusefirstplane0andfull4plane waves;no arbitraryplaneoffset,newsparsemaskorinputcontext is neededalgebraically.",
+    "Eachsingletonreadmustcomputeanddrain16auxiliaryrows;both-activefusionreads11waves/emits352rows. HostscatterretainsselectedrowIDs/scales,discardstheauxiliaryrows,andrestoresfullGUbeforeactivation.",
+    "This usesonlyGUcommonfullinput. DownprivateinputsandthefullGU/fullvectorA8barrierremain;no crossnonlinear fusion.",
+    "Nativeaccumulatorreset/opaquecomplete-rowfunction,outputFIFO/backpressureandnumericoutputABIremainunverifiedinAiF. LackofhostAPI supportalone doesnotprove newhardwareisrequired.",
+    "Pairpacketsoverlappingreadviewsreferbacktothesamephysicalcoefficients;do notcountreadviewoverlapasweightreplication. Conversely,per-modelblockcapacitymustbeprovenafterglobalpacking."
+  ],
+  "scope": {
+    "new_description_source": "Parenttask:DeepC2048uniform176/chip;currentoldscriptisQwenonly.",
+    "old_script": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_gu_coalescing.py",
+    "old_script_sha256": "514ee3417a32b8bbe2338557d7dc47ec41c49ef359825cd7ea39dcd38b59ac89",
+    "old_script_scope": "QwenC2560scalarworkoracle,notDeepfullnativeFFN;readonly.",
+    "no_training_archive_read": true,
+    "no_heldout_or_inference": true,
+    "no_native_experiment_or_newhardware": true
+  },
+  "cp_branch": {
+    "status": "stopped_no_more_expansion",
+    "notes": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/notes.json",
+    "notes_sha256": "ea5c56939278ca71f2a630b2bdff7411bd79fc0ab8bdece2f4f1c192ce4a7038",
+    "coverage": "G4L0input1actualW8TRAIN512only;188distinctmasks,96768nativecostrecords,567fulltraces. Bestmean0.279302%,P99TRAIN4.00291%;notglobalopt/notheldout."
+  },
+  "next_decision": "Onlyconsiderexpandednativeexperiment iftheuniform176selected-viewmechanismbeatsbalanced88withmatching/parityandcoalescingcontrolsonthesamefixedcopycapacity. NoalgorithmfirstnessclaimforMWM/DP/hypergraphorverticalconcat."
+}

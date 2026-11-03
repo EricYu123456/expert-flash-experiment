@@ -1,0 +1,129 @@
+{
+  "reviewer": "/root/critic_sol",
+  "at_utc": "2026-11-03 05:22:17 UTC",
+  "status": "same_round_2_continue",
+  "scientific_classification": "Passes the prespecified eight-operator partial mean-quality screen; not a failed round and not publication/full-model success.",
+  "failure_count_increment": 0,
+  "campaign_failed_experiments_unchanged": 1,
+  "quality_complete_sha256": "3706e544a7f5c65d20e414ff43b4f40e6578f6ab8951b63282c45c5c3012faab",
+  "summary_sha256": "bdeb8c0ac8eec33658cb580c627b265e64092ebe3dbbcea11f14b97c49067136",
+  "source_freeze_sha256": "00ea6f2ad07d41c0e0f57c67f16f54ca6c8d7342fc8c4df776913fd64bb10c09",
+  "protocol_sha256": "3f95838e8af920ad6fe477ee0d11153621680c10488452cd7585fc1b4273ac01",
+  "primary": {
+    "family_defined": true,
+    "selected_books": 16,
+    "shared_book_draws": 10000,
+    "seed": 2026110302,
+    "cutoff": 2.209279491064534,
+    "NLL_margin": 0.01980262729617973,
+    "deepseek": {
+      "mean_C_minus_B_NLL": 0.0029174022011596717,
+      "simultaneous95_NLL_band": [
+        -0.006838939279460025,
+        0.012673743681779369
+      ],
+      "simultaneous95_relative_PPL_band": [
+        -0.00681560695397782,
+        0.012754395933066162
+      ],
+      "mean_C_minus_source_NLL": 0.0032664092171600656
+    },
+    "olmoe": {
+      "mean_C_minus_B_NLL": 0.004687867000566115,
+      "simultaneous95_NLL_band": [
+        -0.002221903257182331,
+        0.011597637258314562
+      ],
+      "simultaneous95_relative_PPL_band": [
+        -0.0022194366573271497,
+        0.011665150599273212
+      ],
+      "mean_C_minus_source_NLL": 0.002677807485479952
+    },
+    "decision": "Both simultaneous upper bands are below log(1.02). The frozen failure condition is not met; these approximate bands support only this partial screen."
+  },
+  "independent_closed_result_checks": {
+    "finite_NLL_values": 32768,
+    "complete_model_book_jobs": 32,
+    "targets_per_arm_book": 256,
+    "target_indices_and_ids_reconstructed": true,
+    "per_book_NLL_means_reconstructed": true,
+    "summary_exposure_rows": 1536,
+    "non_source_exposure_joins_reconstructed": 1152,
+    "both_first_book_prospective_memcmp_controls_pass": true,
+    "both_model_OS_return_codes": 0,
+    "both_all_causal_exposure_sanity_checks_clear": true,
+    "selected_numeric_result_and_identity_hashes_match_complete_manifest": true,
+    "Root_independent_all_closed_files": 55,
+    "FIT_metadata_file_count": 470,
+    "FIT_before_equals_after_and_all_sha_fields_match_completed_FIT": true,
+    "FIT_prepost_receipt_sha256": "d0aed390dc49f9d7addca1acb57b65c59c9029128c217620424f03d67495fafa",
+    "same_Root_review_prepost_sha256": "c8b5542b92d88fc8b27d710fbb74986604ef038bf452df3c81e003cd8c639e0f",
+    "independent_bootstrap_reconstruction": "Root separately recomputes the fixed bootstrap. Critic checked the closed primary means, bands against the margin, retained family and source/generated algorithm; did not execute candidate implementation."
+  },
+  "actual_C_exposure": {
+    "deepseek": {
+      "prefix_unscored": 1778,
+      "scored_predecessor": 1825,
+      "unused511": 4,
+      "all_approximation_rows": 3607,
+      "canonical_fallback_rows": 0,
+      "causal_rows_0_to_510": 3603
+    },
+    "olmoe": {
+      "prefix_unscored": 3194,
+      "scored_predecessor": 1578,
+      "unused511": 9,
+      "all_approximation_rows": 4781,
+      "canonical_fallback_rows": 0,
+      "causal_rows_0_to_510": 4772
+    },
+    "all_eight_operators_exposed": true,
+    "thin_individual_operator": "OLMoE L8 E3 has only16 unscored-prefix and5 scored-predecessor approximation rows; no strong individual-operator quality conclusion.",
+    "routed_call_fraction_diagnostic": {
+      "deepseek": {
+        "numerator": 3603,
+        "denominator_16books_511causalpositions_6routes_26routedlayers": 1275456,
+        "fraction": 0.0028248720457624567
+      },
+      "olmoe": {
+        "numerator": 4772,
+        "denominator_16books_511causalpositions_8routes_16routedlayers": 1046528,
+        "fraction": 0.004559839774951076
+      },
+      "limit": "Counts of routed branch calls only. Not a weight/MAC/latency fraction and never a multiplier for extrapolating NLL."
+    }
+  },
+  "outliers_and_uncertainty": [
+    "OLMoE book42306 C-minus-B delta0.05050533000072566 remains in all16 books and every resampling draw. No book removal, new subset inference or threshold changes.",
+    "The budget concerns mean book-window loss, not a per-book guarantee. Some individual book degradations exceed2% while the mean-quality screen passes.",
+    "Sixteen-book approximate simultaneous bootstrap bands are not population-coverage or outlier-robustness guarantees; tokenizers and windows differ by model, and PPL is compared only within model.",
+    "D remains the fixed secondary arm. Its descriptive numbers do not select a winner or justify adaptive role changes."
+  ],
+  "unchanged_history": [
+    "Stage0 and Stage1 family-undefined operator comparisons remain inconclusive; this different quality screen does not retroactively make them significant.",
+    "The current target-binding audit does not repair missing historical capture-input provenance.",
+    "The concrete eight-operator configuration, calibration budget and thresholds stay frozen; no PG16-driven refit, guard/rank/geometry/gauge change or second rescue."
+  ],
+  "next_priority": [
+    {
+      "order": 1,
+      "action": "Before paying for all-layer targets, freeze a concise same-capability resource/necessity comparison and optimistic end-to-end cost bound.",
+      "required_controls": "Local region bank versus global/RRR and a shared nonlinear-host-latent plus one-flash-map control, with matched quality objectives and finite host/flash capacity. Bound host-only/cache alternatives as well.",
+      "required_costs": "Ordinary legal page/plane waves and commands, replicas, ECC/MAC throughput, finite page-buffer/input contexts, host P/key/bias/latent/accumulation work and memory/KV, and retained native shared/dense/layer barriers.",
+      "interpretation": "If there is no plausible system advantage, scope a prospective bounded engineering rejection. Less than10% is a flag, not a retroactive automatic failure criterion."
+    },
+    {
+      "order": 2,
+      "action": "If a viable system window remains, move within Round2 to a prospectively frozen all-routed/full-model quality expansion with explicit baseline numerics and finite data/target budget.",
+      "interpretation": "This is the decisive missing quality coverage; the0.28%/0.46% call intervention cannot establish it. Preserve existing8op configuration, predefine any expanded calibration scope, use unopened held-out evaluation and do not tune from these16 outcomes."
+    },
+    {
+      "order": 3,
+      "action": "Demonstrate the conditional bank's necessity against the matched nonlinear/control Pareto before a publication claim; use true whole-model metrics rather than hook walltime or local SSE.",
+      "interpretation": "No new execution, source edits, data release or additional search grid is authorized by this recommendation."
+    }
+  ],
+  "reviewer_actions": "Read only closed result/identity JSON and existing exposure output; reconstructed arithmetic/joins with an independent read-only audit. Did not run candidate code, alter outputs, read raw book/fitted payload bodies or open TEST.",
+  "actual_new_execution_or_TEST_release": false
+}

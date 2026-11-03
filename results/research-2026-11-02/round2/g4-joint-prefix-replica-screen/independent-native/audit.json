@@ -1,0 +1,67 @@
+{
+  "status": "PASS read-only joint native trace/ownership audit",
+  "protocol_sha256": "7bb6e63a572a375821d19aee4b5f8a22619e3dce25e81e4bb51a8a7c337dcc21",
+  "producer_native_protocol_sha256": "3e0444b41dd66d5030a7518d1ed417676369aa46851a5ff2948f342ce030c17e",
+  "baseline_cost_LB_exact_values": 1024,
+  "all512computed_rows_work_counters_exact": true,
+  "all_GU_Down_owner_map_values_checked": 7864320,
+  "row_owner_views_each_phase": 3072,
+  "trace_checks": [
+    {
+      "query": 0,
+      "case": "baseline",
+      "cost_ns": 551140,
+      "nodes": 1031,
+      "jobs": 200,
+      "all_node_traces_dependencies_resources_owner_reload_barrier_exact": true
+    },
+    {
+      "query": 0,
+      "case": "joint",
+      "cost_ns": 549470,
+      "nodes": 781,
+      "jobs": 150,
+      "all_node_traces_dependencies_resources_owner_reload_barrier_exact": true
+    },
+    {
+      "query": 255,
+      "case": "baseline",
+      "cost_ns": 577316,
+      "nodes": 1031,
+      "jobs": 200,
+      "all_node_traces_dependencies_resources_owner_reload_barrier_exact": true
+    },
+    {
+      "query": 255,
+      "case": "joint",
+      "cost_ns": 548124,
+      "nodes": 916,
+      "jobs": 177,
+      "all_node_traces_dependencies_resources_owner_reload_barrier_exact": true
+    },
+    {
+      "query": 511,
+      "case": "baseline",
+      "cost_ns": 578662,
+      "nodes": 1031,
+      "jobs": 200,
+      "all_node_traces_dependencies_resources_owner_reload_barrier_exact": true
+    },
+    {
+      "query": 511,
+      "case": "joint",
+      "cost_ns": 578040,
+      "nodes": 706,
+      "jobs": 135,
+      "all_node_traces_dependencies_resources_owner_reload_barrier_exact": true
+    }
+  ],
+  "trace_nodes": 5496,
+  "mean_gain_pct": 2.1524268753560616,
+  "p99_gain_pct": 0.32678764971237895,
+  "native_mean_ns": 549021.7734375,
+  "native_p99_ns": 578797.5,
+  "beyond_Down_single_mean_gain_pct": 0.20790827636936182,
+  "gate_passed": true,
+  "scope": "Saved all512cost statistics, ownership/work/counters checked; only six Python traces independently rescheduled. No C++rerun, selectorbenchmark, new fit, strongcontrols, weights or heldout."
+}

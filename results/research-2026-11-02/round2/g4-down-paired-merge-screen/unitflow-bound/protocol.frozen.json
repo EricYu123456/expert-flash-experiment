@@ -1,0 +1,29 @@
+{
+  "inputs": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_g4_down_paired_unitflow_bound.py",
+      "sha256": "65abf7962f19caded558a3db19c3715320b8b958de4ba1c9c7e09914938b86b3"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-down-paired-merge-screen/protocol.frozen.json",
+      "sha256": "32e5d4781aa0819cea26b569fecf3a35c7637702e39cdb1bba2b78eae6e192d9"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-down-paired-merge-screen/report.json",
+      "sha256": "1052f77bc9cb2f3870d95a9068ddf5e2058d1a5d79a14bb3a9d29a5d1f2a0910"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-down-paired-merge-screen/arrays.npz",
+      "sha256": "9dd9c06daaad2a11c8bbef675ac22c9045dc4fd1962cf6bfbb86a6a4c947ce09"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp",
+      "sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821"
+    }
+  ],
+  "scope": "All32 frozen routeblind graphs x512TRAIN. No fitting, native, weights, heldout or old source/output edits.",
+  "relaxation": "Each pair keeps dest128 guaranteed28762ns. Original source128 packet mayexecute at either endpoint withuniform28256ns; waive extra506ns ifpacketat source. Exactly36integral packets/query. Necessarybound only, notreal work.",
+  "executor": "GUunchanged andfirstexpert16positive chips in originalcanonicalchiporder. Initialcommandsstart host2000+c*250before any28usreadcomplete; addc*250tofixedbase. Fixedexecutoronly.",
+  "algorithm": "Explicit edge->two endpoint maxflow, integral chip capacities floor((T-base_c)/28256), clippedto graphdegree. Binarysearch exact base_c+k*28256 levels. CertifyT feasible andT-1infeasible.",
+  "gate": "If all32selected graphs have optimisticnative mean<2% andP99<5%, sealfinite no-go withoutnative/CP/heavycontrols. No globalreplicationimpossibility claim."
+}

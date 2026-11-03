@@ -1,0 +1,111 @@
+{
+  "status": "logical/cost descriptor disagreement accepted by physical_addresses",
+  "service": {
+    "chips": 1,
+    "channels": 1,
+    "planes": 1,
+    "page_bytes": 1,
+    "block_wordlines": 2,
+    "input_bytes": 1,
+    "output_bytes": 4,
+    "ordinary_read_ns": 28000,
+    "command_ns": 250,
+    "host_submit_ns": 2000,
+    "pcie_bytes_per_second": 8000000000,
+    "channel_bytes_per_second": 2000000000,
+    "activation_ns": 0,
+    "combine_ns": 0,
+    "output_fringe": 0,
+    "down_first": 0,
+    "input_buffer_bytes": 0
+  },
+  "jobs": [
+    [
+      0,
+      2,
+      1,
+      2,
+      2
+    ],
+    [
+      0,
+      2,
+      1,
+      2,
+      2
+    ]
+  ],
+  "logical": [
+    {
+      "expert": 0,
+      "phase": 0,
+      "chip": 0,
+      "row_start": 0,
+      "rows": 2,
+      "columns": 1,
+      "useful_bytes": 2,
+      "pages": 2,
+      "waves": 1
+    },
+    {
+      "expert": 0,
+      "phase": 1,
+      "chip": 0,
+      "row_start": 0,
+      "rows": 2,
+      "columns": 1,
+      "useful_bytes": 2,
+      "pages": 2,
+      "waves": 1
+    }
+  ],
+  "certificate": {
+    "addresses": [
+      {
+        "job": 0,
+        "chip": 0,
+        "block": 0,
+        "wordline": 0,
+        "reserved_wordlines": 1,
+        "pages": 2,
+        "first_plane": 0,
+        "page_order": "wordline-major; plane=page_index%planes"
+      },
+      {
+        "job": 1,
+        "chip": 0,
+        "block": 0,
+        "wordline": 1,
+        "reserved_wordlines": 1,
+        "pages": 2,
+        "first_plane": 0,
+        "page_order": "wordline-major; plane=page_index%planes"
+      }
+    ],
+    "chip_blocks": [
+      1
+    ],
+    "useful_bytes": 4,
+    "programmed_page_bytes": 4,
+    "reserved_wave_bytes": 2,
+    "allocated_lsb_block_bytes": 2,
+    "row_coverage_and_address_nonoverlap": true
+  },
+  "physical_payload_intervals": [
+    {
+      "job": 0,
+      "chip": 0,
+      "block": 0,
+      "byte_start": 0,
+      "byte_end": 2
+    },
+    {
+      "job": 1,
+      "chip": 0,
+      "block": 0,
+      "byte_start": 1,
+      "byte_end": 3
+    }
+  ],
+  "scope": "Malformed imported logical metadata; lower_rows itself is consistent. Physical certificate currently trusts redundant logical wave/page fields instead of checking against native job descriptors."
+}

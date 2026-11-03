@@ -1,0 +1,51 @@
+{
+  "created_utc": "2026-11-01T22:22:05.314366+00:00",
+  "seeds": [
+    20261102,
+    20261103,
+    20261104,
+    20261105
+  ],
+  "removed_orbit_representatives": [
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      0,
+      1,
+      3
+    ],
+    [
+      0,
+      1,
+      4
+    ]
+  ],
+  "construction": "All560 GU triples minus3distinct16-element cyclic orbits. Random assignment to expert IDs, then integral regular bipartite b-matchings; no route used by construction.",
+  "fit": "All16 original train requests at token0,4,...796:3200queries/layer. Shared expert fixed to source complement plan.",
+  "primary_selection": "Per-layer minimum mean(joined-native-chip-bound*1000 + sum-phase-chip-bounds) over4fixedseed plans, matching pilotobjective1. Frozen before evaluating smoke.",
+  "secondary_selection": "Also report finite4seed per-layer minimum actual native training mean and global best seed by training mean; never choose by smoke.",
+  "evaluation": "Exactly32linspace token steps/request:512queries/layer, three FFN layers, gate-first,0activation,1000ns reconstruction parameter (unused by whole rows).",
+  "baseline_order": "diverse and matchedcyclic use pilotcanonical chip0..15 job order. Original complement is replayed in both originaltemplate and canonicalchip orders.",
+  "source_inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_diverse_mask_control.py": "322b3437b0a311a4c40d302fc34ff9d5dbdcefc84eca2f7b8bd20bea0f6148e9",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_native_replay_v2.cpp": "9e2aba0e0926c4f3aedd68fb8a54fff6917a76caf3115e2d5bf18745bc888bb2",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_replay.py": "11d2844f1b8c18067e98414972548caa45eef136a55127c41b93bb73260ad0ad",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_fast_replay.py": "0d6d8f9eed62f80a25fd0e55aa16cf33cfe1a7f905b34a0dca9071bd87c2f866",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_granite4_pipeline.py": "7b5d70b4a133252d7fdbc61ae1a116ae28b51e6312745af4489a52669fd773e1",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_compiled_campaign.py": "f128a68a3274edb86d0a499dc5bf022f54b2c8774cbf7829b2518d8d45c1f524",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_independent_audit.py": "d919b15b74b8772cb92b3626f0627a3238a0d4645542eb140c9ed564c83d4e1d",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/native_replay_v2.so": "7cadb7b18e493259a9255578c2333e37b580415d15c7226c5dd25ad0f79c88c1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/joint-smoke/L0.whole.global_complement.r1000.plan.json": "429890eec61995e7f93a10386bef0a9672a35a0ef0be035d0b2c52a5baefe544",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/joint-smoke/L1.whole.global_complement.r1000.plan.json": "3ff578cd5f8dd758d9971bf1a1226d8ec9a388c140e72c145931c9ae415a196f",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/joint-smoke/L2.whole.global_complement.r1000.plan.json": "36f88b167bf6755e2f4dc873db0d976db908d67b6a34e4a3f3aa5ab021329da4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/residue-mask-pilot/L0.m0.o1.npz": "4e732c33d46b5c55bf68ba132d8640ea31aeaea67ce92b107eae74d0229338a0",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/residue-mask-pilot/L1.m0.o1.npz": "e805ee7701b483c578430bcf6dc11323c05ff7f8904f25769a9925196184fa35",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/residue-mask-pilot/L2.m0.o1.npz": "ab9a8d90edc38f02e7f976a33ef1bd8d1165ce7e3cec8290146ae27e66032345"
+  },
+  "training_sha256": "953e8db87d4bc4a5b5b9a77f5aebae1578b1e522df5bf3ac6a32a591f9e8b145",
+  "external_payloads_opened": false,
+  "novelty": "Ordinary balanced design/max-flow baseline; no new algorithm, hardware, quantization or native context."
+}

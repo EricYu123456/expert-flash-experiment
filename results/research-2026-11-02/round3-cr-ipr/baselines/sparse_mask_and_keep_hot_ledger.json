@@ -1,0 +1,6583 @@
+{
+  "identity_global_roundrobin": {
+    "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+    "selected_only": {
+      "physical_pages": 48,
+      "overfetch_pages": 0,
+      "plane_cold_runs": [
+        {
+          "mean": 3.326904296875,
+          "p99": 6.0,
+          "minimum": 1,
+          "maximum": 6,
+          "histogram": {
+            "1": 1124,
+            "2": 3947,
+            "3": 6400,
+            "4": 5705,
+            "5": 2727,
+            "6": 577
+          }
+        },
+        {
+          "mean": 3.326904296875,
+          "p99": 6.0,
+          "minimum": 1,
+          "maximum": 6,
+          "histogram": {
+            "1": 1124,
+            "2": 3947,
+            "3": 6400,
+            "4": 5705,
+            "5": 2727,
+            "6": 577
+          }
+        },
+        {
+          "mean": 3.7224609375,
+          "p99": 7.0,
+          "minimum": 1,
+          "maximum": 7,
+          "histogram": {
+            "1": 627,
+            "2": 2905,
+            "3": 5481,
+            "4": 5896,
+            "5": 3863,
+            "6": 1499,
+            "7": 209
+          }
+        },
+        {
+          "mean": 3.7224609375,
+          "p99": 7.0,
+          "minimum": 1,
+          "maximum": 7,
+          "histogram": {
+            "1": 627,
+            "2": 2905,
+            "3": 5481,
+            "4": 5896,
+            "5": 3863,
+            "6": 1499,
+            "7": 209
+          }
+        }
+      ],
+      "total_plane_cold_runs": {
+        "mean": 14.09873046875,
+        "p99": 16.0,
+        "minimum": 6,
+        "maximum": 16,
+        "histogram": {
+          "6": 62,
+          "8": 192,
+          "10": 1707,
+          "12": 2610,
+          "14": 8050,
+          "16": 7859
+        }
+      },
+      "extra_plane_restarts_after_idle": {
+        "mean": 10.09873046875,
+        "p99": 12.0,
+        "minimum": 2,
+        "maximum": 12,
+        "histogram": {
+          "2": 62,
+          "4": 192,
+          "6": 1707,
+          "8": 2610,
+          "10": 8050,
+          "12": 7859
+        }
+      },
+      "any_idle_restart_queries": 20480,
+      "strict_no_interval_requires_cold_restart": true
+    },
+    "conditional_keep_hot": {
+      "physical_read_pages": {
+        "mean": 59.0576171875,
+        "p99": 60.0,
+        "minimum": 52,
+        "maximum": 60,
+        "histogram": {
+          "52": 254,
+          "56": 4317,
+          "60": 15909
+        }
+      },
+      "inactive_overfetch_pages": {
+        "mean": 11.0576171875,
+        "p99": 12.0,
+        "minimum": 4,
+        "maximum": 12,
+        "histogram": {
+          "4": 254,
+          "8": 4317,
+          "12": 15909
+        }
+      },
+      "physical_read_bytes_per_chip": {
+        "mean": 967600.0,
+        "p99": 983040.0,
+        "minimum": 851968,
+        "maximum": 983040,
+        "histogram": {
+          "851968": 254,
+          "917504": 4317,
+          "983040": 15909
+        }
+      },
+      "array_read_amplification_mean": 1.2303670247395833,
+      "plane_cold_runs": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "all_planes_read_every_issued_wave": true,
+      "selected_ECC_PE_pages": 48,
+      "inactive_pages_dropped_before_ECC_PE": true,
+      "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+      "full_ECC_drain_alternative_pages": {
+        "mean": 59.0576171875,
+        "p99": 60.0,
+        "minimum": 52,
+        "maximum": 60,
+        "histogram": {
+          "52": 254,
+          "56": 4317,
+          "60": 15909
+        }
+      },
+      "performance_claim": false
+    }
+  },
+  "TRAIN_matching_per_layer": [
+    {
+      "layer": 0,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.349609375,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 118,
+              "2": 187,
+              "3": 135,
+              "4": 60,
+              "5": 6,
+              "6": 6
+            }
+          },
+          {
+            "mean": 2.349609375,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 118,
+              "2": 187,
+              "3": 135,
+              "4": 60,
+              "5": 6,
+              "6": 6
+            }
+          },
+          {
+            "mean": 2.568359375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 96,
+              "2": 157,
+              "3": 155,
+              "4": 83,
+              "5": 18,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.568359375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 96,
+              "2": 157,
+              "3": 155,
+              "4": 83,
+              "5": 18,
+              "6": 3
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.8359375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 30,
+            "6": 38,
+            "8": 139,
+            "10": 129,
+            "12": 112,
+            "14": 41,
+            "16": 23
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.8359375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 30,
+            "2": 38,
+            "4": 139,
+            "6": 129,
+            "8": 112,
+            "10": 41,
+            "12": 23
+          }
+        },
+        "any_idle_restart_queries": 482,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.6484375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 30,
+            "52": 177,
+            "56": 241,
+            "60": 64
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.6484375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 30,
+            "4": 177,
+            "8": 241,
+            "12": 64
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 895360.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 30,
+            "851968": 177,
+            "917504": 241,
+            "983040": 64
+          }
+        },
+        "array_read_amplification_mean": 1.1385091145833333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.6484375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 30,
+            "52": 177,
+            "56": 241,
+            "60": 64
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 1,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.326171875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 112,
+              "2": 194,
+              "3": 141,
+              "4": 57,
+              "5": 8
+            }
+          },
+          {
+            "mean": 2.326171875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 112,
+              "2": 194,
+              "3": 141,
+              "4": 57,
+              "5": 8
+            }
+          },
+          {
+            "mean": 2.60546875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 92,
+              "2": 160,
+              "3": 156,
+              "4": 71,
+              "5": 28,
+              "6": 5
+            }
+          },
+          {
+            "mean": 2.60546875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 92,
+              "2": 160,
+              "3": 156,
+              "4": 71,
+              "5": 28,
+              "6": 5
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.86328125,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 28,
+            "6": 54,
+            "8": 117,
+            "10": 129,
+            "12": 116,
+            "14": 46,
+            "16": 22
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.86328125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 28,
+            "2": 54,
+            "4": 117,
+            "6": 129,
+            "8": 116,
+            "10": 46,
+            "12": 22
+          }
+        },
+        "any_idle_restart_queries": 484,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.7578125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 28,
+            "52": 171,
+            "56": 245,
+            "60": 68
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.7578125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 28,
+            "4": 171,
+            "8": 245,
+            "12": 68
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 897152.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 28,
+            "851968": 171,
+            "917504": 245,
+            "983040": 68
+          }
+        },
+        "array_read_amplification_mean": 1.1407877604166667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.7578125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 28,
+            "52": 171,
+            "56": 245,
+            "60": 68
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 2,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.27734375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 138,
+              "2": 182,
+              "3": 126,
+              "4": 45,
+              "5": 20,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.27734375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 138,
+              "2": 182,
+              "3": 126,
+              "4": 45,
+              "5": 20,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.7109375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 66,
+              "2": 166,
+              "3": 170,
+              "4": 79,
+              "5": 23,
+              "6": 7,
+              "7": 1
+            }
+          },
+          {
+            "mean": 2.7109375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 66,
+              "2": 166,
+              "3": 170,
+              "4": 79,
+              "5": 23,
+              "6": 7,
+              "7": 1
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.9765625,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 13,
+            "6": 58,
+            "8": 146,
+            "10": 107,
+            "12": 114,
+            "14": 41,
+            "16": 33
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.9765625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 13,
+            "2": 58,
+            "4": 146,
+            "6": 107,
+            "8": 114,
+            "10": 41,
+            "12": 33
+          }
+        },
+        "any_idle_restart_queries": 499,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.78125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 13,
+            "52": 204,
+            "56": 221,
+            "60": 74
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.78125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 13,
+            "4": 204,
+            "8": 221,
+            "12": 74
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 897536.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 13,
+            "851968": 204,
+            "917504": 221,
+            "983040": 74
+          }
+        },
+        "array_read_amplification_mean": 1.1412760416666667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.78125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 13,
+            "52": 204,
+            "56": 221,
+            "60": 74
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 3,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.529296875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 110,
+              "2": 159,
+              "3": 139,
+              "4": 74,
+              "5": 26,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.529296875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 110,
+              "2": 159,
+              "3": 139,
+              "4": 74,
+              "5": 26,
+              "6": 4
+            }
+          },
+          {
+            "mean": 3.033203125,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 48,
+              "2": 145,
+              "3": 150,
+              "4": 99,
+              "5": 55,
+              "6": 11,
+              "7": 4
+            }
+          },
+          {
+            "mean": 3.033203125,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 48,
+              "2": 145,
+              "3": 150,
+              "4": 99,
+              "5": 55,
+              "6": 11,
+              "7": 4
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 11.125,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 11,
+            "6": 21,
+            "8": 106,
+            "10": 96,
+            "12": 156,
+            "14": 53,
+            "16": 69
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 7.125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 11,
+            "2": 21,
+            "4": 106,
+            "6": 96,
+            "8": 156,
+            "10": 53,
+            "12": 69
+          }
+        },
+        "any_idle_restart_queries": 501,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.7890625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 11,
+            "52": 127,
+            "56": 252,
+            "60": 122
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.7890625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 11,
+            "4": 127,
+            "8": 252,
+            "12": 122
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 914048.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 11,
+            "851968": 127,
+            "917504": 252,
+            "983040": 122
+          }
+        },
+        "array_read_amplification_mean": 1.1622721354166667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.7890625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 11,
+            "52": 127,
+            "56": 252,
+            "60": 122
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 4,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.6484375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 90,
+              "2": 150,
+              "3": 156,
+              "4": 84,
+              "5": 30,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.6484375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 90,
+              "2": 150,
+              "3": 156,
+              "4": 84,
+              "5": 30,
+              "6": 2
+            }
+          },
+          {
+            "mean": 3.10546875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 45,
+              "2": 112,
+              "3": 172,
+              "4": 125,
+              "5": 44,
+              "6": 13,
+              "7": 1
+            }
+          },
+          {
+            "mean": 3.10546875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 45,
+              "2": 112,
+              "3": 172,
+              "4": 125,
+              "5": 44,
+              "6": 13,
+              "7": 1
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 11.5078125,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 4,
+            "6": 33,
+            "8": 64,
+            "10": 114,
+            "12": 144,
+            "14": 75,
+            "16": 78
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 7.5078125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 4,
+            "2": 33,
+            "4": 64,
+            "6": 114,
+            "8": 144,
+            "10": 75,
+            "12": 78
+          }
+        },
+        "any_idle_restart_queries": 508,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 56.375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 4,
+            "52": 97,
+            "56": 258,
+            "60": 153
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 8.375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 4,
+            "4": 97,
+            "8": 258,
+            "12": 153
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 923648.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 4,
+            "851968": 97,
+            "917504": 258,
+            "983040": 153
+          }
+        },
+        "array_read_amplification_mean": 1.1744791666666667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 56.375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 4,
+            "52": 97,
+            "56": 258,
+            "60": 153
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 5,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.662109375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 71,
+              "2": 167,
+              "3": 167,
+              "4": 82,
+              "5": 21,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.662109375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 71,
+              "2": 167,
+              "3": 167,
+              "4": 82,
+              "5": 21,
+              "6": 4
+            }
+          },
+          {
+            "mean": 3.232421875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 25,
+              "2": 123,
+              "3": 157,
+              "4": 136,
+              "5": 57,
+              "6": 14
+            }
+          },
+          {
+            "mean": 3.232421875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 25,
+              "2": 123,
+              "3": 157,
+              "4": 136,
+              "5": 57,
+              "6": 14
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 11.7890625,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 1,
+            "6": 25,
+            "8": 53,
+            "10": 116,
+            "12": 154,
+            "14": 79,
+            "16": 84
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 7.7890625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 1,
+            "2": 25,
+            "4": 53,
+            "6": 116,
+            "8": 154,
+            "10": 79,
+            "12": 84
+          }
+        },
+        "any_idle_restart_queries": 511,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 56.6484375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 1,
+            "52": 78,
+            "56": 270,
+            "60": 163
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 8.6484375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 1,
+            "4": 78,
+            "8": 270,
+            "12": 163
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 928128.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 1,
+            "851968": 78,
+            "917504": 270,
+            "983040": 163
+          }
+        },
+        "array_read_amplification_mean": 1.18017578125,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 56.6484375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 1,
+            "52": 78,
+            "56": 270,
+            "60": 163
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 6,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.5703125,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 89,
+              "2": 188,
+              "3": 128,
+              "4": 75,
+              "5": 25,
+              "6": 7
+            }
+          },
+          {
+            "mean": 2.5703125,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 89,
+              "2": 188,
+              "3": 128,
+              "4": 75,
+              "5": 25,
+              "6": 7
+            }
+          },
+          {
+            "mean": 2.998046875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 49,
+              "2": 132,
+              "3": 167,
+              "4": 110,
+              "5": 43,
+              "6": 11
+            }
+          },
+          {
+            "mean": 2.998046875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 49,
+              "2": 132,
+              "3": 167,
+              "4": 110,
+              "5": 43,
+              "6": 11
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 11.13671875,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 9,
+            "6": 28,
+            "8": 109,
+            "10": 80,
+            "12": 162,
+            "14": 51,
+            "16": 73
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 7.13671875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 9,
+            "2": 28,
+            "4": 109,
+            "6": 80,
+            "8": 162,
+            "10": 51,
+            "12": 73
+          }
+        },
+        "any_idle_restart_queries": 503,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.7578125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 9,
+            "52": 137,
+            "56": 242,
+            "60": 124
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.7578125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 9,
+            "4": 137,
+            "8": 242,
+            "12": 124
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 913536.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 9,
+            "851968": 137,
+            "917504": 242,
+            "983040": 124
+          }
+        },
+        "array_read_amplification_mean": 1.16162109375,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.7578125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 9,
+            "52": 137,
+            "56": 242,
+            "60": 124
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 7,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.396484375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 104,
+              "2": 196,
+              "3": 133,
+              "4": 64,
+              "5": 14,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.396484375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 104,
+              "2": 196,
+              "3": 133,
+              "4": 64,
+              "5": 14,
+              "6": 1
+            }
+          },
+          {
+            "mean": 3.05859375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 49,
+              "2": 111,
+              "3": 181,
+              "4": 114,
+              "5": 48,
+              "6": 7,
+              "7": 2
+            }
+          },
+          {
+            "mean": 3.05859375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 49,
+              "2": 111,
+              "3": 181,
+              "4": 114,
+              "5": 48,
+              "6": 7,
+              "7": 2
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.91015625,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 11,
+            "6": 23,
+            "8": 110,
+            "10": 98,
+            "12": 166,
+            "14": 56,
+            "16": 48
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.91015625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 11,
+            "2": 23,
+            "4": 110,
+            "6": 98,
+            "8": 166,
+            "10": 56,
+            "12": 48
+          }
+        },
+        "any_idle_restart_queries": 501,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.6015625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 11,
+            "52": 133,
+            "56": 264,
+            "60": 104
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.6015625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 11,
+            "4": 133,
+            "8": 264,
+            "12": 104
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 910976.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 11,
+            "851968": 133,
+            "917504": 264,
+            "983040": 104
+          }
+        },
+        "array_read_amplification_mean": 1.1583658854166667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.6015625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 11,
+            "52": 133,
+            "56": 264,
+            "60": 104
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 8,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.46484375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 104,
+              "2": 174,
+              "3": 144,
+              "4": 72,
+              "5": 18
+            }
+          },
+          {
+            "mean": 2.46484375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 104,
+              "2": 174,
+              "3": 144,
+              "4": 72,
+              "5": 18
+            }
+          },
+          {
+            "mean": 2.85546875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 68,
+              "2": 146,
+              "3": 147,
+              "4": 102,
+              "5": 41,
+              "6": 8
+            }
+          },
+          {
+            "mean": 2.85546875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 68,
+              "2": 146,
+              "3": 147,
+              "4": 102,
+              "5": 41,
+              "6": 8
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.640625,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 5,
+            "6": 51,
+            "8": 105,
+            "10": 92,
+            "12": 173,
+            "14": 45,
+            "16": 41
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.640625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 5,
+            "2": 51,
+            "4": 105,
+            "6": 92,
+            "8": 173,
+            "10": 45,
+            "12": 41
+          }
+        },
+        "any_idle_restart_queries": 507,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 5,
+            "52": 156,
+            "56": 265,
+            "60": 86
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 5,
+            "4": 156,
+            "8": 265,
+            "12": 86
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 907264.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 5,
+            "851968": 156,
+            "917504": 265,
+            "983040": 86
+          }
+        },
+        "array_read_amplification_mean": 1.1536458333333333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 5,
+            "52": 156,
+            "56": 265,
+            "60": 86
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 9,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.640625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 75,
+              "2": 173,
+              "3": 158,
+              "4": 73,
+              "5": 33
+            }
+          },
+          {
+            "mean": 2.640625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 75,
+              "2": 173,
+              "3": 158,
+              "4": 73,
+              "5": 33
+            }
+          },
+          {
+            "mean": 2.61328125,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 92,
+              "2": 162,
+              "3": 146,
+              "4": 85,
+              "5": 19,
+              "6": 7,
+              "7": 1
+            }
+          },
+          {
+            "mean": 2.61328125,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 92,
+              "2": 162,
+              "3": 146,
+              "4": 85,
+              "5": 19,
+              "6": 7,
+              "7": 1
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.5078125,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 7,
+            "6": 47,
+            "8": 112,
+            "10": 109,
+            "12": 156,
+            "14": 42,
+            "16": 39
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.5078125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 7,
+            "2": 47,
+            "4": 112,
+            "6": 109,
+            "8": 156,
+            "10": 42,
+            "12": 39
+          }
+        },
+        "any_idle_restart_queries": 505,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.28125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 7,
+            "52": 159,
+            "56": 265,
+            "60": 81
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.28125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 7,
+            "4": 159,
+            "8": 265,
+            "12": 81
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 905728.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 7,
+            "851968": 159,
+            "917504": 265,
+            "983040": 81
+          }
+        },
+        "array_read_amplification_mean": 1.1516927083333333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.28125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 7,
+            "52": 159,
+            "56": 265,
+            "60": 81
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 10,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.369140625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 113,
+              "2": 185,
+              "3": 138,
+              "4": 65,
+              "5": 10,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.369140625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 113,
+              "2": 185,
+              "3": 138,
+              "4": 65,
+              "5": 10,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.736328125,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 82,
+              "2": 150,
+              "3": 147,
+              "4": 94,
+              "5": 33,
+              "6": 5,
+              "7": 1
+            }
+          },
+          {
+            "mean": 2.736328125,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 82,
+              "2": 150,
+              "3": 147,
+              "4": 94,
+              "5": 33,
+              "6": 5,
+              "7": 1
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.2109375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 15,
+            "6": 63,
+            "8": 111,
+            "10": 104,
+            "12": 153,
+            "14": 15,
+            "16": 51
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.2109375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 15,
+            "2": 63,
+            "4": 111,
+            "6": 104,
+            "8": 153,
+            "10": 15,
+            "12": 51
+          }
+        },
+        "any_idle_restart_queries": 497,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.921875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 15,
+            "52": 174,
+            "56": 257,
+            "60": 66
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.921875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 15,
+            "4": 174,
+            "8": 257,
+            "12": 66
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 899840.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 15,
+            "851968": 174,
+            "917504": 257,
+            "983040": 66
+          }
+        },
+        "array_read_amplification_mean": 1.1442057291666667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.921875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 15,
+            "52": 174,
+            "56": 257,
+            "60": 66
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 11,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.36328125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 88,
+              "2": 212,
+              "3": 165,
+              "4": 34,
+              "5": 11,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.36328125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 88,
+              "2": 212,
+              "3": 165,
+              "4": 34,
+              "5": 11,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.720703125,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 67,
+              "2": 175,
+              "3": 156,
+              "4": 69,
+              "5": 39,
+              "6": 5,
+              "7": 1
+            }
+          },
+          {
+            "mean": 2.720703125,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 67,
+              "2": 175,
+              "3": 156,
+              "4": 69,
+              "5": 39,
+              "6": 5,
+              "7": 1
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.16796875,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 12,
+            "6": 38,
+            "8": 159,
+            "10": 99,
+            "12": 131,
+            "14": 36,
+            "16": 37
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.16796875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 12,
+            "2": 38,
+            "4": 159,
+            "6": 99,
+            "8": 131,
+            "10": 36,
+            "12": 37
+          }
+        },
+        "any_idle_restart_queries": 500,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.84375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 12,
+            "52": 197,
+            "56": 230,
+            "60": 73
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.84375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 12,
+            "4": 197,
+            "8": 230,
+            "12": 73
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 898560.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 12,
+            "851968": 197,
+            "917504": 230,
+            "983040": 73
+          }
+        },
+        "array_read_amplification_mean": 1.142578125,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.84375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 12,
+            "52": 197,
+            "56": 230,
+            "60": 73
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 12,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.45703125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 82,
+              "2": 200,
+              "3": 159,
+              "4": 56,
+              "5": 15
+            }
+          },
+          {
+            "mean": 2.45703125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 82,
+              "2": 200,
+              "3": 159,
+              "4": 56,
+              "5": 15
+            }
+          },
+          {
+            "mean": 2.7734375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 52,
+              "2": 162,
+              "3": 180,
+              "4": 89,
+              "5": 26,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.7734375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 52,
+              "2": 162,
+              "3": 180,
+              "4": 89,
+              "5": 26,
+              "6": 3
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.4609375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 18,
+            "6": 17,
+            "8": 152,
+            "10": 84,
+            "12": 174,
+            "14": 17,
+            "16": 50
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.4609375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 18,
+            "2": 17,
+            "4": 152,
+            "6": 84,
+            "8": 174,
+            "10": 17,
+            "12": 50
+          }
+        },
+        "any_idle_restart_queries": 494,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.921875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 18,
+            "52": 169,
+            "56": 258,
+            "60": 67
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.921875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 18,
+            "4": 169,
+            "8": 258,
+            "12": 67
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 899840.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 18,
+            "851968": 169,
+            "917504": 258,
+            "983040": 67
+          }
+        },
+        "array_read_amplification_mean": 1.1442057291666667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.921875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 18,
+            "52": 169,
+            "56": 258,
+            "60": 67
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 13,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.19921875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 137,
+              "2": 205,
+              "3": 113,
+              "4": 46,
+              "5": 10,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.19921875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 137,
+              "2": 205,
+              "3": 113,
+              "4": 46,
+              "5": 10,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.837890625,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 69,
+              "2": 153,
+              "3": 152,
+              "4": 83,
+              "5": 44,
+              "6": 7,
+              "7": 4
+            }
+          },
+          {
+            "mean": 2.837890625,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 69,
+              "2": 153,
+              "3": 152,
+              "4": 83,
+              "5": 44,
+              "6": 7,
+              "7": 4
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.07421875,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 13,
+            "6": 44,
+            "8": 135,
+            "10": 118,
+            "12": 144,
+            "14": 37,
+            "16": 21
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.07421875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 13,
+            "2": 44,
+            "4": 135,
+            "6": 118,
+            "8": 144,
+            "10": 37,
+            "12": 21
+          }
+        },
+        "any_idle_restart_queries": 499,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.8515625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 13,
+            "52": 179,
+            "56": 262,
+            "60": 58
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.8515625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 13,
+            "4": 179,
+            "8": 262,
+            "12": 58
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 898688.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 13,
+            "851968": 179,
+            "917504": 262,
+            "983040": 58
+          }
+        },
+        "array_read_amplification_mean": 1.1427408854166667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.8515625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 13,
+            "52": 179,
+            "56": 262,
+            "60": 58
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 14,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.505859375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 93,
+              "2": 187,
+              "3": 137,
+              "4": 75,
+              "5": 15,
+              "6": 5
+            }
+          },
+          {
+            "mean": 2.505859375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 93,
+              "2": 187,
+              "3": 137,
+              "4": 75,
+              "5": 15,
+              "6": 5
+            }
+          },
+          {
+            "mean": 2.64453125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 55,
+              "2": 202,
+              "3": 157,
+              "4": 71,
+              "5": 22,
+              "6": 5
+            }
+          },
+          {
+            "mean": 2.64453125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 55,
+              "2": 202,
+              "3": 157,
+              "4": 71,
+              "5": 22,
+              "6": 5
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.30078125,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 4,
+            "6": 38,
+            "8": 146,
+            "10": 93,
+            "12": 171,
+            "14": 40,
+            "16": 20
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.30078125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 4,
+            "2": 38,
+            "4": 146,
+            "6": 93,
+            "8": 171,
+            "10": 40,
+            "12": 20
+          }
+        },
+        "any_idle_restart_queries": 508,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.96875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 4,
+            "52": 184,
+            "56": 264,
+            "60": 60
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.96875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 4,
+            "4": 184,
+            "8": 264,
+            "12": 60
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 900608.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 4,
+            "851968": 184,
+            "917504": 264,
+            "983040": 60
+          }
+        },
+        "array_read_amplification_mean": 1.1451822916666667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.96875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 4,
+            "52": 184,
+            "56": 264,
+            "60": 60
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 15,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 1.97265625,
+            "p99": 4.0,
+            "minimum": 1,
+            "maximum": 4,
+            "histogram": {
+              "1": 183,
+              "2": 195,
+              "3": 99,
+              "4": 35
+            }
+          },
+          {
+            "mean": 1.97265625,
+            "p99": 4.0,
+            "minimum": 1,
+            "maximum": 4,
+            "histogram": {
+              "1": 183,
+              "2": 195,
+              "3": 99,
+              "4": 35
+            }
+          },
+          {
+            "mean": 2.689453125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 81,
+              "2": 137,
+              "3": 185,
+              "4": 80,
+              "5": 27,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.689453125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 81,
+              "2": 137,
+              "3": 185,
+              "4": 80,
+              "5": 27,
+              "6": 2
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.32421875,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 27,
+            "6": 53,
+            "8": 170,
+            "10": 114,
+            "12": 120,
+            "14": 20,
+            "16": 8
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.32421875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 27,
+            "2": 53,
+            "4": 170,
+            "6": 114,
+            "8": 120,
+            "10": 20,
+            "12": 8
+          }
+        },
+        "any_idle_restart_queries": 485,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.0546875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 27,
+            "52": 223,
+            "56": 234,
+            "60": 28
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.0546875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 27,
+            "4": 223,
+            "8": 234,
+            "12": 28
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 885632.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 27,
+            "851968": 223,
+            "917504": 234,
+            "983040": 28
+          }
+        },
+        "array_read_amplification_mean": 1.1261393229166667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.0546875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 27,
+            "52": 223,
+            "56": 234,
+            "60": 28
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 16,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.41015625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 93,
+              "2": 200,
+              "3": 152,
+              "4": 50,
+              "5": 17
+            }
+          },
+          {
+            "mean": 2.41015625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 93,
+              "2": 200,
+              "3": 152,
+              "4": 50,
+              "5": 17
+            }
+          },
+          {
+            "mean": 2.685546875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 77,
+              "2": 166,
+              "3": 157,
+              "4": 74,
+              "5": 29,
+              "6": 9
+            }
+          },
+          {
+            "mean": 2.685546875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 77,
+              "2": 166,
+              "3": 157,
+              "4": 74,
+              "5": 29,
+              "6": 9
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.19140625,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 9,
+            "6": 40,
+            "8": 161,
+            "10": 85,
+            "12": 150,
+            "14": 34,
+            "16": 33
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.19140625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 9,
+            "2": 40,
+            "4": 161,
+            "6": 85,
+            "8": 150,
+            "10": 34,
+            "12": 33
+          }
+        },
+        "any_idle_restart_queries": 503,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.8125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 9,
+            "52": 201,
+            "56": 235,
+            "60": 67
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.8125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 9,
+            "4": 201,
+            "8": 235,
+            "12": 67
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 898048.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 9,
+            "851968": 201,
+            "917504": 235,
+            "983040": 67
+          }
+        },
+        "array_read_amplification_mean": 1.1419270833333333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.8125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 9,
+            "52": 201,
+            "56": 235,
+            "60": 67
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 17,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.349609375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 132,
+              "2": 178,
+              "3": 117,
+              "4": 65,
+              "5": 16,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.349609375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 132,
+              "2": 178,
+              "3": 117,
+              "4": 65,
+              "5": 16,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.533203125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 77,
+              "2": 189,
+              "3": 163,
+              "4": 66,
+              "5": 13,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.533203125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 77,
+              "2": 189,
+              "3": 163,
+              "4": 66,
+              "5": 13,
+              "6": 4
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.765625,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 21,
+            "6": 50,
+            "8": 130,
+            "10": 156,
+            "12": 101,
+            "14": 30,
+            "16": 24
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.765625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 21,
+            "2": 50,
+            "4": 130,
+            "6": 156,
+            "8": 101,
+            "10": 30,
+            "12": 24
+          }
+        },
+        "any_idle_restart_queries": 491,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.6875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 21,
+            "52": 180,
+            "56": 257,
+            "60": 54
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.6875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 21,
+            "4": 180,
+            "8": 257,
+            "12": 54
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 896000.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 21,
+            "851968": 180,
+            "917504": 257,
+            "983040": 54
+          }
+        },
+        "array_read_amplification_mean": 1.1393229166666667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.6875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 21,
+            "52": 180,
+            "56": 257,
+            "60": 54
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 18,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.189453125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 147,
+              "2": 193,
+              "3": 115,
+              "4": 44,
+              "5": 11,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.189453125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 147,
+              "2": 193,
+              "3": 115,
+              "4": 44,
+              "5": 11,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.783203125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 49,
+              "2": 183,
+              "3": 152,
+              "4": 89,
+              "5": 36,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.783203125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 49,
+              "2": 183,
+              "3": 152,
+              "4": 89,
+              "5": 36,
+              "6": 3
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.9453125,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 16,
+            "6": 65,
+            "8": 124,
+            "10": 108,
+            "12": 144,
+            "14": 21,
+            "16": 34
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.9453125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 16,
+            "2": 65,
+            "4": 124,
+            "6": 108,
+            "8": 144,
+            "10": 21,
+            "12": 34
+          }
+        },
+        "any_idle_restart_queries": 496,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.703125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 16,
+            "52": 189,
+            "56": 252,
+            "60": 55
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.703125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 16,
+            "4": 189,
+            "8": 252,
+            "12": 55
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 896256.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 16,
+            "851968": 189,
+            "917504": 252,
+            "983040": 55
+          }
+        },
+        "array_read_amplification_mean": 1.1396484375,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.703125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 16,
+            "52": 189,
+            "56": 252,
+            "60": 55
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 19,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.189453125,
+            "p99": 4.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 130,
+              "2": 201,
+              "3": 139,
+              "4": 39,
+              "5": 2,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.189453125,
+            "p99": 4.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 130,
+              "2": 201,
+              "3": 139,
+              "4": 39,
+              "5": 2,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.685546875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 110,
+              "2": 136,
+              "3": 137,
+              "4": 77,
+              "5": 41,
+              "6": 8,
+              "7": 3
+            }
+          },
+          {
+            "mean": 2.685546875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 110,
+              "2": 136,
+              "3": 137,
+              "4": 77,
+              "5": 41,
+              "6": 8,
+              "7": 3
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.75,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 30,
+            "6": 48,
+            "8": 153,
+            "10": 77,
+            "12": 160,
+            "14": 17,
+            "16": 27
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.75,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 30,
+            "2": 48,
+            "4": 153,
+            "6": 77,
+            "8": 160,
+            "10": 17,
+            "12": 27
+          }
+        },
+        "any_idle_restart_queries": 482,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.3046875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 30,
+            "52": 201,
+            "56": 237,
+            "60": 44
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.3046875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 30,
+            "4": 201,
+            "8": 237,
+            "12": 44
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 889728.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 30,
+            "851968": 201,
+            "917504": 237,
+            "983040": 44
+          }
+        },
+        "array_read_amplification_mean": 1.13134765625,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.3046875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 30,
+            "52": 201,
+            "56": 237,
+            "60": 44
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 20,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.37890625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 117,
+              "2": 180,
+              "3": 140,
+              "4": 56,
+              "5": 17,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.37890625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 117,
+              "2": 180,
+              "3": 140,
+              "4": 56,
+              "5": 17,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.6015625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 78,
+              "2": 179,
+              "3": 154,
+              "4": 75,
+              "5": 23,
+              "6": 2,
+              "7": 1
+            }
+          },
+          {
+            "mean": 2.6015625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 78,
+              "2": 179,
+              "3": 154,
+              "4": 75,
+              "5": 23,
+              "6": 2,
+              "7": 1
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.9609375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 10,
+            "6": 62,
+            "8": 130,
+            "10": 117,
+            "12": 136,
+            "14": 33,
+            "16": 24
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.9609375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 10,
+            "2": 62,
+            "4": 130,
+            "6": 117,
+            "8": 136,
+            "10": 33,
+            "12": 24
+          }
+        },
+        "any_idle_restart_queries": 502,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.7890625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 10,
+            "52": 192,
+            "56": 253,
+            "60": 57
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.7890625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 10,
+            "4": 192,
+            "8": 253,
+            "12": 57
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 897664.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 10,
+            "851968": 192,
+            "917504": 253,
+            "983040": 57
+          }
+        },
+        "array_read_amplification_mean": 1.1414388020833333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.7890625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 10,
+            "52": 192,
+            "56": 253,
+            "60": 57
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 21,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.033203125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 168,
+              "2": 201,
+              "3": 109,
+              "4": 26,
+              "5": 8
+            }
+          },
+          {
+            "mean": 2.033203125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 168,
+              "2": 201,
+              "3": 109,
+              "4": 26,
+              "5": 8
+            }
+          },
+          {
+            "mean": 3.0703125,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 45,
+              "2": 158,
+              "3": 135,
+              "4": 95,
+              "5": 53,
+              "6": 21,
+              "7": 5
+            }
+          },
+          {
+            "mean": 3.0703125,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 45,
+              "2": 158,
+              "3": 135,
+              "4": 95,
+              "5": 53,
+              "6": 21,
+              "7": 5
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.20703125,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 12,
+            "6": 46,
+            "8": 128,
+            "10": 124,
+            "12": 130,
+            "14": 37,
+            "16": 35
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.20703125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 12,
+            "2": 46,
+            "4": 128,
+            "6": 124,
+            "8": 130,
+            "10": 37,
+            "12": 35
+          }
+        },
+        "any_idle_restart_queries": 500,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.015625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 12,
+            "52": 174,
+            "56": 254,
+            "60": 72
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.015625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 12,
+            "4": 174,
+            "8": 254,
+            "12": 72
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 901376.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 12,
+            "851968": 174,
+            "917504": 254,
+            "983040": 72
+          }
+        },
+        "array_read_amplification_mean": 1.1461588541666667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.015625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 12,
+            "52": 174,
+            "56": 254,
+            "60": 72
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 22,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.431640625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 110,
+              "2": 172,
+              "3": 149,
+              "4": 62,
+              "5": 18,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.431640625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 110,
+              "2": 172,
+              "3": 149,
+              "4": 62,
+              "5": 18,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.76171875,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 63,
+              "2": 158,
+              "3": 178,
+              "4": 74,
+              "5": 33,
+              "6": 2,
+              "7": 4
+            }
+          },
+          {
+            "mean": 2.76171875,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 63,
+              "2": 158,
+              "3": 178,
+              "4": 74,
+              "5": 33,
+              "6": 2,
+              "7": 4
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.38671875,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 10,
+            "6": 28,
+            "8": 139,
+            "10": 113,
+            "12": 154,
+            "14": 34,
+            "16": 34
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.38671875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 10,
+            "2": 28,
+            "4": 139,
+            "6": 113,
+            "8": 154,
+            "10": 34,
+            "12": 34
+          }
+        },
+        "any_idle_restart_queries": 502,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.0703125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 10,
+            "52": 167,
+            "56": 267,
+            "60": 68
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.0703125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 10,
+            "4": 167,
+            "8": 267,
+            "12": 68
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 902272.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 10,
+            "851968": 167,
+            "917504": 267,
+            "983040": 68
+          }
+        },
+        "array_read_amplification_mean": 1.1472981770833333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.0703125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 10,
+            "52": 167,
+            "56": 267,
+            "60": 68
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 23,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.29296875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 105,
+              "2": 217,
+              "3": 134,
+              "4": 48,
+              "5": 7,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.29296875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 105,
+              "2": 217,
+              "3": 134,
+              "4": 48,
+              "5": 7,
+              "6": 1
+            }
+          },
+          {
+            "mean": 3.00390625,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 53,
+              "2": 139,
+              "3": 146,
+              "4": 117,
+              "5": 44,
+              "6": 10,
+              "7": 3
+            }
+          },
+          {
+            "mean": 3.00390625,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 53,
+              "2": 139,
+              "3": 146,
+              "4": 117,
+              "5": 44,
+              "6": 10,
+              "7": 3
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.59375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 8,
+            "6": 43,
+            "8": 102,
+            "10": 107,
+            "12": 184,
+            "14": 24,
+            "16": 44
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.59375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 8,
+            "2": 43,
+            "4": 102,
+            "6": 107,
+            "8": 184,
+            "10": 24,
+            "12": 44
+          }
+        },
+        "any_idle_restart_queries": 504,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.2734375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 8,
+            "52": 145,
+            "56": 291,
+            "60": 68
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.2734375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 8,
+            "4": 145,
+            "8": 291,
+            "12": 68
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 905600.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 8,
+            "851968": 145,
+            "917504": 291,
+            "983040": 68
+          }
+        },
+        "array_read_amplification_mean": 1.1515299479166667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.2734375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 8,
+            "52": 145,
+            "56": 291,
+            "60": 68
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 24,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.337890625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 110,
+              "2": 204,
+              "3": 129,
+              "4": 56,
+              "5": 10,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.337890625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 110,
+              "2": 204,
+              "3": 129,
+              "4": 56,
+              "5": 10,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.904296875,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 65,
+              "2": 136,
+              "3": 149,
+              "4": 113,
+              "5": 43,
+              "6": 6
+            }
+          },
+          {
+            "mean": 2.904296875,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 65,
+              "2": 136,
+              "3": 149,
+              "4": 113,
+              "5": 43,
+              "6": 6
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.484375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 6,
+            "6": 55,
+            "8": 95,
+            "10": 128,
+            "12": 143,
+            "14": 51,
+            "16": 34
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.484375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 6,
+            "2": 55,
+            "4": 95,
+            "6": 128,
+            "8": 143,
+            "10": 51,
+            "12": 34
+          }
+        },
+        "any_idle_restart_queries": 506,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.3984375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 6,
+            "52": 150,
+            "56": 271,
+            "60": 85
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.3984375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 6,
+            "4": 150,
+            "8": 271,
+            "12": 85
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 907648.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 6,
+            "851968": 150,
+            "917504": 271,
+            "983040": 85
+          }
+        },
+        "array_read_amplification_mean": 1.1541341145833333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.3984375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 6,
+            "52": 150,
+            "56": 271,
+            "60": 85
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 25,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.787109375,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 58,
+              "2": 156,
+              "3": 179,
+              "4": 81,
+              "5": 32,
+              "6": 6
+            }
+          },
+          {
+            "mean": 2.787109375,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 58,
+              "2": 156,
+              "3": 179,
+              "4": 81,
+              "5": 32,
+              "6": 6
+            }
+          },
+          {
+            "mean": 2.671875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 92,
+              "2": 153,
+              "3": 138,
+              "4": 93,
+              "5": 33,
+              "6": 2,
+              "7": 1
+            }
+          },
+          {
+            "mean": 2.671875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 92,
+              "2": 153,
+              "3": 138,
+              "4": 93,
+              "5": 33,
+              "6": 2,
+              "7": 1
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.91796875,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 4,
+            "6": 32,
+            "8": 93,
+            "10": 134,
+            "12": 141,
+            "14": 61,
+            "16": 47
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.91796875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 4,
+            "2": 32,
+            "4": 93,
+            "6": 134,
+            "8": 141,
+            "10": 61,
+            "12": 47
+          }
+        },
+        "any_idle_restart_queries": 508,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.8046875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 4,
+            "52": 125,
+            "56": 275,
+            "60": 108
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.8046875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 4,
+            "4": 125,
+            "8": 275,
+            "12": 108
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 914304.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 4,
+            "851968": 125,
+            "917504": 275,
+            "983040": 108
+          }
+        },
+        "array_read_amplification_mean": 1.16259765625,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.8046875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 4,
+            "52": 125,
+            "56": 275,
+            "60": 108
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 26,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.4296875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 106,
+              "2": 184,
+              "3": 132,
+              "4": 76,
+              "5": 14
+            }
+          },
+          {
+            "mean": 2.4296875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 106,
+              "2": 184,
+              "3": 132,
+              "4": 76,
+              "5": 14
+            }
+          },
+          {
+            "mean": 2.92578125,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 78,
+              "2": 117,
+              "3": 147,
+              "4": 119,
+              "5": 39,
+              "6": 10,
+              "7": 2
+            }
+          },
+          {
+            "mean": 2.92578125,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 78,
+              "2": 117,
+              "3": 147,
+              "4": 119,
+              "5": 39,
+              "6": 10,
+              "7": 2
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.7109375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 15,
+            "6": 29,
+            "8": 127,
+            "10": 66,
+            "12": 200,
+            "14": 13,
+            "16": 62
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.7109375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 15,
+            "2": 29,
+            "4": 127,
+            "6": 66,
+            "8": 200,
+            "10": 13,
+            "12": 62
+          }
+        },
+        "any_idle_restart_queries": 497,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.1328125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 15,
+            "52": 156,
+            "56": 266,
+            "60": 75
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.1328125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 15,
+            "4": 156,
+            "8": 266,
+            "12": 75
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 903296.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 15,
+            "851968": 156,
+            "917504": 266,
+            "983040": 75
+          }
+        },
+        "array_read_amplification_mean": 1.1486002604166667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.1328125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 15,
+            "52": 156,
+            "56": 266,
+            "60": 75
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 27,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.263671875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 125,
+              "2": 201,
+              "3": 126,
+              "4": 48,
+              "5": 10,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.263671875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 125,
+              "2": 201,
+              "3": 126,
+              "4": 48,
+              "5": 10,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.81640625,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 74,
+              "2": 141,
+              "3": 156,
+              "4": 97,
+              "5": 34,
+              "6": 10
+            }
+          },
+          {
+            "mean": 2.81640625,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 74,
+              "2": 141,
+              "3": 156,
+              "4": 97,
+              "5": 34,
+              "6": 10
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.16015625,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 28,
+            "6": 35,
+            "8": 133,
+            "10": 105,
+            "12": 135,
+            "14": 35,
+            "16": 41
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.16015625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 28,
+            "2": 35,
+            "4": 133,
+            "6": 105,
+            "8": 135,
+            "10": 35,
+            "12": 41
+          }
+        },
+        "any_idle_restart_queries": 484,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.84375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 28,
+            "52": 168,
+            "56": 240,
+            "60": 76
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.84375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 28,
+            "4": 168,
+            "8": 240,
+            "12": 76
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 898560.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 28,
+            "851968": 168,
+            "917504": 240,
+            "983040": 76
+          }
+        },
+        "array_read_amplification_mean": 1.142578125,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.84375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 28,
+            "52": 168,
+            "56": 240,
+            "60": 76
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 28,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.154296875,
+            "p99": 4.889999999999986,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 149,
+              "2": 190,
+              "3": 125,
+              "4": 42,
+              "5": 5,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.154296875,
+            "p99": 4.889999999999986,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 149,
+              "2": 190,
+              "3": 125,
+              "4": 42,
+              "5": 5,
+              "6": 1
+            }
+          },
+          {
+            "mean": 3.2734375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 35,
+              "2": 113,
+              "3": 152,
+              "4": 126,
+              "5": 66,
+              "6": 15,
+              "7": 5
+            }
+          },
+          {
+            "mean": 3.2734375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 35,
+              "2": 113,
+              "3": 152,
+              "4": 126,
+              "5": 66,
+              "6": 15,
+              "7": 5
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.85546875,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 13,
+            "6": 27,
+            "8": 109,
+            "10": 89,
+            "12": 183,
+            "14": 35,
+            "16": 56
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.85546875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 13,
+            "2": 27,
+            "4": 109,
+            "6": 89,
+            "8": 183,
+            "10": 35,
+            "12": 56
+          }
+        },
+        "any_idle_restart_queries": 499,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.4453125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 13,
+            "52": 136,
+            "56": 272,
+            "60": 91
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.4453125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 13,
+            "4": 136,
+            "8": 272,
+            "12": 91
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 908416.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 13,
+            "851968": 136,
+            "917504": 272,
+            "983040": 91
+          }
+        },
+        "array_read_amplification_mean": 1.1551106770833333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.4453125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 13,
+            "52": 136,
+            "56": 272,
+            "60": 91
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 29,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.095703125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 164,
+              "2": 191,
+              "3": 115,
+              "4": 31,
+              "5": 8,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.095703125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 164,
+              "2": 191,
+              "3": 115,
+              "4": 31,
+              "5": 8,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.80859375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 50,
+              "2": 168,
+              "3": 183,
+              "4": 66,
+              "5": 35,
+              "6": 6,
+              "7": 4
+            }
+          },
+          {
+            "mean": 2.80859375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 7,
+            "histogram": {
+              "1": 50,
+              "2": 168,
+              "3": 183,
+              "4": 66,
+              "5": 35,
+              "6": 6,
+              "7": 4
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.80859375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 15,
+            "6": 36,
+            "8": 190,
+            "10": 85,
+            "12": 141,
+            "14": 18,
+            "16": 27
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.80859375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 15,
+            "2": 36,
+            "4": 190,
+            "6": 85,
+            "8": 141,
+            "10": 18,
+            "12": 27
+          }
+        },
+        "any_idle_restart_queries": 497,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.3515625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 15,
+            "52": 226,
+            "56": 226,
+            "60": 45
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.3515625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 15,
+            "4": 226,
+            "8": 226,
+            "12": 45
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 890496.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 15,
+            "851968": 226,
+            "917504": 226,
+            "983040": 45
+          }
+        },
+        "array_read_amplification_mean": 1.13232421875,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.3515625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 15,
+            "52": 226,
+            "56": 226,
+            "60": 45
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 30,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.4921875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 89,
+              "2": 205,
+              "3": 124,
+              "4": 69,
+              "5": 21,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.4921875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 89,
+              "2": 205,
+              "3": 124,
+              "4": 69,
+              "5": 21,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.24609375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 131,
+              "2": 203,
+              "3": 121,
+              "4": 38,
+              "5": 16,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.24609375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 131,
+              "2": 203,
+              "3": 121,
+              "4": 38,
+              "5": 16,
+              "6": 3
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.4765625,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 27,
+            "6": 49,
+            "8": 182,
+            "10": 92,
+            "12": 117,
+            "14": 25,
+            "16": 20
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.4765625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 27,
+            "2": 49,
+            "4": 182,
+            "6": 92,
+            "8": 117,
+            "10": 25,
+            "12": 20
+          }
+        },
+        "any_idle_restart_queries": 485,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 27,
+            "52": 231,
+            "56": 209,
+            "60": 45
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 27,
+            "4": 231,
+            "8": 209,
+            "12": 45
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 886784.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 27,
+            "851968": 231,
+            "917504": 209,
+            "983040": 45
+          }
+        },
+        "array_read_amplification_mean": 1.1276041666666667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 27,
+            "52": 231,
+            "56": 209,
+            "60": 45
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 31,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.40625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 113,
+              "2": 185,
+              "3": 133,
+              "4": 59,
+              "5": 18,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.40625,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 113,
+              "2": 185,
+              "3": 133,
+              "4": 59,
+              "5": 18,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.69921875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 66,
+              "2": 179,
+              "3": 159,
+              "4": 67,
+              "5": 33,
+              "6": 8
+            }
+          },
+          {
+            "mean": 2.69921875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 66,
+              "2": 179,
+              "3": 159,
+              "4": 67,
+              "5": 33,
+              "6": 8
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.2109375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 4,
+            "6": 52,
+            "8": 148,
+            "10": 101,
+            "12": 132,
+            "14": 39,
+            "16": 36
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.2109375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 4,
+            "2": 52,
+            "4": 148,
+            "6": 101,
+            "8": 132,
+            "10": 39,
+            "12": 36
+          }
+        },
+        "any_idle_restart_queries": 508,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.9609375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 4,
+            "52": 200,
+            "56": 233,
+            "60": 75
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.9609375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 4,
+            "4": 200,
+            "8": 233,
+            "12": 75
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 900480.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 4,
+            "851968": 200,
+            "917504": 233,
+            "983040": 75
+          }
+        },
+        "array_read_amplification_mean": 1.14501953125,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.9609375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 4,
+            "52": 200,
+            "56": 233,
+            "60": 75
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 32,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.208984375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 133,
+              "2": 202,
+              "3": 122,
+              "4": 48,
+              "5": 6,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.208984375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 133,
+              "2": 202,
+              "3": 122,
+              "4": 48,
+              "5": 6,
+              "6": 1
+            }
+          },
+          {
+            "mean": 2.673828125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 78,
+              "2": 166,
+              "3": 151,
+              "4": 82,
+              "5": 32,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.673828125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 78,
+              "2": 166,
+              "3": 151,
+              "4": 82,
+              "5": 32,
+              "6": 3
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.765625,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 12,
+            "6": 57,
+            "8": 158,
+            "10": 100,
+            "12": 143,
+            "14": 21,
+            "16": 21
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.765625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 12,
+            "2": 57,
+            "4": 158,
+            "6": 100,
+            "8": 143,
+            "10": 21,
+            "12": 21
+          }
+        },
+        "any_idle_restart_queries": 500,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.4609375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 12,
+            "52": 215,
+            "56": 243,
+            "60": 42
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.4609375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 12,
+            "4": 215,
+            "8": 243,
+            "12": 42
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 892288.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 12,
+            "851968": 215,
+            "917504": 243,
+            "983040": 42
+          }
+        },
+        "array_read_amplification_mean": 1.1346028645833333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.4609375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 12,
+            "52": 215,
+            "56": 243,
+            "60": 42
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 33,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.7421875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 72,
+              "2": 145,
+              "3": 167,
+              "4": 99,
+              "5": 29
+            }
+          },
+          {
+            "mean": 2.7421875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 72,
+              "2": 145,
+              "3": 167,
+              "4": 99,
+              "5": 29
+            }
+          },
+          {
+            "mean": 2.349609375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 127,
+              "2": 183,
+              "3": 126,
+              "4": 51,
+              "5": 22,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.349609375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 127,
+              "2": 183,
+              "3": 126,
+              "4": 51,
+              "5": 22,
+              "6": 3
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.18359375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 16,
+            "6": 42,
+            "8": 132,
+            "10": 106,
+            "12": 150,
+            "14": 37,
+            "16": 29
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.18359375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 16,
+            "2": 42,
+            "4": 132,
+            "6": 106,
+            "8": 150,
+            "10": 37,
+            "12": 29
+          }
+        },
+        "any_idle_restart_queries": 496,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.90625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 16,
+            "52": 174,
+            "56": 256,
+            "60": 66
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.90625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 16,
+            "4": 174,
+            "8": 256,
+            "12": 66
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 899584.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 16,
+            "851968": 174,
+            "917504": 256,
+            "983040": 66
+          }
+        },
+        "array_read_amplification_mean": 1.1438802083333333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.90625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 16,
+            "52": 174,
+            "56": 256,
+            "60": 66
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 34,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.51171875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 77,
+              "2": 208,
+              "3": 140,
+              "4": 65,
+              "5": 19,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.51171875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 77,
+              "2": 208,
+              "3": 140,
+              "4": 65,
+              "5": 19,
+              "6": 3
+            }
+          },
+          {
+            "mean": 2.595703125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 79,
+              "2": 169,
+              "3": 170,
+              "4": 72,
+              "5": 18,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.595703125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 79,
+              "2": 169,
+              "3": 170,
+              "4": 72,
+              "5": 18,
+              "6": 4
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.21484375,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 11,
+            "6": 49,
+            "8": 128,
+            "10": 112,
+            "12": 138,
+            "14": 46,
+            "16": 28
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.21484375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 11,
+            "2": 49,
+            "4": 128,
+            "6": 112,
+            "8": 138,
+            "10": 46,
+            "12": 28
+          }
+        },
+        "any_idle_restart_queries": 501,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.0234375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 11,
+            "52": 177,
+            "56": 250,
+            "60": 74
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.0234375,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 11,
+            "4": 177,
+            "8": 250,
+            "12": 74
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 901504.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 11,
+            "851968": 177,
+            "917504": 250,
+            "983040": 74
+          }
+        },
+        "array_read_amplification_mean": 1.1463216145833333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.0234375,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 11,
+            "52": 177,
+            "56": 250,
+            "60": 74
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 35,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.271484375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 121,
+              "2": 200,
+              "3": 130,
+              "4": 53,
+              "5": 8
+            }
+          },
+          {
+            "mean": 2.271484375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 121,
+              "2": 200,
+              "3": 130,
+              "4": 53,
+              "5": 8
+            }
+          },
+          {
+            "mean": 2.63671875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 83,
+              "2": 166,
+              "3": 155,
+              "4": 77,
+              "5": 24,
+              "6": 7
+            }
+          },
+          {
+            "mean": 2.63671875,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 83,
+              "2": 166,
+              "3": 155,
+              "4": 77,
+              "5": 24,
+              "6": 7
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.81640625,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 13,
+            "6": 61,
+            "8": 159,
+            "10": 69,
+            "12": 165,
+            "14": 27,
+            "16": 18
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.81640625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 13,
+            "2": 61,
+            "4": 159,
+            "6": 69,
+            "8": 165,
+            "10": 27,
+            "12": 18
+          }
+        },
+        "any_idle_restart_queries": 499,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.4296875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 13,
+            "52": 220,
+            "56": 234,
+            "60": 45
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.4296875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 13,
+            "4": 220,
+            "8": 234,
+            "12": 45
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 891776.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 13,
+            "851968": 220,
+            "917504": 234,
+            "983040": 45
+          }
+        },
+        "array_read_amplification_mean": 1.1339518229166667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.4296875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 13,
+            "52": 220,
+            "56": 234,
+            "60": 45
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 36,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.623046875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 86,
+              "2": 156,
+              "3": 165,
+              "4": 79,
+              "5": 22,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.623046875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 86,
+              "2": 156,
+              "3": 165,
+              "4": 79,
+              "5": 22,
+              "6": 4
+            }
+          },
+          {
+            "mean": 2.4140625,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 115,
+              "2": 165,
+              "3": 164,
+              "4": 47,
+              "5": 15,
+              "6": 6
+            }
+          },
+          {
+            "mean": 2.4140625,
+            "p99": 5.889999999999986,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 115,
+              "2": 165,
+              "3": 164,
+              "4": 47,
+              "5": 15,
+              "6": 6
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.07421875,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 20,
+            "6": 52,
+            "8": 136,
+            "10": 101,
+            "12": 131,
+            "14": 28,
+            "16": 44
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.07421875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 20,
+            "2": 52,
+            "4": 136,
+            "6": 101,
+            "8": 131,
+            "10": 28,
+            "12": 44
+          }
+        },
+        "any_idle_restart_queries": 492,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.78125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 20,
+            "52": 188,
+            "56": 232,
+            "60": 72
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.78125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 20,
+            "4": 188,
+            "8": 232,
+            "12": 72
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 897536.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 20,
+            "851968": 188,
+            "917504": 232,
+            "983040": 72
+          }
+        },
+        "array_read_amplification_mean": 1.1412760416666667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.78125,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 20,
+            "52": 188,
+            "56": 232,
+            "60": 72
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 37,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.296875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 116,
+              "2": 208,
+              "3": 120,
+              "4": 58,
+              "5": 8,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.296875,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 116,
+              "2": 208,
+              "3": 120,
+              "4": 58,
+              "5": 8,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.806640625,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 77,
+              "2": 147,
+              "3": 148,
+              "4": 89,
+              "5": 40,
+              "6": 11
+            }
+          },
+          {
+            "mean": 2.806640625,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 77,
+              "2": 147,
+              "3": 148,
+              "4": 89,
+              "5": 40,
+              "6": 11
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.20703125,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 20,
+            "6": 28,
+            "8": 165,
+            "10": 60,
+            "12": 182,
+            "14": 19,
+            "16": 38
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.20703125,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 20,
+            "2": 28,
+            "4": 165,
+            "6": 60,
+            "8": 182,
+            "10": 19,
+            "12": 38
+          }
+        },
+        "any_idle_restart_queries": 492,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 54.625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 20,
+            "52": 193,
+            "56": 242,
+            "60": 57
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 6.625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 20,
+            "4": 193,
+            "8": 242,
+            "12": 57
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 894976.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 20,
+            "851968": 193,
+            "917504": 242,
+            "983040": 57
+          }
+        },
+        "array_read_amplification_mean": 1.1380208333333333,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 54.625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 20,
+            "52": 193,
+            "56": 242,
+            "60": 57
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 38,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.3125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 114,
+              "2": 201,
+              "3": 133,
+              "4": 51,
+              "5": 13
+            }
+          },
+          {
+            "mean": 2.3125,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 5,
+            "histogram": {
+              "1": 114,
+              "2": 201,
+              "3": 133,
+              "4": 51,
+              "5": 13
+            }
+          },
+          {
+            "mean": 2.8359375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 71,
+              "2": 151,
+              "3": 150,
+              "4": 79,
+              "5": 53,
+              "6": 8
+            }
+          },
+          {
+            "mean": 2.8359375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 71,
+              "2": 151,
+              "3": 150,
+              "4": 79,
+              "5": 53,
+              "6": 8
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 10.296875,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 4,
+            "6": 43,
+            "8": 139,
+            "10": 113,
+            "12": 149,
+            "14": 28,
+            "16": 36
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 6.296875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 4,
+            "2": 43,
+            "4": 139,
+            "6": 113,
+            "8": 149,
+            "10": 28,
+            "12": 36
+          }
+        },
+        "any_idle_restart_queries": 508,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 55.015625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 4,
+            "52": 182,
+            "56": 262,
+            "60": 64
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 7.015625,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 4,
+            "4": 182,
+            "8": 262,
+            "12": 64
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 901376.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 4,
+            "851968": 182,
+            "917504": 262,
+            "983040": 64
+          }
+        },
+        "array_read_amplification_mean": 1.1461588541666667,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 55.015625,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 4,
+            "52": 182,
+            "56": 262,
+            "60": 64
+          }
+        },
+        "performance_claim": false
+      }
+    },
+    {
+      "layer": 39,
+      "ordering": "Ascending issued WL; all addresses in one block. Skipped addresses alone assumed CR-compatible, omitted plane epochs not assumed hot.",
+      "selected_only": {
+        "physical_pages": 48,
+        "overfetch_pages": 0,
+        "plane_cold_runs": [
+          {
+            "mean": 2.49609375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 100,
+              "2": 174,
+              "3": 155,
+              "4": 58,
+              "5": 17,
+              "6": 8
+            }
+          },
+          {
+            "mean": 2.49609375,
+            "p99": 6.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 100,
+              "2": 174,
+              "3": 155,
+              "4": 58,
+              "5": 17,
+              "6": 8
+            }
+          },
+          {
+            "mean": 2.21484375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 159,
+              "2": 164,
+              "3": 131,
+              "4": 38,
+              "5": 18,
+              "6": 2
+            }
+          },
+          {
+            "mean": 2.21484375,
+            "p99": 5.0,
+            "minimum": 1,
+            "maximum": 6,
+            "histogram": {
+              "1": 159,
+              "2": 164,
+              "3": 131,
+              "4": 38,
+              "5": 18,
+              "6": 2
+            }
+          }
+        ],
+        "total_plane_cold_runs": {
+          "mean": 9.421875,
+          "p99": 16.0,
+          "minimum": 4,
+          "maximum": 16,
+          "histogram": {
+            "4": 18,
+            "6": 60,
+            "8": 206,
+            "10": 57,
+            "12": 134,
+            "14": 13,
+            "16": 24
+          }
+        },
+        "extra_plane_restarts_after_idle": {
+          "mean": 5.421875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 18,
+            "2": 60,
+            "4": 206,
+            "6": 57,
+            "8": 134,
+            "10": 13,
+            "12": 24
+          }
+        },
+        "any_idle_restart_queries": 494,
+        "strict_no_interval_requires_cold_restart": true
+      },
+      "conditional_keep_hot": {
+        "physical_read_pages": {
+          "mean": 53.9296875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 18,
+            "52": 266,
+            "56": 191,
+            "60": 37
+          }
+        },
+        "inactive_overfetch_pages": {
+          "mean": 5.9296875,
+          "p99": 12.0,
+          "minimum": 0,
+          "maximum": 12,
+          "histogram": {
+            "0": 18,
+            "4": 266,
+            "8": 191,
+            "12": 37
+          }
+        },
+        "physical_read_bytes_per_chip": {
+          "mean": 883584.0,
+          "p99": 983040.0,
+          "minimum": 786432,
+          "maximum": 983040,
+          "histogram": {
+            "786432": 18,
+            "851968": 266,
+            "917504": 191,
+            "983040": 37
+          }
+        },
+        "array_read_amplification_mean": 1.12353515625,
+        "plane_cold_runs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "all_planes_read_every_issued_wave": true,
+        "selected_ECC_PE_pages": 48,
+        "inactive_pages_dropped_before_ECC_PE": true,
+        "capability_unproven": "Requires per-plane validity metadata and conditional discard before shared ECC/PE; full array reading retains one page/PB perplane but PB ownership still needs native audit.",
+        "full_ECC_drain_alternative_pages": {
+          "mean": 53.9296875,
+          "p99": 60.0,
+          "minimum": 48,
+          "maximum": 60,
+          "histogram": {
+            "48": 18,
+            "52": 266,
+            "56": 191,
+            "60": 37
+          }
+        },
+        "performance_claim": false
+      }
+    }
+  ],
+  "IPR_joint_candidate": {
+    "issued_waves": 12,
+    "selected_pages": 48,
+    "physical_array_read_pages": 48,
+    "overfetch_pages": 0,
+    "plane_cold_runs": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "idle_plane_restarts": 0,
+    "condition": "Each of12abstract IPR epochs reads1selectedpage on everyplane; native row/PB/ECC/CR validity separate."
+  }
+}

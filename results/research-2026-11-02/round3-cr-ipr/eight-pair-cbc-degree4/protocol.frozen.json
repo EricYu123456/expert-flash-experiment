@@ -1,0 +1,53 @@
+{
+  "status": "frozen_before_verification_or_FFN",
+  "utc": "2026-11-02T15:31:02.514543+00:00",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_eight_pair_cbc.py": "f289c0ef125c3cd962187d2a2c74d0f6d87df82c1f41155b299a1c9f40b04d9a",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/eight-pair-cbc-degree4/layout.frozen.json": "e6d58389672ac8853c1614d17ea97877a16a445a741ab728bc6c9dfdb4a5204a",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/eight-pair-cbc-degree4/resident_jobs.frozen.json": "7c4c9a41f4c483b780dde2975c393ec98ce18064f00a3d2da4dd491e26122d1f"
+  },
+  "design": "AllC(8,4) supports except three balanced complementary pairs;64unique supports,32experts/group,degree4.",
+  "removal": [
+    [
+      0,
+      1,
+      2,
+      3
+    ],
+    [
+      4,
+      5,
+      6,
+      7
+    ],
+    [
+      0,
+      2,
+      4,
+      6
+    ],
+    [
+      1,
+      3,
+      5,
+      7
+    ],
+    [
+      0,
+      1,
+      4,
+      5
+    ],
+    [
+      2,
+      3,
+      6,
+      7
+    ]
+  ],
+  "dispatch": "Deterministic sortedID augmenting cap1; S0/S1 assigned to sortedunusedpairs.",
+  "hardware": "Existing two-block/chip budget, fullC512/C1024 inputs, one rowaccumulator/nativejob, onecold sixwave sameWL fixed0123 GEMV per selectedchip.",
+  "timing": "No fullFFN execution or measured hardware timing in this builder. Inherits conditional native24page/sixwave contract.",
+  "chronology": "Designed after prospective failures were observed. Any later replay on previously observed prospective data is diagnosticreuse, not a new heldout evaluation.",
+  "novelty": "Standard CBC/replicateddeclustering baseline; no newtheorem,solver,hardware or globalstorage-optimality claim."
+}

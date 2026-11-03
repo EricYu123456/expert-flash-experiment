@@ -1,0 +1,2687 @@
+{
+  "status": "training-only bounds; not achieved timing or new replication algorithm",
+  "created_utc": "2026-11-01T23:41:32.805363+00:00",
+  "source_sha256": "76a9705f2b1472fcf810a7a1f849ea1ac8e4f1745dad7ce89a4114a0d35b2bdc",
+  "protocol": "48 layers; current ordinary-read compiler whole_rows incumbent; its64fixed training selection routes/layer; no fit, no external payload read;250ns commands; page-fringe output mode preserved.",
+  "native_mechanism": "Immutable complete shared-GU/down native jobs copied once to chip xor8; each selected job executes once at one of two fixed owners. Single context per chip unchanged.",
+  "generic_rda_equivalence": "Exact by construction: every native job is one item; copied owner set is{chip,chip xor8}; weighted indivisible-job maxload selector enumerates the same2^4 choices/pair. No algorithmic speed advantage over the same-inventory native RDA control.",
+  "capacity": {
+    "useful_bytes": 235929600,
+    "programmed_page_bytes": 242221056,
+    "reserved_wave_bytes": 242221056,
+    "per_chip_useful_bytes": [
+      18493440,
+      18493440,
+      9093120,
+      8970240,
+      8970240,
+      8970240,
+      8970240,
+      5898240,
+      18524160,
+      18524160,
+      18524160,
+      18524160,
+      18493440,
+      18493440,
+      18493440,
+      18493440
+    ],
+    "per_chip_programmed_page_bytes": [
+      18874368,
+      18874368,
+      9437184,
+      9437184,
+      9437184,
+      9437184,
+      9437184,
+      6291456,
+      18874368,
+      18874368,
+      18874368,
+      18874368,
+      18874368,
+      18874368,
+      18874368,
+      18874368
+    ],
+    "per_chip_reserved_wave_bytes": [
+      18874368,
+      18874368,
+      9437184,
+      9437184,
+      9437184,
+      9437184,
+      9437184,
+      6291456,
+      18874368,
+      18874368,
+      18874368,
+      18874368,
+      18874368,
+      18874368,
+      18874368,
+      18874368
+    ],
+    "base_payload_bytes": 121031884800,
+    "extra_useful_fraction_full_ffn": 0.001949317738791423,
+    "extra_gu_only_useful_fraction_full_ffn": 0.001299545159194282,
+    "extra_down_only_useful_fraction_full_ffn": 0.000649772579597141,
+    "fresh_block_upper_bound_bytes": 327155712,
+    "notes": "Useful bytes, programmed pages, wave reservations and fresh-block upper bound differ. Existing free holes not repacked. No physical programming performed."
+  },
+  "totals": {
+    "onecopy_work": {
+      "mean_ns": 76478387.9375,
+      "p99_ns": 76899049.7,
+      "min_ns": 76045160,
+      "max_ns": 76917200,
+      "optimistic_mean_headroom_pct": 0.11512709317756942,
+      "optimistic_p99_headroom_pct": 0.11677217107158855
+    },
+    "paired_shared_gu": {
+      "mean_ns": 75829194.875,
+      "p99_ns": 76209949.62,
+      "min_ns": 75510200,
+      "max_ns": 76246254,
+      "optimistic_mean_headroom_pct": 0.9630080212221781,
+      "optimistic_p99_headroom_pct": 1.0118357714163473
+    },
+    "paired_shared_down": {
+      "mean_ns": 75461098.0,
+      "p99_ns": 75767106.84,
+      "min_ns": 75178252,
+      "max_ns": 75767946,
+      "optimistic_mean_headroom_pct": 1.4437622652423432,
+      "optimistic_p99_headroom_pct": 1.5870388000584157
+    },
+    "paired_shared_both": {
+      "mean_ns": 75414838.5625,
+      "p99_ns": 75729313.7,
+      "min_ns": 75146546,
+      "max_ns": 75764852,
+      "optimistic_mean_headroom_pct": 1.5041795695297289,
+      "optimistic_p99_headroom_pct": 1.636127843781543
+    },
+    "shared_unlimited_fractional": {
+      "mean_ns": 72614602.828125,
+      "p99_ns": 72641231.24,
+      "min_ns": 72613296,
+      "max_ns": 72641327,
+      "optimistic_mean_headroom_pct": 5.161437495334442,
+      "optimistic_p99_headroom_pct": 5.64720008862748
+    },
+    "all_jobs_unlimited_fractional": {
+      "mean_ns": 72613296.0,
+      "p99_ns": 72613296.0,
+      "min_ns": 72613296,
+      "max_ns": 72613296,
+      "optimistic_mean_headroom_pct": 5.1631442828949154,
+      "optimistic_p99_headroom_pct": 5.683484827545071
+    },
+    "observed": {
+      "mean_ns": 76566536.765625,
+      "p99_ns": 76988951.37,
+      "min_ns": 76136537,
+      "max_ns": 77006340,
+      "optimistic_mean_headroom_pct": 0.0,
+      "optimistic_p99_headroom_pct": 0.0
+    }
+  },
+  "layers": [
+    {
+      "layer": 0,
+      "observed": {
+        "mean_ns": 1595867.90625,
+        "p99_ns": 1629839.12,
+        "min_ns": 1545022,
+        "max_ns": 1629950
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1594082.0625,
+          "p99_ns": 1627116.24,
+          "min_ns": 1542752,
+          "max_ns": 1627212
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1577424.21875,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1572572.125,
+          "p99_ns": 1599008.0,
+          "min_ns": 1542600,
+          "max_ns": 1599008
+        },
+        "paired_shared_both": {
+          "mean_ns": 1571711.59375,
+          "p99_ns": 1599008.0,
+          "min_ns": 1542600,
+          "max_ns": 1599008
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L0.cmd250/whole_rows.plan.json",
+      "plan_sha256": "5a4aed1c6ff99470f9b080df231f798f8b0ed03441aeffc95d940a0e41919509",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L0.cmd250/whole_rows.npz",
+      "array_sha256": "52d3f121d0c1daf84d401729d70be54fc9f6141fc74b0b17a0da041024383627"
+    },
+    {
+      "layer": 1,
+      "observed": {
+        "mean_ns": 1593971.109375,
+        "p99_ns": 1629941.98,
+        "min_ns": 1545550,
+        "max_ns": 1630606
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1592319.34375,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1580018.21875,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573068.71875,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1572157.0,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L1.cmd250/whole_rows.plan.json",
+      "plan_sha256": "b2461b599c92f3953216036a4ebc58dccacbcbc05dd9a94f6ad4b4183f11a026",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L1.cmd250/whole_rows.npz",
+      "array_sha256": "c2e9c4bc1629853c4d51cd41963971f8f1ecf9c2bf6026c1b2c120bdf2975cc3"
+    },
+    {
+      "layer": 2,
+      "observed": {
+        "mean_ns": 1594742.234375,
+        "p99_ns": 1640237.54,
+        "min_ns": 1545805,
+        "max_ns": 1656518
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1592755.28125,
+          "p99_ns": 1637647.48,
+          "min_ns": 1542754,
+          "max_ns": 1655416
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1580073.15625,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573509.5625,
+          "p99_ns": 1599730.0,
+          "min_ns": 1542752,
+          "max_ns": 1599730
+        },
+        "paired_shared_both": {
+          "mean_ns": 1572568.40625,
+          "p99_ns": 1599508.0,
+          "min_ns": 1542752,
+          "max_ns": 1599508
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L2.cmd250/whole_rows.plan.json",
+      "plan_sha256": "223b7d57ad30d1579820e779c106e1407c7cda152540f1caf75a3c5ebd183425",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L2.cmd250/whole_rows.npz",
+      "array_sha256": "b7f641c9dff99a1c2f0f6b71e60d61374fe064b68a6567f2db348b32c1452e67"
+    },
+    {
+      "layer": 3,
+      "observed": {
+        "mean_ns": 1593949.546875,
+        "p99_ns": 1629422.74,
+        "min_ns": 1545104,
+        "max_ns": 1629676
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1592333.59375,
+          "p99_ns": 1627116.24,
+          "min_ns": 1542752,
+          "max_ns": 1627212
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1576545.125,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1569551.59375,
+          "p99_ns": 1599275.14,
+          "min_ns": 1542600,
+          "max_ns": 1599730
+        },
+        "paired_shared_both": {
+          "mean_ns": 1568643.25,
+          "p99_ns": 1599193.0,
+          "min_ns": 1542600,
+          "max_ns": 1599508
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L3.cmd250/whole_rows.plan.json",
+      "plan_sha256": "b2f9d3a627e17cc894d7825909f6f24f66145d7969da0d990becfce49d2ca6a1",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L3.cmd250/whole_rows.npz",
+      "array_sha256": "0ac7df80433755f61fec3f7e04ae1cc9eb14e6bf1fe23a5d0cb605e95641333f"
+    },
+    {
+      "layer": 4,
+      "observed": {
+        "mean_ns": 1589251.90625,
+        "p99_ns": 1628566.24,
+        "min_ns": 1545674,
+        "max_ns": 1628662
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1587497.875,
+          "p99_ns": 1627212.0,
+          "min_ns": 1542600,
+          "max_ns": 1627212
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1573422.125,
+          "p99_ns": 1609443.48,
+          "min_ns": 1542600,
+          "max_ns": 1627212
+        },
+        "paired_shared_down": {
+          "mean_ns": 1566064.6875,
+          "p99_ns": 1599162.66,
+          "min_ns": 1542600,
+          "max_ns": 1599426
+        },
+        "paired_shared_both": {
+          "mean_ns": 1565586.90625,
+          "p99_ns": 1599080.52,
+          "min_ns": 1542600,
+          "max_ns": 1599204
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L4.cmd250/whole_rows.plan.json",
+      "plan_sha256": "be145cd4e04f68d8d88eab8cc6d43587e821b5e14595cad4e8d798b1bb34ff23",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L4.cmd250/whole_rows.npz",
+      "array_sha256": "a5b8b9e6d2c3c90f23ab81057071bf2a509d00b246eb6b5093b9dd4386bfe8d6"
+    },
+    {
+      "layer": 5,
+      "observed": {
+        "mean_ns": 1593250.515625,
+        "p99_ns": 1639279.8399999999,
+        "min_ns": 1544604,
+        "max_ns": 1656436
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1591456.96875,
+          "p99_ns": 1637495.48,
+          "min_ns": 1542752,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1577016.9375,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1570880.0625,
+          "p99_ns": 1609387.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1569122.09375,
+          "p99_ns": 1609387.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L5.cmd250/whole_rows.plan.json",
+      "plan_sha256": "9480051d092e916407e311ed548b74eec48300bc9f69b992be467a962fbea149",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L5.cmd250/whole_rows.npz",
+      "array_sha256": "c7bd509a6da8140b45c8542eed2a1b098a4081a469953ff3f4ed998bfce7f112"
+    },
+    {
+      "layer": 6,
+      "observed": {
+        "mean_ns": 1587188.484375,
+        "p99_ns": 1639023.24,
+        "min_ns": 1545244,
+        "max_ns": 1655436
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1585311.15625,
+          "p99_ns": 1637591.24,
+          "min_ns": 1542752,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1575227.875,
+          "p99_ns": 1627399.66,
+          "min_ns": 1542752,
+          "max_ns": 1627978
+        },
+        "paired_shared_down": {
+          "mean_ns": 1569130.96875,
+          "p99_ns": 1599482.24,
+          "min_ns": 1542600,
+          "max_ns": 1599578
+        },
+        "paired_shared_both": {
+          "mean_ns": 1568223.34375,
+          "p99_ns": 1599260.24,
+          "min_ns": 1542600,
+          "max_ns": 1599356
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L6.cmd250/whole_rows.plan.json",
+      "plan_sha256": "5625b447b9872a7ffb5eeba3cd389074e451acfd9759dcaf70af63f582ddbea2",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L6.cmd250/whole_rows.npz",
+      "array_sha256": "9bdbc548988efd822b6787058ca9231651bec0f08cfd55d5eb2b8721e2056dd9"
+    },
+    {
+      "layer": 7,
+      "observed": {
+        "mean_ns": 1597735.984375,
+        "p99_ns": 1656126.5,
+        "min_ns": 1547583,
+        "max_ns": 1656284
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1595821.15625,
+          "p99_ns": 1655112.0,
+          "min_ns": 1542754,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1580030.34375,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542602,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1570921.78125,
+          "p99_ns": 1609842.0999999999,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1568687.75,
+          "p99_ns": 1609702.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L7.cmd250/whole_rows.plan.json",
+      "plan_sha256": "356ce801fc428fea076c7459e97ac751fd2cf86189c796ba1feb361ffc09027f",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L7.cmd250/whole_rows.npz",
+      "array_sha256": "47102d765f90fc751b2e84ae82dce83f59898967411d3592b58b703c4cd62ffa"
+    },
+    {
+      "layer": 8,
+      "observed": {
+        "mean_ns": 1595881.015625,
+        "p99_ns": 1667315.7999999998,
+        "min_ns": 1546674,
+        "max_ns": 1684918
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1594084.46875,
+          "p99_ns": 1665547.48,
+          "min_ns": 1542752,
+          "max_ns": 1683316
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1581804.875,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1575244.84375,
+          "p99_ns": 1626548.9,
+          "min_ns": 1542448,
+          "max_ns": 1626908
+        },
+        "paired_shared_both": {
+          "mean_ns": 1574311.40625,
+          "p99_ns": 1609550.24,
+          "min_ns": 1542030,
+          "max_ns": 1626908
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L8.cmd250/whole_rows.plan.json",
+      "plan_sha256": "11121b11448532595edf8e9689f0aa6e80d8d9f62f3b7a29a1117523a18a1ea2",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L8.cmd250/whole_rows.npz",
+      "array_sha256": "e5ef23c4c593e479263f97e505e8b20161fa442521f9a040a4c8deccaef8f498"
+    },
+    {
+      "layer": 9,
+      "observed": {
+        "mean_ns": 1593310.5625,
+        "p99_ns": 1640423.64,
+        "min_ns": 1571476,
+        "max_ns": 1658298
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1591452.1875,
+          "p99_ns": 1637535.0,
+          "min_ns": 1570500,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1578348.4375,
+          "p99_ns": 1610117.5799999998,
+          "min_ns": 1542600,
+          "max_ns": 1627212
+        },
+        "paired_shared_down": {
+          "mean_ns": 1569995.0625,
+          "p99_ns": 1599162.66,
+          "min_ns": 1542600,
+          "max_ns": 1599426
+        },
+        "paired_shared_both": {
+          "mean_ns": 1569062.75,
+          "p99_ns": 1599080.52,
+          "min_ns": 1541878,
+          "max_ns": 1599204
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L9.cmd250/whole_rows.plan.json",
+      "plan_sha256": "f1fd4f023ae260af7302d066e0838394227e159646145b7d3d96c1755d706ef8",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L9.cmd250/whole_rows.npz",
+      "array_sha256": "57ddab1dcdac35e06936c564c00eba4257990659f14ed50ac15f16d6c50f5bdc"
+    },
+    {
+      "layer": 10,
+      "observed": {
+        "mean_ns": 1598995.78125,
+        "p99_ns": 1656151.98,
+        "min_ns": 1545202,
+        "max_ns": 1656186
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1597169.3125,
+          "p99_ns": 1655168.24,
+          "min_ns": 1542752,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1576600.15625,
+          "p99_ns": 1627268.24,
+          "min_ns": 1542600,
+          "max_ns": 1627364
+        },
+        "paired_shared_down": {
+          "mean_ns": 1567384.5,
+          "p99_ns": 1599730.0,
+          "min_ns": 1542600,
+          "max_ns": 1599730
+        },
+        "paired_shared_both": {
+          "mean_ns": 1564735.1875,
+          "p99_ns": 1599508.0,
+          "min_ns": 1542600,
+          "max_ns": 1599508
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L10.cmd250/whole_rows.plan.json",
+      "plan_sha256": "e1886e58034532fd29cc3dc788e13ade7b4443cec0f185e67af1294e1f7a7007",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L10.cmd250/whole_rows.npz",
+      "array_sha256": "c012e50a9d991993d59cac04de7b063ba185bb97c5586fbfcc74328ae4868ccc"
+    },
+    {
+      "layer": 11,
+      "observed": {
+        "mean_ns": 1598281.71875,
+        "p99_ns": 1639867.1199999999,
+        "min_ns": 1570976,
+        "max_ns": 1657366
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1596723.8125,
+          "p99_ns": 1637591.24,
+          "min_ns": 1570652,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1582250.4375,
+          "p99_ns": 1627116.24,
+          "min_ns": 1542754,
+          "max_ns": 1627212
+        },
+        "paired_shared_down": {
+          "mean_ns": 1575746.75,
+          "p99_ns": 1609746.3399999999,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1574812.875,
+          "p99_ns": 1609606.48,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L11.cmd250/whole_rows.plan.json",
+      "plan_sha256": "b62a886e1d9ff8d8faa35176cc84da31c0a47c338fde16174239e1914da257ee",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L11.cmd250/whole_rows.npz",
+      "array_sha256": "d2a509beb68c47f10c4a4d1c0e26bbe4e9c23a4d1b58b348d90aead953e3c0a8"
+    },
+    {
+      "layer": 12,
+      "observed": {
+        "mean_ns": 1597132.3125,
+        "p99_ns": 1660206.4799999997,
+        "min_ns": 1571726,
+        "max_ns": 1713066
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1595394.625,
+          "p99_ns": 1658310.1999999997,
+          "min_ns": 1570652,
+          "max_ns": 1711520
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1582638.40625,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1574466.75,
+          "p99_ns": 1637228.3399999999,
+          "min_ns": 1542600,
+          "max_ns": 1654542
+        },
+        "paired_shared_both": {
+          "mean_ns": 1572688.59375,
+          "p99_ns": 1609606.48,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1513214.984375,
+          "p99_ns": 1523148.47,
+          "min_ns": 1512777,
+          "max_ns": 1540808
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L12.cmd250/whole_rows.plan.json",
+      "plan_sha256": "fb8039267fed6e0d016f3c3e94d2f775b2d7807611aaa8267556d53a62d4046f",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L12.cmd250/whole_rows.npz",
+      "array_sha256": "dd054d3c72c1e8d651ebe1d84e1b7a84104e41ab6bc4b1550bd838f7e4d27812"
+    },
+    {
+      "layer": 13,
+      "observed": {
+        "mean_ns": 1598544.125,
+        "p99_ns": 1655758.52,
+        "min_ns": 1571004,
+        "max_ns": 1655882
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1596709.625,
+          "p99_ns": 1655072.48,
+          "min_ns": 1570652,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1582243.375,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1574829.25,
+          "p99_ns": 1609746.3399999999,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1574344.96875,
+          "p99_ns": 1609606.48,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L13.cmd250/whole_rows.plan.json",
+      "plan_sha256": "21f51fc1c32bdf7b7b5d7a97e2b1f388e832e8aecdbd4cb59c5f59f3aebe56be",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L13.cmd250/whole_rows.npz",
+      "array_sha256": "552e37c3516d8baf435d840a321f34ca1c82f433d475838bc9c61ec96b5e7dad"
+    },
+    {
+      "layer": 14,
+      "observed": {
+        "mean_ns": 1598076.234375,
+        "p99_ns": 1694266.9,
+        "min_ns": 1545472,
+        "max_ns": 1711888
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1596285.53125,
+          "p99_ns": 1693639.0,
+          "min_ns": 1542752,
+          "max_ns": 1711216
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1577467.15625,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573912.8125,
+          "p99_ns": 1636661.0,
+          "min_ns": 1542600,
+          "max_ns": 1654238
+        },
+        "paired_shared_both": {
+          "mean_ns": 1570835.1875,
+          "p99_ns": 1599494.38,
+          "min_ns": 1542144,
+          "max_ns": 1599730
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1513210.234375,
+          "p99_ns": 1523035.99,
+          "min_ns": 1512777,
+          "max_ns": 1540504
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L14.cmd250/whole_rows.plan.json",
+      "plan_sha256": "1e7098fac1bec371d6a2caa8372fd8d0c0857da9458087e3cf8c9477fae2cd03",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L14.cmd250/whole_rows.npz",
+      "array_sha256": "6e61849febf8102728716d461a8378282431993e73439c2b44b38f821d585027"
+    },
+    {
+      "layer": 15,
+      "observed": {
+        "mean_ns": 1590707.9375,
+        "p99_ns": 1639315.0599999998,
+        "min_ns": 1545272,
+        "max_ns": 1656034
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1588817.5625,
+          "p99_ns": 1637439.24,
+          "min_ns": 1542752,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1576530.71875,
+          "p99_ns": 1599499.66,
+          "min_ns": 1542600,
+          "max_ns": 1600078
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573026.5,
+          "p99_ns": 1599064.24,
+          "min_ns": 1542600,
+          "max_ns": 1599160
+        },
+        "paired_shared_both": {
+          "mean_ns": 1571712.875,
+          "p99_ns": 1599064.24,
+          "min_ns": 1542600,
+          "max_ns": 1599160
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L15.cmd250/whole_rows.plan.json",
+      "plan_sha256": "21944c36c58c08430aae37d025054f9e61738bdce924240850b030704a128698",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L15.cmd250/whole_rows.npz",
+      "array_sha256": "8c0f8308d011d2b76d092c9131fc9f8b14406ad3e385073d32e58b07da10e3bb"
+    },
+    {
+      "layer": 16,
+      "observed": {
+        "mean_ns": 1593698.765625,
+        "p99_ns": 1657170.4,
+        "min_ns": 1545354,
+        "max_ns": 1657876
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1591890.53125,
+          "p99_ns": 1655168.24,
+          "min_ns": 1542752,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1579203.65625,
+          "p99_ns": 1637535.0,
+          "min_ns": 1542600,
+          "max_ns": 1655112
+        },
+        "paired_shared_down": {
+          "mean_ns": 1568272.1875,
+          "p99_ns": 1599426.0,
+          "min_ns": 1542600,
+          "max_ns": 1599426
+        },
+        "paired_shared_both": {
+          "mean_ns": 1566908.71875,
+          "p99_ns": 1599204.0,
+          "min_ns": 1542600,
+          "max_ns": 1599204
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L16.cmd250/whole_rows.plan.json",
+      "plan_sha256": "703e2beb83d84ef09b12a7d344cae553d294d0e54534ada8806774f31fff7645",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L16.cmd250/whole_rows.npz",
+      "array_sha256": "64a44a96d0c74dfd9a8fd87d23d45cb60e9ba66d08104e82b264bec0f2a5d0a7"
+    },
+    {
+      "layer": 17,
+      "observed": {
+        "mean_ns": 1595766.6875,
+        "p99_ns": 1629260.06,
+        "min_ns": 1545424,
+        "max_ns": 1629662
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1594108.1875,
+          "p99_ns": 1627116.24,
+          "min_ns": 1542752,
+          "max_ns": 1627212
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1581835.71875,
+          "p99_ns": 1610061.3399999999,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1575297.03125,
+          "p99_ns": 1599064.24,
+          "min_ns": 1542600,
+          "max_ns": 1599160
+        },
+        "paired_shared_both": {
+          "mean_ns": 1575236.3125,
+          "p99_ns": 1599064.24,
+          "min_ns": 1542600,
+          "max_ns": 1599160
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L17.cmd250/whole_rows.plan.json",
+      "plan_sha256": "d5b527b6015b237caf29003ca06a3d7dbe5b1926abf2e4c2fa63dbea75e81140",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L17.cmd250/whole_rows.npz",
+      "array_sha256": "37a184a0ad24bfcc443074250f43dab00c9eeb089f8bc9ad3db9b1b4f6a27442"
+    },
+    {
+      "layer": 18,
+      "observed": {
+        "mean_ns": 1598661.890625,
+        "p99_ns": 1656131.36,
+        "min_ns": 1570824,
+        "max_ns": 1656464
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1596716.71875,
+          "p99_ns": 1655168.24,
+          "min_ns": 1570652,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1580957.0,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1572174.375,
+          "p99_ns": 1599634.24,
+          "min_ns": 1542600,
+          "max_ns": 1599730
+        },
+        "paired_shared_both": {
+          "mean_ns": 1570850.375,
+          "p99_ns": 1599412.24,
+          "min_ns": 1542448,
+          "max_ns": 1599508
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L18.cmd250/whole_rows.plan.json",
+      "plan_sha256": "da44c91a6cba316c03197b31de685e0069c4ba8a5a3d2d311a32ff0eef3d50dc",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L18.cmd250/whole_rows.npz",
+      "array_sha256": "47e486e2d08b8bd57d65cc31383edec0a33edd623143414831982a5edb5db14e"
+    },
+    {
+      "layer": 19,
+      "observed": {
+        "mean_ns": 1599910.140625,
+        "p99_ns": 1657141.9,
+        "min_ns": 1570976,
+        "max_ns": 1657186
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1598034.03125,
+          "p99_ns": 1655112.0,
+          "min_ns": 1570652,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1583600.96875,
+          "p99_ns": 1627551.66,
+          "min_ns": 1542752,
+          "max_ns": 1628130
+        },
+        "paired_shared_down": {
+          "mean_ns": 1576135.65625,
+          "p99_ns": 1599538.48,
+          "min_ns": 1542752,
+          "max_ns": 1599730
+        },
+        "paired_shared_both": {
+          "mean_ns": 1574377.6875,
+          "p99_ns": 1599316.48,
+          "min_ns": 1542752,
+          "max_ns": 1599508
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L19.cmd250/whole_rows.plan.json",
+      "plan_sha256": "039900a3969f6a0b4b7648dcd8852291e1ebfdef6d2be4e1dc16db46d2262c76",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L19.cmd250/whole_rows.npz",
+      "array_sha256": "28b642fdb13abc93fca9daee620281db4fa1ca62358697accacb99a796ae2648"
+    },
+    {
+      "layer": 20,
+      "observed": {
+        "mean_ns": 1598322.078125,
+        "p99_ns": 1630630.57,
+        "min_ns": 1571254,
+        "max_ns": 1631173
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1596278.40625,
+          "p99_ns": 1627117.5,
+          "min_ns": 1570652,
+          "max_ns": 1627212
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1583605.8125,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1574451.375,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1573519.9375,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1513212.609375,
+          "p99_ns": 1523092.23,
+          "min_ns": 1512777,
+          "max_ns": 1540656
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L20.cmd250/whole_rows.plan.json",
+      "plan_sha256": "847b4c4994a67b5bc85a6055c852402982d93f9e7bedbef1ba50a093be205404",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L20.cmd250/whole_rows.npz",
+      "array_sha256": "ce5bba70e54f3dec4d63885a6ed38702c341dd49c1d13e190927afd3978267a1"
+    },
+    {
+      "layer": 21,
+      "observed": {
+        "mean_ns": 1598587.09375,
+        "p99_ns": 1639991.8,
+        "min_ns": 1545702,
+        "max_ns": 1656964
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1596723.8125,
+          "p99_ns": 1637630.76,
+          "min_ns": 1542752,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1584908.78125,
+          "p99_ns": 1627172.48,
+          "min_ns": 1542600,
+          "max_ns": 1627364
+        },
+        "paired_shared_down": {
+          "mean_ns": 1574434.09375,
+          "p99_ns": 1599064.24,
+          "min_ns": 1542600,
+          "max_ns": 1599160
+        },
+        "paired_shared_both": {
+          "mean_ns": 1573089.21875,
+          "p99_ns": 1599008.0,
+          "min_ns": 1542600,
+          "max_ns": 1599008
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L21.cmd250/whole_rows.plan.json",
+      "plan_sha256": "87c48966ed7b21a2d7a013b11af2f37ae385cfe69c5d7904a8d9316071ad6f95",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L21.cmd250/whole_rows.npz",
+      "array_sha256": "a4815f130f5410fdfcc2bdfab8044678b2a5b811cdf033762744e959d028f2e5"
+    },
+    {
+      "layer": 22,
+      "observed": {
+        "mean_ns": 1594661.375,
+        "p99_ns": 1639813.28,
+        "min_ns": 1544994,
+        "max_ns": 1656284
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1592769.5,
+          "p99_ns": 1637535.0,
+          "min_ns": 1542752,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1580063.5625,
+          "p99_ns": 1609869.8199999998,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1571349.3125,
+          "p99_ns": 1599160.0,
+          "min_ns": 1542600,
+          "max_ns": 1599160
+        },
+        "paired_shared_both": {
+          "mean_ns": 1571283.75,
+          "p99_ns": 1599160.0,
+          "min_ns": 1542600,
+          "max_ns": 1599160
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L22.cmd250/whole_rows.plan.json",
+      "plan_sha256": "acb4eb924cb7b3cf53270e0558c458616add57e7ec2b482a8bd803ad308b05ef",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L22.cmd250/whole_rows.npz",
+      "array_sha256": "5d72e4efea64082580149a417158a9461a866efe113b05cd0e00c333e9461755"
+    },
+    {
+      "layer": 23,
+      "observed": {
+        "mean_ns": 1587861.953125,
+        "p99_ns": 1628949.68,
+        "min_ns": 1544342,
+        "max_ns": 1629746
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1586159.21875,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1573000.59375,
+          "p99_ns": 1609387.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1563501.9375,
+          "p99_ns": 1599275.14,
+          "min_ns": 1542600,
+          "max_ns": 1599730
+        },
+        "paired_shared_both": {
+          "mean_ns": 1563416.75,
+          "p99_ns": 1599193.0,
+          "min_ns": 1542600,
+          "max_ns": 1599508
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L23.cmd250/whole_rows.plan.json",
+      "plan_sha256": "3580e1287fad5a1af1f557d3fd03205884c34349be2c607cf8a08252d13a5571",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L23.cmd250/whole_rows.npz",
+      "array_sha256": "a700799381cbf655d8695427eb76dfde06ad1deec80eed2c4ca4dc16f679a1a9"
+    },
+    {
+      "layer": 24,
+      "observed": {
+        "mean_ns": 1594931.890625,
+        "p99_ns": 1629418.16,
+        "min_ns": 1544772,
+        "max_ns": 1629524
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1593191.21875,
+          "p99_ns": 1627116.24,
+          "min_ns": 1542752,
+          "max_ns": 1627212
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1582224.09375,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1572672.03125,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1572616.46875,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L24.cmd250/whole_rows.plan.json",
+      "plan_sha256": "b8b8a65baf4a46563c7b0b3a115e4508731dbdb8f3b27a4516de2b03b2280439",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L24.cmd250/whole_rows.npz",
+      "array_sha256": "f8940dffd9f10cad4ba551e4126fe41988c1f71bfdc6090d36b42df2e6aa1cae"
+    },
+    {
+      "layer": 25,
+      "observed": {
+        "mean_ns": 1595572.0625,
+        "p99_ns": 1656664.4,
+        "min_ns": 1571226,
+        "max_ns": 1658756
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1593658.0,
+          "p99_ns": 1655168.24,
+          "min_ns": 1570652,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1583612.84375,
+          "p99_ns": 1638017.5799999998,
+          "min_ns": 1542600,
+          "max_ns": 1655112
+        },
+        "paired_shared_down": {
+          "mean_ns": 1574414.5,
+          "p99_ns": 1609842.0999999999,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1574351.34375,
+          "p99_ns": 1609702.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L25.cmd250/whole_rows.plan.json",
+      "plan_sha256": "7ce3c1ffa558a6429b1670d6f9b19a02930a28a40ab66d26e823514ea1a7536c",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L25.cmd250/whole_rows.npz",
+      "array_sha256": "3effcee13c4293153d1d1552ed0269fe082345f6aee4c23a48592836862be2b5"
+    },
+    {
+      "layer": 26,
+      "observed": {
+        "mean_ns": 1599275.25,
+        "p99_ns": 1656378.1,
+        "min_ns": 1571128,
+        "max_ns": 1656964
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1597600.4375,
+          "p99_ns": 1655168.24,
+          "min_ns": 1570652,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1580983.15625,
+          "p99_ns": 1638209.0999999999,
+          "min_ns": 1542602,
+          "max_ns": 1655112
+        },
+        "paired_shared_down": {
+          "mean_ns": 1570501.75,
+          "p99_ns": 1599275.14,
+          "min_ns": 1542600,
+          "max_ns": 1599730
+        },
+        "paired_shared_both": {
+          "mean_ns": 1569548.75,
+          "p99_ns": 1599193.0,
+          "min_ns": 1542600,
+          "max_ns": 1599508
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L26.cmd250/whole_rows.plan.json",
+      "plan_sha256": "588c2462a35e3c93f6d558be4beeee19ff1f03c67363eb0e1fc49fd26f10b043",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L26.cmd250/whole_rows.npz",
+      "array_sha256": "3e729c475b1e2572180e374ce52543799d3798fdb22c501594446766c31b32ac"
+    },
+    {
+      "layer": 27,
+      "observed": {
+        "mean_ns": 1596776.265625,
+        "p99_ns": 1641318.4,
+        "min_ns": 1544952,
+        "max_ns": 1659034
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1594968.21875,
+          "p99_ns": 1637535.0,
+          "min_ns": 1542752,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1582803.15625,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1570478.65625,
+          "p99_ns": 1599482.24,
+          "min_ns": 1542600,
+          "max_ns": 1599578
+        },
+        "paired_shared_both": {
+          "mean_ns": 1569952.09375,
+          "p99_ns": 1599260.24,
+          "min_ns": 1542600,
+          "max_ns": 1599356
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L27.cmd250/whole_rows.plan.json",
+      "plan_sha256": "9052b485d502a968a09bed7f32e75a0a7664c05fca292bed19ddf313457b1b88",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L27.cmd250/whole_rows.npz",
+      "array_sha256": "0125451749f631aa16e05d4e63f1714b8ffbefb8eeb6dcc6bd99fa12c9754f4c"
+    },
+    {
+      "layer": 28,
+      "observed": {
+        "mean_ns": 1594539.3125,
+        "p99_ns": 1630130.76,
+        "min_ns": 1570976,
+        "max_ns": 1631106
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1592781.4375,
+          "p99_ns": 1627268.24,
+          "min_ns": 1570652,
+          "max_ns": 1627364
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1580942.5625,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1574802.375,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1574335.0,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L28.cmd250/whole_rows.plan.json",
+      "plan_sha256": "696bde8def66c9e1d537fc2b315057e171a69f15cbefe69d67e45e2285930ca9",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L28.cmd250/whole_rows.npz",
+      "array_sha256": "8881ae69ca5354bd26631426257ff0a527edc384876618263f4be0e457554f3b"
+    },
+    {
+      "layer": 29,
+      "observed": {
+        "mean_ns": 1598781.875,
+        "p99_ns": 1649678.42,
+        "min_ns": 1545651,
+        "max_ns": 1683488
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1597171.65625,
+          "p99_ns": 1647970.4799999997,
+          "min_ns": 1542754,
+          "max_ns": 1683316
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1582714.875,
+          "p99_ns": 1637947.6199999999,
+          "min_ns": 1542754,
+          "max_ns": 1656486
+        },
+        "paired_shared_down": {
+          "mean_ns": 1575317.3125,
+          "p99_ns": 1626548.9,
+          "min_ns": 1542754,
+          "max_ns": 1626908
+        },
+        "paired_shared_both": {
+          "mean_ns": 1574800.0625,
+          "p99_ns": 1626548.9,
+          "min_ns": 1542600,
+          "max_ns": 1626908
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L29.cmd250/whole_rows.plan.json",
+      "plan_sha256": "0326acbac12b9822f95ff27001e89e6b92b6d691d02645af4e310fcfd315bc69",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L29.cmd250/whole_rows.npz",
+      "array_sha256": "c5c402392f3834c3b66a9d3b245d94d09dd54cd676e1903d66160c90bb21b3da"
+    },
+    {
+      "layer": 30,
+      "observed": {
+        "mean_ns": 1597667.109375,
+        "p99_ns": 1656621.68,
+        "min_ns": 1544870,
+        "max_ns": 1658048
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1595844.84375,
+          "p99_ns": 1655168.24,
+          "min_ns": 1542904,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1583134.09375,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1575248.90625,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1574340.875,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542448,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L30.cmd250/whole_rows.plan.json",
+      "plan_sha256": "dd512040757335e8a429b81e3cbd024ae4417d6f9b44ced6c8dc9a9042140c17",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L30.cmd250/whole_rows.npz",
+      "array_sha256": "46bbc6ef0a455c9d129ddc0b0064f7608b7960356e1c4d9ac0bf570ccc1d0648"
+    },
+    {
+      "layer": 31,
+      "observed": {
+        "mean_ns": 1590899.828125,
+        "p99_ns": 1655624.84,
+        "min_ns": 1545348,
+        "max_ns": 1656464
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1589246.40625,
+          "p99_ns": 1655016.24,
+          "min_ns": 1542600,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1574768.1875,
+          "p99_ns": 1619710.2399999998,
+          "min_ns": 1542600,
+          "max_ns": 1654960
+        },
+        "paired_shared_down": {
+          "mean_ns": 1570843.34375,
+          "p99_ns": 1599275.14,
+          "min_ns": 1542600,
+          "max_ns": 1599730
+        },
+        "paired_shared_both": {
+          "mean_ns": 1569518.4375,
+          "p99_ns": 1599193.0,
+          "min_ns": 1542600,
+          "max_ns": 1599508
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L31.cmd250/whole_rows.plan.json",
+      "plan_sha256": "382212f97c76f956a480f654d34ea586de62168cccee7eaecd6a2b04eb04ec80",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L31.cmd250/whole_rows.npz",
+      "array_sha256": "5188f7545fc6615fcaab77caa6bc47abf445986d6ccedb0f4050de3be296aa50"
+    },
+    {
+      "layer": 32,
+      "observed": {
+        "mean_ns": 1597646.90625,
+        "p99_ns": 1640067.78,
+        "min_ns": 1570824,
+        "max_ns": 1657326
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1595842.4375,
+          "p99_ns": 1637495.48,
+          "min_ns": 1570652,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1582240.71875,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1571753.75,
+          "p99_ns": 1609331.0,
+          "min_ns": 1542752,
+          "max_ns": 1626908
+        },
+        "paired_shared_both": {
+          "mean_ns": 1570837.96875,
+          "p99_ns": 1609331.0,
+          "min_ns": 1542600,
+          "max_ns": 1626908
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L32.cmd250/whole_rows.plan.json",
+      "plan_sha256": "d14fa76bf46d13827b196e5a608622fac02459c29397746cbcb1f203339e64b0",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L32.cmd250/whole_rows.npz",
+      "array_sha256": "ec7fac6136486f43c32d6533cb8deadcaf5daa3de0e3af9dc5aab467831c33e6"
+    },
+    {
+      "layer": 33,
+      "observed": {
+        "mean_ns": 1597893.53125,
+        "p99_ns": 1656138.14,
+        "min_ns": 1545971,
+        "max_ns": 1656908
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1595825.84375,
+          "p99_ns": 1655072.48,
+          "min_ns": 1542752,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1579191.84375,
+          "p99_ns": 1637591.24,
+          "min_ns": 1542752,
+          "max_ns": 1655264
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573537.46875,
+          "p99_ns": 1599730.0,
+          "min_ns": 1542600,
+          "max_ns": 1599730
+        },
+        "paired_shared_both": {
+          "mean_ns": 1573025.53125,
+          "p99_ns": 1599508.0,
+          "min_ns": 1542600,
+          "max_ns": 1599508
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L33.cmd250/whole_rows.plan.json",
+      "plan_sha256": "10e0dd411f9380705486f4068aaf260886cc82d900a619edc06a2cba5883e88c",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L33.cmd250/whole_rows.npz",
+      "array_sha256": "38c0a92b4d9c6c3ac9b2a86a09cdcbc7b552d023bc64d9ecf035d1448eb80609"
+    },
+    {
+      "layer": 34,
+      "observed": {
+        "mean_ns": 1594887.546875,
+        "p99_ns": 1656641.96,
+        "min_ns": 1571726,
+        "max_ns": 1657844
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1593210.21875,
+          "p99_ns": 1655168.24,
+          "min_ns": 1570652,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1585756.65625,
+          "p99_ns": 1637495.48,
+          "min_ns": 1542752,
+          "max_ns": 1655264
+        },
+        "paired_shared_down": {
+          "mean_ns": 1575266.21875,
+          "p99_ns": 1609746.3399999999,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1574355.59375,
+          "p99_ns": 1609606.48,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L34.cmd250/whole_rows.plan.json",
+      "plan_sha256": "b9d16c19fa38ae7cfdd6cd107166a6110d0cda0d02ae61f18774f9677a288ddb",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L34.cmd250/whole_rows.npz",
+      "array_sha256": "d9e5380381ae13cefff439bf9bcb5a8a339b0b76f26994241b0bd801f98074e1"
+    },
+    {
+      "layer": 35,
+      "observed": {
+        "mean_ns": 1593118.453125,
+        "p99_ns": 1629889.98,
+        "min_ns": 1545104,
+        "max_ns": 1631058
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1591025.78125,
+          "p99_ns": 1627212.0,
+          "min_ns": 1542752,
+          "max_ns": 1627212
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1579606.09375,
+          "p99_ns": 1599403.9,
+          "min_ns": 1542600,
+          "max_ns": 1600078
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573494.5,
+          "p99_ns": 1599008.0,
+          "min_ns": 1542600,
+          "max_ns": 1599008
+        },
+        "paired_shared_both": {
+          "mean_ns": 1573038.4375,
+          "p99_ns": 1599008.0,
+          "min_ns": 1541878,
+          "max_ns": 1599008
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L35.cmd250/whole_rows.plan.json",
+      "plan_sha256": "ff7d2a5d71496b32bd323e12ebe876db1d61ab9e852fb3878e66ed51babb6a8d",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L35.cmd250/whole_rows.npz",
+      "array_sha256": "ec6a2f50034e1557aca0a1bc6d3d514552787400ef2f7e2bd344e2d6f0a67bbc"
+    },
+    {
+      "layer": 36,
+      "observed": {
+        "mean_ns": 1597116.125,
+        "p99_ns": 1658457.64,
+        "min_ns": 1545820,
+        "max_ns": 1659322
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1594973.0,
+          "p99_ns": 1655264.0,
+          "min_ns": 1542600,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1581421.5,
+          "p99_ns": 1627116.24,
+          "min_ns": 1542600,
+          "max_ns": 1627212
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573100.78125,
+          "p99_ns": 1599578.0,
+          "min_ns": 1542600,
+          "max_ns": 1599578
+        },
+        "paired_shared_both": {
+          "mean_ns": 1572164.90625,
+          "p99_ns": 1599356.0,
+          "min_ns": 1542600,
+          "max_ns": 1599356
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L36.cmd250/whole_rows.plan.json",
+      "plan_sha256": "2fb3f508ba117a99fd680dfd72a1dfb1adce7da4addfa874836931e2ba3d2b9a",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L36.cmd250/whole_rows.npz",
+      "array_sha256": "e2b3a2e0e8c1bc61a633b7d4318d11624f883ea10a554f8e1320c9fb97c11435"
+    },
+    {
+      "layer": 37,
+      "observed": {
+        "mean_ns": 1592907.078125,
+        "p99_ns": 1640162.0799999998,
+        "min_ns": 1546379,
+        "max_ns": 1656784
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1591013.90625,
+          "p99_ns": 1637535.0,
+          "min_ns": 1542754,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1578307.96875,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542754,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573028.375,
+          "p99_ns": 1599634.24,
+          "min_ns": 1542752,
+          "max_ns": 1599730
+        },
+        "paired_shared_both": {
+          "mean_ns": 1572996.84375,
+          "p99_ns": 1599412.24,
+          "min_ns": 1542752,
+          "max_ns": 1599508
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L37.cmd250/whole_rows.plan.json",
+      "plan_sha256": "3f2d6e51a082276f298b6da7abf9c199f306b05eace8ce273ec9eff2af0637fd",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L37.cmd250/whole_rows.npz",
+      "array_sha256": "e1cec1d318172748cb5f8f7ee0be9f9b029953934a4d5173d3122eddc5c01071"
+    },
+    {
+      "layer": 38,
+      "observed": {
+        "mean_ns": 1593505.609375,
+        "p99_ns": 1640007.0999999999,
+        "min_ns": 1545873,
+        "max_ns": 1656658
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1591442.78125,
+          "p99_ns": 1637535.0,
+          "min_ns": 1542754,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1581821.59375,
+          "p99_ns": 1610005.0999999999,
+          "min_ns": 1542600,
+          "max_ns": 1626908
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573597.90625,
+          "p99_ns": 1599008.0,
+          "min_ns": 1542600,
+          "max_ns": 1599008
+        },
+        "paired_shared_both": {
+          "mean_ns": 1572654.5,
+          "p99_ns": 1599008.0,
+          "min_ns": 1542100,
+          "max_ns": 1599008
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L38.cmd250/whole_rows.plan.json",
+      "plan_sha256": "8bdc75b54a5d3a3769e335e6332bc8ed44ab4c4f5d7d9f59cb656d3f9cbebaba",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L38.cmd250/whole_rows.npz",
+      "array_sha256": "cc78aec82c42f4adce465a184b1a396e62856a316aa833d6c3a076e649ee6a90"
+    },
+    {
+      "layer": 39,
+      "observed": {
+        "mean_ns": 1590294.34375,
+        "p99_ns": 1639867.48,
+        "min_ns": 1546050,
+        "max_ns": 1657006
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1588379.3125,
+          "p99_ns": 1637439.24,
+          "min_ns": 1542754,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1578722.3125,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1570071.21875,
+          "p99_ns": 1609746.3399999999,
+          "min_ns": 1542448,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1569988.1875,
+          "p99_ns": 1609606.48,
+          "min_ns": 1541878,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L39.cmd250/whole_rows.plan.json",
+      "plan_sha256": "77b10c1d1f361eda189443cad01fbd1587745f219c454ea51e630e6ca9f4223e",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L39.cmd250/whole_rows.npz",
+      "array_sha256": "561877a83f0ac67256c08c82c73be3f4d8b46e2079b058d823627033d44820c5"
+    },
+    {
+      "layer": 40,
+      "observed": {
+        "mean_ns": 1594971.921875,
+        "p99_ns": 1639611.98,
+        "min_ns": 1545873,
+        "max_ns": 1656908
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1593203.09375,
+          "p99_ns": 1637495.48,
+          "min_ns": 1542754,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1571323.84375,
+          "p99_ns": 1599460.14,
+          "min_ns": 1542752,
+          "max_ns": 1600230
+        },
+        "paired_shared_down": {
+          "mean_ns": 1566036.25,
+          "p99_ns": 1599008.0,
+          "min_ns": 1541878,
+          "max_ns": 1599008
+        },
+        "paired_shared_both": {
+          "mean_ns": 1564660.1875,
+          "p99_ns": 1599008.0,
+          "min_ns": 1541878,
+          "max_ns": 1599008
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L40.cmd250/whole_rows.plan.json",
+      "plan_sha256": "68a1130ea1b5a4eda4f80f6ff5119000fe8d75e574706c1cbec87f63740d8600",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L40.cmd250/whole_rows.npz",
+      "array_sha256": "6485ff1373828721e34c456078d70e647209db1dacc1c30ed1c333e430570e25"
+    },
+    {
+      "layer": 41,
+      "observed": {
+        "mean_ns": 1594085.640625,
+        "p99_ns": 1630191.66,
+        "min_ns": 1545022,
+        "max_ns": 1631400
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1592331.1875,
+          "p99_ns": 1627212.0,
+          "min_ns": 1542752,
+          "max_ns": 1627212
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1576969.21875,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1568275.875,
+          "p99_ns": 1609785.8599999999,
+          "min_ns": 1542600,
+          "max_ns": 1626908
+        },
+        "paired_shared_both": {
+          "mean_ns": 1567336.53125,
+          "p99_ns": 1609646.0,
+          "min_ns": 1542600,
+          "max_ns": 1626908
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L41.cmd250/whole_rows.plan.json",
+      "plan_sha256": "78068fce3da5f8d872d3390ac83ff42136e23155b195a49e25c90ce83e00c780",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L41.cmd250/whole_rows.npz",
+      "array_sha256": "88d35338e93095d0774e1d381e5bd5bcbd5673c4a7b0cece320d4be8104c9c43"
+    },
+    {
+      "layer": 42,
+      "observed": {
+        "mean_ns": 1596055.8125,
+        "p99_ns": 1640526.6199999999,
+        "min_ns": 1545104,
+        "max_ns": 1656104
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1594096.3125,
+          "p99_ns": 1637535.0,
+          "min_ns": 1542752,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1580049.25,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1571757.96875,
+          "p99_ns": 1609746.3399999999,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1570874.5625,
+          "p99_ns": 1609606.48,
+          "min_ns": 1542448,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L42.cmd250/whole_rows.plan.json",
+      "plan_sha256": "95f0b8bb5065505084b22392a26cb0eb8c48b135f9486236016c91aee9b80d21",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L42.cmd250/whole_rows.npz",
+      "array_sha256": "38336e9f5b9c1678ecf64154e39870da53ffe5639d7472d1143ea339f7aefa4e"
+    },
+    {
+      "layer": 43,
+      "observed": {
+        "mean_ns": 1594368.96875,
+        "p99_ns": 1641788.94,
+        "min_ns": 1545120,
+        "max_ns": 1659720
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1592354.9375,
+          "p99_ns": 1637535.0,
+          "min_ns": 1542752,
+          "max_ns": 1655112
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1578326.96875,
+          "p99_ns": 1627060.0,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1568683.84375,
+          "p99_ns": 1609388.5,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1567763.90625,
+          "p99_ns": 1609388.5,
+          "min_ns": 1542448,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L43.cmd250/whole_rows.plan.json",
+      "plan_sha256": "fda037c2a8cebdea226bcf161a3decd1fcc374ee9126cd161e568ec5a05d400f",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L43.cmd250/whole_rows.npz",
+      "array_sha256": "eb6c674b6ca8d6205adb516de89f747508f0896e03b7245f99a25edea0589c66"
+    },
+    {
+      "layer": 44,
+      "observed": {
+        "mean_ns": 1596774.578125,
+        "p99_ns": 1629361.0,
+        "min_ns": 1571226,
+        "max_ns": 1629676
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1594975.34375,
+          "p99_ns": 1627212.0,
+          "min_ns": 1570652,
+          "max_ns": 1627212
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1582290.9375,
+          "p99_ns": 1627116.24,
+          "min_ns": 1542752,
+          "max_ns": 1627212
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573537.28125,
+          "p99_ns": 1599578.0,
+          "min_ns": 1542600,
+          "max_ns": 1599578
+        },
+        "paired_shared_both": {
+          "mean_ns": 1573060.40625,
+          "p99_ns": 1599356.0,
+          "min_ns": 1542600,
+          "max_ns": 1599356
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L44.cmd250/whole_rows.plan.json",
+      "plan_sha256": "ea8be7916826425f5911bdc465cc5be05d429adfeecf2971a87199c84ff2e99a",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L44.cmd250/whole_rows.npz",
+      "array_sha256": "396efad2a0b3a0fc2f91fdd72523b7588ccb684a96ff1971f8434e621afee27e"
+    },
+    {
+      "layer": 45,
+      "observed": {
+        "mean_ns": 1594239.78125,
+        "p99_ns": 1656855.78,
+        "min_ns": 1544342,
+        "max_ns": 1656978
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1592326.4375,
+          "p99_ns": 1655168.24,
+          "min_ns": 1542600,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1580044.40625,
+          "p99_ns": 1626964.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573486.15625,
+          "p99_ns": 1609387.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1571271.46875,
+          "p99_ns": 1609387.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L45.cmd250/whole_rows.plan.json",
+      "plan_sha256": "67f20ac48040e0d9e959bd040bd13e3a59837e0082fe7063d1f05524a753d9a5",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L45.cmd250/whole_rows.npz",
+      "array_sha256": "c5b9f51aeca554fc86b6d9281a132d21ca6e1c4efabf852cbf47eae76ebf5624"
+    },
+    {
+      "layer": 46,
+      "observed": {
+        "mean_ns": 1594372.703125,
+        "p99_ns": 1639813.04,
+        "min_ns": 1546297,
+        "max_ns": 1655936
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1592321.71875,
+          "p99_ns": 1637591.24,
+          "min_ns": 1542754,
+          "max_ns": 1655264
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1579210.84375,
+          "p99_ns": 1599444.68,
+          "min_ns": 1542600,
+          "max_ns": 1599926
+        },
+        "paired_shared_down": {
+          "mean_ns": 1573062.09375,
+          "p99_ns": 1599008.0,
+          "min_ns": 1542600,
+          "max_ns": 1599008
+        },
+        "paired_shared_both": {
+          "mean_ns": 1572164.6875,
+          "p99_ns": 1599008.0,
+          "min_ns": 1542448,
+          "max_ns": 1599008
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L46.cmd250/whole_rows.plan.json",
+      "plan_sha256": "f096e775e6217a09463e7163550f1de5afb7befca1d693eada4a73e85836f1f4",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L46.cmd250/whole_rows.npz",
+      "array_sha256": "5fa497ff322e3f6b08d1b138e5fc3b8ea665c2c4adbe3a355f6b37476f5c1c3e"
+    },
+    {
+      "layer": 47,
+      "observed": {
+        "mean_ns": 1591496.8125,
+        "p99_ns": 1649482.8399999999,
+        "min_ns": 1545744,
+        "max_ns": 1683586
+      },
+      "bounds": {
+        "onecopy_work": {
+          "mean_ns": 1589708.4375,
+          "p99_ns": 1647914.2399999998,
+          "min_ns": 1542752,
+          "max_ns": 1683164
+        },
+        "paired_shared_gu": {
+          "mean_ns": 1577910.09375,
+          "p99_ns": 1627455.9,
+          "min_ns": 1542600,
+          "max_ns": 1628130
+        },
+        "paired_shared_down": {
+          "mean_ns": 1572207.5,
+          "p99_ns": 1626509.38,
+          "min_ns": 1542752,
+          "max_ns": 1627060
+        },
+        "paired_shared_both": {
+          "mean_ns": 1571294.875,
+          "p99_ns": 1609702.24,
+          "min_ns": 1542600,
+          "max_ns": 1627060
+        },
+        "shared_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        },
+        "all_jobs_unlimited_fractional": {
+          "mean_ns": 1512777.0,
+          "p99_ns": 1512777.0,
+          "min_ns": 1512777,
+          "max_ns": 1512777
+        }
+      },
+      "plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L47.cmd250/whole_rows.plan.json",
+      "plan_sha256": "519fa9f506707d275afea07876131c2d69a4ff316351b185fb75439a7240b644",
+      "array_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L47.cmd250/whole_rows.npz",
+      "array_sha256": "530e517c3a313cc23371f1abff9c3ae3db4be76c5bcb614117195e4acbe6ba58"
+    }
+  ],
+  "scopes": [
+    "All values are necessary chip-context-work lower bounds; future GU readiness, per-expert activation/quantization, host submissions, channels and PCIe can increase service.",
+    "Positive observed-minus-bound gap is an optimistic upper limit on candidate speedup, not an achieved or guaranteed speedup.",
+    "Paired bounds exact only for the fixed native job inventory and unconstrained availability; no shared geometry or owner search was fitted.",
+    "Existing onecopy shared geometry is a strong incumbent, not certified global onecopy optimum. Static row/owner refit and whole-shared copies at the same budget remain required controls.",
+    "Full48 paired aggregation reuses64selection ordinals; source route IDs are retained. No independent workload claim.",
+    "Nominal I8/A8/4B service for routes collected from NVFP4 checkpoint; AiF output/scale ABI and timing calibration remain unresolved."
+  ],
+  "input_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L0.cmd250/whole_rows.plan.json": "5a4aed1c6ff99470f9b080df231f798f8b0ed03441aeffc95d940a0e41919509",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L0.cmd250/whole_rows.npz": "52d3f121d0c1daf84d401729d70be54fc9f6141fc74b0b17a0da041024383627",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L1.cmd250/whole_rows.plan.json": "b2461b599c92f3953216036a4ebc58dccacbcbc05dd9a94f6ad4b4183f11a026",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L1.cmd250/whole_rows.npz": "c2e9c4bc1629853c4d51cd41963971f8f1ecf9c2bf6026c1b2c120bdf2975cc3",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L2.cmd250/whole_rows.plan.json": "223b7d57ad30d1579820e779c106e1407c7cda152540f1caf75a3c5ebd183425",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L2.cmd250/whole_rows.npz": "b7f641c9dff99a1c2f0f6b71e60d61374fe064b68a6567f2db348b32c1452e67",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L3.cmd250/whole_rows.plan.json": "b2f9d3a627e17cc894d7825909f6f24f66145d7969da0d990becfce49d2ca6a1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L3.cmd250/whole_rows.npz": "0ac7df80433755f61fec3f7e04ae1cc9eb14e6bf1fe23a5d0cb605e95641333f",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L4.cmd250/whole_rows.plan.json": "be145cd4e04f68d8d88eab8cc6d43587e821b5e14595cad4e8d798b1bb34ff23",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L4.cmd250/whole_rows.npz": "a5b8b9e6d2c3c90f23ab81057071bf2a509d00b246eb6b5093b9dd4386bfe8d6",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L5.cmd250/whole_rows.plan.json": "9480051d092e916407e311ed548b74eec48300bc9f69b992be467a962fbea149",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L5.cmd250/whole_rows.npz": "c7bd509a6da8140b45c8542eed2a1b098a4081a469953ff3f4ed998bfce7f112",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L6.cmd250/whole_rows.plan.json": "5625b447b9872a7ffb5eeba3cd389074e451acfd9759dcaf70af63f582ddbea2",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L6.cmd250/whole_rows.npz": "9bdbc548988efd822b6787058ca9231651bec0f08cfd55d5eb2b8721e2056dd9",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L7.cmd250/whole_rows.plan.json": "356ce801fc428fea076c7459e97ac751fd2cf86189c796ba1feb361ffc09027f",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L7.cmd250/whole_rows.npz": "47102d765f90fc751b2e84ae82dce83f59898967411d3592b58b703c4cd62ffa",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L8.cmd250/whole_rows.plan.json": "11121b11448532595edf8e9689f0aa6e80d8d9f62f3b7a29a1117523a18a1ea2",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L8.cmd250/whole_rows.npz": "e5ef23c4c593e479263f97e505e8b20161fa442521f9a040a4c8deccaef8f498",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L9.cmd250/whole_rows.plan.json": "f1fd4f023ae260af7302d066e0838394227e159646145b7d3d96c1755d706ef8",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L9.cmd250/whole_rows.npz": "57ddab1dcdac35e06936c564c00eba4257990659f14ed50ac15f16d6c50f5bdc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L10.cmd250/whole_rows.plan.json": "e1886e58034532fd29cc3dc788e13ade7b4443cec0f185e67af1294e1f7a7007",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L10.cmd250/whole_rows.npz": "c012e50a9d991993d59cac04de7b063ba185bb97c5586fbfcc74328ae4868ccc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L11.cmd250/whole_rows.plan.json": "b62a886e1d9ff8d8faa35176cc84da31c0a47c338fde16174239e1914da257ee",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L11.cmd250/whole_rows.npz": "d2a509beb68c47f10c4a4d1c0e26bbe4e9c23a4d1b58b348d90aead953e3c0a8",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L12.cmd250/whole_rows.plan.json": "fb8039267fed6e0d016f3c3e94d2f775b2d7807611aaa8267556d53a62d4046f",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L12.cmd250/whole_rows.npz": "dd054d3c72c1e8d651ebe1d84e1b7a84104e41ab6bc4b1550bd838f7e4d27812",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L13.cmd250/whole_rows.plan.json": "21f51fc1c32bdf7b7b5d7a97e2b1f388e832e8aecdbd4cb59c5f59f3aebe56be",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L13.cmd250/whole_rows.npz": "552e37c3516d8baf435d840a321f34ca1c82f433d475838bc9c61ec96b5e7dad",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L14.cmd250/whole_rows.plan.json": "1e7098fac1bec371d6a2caa8372fd8d0c0857da9458087e3cf8c9477fae2cd03",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L14.cmd250/whole_rows.npz": "6e61849febf8102728716d461a8378282431993e73439c2b44b38f821d585027",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L15.cmd250/whole_rows.plan.json": "21944c36c58c08430aae37d025054f9e61738bdce924240850b030704a128698",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L15.cmd250/whole_rows.npz": "8c0f8308d011d2b76d092c9131fc9f8b14406ad3e385073d32e58b07da10e3bb",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L16.cmd250/whole_rows.plan.json": "703e2beb83d84ef09b12a7d344cae553d294d0e54534ada8806774f31fff7645",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L16.cmd250/whole_rows.npz": "64a44a96d0c74dfd9a8fd87d23d45cb60e9ba66d08104e82b264bec0f2a5d0a7",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L17.cmd250/whole_rows.plan.json": "d5b527b6015b237caf29003ca06a3d7dbe5b1926abf2e4c2fa63dbea75e81140",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L17.cmd250/whole_rows.npz": "37a184a0ad24bfcc443074250f43dab00c9eeb089f8bc9ad3db9b1b4f6a27442",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L18.cmd250/whole_rows.plan.json": "da44c91a6cba316c03197b31de685e0069c4ba8a5a3d2d311a32ff0eef3d50dc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L18.cmd250/whole_rows.npz": "47e486e2d08b8bd57d65cc31383edec0a33edd623143414831982a5edb5db14e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L19.cmd250/whole_rows.plan.json": "039900a3969f6a0b4b7648dcd8852291e1ebfdef6d2be4e1dc16db46d2262c76",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L19.cmd250/whole_rows.npz": "28b642fdb13abc93fca9daee620281db4fa1ca62358697accacb99a796ae2648",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L20.cmd250/whole_rows.plan.json": "847b4c4994a67b5bc85a6055c852402982d93f9e7bedbef1ba50a093be205404",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L20.cmd250/whole_rows.npz": "ce5bba70e54f3dec4d63885a6ed38702c341dd49c1d13e190927afd3978267a1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L21.cmd250/whole_rows.plan.json": "87c48966ed7b21a2d7a013b11af2f37ae385cfe69c5d7904a8d9316071ad6f95",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L21.cmd250/whole_rows.npz": "a4815f130f5410fdfcc2bdfab8044678b2a5b811cdf033762744e959d028f2e5",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L22.cmd250/whole_rows.plan.json": "acb4eb924cb7b3cf53270e0558c458616add57e7ec2b482a8bd803ad308b05ef",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L22.cmd250/whole_rows.npz": "5d72e4efea64082580149a417158a9461a866efe113b05cd0e00c333e9461755",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L23.cmd250/whole_rows.plan.json": "3580e1287fad5a1af1f557d3fd03205884c34349be2c607cf8a08252d13a5571",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L23.cmd250/whole_rows.npz": "a700799381cbf655d8695427eb76dfde06ad1deec80eed2c4ca4dc16f679a1a9",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L24.cmd250/whole_rows.plan.json": "b8b8a65baf4a46563c7b0b3a115e4508731dbdb8f3b27a4516de2b03b2280439",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L24.cmd250/whole_rows.npz": "f8940dffd9f10cad4ba551e4126fe41988c1f71bfdc6090d36b42df2e6aa1cae",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L25.cmd250/whole_rows.plan.json": "7ce3c1ffa558a6429b1670d6f9b19a02930a28a40ab66d26e823514ea1a7536c",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L25.cmd250/whole_rows.npz": "3effcee13c4293153d1d1552ed0269fe082345f6aee4c23a48592836862be2b5",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L26.cmd250/whole_rows.plan.json": "588c2462a35e3c93f6d558be4beeee19ff1f03c67363eb0e1fc49fd26f10b043",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L26.cmd250/whole_rows.npz": "3e729c475b1e2572180e374ce52543799d3798fdb22c501594446766c31b32ac",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L27.cmd250/whole_rows.plan.json": "9052b485d502a968a09bed7f32e75a0a7664c05fca292bed19ddf313457b1b88",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L27.cmd250/whole_rows.npz": "0125451749f631aa16e05d4e63f1714b8ffbefb8eeb6dcc6bd99fa12c9754f4c",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L28.cmd250/whole_rows.plan.json": "696bde8def66c9e1d537fc2b315057e171a69f15cbefe69d67e45e2285930ca9",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L28.cmd250/whole_rows.npz": "8881ae69ca5354bd26631426257ff0a527edc384876618263f4be0e457554f3b",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L29.cmd250/whole_rows.plan.json": "0326acbac12b9822f95ff27001e89e6b92b6d691d02645af4e310fcfd315bc69",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L29.cmd250/whole_rows.npz": "c5c402392f3834c3b66a9d3b245d94d09dd54cd676e1903d66160c90bb21b3da",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L30.cmd250/whole_rows.plan.json": "dd512040757335e8a429b81e3cbd024ae4417d6f9b44ced6c8dc9a9042140c17",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L30.cmd250/whole_rows.npz": "46bbc6ef0a455c9d129ddc0b0064f7608b7960356e1c4d9ac0bf570ccc1d0648",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L31.cmd250/whole_rows.plan.json": "382212f97c76f956a480f654d34ea586de62168cccee7eaecd6a2b04eb04ec80",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L31.cmd250/whole_rows.npz": "5188f7545fc6615fcaab77caa6bc47abf445986d6ccedb0f4050de3be296aa50",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L32.cmd250/whole_rows.plan.json": "d14fa76bf46d13827b196e5a608622fac02459c29397746cbcb1f203339e64b0",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L32.cmd250/whole_rows.npz": "ec7fac6136486f43c32d6533cb8deadcaf5daa3de0e3af9dc5aab467831c33e6",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L33.cmd250/whole_rows.plan.json": "10e0dd411f9380705486f4068aaf260886cc82d900a619edc06a2cba5883e88c",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L33.cmd250/whole_rows.npz": "38c0a92b4d9c6c3ac9b2a86a09cdcbc7b552d023bc64d9ecf035d1448eb80609",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L34.cmd250/whole_rows.plan.json": "b9d16c19fa38ae7cfdd6cd107166a6110d0cda0d02ae61f18774f9677a288ddb",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L34.cmd250/whole_rows.npz": "d9e5380381ae13cefff439bf9bcb5a8a339b0b76f26994241b0bd801f98074e1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L35.cmd250/whole_rows.plan.json": "ff7d2a5d71496b32bd323e12ebe876db1d61ab9e852fb3878e66ed51babb6a8d",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L35.cmd250/whole_rows.npz": "ec6a2f50034e1557aca0a1bc6d3d514552787400ef2f7e2bd344e2d6f0a67bbc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L36.cmd250/whole_rows.plan.json": "2fb3f508ba117a99fd680dfd72a1dfb1adce7da4addfa874836931e2ba3d2b9a",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L36.cmd250/whole_rows.npz": "e2b3a2e0e8c1bc61a633b7d4318d11624f883ea10a554f8e1320c9fb97c11435",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L37.cmd250/whole_rows.plan.json": "3f2d6e51a082276f298b6da7abf9c199f306b05eace8ce273ec9eff2af0637fd",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L37.cmd250/whole_rows.npz": "e1cec1d318172748cb5f8f7ee0be9f9b029953934a4d5173d3122eddc5c01071",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L38.cmd250/whole_rows.plan.json": "8bdc75b54a5d3a3769e335e6332bc8ed44ab4c4f5d7d9f59cb656d3f9cbebaba",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L38.cmd250/whole_rows.npz": "cc78aec82c42f4adce465a184b1a396e62856a316aa833d6c3a076e649ee6a90",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L39.cmd250/whole_rows.plan.json": "77b10c1d1f361eda189443cad01fbd1587745f219c454ea51e630e6ca9f4223e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L39.cmd250/whole_rows.npz": "561877a83f0ac67256c08c82c73be3f4d8b46e2079b058d823627033d44820c5",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L40.cmd250/whole_rows.plan.json": "68a1130ea1b5a4eda4f80f6ff5119000fe8d75e574706c1cbec87f63740d8600",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L40.cmd250/whole_rows.npz": "6485ff1373828721e34c456078d70e647209db1dacc1c30ed1c333e430570e25",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L41.cmd250/whole_rows.plan.json": "78068fce3da5f8d872d3390ac83ff42136e23155b195a49e25c90ce83e00c780",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L41.cmd250/whole_rows.npz": "88d35338e93095d0774e1d381e5bd5bcbd5673c4a7b0cece320d4be8104c9c43",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L42.cmd250/whole_rows.plan.json": "95f0b8bb5065505084b22392a26cb0eb8c48b135f9486236016c91aee9b80d21",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L42.cmd250/whole_rows.npz": "38336e9f5b9c1678ecf64154e39870da53ffe5639d7472d1143ea339f7aefa4e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L43.cmd250/whole_rows.plan.json": "fda037c2a8cebdea226bcf161a3decd1fcc374ee9126cd161e568ec5a05d400f",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L43.cmd250/whole_rows.npz": "eb6c674b6ca8d6205adb516de89f747508f0896e03b7245f99a25edea0589c66",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L44.cmd250/whole_rows.plan.json": "ea8be7916826425f5911bdc465cc5be05d429adfeecf2971a87199c84ff2e99a",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L44.cmd250/whole_rows.npz": "396efad2a0b3a0fc2f91fdd72523b7588ccb684a96ff1971f8434e621afee27e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L45.cmd250/whole_rows.plan.json": "67f20ac48040e0d9e959bd040bd13e3a59837e0082fe7063d1f05524a753d9a5",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L45.cmd250/whole_rows.npz": "c5b9f51aeca554fc86b6d9281a132d21ca6e1c4efabf852cbf47eae76ebf5624",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L46.cmd250/whole_rows.plan.json": "f096e775e6217a09463e7163550f1de5afb7befca1d693eada4a73e85836f1f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L46.cmd250/whole_rows.npz": "5fa497ff322e3f6b08d1b138e5fc3b8ea665c2c4adbe3a355f6b37476f5c1c3e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L47.cmd250/whole_rows.plan.json": "519fa9f506707d275afea07876131c2d69a4ff316351b185fb75439a7240b644",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L47.cmd250/whole_rows.npz": "530e517c3a313cc23371f1abff9c3ae3db4be76c5bcb614117195e4acbe6ba58"
+  }
+}

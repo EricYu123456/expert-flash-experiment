@@ -1,0 +1,54 @@
+{
+  "base_protocol_sha256": "5f21869ae968057a09ed1f5f64cf06f83aa22fa1dc442303fa6ce5c25f9b58be",
+  "phase_order_amendment_sha256": "cd8fb02247d0be93850c598097d95963c3538607118553d1b4941da1a64a835b",
+  "new_arms": {
+    "NL": 7,
+    "COPY_NL": 8,
+    "old_D_unchanged": 6
+  },
+  "phase_order": [
+    "prepare",
+    "bind",
+    "bench-bcd",
+    "Root_critic_checkpoint",
+    "gu-fit",
+    "bench-nl",
+    "dev-quality"
+  ],
+  "bench_arms": {
+    "BENCH_BCD": [
+      3,
+      5,
+      6
+    ],
+    "BENCH_NL": [
+      7
+    ]
+  },
+  "bench_arm_rotation": "trialmod3 forBCD; NLonly separatephase, never fused simultaneousrace",
+  "GU": "one productionpass, complete union236888 expertrows; rawtargets retained; one cached actual FMA GU prediction pass then one Down calibration pass; additional audits/B1calls separately counted",
+  "numeric": "exactAVX2 signextendedI16 nonsaturatingmaddI32, width1..2048 APIaccepts[-128,127], absbound33554432; canonical127; FMA original8lanes/pairtree/tail; sequentialFP64 tree; original8FP64 P lanes withtailtosums0; separateF32rescale/bias/alpha",
+  "activation": "pinnedfullI GGML SiLU\u00d7Up and actualfusedWiglu bitguard, bothcharged inB/NL standalone; no IPCintimedregion",
+  "team": "persistent8 stdthreads pinnedCPU0..7, actualx87/SSE RN FTZDAZ0 perworker checkedbeforeandafter eachjob; same row arithmetic/dispatch/barriers acrossarms",
+  "bench_rows": "SHA256 domain bytes stage3-bench-v1\\0 + canonical JSON(sortkeys,compact,ensure_ascii) provenance;32 perlayer frozenbeforearrayread; first4 numericallrows/offroute",
+  "cohorts": "operator0/operator1 rawx-tooutput(alpha1); naturalpartial orderedlivepilotIDs/finalalpha; fullKresourceonly templatescycle2 physicallydistinctallocations. Sharedinput iffidenticalfunctions; zero naturalhit no P/tree",
+  "cache": "warm5warmups/31trials; cold all8 workers each128MiB of1GiB stride64 beforeeachtrial, barrieroutsideinvocation; observedscenario notuniversalcacheclaim",
+  "source_quality": "newmode loop uses immutableHook/ownedX/finalalpha/scatter. PG16 alreadyexposed devonly, nativeGT512 IDs frompreviousapprovedqualityresult, freshKVeacharm, fixed256targets; no booksdownload/re-tokenization/windowchange. Firstfixedbook actualsource/copy/B controls, BCDprior64bitchecksum+NLL consistency explicitlynot historicalmemcmp, NLcopy actualmemcmp; zero-causal needsactualB replay",
+  "dev_statistics": "NL-B2endpoint centeredmaxabsT10000shared16bookdraws seed2026110303 ddof1 linear95; anymissing/nonfinite/zeroSD familyinconclusive; no classification/reselection",
+  "review_schema": {
+    "status": "approved",
+    "phase": "BIND|BENCH_BCD|GU_FIT|BENCH_NL|DEV_QUALITY",
+    "protocol_sha256": "5f21869ae968057a09ed1f5f64cf06f83aa22fa1dc442303fa6ce5c25f9b58be",
+    "phase_order_amendment_sha256": "cd8fb02247d0be93850c598097d95963c3538607118553d1b4941da1a64a835b",
+    "source_revision": "int",
+    "source_freeze_sha256": "SHA",
+    "upstream_receipts": "exactfreeze mapping",
+    "BIND_complete_sha256": "required allafterBIND",
+    "BENCH_BCD_complete_sha256": "required GU_FIT andlater",
+    "GU_FIT_complete_sha256": "required BENCH_NL/DEV",
+    "NL_registry_sha256": "requiredDEV"
+  },
+  "no_actual_payload_during_prepare": true,
+  "optional_structural_preflight_omitted": true,
+  "cost_scope": "EPYC9354AVX2 actualservice only, targetISA/bandwidthunmeasured; conditionalordinaryAiFDAG no fixedspeedup; allhost/cache andflashGUhostDown andsamebankordinaryload alternatives retained"
+}

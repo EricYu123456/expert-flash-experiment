@@ -1,0 +1,42 @@
+{
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_multi_request_screen.py": "c5e090b24899f14b5484481100722b1bf0f72dacf714d49288061ba6e8d72885",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_multi_request_adapter.cpp": "0cafa957027c499be5e59d796074741f99d10ce324f0c61eacbe945518d0a25a",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_backend.py": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48",
+    "/home/ericyu/expert_flash_experiment/docs/research_2026_11_02.md": "64db356400bfb5dc5155c0fa12a33817b84c8934370bd34e7385d1467ed926bd",
+    "/home/ericyu/expert_flash_experiment/docs/research_2026_11_02_round2.md": "ff5590f64a0564f66f18ef086dd034113934451d389b2d71b1a9c8b8175f949c",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_replay_oracle.py": "02b293f83a4b27da21999f968804134211222aa13246978598f20a68c36fb184",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/replay-oracle/summary.json": "98c8a5b78ed0efe7e83a1d801247cf0e33b24590aeac673a6ce1b1ea3474206a",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/continuation/native/0107.npz": "7fb2789d65f9b59f73a516c5761161ca679fd2d0765c4ed7431a80d93c355abb",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v5-W8-training/summary.json": "093801006fe2788a5fcd4439b1171fb850095fa376dc3cef56d9a1684a02238e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/native-joint-refinement/pilot-v1/deepseek.L0.input4.independent_paired.seed20261106/arrays.npz": "ba65327f9a932a09fe202cceda6ad2c80ed4a999ab4a30a4c0b0e4a6e03282e6",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/summary.json": "c85111c0ece822615b8f38e079de23bbf0fd383849a9f1b42ed1215aaf7c0392",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/deepseek/decode.routes.npz": "11168c1e899c8ce0bf23e719e908f243fa09d30980a65488a3f92aa448344fed"
+  },
+  "models": [
+    {
+      "model": "granite4tiny",
+      "copies": 1,
+      "layer": 0,
+      "baseline": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/continuation/native/0107.npz"
+    },
+    {
+      "model": "deepseek",
+      "copies": 4,
+      "layer": 0,
+      "baseline": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/native-joint-refinement/pilot-v1/deepseek.L0.input4.independent_paired.seed20261106/arrays.npz"
+    }
+  ],
+  "cohorts": [
+    2,
+    4,
+    8
+  ],
+  "cohort_rule": "Adjacent distinctTRAIN promptIDs groupedB; allrequests atsame decodeindex ready at time0.32prompts\u00d716steps, no real arrivals or SLO.",
+  "families": "Allfrozen cyclic/disjoint equalwidth1..16 plusbalanced/integer rowprofiles perphase; staticbestpair selected bymean cohort necessarybound, not queryadaptiveaddresses.",
+  "scheduler": "Existing singleinput-context wholejob Graph ownership engine; lightweightadapter merelyreplicates independentrequest DAGs. Everyrequest retains ownGUinput/upload andeachprivateDown. GF/DF ordinaryphasepriority, same for allmaps.",
+  "forbidden": "No PB/weight/inputreuse acrossjobs, multicastdedup, newMAC, independentplane context, copiedweights, changedroutes or futuretokens.",
+  "scope": "Bounded feasibility/prior screen, two layer0cases only; no fit, heldout, modelinference or serving/queueSLO claim."
+}

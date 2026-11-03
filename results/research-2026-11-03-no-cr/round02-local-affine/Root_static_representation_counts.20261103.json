@@ -1,0 +1,105 @@
+{
+  "status": "source_shape_arithmetic_audit_only_no_candidate_execution",
+  "at_utc": "2026-11-03T06:02:38.546022+00:00",
+  "purpose": "Check direct-kernel resource ledgers against declared shapes; no timing, cache or deployment-fit inference.",
+  "shapes": {
+    "H": 2048,
+    "r": 128,
+    "C": 32,
+    "q": 512
+  },
+  "per_expert_declared_arrays": {
+    "C": {
+      "W8maps": 8388608,
+      "row_scales": 262144,
+      "output_bias": 262144,
+      "total_declared_arrays": 8912896
+    },
+    "PE": {
+      "W8B": 2097152,
+      "W8U": 1048576,
+      "Bscales": 65536,
+      "Uscales": 8192,
+      "output_bias": 262144,
+      "total_declared_arrays": 3481600
+    },
+    "G": {
+      "W8B": 1048576,
+      "W8U": 1048576,
+      "Bscales": 2048,
+      "Uscales": 8192,
+      "output_bias": 262144,
+      "total_declared_arrays": 2369536
+    }
+  },
+  "compact_runtime_geometry_per_layer": {
+    "P": 1048576,
+    "leafmeans": 262144,
+    "normals": 253952,
+    "thresholds_assumed_F64": 248,
+    "total": 1564920
+  },
+  "geometry_qualification": "Counts compact P/leafmeans31normals/F64thresholds only; existing archive also retains nonleaf means/sigma/JSON. Actual export/source packing and original+packed transient copies, guards/keys/index/alignment must be counted. No claim this is every possible encoding lower bound.",
+  "models": {
+    "Deep": {
+      "native_K": 6,
+      "I": 1408,
+      "routed_layers": 26,
+      "selected_coefficient_metadata_bytes": {
+        "B": {
+          "W8_GUD": 51904512,
+          "GU_Down_row_scales": 116736
+        },
+        "C": {
+          "W8maps": 1572864,
+          "row_scales": 49152,
+          "output_bias": 49152
+        },
+        "NL": {
+          "FP32_GU": 8650752,
+          "W8Down": 17301504,
+          "GU_bias": 67584,
+          "Y_bias": 49152,
+          "Down_scales": 49152
+        }
+      },
+      "full_routed_C_array_bytes": 14831058944,
+      "full_routed_uniform_PE_array_bytes": 5793382400,
+      "full_routed_uniform_G_array_bytes": 3942907904,
+      "compact_geometry_bytes": 40687920
+    },
+    "OLM": {
+      "native_K": 8,
+      "I": 1024,
+      "routed_layers": 16,
+      "selected_coefficient_metadata_bytes": {
+        "B": {
+          "W8_GUD": 50331648,
+          "GU_Down_row_scales": 131072
+        },
+        "C": {
+          "W8maps": 2097152,
+          "row_scales": 65536,
+          "output_bias": 65536
+        },
+        "NL": {
+          "FP32_GU": 8388608,
+          "W8Down": 16777216,
+          "GU_bias": 65536,
+          "Y_bias": 65536,
+          "Down_scales": 65536
+        }
+      },
+      "full_routed_C_array_bytes": 9126805504,
+      "full_routed_uniform_PE_array_bytes": 3565158400,
+      "full_routed_uniform_G_array_bytes": 2426404864,
+      "compact_geometry_bytes": 25038720
+    }
+  },
+  "limits": [
+    "Fullmodel uniformPE/G numbers are shape-only hypotheses, not models fitted beyond current8ops",
+    "NL and D private scales/bias/alpha/activation/inputquant work remain paid",
+    "Selected bytes exclude commongeometry, input/output/workspace/keys/allocator and retainedfallback; no allhostfit theorem",
+    "No forward, weight read, fitting, target query, simulator or benchmark byRoot"
+  ]
+}

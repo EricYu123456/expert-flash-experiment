@@ -1,0 +1,154 @@
+{
+  "protocol_id": "round02-stage3-nonlinear8-and-host-cost-draft001",
+  "status": "PROPOSED_SOURCE_THEORY_ONLY_NOT_PAYLOAD_AUTHORIZATION",
+  "prepared_from_utc": "2026-11-03 05:34:21 UTC",
+  "round": 2,
+  "method_clock": "Same local-affine candidate after its completed thinking gate; no new method, clock or round.",
+  "purpose": "Test one fixed nonlinear explanation of the eight local banks and establish attainable CPU service/capacity evidence before paying for expanded expert coverage.",
+  "execution_order": "Source/numeric review and BIND; synthetic plus fixed-TRAIN exact-kernel closure; one GU production query and fixed NL fit/calibration; frozen direct-C++ BENCH; separately released exposed-PG16 DEV_QUALITY; joint decision. A cheap source/synthetic cost preflight can stop an invalid implementation before querying GU, but not declare matched-quality dominance.",
+  "scope": {
+    "operators": [
+      {"model": "Deep", "layer": 1, "experts": [14, 40], "H": 2048, "I": 1408},
+      {"model": "Deep", "layer": 13, "experts": [10, 56], "H": 2048, "I": 1408},
+      {"model": "OLM", "layer": 0, "experts": [6, 17], "H": 2048, "I": 1024},
+      {"model": "OLM", "layer": 8, "experts": [3, 9], "H": 2048, "I": 1024}
+    ],
+    "operator_count": 8,
+    "new_experts": 0,
+    "deferred": ["first64-v1", "all64 at four layers", "all42-layer fitting", "new state refresh", "new rank/penalty/precision grid", "new held-out/test opening", "GPU"],
+    "immutable": "The passed refreshed C8, tree, P128, centers, D per-operator family/precision/gauge, guard/support arrays, canonical weights/scales and old quality artifacts remain byte-identical. Bind their actual existing manifests and SHA256 before release. No path/hash placeholders count as a completed freeze.",
+    "new_arm": "NL is a separately named new control, never a relabeling or replacement of D. A source-reviewed new enum/registry identity must be explicit and must not alias an existing arm."
+  },
+  "release_gates": [
+    {"phase": "BIND", "requires": "Root and critic review source, this finite scope, actual immutable input/model/code manifests, numeric tests, resource ceilings and data access. A draft file alone grants nothing."},
+    {"phase": "GU_FIT", "requires": "BIND release and passing synthetic/exact numeric controls. Read only fixed TRAIN inputs and verified canonical final-Y archives; query canonical G/U once."},
+    {"phase": "BENCH", "requires": "Independent numeric closure of the new direct C++ host kernels; frozen input/replica schedule and thread/cache setup. May precede NL quality, but its figures cannot establish matched-quality dominance until quality closes."},
+    {"phase": "DEV_QUALITY", "requires": "NL artifacts and source/arm identities frozen, B/C/D byte checks closed, Root and critic permit reuse of the already exposed PG validation16 as development."},
+    {"phase": "DECISION", "requires": "Joint quality/capacity/actual-host-service and conditional native-DAG review. No automatic next-round or first64 launch."}
+  ],
+  "data": {
+    "TRAIN_union": {
+      "Deep_rows_per_operator": 29629,
+      "OLM_rows_per_operator": 29593,
+      "total_expert_rows": 236888,
+      "rule": "Exactly the currently bound old FIT120 plus PG TRAIN16 union and existing row order/provenance at each pilot layer; all-x unweighted off-route teacher targets as previously declared. Do not select rows by NL residual, routing frequency or validation results.",
+      "no_new_capture": true,
+      "provenance": "Preserve the246 current capture-file bindings, existing old/new final-Y audit, token/phase/origin distinctions and all row IDs. B/C/D-generated histories remain generated histories; do not rename the union GT-only."
+    },
+    "Y_reuse": "Use only the verified old+new canonical final-Y concatenation with the same expert, row order, numeric contract and hashes. Final Y does not determine G/U. Any identity mismatch stops tooling; no silent target regeneration or substitution.",
+    "evaluation": "Already exposed PG validation16 may be replayed solely for development matched-control evidence; no new tuning of C/D or NL after that replay. PG test32 and original TEST100 remain sealed. No new corpus or validation book selection is part of this stage.",
+    "bench_inputs": "Freeze32 TRAIN input rows per model/layer by SHA256 ordering of existing row identities, independent of targets/loss/leaf occupancy. Preserve actual x, ordered IDs and final alpha where naturally captured. Benchmark derivatives of those inputs are labeled resource-only, never quality data."
+  },
+  "NL_numeric_definition": {
+    "shared_design": "Use the exact frozen C32 selector/centers, normal layer-shared P128, actual projected-input A8 qv/sv and actual decoded-A8 fitting design v from the current numeric worker. No new whitening or basis.",
+    "canonical_GU_targets": "Complete-H dynamic A8 of x; exact signed integer full-row Gate/Up dot; F32 s=sw*sx, f=(float)dot, output=f*s. The pinned canonical row-W8 matrices/scales are the reference, not source-GGUF block-scaled tensors.",
+    "fit": {
+      "eta": 0,
+      "weighting": "Every fixed TRAIN row has weight1; optimally pooled within-leaf-demeaned least squares across all32 leaves.",
+      "formula": "S=sum_c sum_i_in_c (v_i-vbar_c)(v_i-vbar_c)^T / N; T=sum_c sum_i_in_c ([g_i,u_i]-GUbar_c)(v_i-vbar_c)^T / N; [B_G;B_U]=T*S_dagger. Each expert has two global I-by-128 slopes, not32 slope copies.",
+      "singular_rule": "Reuse the frozen relative1e-10 positive-eigenvalue cutoff and zero-trace policy. Zero retained input covariance yields zero slopes; no division by zero or ridge search. Record retained rank and nonfinite/PSD diagnostics.",
+      "stored_slopes": "Round the solved slopes once to FP32. Do not W8-quantize these host slopes or expand into full-H matrices.",
+      "GU_bias": "For each leaf/head, compute F32 intercept from sequential F64 mean of target minus actual deployed FMA/sv prediction, using the existing frozen bias-calibration order. Fitting in decoded-v real coordinates does not excuse runtime FMA rounding differences.",
+      "support": "Inherit the exact corresponding C8 fixed support/guard mask and canonical-fallback policy for missing/unsupported leaves, without observing NL quality. Record fallback counts and costs. Empty-leaf bias storage must be finite and cannot imply learned support.",
+      "output_bias": "After actual nonlinear/Down FIT predictions, calibrate the same32 free H-dimensional FP32 output biases against verified Y using the existing sequential F64 residual-mean rule. Do not calibrate a second time after final F32 bias addition.",
+      "no_search": "One eta0 fit; r128, C32, normal, FP32 GU slopes, original W8 Down. No direct-weight-projection alternate, new lambda, width, activation or guard selection."
+    },
+    "forward": [
+      "Select c and compute qv,sv once for the layer/request with the frozen tree/P/numeric rule.",
+      "g=F32(sv*FMA8_pairtree(qv_as_F32,B_G))+b_G[c]; u=F32(sv*FMA8_pairtree(qv_as_F32,B_U))+b_U[c], with separate declared F32 multiply and add.",
+      "Compute pinned full-I GGML SiLU(g), then the declared F32 product with u. Verify agreement with the existing pinned full-I SwiGLU bridge; no subset activation/libm substitution.",
+      "Canonical whole-I A8: amax/127 in F32; zero vector uses scale1; std::round ties-away and clamp[-127,127]. Preserve finite/rounding checks.",
+      "Original canonical W8 Down exact integer dot and original F32 scale order, followed by the one leaf output bias.",
+      "Scatter expert slots, apply the actual final live alpha, and combine in the original selected-slot order. No alpha-weighted GU merging before SiLU and no alpha folding into quantizers."
+    ],
+    "reference_placement": "B is still the same eight-operator canonical partial reference. Unreplaced routed operators and Deep shared/dense remain source-GGUF functions. Source Deep shared is host-pinned unless an explicit source-format native implementation is supplied; it is not silently converted to canonical W8 for placement. NL Down can use legal host/cache/AiF placements with identical declared numerics."
+  },
+  "new_teacher_and_calibration_budget": {
+    "GU_query_is_new": true,
+    "GU_passes": 1,
+    "Deep": {"expert_rows": 118516, "GU_integer_MAC": 683501682688, "GU_FP32_target_bytes": 1334964224, "NL_Down_calibration_integer_MAC": 341750841344, "NL_projected_GU_FMA": 42718855168},
+    "OLM": {"expert_rows": 118372, "GU_integer_MAC": 496488153088, "GU_FP32_target_bytes": 969703424, "NL_Down_calibration_integer_MAC": 248244076544, "NL_projected_GU_FMA": 31030509568},
+    "total": {"expert_rows": 236888, "GU_integer_MAC": 1179989835776, "GU_FP32_target_bytes": 2304667648, "NL_Down_calibration_integer_MAC": 589994917888, "NL_projected_GU_FMA": 73749364736},
+    "accounting": "One MAC means one multiply-accumulate, not two reported FLOPs. Counts exclude quantization, SiLU, projection, statistic/solve/IO and bias work; log those separately. Predetermined audit recomputation is separately counted and is not hidden inside the one production pass.",
+    "query_engine": "Reuse batch teacher execution only after exact integer-dot/B1 closure. FP64 DGEMM on integer inputs is permitted under the frozen abs-partial-sum<2^53 proof and reference tests; it is offline acceleration, not B1 deployment throughput.",
+    "retention": "Retain raw G/U2.305GB with typed chunk/row/expert manifests and SHA256, plus the verified existing Y and final NL artifact hashes. At this small scope no raw-GU deletion is needed. Same GU targets serve both heads and all32 intercepts; no new state collection.",
+    "reuse": "Share input design/covariance/eigensystem across the two experts per pilot layer and both heads. Stream one expert's targets/calibration at a time; no full grid or all-expert statistic recomputation."
+  },
+  "kernel_closure": {
+    "new_exact_kernel": "Executor may implement an optimized AVX2 signed-A8 by signed-W8 GEMV with exact I32 output. Sign-extend to I16 and use non-saturating pair products/I32 accumulation, or another proved exact path. Do not use an unproved saturating maddubs shortcut or approximate floating reduction.",
+    "overflow": "Prove each supported row's abs-product sum and every partial accumulator/horizontal reduction fits I32. Test generic[-128,127] cases if the API accepts them; the canonical format currently uses[-127,127]. Refuse unsupported widths/ranges rather than wrap. No saturating arithmetic.",
+    "after_dot": "Use exactly F32(sw*sx), cast integer dot to F32, then multiply; add biases separately. Integer associativity permits row/column tiling without changing the result when overflow is excluded.",
+    "existing_factor_kernel": "Reuse the frozen AVX2/FMA eight independent F32 lanes and exact pairwise reduction in stage1_controls_fma.cpp for I8/F32-coefficient host factors and NL FP32 GU. Blocking rows/team lifetime may be optimized without changing a row's lane order or bias/scale order. Host floating latent receives no extra A8 quantizer.",
+    "tree_and_P": "Tree projection is the original sequential FP64 multiply then add with contraction disabled. P projection is the original eight FP64 separate-multiply/add lanes, original scalar tail and fixed pair reduction, then the declared F32 cast. Preserve original centering and subsequent A8 order. Replacing these with F32 FMA or reassociating their FP64 sums is a new numeric version and cannot inherit passed C quality.",
+    "numeric_gate": "Synthetic zero/extreme/cancellation/round-boundary/tail/nonmultiple-width cases, deterministic full-row I64 comparisons, and all output rows for four fixed TRAIN vectors per operator. Compare integer dots and all raw B/C/D/NL outputs bitwise with the frozen numeric path, then compare final live-alpha multiplication/slot-order combination separately. Compare NL deployed predictions with its frozen fit/calibration path, including GU, activation/private quantizer, Down and bias. Check B1 versus batched arithmetic and scalar tails. Any mismatch is tooling-invalid, never a method result.",
+    "environment": "FE_TONEAREST, FTZ/DAZ off, no fast-math/reassociation, pinned full-I activation build. Check actual worker-thread rounding state and count before the persistent/cohort timed team. Extract the unchanged row arithmetic rather than timing the existing wrapper's extra lac_environment OpenMP team on every call. Charge real dispatch/barrier/output completion; do not advantage one arm by omitting a per-call team only for it. No guard, finite-check or transformation needed by the actual function is silently removed."
+  },
+  "host_cost_probe": {
+    "machine": "Actual current EPYC9354 server; eight distinct physical cores, one pinned NUMA placement, SMT siblings excluded, no GPU. Record actual CPU/core/socket/NUMA/LLC topology, affinity, frequency policy, compiler/flags, threadpool and all concurrent-load caveats. Never relabel as target i9-14900KS or transfer EPYC cache hits to it.",
+    "entry": "Direct C++ numeric execution, no Python/IPC, llama graph, source-GGUF GU/Down recomputation, file/model load or target generation in timed regions. Inputs/weights are already resident. Timed B performs its own canonical GU and Down because that is B's operator; timing C/D/NL must not also compute the original B as the quality hook does.",
+    "arms": ["B canonical W8A8 operator", "C exact frozen local8 function on host", "D exact frozen per-operator G/PE host-factor function", "NL projected-GU plus host original-W8-Down"],
+    "no_new_fit_or_execution_format": "Use the current D host_floatlatent/I8 or FP32 functions exactly; no identity lift, extra native quantizer, reconstructed dense factor or new W4 path. An optimized all-host original/full identicalbank remains legal, not a forced-flash straw baseline.",
+    "timed_layers": "All four pilot layers and all eight operator kernels. Report raw x-to-output timing and a decomposed count/timing ledger for selector, common P/A8, private projection or GU, activation/private A8, Down/output lift, bias/alpha and fallback. Do not double-count separately timed components as an end-to-end sum when overlap differs.",
+    "cohorts": {
+      "natural_partial": "Use fixed TRAIN32 actual IDs/alpha, evaluate the naturally hit zero/one/two pilot experts at that layer, and charge common tree/P only once. Label this partial cohort; do not claim a fully replaced K6/K8 layer.",
+      "full_K_resource_only": "Additionally use exactly one fixed K6 Deep/K8 OLM structural profile per layer, cycling the two fitted expert templates into K physically distinct coefficient allocations. This measures shared-input/team/memory service only; it is not a trained64-expert model, natural route-coverage or quality evidence. No deduplication/shared coefficient addresses. Use the same template/slot schedule and actual input/final-alpha dimensions across methods, count every replica byte, and distinguish it from natural-partial timing.",
+      "private_inputs": "B/NL activations and nonlinear A8/scale are private per expert/replica. C/PE reuse their common P-derived input; G's full-input path need not pay P. Do not grant common-GU/activation or free pre-SiLU alpha aggregation.",
+      "guards": "Use the frozen support policy and count actual fallback paths. Approximation-only timing is an additional decomposition, never a replacement for guarded-function timing."
+    },
+    "cache_scenarios": [
+      {"name": "warm_resident", "definition": "All permitted arrays remain resident in DRAM; five untimed warmups followed by the fixed timed schedule. Warm does not promise LLC fit. Report measured working-set bytes and actual legal cache placement."},
+      {"name": "cold_rotating", "definition": "Before each trial, touch a fixed1GiB independent buffer to evict ordinary cache residency, then run the same B1 schedule. No disk or demand-paging substitution. Include buffer in peak RAM and report eviction time separately from invocation time; this is an explicitly cold-start service scenario, not a measured whole-model cache distribution. If topology makes1GiB insufficient, tooling requires a new source review rather than silently declaring cold."}
+    ],
+    "repetitions": {"warmups": 5, "timed_trials_per_arm_case": 31, "calls_per_trial": 1, "input_schedule": "Cycle the same hash-frozen32 TRAIN inputs in trial order; do not select fastest inputs or rotate selected arms based on losses.", "arm_order": "Fixed balanced cyclic arm order by trial index, frozen in source, identical for both cache scenarios.", "report": ["all raw trial times", "median", "p10", "p90", "p95", "min", "per-trial coefficient/scale/bias bytes", "context-switch/preemption metadata if available"], "interpretation": "Quantiles are descriptive at31 trials, not a tail-SLA claim. Interrupted trials remain visible; no dropping slow outliers. Infrastructure failures invalidate a case and need review."},
+    "preparation_and_load": "Report allocation, repacking, first-touch/load/export and eviction separately. Do not hide a per-token transformation in preparation. Persistent packed layouts and source weights are both counted; no free duplicate cache.",
+    "measurement_scope": "B1 operator/cohort CPU service on this machine only. Batch teacher speed, Python quality wall time and this microbenchmark are not full-model target latency or AiF speedup. No sampling-based route distribution claim follows from32 TRAIN inputs."
+  },
+  "capacity_and_resource_closure": {
+    "RAM_limits_bytes": [8000000000, 8589934592],
+    "rule": "Report and constrain peak aggregate host resident/high-water memory separately for source/numeric tests, GU fitting, benchmark and quality phases; avoid concurrent phases. Every claim of8GB fit must satisfy the declared interpretation including model/function weights, scales, P/tree/biases, non-FFN/shared/router, context-specific KV, cache/replicas/eviction buffers, thread scratch, allocator and runtime. If only8GiB fits, do not claim8e9. Micro-only RSS is not complete-model residency.",
+    "NL8_bytes_before_common_metadata": {"GU_slopes_FP32": 9961472, "GU_leaf_bias_FP32": 2490368, "output_leaf_bias_FP32": 2097152, "original_Down_W8_alias": 19922944},
+    "retain_original": "Charge original G/U/D if fallback is retained, with Down aliasing once. Canonical fallback cost belongs in timed guarded functions. Do not count approximate-only compression while quietly retaining a free original copy.",
+    "disk_incremental_budget_bytes": 16000000000,
+    "disk_rule": "Includes2.305GB GU, new fit/statistic/model artifacts, logs and deterministic bench data; reuse verified Y via immutable references rather than duplicating it. Actual free-space check before release; budget exhaustion preserves partial logs and is not a science failure.",
+    "mandatory_alternatives": ["All-host original canonical OLM, known approximate6.8GB floor pending inclusive closure", "All-host identical local bank and legal hot-map cache", "Existing fixed D and global output-sharing/latent placements", "Potential stronger shared-output nonlinear/MoLAE control remains an acknowledged untested alternative, not ruled out by NL failure"],
+    "shared": "Deep exact source shared/dense host work and its resource contention remain. Routed replacement does not erase the entire FFN dependency. Compare legal placements of the same functions; source Q8_0 shared is not automatically native row-W8/A8."
+  },
+  "development_quality": {
+    "arm_identity": "New NL8 only; original B/C/D artifacts and policies are immutable. NL uses the same eight replacement slots, with its own full prefill/decode trajectory, live router IDs/final alpha and independent KV. No teacher-pinned routes or shared KV.",
+    "cohort": "Exactly the already exposed PG validation16, its fixed preprocessing/token IDs,512 GT inputs in four128 batches and256 scored next-token targets, as in the immutable current quality protocol. No new windows, stop rules, task data, prompts or partial results as selectors.",
+    "compute_minimization": "Reuse already verified B/C/D per-book results only under exact artifact/input/source/numeric identity. Run NL fresh for every book/model and repeat one fixed first-book B/C/D replay/numeric consistency control if the new source path could affect them. If a prior full-output checksum is unavailable, explicitly recompute the needed control; never infer unchanged logits merely from unchanged filenames.",
+    "integrity": "New-arm observer/copy controls and typed successful-scatter/fallback exposure ledger; new NL cannot alias D. Distinguish potential pilot hits from actual replacements. Zero causal replacements with differing logits is an instrumentation error. No loss/body access before phase release.",
+    "statistics": "Report paired per-book NL-B, C-B and NL-C for each model, the existing fixed book-clustered bootstrap recipe and phase/exposure summaries. Mark all intervals as reused-development evidence, not fresh confirmatory noninferiority or a new selection set. Keep all books/nonfinite/short-context handling under the frozen quality rules.",
+    "interpretation": "A low fixed NL error may establish a viable nonlinear competitor; a high error refutes only this projected-GU/eta0/r128 recipe, not all nonlinear baselines. Neither outcome permits tuning the passed C8 with these books. Partial8 quality does not establish all64/all-layer deployment."
+  },
+  "ordinary_AiF_cost_window": {
+    "fixed_physics": "16 chips,4planes/chip,16KiB pages; ordinary LSB28us and CSB/MSB46us. CR prohibited. Use only a justified legal page/command layout, same total capacity and actual input/output contracts.",
+    "unknowns": ["sustained useful PE products/s and lanes", "ECC-to-PE overlap/rate", "short-row ABI and packing", "FIFO capacity/backpressure", "command/setup/input-context costs", "output drain and real host/cache placement"],
+    "parameters": "R_PE, R_E, setup, FIFO/drain, actual cache fractions and effective host bandwidth/compute; never identify published6.4GB/s ECC with PE MAC/s. Target i9 DDR5 up86.4GB/s is a ceiling/sensitivity point, not the measured EPYC service.",
+    "comparison": "Build the same full resource DAG with attention/KV/head/shared work and legal CPU/cache/flash alternatives. Report a conditional break-even region: e.g. matched-P local flash wins an isolated profile only if D_map < V_control - V_local_host, with services/overlap actually justified. NL original Down may be host resident, and each expert's nonlinear input post is private if flash is used.",
+    "no_false_decision": "Two resource lower bounds cannot prove dominance. A measured/validated feasible matched-quality control upper time below an optimistic candidate whole-DAG lower time can refute that bounded profile. Unknown PE/FIFO is unresolved, not automatic no-go, and does not prove a minor hardware change. No numerical speedup is preregistered."
+  },
+  "optional_source_structure_preflight": {
+    "priority": "Optional, separate receipt; omit if it delays the core NL/cost control. No new fit or canonical label query.",
+    "inputs": "One metadata-hash-fixed existing TRAIN natural GT sequence per model,512 GT tokens in four128 batches. Pin identities before payload access; all arms receive identical tokens/positions/configuration.",
+    "intervention": "Compare source with a fixed tiny Down-output perturbation at the earliest MoE layer only: add the literal F32 value2^-20 to output row0 of selected slot0 at every position, using a separately named structural arm. This is not learned, not C/NL quality and not a method round.",
+    "assertions": "Owned earliest-layer ffn_norm F32 X, ordered IDs and actual final multiply-alpha bytes must match at every position. Verify the intervention actually changes at least one replaced Down output; otherwise the test is vacuous. Downstream hidden/logits/KV may differ. Source DAG proof is in the first64 addendum; this runtime check tests the harness/settings, not free-generation invariance.",
+    "limits": "Deep L0 remains source; earliest DeepL1/OLML0 only. Never reuse source whole KV across arms or force downstream equality. No quality NLL computation or parameter selection from this structural arm."
+  },
+  "finite_runtime_budget": {
+    "hardware": "At most8 physical CPU cores, one active heavy phase, no GPU and no interruption of unrelated jobs.",
+    "source_build_and_synthetic_budget_seconds": 1800,
+    "GU_fit_calibration_budget_seconds": 5400,
+    "host_cost_probe_budget_seconds": 1200,
+    "development_quality_budget_seconds": 3600,
+    "timeout_policy": "These are review/checkpoint ceilings, not permission to shorten TRAIN/books/repeats or alter the model. On exhaustion preserve complete partial artifacts and report tooling/budget-inconclusive; Root/critic may resume the same fixed stage. No automatic candidate failure or new round."
+  },
+  "decision_classes": {
+    "tooling_invalid": "Numeric/identity/provenance/coverage/cache-condition or memory-limit failure. Repair within the frozen scope; do not interpret quality or performance.",
+    "inconclusive": "Unclosed inclusive capacity, noisy/contended CPU timing, budget exhaustion, reused-development-only uncertainty, mismatched precision/placement, or native PE/FIFO regions spanning both outcomes. Preserve and report the bounds.",
+    "bounded_competitor_supported": "Fixed NL is quality-viable on the declared development screen and has an attainable equal-budget host/native service that challenges C. This motivates matched-quality full-coverage/resource validation, not automatic all-family dominance or a scientific-round failure.",
+    "bounded_NL_negative": "Fixed NL fails the declared numeric-valid quality screen. Reject only this recipe; original/other nonlinear/global-output-sharing baselines remain possible.",
+    "candidate_hardware_value_negative": "Only after matched quality and complete legal resident/resource closure, an attainable control implementation dominates the candidate's best allowed whole-DAG profile, or a concretely costed native design cannot enter any plausible crossover. Root and critic decide scientific scope; this protocol does not auto-consume a round.",
+    "continuation": "If necessity/cost remains credible, preregister later first64 expansion separately; no automatic124-operator/27.4T teacher launch and no reuse of exposed validation as fresh evidence."
+  }
+}

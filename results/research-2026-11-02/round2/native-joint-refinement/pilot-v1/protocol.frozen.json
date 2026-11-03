@@ -1,0 +1,80 @@
+{
+  "source_sha256": "f9cdde12b48185f212de5f7e651eb94999b48d993a38366efec2baf36d3320ca",
+  "cases": [
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input1/result.json",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input4/result.json"
+  ],
+  "families": [
+    "joint_simple_menu",
+    "independent_paired"
+  ],
+  "iterations": 2048,
+  "seeds": [
+    20261105,
+    20261106
+  ],
+  "initial_temperature_ns": 500.0,
+  "inputs": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/deepseek.L0.input4/result.json",
+      "sha256": "6232659115c3397bca6fe1f99e48808f7d6407c494465e005b2e056d0c8c645a"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/granite4tiny.L0.input1/result.json",
+      "sha256": "a647545cd3567dcfef39df50c2ac27cdfa01bb00e9a94563f3ff6d593e2d6976"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input4/balanced89.seed1.independent_paired.pool0.initial.npz",
+      "sha256": "7e73155889e6054b206ba65ccfbf20daffda21531170ff2cd2a3a9d5cfecb938"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input4/balanced89.seed1.joint_simple_menu.pool0.final.npz",
+      "sha256": "885da031fd64d3b2f8c4c058c43e414c31107addaa6ed3e10e39ae973305489a"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input4/result.json",
+      "sha256": "85fbaeebb6ffc533e82700a36bdeb25466d7dcea2bc38500d15bd468a91e57c5"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input1/result.json",
+      "sha256": "acef06dd8781453bbac3f0078172a3576859d7d987d06ab2f25304bf12f55269"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input1/source.seed1.independent_paired.pool0.initial.npz",
+      "sha256": "3d8224482b18013d4b977c88d2852079648c1ed7c3d74bd32b96cdaf131c9285"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input1/source.seed1.joint_simple_menu.pool1.final.npz",
+      "sha256": "76e832d35e03ec8b9792f58d520e551871e9f22026f46416151a1ee447b430c6"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/deepseek/decode.routes.npz",
+      "sha256": "11168c1e899c8ce0bf23e719e908f243fa09d30980a65488a3f92aa448344fed"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz",
+      "sha256": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_native_joint_refine.py",
+      "sha256": "f9cdde12b48185f212de5f7e651eb94999b48d993a38366efec2baf36d3320ca"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_backend.py",
+      "sha256": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp",
+      "sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_topology_placement_replay.py",
+      "sha256": "0d4fc512b639f0e551f6365a6e92797e3222792821db8b5dd1d4b9d3653f9464"
+    }
+  ],
+  "objective": "exact512 actualW8TRAIN mean; ordered tuples; no heldout",
+  "controls": "Everyfamily starts from its v2 TRAIN mean winner, retains incumbent and receives same2seeds/2048attempts. Valid calls, evaluated queries and CPU differ and are reported. Row multiset unchanged within each family; families may have different geometry.",
+  "selection": "percase/family min finalTRAIN mean across2seeds; P99 descriptive only",
+  "gate": "Do not expand beyond2pilotcases unless remaining mean advantage vsstrongsimplemenu>=2% or tail>=5%, with material native-objective headroom. These are resource allocation thresholds, not significance or user constraints.",
+  "limits": "Standard bounded local-search control; inherited work-fit search costs remain recorded upstream; no new algorithm, device calibration, whole-model timing or novelty claim."
+}

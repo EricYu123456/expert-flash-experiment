@@ -1,0 +1,39 @@
+{
+  "created_utc": "2026-11-01T23:22:19.116424+00:00",
+  "sources_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_compile.py": "826c8963bf2412abd7cce38ed7ca959231d56feb675f1526b62896638d029f15",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_backend.py": "5ce82a4af993e1717c054489fb9f6cb82caddeeaf936baa1c1617fcd8513ea45",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp": "9c7fad0ad3a1ec61fc51087c0185320db4fa1a9e3234cc8a3a4f0d664a1a3084",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_whole_row_compiler.py": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_native_labels.cpp": "4039a59b94be9d05ad029f251044622c5d71ac48193fa255989ed9ebaa8f2280"
+  },
+  "arguments": {
+    "models": [
+      "qwen38",
+      "granite4tiny",
+      "deepseek"
+    ],
+    "layers": [
+      0
+    ],
+    "command_ns": [
+      250,
+      5000
+    ],
+    "fit_queries": 512,
+    "select_queries": 32,
+    "iterations": 1000,
+    "replay_budget": 64,
+    "output": "results/research-2026-11-02/round2/ordinary-read-compiler/pilot-v1"
+  },
+  "build": {
+    "source": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp",
+    "source_sha256": "9c7fad0ad3a1ec61fc51087c0185320db4fa1a9e3234cc8a3a4f0d664a1a3084",
+    "binary": "results/research-2026-11-02/round2/ordinary-read-compiler/pilot-v1/build/ordinary-read-9c7fad0ad3a1ec61.so",
+    "binary_sha256": "e7dadc11182471719edcd9ddae87a0d138cb39f2121d54d9cf975abcf96bebd4",
+    "command": "c++ -std=c++17 -O3 -shared -fPIC SOURCE -o BINARY"
+  },
+  "controls": "Same label-swap iterations and temperatures pergeometry; same complete-row native lowering, controller, channels, PCIe, output-fringe and single chip context. Disjoint, every cyclic width and whole-row work/depth alternatives. All16relative down rotations offered to each family.",
+  "selection": "Training-only finite candidate pairs, valid resource/ownership lowerbounds ordered exact event replay with explicit optional budget. Earlier control is an incumbent for larger pools.",
+  "limits": "Development data reused. No external validation, priority/new-algorithm claim, calibration, native PE arithmetic or full-model speedup. A label fitted for a phase bound need not be a global best label for full FFN service."
+}

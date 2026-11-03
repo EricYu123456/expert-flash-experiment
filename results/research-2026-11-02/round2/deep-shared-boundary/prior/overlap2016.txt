@@ -1,0 +1,611 @@
+Information and Media Technologies 11: 1-10 (2016)
+reprinted from: Computer Software 32(3): 101-110 (2015)
+© Japan Society for Software Science and Technology
+
+
+       特集●ネットワーク技術
+
+
+
+
+   Stable Load Balancing with Overlapping
+   ID-space Management in Range-based
+   Structured Overlay Networks
+
+   Kimihiro Mizutani                   Takeru Inoue                Toru Mano               Osamu Akashi
+   Satoshi Matsuura                  Kazutoshi Fujikawa
+
+        Structured overlay networks that support range queries cannot hash data IDs for load balancing, in order
+   to preserve the total order on the IDs. Since data and queries are not equally distributed on the ID-space
+   without hashing in range-based overlay networks, uneven loads are imposed on the overlay nodes. Existing
+   load balancing techniques for range-based overlay networks distribute the loads by using data reallocation or
+   node migration, which makes the networks very unstable due to heavy data reallocation or frequent churn.
+        This paper proposes a novel scheme that distributes, fairly, the loads without node migration and with
+   little data reallocation, by sharing some ID-space regions between neighboring nodes. Our “overlapping”
+   ID-space management scheme derives the optimal overlap based on kernel density estimations; the query
+   loads based on the statistical theory are used to calculate the best overlap regions. This calculation is
+   executed in a distributed manner with no central coordinator. We conduct thorough computer simulations,
+   and show that our scheme alleviates the worst node load by 20–90 % against existing techniques without
+   node migration and with least data reallocation.
+
+
+                                                            all the data in the given ID range [1] [4] [9] [13].
+  1 Introduction                                            Range queries are an eﬃcient way to retrieve data,
+  A structured overlay network with N nodes                 since they eliminate the need to issue individual
+provides scalable search with just O(log N ) mes-           queries for all IDs in the range. Unfortunately,
+sages [14] [17] [19]. Each node in the network main-        overlay networks that support range queries can-
+tains a small portion of “range” of the ID-space,           not hash the data IDs since doing so would dis-
+which is structurally coordinated by pointers be-           turb the total order, a property essential for range
+tween the nodes for eﬃcient message routing. Con-           queries. Note that hashed IDs are indispensable to
+ventional structured overlay networks provide only          distribute query loads over nodes in conventional
+exact match searches, so only the data with the             overlay networks. As a result, the loads tend to
+speciﬁed ID is returned. Users, however, are de-            become heavily skewed for supporting the range
+manding support for range queries, which retrieve           queries (Fig. 1(a)).
+                                                               There are two major solutions to load balanc-
+                                                            ing with range queries. One is range reallocation;
+ 範囲探索可能な構造化オーバレイにて Overlap ID-Space
+                                                            like NIX [12] (Fig. 1(b:top)), each node expands or
+  を用いた安定的な負荷分散手法
+ 水谷后宏, 井上武, 間野暢, 明石修, NTT 未来ねっと研究
+                                                            shrinks its own ID-space range in response to its
+  所, NTT Network Innovation Labs.                           load, but this range reallocation can cause global
+ 松浦知史, 東京工業大学, Tokyo Institute of Technology.               reallocation involving very distant nodes and the
+ 藤川和利, 奈良先端科学技術大学院大学, Nara Institute                        transfer of massive amounts of data among nodes.
+  of Science And Technology.                                The other is node migration; as shown by Mer-
+ コンピュータソフトウェア, Vol.32, No.3 (2015),pp.101–110.              cury [5] (Fig. 1(b:bottom)), unloaded nodes are
+ [研究論文] 2014 年 7 月 18 日受付.                                  moved into heavily loaded ID-space regions, and
+
+
+                                                        1
+Information and Media Technologies 11: 1-10 (2016)
+reprinted from: Computer Software 32(3): 101-110 (2015)
+© Japan Society for Software Science and Technology
+
+
+
+
+                                                               Fig. 2: Basic idea of our scheme. Overlapping regions,
+                                                               in which the boxes are accumulated, provide larger ca-
+                                                               pacity for query processing. Our scheme can ﬁnd a ca-
+                                                               pacity distribution function (the ridge of boxes) that
+                                                               approximately ﬁts the query distribution by minimiz-
+                                                               ing the diﬀerence with D.
+
+
+                                                               ment scheme comes at the cost of duplicated data
+                                                               storage, but it is freed from the globally cascading
+                                                               range reallocation or any node migration. We use
+                                                               kernel density estimation in deriving the optimal
+Fig. 1: Unbalanced loads in overlay networks with
+range queries; each box with alphabet tag represents           overlap ranges [15], and the node capacity function
+a node, each node maintains an ID-space range of box           is changed to well ﬁt the load function. Kernel den-
+width with the capacity being the box area. (a) Since          sity estimation is a well-studied statistical method
+data IDs are not hashed for range queries, queries can         that yields a function that well ﬁts a set of given
+be unevenly distributed over the ID-space. (b) Existing        data points, and so our scheme has the mathemati-
+techniques realize load balancing by reshaping boxes to
+                                                               cal rationale unlike existing techniques. We design
+ﬁt the load function, and/or by moving some boxes from
+highly-loaded regions to lightly loaded regions. These         this optimization process to run in a distributed
+techniques involve massive data transfers at several box       manner. Our scheme is evaluated by intensive com-
+boundaries or frequent node migration.                         puter experiments, the results of which reveal that
+                                                               our scheme provides fairer load balancing than ex-
+share the region with overloaded nodes to suit the             isting techniques with no signiﬁcant overheads.
+load function. Such node migration raises churn                   The rest of this paper is organized as follows. Sec-
+frequently, which makes overlay networks very un-              tion 2 discusses related work. Section 3 describes
+stable. Very few existing works have attempted                 our scheme and Section 4 reports the extensive ex-
+load balancing without relying on data or node                 periments conducted and their results. Section 5
+migration [16], but these approaches often fail to             concludes this paper.
+balance the loads since they handle the loads indi-
+rectly.                                                          2 Related work
+   This paper proposes a novel ID-space manage-
+                                                                  This section discusses related work on load bal-
+ment scheme with overlapping ID-space regions. As
+                                                               ancing for range-based structured overlay networks.
+shown in Fig. 2, nodes share some ID-space regions
+                                                                  Neighbor item exchange (NIX) [12] is a range re-
+with neighboring nodes, and this “overlap” allows
+                                                               allocation scheme. A node changes its range and
+the nodes to reshape their capacity function locally.
+                                                               transfers the out-of-range data to its neighbors,
+The beneﬁts of our overlapping ID-space manage-
+                                                               when the amount of data stored on it exceeds a
+
+
+
+                                                           2
+Information and Media Technologies 11: 1-10 (2016)
+reprinted from: Computer Software 32(3): 101-110 (2015)
+© Japan Society for Software Science and Technology
+
+
+predeﬁned limit. This transfer process continues
+until the nodes satisfy the limit, and so realloca-           3 Load balancing with overlapping
+tion can cascade on a massive scale. Reference [2]               ID-space management
+proposed a range reallocation scheme that uses skip
+                                                              This section describes our novel ID-space man-
+graphs [3]. This scheme rearranges ID-space ranges,
+                                                            agement scheme that assigns ID-space ranges to
+called buckets, based on the amount of data in a
+                                                            overlay node allowing some overlaps with the neigh-
+bucket. The clustering approach introduced in [18]
+                                                            bors. Routing mechanisms for the ID-spaces are
+exchanges data within a cluster, locally if possible,
+                                                            also discussed. We assume one dimensional ID-
+but inter-cluster reallocation may be needed if the
+                                                            space in this paper, but we believe our scheme
+load distribution is heavily unbalanced. Massive
+                                                            can easily be extended to cover multi-dimensional
+data reallocation is a common problem with these
+                                                            spaces. Our scheme is agnostic as to the routing
+schemes.
+                                                            protocol, and so we do not assume any particular
+   Mercury [5] is a node migration scheme designed
+                                                            routing protocol unless otherwise noted.
+for eﬃcient load balancing, which moves unloaded
+nodes to heavily loaded regions in order to balance
+                                                               3. 1 Overlapping ID-space management
+the load among more nodes. The load distribu-
+                                                               In our scheme, ID-space range Ri , assigned to
+tion is estimated using O(log2 N ) load query mes-
+                                                            node i, is given by,
+sages; a node sends a load query to O(log N ) ran-
+                                                                        Ri = [si , max(suci , si + D)),
+domly selected nodes, which also send the query
+                                                            where si is node ID and suci is the ID of its succes-
+at random. Another load estimation method was
+                                                            sor (e.g., the clockwise neighbor in Chord). Here,
+proposed in [11]. This method realizes 99 % ac-
+                                                            D is a key variable in our scheme; larger D such
+curate estimations with O(log3 N ) messages. Ref-
+                                                            that si + D > suci allows the range to overlap with
+erence [20] employs a tree-like overlay network to
+                                                            that of the successor, unlike conventional struc-
+collect load information, but we note that the tree
+                                                            tured overlay systems.
+root can be a single point of failure. These schemes
+                                                               Figure 2 shows basic idea of our scheme. The
+rely on frequent node migration to balance the load,
+                                                            overlapping ID-space regions provide more query
+and heavy churn is triggered as shown in the exper-
+                                                            processing capacity, as shown in the ﬁgure. This
+iments.
+                                                            capacity function deﬁned over the ID-space is called
+   Reference [12] proposed a hybrid scheme that
+                                                            capacity distribution in this paper. Queries not cov-
+fuses range reallocation and node migration. This
+                                                            ered by the capacity distribution cannot be pro-
+scheme, named NIXMIG, deals with slightly un-
+                                                            cessed. Here, we deﬁne load balancing as the prob-
+balanced load distributions by range reallocation,
+                                                            lem of maximizing query distribution coverage by
+while heavily unbalanced loads are corrected by
+                                                            rearranging the distributed capacity. The query
+node migration.
+                                                            distribution is statistically estimated by the sim-
+   There are few studies that try to avoid heavy
+                                                            ilar method as Mercury. With the estimated query
+data exchange and frequent churn. Saturn [16] em-
+                                                            distribution, each node updates D independently
+ploys data replication to balance the load without
+                                                            and tries to balance skewed loads without data and
+                                                            node migration†1 . Our scheme is executable at all
+data or node migration, like our scheme. Saturn
+takes, as node load, the product of the amount of
+                                                            times; e.g. when a load factor [6] calculated by the
+data per node and the number of get queries per
+                                                            query distribution exceeds certain threshold.
+data. Saturn only controls the number of queries
+per data and ignores the amount of data per node.
+                                                              3. 2 Average-based estimation method
+As a result, Saturn can fail to balance the node
+                                                              Our ﬁrst method is simple in that it takes advan-
+load. In contrast, our scheme directly handles the
+                                                            tage of the average width of the ID-space ranges;
+node load, as shown in Fig. 2.
+                                                            existing load balancing techniques often rely on the
+   We deﬁne two methods for determining the D, in
+the following subsections.                                   †1 Each node calculates D independently, but these
+                                                                values are theoretically matched. Therefore, we
+                                                                denote these values by the single symbol.
+
+
+
+                                                        3
+Information and Media Technologies 11: 1-10 (2016)
+reprinted from: Computer Software 32(3): 101-110 (2015)
+© Japan Society for Software Science and Technology
+
+
+average value. We extend ranges that are shorter
+than the average, and so mitigate the skewed load
+distribution. Each node independently estimates D
+as follows,
+                    
+                      i∈P suci − si
+               D=                   ,
+                          |P |
+where P is the set of nodes from which ranges
+suci − si are sampled. Nodes of P are randomly
+selected following [5], and only O(log2 N ) messages
+are required to estimate the average.
+
+  3. 3 Distribution-based estimation
+         method
+   Our second method utilizes the query distribu-
+tion, not its simple average; the method normalizes
+the query and capacity distribution functions, and
+then determines D so as to minimize their diﬀer-
+ence. It results the heavy load regions are covered
+                                                             Fig. 3: Routing tables in conventional overlay net-
+from many nodes and the skew loads are ﬂatted in
+                                                             works like Chord [19] and our scheme with D = 15.
+overall overlay network. This method employs ker-
+                                                             In our scheme, nodes that maintain a common region
+nel density estimation [15], which is used to mini-          are stored together in a routing table, in order to query
+mize the diﬀerence between a set of data samples             the region; e.g., nodes B and C have to be added to the
+and a function. The normalized query distribution            table, since their ranges overlap those of nodes A and
+function, f (x), is estimated as,                            D.
+
+                                Lx
+                  f (x) =              ,
+                               j∈Q Lj
+                                                             To simplify the computation, we solve this opti-
+                                                             mization problem approximately by assuming that
+where x is a point in the ID-space, Lx is the query          binary search is a convex function. It can be com-
+load at x, and Q is the set of IDs at which query            pleted in a logarithmic time against the ID-space
+loads are sampled; we can also use the sampling              size. The minimum error is not bounded theoret-
+method of [5]. The normalized capacity distribu-             ically, and node loads are evaluated in the experi-
+tion is given by,                                            ments.
+                         1  x − j 
+                               N
+          fˆ(x, D) =            K     ,                        3. 4 Message routing
+                        N D j=1   D
+                                                               In our scheme, data is stored on all nodes that
+where the number of nodes, N , is estimated by the           maintain the data’s ID, and is retrieved from one
+sampling technique as well, and K( x−jD
+                                         ) is a kernel       of these nodes at random. All nodes maintaining
+function that is equal to one if node j maintains ID         common IDs must populate the same routing table,
+x as follows,                                                as shown in Figure 3; such common nodes can be
+                     
+                        1 if |x| < 1/2,                      found easily in a structured overlay network. This
+              K(x) =                                         duplication of data and routing entries imposes
+                        0 otherwise.
+                                                             storage overhead on nodes. The duplicated rout-
+We minimize the square error of these distribution           ing entries might detour a message, and increase
+functions as follows,                                        hop counts to a destination. We evaluated these
+                                                            overheads in the experiments. We do not discuss
+        arg min         |fˆ(j, D) − f (j)|2 .     (1)        data synchronization issues among nodes maintain-
+            D
+                  j∈Q
+                                                             ing overlapping ranges, since they have been stud-
+
+
+
+
+                                                         4
+Information and Media Technologies 11: 1-10 (2016)
+reprinted from: Computer Software 32(3): 101-110 (2015)
+© Japan Society for Software Science and Technology
+
+
+                                                                             Table 1: Mandelbrot-Zipf
+                                                                             distribution of P2P traﬃc
+                                                                              AS #    Parameters q and α
+                                                                              AS1     5, 0.47
+                                                                              AS2     25, 0.78
+                                                                              AS3     55, 0.6
+                                                                              AS4     25, 0.55
+
+                                                                  regions.
+
+
+                                                                    4 Experiments
+                                                                     We evaluated our scheme against existing
+                                                                  schemes including NIX [12], Mercury(α = 0.8) [5],
+                                                                  NIXMIG [12], and Saturn [16] through computer
+                                                                  simulations. Similar to Mercury, we set node,
+Fig. 4: Message routing in put and get queries. The               data, and query distributions following Zipf distri-
+put query is routed to all nodes maintaining the data             butions. Though our scheme is designed not to
+ID, while the get query is routed to one of them at ran-          be application speciﬁc, we consider a kind of geo-
+dom. We assume the top node has the routing table
+                                                                  location application in the experiments; the ID-
+shown in Figure 3 (bottom).
+                                                                  space represents locations in Japan sorted in de-
+                                                                  scending order of population and the size is 231 .
+                                                                  It roughly follows a Zipf distribution†2 . We ﬁrst
+                                                                  generate 1,000 nodes with their IDs, assuming that
+                                                                  these nodes are carried by people. The nodes then
+                                                                  construct an overlay network with coordination by
+                                                                  Chord protocol [19] unless otherwise noted. We
+                                                                  place 105 data on the overlay network and pub-
+                                                                  lish 107 get queries for the data. These data
+                                                                  and queries are randomly generated following the
+                                                                  Mandelbrot-Zipf distribution [7] [10], as measured
+                                                                  in real P2P traﬃc for certain ASes(Autonomous
+                                                                  Systems) [10] (Table 1). Finally, a load balancing
+                                                                  scheme runs to distribute the query load, and an-
+Fig. 5: Message routing in a range query. The query is
+                                                                  other set of 107 queries were published to measure
+forwarded to the appropriate nodes to cover the whole
+range to be queried. Overlapping regions like [10, 15)            the load at each node.
+can be covered by any node maintaining the region; e.g.,
+queries sent from the top node are (1) [8, 15) to A and             4. 1 Estimation errors
+[15, 28) to B, or (2) [8, 10) to A and [10, 28) to B; then,          We ﬁrst evaluate estimation errors of our
+B sends query [25, 28) to C. We assume the top node               distribution-based estimation method. Figure 6
+has the routing table shown in Figure 3 (bottom).
+                                                                  shows relative errors of D yielded by the method.
+                                                                  We repeated the sampling process for the estima-
+ied intensively [8].                                              tion for one to ﬁve rounds. As shown in the ﬁg-
+  Figures 4 and 5 show routing procedures for put,                ure, 90 % of nodes estimated D with less than 7
+get, and range queries. They do not include any                   % error in the ﬁrst round, while 99 % of them had
+procedure speciﬁc to a particular routing protocol,               errors under 2 % in the ﬁfth round. We present no
+so our scheme can be integrated with any routing                  evaluation result for the average-based estimation
+protocol; the only requirement is that the proto-
+col maintains routing entries for nodes of common
+                                                                   †2 http://www.stat.go.jp/data/jinsui/2011np/
+
+
+
+                                                              5
+Information and Media Technologies 11: 1-10 (2016)
+reprinted from: Computer Software 32(3): 101-110 (2015)
+© Japan Society for Software Science and Technology
+
+
+
+
+Fig. 6: Cumulative distribution functions of relative            Fig. 8: Most loaded nodes yielded our schemes and the
+error of D as estimated by the distribution-based es-            existing schemes. Our schemes with the two estimation
+timation method. Errors shrink with sampling round               methods yield smaller loads for the other schemes.
+number and D calculated by each nodes went to ap-
+proximately 1.5 × 106 . Estimation error for 99 % of
+nodes was less than 2 % after just ﬁve rounds.                   based and distribution-based estimation methods.
+                                                                 We present only the result of AS1’s load distribu-
+                                                                 tion, other ASes exhibited identical behavior. The
+                                                                 capacity distributions based on the D well ﬁt the
+                                                                 load distribution. The distribution-based method
+                                                                 is slightly better than the average-based method;
+                                                                 it has no large error, and the square error (1) of
+                                                                 the distribution-based method was 13 % smaller
+                                                                 than that of the average-based method. This is be-
+                                                                 cause the distribution-based method considers the
+                                                                 whole distribution, while the average-based method
+                                                                 focuses on just a single mode.
+
+                                                                   4. 2 Load balancing performance
+                                                                   In order to evaluate the load balancing perfor-
+                                                                 mance, we compare the Most heavily loaded nodes
+Fig. 7: Load distribution f (x), and capacity distri-            yielded by our scheme and the existing schemes.
+butions fˆ(x)’s with the average-based and distribution-         Figure 8 shows the results for the four ASes. Our
+based estimation methods. In this ﬁgure, load distribu-          schemes reduced the maximum load by 90% for Sat-
+tion is plotted as a function of original load values mea-
+                                                                 urn and by 20% for the others. Of our schemes,
+sured at node points, while capacity distributions are
+given as functions of node capacities at the correspond-         the distribution-based estimation method slightly
+ing node points. The capacity distributions roughly              outperforms the average-based estimation method.
+follow the load distribution thanks to our estimation            This great reduction comes from the estimation ac-
+methods.                                                         curacy shown in Figure 7. Since Saturn yielded
+                                                                 very poor performance, we drop Saturn from the
+method, but it shows similar behavior. We ignore                 following discussion.
+these small estimation errors in the following ex-
+periments.                                                         4. 3 Data and node migration
+  Figure 7 shows load distribution f (x) and ca-                   We evaluated data and node migration in the
+pacity distributions fˆ(x)’s created by our average-             load balancing process. Figure 9 shows the num-
+
+
+
+
+                                                             6
+Information and Media Technologies 11: 1-10 (2016)
+reprinted from: Computer Software 32(3): 101-110 (2015)
+© Japan Society for Software Science and Technology
+
+
+
+
+Fig. 9: The number of data moved/replicated to other        Fig. 11: Number of nodes moved for load balancing.
+nodes during load balancing. Our scheme with the two        Our proposal with the two estimation methods needed
+estimation methods migrated/replicated much less data       no node migration.
+than the other schemes.
+
+
+
+
+                                                            Fig. 12: (left) Average number of entries in a rout-
+                                                            ing table, and (right) average number of hops routed
+Fig. 10: The number of data moved/replicated at the
+                                                            to a destination node per get query. Three routing
+most loaded node. Our scheme with the two estimation
+                                                            protocols, Chord and Mercury were executed with and
+methods migrated/replicated less data than the other
+                                                            without our scheme with distribution-based estimation
+schemes.
+                                                            method. No signiﬁcant overhead was found in our
+                                                            scheme. Load distribution of AS1 was used for the plots.
+ber of data moved/replicated to other nodes. NIX
+moved nearly 20 % of all data for load balanc-              for put queries. However, it was still least loaded
+ing due to the cascade of data reallocation; the            in terms of the most loaded node.
+other schemes needed much less data migration.                 Figure 11 shows the number of node moved in
+Mercury and NIXMIG migrated slightly more data              the load balancing process. Our scheme and NIX
+than ours, which was caused by node migration.              issues no join nor leave messages for node reloca-
+Figure 10 shows the maximum number of data mi-              tion, while Mercury and NIXMIG moved several
+grated/replicated to other nodes per node. This             nodes. The results conﬁrm that our scheme real-
+paper mainly focuses on the load balancing over             ized fair load balancing without churn and with less
+get queries, and our scheme has to replicate data           data reallocation.
+
+
+
+                                                        7
+Information and Media Technologies 11: 1-10 (2016)
+reprinted from: Computer Software 32(3): 101-110 (2015)
+© Japan Society for Software Science and Technology
+
+
+   4. 4 Overheads of our scheme                              algorithm. This idea is quite general and not lim-
+   We evaluate the overheads of our scheme, such as          ited to structured overlay networks. We believe
+duplicated routing entries and extra routing hops.           that our work sheds new light on the traditional
+We used routing protocols including Chord [19] and           load balancing problem through its new viewpoint
+Mercury [5], in order to examine the dependency              of using statistical techniques.
+of the overheads to routing protocols. Figure 12                In future work, we will evaluate its estimation
+(left) shows average number of entries per routing           stability under dynamic loads. We will investigate
+table for each routing protocol with and without             another estimation method with more variables to
+our scheme. As shown in the ﬁgure, our scheme                handle more complicated load distributions.
+yielded 10 % to 30 % duplication in routing en-
+tries; Chord had the largest duplication, since it is         References
+based on the ID distance while others are based on            [ 1 ] Aguilera, M. K., Golab, W. and Shah, M. A.: A
+the hop counts. Figure 12 (right) shows average                  practical scalable distributed B-tree, Proc. VLDB
+number of hops to route a get query to a destina-                Endow., Vol. 1, No. 1(2008), pp. 598–609.
+tion. Only Chord incurred overhead here because               [ 2 ] Aspnes, J., Kirsch, J. and Krishnamurthy, A.:
+                                                                 Load balancing and locality in range-queriable data
+it is based on ID distance. As the results show
+                                                                 structures, in Proc. the twenty-third annual ACM
+that overhead of our scheme is acceptable, and did               symposium on Principles of distributed comput-
+not signiﬁcantly depend on routing protocol. Fi-                 ing, PODC ’04, New York, NY, USA, ACM, 2004,
+nally, we discuss storage cost. Our scheme repli-                pp. 115–124.
+cated each data item to twenty nodes on average               [ 3 ] Aspnes, J. and Shah, G.: Skip graphs, ACM
+                                                                 Transactions on Algorithms, Vol. 3, No. 4(2007),
+among all ASes; this roughly matches Saturn, and                 pp. 1–25.
+is much larger than the other schemes. However,               [ 4 ] Beltran, A., Sage, P. and Milligan, P.: Skip
+it is worth noting that despite the data replication,            Tree Graph: a Distributed and Balanced Search
+our scheme moved (copied) much less data than the                Tree for Peer-to-Peer Networks, in Proc. IEEE In-
+                                                                 ternational Conference on Communications, 2007,
+others (Fig. 9). If storage cost is relatively cheaper
+                                                                 pp. 1881–1886.
+than processing and network costs (this is the most           [ 5 ] Bharambe, A. R., Agrawal, M. and Seshan, S.:
+likely scenario in current computer systems), the                Mercury: supporting scalable multi-attribute range
+proposal oﬀers a better trade-oﬀ for fair load bal-              queries, ACM SIGCOMM Computer Communica-
+ancing.                                                          tion Review, Vol. 34, Issue 4 (2004), pp. 353–366.
+                                                              [ 6 ] Drougas, Y., Repantis, T. and Kalogeraki, V.:
+                                                                 Load balancing techniques for distributed stream
+  5 Conclusion                                                   processing applications in overlay environments, in
+                                                                 Proc. IEEE International Symposium on Object
+   This paper introduced a new load balancing
+                                                                 and Component-Oriented Real-Time Distributed
+scheme for range-based structured overlay net-                   Computing, 2006, pp. 1–8.
+works. Our scheme allows the ranges of overlay                [ 7 ] Gabaix, X.: Zipf’s Law for Cities: An Explana-
+nodes to overlap, and reshapes the node capacity                 tion, The Quarterly Journal of Economics, Vol. 114,
+distribution to ﬁt the load distribution. Kernel                 No. 3(1999), pp. 739–767.
+                                                              [ 8 ] Gilbert, S. and Lynch, N.: Brewer’s conjec-
+density estimation is used to determine the opti-
+                                                                 ture and the feasibility of consistent, available,
+mal value of range width D, for curve ﬁtting. Our                partition-tolerant web services, SIGACT News,
+scheme was evaluated against existing work includ-               Vol. 33, No. 2(2002), pp. 51–59.
+ing NIX, NIXMIG, Mercury, and Saturn. Simula-                 [ 9 ] Harvey, N. J., Jones, M. B., Saroiu, S., Theimer,
+tions showed the value of D can be estimated with                M. and Wolman, A.: SkipNet: A Scalable Overlay
+                                                                 Network with Practical Locality Properties, in Proc.
+only 2% error in a distributed manner. The load of
+                                                                 USENIX Symposium on Internet Technologies and
+most heavily loaded node was eased by more than                  Systems, Vol. 274, 2003.
+20-90 % without churn and with minimal data re-               [10] Hefeeda, M. and Saleh, O.: Traﬃc Modeling
+allocation. The routing table overhead was quite                 and Proportional Partial Caching for Peer-to-Peer
+small and not signiﬁcant.                                        Systems, IEEE/ACM Transactions on Networking,
+                                                                 Vol. 16, No. 6(2008), pp. 1447–1460.
+   In this paper, we formulated load balancing as
+                                                              [11] Hsiao, H.-C., Liao, H., Chen, S.-T. and Huang,
+curve ﬁtting, and implemented it as a distributed                K.-C.: Load Balance with Imperfect Information
+
+
+
+                                                         8
+Information and Media Technologies 11: 1-10 (2016)
+reprinted from: Computer Software 32(3): 101-110 (2015)
+© Japan Society for Software Science and Technology
+
+
+   in Structured Peer-to-Peer Systems, IEEE Transac-            interests include future Internet architectures. He
+   tions on Parallel and Distributed Systems, Vol. 22,          received the best student paper from International
+   No. 4(2011), pp. 634–649.
+                                                                Conference on Communication Systems and Appli-
+ [12] Konstantinou, I., Tsoumakos, D. and Koziris,
+   N.: Fast and Cost-Eﬀective Online Load-Balancing             cation(ICCSA) in 2010. He also received research
+   in Distributed Range-Queriable Systems, IEEE                 awards from IPSJ and IEICE in 2010 and 2013,
+   Transactions on Parallel and Distributed Systems,            respectively. He is a member of IEEE Communica-
+   Vol. 22, No. 8(2011), pp. 1350–1364.                         tion Society and IEICE.
+ [13] Matsuura, S., Fujikawa, K. and Sunahara,
+   H.: Mill: A geographical location oriented over-
+   lay network managing data of ubiquitous sensors,                              Takeru Inoue
+   IEICE transactions on communications, Vol. 90,
+                                                                               is a senior researcher in NTT Lab-
+   No. 10(2007), pp. 2720–2728.
+ [14] Maymounkov, P. and Mazieres, D.: Kadem-                                  oratories.    He was an ERATO
+   lia: A Peer-to-Peer Information System Based on                             researcher at the Japan science
+   the XOR Metric, Peer-to-Peer Systems, Druschel,                             and technology agency from 2011
+   P., Kaashoek, F. and Rowstron, A.(eds.), Lec-                               through 2013. His research inter-
+   ture Notes in Computer Science, Vol. 2429, Springer
+                                                                ests range widely and cover the design and control
+   Berlin Heidelberg, 2002, pp. 53–65.
+ [15] Parzen, E.: On estimation of a probability den-           of network systems. He received the best paper
+   sity function and mode, The annals of mathematical           award from Asia-Paciﬁc conference on communi-
+   statistics, Vol. 33, No. 3(1962), pp. 1065–1076.             cations in 2005, and also research awards of the
+ [16] Pitoura, T., Ntarmos, N. and Triantaﬁllou, P.:            IEICE Information Network Group in 2002, 2005,
+   Saturn: Range Queries, Load Balancing and Fault
+                                                                and 2012. He received the B.E., M.E., and Ph.D.
+   Tolerance in DHT Data Systems, IEEE Transac-
+   tions on Knowledge and Data Engineering, Vol. 24,            degrees from Kyoto University, Kyoto, Japan, in
+   No. 7(2012), pp. 1313–1327.                                  1998, 2000, and 2006, respectively. He is a member
+ [17] Rowstron, A. and Druschel, P.: Pastry: Scal-              of IEEE and IEICE.
+   able, Decentralized Object Location, and Routing
+   for Large-Scale Peer-to-Peer Systems, Middleware
+   2001, Guerraoui, R.(ed.), Lecture Notes in Com-                               Toru Mano
+   puter Science, Vol. 2218, Springer Berlin Heidelberg,                       is a researcher in NTT Network
+   2001, pp. 329–350.                                                          Innovation Labs. He received the
+ [18] Shen, H. and Xu, C.-Z.:             Locality-Aware
+   and Churn-Resilient Load-Balancing Algorithms in
+                                                                               B.E. and M.E degrees in Informa-
+   Structured Peer-to-Peer Networks, IEEE Transac-                             tion Science and Technology from
+   tions on Parallel and Distributed Systems, Vol. 18,                         the University of Tokyo in 2009 and
+   No. 6(2007), pp. 849–862.                                    2011, respectively. His research interests include
+ [19] Stoica, I., Morris, R., Karger, D., Kaashoek,
+                                                                network architectures and network optimization.
+   M. F. and Balakrishnan, H.: Chord: A scalable
+   peer-to-peer lookup service for internet applications,
+   in Proc. ACM SIGCOMM Annual Conference, SIG-                                  Osamu Akashi
+   COMM ’01, New York, NY, USA, ACM, 2001,
+   pp. 149–160.
+                                                                                is a senior research scientist in NTT
+ [20] Zhu, Y. and Hu, Y.: Eﬃcient, proximity-aware                              Network Innovation Laboratories.
+   load balancing for DHT-based P2P systems, IEEE                               He received the M.S. degree in in-
+   Transactions on Parallel and Distributed Systems,                            formation science and the Ph.D. de-
+   Vol. 16, No. 4(2005), pp. 349–361.
+                                                                                gree in mathematical and comput-
+                                                                ing sciences from Tokyo Institute of Technology, in
+                                                                1989 and 2001, respectively. His research interests
+                  Kimihiro Mizutani                             include distributed systems, multi-agent systems,
+                                                                and network architectures.
+                 is a researcher in NTT Network
+                 Innovation Labs. He received the
+                 M.S. degree in information system
+                 from Nara Institute Science and
+                 Technology in 2010. His research
+
+
+
+                                                            9
+Information and Media Technologies 11: 1-10 (2016)
+reprinted from: Computer Software 32(3): 101-110 (2015)
+© Japan Society for Software Science and Technology
+
+
+                                                             a visiting researcher of the Multimedia Commu-
+                 Satoshi Matsuura
+                                                             nications Laboratory at Boston University from
+                He received the M.E. and Ph.D. de-           March 1996 through January 1997. He has been
+                grees in information sciences from           engaged in the project of bioIT related R&D called
+                Nara Institute Science and Technol-          “BioGrid Project,” which consists of several insti-
+                ogy in 2005 and 2008, respectively.          tutes in the Kansai area of Japan. His research
+                Currently, he is an associate profes-        interests cover distributed systems and multime-
+sor in Tokyo Institute of Technology. His research           dia systems. Now he is very interested in Grid
+interests include overlay networks and sensor net-           systems for scientiﬁc simulations. He received the
+works.                                                       M.E. and Ph.D. degrees in information computer
+                                                             sciences from Osaka University in 1990 and 1993,
+                 Kazutoshi Fujikawa                          respectively. He is a member of IEICE, IEEE and
+                has been an Associate Professor in           ACM.
+                the Graduate School of Information
+                Science, Nara Institute of Science
+                and Technology since 2002. He was
+
+
+
+
+                                                        10
+

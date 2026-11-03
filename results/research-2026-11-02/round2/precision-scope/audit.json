@@ -1,0 +1,1112 @@
+{
+  "scope": "Documentation audit only; no method, rerouting, test-data read, or timing-result modification.",
+  "model_records": [
+    {
+      "model": "granite",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/models/granite-3.1-1b-a400m-instruct-Q4_K_M.gguf",
+      "model_bytes": 821847360,
+      "recorded_full_sha256": "3a2ec1c2a78cb29d901e29bbf5162dcd03381e13803d2cbdcff838d4d08142eb",
+      "header_audit": {
+        "version": 3,
+        "header_bytes": 1739585,
+        "header_sha256": "fc8487c305389f4471d72ac29617a830a78d8fbfc5b171f8ae5f2a75e5fd6899",
+        "bytes_read": 3479170,
+        "payload_start_offset": 1739616,
+        "tensor_payload_read": false,
+        "full_file_sha_recomputed": false
+      },
+      "header_exactly_matches_existing_metadata": true,
+      "gguf_file_type": 15,
+      "gguf_architecture": "granitemoe",
+      "gguf_name": "Granite 3.1 1b A400M Instruct",
+      "all_tensor_type_counts": {
+        "F32": 73,
+        "Q6_K": 25,
+        "Q4_K": 144
+      },
+      "routed_projections": {
+        "gate": {
+          "tensor_type_counts": {
+            "Q4_K": 24
+          },
+          "tensor_count": 24,
+          "logical_weights": 402653184,
+          "actual_gguf_tensor_bytes": 226492416,
+          "modeled_raw_i8_bytes": 402653184,
+          "actual_bytes_over_modeled_i8": 0.5625,
+          "example": {
+            "name": "blk.0.ffn_gate_exps.weight",
+            "shape_ggml": [
+              1024,
+              512,
+              32
+            ],
+            "ggml_type": "Q4_K",
+            "n_bytes": 9437184,
+            "data_offset": 58705216,
+            "relative_payload_offset": 56965600
+          }
+        },
+        "up": {
+          "tensor_type_counts": {
+            "Q4_K": 24
+          },
+          "tensor_count": 24,
+          "logical_weights": 402653184,
+          "actual_gguf_tensor_bytes": 226492416,
+          "modeled_raw_i8_bytes": 402653184,
+          "actual_bytes_over_modeled_i8": 0.5625,
+          "example": {
+            "name": "blk.0.ffn_up_exps.weight",
+            "shape_ggml": [
+              1024,
+              512,
+              32
+            ],
+            "ggml_type": "Q4_K",
+            "n_bytes": 9437184,
+            "data_offset": 68277568,
+            "relative_payload_offset": 66537952
+          }
+        },
+        "down": {
+          "tensor_type_counts": {
+            "Q6_K": 12,
+            "Q4_K": 12
+          },
+          "tensor_count": 24,
+          "logical_weights": 402653184,
+          "actual_gguf_tensor_bytes": 278396928,
+          "modeled_raw_i8_bytes": 402653184,
+          "actual_bytes_over_modeled_i8": 0.69140625,
+          "example": {
+            "name": "blk.0.ffn_down_exps.weight",
+            "shape_ggml": [
+              512,
+              1024,
+              32
+            ],
+            "ggml_type": "Q6_K",
+            "n_bytes": 13762560,
+            "data_offset": 44942656,
+            "relative_payload_offset": 43203040
+          }
+        }
+      },
+      "routed_router_type_counts": {
+        "F32": 24
+      },
+      "provenance": {
+        "granite-download-manifest.json": {
+          "repo": "bartowski/granite-3.1-1b-a400m-instruct-GGUF",
+          "revision": "940d2e1f9f65330615c7c8e980e6c5ac73d3360c",
+          "file": {
+            "rfilename": "granite-3.1-1b-a400m-instruct-Q4_K_M.gguf",
+            "blobId": "9b05622edb597eefae74f03774a4dac96803db31",
+            "size": 821847360,
+            "lfs": {
+              "sha256": "3a2ec1c2a78cb29d901e29bbf5162dcd03381e13803d2cbdcff838d4d08142eb",
+              "size": 821847360,
+              "pointerSize": 134
+            }
+          }
+        }
+      },
+      "independently_validated_native_aif_w8a8_routing": false
+    },
+    {
+      "model": "olmoe",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/models/olmoe-1b-7b-0924-q4_k_m.gguf",
+      "model_bytes": 4213511776,
+      "recorded_full_sha256": "f3ae25f6c7e83efb0e3632ef068b321f4d4a644bcfb6c0e01dd8c00e94e53f14",
+      "header_audit": {
+        "version": 3,
+        "header_bytes": 1781322,
+        "header_sha256": "381e33ed658f870b25ae0735c2f2610339f2805d39be07736e6ebfc2f98b0b5f",
+        "bytes_read": 3562644,
+        "payload_start_offset": 1781344,
+        "tensor_payload_read": false,
+        "full_file_sha_recomputed": false
+      },
+      "header_exactly_matches_existing_metadata": true,
+      "gguf_file_type": 15,
+      "gguf_architecture": "olmoe",
+      "gguf_name": "Olmoe Hf",
+      "all_tensor_type_counts": {
+        "Q4_K": 97,
+        "F32": 81,
+        "Q6_K": 17
+      },
+      "routed_projections": {
+        "gate": {
+          "tensor_type_counts": {
+            "Q4_K": 16
+          },
+          "tensor_count": 16,
+          "logical_weights": 2147483648,
+          "actual_gguf_tensor_bytes": 1207959552,
+          "modeled_raw_i8_bytes": 2147483648,
+          "actual_bytes_over_modeled_i8": 0.5625,
+          "example": {
+            "name": "blk.0.ffn_gate_exps.weight",
+            "shape_ggml": [
+              2048,
+              1024,
+              64
+            ],
+            "ggml_type": "Q4_K",
+            "n_bytes": 75497472,
+            "data_offset": 169840224,
+            "relative_payload_offset": 168058880
+          }
+        },
+        "up": {
+          "tensor_type_counts": {
+            "Q4_K": 16
+          },
+          "tensor_count": 16,
+          "logical_weights": 2147483648,
+          "actual_gguf_tensor_bytes": 1207959552,
+          "modeled_raw_i8_bytes": 2147483648,
+          "actual_bytes_over_modeled_i8": 0.5625,
+          "example": {
+            "name": "blk.0.ffn_up_exps.weight",
+            "shape_ggml": [
+              2048,
+              1024,
+              64
+            ],
+            "ggml_type": "Q4_K",
+            "n_bytes": 75497472,
+            "data_offset": 245337696,
+            "relative_payload_offset": 243556352
+          }
+        },
+        "down": {
+          "tensor_type_counts": {
+            "Q6_K": 8,
+            "Q4_K": 8
+          },
+          "tensor_count": 16,
+          "logical_weights": 2147483648,
+          "actual_gguf_tensor_bytes": 1484783616,
+          "modeled_raw_i8_bytes": 2147483648,
+          "actual_bytes_over_modeled_i8": 0.69140625,
+          "example": {
+            "name": "blk.0.ffn_down_exps.weight",
+            "shape_ggml": [
+              1024,
+              2048,
+              64
+            ],
+            "ggml_type": "Q6_K",
+            "n_bytes": 110100480,
+            "data_offset": 59739744,
+            "relative_payload_offset": 57958400
+          }
+        }
+      },
+      "routed_router_type_counts": {
+        "F32": 16
+      },
+      "provenance": {
+        "olmoe-download-manifest.json": {
+          "repo": "allenai/OLMoE-1B-7B-0924-GGUF",
+          "revision": "70df85ed7132bf21b5acbcb33817f58e7d3cb949",
+          "file": {
+            "rfilename": "olmoe-1b-7b-0924-q4_k_m.gguf",
+            "blobId": "19765702719bd943321ba1418557dff179eb4d51",
+            "size": 4213511776,
+            "lfs": {
+              "sha256": "f3ae25f6c7e83efb0e3632ef068b321f4d4a644bcfb6c0e01dd8c00e94e53f14",
+              "size": 4213511776,
+              "pointerSize": 135
+            }
+          }
+        }
+      },
+      "independently_validated_native_aif_w8a8_routing": false
+    },
+    {
+      "model": "deepseek",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-v2-lite-chat-q8_0.gguf",
+      "model_bytes": 16702520416,
+      "recorded_full_sha256": "09d9abe9170d14386b0a54fe3969035f6a770956cfefa7d2fbaa12e0900a2ba4",
+      "header_audit": {
+        "version": 3,
+        "header_bytes": 3998795,
+        "header_sha256": "57d0ffa9f73551ad7ff60b09de8c87f8086368690f41af3979016f5d104ba285",
+        "bytes_read": 7997590,
+        "payload_start_offset": 3998816,
+        "tensor_payload_read": false,
+        "full_file_sha_recomputed": false
+      },
+      "header_exactly_matches_existing_metadata": true,
+      "gguf_file_type": 7,
+      "gguf_architecture": "deepseek2",
+      "gguf_name": "DeepSeek V2 Lite Chat",
+      "all_tensor_type_counts": {
+        "Q8_0": 296,
+        "F32": 108
+      },
+      "routed_projections": {
+        "gate": {
+          "tensor_type_counts": {
+            "Q8_0": 26
+          },
+          "tensor_count": 26,
+          "logical_weights": 4798283776,
+          "actual_gguf_tensor_bytes": 5098176512,
+          "modeled_raw_i8_bytes": 4798283776,
+          "actual_bytes_over_modeled_i8": 1.0625,
+          "example": {
+            "name": "blk.1.ffn_gate_exps.weight",
+            "shape_ggml": [
+              2048,
+              1408,
+              64
+            ],
+            "ggml_type": "Q8_0",
+            "n_bytes": 196083712,
+            "data_offset": 731819104,
+            "relative_payload_offset": 727820288
+          }
+        },
+        "up": {
+          "tensor_type_counts": {
+            "Q8_0": 26
+          },
+          "tensor_count": 26,
+          "logical_weights": 4798283776,
+          "actual_gguf_tensor_bytes": 5098176512,
+          "modeled_raw_i8_bytes": 4798283776,
+          "actual_bytes_over_modeled_i8": 1.0625,
+          "example": {
+            "name": "blk.1.ffn_up_exps.weight",
+            "shape_ggml": [
+              2048,
+              1408,
+              64
+            ],
+            "ggml_type": "Q8_0",
+            "n_bytes": 196083712,
+            "data_offset": 927902816,
+            "relative_payload_offset": 923904000
+          }
+        },
+        "down": {
+          "tensor_type_counts": {
+            "Q8_0": 26
+          },
+          "tensor_count": 26,
+          "logical_weights": 4798283776,
+          "actual_gguf_tensor_bytes": 5098176512,
+          "modeled_raw_i8_bytes": 4798283776,
+          "actual_bytes_over_modeled_i8": 1.0625,
+          "example": {
+            "name": "blk.1.ffn_down_exps.weight",
+            "shape_ggml": [
+              1408,
+              2048,
+              64
+            ],
+            "ggml_type": "Q8_0",
+            "n_bytes": 196083712,
+            "data_offset": 535735392,
+            "relative_payload_offset": 531736576
+          }
+        }
+      },
+      "routed_router_type_counts": {
+        "F32": 26
+      },
+      "provenance": {
+        "deepseek-source-manifest.json": {
+          "source_directory": "/home/nfs_client/ymtuan2/models/DeepSeek-V2-Lite-Chat",
+          "source_files_read_only": true,
+          "config_sha256": "f346286b0f1c8b044252fd54cb4fa78b9fab6472a6e8bebb9edfe03d414ea03d",
+          "converter_commit": "927dada6c9143ba4c940b72004d2698fa5e4e930"
+        },
+        "source_config_dtype": "bfloat16",
+        "source_config_quantization": null,
+        "source_cached_revision": "85864749cd611b4353ce1decdb286193298f64c7"
+      },
+      "independently_validated_native_aif_w8a8_routing": false
+    },
+    {
+      "model": "qwen3",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/models/qwen3-30b-a3b-instruct-2507-q8_0.gguf",
+      "model_bytes": 32483930912,
+      "recorded_full_sha256": "e94f6d77ac50d82a849d9a1b4eced5a4a0ba91b4537c58630971340308bb1d33",
+      "header_audit": {
+        "version": 3,
+        "header_bytes": 5968641,
+        "header_sha256": "7d735e41e4c9a486e85ff86e5c4996339e9dd7782fcc1da9295ff5f4cf9f014a",
+        "bytes_read": 11937282,
+        "payload_start_offset": 5968672,
+        "tensor_payload_read": false,
+        "full_file_sha_recomputed": false
+      },
+      "header_exactly_matches_existing_metadata": true,
+      "gguf_file_type": 7,
+      "gguf_architecture": "qwen3moe",
+      "gguf_name": "Qwen3 30B A3B Instruct 2507 FP8",
+      "all_tensor_type_counts": {
+        "Q8_0": 338,
+        "F32": 241
+      },
+      "routed_projections": {
+        "gate": {
+          "tensor_type_counts": {
+            "Q8_0": 48
+          },
+          "tensor_count": 48,
+          "logical_weights": 9663676416,
+          "actual_gguf_tensor_bytes": 10267656192,
+          "modeled_raw_i8_bytes": 9663676416,
+          "actual_bytes_over_modeled_i8": 1.0625,
+          "example": {
+            "name": "blk.0.ffn_gate_exps.weight",
+            "shape_ggml": [
+              2048,
+              768,
+              128
+            ],
+            "ggml_type": "Q8_0",
+            "n_bytes": 213909504,
+            "data_offset": 550499104,
+            "relative_payload_offset": 544530432
+          }
+        },
+        "up": {
+          "tensor_type_counts": {
+            "Q8_0": 48
+          },
+          "tensor_count": 48,
+          "logical_weights": 9663676416,
+          "actual_gguf_tensor_bytes": 10267656192,
+          "modeled_raw_i8_bytes": 9663676416,
+          "actual_bytes_over_modeled_i8": 1.0625,
+          "example": {
+            "name": "blk.0.ffn_up_exps.weight",
+            "shape_ggml": [
+              2048,
+              768,
+              128
+            ],
+            "ggml_type": "Q8_0",
+            "n_bytes": 213909504,
+            "data_offset": 764408608,
+            "relative_payload_offset": 758439936
+          }
+        },
+        "down": {
+          "tensor_type_counts": {
+            "Q8_0": 48
+          },
+          "tensor_count": 48,
+          "logical_weights": 9663676416,
+          "actual_gguf_tensor_bytes": 10267656192,
+          "modeled_raw_i8_bytes": 9663676416,
+          "actual_bytes_over_modeled_i8": 1.0625,
+          "example": {
+            "name": "blk.0.ffn_down_exps.weight",
+            "shape_ggml": [
+              768,
+              2048,
+              128
+            ],
+            "ggml_type": "Q8_0",
+            "n_bytes": 213909504,
+            "data_offset": 336589600,
+            "relative_payload_offset": 330620928
+          }
+        }
+      },
+      "routed_router_type_counts": {
+        "F32": 48
+      },
+      "provenance": {
+        "qwen3-source-manifest.json": {
+          "source_directory": "/home/nfs_client/ymtuan2/models/Qwen3-30B-A3B-Instruct-2507-FP8",
+          "source_files_read_only": true,
+          "source_file_sha256": {
+            "config.json": "002ebe91531ec67011b3d0c923234ef708c7da7d3b246045c4475d90b3d94628",
+            "model.safetensors.index.json": "270f54aead2ae634567310218340069621fd8dfa2ad80001b69888ea5cc03477",
+            "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+            "tokenizer_config.json": "a62ff0a2472a0fa1b8eaabcb57c59b58afa42a22831dc141400b6e0cf2b65ce3"
+          },
+          "indexed_tensors": 37491,
+          "dtype_tensor_counts": {
+            "BF16": 18867,
+            "F8_E4M3": 18624
+          },
+          "index_tensors_and_payload_ranges_valid": true,
+          "converter_commit": "927dada6c9143ba4c940b72004d2698fa5e4e930",
+          "converter_sha256": "5403ca66f84e5967b29599e531cdc68d9de306bb78dd429b38b37c51299c896e"
+        },
+        "source_config_dtype": "bfloat16",
+        "source_config_quantization": {
+          "activation_scheme": "dynamic",
+          "modules_to_not_convert": [
+            "lm_head",
+            "model.layers.0.input_layernorm",
+            "model.layers.0.mlp.gate",
+            "model.layers.0.post_attention_layernorm",
+            "model.layers.1.input_layernorm",
+            "model.layers.1.mlp.gate",
+            "model.layers.1.post_attention_layernorm",
+            "model.layers.2.input_layernorm",
+            "model.layers.2.mlp.gate",
+            "model.layers.2.post_attention_layernorm",
+            "model.layers.3.input_layernorm",
+            "model.layers.3.mlp.gate",
+            "model.layers.3.post_attention_layernorm",
+            "model.layers.4.input_layernorm",
+            "model.layers.4.mlp.gate",
+            "model.layers.4.post_attention_layernorm",
+            "model.layers.5.input_layernorm",
+            "model.layers.5.mlp.gate",
+            "model.layers.5.post_attention_layernorm",
+            "model.layers.6.input_layernorm",
+            "model.layers.6.mlp.gate",
+            "model.layers.6.post_attention_layernorm",
+            "model.layers.7.input_layernorm",
+            "model.layers.7.mlp.gate",
+            "model.layers.7.post_attention_layernorm",
+            "model.layers.8.input_layernorm",
+            "model.layers.8.mlp.gate",
+            "model.layers.8.post_attention_layernorm",
+            "model.layers.9.input_layernorm",
+            "model.layers.9.mlp.gate",
+            "model.layers.9.post_attention_layernorm",
+            "model.layers.10.input_layernorm",
+            "model.layers.10.mlp.gate",
+            "model.layers.10.post_attention_layernorm",
+            "model.layers.11.input_layernorm",
+            "model.layers.11.mlp.gate",
+            "model.layers.11.post_attention_layernorm",
+            "model.layers.12.input_layernorm",
+            "model.layers.12.mlp.gate",
+            "model.layers.12.post_attention_layernorm",
+            "model.layers.13.input_layernorm",
+            "model.layers.13.mlp.gate",
+            "model.layers.13.post_attention_layernorm",
+            "model.layers.14.input_layernorm",
+            "model.layers.14.mlp.gate",
+            "model.layers.14.post_attention_layernorm",
+            "model.layers.15.input_layernorm",
+            "model.layers.15.mlp.gate",
+            "model.layers.15.post_attention_layernorm",
+            "model.layers.16.input_layernorm",
+            "model.layers.16.mlp.gate",
+            "model.layers.16.post_attention_layernorm",
+            "model.layers.17.input_layernorm",
+            "model.layers.17.mlp.gate",
+            "model.layers.17.post_attention_layernorm",
+            "model.layers.18.input_layernorm",
+            "model.layers.18.mlp.gate",
+            "model.layers.18.post_attention_layernorm",
+            "model.layers.19.input_layernorm",
+            "model.layers.19.mlp.gate",
+            "model.layers.19.post_attention_layernorm",
+            "model.layers.20.input_layernorm",
+            "model.layers.20.mlp.gate",
+            "model.layers.20.post_attention_layernorm",
+            "model.layers.21.input_layernorm",
+            "model.layers.21.mlp.gate",
+            "model.layers.21.post_attention_layernorm",
+            "model.layers.22.input_layernorm",
+            "model.layers.22.mlp.gate",
+            "model.layers.22.post_attention_layernorm",
+            "model.layers.23.input_layernorm",
+            "model.layers.23.mlp.gate",
+            "model.layers.23.post_attention_layernorm",
+            "model.layers.24.input_layernorm",
+            "model.layers.24.mlp.gate",
+            "model.layers.24.post_attention_layernorm",
+            "model.layers.25.input_layernorm",
+            "model.layers.25.mlp.gate",
+            "model.layers.25.post_attention_layernorm",
+            "model.layers.26.input_layernorm",
+            "model.layers.26.mlp.gate",
+            "model.layers.26.post_attention_layernorm",
+            "model.layers.27.input_layernorm",
+            "model.layers.27.mlp.gate",
+            "model.layers.27.post_attention_layernorm",
+            "model.layers.28.input_layernorm",
+            "model.layers.28.mlp.gate",
+            "model.layers.28.post_attention_layernorm",
+            "model.layers.29.input_layernorm",
+            "model.layers.29.mlp.gate",
+            "model.layers.29.post_attention_layernorm",
+            "model.layers.30.input_layernorm",
+            "model.layers.30.mlp.gate",
+            "model.layers.30.post_attention_layernorm",
+            "model.layers.31.input_layernorm",
+            "model.layers.31.mlp.gate",
+            "model.layers.31.post_attention_layernorm",
+            "model.layers.32.input_layernorm",
+            "model.layers.32.mlp.gate",
+            "model.layers.32.post_attention_layernorm",
+            "model.layers.33.input_layernorm",
+            "model.layers.33.mlp.gate",
+            "model.layers.33.post_attention_layernorm",
+            "model.layers.34.input_layernorm",
+            "model.layers.34.mlp.gate",
+            "model.layers.34.post_attention_layernorm",
+            "model.layers.35.input_layernorm",
+            "model.layers.35.mlp.gate",
+            "model.layers.35.post_attention_layernorm",
+            "model.layers.36.input_layernorm",
+            "model.layers.36.mlp.gate",
+            "model.layers.36.post_attention_layernorm",
+            "model.layers.37.input_layernorm",
+            "model.layers.37.mlp.gate",
+            "model.layers.37.post_attention_layernorm",
+            "model.layers.38.input_layernorm",
+            "model.layers.38.mlp.gate",
+            "model.layers.38.post_attention_layernorm",
+            "model.layers.39.input_layernorm",
+            "model.layers.39.mlp.gate",
+            "model.layers.39.post_attention_layernorm",
+            "model.layers.40.input_layernorm",
+            "model.layers.40.mlp.gate",
+            "model.layers.40.post_attention_layernorm",
+            "model.layers.41.input_layernorm",
+            "model.layers.41.mlp.gate",
+            "model.layers.41.post_attention_layernorm",
+            "model.layers.42.input_layernorm",
+            "model.layers.42.mlp.gate",
+            "model.layers.42.post_attention_layernorm",
+            "model.layers.43.input_layernorm",
+            "model.layers.43.mlp.gate",
+            "model.layers.43.post_attention_layernorm",
+            "model.layers.44.input_layernorm",
+            "model.layers.44.mlp.gate",
+            "model.layers.44.post_attention_layernorm",
+            "model.layers.45.input_layernorm",
+            "model.layers.45.mlp.gate",
+            "model.layers.45.post_attention_layernorm",
+            "model.layers.46.input_layernorm",
+            "model.layers.46.mlp.gate",
+            "model.layers.46.post_attention_layernorm",
+            "model.layers.47.input_layernorm",
+            "model.layers.47.mlp.gate",
+            "model.layers.47.post_attention_layernorm"
+          ],
+          "fmt": "e4m3",
+          "quant_method": "fp8",
+          "weight_block_size": [
+            128,
+            128
+          ]
+        },
+        "source_cached_revision": "5a5a776300a41aaa681dd7ff0106608ef2bc90db"
+      },
+      "independently_validated_native_aif_w8a8_routing": false
+    },
+    {
+      "model": "mixtral",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/models/mixtral-8x7b-instruct-v0.1-q8_0.gguf",
+      "model_bytes": 49626319840,
+      "recorded_full_sha256": "72120c812f3e2406fa94bf4f7f5421ecc287ff3e875d0772836f300342d44162",
+      "header_audit": {
+        "version": 3,
+        "header_bytes": 740316,
+        "header_sha256": "3a5b3853b6f8e5819f63c24182db8197978dec75760cd603c88bd0d2339a849e",
+        "bytes_read": 1480632,
+        "payload_start_offset": 740320,
+        "tensor_payload_read": false,
+        "full_file_sha_recomputed": false
+      },
+      "header_exactly_matches_existing_metadata": true,
+      "gguf_file_type": 7,
+      "gguf_architecture": "llama",
+      "gguf_name": "Mixtral 8x7B Instruct v0.1",
+      "all_tensor_type_counts": {
+        "Q8_0": 226,
+        "F32": 97
+      },
+      "routed_projections": {
+        "gate": {
+          "tensor_type_counts": {
+            "Q8_0": 32
+          },
+          "tensor_count": 32,
+          "logical_weights": 15032385536,
+          "actual_gguf_tensor_bytes": 15971909632,
+          "modeled_raw_i8_bytes": 15032385536,
+          "actual_bytes_over_modeled_i8": 1.0625,
+          "example": {
+            "name": "blk.0.ffn_gate_exps.weight",
+            "shape_ggml": [
+              4096,
+              14336,
+              8
+            ],
+            "ggml_type": "Q8_0",
+            "n_bytes": 499122176,
+            "data_offset": 140004320,
+            "relative_payload_offset": 139264000
+          }
+        },
+        "up": {
+          "tensor_type_counts": {
+            "Q8_0": 32
+          },
+          "tensor_count": 32,
+          "logical_weights": 15032385536,
+          "actual_gguf_tensor_bytes": 15971909632,
+          "modeled_raw_i8_bytes": 15032385536,
+          "actual_bytes_over_modeled_i8": 1.0625,
+          "example": {
+            "name": "blk.0.ffn_up_exps.weight",
+            "shape_ggml": [
+              4096,
+              14336,
+              8
+            ],
+            "ggml_type": "Q8_0",
+            "n_bytes": 499122176,
+            "data_offset": 1138248672,
+            "relative_payload_offset": 1137508352
+          }
+        },
+        "down": {
+          "tensor_type_counts": {
+            "Q8_0": 32
+          },
+          "tensor_count": 32,
+          "logical_weights": 15032385536,
+          "actual_gguf_tensor_bytes": 15971909632,
+          "modeled_raw_i8_bytes": 15032385536,
+          "actual_bytes_over_modeled_i8": 1.0625,
+          "example": {
+            "name": "blk.0.ffn_down_exps.weight",
+            "shape_ggml": [
+              14336,
+              4096,
+              8
+            ],
+            "ggml_type": "Q8_0",
+            "n_bytes": 499122176,
+            "data_offset": 639126496,
+            "relative_payload_offset": 638386176
+          }
+        }
+      },
+      "routed_router_type_counts": {
+        "F32": 32
+      },
+      "provenance": {
+        "mixtral-source-manifest.json": {
+          "source_directory": "/home/nfs_client/ymtuan2/models/Mixtral-8x7B-Instruct-v0.1",
+          "source_files_read_only": true,
+          "source_file_sha256": {
+            "config.json": "9d56d04b36d0fd12ff54ae4c5bac769cc176e254e64ff71144614b6318b40793",
+            "model.safetensors.index.json": "a8f30ebfaf569d5cc6358a32009342a3e73d4553a340cc38a6319457d9dc13e6",
+            "tokenizer.json": "11c08db21487c885d8c792180f0be237f6a261b89a46f128a6a80a3aa4bd1720",
+            "tokenizer_config.json": "475361439e5c012de9dffdedc416a66a50f1a29f7aa80b375ba014fb13d6bb8a",
+            "tokenizer.model": "dadfd56d766715c61d2ef780a525ab43b8e6da4de6865bda3d95fdef5e134055",
+            "special_tokens_map.json": "6fa06efa2785e450051989a6f8fb4416b10149ded485ddd3f127a40734f5cfd0"
+          },
+          "indexed_tensors": 995,
+          "dtype_tensor_counts": {
+            "BF16": 995
+          },
+          "index_tensors_and_payload_ranges_valid": true,
+          "converter_commit": "927dada6c9143ba4c940b72004d2698fa5e4e930",
+          "converter_sha256": "5403ca66f84e5967b29599e531cdc68d9de306bb78dd429b38b37c51299c896e"
+        },
+        "source_config_dtype": "bfloat16",
+        "source_config_quantization": null,
+        "source_cached_revision": "eba92302a2861cdc0098cc54bc9f17cb2c47eb61"
+      },
+      "independently_validated_native_aif_w8a8_routing": false
+    },
+    {
+      "model": "granite4tiny",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/models/granite4tiny-q4_k_m.gguf",
+      "model_bytes": 4230976352,
+      "recorded_full_sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+      "header_audit": {
+        "version": 3,
+        "header_bytes": 3588692,
+        "header_sha256": "913f74bad5501f83a30299ae91e26d56521e813bffe2cf5218cbe647b82767aa",
+        "bytes_read": 7177384,
+        "payload_start_offset": 3588704,
+        "tensor_payload_read": false,
+        "full_file_sha_recomputed": false
+      },
+      "header_exactly_matches_existing_metadata": true,
+      "gguf_file_type": 15,
+      "gguf_architecture": "granitehybrid",
+      "gguf_name": "Granite 4.0 H Tiny",
+      "all_tensor_type_counts": {
+        "F32": 337,
+        "Q6_K": 43,
+        "Q4_K": 286
+      },
+      "routed_projections": {
+        "gate": {
+          "tensor_type_counts": {
+            "Q4_K": 40
+          },
+          "tensor_count": 40,
+          "logical_weights": 2013265920,
+          "actual_gguf_tensor_bytes": 1132462080,
+          "modeled_raw_i8_bytes": 2013265920,
+          "actual_bytes_over_modeled_i8": 0.5625,
+          "example": {
+            "name": "blk.0.ffn_gate_exps.weight",
+            "shape_ggml": [
+              1536,
+              512,
+              64
+            ],
+            "ggml_type": "Q4_K",
+            "n_bytes": 28311552,
+            "data_offset": 172622432,
+            "relative_payload_offset": 169033728
+          }
+        },
+        "up": {
+          "tensor_type_counts": {
+            "Q4_K": 40
+          },
+          "tensor_count": 40,
+          "logical_weights": 2013265920,
+          "actual_gguf_tensor_bytes": 1132462080,
+          "modeled_raw_i8_bytes": 2013265920,
+          "actual_bytes_over_modeled_i8": 0.5625,
+          "example": {
+            "name": "blk.0.ffn_up_exps.weight",
+            "shape_ggml": [
+              1536,
+              512,
+              64
+            ],
+            "ggml_type": "Q4_K",
+            "n_bytes": 28311552,
+            "data_offset": 202218080,
+            "relative_payload_offset": 198629376
+          }
+        },
+        "down": {
+          "tensor_type_counts": {
+            "Q6_K": 20,
+            "Q4_K": 20
+          },
+          "tensor_count": 40,
+          "logical_weights": 2013265920,
+          "actual_gguf_tensor_bytes": 1391984640,
+          "modeled_raw_i8_bytes": 2013265920,
+          "actual_bytes_over_modeled_i8": 0.69140625,
+          "example": {
+            "name": "blk.0.ffn_down_exps.weight",
+            "shape_ggml": [
+              512,
+              1536,
+              64
+            ],
+            "ggml_type": "Q6_K",
+            "n_bytes": 41287680,
+            "data_offset": 130044512,
+            "relative_payload_offset": 126455808
+          }
+        }
+      },
+      "routed_router_type_counts": {
+        "F32": 40
+      },
+      "provenance": {
+        "granite4tiny-source-manifest.json": {
+          "model": "granite4tiny",
+          "source_records": {
+            "ibm-granite/granite-4.0-h-tiny": {
+              "revision": "791e0d3d28c86e106c9b6e0b4cecdee0375b6124",
+              "license": "apache-2.0",
+              "small_files": {
+                "README.md": {
+                  "url": "https://huggingface.co/ibm-granite/granite-4.0-h-tiny/resolve/791e0d3d28c86e106c9b6e0b4cecdee0375b6124/README.md",
+                  "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-source/granite-4.0-h-tiny.README.md",
+                  "sha256": "9a2b7bc35ca60174c314e16e61260214f329eaf2372dccdc27814fe719990d95"
+                },
+                "config.json": {
+                  "url": "https://huggingface.co/ibm-granite/granite-4.0-h-tiny/resolve/791e0d3d28c86e106c9b6e0b4cecdee0375b6124/config.json",
+                  "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-source/granite-4.0-h-tiny.config.json",
+                  "sha256": "bda8fd574ace7d968d82397f59ea6b9a702a077bbeab279a65b9dad7386a82c6"
+                }
+              }
+            },
+            "ibm-granite/granite-4.0-h-tiny-GGUF": {
+              "revision": "08d5a8a9741dd5c1a95d2d39e25253226aa1464e",
+              "license": "apache-2.0",
+              "small_files": {
+                "README.md": {
+                  "url": "https://huggingface.co/ibm-granite/granite-4.0-h-tiny-GGUF/resolve/08d5a8a9741dd5c1a95d2d39e25253226aa1464e/README.md",
+                  "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-source/granite-4.0-h-tiny-GGUF.README.md",
+                  "sha256": "ea3f9af948fa2193671633f81d62bc439515ce70339278dacfca2a236ab19989"
+                }
+              },
+              "file": {
+                "rfilename": "granite-4.0-h-tiny-Q4_K_M.gguf",
+                "blobId": "876ddafdf21bb71a417cb713d33ba79232a46347",
+                "size": 4230976352,
+                "lfs": {
+                  "sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+                  "size": 4230976352,
+                  "pointerSize": 135
+                }
+              }
+            }
+          },
+          "model_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/granite4tiny-q4_k_m.gguf",
+          "model_bytes": 4230976352,
+          "sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+          "download_url": "https://huggingface.co/ibm-granite/granite-4.0-h-tiny-GGUF/resolve/08d5a8a9741dd5c1a95d2d39e25253226aa1464e/granite-4.0-h-tiny-Q4_K_M.gguf",
+          "status": "official_IBM_GGUF_pinned_LFS_hash_verified",
+          "scope": "A released fixed Q4_K_M checkpoint is used to collect real routing; no quantization method or precision change is proposed.",
+          "script_sha256": "e3de25358a49bf408df7810a39e7e48632743a1c4c01a57640540a373292e3b3"
+        }
+      },
+      "independently_validated_native_aif_w8a8_routing": false
+    }
+  ],
+  "official_metadata_snapshots": [
+    {
+      "repo": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+      "request_url": "https://huggingface.co/api/models/Qwen/Qwen3-30B-A3B-Instruct-2507-FP8?blobs=true",
+      "revision": "5a5a776300a41aaa681dd7ff0106608ef2bc90db",
+      "safetensors_parameter_dtype_counts": {
+        "parameters": {
+          "BF16": 636948480,
+          "F8_E4M3": 29896998912
+        },
+        "total": 30533947392
+      },
+      "relevant_gguf_files": []
+    },
+    {
+      "repo": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+      "request_url": "https://huggingface.co/api/models/Qwen/Qwen3-30B-A3B-Instruct-2507?blobs=true",
+      "revision": "0d7cf23991f47feeb3a57ecb4c9cee8ea4a17bfe",
+      "safetensors_parameter_dtype_counts": {
+        "parameters": {
+          "BF16": 30532122624
+        },
+        "total": 30532122624
+      },
+      "relevant_gguf_files": []
+    },
+    {
+      "repo": "allenai/OLMoE-1B-7B-0924-GGUF",
+      "request_url": "https://huggingface.co/api/models/allenai/OLMoE-1B-7B-0924-GGUF?blobs=true",
+      "revision": "70df85ed7132bf21b5acbcb33817f58e7d3cb949",
+      "safetensors_parameter_dtype_counts": null,
+      "relevant_gguf_files": [
+        {
+          "rfilename": "olmoe-1b-7b-0924-f16.gguf",
+          "blobId": "5cfa447002b776b07b82fffda66a34b110d632b8",
+          "size": 13844565600,
+          "lfs": {
+            "sha256": "893424707d060dc852dc2308432798655f0385e96e65774d00019810cd5395b9",
+            "size": 13844565600,
+            "pointerSize": 136
+          }
+        },
+        {
+          "rfilename": "olmoe-1b-7b-0924-q8_0.gguf",
+          "blobId": "dbcc0c9fdc36f25faaaa3814b3462b8df22e5691",
+          "size": 7359942240,
+          "lfs": {
+            "sha256": "f2049d5ac4a1c226bedb5b704dab0098d938199e7ddc052662e9159fab50e1b7",
+            "size": 7359942240,
+            "pointerSize": 135
+          }
+        }
+      ]
+    },
+    {
+      "repo": "allenai/OLMoE-1B-7B-0924",
+      "request_url": "https://huggingface.co/api/models/allenai/OLMoE-1B-7B-0924?blobs=true",
+      "revision": "6d84c48581ece794365f2b8e9cfb043c68ade9c5",
+      "safetensors_parameter_dtype_counts": {
+        "parameters": {
+          "BF16": 6919161856
+        },
+        "total": 6919161856
+      },
+      "relevant_gguf_files": []
+    },
+    {
+      "repo": "deepseek-ai/DeepSeek-V2-Lite-Chat",
+      "request_url": "https://huggingface.co/api/models/deepseek-ai/DeepSeek-V2-Lite-Chat?blobs=true",
+      "revision": "85864749cd611b4353ce1decdb286193298f64c7",
+      "safetensors_parameter_dtype_counts": {
+        "parameters": {
+          "BF16": 15706484224
+        },
+        "total": 15706484224
+      },
+      "relevant_gguf_files": []
+    },
+    {
+      "repo": "ibm-granite/granite-3.1-1b-a400m-instruct",
+      "request_url": "https://huggingface.co/api/models/ibm-granite/granite-3.1-1b-a400m-instruct?blobs=true",
+      "revision": "0da7a48b0276d500ce5922fd2b33944091fc6c09",
+      "safetensors_parameter_dtype_counts": {
+        "parameters": {
+          "BF16": 1334628352
+        },
+        "total": 1334628352
+      },
+      "relevant_gguf_files": []
+    },
+    {
+      "repo": "ibm-granite/granite-4.0-h-tiny-GGUF",
+      "request_url": "https://huggingface.co/api/models/ibm-granite/granite-4.0-h-tiny-GGUF?blobs=true",
+      "revision": "08d5a8a9741dd5c1a95d2d39e25253226aa1464e",
+      "safetensors_parameter_dtype_counts": null,
+      "relevant_gguf_files": [
+        {
+          "rfilename": "granite-4.0-h-tiny-Q8_0.gguf",
+          "blobId": "9d5d86dceff3cb1ddf7af6e433e3ea0b2b3c803f",
+          "size": 7390331744,
+          "lfs": {
+            "sha256": "6d89e0698c7e88ebe26efcf59aa22786bf36b729705edbd76c6b118c8df9b297",
+            "size": 7390331744,
+            "pointerSize": 135
+          }
+        },
+        {
+          "rfilename": "granite-4.0-h-tiny-bf16.gguf",
+          "blobId": "a8c7b9a8debeff637523943fc179045ce52dffda",
+          "size": 13891206272,
+          "lfs": {
+            "sha256": "f71ef0b7b6259d2077a5ddd10da519d3e078e3133c9160f9c93d5f488b4535ff",
+            "size": 13891206272,
+            "pointerSize": 136
+          }
+        }
+      ]
+    },
+    {
+      "repo": "ibm-granite/granite-4.0-h-tiny",
+      "request_url": "https://huggingface.co/api/models/ibm-granite/granite-4.0-h-tiny?blobs=true",
+      "revision": "791e0d3d28c86e106c9b6e0b4cecdee0375b6124",
+      "safetensors_parameter_dtype_counts": {
+        "parameters": {
+          "BF16": 6939037248
+        },
+        "total": 6939037248
+      },
+      "relevant_gguf_files": []
+    },
+    {
+      "repo": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+      "request_url": "https://huggingface.co/api/models/mistralai/Mixtral-8x7B-Instruct-v0.1?blobs=true",
+      "revision": "eba92302a2861cdc0098cc54bc9f17cb2c47eb61",
+      "safetensors_parameter_dtype_counts": {
+        "parameters": {
+          "BF16": 46702792704
+        },
+        "total": 46702792704
+      },
+      "relevant_gguf_files": []
+    }
+  ],
+  "gguf_q8_0_contract": {
+    "block_weights": 32,
+    "signed_quant_bytes": 32,
+    "fp16_scale_bytes": 2,
+    "packed_bytes": 34,
+    "scale_byte_overhead_vs_raw_i8": 0.0625,
+    "cpu_dot": "sum_b scaleW[row,b]*scaleX[b]*integer_dot(qW[row,b],qX[b])",
+    "caveat": "CPU implementation floating reduction/rounding order still matters for bit identity."
+  },
+  "modeled_contract": {
+    "weights": "one byte per logical weight; no explicit scale bytes",
+    "inputs": "one byte per vector component in timing metadata, not exported activation values",
+    "outputs": "four bytes per output element in modeled transfers; not evidence of native dtype",
+    "backend": "CPU llama.cpp generates routes, separate metadata-only AiF/NVMeVirt timing replay",
+    "measured_native_end_to_end_numeric_equivalence": false
+  },
+  "native_published_contract": {
+    "proven": [
+      "INT8 multipliers and adder tree",
+      "dense GEMV input dimension and matrix start/block/offset/page addressing",
+      "sequential output FIFO",
+      "host output buffer address",
+      "host/SSD partitioning and aggregation of projection submatrices"
+    ],
+    "unspecified": [
+      "accumulator width and overflow",
+      "FIFO element dtype/width",
+      "block/per-row scale storage and arithmetic",
+      "rounding/requantization order"
+    ],
+    "local_api": "kernel/aif.h explicitly says metadata only: no weights or GEMV outputs; output_bytes is a count."
+  },
+  "existing_operator_composition": {
+    "status": "Dense column tiles plus host partial sums use existing mathematical GEMV; no new PE operator follows merely from this composition.",
+    "exact_condition": "If a native 512-wide signed-I8 dot is returned as its unscaled integer in exact I32 or FP32, abs(dot)<=512*128*128=2^23; FP32 holds every such integer exactly. Host I64 summation then one specified rounding can reproduce a full raw-I8 dot.",
+    "warning": "Published output semantics do not establish this condition. Scaled/requantized per-tile outputs need a different proof. Host partial sums or FP reordering were not prohibited by the human user."
+  },
+  "honest_claims": [
+    "Trace-driven physical-layout comparison under an explicit INT8 architectural cost model.",
+    "Routes come from the named real, fixed, quantized llama.cpp checkpoints, not from timing dummy outputs.",
+    "Complete-row relocation preserves each abstract GEMV dot without changing its reduction; numerical AiF execution of the routing checkpoint was not demonstrated.",
+    "Do not claim same-checkpoint native W8A8 end-to-end accuracy, hardware timing, or quality preservation from metadata-only replay.",
+    "Q8_0 revalidation tests routing precision sensitivity, not raw-I8/native AiF numerical equivalence."
+  ],
+  "minimum_followup_not_run": [
+    "First request or locate published/native output dtype, accumulation, scale, rounding and I/O contract; do not infer it from four-byte modeled outputs.",
+    "For a cheap routing sensitivity control, freeze existing G4 layouts and pinned IBM Q8_0 revision/hash; collect the same 32 existing training prompts for 64 decode steps plus a prospectively disjoint public set whose IDs and scoring are frozen before reading outputs.",
+    "Use independent greedy generation for each precision and a teacher-forced common token sequence where supported to separate token divergence from routing sensitivity. Record checkpoint-specific traced/untraced token equality and top-k overlap.",
+    "Replay all frozen layouts on both route sets without fitting on public prompts; report robustness rather than AiF-matched accuracy.",
+    "To claim exact native execution, implement an operator-level numerical reference matching the proven native contract and chosen checkpoint scales, then a full-model matched compute path with quality evaluation. Q8_0 alone does not supply that contract; split-by-32 host scaling is possible composition only after all extra operations and rounding are accounted for."
+  ],
+  "input_sha256": {
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/granite-metadata.json": "6cc8a48c5e7ad11c54227cbdfbe03a33de864e23a6f7c942ca1a94c6985e3bed",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/granite-download-manifest.json": "df2ff1d88c8a9ae5b10e6214de115c45980f45e8d9b1aaa8a86e647bb12e4b26",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/olmoe-metadata.json": "8af16cdc141e13dba85262a844580a76bd03801cd4a43bb02966bd9e24a620b1",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/olmoe-download-manifest.json": "1f1d27f0e99491d451b48933acd08cc49cbb45b3db447fa305b9805571156bdd",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-metadata.json": "76bc65fa3f07436199f1f6b2688f01a0c7ccdb97a29b6c7d67c2eba11327e27c",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-source-manifest.json": "d5c4c358b597a700f2c55f14a30812fc80174a25a1800108d9f4bd8304fd1a3d",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/qwen3-metadata.json": "b4964a4ec9f5787f6783662d00f2a2595af515317132c9fabffb9dfecaa84be6",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/qwen3-source-manifest.json": "79b8a194e242ba1b0eaf2a1cd74c92e29faba509cf9ce911f472e20b4f37e2f7",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/mixtral-metadata.json": "925e117ba7d0ad721afafa20b413aa9baa89cb700e52aa946a52b43268884f26",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/mixtral-source-manifest.json": "dc9d15fb5af36d02a3bc0e439dc318d110344ac910314b3b52cdf400cbddb877",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/granite4tiny-metadata.json": "e9b83008e3128440af9f65b2c771e52a5892085e8151bf4c8918397bbfbf96e6",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/granite4tiny-source-manifest.json": "0a74e78af5692a3ba4b7ab1e7fa3634c8ffe31911a03ccc6d8128640064019b7",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/Qwen__Qwen3-30B-A3B-Instruct-2507-FP8.api.json": "d1469aff6081d82f5046cfac3aceeec3da2c4bbda6525c8296bec878884a3a53",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/Qwen__Qwen3-30B-A3B-Instruct-2507.api.json": "12e7eb132510cf8723b49cabb8d8701ea3866e8e805d442639cdaa8d71d86762",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/allenai__OLMoE-1B-7B-0924-GGUF.api.json": "0f0d9739f7540d5ba116214678a77dea9d2cef11f45c070cebd89edb10049dc4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/allenai__OLMoE-1B-7B-0924.api.json": "e2a43a1eb1860622c71b828f89cf7c1418d676c60fb880178b71585fe4d8a457",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/deepseek-ai__DeepSeek-V2-Lite-Chat.api.json": "0b79428cb89d4d737a4468fdec08141c3854c5d400b1e94299406398804da062",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/ibm-granite__granite-3.1-1b-a400m-instruct.api.json": "b71681e05889cbc74db041261e9f6330a2b0fa414d8c5f89fbc1f80830d46fe1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/ibm-granite__granite-4.0-h-tiny-GGUF.api.json": "12ec47baca4c2cb05a99efacd0fa00cdc2f9ec1d5d84c91ab0c924c302ebb0af",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/ibm-granite__granite-4.0-h-tiny.api.json": "4efb8b43655c0eab8a1857eb8bb5a68fc0de0f535e7de351ac295b12236ad77d",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/mistralai__Mixtral-8x7B-Instruct-v0.1.api.json": "aba4df7fd5e56e7e4ecfc6f533fff88a15506f4631bf4c023d5459f0fe064ea1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/Qwen__Qwen3-30B-A3B-Instruct-2507-FP8.config.json": "002ebe91531ec67011b3d0c923234ef708c7da7d3b246045c4475d90b3d94628",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/Qwen__Qwen3-30B-A3B-Instruct-2507.config.json": "a1ee086a68d0cbfc87316da00ba4b8507bd1292978108e2496201a30a450f438",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/allenai__OLMoE-1B-7B-0924.config.json": "3643aa880d2f1c9b418156269ae791c73e5612d6b6b6fde0724d927cf89b6335",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/deepseek-ai__DeepSeek-V2-Lite-Chat.config.json": "f346286b0f1c8b044252fd54cb4fa78b9fab6472a6e8bebb9edfe03d414ea03d",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/ibm-granite__granite-3.1-1b-a400m-instruct.config.json": "f1b64813debfabeb9cc20f1a13ed8248da6774fe54e532d19912d4b3f2ab335d",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/ibm-granite__granite-4.0-h-tiny.config.json": "bda8fd574ace7d968d82397f59ea6b9a702a077bbeab279a65b9dad7386a82c6",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/precision-scope/mistralai__Mixtral-8x7B-Instruct-v0.1.config.json": "9d56d04b36d0fd12ff54ae4c5bac769cc176e254e64ff71144614b6318b40793",
+    "/home/ericyu/expert_flash_experiment/kernel/aif.c": "573a89513fb7fa0846ce1142888252b1453755e3eabe3c6455ea8f8b86808c0e",
+    "/home/ericyu/expert_flash_experiment/kernel/aif.h": "25b3437f2f847554b3c31704ccef815fe85100b1ca01218d13f19b79d8f4d705",
+    "/home/ericyu/expert_flash_experiment/scripts/aif_model.py": "baa452445e953fb3d096a840facd1801ee3870726c6667d38180b9526e06751b",
+    "/home/ericyu/expert_flash_experiment/scripts/joint_plane_search.py": "a4ea59cda820a1791610c68521af015c05424e541ab9f4ec8ca3ddd4b7473074",
+    "/home/ericyu/expert_flash_experiment/scripts/llama_corpus_trace.cpp": "37e7e3744189a9da753d9b2f2cc00ee7b443f9e17d901c3d0a8f26edc14e0655",
+    "/home/ericyu/expert_flash_experiment/scripts/validate_converted_weights.py": "7cc83536b6b1c963e4983aaf43f204726f89407d5008958c57f6c33fea6a0b8b",
+    "/home/ericyu/expert_flash_experiment/paper/aif.txt": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7",
+    "/home/ericyu/expert_flash_experiment/README.md": "5a6f989f9d4f88a55cf9c6ec3df3394332dda9623ee7ca4511e3d6540065a6af",
+    "/home/nfs_client/ericyu/expert_flash_experiment/sources/llama.cpp-927dada6c/ggml/src/ggml-common.h": "33667042e675da25d8ea0c6d5d0999506f1edfce2b7d97c2d78830ac5fb3fa46",
+    "/home/nfs_client/ericyu/expert_flash_experiment/sources/llama.cpp-927dada6c/ggml/src/ggml-cpu/ggml-cpu.c": "d73324b7b8d7bcb5c27473503e0416602689806fb7aff6c24d8de4b82aabbbb4"
+  },
+  "script_sha256": "6a4c84a65a75ff2d3262143024d848e521407f8d6a05a4e9b6c0fc6903e618e7"
+}

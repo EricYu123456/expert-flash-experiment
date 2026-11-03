@@ -1,0 +1,12 @@
+{
+  "objective": "Low-cost TRAIN-only chip-occupation oracle for shared Down compaction and fixed one-copy unequal complete-row/support mappings; no new native feature or fullFFN simulator.",
+  "reference": "W8_A8. Routed Down1536x512, shared Down1536x1024.16chips,4planes,16384B/page, copy500ns, sealed finitePB/cache-only strict CR and fixed0123 drain.",
+  "inputs": ["existing asymmetric Down menus and winner", "same existing W8 TRAIN512 routes for layers0,1,2", "sealed pipeline", "existing fullFFN service arrays for descriptive context only"],
+  "scope": "Per-chip mandatory job ownership lower envelope, not fullFFN attainable latency. Command250ns, complete private ONFI input, finitePB ECC duration, last-page ONFI tail. Ignores GU release skew, global command/channel/PCIe contention and scheduling idle.",
+  "shared_exact_search": "On learned g4 four-chip groups, enumerate2925 compositions of24shared pages per chip-group. Each group uses the same integer page count on its four chips; sum96pages/1536rows. Select TRAIN mean chip-critical work, lexicographic tie. Require one-block combined GU+Down capacity where possible.",
+  "support_search": "Prospective standard local-search control, not new algorithm. For each layer, warm-start shared-composition winner;4096seeded proposals moving one routed12page shard to an empty chip (equal-row free4support). Then4096seeded routed page-transfer proposals with delta in1,4,all-source pages plus occasional shared-page transfers. Accept strictly smaller TRAIN mean critical work. Preserve each expert48pages and shared96pages, valid native job lengths, unique coefficients, and resident capacity. Fit input1 only; evaluate same maps at input4.",
+  "seed": 20261102,
+  "capacity": "Single-copy coefficients. Per-chip GU plane0/1 occupancy128WL; Down per-plane0 reservation sum ceil(job_pages/4). Require128+Down<=192. This is a conservative same-one-block certificate and hence no larger allocated capacity than the selected winner.",
+  "relaxation": "A separate route-dependent collision-free minmax job packing gives an optimistic lower bound; it cannot be implemented by changing a fixed one-copy mapping per query.",
+  "forbidden": ["heldout access", "new input contexts", "partial dot products", "weight replication", "free cold-start merging across private vectors", "treating chip-work reduction as fullFFN speedup", "global optimality or algorithm novelty claims"]
+}

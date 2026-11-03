@@ -1,0 +1,123 @@
+{
+  "status": "exact fixed-copy-work oracle, not achieved runtime",
+  "created_utc": "2026-11-01T23:44:28.207200+00:00",
+  "source_sha256": "202b46029334b90d3a7660886ebee2df04e45dfb517a743503cea6dff5ebe3f6",
+  "protocol": "First3layers current whole_rows plans; their64fixed training-only selection queries; no refit or external data.",
+  "inventory": "Each existing shared native job stored at four owners{j,j+4,j+8,j+12}mod16. Exactly three full-shared-expert-equivalent extra copies. No routed copies or moved row endpoints.",
+  "copy_fraction_full_ffn": 0.005847953216374269,
+  "copy_useful_bytes_first3": 44236800,
+  "totals": {
+    "observed": {
+      "mean_ns": 4784581.25,
+      "p99_ns": 4858650.5,
+      "optimistic_mean_headroom_pct": 0.0
+    },
+    "onecopy": {
+      "mean_ns": 4779156.6875,
+      "p99_ns": 4853128.0,
+      "optimistic_mean_headroom_pct": 0.11337590933375719
+    },
+    "whole_expert_view": {
+      "mean_ns": 4728160.625,
+      "p99_ns": 4796624.24,
+      "optimistic_mean_headroom_pct": 1.1792176170067115
+    },
+    "phase_independent_views": {
+      "mean_ns": 4686017.5,
+      "p99_ns": 4740273.22,
+      "optimistic_mean_headroom_pct": 2.0600287642727366
+    },
+    "native_rda_quad": {
+      "mean_ns": 4648950.46875,
+      "p99_ns": 4694418.52,
+      "optimistic_mean_headroom_pct": 2.834747163087681
+    }
+  },
+  "layers": [
+    {
+      "layer": 0,
+      "distinct_quad_load_options": [
+        6400,
+        6400,
+        10000,
+        16000
+      ],
+      "mean_ns": {
+        "observed": 1595867.90625,
+        "onecopy": 1594082.0625,
+        "whole_expert_view": 1575606.46875,
+        "phase_independent_views": 1560697.125,
+        "native_rda_quad": 1549683.25
+      },
+      "p99_ns": {
+        "observed": 1629839.12,
+        "onecopy": 1627116.24,
+        "whole_expert_view": 1626964.24,
+        "phase_independent_views": 1598912.98,
+        "native_rda_quad": 1570804.0
+      }
+    },
+    {
+      "layer": 1,
+      "distinct_quad_load_options": [
+        6400,
+        6400,
+        10000,
+        16000
+      ],
+      "mean_ns": {
+        "observed": 1593971.109375,
+        "onecopy": 1592319.34375,
+        "whole_expert_view": 1576492.65625,
+        "phase_independent_views": 1562886.40625,
+        "native_rda_quad": 1550056.84375
+      },
+      "p99_ns": {
+        "observed": 1629941.98,
+        "onecopy": 1627060.0,
+        "whole_expert_view": 1609387.24,
+        "phase_independent_views": 1581376.02,
+        "native_rda_quad": 1570804.0
+      }
+    },
+    {
+      "layer": 2,
+      "distinct_quad_load_options": [
+        6400,
+        6400,
+        10000,
+        16000
+      ],
+      "mean_ns": {
+        "observed": 1594742.234375,
+        "onecopy": 1592755.28125,
+        "whole_expert_view": 1576061.5,
+        "phase_independent_views": 1562433.96875,
+        "native_rda_quad": 1549210.375
+      },
+      "p99_ns": {
+        "observed": 1640237.54,
+        "onecopy": 1637647.48,
+        "whole_expert_view": 1627060.0,
+        "phase_independent_views": 1598856.0,
+        "native_rda_quad": 1570804.0
+      }
+    }
+  ],
+  "input_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L0.cmd250/whole_rows.plan.json": "5a4aed1c6ff99470f9b080df231f798f8b0ed03441aeffc95d940a0e41919509",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L0.cmd250/whole_rows.npz": "52d3f121d0c1daf84d401729d70be54fc9f6141fc74b0b17a0da041024383627",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L1.cmd250/whole_rows.plan.json": "b2461b599c92f3953216036a4ebc58dccacbcbc05dd9a94f6ad4b4183f11a026",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L1.cmd250/whole_rows.npz": "c2e9c4bc1629853c4d51cd41963971f8f1ecf9c2bf6026c1b2c120bdf2975cc3",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L2.cmd250/whole_rows.plan.json": "223b7d57ad30d1579820e779c106e1407c7cda152540f1caf75a3c5ebd183425",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/qwen38.L2.cmd250/whole_rows.npz": "b7f641c9dff99a1c2f0f6b71e60d61374fe064b68a6567f2db348b32c1452e67"
+  },
+  "generic_equivalence": "native_rda_quad is the generic RDA baseline itself; no new selector mechanism or algorithm is claimed.",
+  "limits": [
+    "All candidate values except observed are necessary native context-work bounds; GU readiness, A8 global scale, resource contention and online selection cost remain.",
+    "Whole-expert-view control picks one complete preplaced replica per query; phase-independent control can choose GU/down copies independently; RDA chooses each indivisible native job.",
+    "No runtime weights are moved; immutable copies use existing full-row native shapes and one chip context.",
+    "Neither the incumbent onecopy shared profile nor four-owner inventory is globally optimal. Samebudget onecopy row/owner refit, flexible shared geometry and generic coalescing are mandatory before any contribution claim.",
+    "Population mean and p99 are64training selection ordinals summed over3layers, not heldout or fullmodel latency."
+  ]
+}

@@ -1,0 +1,1230 @@
+{
+  "status": "negative_stop_no_copy_or_fullFFN_implementation",
+  "utc": "2026-11-02T14:02:13.207685+00:00",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_down_replica_headroom.py": "6d7a2e7804ce681699daf925f1f8d61bc925234330b5fd59f5a897d791620f34",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_pipeline.py": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/asymmetric-down/Down_menus.frozen.npz": "7e03bc298ec7d98672285f6229c2787f669f09bfde95dd1784ec9d4745cf7082",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/asymmetric-down/selection.frozen.json": "fff17276918f5f5bd9756e7095db956e70745a31ee689df2394bb25984161e3c",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/asymmetric-down/protocol.frozen.json": "0e01d956765d1a06fc6cb33369e766cce1bfa2556f12efdecbe0b6ecb359d140",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/asymmetric-down/selected_oneblock_capacity_audit.json": "0f2db5bb30cb361d9decdef249a846f61930b7dfbfc3dfda3c79901294872592",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/asymmetric-down/TRAIN512/service_arrays.npz": "4d48c8713c91b0d3ee16e9529a72dfa9446c23c23ac07e75e3a5fa13d899cd6e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/asymmetric-down/TRAIN512/report.json": "ae819ce24a76ddc7ab7364baf2bf57a53ffa8bca37b625315fbb386787ef19ad",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-joint-prefix-replica-screen/native-v1/report.json": "c4a8814eec979349b173901f14614d2baae719b7a9f19662236c07e0746eebfb",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-joint-prefix-replica-screen/same-allocated-witness/audit.json": "c6a7e6fcefe427e41f4e8e302f45f11b872e038f46c8eec3e9b332bb78cb8efb",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/deep-gu-paired-replica-screen/independent-contract/contract_notes.txt": "63de73749d5244eb960c01f3e9cd5765101c0daae206e3599888159ee6c4659b",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_clean_replica.py": "c338e72d95a13b49f4875f7f19916b08691fd725831a7a0fb84447c1c4fad999",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/asymmetric-down/TRAIN512/trace.candidate.g4_reused_TRAIN_labels.input1.GF.json": "0f044258bc0db6ff1891694bb30fa1d552fe93006d92bf63531cb958b2ce1632",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/asymmetric-down/TRAIN512/trace.candidate.g4_reused_TRAIN_labels.input4.GF.json": "80ec9b3b4c7b41ee75373b437fda1aaaebdc7dd603c142837234f4535af5ede2"
+  },
+  "data_scope": "Existing TRAIN32prompts×16decode×first3MoElayers; noheldout/noquality/noinference.",
+  "scope": "Fixed current candidate GU owner-release calendars, g4_reused_TRAIN_labels384-row native routed Down jobs, sharedg16 Down unchanged.",
+  "frozen_Down_menu_inventory": [
+    "g1_disjoint",
+    "g2_disjoint",
+    "g2_cyclic",
+    "g4_disjoint",
+    "g4_cyclic",
+    "g8_disjoint",
+    "g8_cyclic",
+    "g16_disjoint",
+    "g12_cyclic",
+    "g2_reused_TRAIN_labels",
+    "g4_reused_TRAIN_labels",
+    "g8_reused_TRAIN_labels",
+    "g12_reused_strong_mask"
+  ],
+  "kernels": {
+    "four_plane_band": {
+      "duration_ns": 59220,
+      "waves": 3,
+      "pages": 12,
+      "columns": 512,
+      "planes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rows": 384,
+      "settings": {
+        "page_bytes": 16384,
+        "row_bytes": 512,
+        "cold_ns": 28000,
+        "cr_ns": 9700,
+        "recycle_ns": 6040,
+        "ecc_bytes_per_second": 6400000000,
+        "cache_copy_ns": 500,
+        "weight_slots": 2,
+        "overwrite_at": "evaluation_start",
+        "copy_overlaps_recycle": true,
+        "availability_phase_ns": 0,
+        "source_policy": "fixed",
+        "issue_policy": "strict_no_interval",
+        "array_mode": "cr",
+        "copy_scope": "per_plane",
+        "validate_row_stream": true,
+        "unselected_policy": "reject",
+        "cold_discharge_ns": 0
+      },
+      "first_page_ns": 28000,
+      "output_last_burst_bytes": 128
+    },
+    "two_light_plane_band": {
+      "duration_ns": 82120,
+      "waves": 6,
+      "pages": 12,
+      "columns": 512,
+      "planes": [
+        2,
+        3
+      ],
+      "rows": 384,
+      "settings": {
+        "page_bytes": 16384,
+        "row_bytes": 512,
+        "cold_ns": 28000,
+        "cr_ns": 9700,
+        "recycle_ns": 6040,
+        "ecc_bytes_per_second": 6400000000,
+        "cache_copy_ns": 500,
+        "weight_slots": 2,
+        "overwrite_at": "evaluation_start",
+        "copy_overlaps_recycle": true,
+        "availability_phase_ns": 0,
+        "source_policy": "fixed",
+        "issue_policy": "strict_no_interval",
+        "array_mode": "cr",
+        "copy_scope": "per_plane",
+        "validate_row_stream": true,
+        "unselected_policy": "reject",
+        "cold_discharge_ns": 0
+      },
+      "first_page_ns": 28000,
+      "output_last_burst_bytes": 128
+    },
+    "shared_g16": {
+      "duration_ns": 43860,
+      "waves": 2,
+      "pages": 6,
+      "columns": 1024,
+      "planes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rows": 96,
+      "settings": {
+        "page_bytes": 16384,
+        "row_bytes": 1024,
+        "cold_ns": 28000,
+        "cr_ns": 9700,
+        "recycle_ns": 6040,
+        "ecc_bytes_per_second": 6400000000,
+        "cache_copy_ns": 500,
+        "weight_slots": 2,
+        "overwrite_at": "evaluation_start",
+        "copy_overlaps_recycle": true,
+        "availability_phase_ns": 0,
+        "source_policy": "fixed",
+        "issue_policy": "strict_no_interval",
+        "array_mode": "cr",
+        "copy_scope": "per_plane",
+        "validate_row_stream": true,
+        "unselected_policy": "reject",
+        "cold_discharge_ns": 0
+      },
+      "first_page_ns": 28000,
+      "output_last_burst_bytes": 64
+    },
+    "equal_GU_half": {
+      "duration_ns": 89940,
+      "waves": 6,
+      "pages": 24,
+      "columns": 1536,
+      "planes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rows": 256,
+      "settings": {
+        "page_bytes": 16384,
+        "row_bytes": 1536,
+        "cold_ns": 28000,
+        "cr_ns": 9700,
+        "recycle_ns": 6040,
+        "ecc_bytes_per_second": 6400000000,
+        "cache_copy_ns": 500,
+        "weight_slots": 2,
+        "overwrite_at": "evaluation_start",
+        "copy_overlaps_recycle": true,
+        "availability_phase_ns": 0,
+        "source_policy": "fixed",
+        "issue_policy": "strict_no_interval",
+        "array_mode": "cr",
+        "copy_scope": "per_plane",
+        "validate_row_stream": true,
+        "unselected_policy": "reject",
+        "cold_discharge_ns": 0
+      },
+      "first_page_ns": 28000,
+      "output_last_burst_bytes": 44
+    }
+  },
+  "events": 1536,
+  "original_max_routed_band_distribution": {
+    "2": 1202,
+    "3": 328,
+    "4": 6
+  },
+  "original_mean_max_routed_bands": 2.2213541666666665,
+  "assignment_cases": [
+    {
+      "input_copies": 1,
+      "events": 1536,
+      "GU_available_ns": [
+        158180,
+        158430,
+        158680,
+        158930,
+        159180,
+        159430,
+        159680,
+        159930,
+        160180,
+        160430,
+        160680,
+        160930,
+        161180,
+        161430,
+        161680,
+        161930
+      ],
+      "Down_submit_release_ns": [
+        68016,
+        75696,
+        98736,
+        129456,
+        137136,
+        163936,
+        146556
+      ],
+      "minimum_band_owner_ns": 59790,
+      "minimum_shared_owner_ns": 44654,
+      "unlimited_fast_copy_calendar_LB_ns": 324164,
+      "coarser_min_GU_release_LB_ns": 322414,
+      "baseline_mean_ns": 338596.21875,
+      "RR_reoptimized_mean_ns": 339961.4010416667,
+      "candidate_gain_over_RR_pct": 0.40156979218336497,
+      "headroom_upper_bound_pct": 4.262368553104223,
+      "mean_saving_upper_bound_ns": 14432.21875,
+      "fixed_original_calendar_LB_mean_ns": 338588.21875,
+      "fixed_current_cost_residual_ns": 8,
+      "ordinary_wholeexpert_group_copy_witness": {
+        "chip_calendar_end_ns": 324164,
+        "expert_destination_groups": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "jobs": [
+          {
+            "chip": 0,
+            "expert_rank": 0,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 158180,
+            "end_ns": 217970
+          },
+          {
+            "chip": 0,
+            "expert_rank": 1,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 217970,
+            "end_ns": 277760
+          },
+          {
+            "chip": 0,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 277760,
+            "end_ns": 322414
+          },
+          {
+            "chip": 1,
+            "expert_rank": 0,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 158430,
+            "end_ns": 218220
+          },
+          {
+            "chip": 1,
+            "expert_rank": 1,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 218220,
+            "end_ns": 278010
+          },
+          {
+            "chip": 1,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 278010,
+            "end_ns": 322664
+          },
+          {
+            "chip": 2,
+            "expert_rank": 0,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 158680,
+            "end_ns": 218470
+          },
+          {
+            "chip": 2,
+            "expert_rank": 1,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 218470,
+            "end_ns": 278260
+          },
+          {
+            "chip": 2,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 278260,
+            "end_ns": 322914
+          },
+          {
+            "chip": 3,
+            "expert_rank": 0,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 158930,
+            "end_ns": 218720
+          },
+          {
+            "chip": 3,
+            "expert_rank": 1,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 218720,
+            "end_ns": 278510
+          },
+          {
+            "chip": 3,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 278510,
+            "end_ns": 323164
+          },
+          {
+            "chip": 4,
+            "expert_rank": 2,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 159180,
+            "end_ns": 218970
+          },
+          {
+            "chip": 4,
+            "expert_rank": 3,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 218970,
+            "end_ns": 278760
+          },
+          {
+            "chip": 4,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 278760,
+            "end_ns": 323414
+          },
+          {
+            "chip": 5,
+            "expert_rank": 2,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 159430,
+            "end_ns": 219220
+          },
+          {
+            "chip": 5,
+            "expert_rank": 3,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 219220,
+            "end_ns": 279010
+          },
+          {
+            "chip": 5,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 279010,
+            "end_ns": 323664
+          },
+          {
+            "chip": 6,
+            "expert_rank": 2,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 159680,
+            "end_ns": 219470
+          },
+          {
+            "chip": 6,
+            "expert_rank": 3,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 219470,
+            "end_ns": 279260
+          },
+          {
+            "chip": 6,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 279260,
+            "end_ns": 323914
+          },
+          {
+            "chip": 7,
+            "expert_rank": 2,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 159930,
+            "end_ns": 219720
+          },
+          {
+            "chip": 7,
+            "expert_rank": 3,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 219720,
+            "end_ns": 279510
+          },
+          {
+            "chip": 7,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 279510,
+            "end_ns": 324164
+          },
+          {
+            "chip": 8,
+            "expert_rank": 4,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 160180,
+            "end_ns": 219970
+          },
+          {
+            "chip": 8,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 219970,
+            "end_ns": 264624
+          },
+          {
+            "chip": 9,
+            "expert_rank": 4,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 160430,
+            "end_ns": 220220
+          },
+          {
+            "chip": 9,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 220220,
+            "end_ns": 264874
+          },
+          {
+            "chip": 10,
+            "expert_rank": 4,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 160680,
+            "end_ns": 220470
+          },
+          {
+            "chip": 10,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 220470,
+            "end_ns": 265124
+          },
+          {
+            "chip": 11,
+            "expert_rank": 4,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 160930,
+            "end_ns": 220720
+          },
+          {
+            "chip": 11,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 220720,
+            "end_ns": 265374
+          },
+          {
+            "chip": 12,
+            "expert_rank": 5,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 163936,
+            "end_ns": 223726
+          },
+          {
+            "chip": 12,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 223726,
+            "end_ns": 268380
+          },
+          {
+            "chip": 13,
+            "expert_rank": 5,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 163936,
+            "end_ns": 223726
+          },
+          {
+            "chip": 13,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 223726,
+            "end_ns": 268380
+          },
+          {
+            "chip": 14,
+            "expert_rank": 5,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 163936,
+            "end_ns": 223726
+          },
+          {
+            "chip": 14,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 223726,
+            "end_ns": 268380
+          },
+          {
+            "chip": 15,
+            "expert_rank": 5,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 163936,
+            "end_ns": 223726
+          },
+          {
+            "chip": 15,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 223726,
+            "end_ns": 268380
+          }
+        ],
+        "scope": "Chip-local release/nonoverlap witness only. Global command/channel/PCIe priorities and FIFO are relaxed; no full-FFN schedule is claimed."
+      },
+      "limitations": "Oracle relaxes global contention/priority, selector cost and FIFO; treats allcopies as fast4plane with unlimited destinations. It retains fixed currentGU and sharedg16 and one384-row native job/band."
+    },
+    {
+      "input_copies": 4,
+      "events": 1536,
+      "GU_available_ns": [
+        160484,
+        160734,
+        160984,
+        161234,
+        161484,
+        161734,
+        161984,
+        162234,
+        163556,
+        163806,
+        164056,
+        164306,
+        164556,
+        164806,
+        165056,
+        165306
+      ],
+      "Down_submit_release_ns": [
+        71392,
+        79072,
+        102112,
+        132832,
+        140512,
+        167312,
+        149932
+      ],
+      "minimum_band_owner_ns": 60558,
+      "minimum_shared_owner_ns": 46190,
+      "unlimited_fast_copy_calendar_LB_ns": 329540,
+      "coarser_min_GU_release_LB_ns": 327790,
+      "baseline_mean_ns": 344970.6458333333,
+      "RR_reoptimized_mean_ns": 346335.828125,
+      "candidate_gain_over_RR_pct": 0.3941787654651696,
+      "headroom_upper_bound_pct": 4.473031552020334,
+      "mean_saving_upper_bound_ns": 15430.645833333334,
+      "fixed_original_calendar_LB_mean_ns": 344962.6458333333,
+      "fixed_current_cost_residual_ns": 8,
+      "ordinary_wholeexpert_group_copy_witness": {
+        "chip_calendar_end_ns": 329540,
+        "expert_destination_groups": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "jobs": [
+          {
+            "chip": 0,
+            "expert_rank": 0,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 160484,
+            "end_ns": 221042
+          },
+          {
+            "chip": 0,
+            "expert_rank": 1,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 221042,
+            "end_ns": 281600
+          },
+          {
+            "chip": 0,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 281600,
+            "end_ns": 327790
+          },
+          {
+            "chip": 1,
+            "expert_rank": 0,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 160734,
+            "end_ns": 221292
+          },
+          {
+            "chip": 1,
+            "expert_rank": 1,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 221292,
+            "end_ns": 281850
+          },
+          {
+            "chip": 1,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 281850,
+            "end_ns": 328040
+          },
+          {
+            "chip": 2,
+            "expert_rank": 0,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 160984,
+            "end_ns": 221542
+          },
+          {
+            "chip": 2,
+            "expert_rank": 1,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 221542,
+            "end_ns": 282100
+          },
+          {
+            "chip": 2,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 282100,
+            "end_ns": 328290
+          },
+          {
+            "chip": 3,
+            "expert_rank": 0,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 161234,
+            "end_ns": 221792
+          },
+          {
+            "chip": 3,
+            "expert_rank": 1,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 221792,
+            "end_ns": 282350
+          },
+          {
+            "chip": 3,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 282350,
+            "end_ns": 328540
+          },
+          {
+            "chip": 4,
+            "expert_rank": 2,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 161484,
+            "end_ns": 222042
+          },
+          {
+            "chip": 4,
+            "expert_rank": 3,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 222042,
+            "end_ns": 282600
+          },
+          {
+            "chip": 4,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 282600,
+            "end_ns": 328790
+          },
+          {
+            "chip": 5,
+            "expert_rank": 2,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 161734,
+            "end_ns": 222292
+          },
+          {
+            "chip": 5,
+            "expert_rank": 3,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 222292,
+            "end_ns": 282850
+          },
+          {
+            "chip": 5,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 282850,
+            "end_ns": 329040
+          },
+          {
+            "chip": 6,
+            "expert_rank": 2,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 161984,
+            "end_ns": 222542
+          },
+          {
+            "chip": 6,
+            "expert_rank": 3,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 222542,
+            "end_ns": 283100
+          },
+          {
+            "chip": 6,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 283100,
+            "end_ns": 329290
+          },
+          {
+            "chip": 7,
+            "expert_rank": 2,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 162234,
+            "end_ns": 222792
+          },
+          {
+            "chip": 7,
+            "expert_rank": 3,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 222792,
+            "end_ns": 283350
+          },
+          {
+            "chip": 7,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 283350,
+            "end_ns": 329540
+          },
+          {
+            "chip": 8,
+            "expert_rank": 4,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 163556,
+            "end_ns": 224114
+          },
+          {
+            "chip": 8,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 224114,
+            "end_ns": 270304
+          },
+          {
+            "chip": 9,
+            "expert_rank": 4,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 163806,
+            "end_ns": 224364
+          },
+          {
+            "chip": 9,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 224364,
+            "end_ns": 270554
+          },
+          {
+            "chip": 10,
+            "expert_rank": 4,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 164056,
+            "end_ns": 224614
+          },
+          {
+            "chip": 10,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 224614,
+            "end_ns": 270804
+          },
+          {
+            "chip": 11,
+            "expert_rank": 4,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 164306,
+            "end_ns": 224864
+          },
+          {
+            "chip": 11,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 224864,
+            "end_ns": 271054
+          },
+          {
+            "chip": 12,
+            "expert_rank": 5,
+            "band": 0,
+            "row_start": 0,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 167312,
+            "end_ns": 227870
+          },
+          {
+            "chip": 12,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 227870,
+            "end_ns": 274060
+          },
+          {
+            "chip": 13,
+            "expert_rank": 5,
+            "band": 1,
+            "row_start": 384,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 167312,
+            "end_ns": 227870
+          },
+          {
+            "chip": 13,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 227870,
+            "end_ns": 274060
+          },
+          {
+            "chip": 14,
+            "expert_rank": 5,
+            "band": 2,
+            "row_start": 768,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 167312,
+            "end_ns": 227870
+          },
+          {
+            "chip": 14,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 227870,
+            "end_ns": 274060
+          },
+          {
+            "chip": 15,
+            "expert_rank": 5,
+            "band": 3,
+            "row_start": 1152,
+            "rows": 384,
+            "columns": 512,
+            "start_ns": 167312,
+            "end_ns": 227870
+          },
+          {
+            "chip": 15,
+            "expert_rank": 6,
+            "rows": 96,
+            "columns": 1024,
+            "start_ns": 227870,
+            "end_ns": 274060
+          }
+        ],
+        "scope": "Chip-local release/nonoverlap witness only. Global command/channel/PCIe priorities and FIFO are relaxed; no full-FFN schedule is claimed."
+      },
+      "limitations": "Oracle relaxes global contention/priority, selector cost and FIFO; treats allcopies as fast4plane with unlimited destinations. It retains fixed currentGU and sharedg16 and one384-row native job/band."
+    }
+  ],
+  "capacity_ledger": [
+    {
+      "GU": "candidate",
+      "allocated_blocks_per_chip": 1,
+      "allocated_LSB_bytes": 201326592,
+      "base_pages_per_chip_plane": [
+        178,
+        178,
+        119,
+        119
+      ],
+      "free_pages_per_chip_plane": [
+        14,
+        14,
+        73,
+        73
+      ],
+      "fast384row_copy_slots_per_chip": 4,
+      "fast_band_copy_slots_allchips": 64,
+      "slow_plane23_copy_slots_after_max_fast_per_chip": 10,
+      "standard_all4group_completeDowncopies_fit": false,
+      "all4group_extra_pages_per_chip_plane": [
+        144,
+        144,
+        144,
+        144
+      ],
+      "total_pages_if_all4group_copies": [
+        322,
+        322,
+        263,
+        263
+      ]
+    },
+    {
+      "GU": "candidate",
+      "allocated_blocks_per_chip": 2,
+      "allocated_LSB_bytes": 402653184,
+      "base_pages_per_chip_plane": [
+        178,
+        178,
+        119,
+        119
+      ],
+      "free_pages_per_chip_plane": [
+        206,
+        206,
+        265,
+        265
+      ],
+      "fast384row_copy_slots_per_chip": 68,
+      "fast_band_copy_slots_allchips": 1088,
+      "slow_plane23_copy_slots_after_max_fast_per_chip": 10,
+      "standard_all4group_completeDowncopies_fit": true,
+      "all4group_extra_pages_per_chip_plane": [
+        144,
+        144,
+        144,
+        144
+      ],
+      "total_pages_if_all4group_copies": [
+        322,
+        322,
+        263,
+        263
+      ]
+    },
+    {
+      "GU": "RR",
+      "allocated_blocks_per_chip": 1,
+      "allocated_LSB_bytes": 201326592,
+      "base_pages_per_chip_plane": [
+        149,
+        149,
+        148,
+        148
+      ],
+      "free_pages_per_chip_plane": [
+        43,
+        43,
+        44,
+        44
+      ],
+      "fast384row_copy_slots_per_chip": 14,
+      "fast_band_copy_slots_allchips": 224,
+      "slow_plane23_copy_slots_after_max_fast_per_chip": 0,
+      "standard_all4group_completeDowncopies_fit": false,
+      "all4group_extra_pages_per_chip_plane": [
+        144,
+        144,
+        144,
+        144
+      ],
+      "total_pages_if_all4group_copies": [
+        293,
+        293,
+        292,
+        292
+      ]
+    },
+    {
+      "GU": "RR",
+      "allocated_blocks_per_chip": 2,
+      "allocated_LSB_bytes": 402653184,
+      "base_pages_per_chip_plane": [
+        149,
+        149,
+        148,
+        148
+      ],
+      "free_pages_per_chip_plane": [
+        235,
+        235,
+        236,
+        236
+      ],
+      "fast384row_copy_slots_per_chip": 78,
+      "fast_band_copy_slots_allchips": 1248,
+      "slow_plane23_copy_slots_after_max_fast_per_chip": 0,
+      "standard_all4group_completeDowncopies_fit": true,
+      "all4group_extra_pages_per_chip_plane": [
+        144,
+        144,
+        144,
+        144
+      ],
+      "total_pages_if_all4group_copies": [
+        293,
+        293,
+        292,
+        292
+      ]
+    }
+  ],
+  "standard_controls": {
+    "complete_Down_expert_replication": "Replicate all4contiguous384-row bands together into each of fourdisjoint4chipgroups; routechooses a wholeexpert group. Its chip-calendar witness matches the unlimited independent-band oracle.",
+    "replicated_declustering": "Independent band destination selection is ordinary replicateddeclustering; it is a control, not a new placement primitive.",
+    "all4group_extra_useful_bytes": 150994944,
+    "base_onecopy_useful_bytes": 155713536,
+    "total_with_3extraDowncopies_bytes": 306708480,
+    "full_routed_FFN_expert_copy_same_extra_byte_budget": true,
+    "qualification": "Capacity/page accounting and chip-local oracle only; no fullFFN speed or actual programmed-copy certificate is claimed."
+  },
+  "prior_findings": {
+    "g4_joint_native_gain_pct": 2.1524268753560616,
+    "equal_allocated_whole_GU_witness": "Previous completeGU replicas reproduced joint prefix service inside the same32allocatedblocks, so prefix programmed-page savings were not an allocated-capacity advantage.",
+    "adjacent_row_coalescing": "Oldclean-replica explicitly shows input/command savings from adjacent sameexpert row coalescing. This screen fixes384-row jobgranularity and does not bound that changed geometry.",
+    "paths": [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-joint-prefix-replica-screen/native-v1/report.json",
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-joint-prefix-replica-screen/same-allocated-witness/audit.json",
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/deep-gu-paired-replica-screen/independent-contract/contract_notes.txt",
+      "/home/ericyu/expert_flash_experiment/scripts/research_20261102_clean_replica.py"
+    ]
+  },
+  "equal_two_GU_cut": {
+    "two_GU_jobs_compute_ns_per_chip": 179880,
+    "fixed_original_max_load_mean": 2.2213541666666665,
+    "compute_only_exclusive_chip_LB_mean_ns": 355288.59375,
+    "input1_current_mean_ns": 338596.21875,
+    "excess_over_input1_current_ns": 16692.375,
+    "omitted": "All new command/fullinput/output costs, which cannot improve this lower bound.",
+    "conclusion": "Reject the simple twoequal commonGU g16 cut with unchanged currentg4 Down supports; this does not reject heterogeneous GUcuts/supports."
+  },
+  "next_headroom": "Heterogeneous GUjob cuts or different GU/Down supports might change release calendars. A new nativejob pays freshcold/command/fullinput. The simple equal twojob g16 cut is already rejected by the retained compute-only bound; no new experiment is started.",
+  "limitations": [
+    "Fixed currentGU release calendars, current384-row Downnativejobs and sharedg16 only; not a global lower bound over everyGU/Down configuration.",
+    "Unlimitedcopies and uncontented resources are optimistic. Finitecopy budgets, slowerplane23copies and selector costs cannot beat this bound within this fixedjob model.",
+    "No merging adjacentbands, newMAC, largerFIFO, multiinput context, partialsum, changedquantization or heldoutdata is assumed.",
+    "Strict500ns copy, sourceorder/drop, skipWL CR and IPR follow the previously declared conditional pipeline model; no measuredhardware timing claim.",
+    "Oneblock and twoblock budgets are both shown. Standard wholeexpert/replicateddeclustering controls receive the same allocatedcapacity."
+  ],
+  "source_sha256": "6d7a2e7804ce681699daf925f1f8d61bc925234330b5fd59f5a897d791620f34",
+  "arrays_sha256": "2bd47850d342f66a2583cfbf803b4ce2137f181248e0db308ec08ef1d14619f8",
+  "actual_command": [
+    "python",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_down_replica_headroom.py"
+  ]
+}

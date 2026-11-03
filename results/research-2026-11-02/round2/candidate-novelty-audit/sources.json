@@ -1,0 +1,101 @@
+{
+  "checked_utc": "2026-11-02T00:22:43.076532+00:00",
+  "sources": [
+    {
+      "id": "pimcomp",
+      "title": "PIMCOMP: An End-to-End DNN Compiler for Processing-In-Memory Accelerators",
+      "version": "arXiv2411.09159v1,14Nov2024;TCAD44(5),2025",
+      "doi": "10.1109/TCAD.2024.3496847",
+      "url": "https://arxiv.org/html/2411.09159v1",
+      "sections": "III;IV-B/C/D;V-A/B;VI-A/B;VII;official repository README",
+      "read_depth": "Reread selected fulltext methods,not every evaluation paragraph. Official README downloaded at commit0cfbfa55cca22fcfebdb8dcfc75420dcbbbbdf77;no execution.",
+      "code": "https://github.com/sunxt99/PIMCOMP-NN",
+      "evidence": "AGs share input;layout and scheduling iterate through profiler;GA jointly maps/replicates;backend emits primitives;profiler performs functional and timing simulation. README exposes instruction-by-instruction comparison against ONNX Runtime and pimsim-nn.",
+      "boundary": "Crossbar-template PIM with explicit partial accumulation/VFUs;does not establish ordinary NAND block/wave or opaque output-row ABI. General compiler+verification+cost loop is already prior."
+    },
+    {
+      "id": "fast_overlapim",
+      "title": "Fast-OverlaPIM: A Fast Overlap-driven Mapping Framework for Processing In-Memory Neural Network Acceleration",
+      "version": "arXiv2407.00604v1,30Jun2024",
+      "url": "https://arxiv.org/html/2407.00604v1",
+      "sections": "III;IV-B/C/D/I/J/K;V-A",
+      "read_depth": "Reread architecture/performance model,ready-time transformation,whole-network search and controls. Not full evaluation/artifact execution.",
+      "code": "Customized Timeloop stated;no author project repository verified in inspected text.",
+      "evidence": "Mapping search includes producer/consumer readiness. Transformation sorts data spaces by input readiness and maps to resources while accounting for changed partial-sum movement. Uses overlap-aware and transformation controls and equal-runtime comparisons.",
+      "boundary": "Main evaluated backend is majority-based bit-serial HBM-PIM;not NAND ordinary-read service. Joint causal placement orready-time scheduling is not a new category."
+    },
+    {
+      "id": "stratum",
+      "title": "Stratum: System-Hardware Co-Design with Tiered Monolithic 3D-Stackable DRAM for Efficient MoE Serving",
+      "version": "arXiv2510.05245v1,6Oct2025;MICRO2025",
+      "doi": "10.1145/3725843.3756043",
+      "url": "https://arxiv.org/html/2510.05245v1",
+      "sections": "3.2;4.1/Figs8-9;5.2;6.1,with prior local audit",
+      "read_depth": "Reread expert partition/input reuse/execution text;earlier architecture/mapping audit retained;no simulator run.",
+      "code": "In-house simulator described;public runnable source not verified.",
+      "evidence": "Coordinates the two up partitions with down partition to keep activation ownership local;all PUs process activated experts sequentially;common input duplication is amortized;partial result gather overlaps next expert.",
+      "boundary": "Mono3D DRAM/NMP with local SFU/ring/reduction. Direct paired-GU/down and shared-input prior,but neither its units nor timing imply AiF capability."
+    },
+    {
+      "id": "cambricon",
+      "title": "Cambricon-LLM: A Chiplet-Based Hybrid Architecture for On-Device Inference of 70B LLM",
+      "version": "arXiv2409.15654v1,24Sep2024;MICRO2024",
+      "url": "https://arxiv.org/html/2409.15654v1",
+      "sections": "IV-A/B/C;V-A/B/Fig7;VII-A",
+      "read_depth": "Reread architecture,2D atomic tiling/broadcast and timing-based workload balancing;not a full new evaluation read. This is Cambricon-LLM,not FlexLLM.",
+      "code": "Modified SSDsim/NPU simulator stated;author runnable artifact not verified.",
+      "evidence": "Native page-sized2D atoms are mapped across channels/cores. Shared-channel input broadcast changes aspect-ratio cost. Tiling minimizes input/result movement and balances NPU/flash read-compute time.",
+      "boundary": "Strong direct NAND-geometry/cost prior;not a complete-row,no-column-partial ordinary one-block work/depth frontier or physical per-row certificate in inspected sections."
+    },
+    {
+      "id": "tilelens",
+      "title": "TileLens: Efficiently Using Large-Granularity Memory Systems with Transparent Two-Dimensional Memory Layout",
+      "version": "arXiv2607.04031v1,4Jul2026;preprint,venue placeholder in manuscript",
+      "url": "https://arxiv.org/html/2607.04031v1",
+      "sections": "2.3-2.6;3.1-3.4;4.2-4.4;5.1-5.3",
+      "read_depth": "Read these fulltext sections this round,extending prior abstract/introduction read. No source build or claimed paper-associated GitHub.",
+      "code": "No author artifact verified;same-name visualization/tool repositories are unrelated.",
+      "evidence": "Decouples static memory-tile shape from compute tile,derives address translation and alignment. SW path changes DSL descriptors;HW path extends TMA. Evaluated system also changes L2/MSHR/prefetch.",
+      "boundary": "HBF-fed GPU matmul,not in-flash dense GEMV. Granularity-aware transparent layout/address compilation is direct prior;new hardware support cannot be imported as existing AiF capability."
+    },
+    {
+      "id": "aif",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "version": "ISCA2025",
+      "doi": "10.1145/3695053.3731073",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "sections": "4.1;4.4/Fig14;5.2/footnotes8-9;Table2;local paper/aif.txt",
+      "read_depth": "Reread original command/placement/block-split/software-evaluation passages;earlier full mechanism audit retained.",
+      "code": "Local kernel is timing metadata/dummy output;no native PE functional/RTL contract verified.",
+      "evidence": "Equal submatrices,sequential LSB placement;GEMV specifies full input dimension,block,offset,pages. Cross-block submatrix becomes separate commands;FIFO polled as outputs appear. Evaluation returns dummy vectors.",
+      "boundary": "Native command/block split and dense packing are existing design capabilities. Output dtype/scale/reset,valid-row/fringe behavior,FIFO and input broadcast remain unverified."
+    },
+    {
+      "id": "recflash",
+      "title": "RecFlash: Fast Recommendation System on In-Storage Computing with Frequency-Based Data Mapping",
+      "version": "arXiv2604.25338v1,28Apr2026;extension of APCCAS2025",
+      "url": "https://arxiv.org/html/2604.25338v1",
+      "sections": "II-B;III-A/C,Figs4-6;TableI",
+      "read_depth": "Reread primary page coaccess/timing/frequency/plane/cache methods;no artifact run. This exact v1title corrects earlier informal embedding-optimized wording.",
+      "code": "No author runnable code verified in inspected primary text.",
+      "evidence": "Remaps frequently accessed embedding vectors to improve page utilization;combines plane distribution andcontroller page cache;models command/address,array-read and dataout phases.",
+      "boundary": "Direct NAND page-packing/plane/frequency prior for SLS embeddings,not dense whole-row GEMV numerical contract or MoE work/depth compiler."
+    },
+    {
+      "id": "declustering",
+      "title": "A Hypergraph Based Approach to Declustering Problems",
+      "version": "Distributed and Parallel Databases10(3),2001",
+      "doi": "10.1023/A:1019269409432",
+      "url": "https://ir.lib.nycu.edu.tw/bitstream/11536/30045/1/000172367000003.pdf",
+      "sections": "2Definitions1-6;3generalizedobjective",
+      "read_depth": "Earlier primary fulltext audit retained,not newly reread this round.",
+      "code": "No code claim.",
+      "evidence": "Query frequency weighted max-device sum of item retrieval times;variable item size/capacity and step-function service allowed.",
+      "boundary": "Covers fixed-atom query-aware placement objective. Does not itself validate resharded matrix operator semantics or native NAND lowering;representability does not prove the entire system contribution absent."
+    }
+  ],
+  "unresolved": [
+    "Cambricon-FlexLLM fulltext andDIAMoND fulltext remain unverified;no new claim of having read them."
+  ],
+  "search_scope": "Targeted only: specified direct compilers/mapping papers plusAiF/RecFlash native NAND controls. No new inference or frozen-plan modification."
+}

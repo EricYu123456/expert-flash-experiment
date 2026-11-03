@@ -1,0 +1,35 @@
+{
+  "created_utc": "2026-11-01T20:02:01.475246+00:00",
+  "status": "complete; mixed-shape search adds zero beyond shared fixed-family controls; no expansion",
+  "artifacts": {
+    "screen.json": "22ef295ba5349265c2132bf1745af9756c32c33d017f59b6d26810d3569badec",
+    "audit.json": "4365a1c8f10b193c6837a5c7213dfac15ade55e81f76f3b51f87bc4bb060e5c2",
+    "research_20261102_mixed_columns_audit.py": "2e63f422b0588ba386ea60ac0d5dd66a0dca099bebb3747e79a8ea0407e37561",
+    "research_20261102_mixed_columns.py": "eb91284aa32e19d366f7c310a8dcdfcf79654a08c0cbe5827b5fd1edb8356fe2",
+    "research_20261102_mixed_columns.cpp": "5c29950c0c3040a809ec70ca8bfe3072cc4902c49210962530eac9eb2df453a8"
+  },
+  "model_results": [
+    {
+      "model": "granite4tiny",
+      "routed_ffn_screen_total_ns": {
+        "legacy": 1539197.53125,
+        "best_fixed": 1511586.484375,
+        "mixed": 1511586.484375
+      },
+      "whole_ffn_mixed_gain_beyond_fixed_pct": 0.0,
+      "whole_ffn_mixed_gain_vs_legacy_excluding_host_sum_pct": 1.7938598727206045,
+      "aggregate_mean_host_sum_budget_vs_legacy_ns": 27611.046875
+    },
+    {
+      "model": "qwen3",
+      "routed_ffn_screen_total_ns": {
+        "legacy": 2243035.046875,
+        "best_fixed": 2234250.484375,
+        "mixed": 2234250.484375
+      },
+      "whole_ffn_mixed_gain_beyond_fixed_pct": 0.0,
+      "whole_ffn_mixed_gain_vs_legacy_excluding_host_sum_pct": 0.39163732694407205,
+      "aggregate_mean_host_sum_budget_vs_legacy_ns": 8784.5625
+    }
+  ]
+}

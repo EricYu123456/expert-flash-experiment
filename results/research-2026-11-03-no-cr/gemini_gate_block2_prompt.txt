@@ -1,0 +1,9 @@
+Gate候選第二個深入思考區塊。請先讀你自己的docs/research_2026_11_03_thinker_gemini.md與最新docs/research_2026_11_03_critic_sol.md、results/research-2026-11-03-no-cr/gate_zero_thinking.md，只讀這三份，不讀其他大檔、不要terminal、不要probe，只改你自己的Gemini筆記。現在root UTC記錄為 2026-11-02T19:46:17.841048+00:00。最早實驗時間已保守延到19:58UTC（不是19:56），仍須審查gate。
+你上一稿有實質想法，但black已提出具體反擊，請正面修正，不要把條件手算當已證定理或量測：
+1. Block Holder用L1*Linf可能比L2鬆；但block-L2的sum_b sqrt(W2b*X2b)總是不大於globalL2，不能混為同一種再說『唯一只有U1可收緊』。你所提spherepacking→2%metadata最多收緊10.5%缺完整定義/證明，應撤去定理稱呼或補真正適用有限INT8權重與當前input條件的證明。Top16占50-90%input能量無本專案實證，不可當普遍事實；Gaussian σ/L與cozero p^m均只分布假設，不能據此thoughtreject所有模型。
+2. 6.4GB/s是ECC/內部管線，不是公開MAC lane throughput；63%PEidle、99.5%sensingenergy需條件/來源，不可稱實測。q4共用PB要4*inputbytes<=明示容量且contexts/mux皆付，+.078mm²只是線性PE複製估算。slack Wc不等nativeDAG零延遲，撤『免費』。16KiB VQbook多ports需成本。
+3. U3 fixed witness tiles融合Gate確值得保留，但熱點不代表100%必要/零浪費；頁取整與fallback要付。Down columnshard輸出16*H*4是每expert，不是perlayer，K6/8要乘K；I32/FP32partials不得都稱bitexact，且row scales異expert不能先mixI32。
+4. 分母：對原dense省p/3是absolute work；strongbaseline已省Down d時，理想relative reduction=p/(3-d)。實際頁/criticalpath另論。需要所有模型都L/σ>=100並不是已證必要條件，更不是user要求每個模型都加速。可普遍合法且有明確適用範圍，但不能誇稱普遍收益。
+新較緊而廉價界供你挑戰：gate/up同row共享量化x，令G=wg·wg,V=wu·wu,C=wg·wu,X=x·x,d=wg·x（全int），則 (G*u-C*d)^2 <= (G*V-C²)(G*X-d²)。raw gate d若可取，得updot整數區間，可min原globalL2；metadata G/V/C約12B/row。這是投影Cauchy，不宣新定理；unknown gate/up相關性是否足夠、rawI32ABI/或由F32反推interval與128bit sqrt成本需付。Native clamp也可tightbound，但GPTOSS的factor是clamp(up,-7,7)+1→U8且gate slope1.702、有bias，非既有無biasW8例。A4/A6 deadzone較寬只是另數值reference，品質不能免費。
+請這一區塊做兩件事：先修正先前過度結論與硬體數字，保留歷史但附明確更正；再決定該候選是否值得用一次有界、TRAIN-only、付費但先求optimistic headroom的數值實驗去驗證未知道的gate分布/conditioned bound，而非永遠以假設保護10輪不做實驗。Root立場：若真數據未知且沒有完整支配證明，小型可推翻實驗可能合理；user要大膽假設小心求證，10輪是研究機會，非禁止數據求證。你可以不同意，但要以具體必要性而非推測高斯來辯護。
+最後回報三個具體可由stage0數據回答的問題、保留/淘汰的判準，以及有無真正阻止實驗的邏輯或先例支配。仍不寫code/不跑probe。

@@ -1,0 +1,54 @@
+{
+  "frozen_utc": "2026-11-02T13:22:45.633327+00:00",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/shaping_addendum.py": "4f35737011355f1beae57724476c1a00ca0b73566645d789f20686b70eefc37e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/pipeline/shaping/shaping.py": "19d5ff3555b46b8992a2fd3a978a817bd827744b0b0245fd4f3727202cdb5337",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_pipeline.py": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.py": "922ba85f23e910d670ede4953a7c4cfdb294eb942ddbf6abb6d4ebcd3f9585dc",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.cpp": "2ac76a9f17662727c7df8cb4c3b372daec1050c4d7dcd0c5e7dc65479fa10ad8",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/baselines/frozen_TRAIN_packed_expert_order.npz": "739bb48af2b2ef37813923845c169b4e9a0d0e847be76414339d3ed84291c1bc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/execution_plan.frozen.json": "82f63a9627325d6b4ec275099bfe5ac5437fa66ed57c594faa04d1cca005fa8b"
+  },
+  "data": "Previously observed TRAIN first3layers512; no heldout. Layouts unchanged, no fit.",
+  "uniform_rule": "For all3kernels split original wave10 after first useful page, preserve every true page/order/address, fill everypartialread with real unselected resident pages on missing planes. One extra epoch; not per-query cost search.",
+  "disclosure": "Uniform wave10/prefix1 chosen after completed canonical candidate sensitivity. Same frozen structural rule granted to standardRR and matching-layout IPR baselines; no per-query oracle selection.",
+  "profiles": "Strict no-interval, copy500ns, permutation,2PBslots, evalstartoverwrite, perplane concurrentcopy, conditional inactive discard-beforeECC. Failure staysNone, no pace/cold rescue.",
+  "variants": {
+    "candidate_IPR_uniform_split10": [
+      "candidate",
+      true
+    ],
+    "matching_layout_IPR_uniform_split10": [
+      "sameWL_matching_keep_hot",
+      true
+    ],
+    "RR_IPR_uniform_split10": [
+      "IPR_standard_RR_row_safe",
+      true
+    ],
+    "matching_layout_IPR_fill_only": [
+      "sameWL_matching_keep_hot",
+      false
+    ]
+  },
+  "copies": [
+    1,
+    4
+  ],
+  "priority": [
+    "GF",
+    "DF"
+  ],
+  "Down": [
+    "g16_equal",
+    "g12_cyclic"
+  ],
+  "activation_ns": 0,
+  "Down_contract": "Same unshaped private full-vector Down jobs as primary. Copy500ns and strict issue;1/2wave Down fits existing finitePB. Full GU→hostactivation/A8 barrier retained.",
+  "physical": "Candidate pool uses candidate staticpage→plane map; matching pool uses same frozen TRAIN Eorder; RR pool uses identityglobalpage map. All pool pages belong to unselected routed experts, no copies or vacant placeholders.",
+  "labels": "Both matching-layout shaped/fill-only variants invoke granted IPR; they are not labeledsameWL. Prior packed sameWL keep-hot cold500 remains separate comparator.",
+  "cache": "Complete JSON identity of settings,waves includingblock/WL/read_pages/masks/force_cold,andowner mapping; no v1 crossblock cache-key reuse.",
+  "cadence_limitation": "Fixed9.7us producer cadence is one conditional model. If a device/controller can extend recycle/evaluation to10.24us without breakingCR, that may outperform dummy-read shaping; controllable timing/analog feasibility is unverified. Do not callshaping universallybest or use9.7model as sole actualhardware model.",
+  "comparisons": "After primaryreport complete, verify exactsource/input receipts then reuse its candidatecold500 andmatching_sameWL_cold500 arrays. Genericcompiler same candidate exactalias. FIFO64/128/256/2048 remains posthoc valid/invalid."
+}

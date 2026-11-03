@@ -1,0 +1,38 @@
+{
+  "status": "hold_pending_numeric_contract_closure",
+  "phase": "FITVAL_source_review",
+  "reviewer": "/root/critic_sol",
+  "reviewed_at_utc": "2026-11-03T02:54:53Z",
+  "revision": 2,
+  "protocol_sha256": "42483d1490187fba7500a23bd9944c394a9e437ff00df365d13e32aa08e3269a",
+  "source_freeze_sha256": "b56c4a31013dadd8b7445f1c041e1c1a39f625fe6b66188265368e9aee4e8ed8",
+  "scope": "Immutable core, FMA bridge and synthetic source; Root independently reviews runner, data gates, selection, costs and full dependency closure.",
+  "verified_source_sha256": {
+    "core": "75dbbd4af7c35458f38206c4709de9b0ffda678b74fd2e885b6ff767973b9b8a",
+    "FMA": "3e9f5c7b70f9fc092ddbee697d9a199ac97793068786b9e3abb567d50ea050ab",
+    "synthetic": "5a3989bd580a4bd623a359149fdf9d2b7b01e39014aae981142db361db069719"
+  },
+  "current_and_snapshot_hashes_match_for_reviewed_sources": true,
+  "rev001_to_rev002": "Core/FMA unchanged; synthetic adds explicit incomplete-composite detection. No repeated broad audit is needed after a narrow closure.",
+  "synthetic_receipt_sha256": "d898983c914c05080f40e1767ca6b0703df9fd2d027375e388ff7bd84bf0fc83",
+  "synthetic_status": "pass; receipt inspected, not executed by reviewer",
+  "reviewed_without_new_blockers": [
+    "Weighted-centered actual decoded-A8 design and teacher targets, same-N slopes and Mtarget mass normalization.",
+    "G global pooled and PE conditional fixed-float-estimator projection, one positive-rank eigenspace with nested prefix and sign rules.",
+    "FIT-only RMS gauge, actual host/native latent arithmetic distinction, bias recalibration from deployed predictions.",
+    "Fixed AVX2 eight-lane FMA order, correct signed-int8 conversion, B1/batch invariance and separate row-scale/bias operations.",
+    "Archive shape/dtype/finite/positive-scale checks, factor execution on reload, metadata and unsupported behavior in identity."
+  ],
+  "blocking_finding": {
+    "location": "research_20261103_local_affine_stage1_controls_fma.cpp environment()",
+    "issue": "RN guard checks x87 rounding and MXCSR FTZ/DAZ but omits MXCSR rounding bits 0x6000. The local libm fegetround disassembly uses fnstcw and mask 0xc00 only. Thus AVX/FMA can use a different rounding mode while this guard reports success.",
+    "evidence_scope": "A concrete contract-check defect, not evidence that existing synthetic or Stage0 outputs used a wrong rounding mode.",
+    "minimal_closure": "Add MXCSR rounding-mask equality to nearest in the new FMA guard; preserve immutable Stage0. Freeze a narrow new revision and rerun existing synthetic. No new scientific grid is required."
+  },
+  "oracle_interpretation_required": "Actual stored/dequantized U is used correctly. With relative SVD cutoff 1e-10 the residual uses a numerically truncated span; if nonzero singular directions are discarded it need not lower-bound the full actual span. Finite FMA rounding also leaves the real-valued span. Treat this as a scoped diagnostic, not a universal rounded-kernel/all-U/NLL bound.",
+  "baseline_rebuild_interpretation": "A rebuilt baseline hash is diagnostic only; a material discrepancy needs explanation before claiming the same frozen estimator. It does not authorize replacing the frozen baseline.",
+  "reviewer_candidate_execution": false,
+  "reviewer_data_or_TEST_read": false,
+  "reviewer_candidate_source_modified": false,
+  "data_execution_authorized": false
+}

@@ -1,0 +1,39 @@
+{
+  "status": "hold_implementation_repair_not_scientific_failure",
+  "phase": "FITVAL",
+  "reviewed_at_utc": "2026-11-02T22:34:48.888976+00:00",
+  "protocol_sha256": "9254e7fdf71f965b8a8716a35838522fb378ca2421c6779d9650e385aad62dc8",
+  "source_revision": 2,
+  "source_freeze_sha256": "2e6dc3c4fa614eb8e4b5e22d471245eeb80ada9b50a36bc6b5757d8124b2aa1a",
+  "verified_frozen_inputs": 29,
+  "verified_hash_mismatches_at_review": 0,
+  "synthetic_arithmetic_passed": true,
+  "no_real_candidate_data_launch_authorized": true,
+  "blocking_findings": [
+    {
+      "file": "core.load_model / pipeline.score_stage",
+      "finding": "Reloaded model lacks map_hashes required by newly added SCORE cost calculation; would KeyError after scoring starts.",
+      "required_closure": "Reconstruct lowered map hashes and archive/load/predict/cost integration synthetic."
+    },
+    {
+      "file": "archive_model/model identity/literal ties",
+      "finding": "Behavior-changing unsupported regions absent from archive identity; equal coefficient/scale/bias arrays can collide across differing fallback behavior.",
+      "required_closure": "Include unsupported in behavior/archive identity and literal-tie checks; synthetic same arrays/different unsupported must not share behavior identity."
+    }
+  ],
+  "nonblocking_verified_scope": [
+    "original-GGUF capture contains no tensor writes; final natural route weights follow normalization/scaling callbacks",
+    "review phase/protocol/source hash gates and separate SCORE release",
+    "all fitted SCORE dependencies hashed in FITVAL completion",
+    "independent pooled eta versus local shrink-to-pooled lambda; actual quantized design and F32 deployment-bias recalibration",
+    "two formats declared as distinct estimators; source runtime tree does not split identical inputs by ID",
+    "original static GGML full-I activation worker plus PIC arithmetic bridge",
+    "eight worker rounding/MXCSR environments checked; exact integer DGEMM adversarial tests",
+    "zero-map active work and identity-only free full-rank projection fixed; SCORE resource costs recomputed by phase"
+  ],
+  "scientific_counts": {
+    "valid_experimental_failures": 1,
+    "remaining_opportunities": 9,
+    "current_round": 2
+  }
+}

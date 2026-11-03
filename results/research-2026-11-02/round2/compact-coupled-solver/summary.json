@@ -1,0 +1,4712 @@
+{
+  "status": "complete",
+  "completed_utc": "2026-11-02T01:50:46.563698+00:00",
+  "protocol_sha256": "a59c3b33bc507d5bf21c8cedac8341c21140913cdb5ed2c27849b4ed763f46d8",
+  "solver_total_seconds": 68.52888916060328,
+  "solver_reports": [
+    {
+      "stage": "peak19",
+      "status": "UNKNOWN",
+      "limit_seconds": 60,
+      "elapsed_seconds": 60.04459394980222,
+      "solver_wall_time": 60.041261964,
+      "reported_solutions": 0,
+      "stopped_by_solution_limit": false,
+      "objective_half_ns": null,
+      "best_bound_half_ns": null,
+      "branches": 74476,
+      "conflicts": 105,
+      "response_stats": "CpSolverResponse summary:\nstatus: UNKNOWN\nobjective: 0\nbest_bound: 0\nintegers: 2080\nbooleans: 2048\nconflicts: 105\nbranches: 74476\npropagations: 96732\ninteger_propagations: 186225\nrestarts: 2\nlp_iterations: 327269\nwalltime: 60.0413\nusertime: 60.0413\ndeterministic_time: 782.527\ngap_integral: 0\n",
+      "hint_mask_sha256": "6fd756b042fc5fb68aa451d890c435e96eea1471ecca48e4aeff1aa7f688ed6c",
+      "hint_satisfies_peak": false
+    },
+    {
+      "stage": "peak20",
+      "status": "OPTIMAL",
+      "limit_seconds": 60,
+      "elapsed_seconds": 0.28833111096173525,
+      "solver_wall_time": 0.286278971,
+      "reported_solutions": 3,
+      "stopped_by_solution_limit": false,
+      "objective_half_ns": 0.0,
+      "best_bound_half_ns": null,
+      "branches": 4096,
+      "conflicts": 0,
+      "response_stats": "CpSolverResponse summary:\nstatus: OPTIMAL\nobjective: 0\nbest_bound: 0\nintegers: 2080\nbooleans: 2048\nconflicts: 0\nbranches: 4096\npropagations: 2048\ninteger_propagations: 6336\nrestarts: 0\nlp_iterations: 320\nwalltime: 0.286279\nusertime: 0.286279\ndeterministic_time: 0.0354134\ngap_integral: 0\nsolution_fingerprint: 0xf93d2fe449046e48\n",
+      "hint_mask_sha256": "6fd756b042fc5fb68aa451d890c435e96eea1471ecca48e4aeff1aa7f688ed6c",
+      "hint_satisfies_peak": false
+    },
+    {
+      "stage": "mean_work",
+      "status": "FEASIBLE",
+      "limit_seconds": 90,
+      "elapsed_seconds": 8.19596409983933,
+      "solver_wall_time": 8.192539292000001,
+      "reported_solutions": 64,
+      "stopped_by_solution_limit": true,
+      "objective_half_ns": 142425224.0,
+      "best_bound_half_ns": 134927168.0,
+      "branches": 0,
+      "conflicts": 0,
+      "response_stats": "CpSolverResponse summary:\nstatus: FEASIBLE\nobjective: 142425224\nbest_bound: 134927168\nintegers: 0\nbooleans: 0\nconflicts: 0\nbranches: 0\npropagations: 0\ninteger_propagations: 0\nrestarts: 0\nlp_iterations: 0\nwalltime: 8.19254\nusertime: 8.19254\ndeterministic_time: 66.4609\ngap_integral: 1052.44\nsolution_fingerprint: 0x666b0931706bbe15\n",
+      "hint_mask_sha256": "6fd756b042fc5fb68aa451d890c435e96eea1471ecca48e4aeff1aa7f688ed6c",
+      "hint_satisfies_peak": null
+    }
+  ],
+  "derivation": {
+    "GUlow": 29102,
+    "GUhigh": 57188,
+    "Downhigh": 28762,
+    "Downzero": 0,
+    "base": 57864,
+    "X_coefficient": 28086,
+    "O_coefficient": -676,
+    "shared_owned_ns": [
+      114164,
+      114164,
+      142292,
+      142292,
+      142292,
+      142292,
+      114164,
+      142292,
+      142292,
+      114164,
+      142292,
+      114164,
+      114164,
+      114164,
+      142292,
+      114164
+    ],
+    "shared_wave_counts": [
+      4,
+      4,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      4,
+      5,
+      4,
+      4,
+      4,
+      5,
+      4
+    ],
+    "base_owned_metric": {
+      "weighted_sum_ns": 285345742,
+      "mean_ns": 557315.90234375,
+      "max_ns": 601778,
+      "p99_ns": 601139.38,
+      "NAND_peak_histogram": {
+        "19": 299,
+        "20": 202,
+        "21": 11
+      }
+    },
+    "unique_query_sets": 372,
+    "ordered_queries": 512,
+    "ownership": "Command+fullinputONFI+ordinarywaves+all-pageoutputONFI,excludingPCIe andhost exceptreportednativeengine. Workobjective is necessary occupancy,not feasibleDAGlatency."
+  },
+  "candidates": [
+    {
+      "index": 0,
+      "stage": "frozen_v2",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/000.frozen_v2.npz",
+      "sha256": "2b8197701595c0d9de3a458a5ffcda7293a3f50c82cdfdf4c8d54765572dfbcb",
+      "mask_sha256": "6fd756b042fc5fb68aa451d890c435e96eea1471ecca48e4aeff1aa7f688ed6c",
+      "metric": {
+        "weighted_sum_ns": 285345742,
+        "mean_ns": 557315.90234375,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 299,
+          "20": 202,
+          "21": 11
+        }
+      },
+      "reported_objective_half_ns": null,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/000.frozen_v2.npz",
+      "arrays_sha256": "fc00236d5358ad7194bffc47a32564dbeb70885662b7834ddc72eb09912acc6a",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/000.frozen_v2.physical.json.gz",
+      "physical_sha256": "ed52dcaa599bb4924d1b539ecdc7909954ab128678a3a57d4316b332dbfb0d0c",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562670.5703125,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 548462,
+      "native_max_ns": 607180,
+      "mean_native_LB_ns": 559315.90234375,
+      "native_mean_gain_vs_v2": 0.0,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 1,
+      "stage": "peak20",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/001.peak20.npz",
+      "sha256": "28dbe6707e077c3de28032595e326bf19e8ef44ffbb2a5c47611ba480b3d920c",
+      "mask_sha256": "3625a6145118a58c99b43ef5560fdf82a50b7b1ce8ad6155455feeeef4a25213",
+      "metric": {
+        "weighted_sum_ns": 286130814,
+        "mean_ns": 558849.24609375,
+        "max_ns": 573734,
+        "p99_ns": 573734.0,
+        "NAND_peak_histogram": {
+          "19": 261,
+          "20": 251
+        }
+      },
+      "reported_objective_half_ns": null,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/001.peak20.npz",
+      "arrays_sha256": "ab74df62a1746107bd293820916e7a7c55d78f73b12a094557a556ee564d76a7",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/001.peak20.physical.json.gz",
+      "physical_sha256": "488b7a5a3385a0f3f206f751c985e934e3bffbbc766aacd235b6148fa1032f33",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 564201.98828125,
+      "native_p99_ns": 580266.92,
+      "native_min_ns": 548462,
+      "native_max_ns": 580612,
+      "mean_native_LB_ns": 560849.24609375,
+      "native_mean_gain_vs_v2": -0.0027216955169691026,
+      "native_p99_gain_vs_v2": 0.04073699668264197,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 2,
+      "stage": "peak20",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/002.peak20.npz",
+      "sha256": "c7d4aa79742d9a5c8b23e4217357b73bc69bd2a98626187e80f07120bf05d773",
+      "mask_sha256": "3d9caad24c0dc97b849500eabcae07973ef478e2b2ebce8c66a0aa2e13b715d1",
+      "metric": {
+        "weighted_sum_ns": 286715334,
+        "mean_ns": 559990.88671875,
+        "max_ns": 573734,
+        "p99_ns": 573734.0,
+        "NAND_peak_histogram": {
+          "19": 240,
+          "20": 272
+        }
+      },
+      "reported_objective_half_ns": null,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/002.peak20.npz",
+      "arrays_sha256": "a27f98f9f2105952a23af5e9e170b1518ffda7f63f0c7a5663d3fab4b7fe5e6b",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/002.peak20.physical.json.gz",
+      "physical_sha256": "82907fd2006e627b5cd1edf82a8d7078258e4e26c267f791cb935f3ec71c6f9a",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 565148.0703125,
+      "native_p99_ns": 580152.0,
+      "native_min_ns": 548462,
+      "native_max_ns": 581008,
+      "mean_native_LB_ns": 561990.88671875,
+      "native_mean_gain_vs_v2": -0.0044031092627148105,
+      "native_p99_gain_vs_v2": 0.04092697563981096,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 3,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/003.mean_work.npz",
+      "sha256": "fbdfe43048a1c20466ff21970678ec8ed97ecd8ffee26044023bc5cab17c1730",
+      "mask_sha256": "3d6fddc80364efc72f2a4840a23d78d738995743916d82dd177bef793815ed5b",
+      "metric": {
+        "weighted_sum_ns": 285336488,
+        "mean_ns": 557297.828125,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 299,
+          "20": 202,
+          "21": 11
+        }
+      },
+      "reported_objective_half_ns": 142669617.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/003.mean_work.npz",
+      "arrays_sha256": "c1dbad03ddf684a26b378892585a9dca8b3c757c6ae275efa0b88641342bd8db",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/003.mean_work.physical.json.gz",
+      "physical_sha256": "ffde3a45ad3b40b55cef45d2692770f74d66485568dcac9cf002effa48834592",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562656.75390625,
+      "native_p99_ns": 604974.0,
+      "native_min_ns": 548462,
+      "native_max_ns": 607076,
+      "mean_native_LB_ns": 559297.828125,
+      "native_mean_gain_vs_v2": 2.455505402088054e-05,
+      "native_p99_gain_vs_v2": -0.00010728884720045961,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 4,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/004.mean_work.npz",
+      "sha256": "acb27e3e015a266b4ded170eda1492f452f5f9c34ce94abdec4db0122c559ad2",
+      "mask_sha256": "1d27ee0b2af6a7a62e765ebfa26853a1bf58dbafe3d7af50eb7f8497d603c468",
+      "metric": {
+        "weighted_sum_ns": 285332474,
+        "mean_ns": 557289.98828125,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 299,
+          "20": 202,
+          "21": 11
+        }
+      },
+      "reported_objective_half_ns": 142667293.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/004.mean_work.npz",
+      "arrays_sha256": "db1e7014468fe5e99603b6110221ab745276d7417b5dfda50dadab10bd66b5bf",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/004.mean_work.physical.json.gz",
+      "physical_sha256": "8122a58fa473f6a26e34d251d04a3fbccc6252d53c3bf448eae73db4cb776838",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562647.375,
+      "native_p99_ns": 604974.0,
+      "native_min_ns": 548462,
+      "native_max_ns": 607076,
+      "mean_native_LB_ns": 559289.98828125,
+      "native_mean_gain_vs_v2": 4.1223610623752904e-05,
+      "native_p99_gain_vs_v2": -0.00010728884720045961,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 5,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/005.mean_work.npz",
+      "sha256": "c6477ec11cd972c0efdc84070c23ea457f8ac0922585f2d6ab0d9e10d69191e6",
+      "mask_sha256": "370567c0309a0b74a30d0df0ef7a9becee1191cbdda077926697eb5af269fcbd",
+      "metric": {
+        "weighted_sum_ns": 285282046,
+        "mean_ns": 557191.49609375,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 301,
+          "20": 200,
+          "21": 11
+        }
+      },
+      "reported_objective_half_ns": 142642059.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/005.mean_work.npz",
+      "arrays_sha256": "59f55ea3305ed56c409471f61b3dcbeb4748dbac0d42550cbf5e3cc811d55e48",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/005.mean_work.physical.json.gz",
+      "physical_sha256": "4854eb12d0d4ce2a6143af6c18154652c70f8e332d0217a250cc7dd70dee2c71",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562543.0234375,
+      "native_p99_ns": 604974.0,
+      "native_min_ns": 548552,
+      "native_max_ns": 607076,
+      "mean_native_LB_ns": 559191.49609375,
+      "native_mean_gain_vs_v2": 0.0002266812620556058,
+      "native_p99_gain_vs_v2": -0.00010728884720045961,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 6,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/006.mean_work.npz",
+      "sha256": "3c4417123f4c6e77fa59fdb819babac1f27ced8e906e99ff6ab99938cb899655",
+      "mask_sha256": "de8368c576fba4916094815467f6a833096ffef9c338b9f4cd205bbad46fa4a8",
+      "metric": {
+        "weighted_sum_ns": 285281836,
+        "mean_ns": 557191.0859375,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 301,
+          "20": 200,
+          "21": 11
+        }
+      },
+      "reported_objective_half_ns": 142641699.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/006.mean_work.npz",
+      "arrays_sha256": "e4290be8fada7ad4fbb95cc8eae4e2369a2efb01e0737b75723cf9fa39600a76",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/006.mean_work.physical.json.gz",
+      "physical_sha256": "539ff0fc845f54a5487834292d39eab23592c00d6398f0ea017e0239e87a7cbc",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562562.2421875,
+      "native_p99_ns": 604974.0,
+      "native_min_ns": 548860,
+      "native_max_ns": 607076,
+      "mean_native_LB_ns": 559191.0859375,
+      "native_mean_gain_vs_v2": 0.00019252495281529836,
+      "native_p99_gain_vs_v2": -0.00010728884720045961,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 7,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/007.mean_work.npz",
+      "sha256": "03600c118923d901db88a2193ed3b4d271d55593a0ed412ff164001991a0ae92",
+      "mask_sha256": "f11472d2df518433350a82f963ea12761d906aff2ff1ed10cdcf80a231e98d82",
+      "metric": {
+        "weighted_sum_ns": 285278964,
+        "mean_ns": 557185.4765625,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 301,
+          "20": 200,
+          "21": 11
+        }
+      },
+      "reported_objective_half_ns": 142639545.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/007.mean_work.npz",
+      "arrays_sha256": "50becddde60f1b4b5f70f5b5dd376142ae188a6ea3dbd5a4db028c3309f6c43e",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/007.mean_work.physical.json.gz",
+      "physical_sha256": "76b6e944bdba96edff530451c30002060093861e4c5f8ed2a86be6fd0069f09b",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562550.875,
+      "native_p99_ns": 604974.0,
+      "native_min_ns": 548462,
+      "native_max_ns": 607076,
+      "mean_native_LB_ns": 559185.4765625,
+      "native_mean_gain_vs_v2": 0.00021272716010989345,
+      "native_p99_gain_vs_v2": -0.00010728884720045961,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 8,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/008.mean_work.npz",
+      "sha256": "fa87bd787a0dec045c2bb4655ad52f98c4cc0514da1035bed03fe19721b3ea03",
+      "mask_sha256": "d711d42693720cbddd1ae3f83300b676068c2abb6546f67841a7f2cefffddce2",
+      "metric": {
+        "weighted_sum_ns": 285270276,
+        "mean_ns": 557168.5078125,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 301,
+          "20": 201,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142635497.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/008.mean_work.npz",
+      "arrays_sha256": "4861300c9476406d4b291403f4edebbcb09d1d80b719308b48a9008f338d1442",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/008.mean_work.physical.json.gz",
+      "physical_sha256": "2dbfec7ea92bba07a145c06471d1c8696477618b2751086e3038b076fb09d2e0",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562500.9140625,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 548860,
+      "native_max_ns": 606662,
+      "mean_native_LB_ns": 559168.5078125,
+      "native_mean_gain_vs_v2": 0.00030151967945613034,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 9,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/009.mean_work.npz",
+      "sha256": "db9f31c668ef4e721719f28debc4d5e126521f1795d56e9858c6deb84dae44d2",
+      "mask_sha256": "d70a742019bfafd485b7673227433b4539868271a065effeadea63fc83956b30",
+      "metric": {
+        "weighted_sum_ns": 285267656,
+        "mean_ns": 557163.390625,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 301,
+          "20": 201,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142634187.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/009.mean_work.npz",
+      "arrays_sha256": "1abd0f7ae70579154899d0d87e80ef82421777d7e69e90264fbe6225317aa2ec",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/009.mean_work.physical.json.gz",
+      "physical_sha256": "190938bc531de54975a69c32d92199332db3c0446d2486a3e6f51a04c3a40b68",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562504.58203125,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 548610,
+      "native_max_ns": 606662,
+      "mean_native_LB_ns": 559163.390625,
+      "native_mean_gain_vs_v2": 0.0002950008228754797,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 10,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/010.mean_work.npz",
+      "sha256": "9f983b0323a34af92eab391df270247242c7bb8c45f8b7504f04193cde75b91e",
+      "mask_sha256": "49416abc425080cea53d6743364e4a1e54eb01f9575079d2c37de1d0927356bf",
+      "metric": {
+        "weighted_sum_ns": 285204846,
+        "mean_ns": 557040.71484375,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 303,
+          "20": 199,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142603161.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/010.mean_work.npz",
+      "arrays_sha256": "917e9916def0713adfe81a69ea6a58fe766460be2e5c1b3c7edc2ee6b3a13313",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/010.mean_work.physical.json.gz",
+      "physical_sha256": "f1f43d725d7b1692fdaba67c7674b486b24e1bb930fe407afee491f9589fc6b1",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562427.03515625,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549110,
+      "native_max_ns": 606662,
+      "mean_native_LB_ns": 559040.71484375,
+      "native_mean_gain_vs_v2": 0.00043282014219214737,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 11,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/011.mean_work.npz",
+      "sha256": "9fe447e89ce3d1d6b795f205faa054e435040da22f1bb595457f3c3a46c90f74",
+      "mask_sha256": "6b362370eb8905e687f7c6c295d777352bd7736be3fc461c43d81e7da6589334",
+      "metric": {
+        "weighted_sum_ns": 285204212,
+        "mean_ns": 557039.4765625,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 303,
+          "20": 199,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142602127.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/011.mean_work.npz",
+      "arrays_sha256": "9609f35c0fb8f047d449283f69e520717b193794825a47c20f9a0d1a5b2df466",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/011.mean_work.physical.json.gz",
+      "physical_sha256": "ad754e91b3e8e4f8c2aac5cabd15a00e3cfba760427a693b697e749322900cb1",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562424.46484375,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549110,
+      "native_max_ns": 606662,
+      "mean_native_LB_ns": 559039.4765625,
+      "native_mean_gain_vs_v2": 0.00043738820143612855,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 12,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/012.mean_work.npz",
+      "sha256": "92c3eaaabbde0e3363826ad05d1d7176e44fc0e553e8b83e953b868416127bf5",
+      "mask_sha256": "717bcfee86ae2959c440bee0f5391d6a53aa380b7b84307da842168198db08a1",
+      "metric": {
+        "weighted_sum_ns": 285203494,
+        "mean_ns": 557038.07421875,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 303,
+          "20": 199,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142601747.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/012.mean_work.npz",
+      "arrays_sha256": "ec2b6985f6c8689cec6f7e362e794af46152d4a94f0a306721604edd3cbb5307",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/012.mean_work.physical.json.gz",
+      "physical_sha256": "5e6ca3ed09abedbb87775841334e116f8c31f9e193e27894373853eeb2019cec",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562433.08984375,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549110,
+      "native_max_ns": 606662,
+      "mean_native_LB_ns": 559038.07421875,
+      "native_mean_gain_vs_v2": 0.00042205951631357763,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 13,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/013.mean_work.npz",
+      "sha256": "bfbeed1fb936fdedf078dc2cc185c9fe58958fc675240de4339fef8b56def847",
+      "mask_sha256": "3e6b9f98d98e6bec9dc6b1adeb000087e9945d78d4d6527d342c5aa6dabd233b",
+      "metric": {
+        "weighted_sum_ns": 285143984,
+        "mean_ns": 556921.84375,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 305,
+          "20": 197,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142571992.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/013.mean_work.npz",
+      "arrays_sha256": "636cae1103de123ef3829d21732a6647b67e06a33fcb0055fa555ad433c385ed",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/013.mean_work.physical.json.gz",
+      "physical_sha256": "ed9b23623e3e4be7d14878820bfe50b675e8936c1d5dce50485b27b868c1a7b9",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562308.15234375,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549110,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558921.84375,
+      "native_mean_gain_vs_v2": 0.000644103295732612,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 14,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/014.mean_work.npz",
+      "sha256": "a3d91524dde6b081a2fe9941db53945e4dd1a529cb3c24560574cbfec41d2df8",
+      "mask_sha256": "88075599f35f45619dbb814e22d69dec740edc4019a1c24a1d6de514c3ea9fa5",
+      "metric": {
+        "weighted_sum_ns": 285142972,
+        "mean_ns": 556919.8671875,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 305,
+          "20": 197,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142571507.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/014.mean_work.npz",
+      "arrays_sha256": "35fdc55ecc37ea3b555498b7cc794a4fedfef324228cb366265c323cb5509c5f",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/014.mean_work.physical.json.gz",
+      "physical_sha256": "810fac5b3d3e575a3385939bf2d05f8af95a53440cd8493483290127f4fc41c7",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562313.625,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549126,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558919.8671875,
+      "native_mean_gain_vs_v2": 0.0006343770784061897,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 15,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/015.mean_work.npz",
+      "sha256": "fa0c67fb53c7cf5ccb7ddf0382d4c34f284430a27fe4542bfe8c1a0c76139ce4",
+      "mask_sha256": "457535de5fe3c78da355f73f14e554ab1f5bb49f139d2f2dc676a169565e9bf4",
+      "metric": {
+        "weighted_sum_ns": 285139550,
+        "mean_ns": 556913.18359375,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 305,
+          "20": 197,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142569859.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/015.mean_work.npz",
+      "arrays_sha256": "72d66d224427233cef7c9ebfab369d4d68df78222bdc11d0adb8eaa22fc4282a",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/015.mean_work.physical.json.gz",
+      "physical_sha256": "1f3a42bd28577b0fc246bc645f5d5a766d06d0faa44145ce0b8cd99fde04af1f",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562285.5546875,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549126,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558913.18359375,
+      "native_mean_gain_vs_v2": 0.0006842647284469594,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 16,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/016.mean_work.npz",
+      "sha256": "23b03548c339e16434bf48aeab278f34b5a2dbeb693dc506b5eb0364eaed160d",
+      "mask_sha256": "eee3ff4b0fe9d6798561ad242600d0070648d70f244e69f8aa8a159e5a0e7f73",
+      "metric": {
+        "weighted_sum_ns": 285136338,
+        "mean_ns": 556906.91015625,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 305,
+          "20": 197,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142569204.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/016.mean_work.npz",
+      "arrays_sha256": "9e5e27fc27f2d61db537dbeb6834f18d62e026ec2e6b5c642bae1ec409371aed",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/016.mean_work.physical.json.gz",
+      "physical_sha256": "08ffdddfef08d22bb05f02313a4a2014e3b707afa0eaa01e73d307fe63810029",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562281.73828125,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549126,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558906.91015625,
+      "native_mean_gain_vs_v2": 0.0006910473939201189,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 17,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/017.mean_work.npz",
+      "sha256": "261fc6a10f2dfedbdccb2c82f347adf15e6f8d9263af3fb8db5027e25beed2f9",
+      "mask_sha256": "d38014713825224e96faaf3897ecfc4c928082fa27bb83f87563059709607ec2",
+      "metric": {
+        "weighted_sum_ns": 285136338,
+        "mean_ns": 556906.91015625,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 305,
+          "20": 197,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142568169.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/017.mean_work.npz",
+      "arrays_sha256": "4d6bcfb2e206d54239af5d80c78769b24353f896c8c0fe2fd94952ae4b927ce4",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/017.mean_work.physical.json.gz",
+      "physical_sha256": "b6740dff1d0b00e6d29b24114677c02b760b955fa367c2176cfc1f9fd6caf44c",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562283.72265625,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549126,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558906.91015625,
+      "native_mean_gain_vs_v2": 0.0006875206855676552,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 18,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/018.mean_work.npz",
+      "sha256": "605313fad0c82755590f63c95978234380f2cb0d93dc267b437ab90352ab60bb",
+      "mask_sha256": "e619eda3be2bdfd371a8b5106901539ece80d9e026be3b395d6abe03292b23f4",
+      "metric": {
+        "weighted_sum_ns": 285119660,
+        "mean_ns": 556874.3359375,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 306,
+          "20": 196,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142559830.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/018.mean_work.npz",
+      "arrays_sha256": "2bdab56cd5c558a7521a86f468fccc52da1a2746a0aa52d4bc8e41465d0150fa",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/018.mean_work.physical.json.gz",
+      "physical_sha256": "2de83819079606cc5a0833f2127646c94fb897dbcc78b2e728791a90ed94e8a0",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562263.8125,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549490,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558874.3359375,
+      "native_mean_gain_vs_v2": 0.0007229057888599177,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 19,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/019.mean_work.npz",
+      "sha256": "ab1fb606575bcb398383e734d2db7abdffa1d73d34aca27c44aa3fb18a7591b2",
+      "mask_sha256": "dbe68f9645682efac3892907c2163c552e50bf661387e25b0568a27dbf17d80f",
+      "metric": {
+        "weighted_sum_ns": 285118434,
+        "mean_ns": 556871.94140625,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 306,
+          "20": 196,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142559217.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/019.mean_work.npz",
+      "arrays_sha256": "13b7684839606b2ae6f8dc19268d7ccb0a872f98335303b5613b301282e8f28a",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/019.mean_work.physical.json.gz",
+      "physical_sha256": "5f10ec517213f18acb560f5ceb79cf7576b2bfd4559e51e51d0de3438fa12f35",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562266.765625,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549490,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558871.94140625,
+      "native_mean_gain_vs_v2": 0.0007176573803668873,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 20,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/020.mean_work.npz",
+      "sha256": "9b1f2cc6d8fb47c57c9058b81a3e46794b571348acddfee5160e942b691c8b81",
+      "mask_sha256": "a3354beccd2d06a0fe16f84bae49d07b20ce70665532ebf27e241d22d88feadb",
+      "metric": {
+        "weighted_sum_ns": 285116490,
+        "mean_ns": 556868.14453125,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 306,
+          "20": 196,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142558583.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/020.mean_work.npz",
+      "arrays_sha256": "18ed55cf7895819b89dbde2204993b37169ff9a53af1386b91adb57308a638ca",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/020.mean_work.physical.json.gz",
+      "physical_sha256": "94a2bdfb5c43a46169b25cb71a54e2fa0c7ef2aac6eb57b44ea7b49237c44465",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562250.1796875,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549490,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558868.14453125,
+      "native_mean_gain_vs_v2": 0.0007471345529348472,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 21,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/021.mean_work.npz",
+      "sha256": "63fd6e289e00b823180170a4a74889b73dec63f4d0fbe5687f02021384aafd34",
+      "mask_sha256": "a45d89b51d24f5923947c60513d2c4915467f017d7ea27e467f70f2a51a8aa7b",
+      "metric": {
+        "weighted_sum_ns": 285116364,
+        "mean_ns": 556867.8984375,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 306,
+          "20": 196,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142558551.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/021.mean_work.npz",
+      "arrays_sha256": "3fd37c051d40a8b88a4a3585c9540e976dd4ffc58de5a97419152d9449ff2d12",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/021.mean_work.physical.json.gz",
+      "physical_sha256": "f4d11b409cd419c939915baa1c8de81a70b56537ab76c547c9b48acdb69c7010",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562252.79296875,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549490,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558867.8984375,
+      "native_mean_gain_vs_v2": 0.0007424901279587948,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 22,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/022.mean_work.npz",
+      "sha256": "5138f7af177dafc517f70b4e88948085ddf17ddd16e1cbbccd6b34d5cc9e5a90",
+      "mask_sha256": "20495e181e109a9427c3f3e71662c4702ba171492437a86b0db4303f29b911ac",
+      "metric": {
+        "weighted_sum_ns": 285116364,
+        "mean_ns": 556867.8984375,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 306,
+          "20": 196,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142558209.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/022.mean_work.npz",
+      "arrays_sha256": "2edfc6fd7b59bf3893a4cecf43c3425b38cb35cadd16a726702677be7bb8d90e",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/022.mean_work.physical.json.gz",
+      "physical_sha256": "5196b0debe8c5eaec054b936cbd85b68595097ceb105099d41f2b88abb3bc0cd",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562253.87109375,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549490,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558867.8984375,
+      "native_mean_gain_vs_v2": 0.0007405740423185314,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 23,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/023.mean_work.npz",
+      "sha256": "d52833fc67561674ae73cd87c06b728f501cf461b784c5d1fd105ff690041ca4",
+      "mask_sha256": "551f9b4c64d8b4e88eee233cc2c3e86508a7abf5ff610074829fec0036e78830",
+      "metric": {
+        "weighted_sum_ns": 285114970,
+        "mean_ns": 556865.17578125,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 306,
+          "20": 196,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142557511.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/023.mean_work.npz",
+      "arrays_sha256": "ef3de08118a42c880e354bab49ac41cd4d185d91117856d22811687d47ff4dfb",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/023.mean_work.physical.json.gz",
+      "physical_sha256": "e52a4b941b3fcdcca0e636cf58cc8efc31525aa0bd31d83f9a7b04f158737453",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562249.24609375,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549490,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558865.17578125,
+      "native_mean_gain_vs_v2": 0.0007487937720218607,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 24,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/024.mean_work.npz",
+      "sha256": "5db0690d7f4e61507ec8b84b48c162fbe916b4c9a4eebc7de789f59950d89d77",
+      "mask_sha256": "a132455b4ca4a2be74a0fdb67950575d6a0b31c8558485a5ddee8c1f794a67a3",
+      "metric": {
+        "weighted_sum_ns": 285089294,
+        "mean_ns": 556815.02734375,
+        "max_ns": 601778,
+        "p99_ns": 601144.0,
+        "NAND_peak_histogram": {
+          "19": 307,
+          "20": 195,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142544647.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/024.mean_work.npz",
+      "arrays_sha256": "58440512011db9c36b749a3503f6e388057576a77f0532d905a43a7f6f5c3fd0",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/024.mean_work.physical.json.gz",
+      "physical_sha256": "f2d7c2974f0d449762f3f3610eb3597e4556faa2291ffe4e57f6cf2c70a266c3",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562234.203125,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549490,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558815.02734375,
+      "native_mean_gain_vs_v2": 0.0007755287205756245,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 25,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/025.mean_work.npz",
+      "sha256": "0bfa332481bb94e7f1d009b37a894a4ecd0a49de9210c56b000e8d8b2205ee03",
+      "mask_sha256": "668329b9c51d7ded7ca499f38d37f8bf8e0475570f7ff440304c9e14bac5af8e",
+      "metric": {
+        "weighted_sum_ns": 285062602,
+        "mean_ns": 556762.89453125,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 308,
+          "20": 194,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142531301.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/025.mean_work.npz",
+      "arrays_sha256": "06c461de592cda83a72c039900cd705c9b96808a65ef8e81f76cf3165a595235",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/025.mean_work.physical.json.gz",
+      "physical_sha256": "2bf46d5bab58d23d5aed2de3ced61e69f2c751e3ea6bafa23ac9554256d83bc7",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562164.9296875,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549376,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558762.89453125,
+      "native_mean_gain_vs_v2": 0.0008986441653047184,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 26,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/026.mean_work.npz",
+      "sha256": "4046f1e0f4d1ed4d66c3b72811402f49531db81427dbad1ee79822224b4752d0",
+      "mask_sha256": "9a81713473997852c11a5d9c345c46859c81b401b74cd514d6ca506d22ba1ec1",
+      "metric": {
+        "weighted_sum_ns": 285061800,
+        "mean_ns": 556761.328125,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 308,
+          "20": 194,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142531217.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/026.mean_work.npz",
+      "arrays_sha256": "80c46b1e563a3ce0d5eac22945e1e9d04793e3d3adcd7d8355246bf515e49391",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/026.mean_work.physical.json.gz",
+      "physical_sha256": "b893f98ff50efdcc8b3614bdc1bc33232e0fd2c5dec8f2672806cf3e6ac559f5",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562161.14453125,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549036,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558761.328125,
+      "native_mean_gain_vs_v2": 0.0009053712920635837,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 27,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/027.mean_work.npz",
+      "sha256": "3c0167c1af8915535b06ae2f9e8b7004b4e0fd12703e9fe3fb0afe52d3fb13fb",
+      "mask_sha256": "a3e7ddaca217b7b0e6f1eb166b427628ad61c3467da87bed5e81c6027bdd01db",
+      "metric": {
+        "weighted_sum_ns": 285061758,
+        "mean_ns": 556761.24609375,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 308,
+          "20": 194,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142530879.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/027.mean_work.npz",
+      "arrays_sha256": "e9468965a8402355bf35b736f7d27079defe92c769df8a199b7c8ddee1d54e7a",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/027.mean_work.physical.json.gz",
+      "physical_sha256": "ed5e783b0568287eb1e61e109e6447038b3478425ddd01371df68a29b3cce8de",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562157.01953125,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549036,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558761.24609375,
+      "native_mean_gain_vs_v2": 0.000912702402339538,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 28,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/028.mean_work.npz",
+      "sha256": "e3c1cbe7f89e9c0403a45ac853a62e4320ee8f7be821f3b3ec8983753ca45459",
+      "mask_sha256": "26ee1fe6dc88b340496d186e5ba6390130f54bcae5d1cf419f0d35ca4de084df",
+      "metric": {
+        "weighted_sum_ns": 285033588,
+        "mean_ns": 556706.2265625,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 193,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142517512.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/028.mean_work.npz",
+      "arrays_sha256": "15ff8d09ce431f41fa81e69f24842ac94f9af56481a3e4166a1a10949bc36319",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/028.mean_work.physical.json.gz",
+      "physical_sha256": "cb057ca3c45163496876230b52808c6c81f2da7efb22bb020f16473701938600",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562103.2109375,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549036,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558706.2265625,
+      "native_mean_gain_vs_v2": 0.0010083331258731176,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 29,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/029.mean_work.npz",
+      "sha256": "07c172e011230541f40fabd9f6e8dcc81fba2808757e2b4ba39a81de3f8235bd",
+      "mask_sha256": "5b5bc41ce10a7fd18323379a717524ca786881f93744750e0e4398335bf590be",
+      "metric": {
+        "weighted_sum_ns": 285032362,
+        "mean_ns": 556703.83203125,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 193,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142516899.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/029.mean_work.npz",
+      "arrays_sha256": "57da03837a9ebdcde6605afc9f9efc542b5691ca6e0507fbb10c3f51ee1cab89",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/029.mean_work.physical.json.gz",
+      "physical_sha256": "973195f96e6526ba98ad9d2d4e12410836f0d714654e223b8e5e453a1e828855",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562108.55859375,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549036,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558703.83203125,
+      "native_mean_gain_vs_v2": 0.000998829063403539,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 30,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/030.mean_work.npz",
+      "sha256": "bde5b45be6d6484d1656121aee4f2b7d62a1640a68987e628b8ccc03cea21aa6",
+      "mask_sha256": "7e0d04569804207f8aa4a0e676bae9b617126fdd1a526134bb0d7102ab6bbbea",
+      "metric": {
+        "weighted_sum_ns": 285032320,
+        "mean_ns": 556703.75,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 193,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142516160.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/030.mean_work.npz",
+      "arrays_sha256": "e989e3a21da987baf09c6cb7f78fe23ba41f72e2eed11f101dc9163f76e44743",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/030.mean_work.physical.json.gz",
+      "physical_sha256": "2a2f2a58d9d33b403bb196c7663b2de97495dbd226d557175c097b28b77270b0",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562105.3515625,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549036,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558703.75,
+      "native_mean_gain_vs_v2": 0.001004528723949627,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 31,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/031.mean_work.npz",
+      "sha256": "b80360ba2387eab7b2b26770a7c51d134f1c6a05917655308f6fc3c7ac322360",
+      "mask_sha256": "c3c4a6eb62b212795b714ed6f144a058fb495bffd9e9e86008c2456c49fa1256",
+      "metric": {
+        "weighted_sum_ns": 285031094,
+        "mean_ns": 556701.35546875,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 193,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142515547.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/031.mean_work.npz",
+      "arrays_sha256": "6eb17990703387ad238a4fcb0885c6a1e480c1d7a23252f5b1373e9aedc5fc2b",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/031.mean_work.physical.json.gz",
+      "physical_sha256": "d3bacff0317ebc9a4ae26cc556464e1bed8e3b2f91ea76b04772c3eec6ec0bb6",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562112.23046875,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549036,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558701.35546875,
+      "native_mean_gain_vs_v2": 0.0009923032644837404,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 32,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/032.mean_work.npz",
+      "sha256": "e4a808b27e492f84ec7c4bbae4cdb578a010c31198985b0c0c272d92736064bc",
+      "mask_sha256": "855749c8023268b3595d8cd485b484b4f6ca59327cb77e7dd7cc10fb99615e2d",
+      "metric": {
+        "weighted_sum_ns": 285029612,
+        "mean_ns": 556698.4609375,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 193,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142514806.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/032.mean_work.npz",
+      "arrays_sha256": "489655b67dc2890763b93656d072c7c18890606d97accd66a0fcd86396de3606",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/032.mean_work.physical.json.gz",
+      "physical_sha256": "2f60c38c9f5f95702d041b91bec2e095df324cfe2d5949c130e47894e1a536a5",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562117.79296875,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549360,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558698.4609375,
+      "native_mean_gain_vs_v2": 0.0009824173733540276,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 33,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/033.mean_work.npz",
+      "sha256": "086fc86c83d084e67697451cd0405cc66095a83f7c4e12790eb5f38035528429",
+      "mask_sha256": "5be937ad144b105090e2faa28a57d4c5e8203cc0a285ecd0d9abb76915f0763d",
+      "metric": {
+        "weighted_sum_ns": 285028344,
+        "mean_ns": 556695.984375,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 193,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142514172.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/033.mean_work.npz",
+      "arrays_sha256": "cfc4133387c3240e59dd69fbca03af51668ef0e37164fecb17e8e095e6a080dd",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/033.mean_work.physical.json.gz",
+      "physical_sha256": "74f543de18f42b840953182045d39793030b1ad3002caf2f2c4544d425fa363d",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562116.625,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549360,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558695.984375,
+      "native_mean_gain_vs_v2": 0.0009844931327976925,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 34,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/034.mean_work.npz",
+      "sha256": "2138a7c46d4b37cd4ddb502852de1fb3a3ac1d2be36ca0c132ae45f590ff2b9a",
+      "mask_sha256": "f785f315e34d229f2e96a99dee303c3ce6f8ac2656a95969bd8eaf8cbbfbe8df",
+      "metric": {
+        "weighted_sum_ns": 285027752,
+        "mean_ns": 556694.828125,
+        "max_ns": 601778,
+        "p99_ns": 601139.38,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 193,
+          "21": 10
+        }
+      },
+      "reported_objective_half_ns": 142513876.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/034.mean_work.npz",
+      "arrays_sha256": "80c8f117d209e132b984b165a6f00824dd48e09db9b34dd312574a068200c323",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/034.mean_work.physical.json.gz",
+      "physical_sha256": "bb7b6352483956fd7254ee7693cb663fff3c2a6825559323249cb0c2d1d02dd3",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562133.140625,
+      "native_p99_ns": 604909.1,
+      "native_min_ns": 549360,
+      "native_max_ns": 606736,
+      "mean_native_LB_ns": 558694.828125,
+      "native_mean_gain_vs_v2": 0.000955140922336728,
+      "native_p99_gain_vs_v2": 0.0,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 35,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/035.mean_work.npz",
+      "sha256": "e786bdedca8fbf62ec1c86b5e6240df1749244995be8b19d65e6e1c8bd4e324b",
+      "mask_sha256": "d632a249139708cf245b84de001ded2eeec0dd6e7212f2efb414f5404ae82656",
+      "metric": {
+        "weighted_sum_ns": 284996836,
+        "mean_ns": 556634.4453125,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 194,
+          "21": 9
+        }
+      },
+      "reported_objective_half_ns": 142513116.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/035.mean_work.npz",
+      "arrays_sha256": "f4656c9aaf55d0ff2a6852f6029b729a00bf028877d2f8ffdc2022e285167dc1",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/035.mean_work.physical.json.gz",
+      "physical_sha256": "b110122f02c770f120cc75a714f4ec5db9a6eb9d00f8a2f2b73a47eba73f4817",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562039.34765625,
+      "native_p99_ns": 604320.86,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558634.4453125,
+      "native_mean_gain_vs_v2": 0.0011218334307042666,
+      "native_p99_gain_vs_v2": 0.0009724436283070625,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 36,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/036.mean_work.npz",
+      "sha256": "21e38b8a420d5eeb44a164a3e94c59ded6b09b99d12f740911797ac43d5e8fc7",
+      "mask_sha256": "f0286b5c83bcd6f8f6b1ee4d2e43c58eba282aee6be452365ab170eeb2e9c3c9",
+      "metric": {
+        "weighted_sum_ns": 284996202,
+        "mean_ns": 556633.20703125,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 194,
+          "21": 9
+        }
+      },
+      "reported_objective_half_ns": 142498418.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/036.mean_work.npz",
+      "arrays_sha256": "756ac23b06f3c5bd50a31b3b4864a2adbfa63b1a37d9edb9f0729b50bbf18fc8",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/036.mean_work.physical.json.gz",
+      "physical_sha256": "5fd8d69850b7e2511851340413e3d4b9a00d6065c4f16d351d415a487cfc2ff4",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562037.79296875,
+      "native_p99_ns": 604320.86,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558633.20703125,
+      "native_mean_gain_vs_v2": 0.0011245964817363507,
+      "native_p99_gain_vs_v2": 0.0009724436283070625,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 37,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/037.mean_work.npz",
+      "sha256": "6394db4c358768870ad55c7abd81fcea2343ffbaec513b6900c2b8ed54e06f05",
+      "mask_sha256": "07c7745973f5c6f2b1a1b910e80ef4c6dcebd296ddf11eb49860ed1967cb7b38",
+      "metric": {
+        "weighted_sum_ns": 284992230,
+        "mean_ns": 556625.44921875,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 194,
+          "21": 9
+        }
+      },
+      "reported_objective_half_ns": 142496432.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/037.mean_work.npz",
+      "arrays_sha256": "275a6087eb091131ded0259d4e43a46d42309bf3a1f00cad1f250f978a8021d3",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/037.mean_work.physical.json.gz",
+      "physical_sha256": "b616e61495701eb4a3b33fe1d2bc48ea8ce5c5b63c2cc684fff5d0cd9bc2aecb",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562057.046875,
+      "native_p99_ns": 604320.86,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558625.44921875,
+      "native_mean_gain_vs_v2": 0.00109037769144249,
+      "native_p99_gain_vs_v2": 0.0009724436283070625,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 38,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/038.mean_work.npz",
+      "sha256": "4805dab5894928d3d1be9d83646d79e042a7a813683ccaa0523397b65c047b03",
+      "mask_sha256": "2e1e7cdcae5935dbe1bb6b0a0d7d2db8ae08e0f3b226ec10070cdd36ef7980b1",
+      "metric": {
+        "weighted_sum_ns": 284990752,
+        "mean_ns": 556622.5625,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 194,
+          "21": 9
+        }
+      },
+      "reported_objective_half_ns": 142495756.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/038.mean_work.npz",
+      "arrays_sha256": "e64d7620cda95a4b1982853bb523413ab5e4ffe63df2cf5de05623983b7b4f0e",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/038.mean_work.physical.json.gz",
+      "physical_sha256": "ce729d818876bdfcad1a056593097b2c667fb7a876dafec08b4ba7980ded8aeb",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562063.390625,
+      "native_p99_ns": 604320.86,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558622.5625,
+      "native_mean_gain_vs_v2": 0.0010791033324575316,
+      "native_p99_gain_vs_v2": 0.0009724436283070625,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 39,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/039.mean_work.npz",
+      "sha256": "794449e6ed7184be53767a3002191efe49b972781212f27de68d07f7ff9bec34",
+      "mask_sha256": "c07c26736ca420896b976d377615a19d8b8ecc40c49272db0a73121a85a5a628",
+      "metric": {
+        "weighted_sum_ns": 284990076,
+        "mean_ns": 556621.2421875,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 194,
+          "21": 9
+        }
+      },
+      "reported_objective_half_ns": 142495038.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/039.mean_work.npz",
+      "arrays_sha256": "45ac0b7e90c7971ba3a3da8164b3289756956995af5203f91cf05b0490bafffc",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/039.mean_work.physical.json.gz",
+      "physical_sha256": "c5a556d20f5b1551d9a625673c8c2552d490f807bd9d66e6c602d0d2c3145aa8",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562044.51953125,
+      "native_p99_ns": 604320.86,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558621.2421875,
+      "native_mean_gain_vs_v2": 0.001112641773502232,
+      "native_p99_gain_vs_v2": 0.0009724436283070625,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 40,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/040.mean_work.npz",
+      "sha256": "69e64a31d4aa0206a5eb9284564d6bc50988f707d2c9931d07a26bb3c0a39a8e",
+      "mask_sha256": "4718afa0bbe12907a86d315641e84ce925208814d2e23aba600876aedfa1eb64",
+      "metric": {
+        "weighted_sum_ns": 284987708,
+        "mean_ns": 556616.6171875,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 194,
+          "21": 9
+        }
+      },
+      "reported_objective_half_ns": 142493854.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/040.mean_work.npz",
+      "arrays_sha256": "1ff8e9c0b4a11b1048a8061cb2f2173c1ee7b5b4488e11665832997bb7426d89",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/040.mean_work.physical.json.gz",
+      "physical_sha256": "8aec40af2d3fe0488da67b177e64a3d42007afb76adcb0fc47df8b5489cb13cc",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562043.14453125,
+      "native_p99_ns": 604320.86,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558616.6171875,
+      "native_mean_gain_vs_v2": 0.0011150854769275131,
+      "native_p99_gain_vs_v2": 0.0009724436283070625,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 41,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/041.mean_work.npz",
+      "sha256": "8fa236aa5bcc3ebc6fa3ecdd95ac1d5ff4fc1334bd11b67cc58a494c0c70a786",
+      "mask_sha256": "dec2b32671d70bc974cb019d07ba956ef2a9f7a068471fd95d873846a7d0a2ab",
+      "metric": {
+        "weighted_sum_ns": 284986864,
+        "mean_ns": 556614.96875,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 194,
+          "21": 9
+        }
+      },
+      "reported_objective_half_ns": 142493432.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/041.mean_work.npz",
+      "arrays_sha256": "c7f299d23be11dfc879747e420f52e3f21bbc69b27d4ea74e8f021eb4528d554",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/041.mean_work.physical.json.gz",
+      "physical_sha256": "5b87f117a0766d1f07f91daeba0c2b27f6fbd8d5046a3d29ad9ceaa72e0f216b",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562049.1875,
+      "native_p99_ns": 604320.86,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558614.96875,
+      "native_mean_gain_vs_v2": 0.0011043456780668315,
+      "native_p99_gain_vs_v2": 0.0009724436283070625,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 42,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/042.mean_work.npz",
+      "sha256": "2a088db9c88de72d44616ec6610a819e1787f124f074dae0f1e0b2f491ddc613",
+      "mask_sha256": "ec7e7b8862ae5dfe0ce14e909031ec0c7ca1aeb5f36c70cdc7487abd01659bc7",
+      "metric": {
+        "weighted_sum_ns": 284984202,
+        "mean_ns": 556609.76953125,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 194,
+          "21": 9
+        }
+      },
+      "reported_objective_half_ns": 142492439.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/042.mean_work.npz",
+      "arrays_sha256": "4d791caebb5f3ca954bc2c358ca3b5b288fb2586e2422c52991fcc751fd50009",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/042.mean_work.physical.json.gz",
+      "physical_sha256": "33f150e063eb757bb740aad2892bcf58c31e40c55264736bfaf889fa58a315d3",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562044.40234375,
+      "native_p99_ns": 604320.86,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558609.76953125,
+      "native_mean_gain_vs_v2": 0.0011128500436805577,
+      "native_p99_gain_vs_v2": 0.0009724436283070625,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 43,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/043.mean_work.npz",
+      "sha256": "6d05fbd52e61a0f9d682986bf7c053fa5ac19947c4101373eb896a9b37848800",
+      "mask_sha256": "dae21d12c1693a674038697c3c6b1319915f12a8bbe7dfec22c98b013e8de016",
+      "metric": {
+        "weighted_sum_ns": 284984202,
+        "mean_ns": 556609.76953125,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 194,
+          "21": 9
+        }
+      },
+      "reported_objective_half_ns": 142492101.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/043.mean_work.npz",
+      "arrays_sha256": "0d31d2abda34d59259d33d2f21563b17f853edcc5b3f6baf34fa53c9ffe3dd9d",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/043.mean_work.physical.json.gz",
+      "physical_sha256": "1bd2cb370cb6462a04cc1359fc3d08056426cd89d78606a70ebecdfc72758e14",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562047.671875,
+      "native_p99_ns": 604320.86,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558609.76953125,
+      "native_mean_gain_vs_v2": 0.0011070393057061034,
+      "native_p99_gain_vs_v2": 0.0009724436283070625,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 44,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/044.mean_work.npz",
+      "sha256": "34999e4e991a24c968a673227055fe36e550fc2a217caba26b72e7fb9b824af8",
+      "mask_sha256": "1252603cefeb53c59d670eed0d051584feed7482cf4da859614ef571e55bef61",
+      "metric": {
+        "weighted_sum_ns": 284983568,
+        "mean_ns": 556608.53125,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 194,
+          "21": 9
+        }
+      },
+      "reported_objective_half_ns": 142491787.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/044.mean_work.npz",
+      "arrays_sha256": "ed77e46891fe281c575f42d8eaeed6d1e9b29276d100a704bd042c9e3b12d6fb",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/044.mean_work.physical.json.gz",
+      "physical_sha256": "0aacd6e372c3db3ab0e77dfd09261474cd96b7a3caca4ee9906eec9a3aeb4606",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 562041.98828125,
+      "native_p99_ns": 604320.86,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558608.53125,
+      "native_mean_gain_vs_v2": 0.001117140409353401,
+      "native_p99_gain_vs_v2": 0.0009724436283070625,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 45,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/045.mean_work.npz",
+      "sha256": "6cbb82e70a60b6c24e9e43b7fdede38e84bc669efb01afe4f3891ee4b59dfc7b",
+      "mask_sha256": "9b4c0c4169a47b3bb3cdca002ca83b79848b16b24f6dabd730dcb0de30c11aac",
+      "metric": {
+        "weighted_sum_ns": 284958186,
+        "mean_ns": 556558.95703125,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 309,
+          "20": 195,
+          "21": 8
+        }
+      },
+      "reported_objective_half_ns": 142479093.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/045.mean_work.npz",
+      "arrays_sha256": "c613cd3390375b7e42997e63c8c9e42d1b6dbc258a85765ce09afde052785159",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/045.mean_work.physical.json.gz",
+      "physical_sha256": "fb0613aadf0107182c61f4207acdc48c182095d0d56464c6b6ca3099797b9223",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561982.7890625,
+      "native_p99_ns": 603763.14,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558558.95703125,
+      "native_mean_gain_vs_v2": 0.0012223515610884084,
+      "native_p99_gain_vs_v2": 0.0018944333950340342,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 46,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/046.mean_work.npz",
+      "sha256": "3a8b17a8a5ad09af746bfcfee6bdcee9c85a790796945115a32bbbb62c94fb7d",
+      "mask_sha256": "32375851d684c48d0c11e71b613610e795f2afe6a2c6f7c35f66b667590246cf",
+      "metric": {
+        "weighted_sum_ns": 284933228,
+        "mean_ns": 556510.2109375,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 310,
+          "20": 194,
+          "21": 8
+        }
+      },
+      "reported_objective_half_ns": 142466614.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/046.mean_work.npz",
+      "arrays_sha256": "41fdd3f3630da6ac4722045e397d0e90902f0c76f3064c07ea8911db11c34c0b",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/046.mean_work.physical.json.gz",
+      "physical_sha256": "c7677d4944b485ab287255551197e57533d30824160b0dae43e76ad467035007",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561916.72265625,
+      "native_p99_ns": 603763.14,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558510.2109375,
+      "native_mean_gain_vs_v2": 0.0013397673452715253,
+      "native_p99_gain_vs_v2": 0.0018944333950340342,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 47,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/047.mean_work.npz",
+      "sha256": "474cace64e2d0206597ad422693ab31a7e3b5a84e2decf177b5a0c9d6406e287",
+      "mask_sha256": "bdccf5163080979d185634df6da35a253e7881662024c3a78d2d22a1263ec726",
+      "metric": {
+        "weighted_sum_ns": 284932678,
+        "mean_ns": 556509.13671875,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 310,
+          "20": 194,
+          "21": 8
+        }
+      },
+      "reported_objective_half_ns": 142466342.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/047.mean_work.npz",
+      "arrays_sha256": "2717fce0e46f9d250ec63d906c4d8b31510428f20172e468199fff2cb97476c6",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/047.mean_work.physical.json.gz",
+      "physical_sha256": "c76becdbfb973ae4b1cac59b622058306969fb7961395c34d391c67579777390",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561912.203125,
+      "native_p99_ns": 603763.14,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558509.13671875,
+      "native_mean_gain_vs_v2": 0.001347799631814417,
+      "native_p99_gain_vs_v2": 0.0018944333950340342,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 48,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/048.mean_work.npz",
+      "sha256": "41eac8165b43e8f354adf08fb58d8e1185b1ac49fe2d022f806819b5cc92bab8",
+      "mask_sha256": "d10a31a48c19e8ac8b9f96cfd3ad274ec6a1d04edafffa6d60e679676f81a094",
+      "metric": {
+        "weighted_sum_ns": 284932086,
+        "mean_ns": 556507.98046875,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 310,
+          "20": 194,
+          "21": 8
+        }
+      },
+      "reported_objective_half_ns": 142466043.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/048.mean_work.npz",
+      "arrays_sha256": "ceef3980653017c9bc1273aa6f2ac9c03b642077a03decd450d8238a63d134af",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/048.mean_work.physical.json.gz",
+      "physical_sha256": "2b4c35d7b2d882b7dbaba6111ca2fde19302f32f0dbb1e4c521f11e2a1ee9ceb",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561910.91015625,
+      "native_p99_ns": 603763.14,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558507.98046875,
+      "native_mean_gain_vs_v2": 0.0013500975461149256,
+      "native_p99_gain_vs_v2": 0.0018944333950340342,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 49,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/049.mean_work.npz",
+      "sha256": "51f90dba7e1d6ba8609a6cb1a602e3c8ee30e35d7cae2a8ea58eeae26788857a",
+      "mask_sha256": "d6d8f3020271793900d1f7b51d87ea432c6f4927edab04468801eb89bc49d447",
+      "metric": {
+        "weighted_sum_ns": 284930692,
+        "mean_ns": 556505.2578125,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 310,
+          "20": 194,
+          "21": 8
+        }
+      },
+      "reported_objective_half_ns": 142465367.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/049.mean_work.npz",
+      "arrays_sha256": "5821062fa0352e7d8619b9975d64c1024870ea5396401c28de8d98b707034d4c",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/049.mean_work.physical.json.gz",
+      "physical_sha256": "0794aa0903b3ee698cd405673ad062c3c97c6113bd398866a6598b5d1eaf0986",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561909.70703125,
+      "native_p99_ns": 603763.14,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558505.2578125,
+      "native_mean_gain_vs_v2": 0.0013522357866121437,
+      "native_p99_gain_vs_v2": 0.0018944333950340342,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 50,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/050.mean_work.npz",
+      "sha256": "40d183ef9e45371289b155905a47879349cb4f8ddf93283ffc6c42182b37fd90",
+      "mask_sha256": "85cd8149517791eba66475c5206dfde1c1b39c5c5d64576c5db62d150ed1e5f9",
+      "metric": {
+        "weighted_sum_ns": 284930142,
+        "mean_ns": 556504.18359375,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 310,
+          "20": 194,
+          "21": 8
+        }
+      },
+      "reported_objective_half_ns": 142465071.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/050.mean_work.npz",
+      "arrays_sha256": "dd61fc76c6ae310340994acdb9281841ebc6c7e2983272340c051432aec8fbb2",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/050.mean_work.physical.json.gz",
+      "physical_sha256": "2a5fa5fa60b95c09743a7ba4c0513deb2efb2a89f4848a9d64af291c6c495d78",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561910.48828125,
+      "native_p99_ns": 603763.14,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558504.18359375,
+      "native_mean_gain_vs_v2": 0.001350847318756787,
+      "native_p99_gain_vs_v2": 0.0018944333950340342,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 51,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/051.mean_work.npz",
+      "sha256": "29f98e2af2c461f26e612d0ec1bbb8048358343daf090f4ef267a07ff7d2aad3",
+      "mask_sha256": "087cdd4892bdf374b5659738aab1da46342b8cfed34cc21842c480d851fdc863",
+      "metric": {
+        "weighted_sum_ns": 284851968,
+        "mean_ns": 556351.5,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 312,
+          "20": 193,
+          "21": 7
+        }
+      },
+      "reported_objective_half_ns": 142426005.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/051.mean_work.npz",
+      "arrays_sha256": "2bfd2f77362343d52fb035478a69d9cd9535a34104d513e173ecb2f8e070de98",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/051.mean_work.physical.json.gz",
+      "physical_sha256": "fba372c264efba1fbfcaf1ffd56d91477b41f758151bf5097927ac8e659208b9",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561744.26171875,
+      "native_p99_ns": 603356.5,
+      "native_min_ns": 549052,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558351.5,
+      "native_mean_gain_vs_v2": 0.0016462716243281772,
+      "native_p99_gain_vs_v2": 0.0025666666280933503,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 52,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/052.mean_work.npz",
+      "sha256": "57bbdf483d149bad75d5eaabb2ffdb0bf6831bb9f0ade3150ee1846d62cc45ec",
+      "mask_sha256": "e88d2e3eb7a0392c2534e8784fb598f33b58790062a7e779e64faa619692ef98",
+      "metric": {
+        "weighted_sum_ns": 284851884,
+        "mean_ns": 556351.3359375,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 312,
+          "20": 193,
+          "21": 7
+        }
+      },
+      "reported_objective_half_ns": 142425942.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/052.mean_work.npz",
+      "arrays_sha256": "660c108c27dffc5fb2c20e479d71659ce455d3ad121c2d06af1aa62b76458bde",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/052.mean_work.physical.json.gz",
+      "physical_sha256": "c2c3f11d708865b2f9d0f50945d211b7979cc1b602e16924f81f1e84b149a161",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561753.48046875,
+      "native_p99_ns": 603356.5,
+      "native_min_ns": 549360,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558351.3359375,
+      "native_mean_gain_vs_v2": 0.0016298877036355908,
+      "native_p99_gain_vs_v2": 0.0025666666280933503,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 53,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/053.mean_work.npz",
+      "sha256": "f944968ffcc1f9e75025949d40ead6d755e26b13ba2bb48b93cb223b9cad071c",
+      "mask_sha256": "8d0c554f3856bb720332d512d4ee9731f0da3130e9c87bd53aa6ef3b24239419",
+      "metric": {
+        "weighted_sum_ns": 284851208,
+        "mean_ns": 556350.015625,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 312,
+          "20": 193,
+          "21": 7
+        }
+      },
+      "reported_objective_half_ns": 142425604.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/053.mean_work.npz",
+      "arrays_sha256": "fc9a6331251e6fe5df0b2a1ad92952539ec886c1acc06ba63ed36326e5c1174f",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/053.mean_work.physical.json.gz",
+      "physical_sha256": "a6243431af8a4a79d10c7f10ce5e2a343d50b77d0c2ca5e67cd644f00d8c8be2",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561759.65234375,
+      "native_p99_ns": 603356.5,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558350.015625,
+      "native_mean_gain_vs_v2": 0.0016189188075788064,
+      "native_p99_gain_vs_v2": 0.0025666666280933503,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 54,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/054.mean_work.npz",
+      "sha256": "468a5dc1e7f53736d402497ab917f0fa12b2ccb8fe75c55afedac21334a55f01",
+      "mask_sha256": "4757d9dd5c36e0cdb82e4e631eef028d848eaaa37775cda9d8f3b349244b04fc",
+      "metric": {
+        "weighted_sum_ns": 284851166,
+        "mean_ns": 556349.93359375,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 312,
+          "20": 193,
+          "21": 7
+        }
+      },
+      "reported_objective_half_ns": 142425583.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/054.mean_work.npz",
+      "arrays_sha256": "2b74ec6e4c861f2a1f67339143e20f96ee0fb703e3a0749a16f1d02c1539390d",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/054.mean_work.physical.json.gz",
+      "physical_sha256": "b595a1f8a19f42d5f606a5404d8b29e6cffabc15d205d2b405158a3efd0cdc65",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561758.8984375,
+      "native_p99_ns": 603356.5,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558349.93359375,
+      "native_mean_gain_vs_v2": 0.0016202586790591278,
+      "native_p99_gain_vs_v2": 0.0025666666280933503,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 55,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/055.mean_work.npz",
+      "sha256": "1f5936b736b7c6180eb8b2677152132d5a70b1956e43019980448d78ab2d57b4",
+      "mask_sha256": "4c9e41e358bc7260c09d7218a9aa20a171a0c5a021f96fd5986c710099db155e",
+      "metric": {
+        "weighted_sum_ns": 284851124,
+        "mean_ns": 556349.8515625,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 312,
+          "20": 193,
+          "21": 7
+        }
+      },
+      "reported_objective_half_ns": 142425562.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/055.mean_work.npz",
+      "arrays_sha256": "a0055c0eb4dd27e0ba1870f2b3fb4057796b3b8099695d55d8a4eb9cf32ffbd2",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/055.mean_work.physical.json.gz",
+      "physical_sha256": "3ac2b54a4336612bdd0ceef3494bd6452c2bb2a8f25ebc7ef94d530039a4384c",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561763.55859375,
+      "native_p99_ns": 603356.5,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558349.8515625,
+      "native_mean_gain_vs_v2": 0.0016119764683023563,
+      "native_p99_gain_vs_v2": 0.0025666666280933503,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 56,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/056.mean_work.npz",
+      "sha256": "023a259b5b7b2edf6039220221dd39fccc82f913491bac79b12af047c8c250a5",
+      "mask_sha256": "9f81db0a2b01109c06fb768b78ccf70c5145b43b36cacedc2b92d9a6aa0efc78",
+      "metric": {
+        "weighted_sum_ns": 284850490,
+        "mean_ns": 556348.61328125,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 313,
+          "20": 191,
+          "21": 8
+        }
+      },
+      "reported_objective_half_ns": 142425245.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/056.mean_work.npz",
+      "arrays_sha256": "551b13c6980b1c308d991452f7ae8f33ec0119a56ecd33555800e47f7156d3ea",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/056.mean_work.physical.json.gz",
+      "physical_sha256": "86b088d971cac998660e67954026c12e62b35c8014752f7668f89c29416eeb46",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561766.078125,
+      "native_p99_ns": 603763.14,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558348.61328125,
+      "native_mean_gain_vs_v2": 0.0016074986594689644,
+      "native_p99_gain_vs_v2": 0.0018944333950340342,
+      "allocated_bytes_delta_vs_v2": 0
+    },
+    {
+      "index": 57,
+      "stage": "mean_work",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/057.mean_work.npz",
+      "sha256": "f069928fd0675063bc61c173f8ea46fd1df32ba7266997cd5e7a75300a6035dc",
+      "mask_sha256": "5ec5cafd76a33b295a386a28878417c43b186ed7c39b8b556560fac24a00be46",
+      "metric": {
+        "weighted_sum_ns": 284850448,
+        "mean_ns": 556348.53125,
+        "max_ns": 601778,
+        "p99_ns": 601102.0,
+        "NAND_peak_histogram": {
+          "19": 313,
+          "20": 191,
+          "21": 8
+        }
+      },
+      "reported_objective_half_ns": 142425224.0,
+      "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/057.mean_work.npz",
+      "arrays_sha256": "3e6d540bcc25909a5ee4a470e1e01b9b07331735e22396206d22974a93f1105e",
+      "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/057.mean_work.physical.json.gz",
+      "physical_sha256": "5676c8c9cb749455c4a4f59c99ed92f79aad36c0406a1cf60fb3ee7594bceac3",
+      "physical_audit": {
+        "jobs": 1824,
+        "useful_bytes": 155713536,
+        "pages": 9760,
+        "waves": 2440,
+        "chip_blocks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "allocated_lsb_block_bytes": 201326592
+      },
+      "reference_trace_checks": [
+        {
+          "query": 0,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 255,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        },
+        {
+          "query": 511,
+          "nodes": 1031,
+          "jobs": 200,
+          "resources": 28,
+          "chip_owner_intervals": 200
+        }
+      ],
+      "native_mean_ns": 561770.9140625,
+      "native_p99_ns": 603763.14,
+      "native_min_ns": 549128,
+      "native_max_ns": 606754,
+      "mean_native_LB_ns": 558348.53125,
+      "native_mean_gain_vs_v2": 0.00159890404344476,
+      "native_p99_gain_vs_v2": 0.0018944333950340342,
+      "allocated_bytes_delta_vs_v2": 0
+    }
+  ],
+  "best_native_index": 51,
+  "best_native_mean_gain_vs_v2": 0.0016462716243281772,
+  "native": {
+    "source": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/snapshots/research_20261103_ordinary_read_native.cpp",
+    "source_sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+    "binary": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/build/ordinary-read-ef7994fa2ba37a4b.so",
+    "binary_sha256": "08eed2457c03ba9e9c483a08bb049ff5afe859a87485e1a739e613f8ef98cdc4",
+    "command": "c++ -std=c++17 -O3 -shared -fPIC SOURCE -o BINARY"
+  },
+  "limits": [
+    "TRAIN512only,one layer,one cost profile;no heldout or inference.",
+    "Thecompactgeometryforcesminimumhighintersection5 and excludesboth-low;notallfreewhole-rowmapping.",
+    "CP-SATobjective is maxchip-ownedoccupancy,not complete nativeDAG latency or a nativeoptimum.",
+    "Every mask hasonecopy complete rows andfixedshared;globalmodelcapacity andnative numericalABI are not proven by these virtual one-layer addresses."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "cache_entries_all_source_offsets_geometry_and_Q8_types_checked": 5067,
+  "target_weight_names_checked": 159,
+  "deterministic_rows_per_cached_expert_boundary": 3,
+  "independent_GGUF_dequant_row_scale_samples": 711,
+  "row_scale_bit_mismatches": 0,
+  "sample_selection": "For every logical target weight, minimum and maximum cached expert IDs (one for dense/shared); rows0,R//2,R-1.",
+  "read_only_no_model_inference_or_weight_requantization": true,
+  "original_model_sha256_expected": "09d9abe9170d14386b0a54fe3969035f6a770956cfefa7d2fbaa12e0900a2ba4",
+  "source_layout_evidence": {
+    "block_q8_0": "/home/nfs_client/ericyu/expert_flash_experiment/sources/llama.cpp-927dada6c/ggml/src/ggml-common.h:241",
+    "dequantize_row_q8_0": "/home/nfs_client/ericyu/expert_flash_experiment/sources/llama.cpp-927dada6c/ggml/src/ggml-quants.c:491"
+  },
+  "input_sha256": {
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-metadata.json": "76bc65fa3f07436199f1f6b2688f01a0c7ccdb97a29b6c7d67c2eba11327e27c",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/deepseek-full-ffn-integer-reference/protocol.frozen.json": "84e100600d882eb809d85fa1bdc3e469b0fb9a885e5627c60479339078a84a7a",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/deepseek-full-ffn-integer-reference/smoke/weight_cache_ledger.jsonl": "851abb8e94aab1637be6d8438149d5560c72b1cf4033b133e616af8596c930b0",
+    "/home/nfs_client/ericyu/expert_flash_experiment/sources/llama.cpp-927dada6c/ggml/src/ggml-common.h": "33667042e675da25d8ea0c6d5d0999506f1edfce2b7d97c2d78830ac5fb3fa46",
+    "/home/nfs_client/ericyu/expert_flash_experiment/sources/llama.cpp-927dada6c/ggml/src/ggml-quants.c": "62a1a886245c8a59af5f5bc8fe50ffdb71167fcd5a8321bc0aa67d6d55ad4b11"
+  },
+  "audit_source_sha256": "20ece00eb61630f851536915b78c9d7dc89c34dd79963abd47ecf9b8b0f761b7"
+}

@@ -1,0 +1,146 @@
+結論
+====
+C=2048、每 expert/chip GU=176 完整 rows 的 tight single-copy stream，在既有
+ordinary dense GEMV 的數學及 row/page/WL alignment 層面成立。它不需要多個
+input contexts、column partial sums、inactive-row skip 或新的 row-stop 指令。
+讀取 views 可以重疊；實體 coefficients 只存一次。這是普通同輸入 row stream
+的軟體 layout/dispatch 控制，不是新的 PE operation。
+
+目前證明是 row-ID/address ledger，不是 weights 數值回放或 native 硬體認證。
+實際 output format/scaling、FIFO/backpressure、最大 R/pagecount encoding 及
+controller range mapping 的限制未由可見 source 公開，不能將其寫成已通過。
+也不能因未知就新增 buffer、context 或不付費的 streaming/early-ready 功能。
+
+已知 shape、地址及計數
+=====================
+Deep routed H=2048、I=1408，完整 GU=2816rows；16chips 各176rows，gate/up
+各1408rows。每個 W8 row=2048B，每16KiB page=8完整rows，每64KiB四plane
+wave=32完整rows。176rows=360448B=22pages=5.5waves。
+
+expert e 物理 rows=[176e,176(e+1))。singleton view 保守取
+  [32floor(176e/32), 32ceil(176(e+1)/32))。
+其長度恰為192rows=24pages=6waves，多出的16rows來自相鄰expert；整個
+stream 有64experts、11264rows、1408pages、352waves，每chip有兩個192WL
+blocks。最後一個expert結尾亦WL-aligned，不需invented padding coefficient。
+所有page/WL/block邊界都是完整 row 邊界，因此此 C 沒有 partial-row fringe。
+
+相鄰偶數起點 pair [0,1] 的 useful+union=[0,352)，11waves；兩singletons
+分別[0,192)、[160,352)，共12waves。重疊的32rows=[160,192)是同一份實體
+coefficient被重讀，絕不是兩份stored aliases。union只讀一次，352個selected
+rows各consume一次。奇數起點pair[1,2]的union=[160,544)，12waves，包含前後
+各16個inactive rows；它沒有wave收益，只可能省command/input reload。
+
+連續 q experts，第一個index的parity p=e mod2，精確union waves為
+  ceil((11q+p)/2)。
+q=6時為33或34waves，相對6個singleton的36waves；不能對所有pair無條件
+使用ceil(sum useful bytes /64KiB)，因為它會漏掉首尾alignment fringe。
+selected experts之間若有gaps，合併跨gap亦必須讀出/計算/返回完整gap；本次
+小枚舉只merge overlapping或touching views，沒有假定免費跳過gap。
+
+每192WL block可放6144完整rows。expert34=[5984,6160)跨block；singleton
+view=[5984,6176)必須拆成block0的5waves及block1的1wave兩個commands。
+34/35 pair union=[5984,6336)為11waves，但仍是兩個commands，不是一個。
+所有子command重載同一個完整2048-dimensional input，不保留跨command的
+未公開input residency或accumulator。block切點沒有dot product被切斷。
+
+數值不變量與metadata
+===================
+每個stored row必須保留原 (expert, gate/up, logical row)、原2048 columns
+的次序與完整原logical row scale。對同一token，所有routed GU的完整F32 input
+相同；固定既有full-vector dynamic A8的input bytes及input scale亦相同。
+host依原row scale與原input scale rescale/scatter；不得按merged output rows
+重算W8 scale、A8 vector scale或跨row output calibration。
+
+在既有固定數值契約下，完整2048項dot可保持原I64→F32一次、
+F32(rowScale*inputScale)一次。最大signed W8/A8絕對dot為33032192，CPU可
+精確累加；這個數字並不證明AiF返回raw I32/I64，或公開了其output ABI。
+若native output function依整個matrix的rows共同校準，合併仍須額外驗證；
+本構造只依賴逐完整row可分離的既有GEMV語義。
+
+整個stream的每個row只存一次。singleton重疊時，某些selected fringe rows
+可能在另一個view重算，scatter必須以原logical row index去重，不可重複加進
+GU或router combine；多次read不是多份權重。所有nonselected fringe同樣支付
+NAND、PE、FIFO、channel及PCIe輸出成本，host再drop。nominal4B output只是
+既有Service成本格式，不能當作硬體native scalar width的新證據。
+
+多expert GU-ready 與 Down
+========================
+一個merged command可能產生多個expert的rows。軟體graph須讓每個expert依賴
+所有含其rows的command及scatter完成；不能只將merged job標上一個expert。
+保守版本等待整個merged command（含fringe）drain完成，才讓其中完整covered
+的rows ready。每expert仍須收齊16chips全部2816 GU rows，執行host SwiGLU，
+對完整1408-element hidden vector動態A8一次，才發private-input Down jobs。
+不同expert的Down不能以同input GU方法直接vertical merge。
+
+論文有逐步FIFO polling，卻未公開此merged command可在哪個output位置讓某
+expert早於command結束發Down的時序/ownership契約。本次不使用mid-command
+early-ready，也不宣稱GU wave減少就保證完整FFN latency改善。保守等待可能
+延遲某些expert；需要含multi-consumer deps的完整native resource-DAG比較。
+
+原生硬體：已知與未公開
+======================
+1. paper/aif.txt:744–749,761–779（AiF §4.4，printed p536）描述command帶
+   input dimension、block ID、offset、page count，讀取連續矩陣stream並用
+   INT8 multiplier/adder tree做GEMV。本構造只請它計算一個C-wide dense matrix。
+2. paper/aif.txt:724–743描述每plane PB重用既有page latches存input；文中
+   8–32KiB是典型input範圍，不是公開的所有encoding/shape上下限。2048B input
+   不需要更大的PB，但是否有特定minimum/alignment依然不能從典型值直接證明。
+3. paper/aif.txt:818–823（printed p537）描述結果依序進FIFO，controller輪詢
+   SREG並取回結果。可據此保留一般FIFO流量；未公開FIFO深度、backpressure
+   行為、counter widths、max output R、max pagecount bits、row scaling ABI。
+   搜尋本repo及現有llama checkout未找到可用來證明這些值的PE RTL。
+4. 幾何上單block最多768pages、6144rows，nominal4B時24576B output；這些是
+   地址/成本上限，不是已驗證的native最大R或FIFO容量。六expert contiguous
+   run通常只有1056/1088rows（4224/4352B nominal output），跨block仍須拆。
+   論文的streaming FIFO不要求整條R-vector同時放在FIFO，但安全buffer/drain
+   排程仍須依實際flow-control規格；不能默默加大FIFO或假定零stall。
+5. paper/aif.txt:925–928（§5.2 footnote9，printed p538）明列跨兩個IFP blocks
+   拆成不同GEMV operations。本構造照做，不使用跨block單command。
+6. kernel/aif.h:11明示metadata-only，v2/v3只加input/output bytes及command
+   count；kernel/aif.c:2亦明示不計算products。因此u64 output_bytes欄位不是
+   native FIFO容量證據，v3不能證明row mapping/頁面範圍/output語義已實作。
+7. aif_post在paper/aif.txt:847–861描述等分submatrices。單純按原expert-major
+   順序post全supermatrix，不會自動形成每expert每chip176rows的交錯stream。
+   可用chip-major靜態row permutation表示所需layout，但仍需controller/FTL的
+   range/union mapping表、host output-row scatter及軟體輸出buffer管理。這些
+   是額外的軟體lowering需求，不能宣稱現有metadata timing kernel已具備；
+   也不必因此假設新的die指令或多context。
+
+與舊Q38 screen的範圍差別
+=======================
+既有gu-coalescing/protocol.frozen.json與獨立audit只檢查C2560，strict
+row/WL共同邊界128rows=5waves（32row分支還有未驗plane-start及起始WL取整
+的optimistic relaxation）。固定Q38whole-row jobs為75/76/101rows，最大
+ceiling slack0.0703125wave；最多11objects總slack<1，故即使理想相鄰也無
+NAND-wave headroom。其結論只涵蓋該固定geometry，不能直接排除新C2048。
+
+Deep176的每job slack是0.5wave，row/WL共同邊界僅32rows，兩相鄰偶數起點
+已可省1wave。因此這個半wave-tail/layout組合是舊證書未覆蓋的明確screen
+空間；普通同input concatenation、gap-overfetch與read union概念本身已由舊
+prototype及既有compiler控制涵蓋，不能再稱新fusion演算法。
+
+最重要的強baseline是Deep192/160 geometry：8×192+8×160=2816rows，
+GU waves=8×6+8×5=88，已達整個expert useful-byte lower bound。uniform176
+singleton原本是16×6=96waves。新sharing追回8waves/expert的取整負擔不等於
+超過88wave強控制。它剩下的可能是query chip balance、commands/input reload
+及readiness，而非比selected useful bytes更低的NAND總工作。後續screen必須
+給既有strong layouts相同合法tile-sharing控制，保留shared/Down/fullFFN因果
+並收取全部fringe，才能判定是否有新的正系統結果。
+
+本次驗證
+========
+441個小型selected-set cases：8experts的全部255個非空subsets，加64個
+singletons、63個相鄰pairs及59個六expert runs；另484個contiguous-run公式
+檢查。使用唯一physical(rowID)列表及獨立WL bitmap核對interval merger，
+逐row檢查selected coverage、nonselected drain/drop、無stored copies/aliases、
+無partial rows及跨block拆commands。全部PASS。未讀任何weights、routes或
+heldout，沒有fit、數值quality或硬體效能實驗。
+
+主要可用來源（均已在repo本地讀取）
+================================
+AiF primary paper：https://doi.org/10.1145/3695053.3731073
+local text：/home/ericyu/expert_flash_experiment/paper/aif.txt
+metadata ABI：/home/ericyu/expert_flash_experiment/kernel/aif.h
+舊screen：results/research-2026-11-02/round2/gu-coalescing/protocol.frozen.json
+舊合法性及prior紀錄：gu-coalescing/prior_and_legality_audit.json
+舊independent audit：gu-coalescing/independent_audit.json

@@ -1,0 +1,45 @@
+[
+  {
+    "id": "HDA_paper",
+    "title": "HDA-MoE: Hybrid Parallelism and Dynamic,Adaptive Scheduling for Mixture-of-Experts with3DNear-MemoryProcessing",
+    "version": "arXiv2609.08682v1,2026-09-08;TCADonline2026",
+    "url": "https://arxiv.org/html/2609.08682v1",
+    "doi": "https://doi.org/10.1109/TCAD.2026.3733620",
+    "read_scope": "Read full sectionsII,IV andV-A/V-B,includingEq1-12 andAlgorithms1-2;readV-C/V-D overview andVI-C/VI-Fcapacity/dynamic/gating ablations. Did not fully read detailedgating derivation or everyaccuracy/table experiment.",
+    "evidence": "One expert fractionP_ic;expected fractional compute load;coactivation group-node communication indicator;capacity constraints;offlineNodeBalance thenphysicalLinkBalance. Shared experts described as deterministic;shared costs grouped withattention in breakdown.",
+    "interpretation": "Direct prior for hybridexpert splitting,capacity/topology/load joint optimization. No separate GU/Down rowcount variables,ordinaryNANDwave rounding or the three joinedwave categories in the inspected formulation. One aggregatePcan encode totalexpertfraction but does not generate these two stage-specific row/addressmaps."
+  },
+  {
+    "id": "HDA_official_code",
+    "title": "HDA-MoE-TCAD26 official placement artifact",
+    "url": "https://github.com/PKU-SEC-Lab/HDA-MoE-TCAD26/tree/56ea3725b2c621d4aea248f16345c34f5e06b8ed",
+    "legacy_url": "https://github.com/angerybob/HDA-MoE/tree/56ea3725b2c621d4aea248f16345c34f5e06b8ed",
+    "commit": "56ea3725b2c621d4aea248f16345c34f5e06b8ed",
+    "read_scope": "Read README;node_allocation.py constructor/coactivation,compute_time/comm_time,communication event-model outline,ilp_solver_gurobi lines538-627,BO mapping857-938,dynamicpriority940-976;simulator.py configuration and placement/evaluation110-290;fullmoe_placement_utils.py. Downloadedbutdidnotfullyreadtopology.py/baseline.py/iter.py. No solver or fullsimulation run.",
+    "evidence": "P shape[layer,expert,node],Zbinary;objective t_comp+2*t_comm. Compute usesmarginalfrequency;group frequencies entercommunication. BO/Hungarian permutes logicalnodes. No phaseaxis inP,no weightrowaddresses. Original solver requiresgurobipy/license andskopt.",
+    "repository_relation": "Officialandlegacy tips have identicalcommit and all7downloadedfiles match SHA256. No version difference was found in this boundedsnapshot.",
+    "caveat": "Papermarks3h*IS compute,codeuses2h*IS initscomputeproxy. Do not reuse eitherFLOPconstant orDRAMnetwork timings as NANDcalibration. This audit doesnotdiagnose paperperformance fromthat normalization difference."
+  },
+  {
+    "id": "Stratum",
+    "title": "Stratum:System-HardwareCo-Design withTieredMonolithic3D-StackableDRAM forEfficientMoEServing",
+    "version": "arXiv2510.05245v1,2025-10-06;MICRO2025",
+    "url": "https://arxiv.org/html/2510.05245v1",
+    "doi": "https://doi.org/10.1145/3725843.3756043",
+    "read_scope": "Read sections3.1-3.2,full4.1 ExpertProcessing/Fig8-9,4.3,5.2/Algorithm1 and6.1modelingoverview. Otherattention/prediction/evaluationdetailsnotfullyreread.",
+    "evidence": "PU-levelGU output-neuron partitions align withDowninput partitions toavoid intermediatecommunication;Downpartialoutputsreduce-scatter. AllPUsprocessoneexpertatime;SFUsperformactivation/weightedaggregation. Placementrankswholeexperts intoDRAMtiers,includinghotsharedexperts.",
+    "interpretation": "Explicitdirectprior forcross-projection ownership andcausaloperator mapping. Differentmechanism fromtwo independentlycomplete output-row projections with intentionallycomplementary wavehighs. ProposedMono3DDRAM/NMPmodel,not ordinaryNAND hardware evidence. No authorartifact wasverifiedinthis boundedpass."
+  },
+  {
+    "id": "AiF_native_scope",
+    "title": "AiF:AcceleratingOn-DeviceLLMInferenceUsingIn-FlashProcessing",
+    "year": 2025,
+    "venue": "ISCA2025",
+    "url": "https://doi.org/10.1145/3695053.3731073",
+    "local_path": "/home/ericyu/expert_flash_experiment/paper/aif.txt",
+    "sha256": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7",
+    "read_scope": "Section4.4/Fig14 and5.2/nativevirtualdevice discussion readinprevious immediatelyprecedingaudit;not afreshfullpaperread.",
+    "evidence": "DenseGEMV inputdimension/block/offset/pagecount,continuousrowstream,INT8multipliers/addertree,orderedFIFO;equalaif_postplacement. Emulator suppliesdummyoutputs.",
+    "interpretation": "Publishedbasis for ordinarycomplete-row model;not observedthreecategoryjointMoEmapping. Outputdtype/scales/reset,FIFO/backpressure,inputfanout andPElatency remainunverifiednativecontracts."
+  }
+]

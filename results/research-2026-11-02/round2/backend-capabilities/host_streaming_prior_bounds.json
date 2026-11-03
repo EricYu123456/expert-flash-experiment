@@ -1,0 +1,120 @@
+{
+  "date": "2026-11-02",
+  "scope": "Granite4H-tiny is a new sixth-model candidate, not covered by the earlier five-model no-CR zero result. This audit neither establishes benefit nor rejects it. Existing dense GEMV plus host activation/partial sums only; no in-flash nonlinear engine or multi-context extension.",
+  "candidate": {
+    "whole_expert": "Once both complete gate/up projections for expert e return, host computes that expert's original activation and releases its down tasks. Other experts' GU need not finish first.",
+    "neuron_chunks": "Partition512 hidden neurons into four128-neuron chunks. A chunk depends on its complete128 gate dots and128 up dots, then host SwiGLU, then its down input-column slice. Sum the four down partials before expert scaling/router aggregation under an established numerical contract.",
+    "physical_layout": "Each chunk owns matching gate/up rows and down columns. GU paired rows may be physically interleaved for readiness. All dot rows remain complete. Fixed physical chip/plane/block ownership and row alignment must be audited; a ready task cannot relocate weights for free.",
+    "no_cross_nonlinearity_shortcut": "No down task may consume a chunk before that chunk's original gate/up dot, scaling and nonlinear product are complete. Chunking does not turn the whole FFN into one linear GEMV."
+  },
+  "primary_priors": [
+    {
+      "title": "PowerInfer-2: Fast Large Language Model Inference on a Smartphone",
+      "version": "arXiv2406.06282v3,2024-12-12",
+      "url": "https://arxiv.org/html/2406.06282v3",
+      "read_depth": "Personally read sections3.2,4.1.2,4.2-4.4 and implementation section6; Fig6 caption. Not a code execution audit.",
+      "evidence": "Section4.3 removes matrix barriers at neuron-cluster granularity. Its five stages cover prediction, Gate I/O/compute, then Up/Down I/O/compute, using computing threads and an I/O thread. Section4.4 stores corresponding Gate/Up rows and Down columns together by neuron position.",
+      "overlap": "Very close prior for host-side neuron producer-consumer scheduling, matching GU/down-neuron layout and cross-matrix execution.",
+      "difference": "Weights are offloaded from UFS into host memory and computed on CPU/NPU, often with sparsity/cache/prediction. It does not establish ordinary digital NAND GEMV scheduling or AiF command/timing semantics. Dense fixed routing can use the same dependency principle; pipeline itself is not new."
+    },
+    {
+      "title": "SLIM: A Heterogeneous Accelerator for Edge Inference of Sparse Large Language Model via Adaptive Thresholding",
+      "version": "arXiv2507.09201v1,2025-07-12",
+      "url": "https://arxiv.org/html/2507.09201v1",
+      "read_depth": "Sections5.4,6.1-6.2, plus earlier implementation audit.",
+      "evidence": "Fused FFN processes a neuron's gate/up vectors and corresponding down contribution before the next neuron, retaining partial sums. Mapping keeps fused vectors page aligned and packs them. Section6.2 interleaves DRAM-PIM/SSD work for two independent input sequences.",
+      "overlap": "Neuron-granularity GU-to-down dependency execution and ownership coordination are direct architecture prior.",
+      "difference": "Activation/fusion occurs in its described PE path, rather than repeated host roundtrips. Its two-sequence pipeline is distinct from one token's expert/chunk scheduling. Do not borrow its local-buffer or nonlinear capabilities for AiF."
+    },
+    {
+      "title": "Cambricon-LLM: A Chiplet-Based Hybrid Architecture for On-Device Inference of70B LLM",
+      "version": "MICRO2024; arXiv2409.15654v1",
+      "url": "https://arxiv.org/html/2409.15654v1",
+      "read_depth": "SectionsIV-A/B/C,V-A/B and prior numerical-interface audit.",
+      "evidence": "Flash GEMV results return to NPU; nonlinear functions reside on NPU. Page-sized2D atoms pipeline array/data/cache registers and PE computation. NPU and flash collaborate on weight GEMVs.",
+      "overlap": "Existing external nonlinear boundary and page/tile granularity are relevant strong hardware/system prior.",
+      "difference": "The inspected text does not specify this exact within-expert128-neuron host-release schedule or its placement optimizer. Shared compute-core/plane constraints and its own link timings differ from AiF. Unspecified scheduling is not novelty clearance."
+    },
+    {
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "version": "ISCA2025",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "read_depth": "Original sections4.4,5.1-5.2 and Fig15 personally inspected.",
+      "evidence": "Output FIFO elements are polled as produced. Section5.1 overlaps attention-head generation with host attention and splits FFN projections between host and SSD before aggregation.",
+      "overlap": "The original paper already exploits partial readiness and host/SSD tensor-parallel execution.",
+      "difference": "Its printed schedule does not establish this exact GU/down expert/chunk DAG. Do not assume mid-command prefix callbacks beyond the published native command completion semantics, or that the FIFO disclosure establishes output dtype."
+    },
+    {
+      "title": "FIRM-MoE: Fine-Grained Expert Decomposition for Resource-Adaptive MoE Inference",
+      "version": "AAAI2026 publisher listing; author PDF inspected excerpt is an anonymous submission version",
+      "url": "https://www.zhenyu.info/papers/FIRM-MoE.pdf",
+      "publisher_url": "https://ojs.aaai.org/index.php/AAAI/article/download/39106/43068",
+      "read_depth": "Search tool returned primary author-PDF text for Expert Decomposition, Eq3 and Figs2-3. Direct author PDF opening returned502; publisher page/download returned BotStopper. Not a full-text read.",
+      "evidence": "Each complete W_gate, W_up or W_down matrix is treated as an independently loadable subexpert; computation queues wait for corresponding weight loads.",
+      "overlap": "Fine-grained projection-level offload/compute scheduling prior.",
+      "difference": "The inspected decomposition is by complete projection matrix, not128-neuron slices. No exact match or absence claim about the unread remainder."
+    }
+  ],
+  "G4_inventory": {
+    "assumptions": "H=1536,I=512,K=6,N=16; W8 coefficients;64KiB ordinary four-plane waves; modeled4-byte outputs; actual per-command input payload, no unproved input reuse/broadcast. Counts are derived analytically, not measured hardware.",
+    "per_expert": {
+      "GU_bytes": 1572864,
+      "down_bytes": 786432,
+      "GU_chip_waves": 24,
+      "down_chip_waves": 12,
+      "whole_GU_commands": 8,
+      "whole_g12_down_commands": 12,
+      "chunk_GU_commands": 8,
+      "chunk_down_commands": 12,
+      "whole_input_bytes": 18432,
+      "chunk_input_bytes": 13824,
+      "whole_GU_output_bytes": 4096,
+      "chunk_GU_output_bytes": 4096,
+      "whole_down_output_bytes": 6144,
+      "chunk_down_output_bytes": 24576
+    },
+    "top6": {
+      "useful_weight_bytes": 14155776,
+      "chip_waves": 216,
+      "commands_both": 120,
+      "ideal_fractional_work_per_chip_waves": 13.5,
+      "homogeneous_atomic_wave_NAND_floor": 14,
+      "phasewise_NAND_estimate_from_parent_waves": 15.8,
+      "nominal_NAND_headroom_waves": 1.8,
+      "nominal_headroom_us_at28us_tR": 50.4,
+      "whole_input_bytes": 110592,
+      "chunk_input_bytes": 82944,
+      "input_bytes_saved": 27648,
+      "whole_output_bytes": 61440,
+      "chunk_output_bytes": 172032,
+      "extra_output_bytes": 110592,
+      "extra_output_service_us_at8GBps": 13.824,
+      "whole_activation_releases": 6,
+      "chunk_activation_releases": 24
+    },
+    "qualification": "The14-wave floor is an optimistic zero-handoff homogeneous NAND-only schedule bound, not a reachable layout or E2E latency. Average work13.5, route masks,3-wave nonpreemptive GU jobs, finite contexts and dependency release can impose stronger bounds. Extra output service need not all be exposed; shorter input payloads may save service. Apply actual resource scheduling rather than subtracting byte floors as serialized latency.",
+    "granularity_sensitivity": "If input DMA/native loads round up to a common minimum, the128-byte versus512-byte input saving may vanish. Published AiF native input and output transfer granularity is not a complete ABI specification."
+  },
+  "quantization_dependency": {
+    "critical_condition": "If down A8 uses one dynamic scale computed from maxabs over the entire512-neuron z vector, the first completed128-neuron chunk cannot produce its original quantized input until all chunks finish. This restores a GU-to-down barrier for exact same-quantization execution.",
+    "existing_conditions_that_can_avoid_it": "An already-supported fixed known activation scale, or an existing independently scaled group format whose full group fits a completed chunk. Actual backend support must be established.",
+    "not_a_free_fix": "Choosing separate per-chunk scales changes quantization and requires quality validation; raw integer partials with different scales cannot simply be summed. Do not add a quantization feature under the physical-placement scope.",
+    "output_contract": "GU dot/output scaling must be known before CPU SwiGLU. Down raw output width/overflow/rounding and scale application remain unverified for AiF. Same-expert raw partial integer reduction is conditional on common scale and nonsaturation."
+  },
+  "resource_and_latency_bounds": {
+    "universal_structure": "For a fixed legal physical plan, lower-bound makespan by the maximum of: per-chip sensing busy time; per-ECC/PE busy time; per-channel input/output service; PCIe directional service; serialized issue/completion service; CPU worker activation/reduction service; and the weighted longest path in the actual GU-return/activation/quantize/down-return DAG. Include all shared resources with measured or explicitly conditional capacities.",
+    "finite_buffer_condition": "Ready GU vectors,128-neuron activations, DMA buffers and partial outputs consume host space. In-place streaming may reduce buffering, but must not overwrite data required by outstanding commands. At four chunks, maintaining six1536-element int64 expert accumulators costs73728B, besides staging and model/runtime memory.",
+    "first_release": "A chunk becomes eligible only after both complete128-row GU dot tasks and host handoff finish. Each described GU task is3waves; output prefix processing is not assumed. Whole-expert jobs use their actual gang/chip completion times.",
+    "host_latency_sensitivity": "Sweep measured/parametric callback, poll, scatter, scale, activation, quantization and submit latency at least0,0.5,1,2,5,10us per release, with one and bounded multiple host workers. These are sensitivities, not device calibration.",
+    "serial_budget_sanity_only": "At nominal1.8*28=50.4us NAND headroom, charging the13.824us additional output service serially leaves36.576us before input savings and other costs, or about2.032us per18 extra activation releases. This is a diagnostic budget, not a rigorous no-go: overlap and shared-channel costs determine exposure."
+  },
+  "falsifiable_experiments": [
+    "First run the same resource-aware whole-expert-ready scheduler on old g8GU+g16/down and new g8GU+g12/down; remove the global phase barrier for both. Report placement gain separately from generic pipeline gain.",
+    "For chunking, audit each original coefficient exactly once, matching GU row/down-column ownership, complete dot rows, block-contained commands, input bounds and exact byte counts. Compare legal chunk placements against the same best scheduler, including Cambricon-style2D atoms as strong conceptual prior.",
+    "Compute zero-host/zero-transfer optimistic DAG makespan first. If this already cannot beat the strongest whole-expert scheduler materially, stop that chunk geometry. Do not reuse an earlier model's zero result.",
+    "Add actual input/output/channel/issue service, finite buffers and CPU handoffs; publish break-even overhead curves and per-resource busy/idle traces. Fail the candidate if positive gains survive only free host callbacks, ignored output traffic or unsupported mid-command preemption.",
+    "Audit the existing activation quantization dependency. If common dynamic scale requires all z chunks, retain the barrier in the exact run; label any changed-quantization variant separately and keep it outside a strict unchanged-quantizer claim.",
+    "Require native numerical output evidence and quality/correctness checks before presenting a functional AiF result. A scheduling simulation can remain a clearly conditional architecture study."
+  ],
+  "novelty_boundary": "Host-mediated neuron producer-consumer execution, paired GU/down neuron storage, and generic ready-task pipelining already have strong primary prior. A possible remaining contribution would need a concrete legal NAND geometry/ownership compiler or placement algorithm that improves dependency-constrained schedules against equally pipelined baselines, with full host/transfer costs and heldout evidence. No breakthrough is established."
+}

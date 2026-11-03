@@ -1,0 +1,133 @@
+{
+  "status": "PASS",
+  "protocol_sha256": "05711c616dacb54758022f6a750efaeb85c4391e27a63328da2161b1018e57f4",
+  "source_sha256": "850b3424b667fcedf8da32f1c867a0f78f32bf09342b5da6d7f68dd0bc8121ba",
+  "objective": "Coldcommon-release pureDown array/cache/ECC completion,whole-rowABI. NotfullFFNornativehardwareoptimality.",
+  "result_copy500_ns": 89940,
+  "primary_proof": "6MiBrequired;eachchipfirstusefulECC>=28.5us,then<=6.4GB/s. 6MiB<=16*6.4GB/s*(T-28.5us),soT>=89.94us.",
+  "arithmetic": [
+    {
+      "copy_ns": 0,
+      "startup_ns": 28000,
+      "total_useful_bytes": 6291456,
+      "total_ECC_service_ns": 983040,
+      "chip_count": 16,
+      "bytes_per_chip_at_equality": 393216,
+      "ECC_tail_per_chip_ns": 61440,
+      "lower_bound_ns": 89440,
+      "aggregate_strict_proof": "IfT<Tstar,16B(T-s)<6MiBsoallrequiredcoefficientbytescannotbeECC-served.",
+      "original_job_count": {
+        "under_strict_Tstar_routed_max_rows": 767,
+        "shared_max_rows": 383,
+        "min_routed_jobs": 18,
+        "min_shared_jobs": 5,
+        "min_total_jobs": 23,
+        "serialized_job_work_lb_ns": 1627040,
+        "capacity_at_Tstar_ns": 1431040,
+        "strict_margin_ns": 196000,
+        "extra_assumption": "Entirejobstartup/ECCintervalsonasinglechiparedisjoint. Aggregateproofdoesnotneedthisassumption."
+      }
+    },
+    {
+      "copy_ns": 100,
+      "startup_ns": 28100,
+      "total_useful_bytes": 6291456,
+      "total_ECC_service_ns": 983040,
+      "chip_count": 16,
+      "bytes_per_chip_at_equality": 393216,
+      "ECC_tail_per_chip_ns": 61440,
+      "lower_bound_ns": 89540,
+      "aggregate_strict_proof": "IfT<Tstar,16B(T-s)<6MiBsoallrequiredcoefficientbytescannotbeECC-served.",
+      "original_job_count": {
+        "under_strict_Tstar_routed_max_rows": 767,
+        "shared_max_rows": 383,
+        "min_routed_jobs": 18,
+        "min_shared_jobs": 5,
+        "min_total_jobs": 23,
+        "serialized_job_work_lb_ns": 1629340,
+        "capacity_at_Tstar_ns": 1432640,
+        "strict_margin_ns": 196700,
+        "extra_assumption": "Entirejobstartup/ECCintervalsonasinglechiparedisjoint. Aggregateproofdoesnotneedthisassumption."
+      }
+    },
+    {
+      "copy_ns": 500,
+      "startup_ns": 28500,
+      "total_useful_bytes": 6291456,
+      "total_ECC_service_ns": 983040,
+      "chip_count": 16,
+      "bytes_per_chip_at_equality": 393216,
+      "ECC_tail_per_chip_ns": 61440,
+      "lower_bound_ns": 89940,
+      "aggregate_strict_proof": "IfT<Tstar,16B(T-s)<6MiBsoallrequiredcoefficientbytescannotbeECC-served.",
+      "original_job_count": {
+        "under_strict_Tstar_routed_max_rows": 767,
+        "shared_max_rows": 383,
+        "min_routed_jobs": 18,
+        "min_shared_jobs": 5,
+        "min_total_jobs": 23,
+        "serialized_job_work_lb_ns": 1638540,
+        "capacity_at_Tstar_ns": 1439040,
+        "strict_margin_ns": 199500,
+        "extra_assumption": "Entirejobstartup/ECCintervalsonasinglechiparedisjoint. Aggregateproofdoesnotneedthisassumption."
+      }
+    }
+  ],
+  "finite_PB_attainment": [
+    {
+      "copy_ns": 0,
+      "parallel_jobs": 16,
+      "job_useful_bytes": 393216,
+      "physical_pages_per_job": 24,
+      "cold_per_job": 1,
+      "CR_per_job": 5,
+      "makespan_ns": 89440,
+      "source": "fixed0123",
+      "drop": false,
+      "IPR": false,
+      "guard": "Thisroutehasresidentperfectmatching;notallroutesdo.Allinputsreadyandcomputeonlyexcludesbus/commands/output."
+    },
+    {
+      "copy_ns": 100,
+      "parallel_jobs": 16,
+      "job_useful_bytes": 393216,
+      "physical_pages_per_job": 24,
+      "cold_per_job": 1,
+      "CR_per_job": 5,
+      "makespan_ns": 89540,
+      "source": "fixed0123",
+      "drop": false,
+      "IPR": false,
+      "guard": "Thisroutehasresidentperfectmatching;notallroutesdo.Allinputsreadyandcomputeonlyexcludesbus/commands/output."
+    },
+    {
+      "copy_ns": 500,
+      "parallel_jobs": 16,
+      "job_useful_bytes": 393216,
+      "physical_pages_per_job": 24,
+      "cold_per_job": 1,
+      "CR_per_job": 5,
+      "makespan_ns": 89940,
+      "source": "fixed0123",
+      "drop": false,
+      "IPR": false,
+      "guard": "Thisroutehasresidentperfectmatching;notallroutesdo.Allinputsreadyandcomputeonlyexcludesbus/commands/output."
+    }
+  ],
+  "small_oracle_cases": 8,
+  "assumptions": [
+    "NoDownweightsalreadyECC-readyorprestageservice;everychipfirstusefulECCstartsnoearlierthancold+copy.",
+    "6MiBdensecoefficientbytesmustbeprocessed;replicationonlychangesresidentaddresses.",
+    "EachchipusefulECCrate<=6.4GB/s,16homogeneouschips.",
+    "Purecompute excludescommand/input/outputbuses,GUcalendars,powerconstraintsanduncalibratedMACcost.",
+    "Attainmentrequiresresidentg2matchingandg4shared;completeprivateinputs/rows,oneGEMV/chip,noextraPEselector.",
+    "Theoriginal23jobproofadditionallyrequiresdisjointwhole-jobintervals;theaggregatecertificateavoidsperjobstartupsummation."
+  ],
+  "limits": [
+    "AfullFFNcanreleaseexpertsatdifferenttimesandoverlapGU/Down;thisstageoptimumdoesnotprovewholeFFNoptimalityorallowaddingaGUbound.",
+    "WarmPBpages,prefetchbeforestage0,earlierfirstavailabilityorchangedthroughputinvalidatethecorrespondingpremise.",
+    "Measuredhardwarefirstready28us/copy500nsnotestablished;thisisthesamesealedconditionalserviceenvelope.",
+    "Whole-rowattainmentdoesnotgrantanewcolumnsplit/reductionABI.",
+    "Knownstartup/workthroughputcertificate,notnewgeneraltheory."
+  ]
+}

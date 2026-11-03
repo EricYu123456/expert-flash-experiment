@@ -1,0 +1,98 @@
+{
+  "created_utc": "2026-11-01T21:21:16.011684+00:00",
+  "sources": [
+    {
+      "id": "overlap_range2015",
+      "title": "Stable Load Balancing with Overlapping ID-space Management in Range-based Structured Overlay Networks",
+      "year": 2015,
+      "version": "Computer Software32(3):101–110;2016IMT11:1–10 reprint",
+      "url": "https://www.jstage.jst.go.jp/article/imt/11/0/11_1/_pdf",
+      "doi": "https://doi.org/10.11185/imt.11.1",
+      "github": null,
+      "read_depth": "Read primary fulltext§2–3.4,Fig2/3/5,§4.4; publisher metadata verified.",
+      "finding": "Adjacent ordered regions overlap and data are stored at all covering owners. Range retrieval can choose alternative contiguous splits within the overlap (Fig5), trading extra storage for load balance without runtime migration.",
+      "difference": "Uses estimated query-load distributions and random replica choice. No native NAND full-row GEMV, whole-expert nonlinear readiness or shared/routed MoE graph. The overlap/cut concept itself is direct prior."
+    },
+    {
+      "id": "selective2009",
+      "title": "Selective Replicated Declustering for Arbitrary Queries",
+      "year": 2009,
+      "version": "Euro-Par2009,LNCS5704:375–386",
+      "url": "https://repository.bilkent.edu.tr/bitstreams/938fed97-cc40-48c5-bbd8-01da42e95ae2/download",
+      "github": null,
+      "read_depth": "Read author-university fulltext abstract,§1–3 incl definitions1–3 and A/B/AB states.",
+      "finding": "Selects items to copy and owners under total replication and device-capacity limits using query logs. Replica retrieval minimizes maximum requested device work; flow solves retrieval.",
+      "difference": "No whole-row command coalescing/input context or nonlinear expert readiness. For our fixed pair, a native-cost-aware tile version can exactly match the selector."
+    },
+    {
+      "id": "tos2013",
+      "title": "Generalized Optimal Response Time Retrieval of Replicated Data from Storage Arrays",
+      "year": 2013,
+      "version": "ACMTOS9(2),Article5,36pages",
+      "url": "https://faculty.cse.louisville.edu/nihat/papers/TOS2013.pdf",
+      "doi": "https://doi.org/10.1145/2491472.2491474",
+      "github": null,
+      "read_depth": "Read author fulltext abstract,§1–3; earlier pass also inspected problem/method summary. Proofs/evaluation not independently reproduced.",
+      "finding": "LP/integer and maximum-flow replica retrieval cover heterogeneous devices, initial loads and intersite delay. A fast online heuristic trades optimality.",
+      "difference": "Our routed-plus-down occupancy plays a device-offset role in the necessary bound; true future release/precedence constraints are not identical to initial available times."
+    },
+    {
+      "id": "anchortp2026",
+      "title": "AnchorTP: Resilient LLM Inference with State-Preserving Elastic Tensor Parallelism",
+      "year": 2026,
+      "version": "DATE2026 acceptance stated on arXiv;2511.11617v1 submitted2025-11-05",
+      "url": "https://arxiv.org/html/2511.11617v1",
+      "github": null,
+      "read_depth": "Read primary fulltext§III-B/C,IV,V; arXiv metadata checked. No author code link verified.",
+      "finding": "Contiguous unequal-width tensor partitions support arbitrary surviving GPU counts. Interval-based remapping preserves resident state and minimizes reload, with expert replication for load balance.",
+      "difference": "Resharding/recovery performs P2P/reloads. No fixed boundary copy budget with per-token zero-migration split selection was found in inspected sections."
+    },
+    {
+      "id": "deepseek_v3",
+      "title": "DeepSeek-V3 Technical Report",
+      "year": 2024,
+      "version": "arXiv2412.19437v2§3.4.2",
+      "url": "https://arxiv.org/html/2412.19437v2",
+      "github": "https://github.com/deepseek-ai/EPLB",
+      "read_depth": "Read primary report§3.4.1/3.4.2 and officialEPLB source in earlier reverse review.",
+      "finding": "Always-selected shared expert is treated as heavy routed load; decode deployment has shared/redundant experts. Replica placement and perbatch routing are established ideas.",
+      "difference": "Whole-expert GPU allocation does not establish NAND contiguous row views or native graph costs."
+    },
+    {
+      "id": "lplb2025",
+      "title": "LPLB official expert-parallel load balancer",
+      "year": 2025,
+      "version": "officialGitHub commit0490f79452f7ef277e814449600b1b1dd4c663b3",
+      "url": "https://github.com/deepseek-ai/LPLB",
+      "github": "https://github.com/deepseek-ai/LPLB",
+      "read_depth": "Read full officialREADME; CUDAinternals not run/audited.",
+      "finding": "Perbatch LP routing over replicated expert edges; explicit token-count/nonlinear-timing limitations. Static EPLB and online replica selection are distinct.",
+      "difference": "Fair adaptation must use identical native tile graph, physical capacity, current routes and measured host selection cost; GPU solver latency cannot be selectively charged."
+    }
+  ],
+  "verdict": "Fixed overlapping-range copies and splitminmax are prior concepts. The fixed-copy selector is constructively equal to a native-cost-aware replicated-tile/coalescing baseline; this does not rule out a native compiler/runtime systems contribution.",
+  "constructive_control": {
+    "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/deep-shared-boundary/generic_control_equivalence.json",
+    "sha256": "bdd304c279d38bfb7b9428cc5575ba78a793dd3a81d964f69bda78cde1519524",
+    "checked_pair_queries": 2129920,
+    "max_difference_ns": 0
+  },
+  "remaining_required_controls": [
+    "Samebudget generic selective tile replication, owner/pair search and optimal native coalescing; do not compare only whole-expert copies.",
+    "Exact full shared+routed native DAG with same scheduler/information for each layout; host selector/gather/submission costs measured.",
+    "Multiple offline row/depthfrontier shared profiles, including fittedonecopy and same-routed copies; payload and actual reserved capacity separated.",
+    "Semantic/numeric whole-row mapping validation with existing hardware commands; no claim of installedAiFfirmware from a JSON image."
+  ],
+  "headroom": {
+    "fitted_onecopy_nand_waves_sum26": 1779.2265625,
+    "unlimited_homogeneous_pooled_nand_bound_waves_sum26": 1742,
+    "explanation": "For this fixed routed work:6*(88GU+45down)+176sharedGU+88sharedDown=1062chipwaves/layer;ceil(1062/16)=67. Not an achievable graph schedule.",
+    "pooled_nand_mean_headroom_pct": 2.092289047646234,
+    "implication": "With current routed geometry, changing shared owners alone has only about2.1%NANDmean room even under an unlimited-placement pooling relaxation. Larger full-graph effects require genuine readiness/resource interaction, not unexplored owner labels."
+  },
+  "falsification": [
+    "If generic coalescedtile control equals the candidate on the same backend, drop new selector/new partialreplica algorithm claims.",
+    "If strictGraph erases the necessary-bound improvement, archive latency benefit for this layout family.",
+    "If effects survive only one arbitrary scheduler priority or disappear after accounting native API submissions/gather, do not claim a robust systems improvement."
+  ]
+}

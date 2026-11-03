@@ -1,0 +1,884 @@
+                                                Improved Bounds and Schemes for the
+arXiv:cs/0603012v1 [cs.DM] 2 Mar 2006
+
+
+
+
+                                                       Declustering Problem∗
+
+                                               Benjamin Doerr†            Nils Hebbinghaus‡              Sören Werth§
+
+
+
+                                                                              Abstract
+
+                                                   The declustering problem is to allocate given data on parallel work-
+                                               ing storage devices in such a manner that typical requests find their
+                                               data evenly distributed on the devices. Using deep results from dis-
+                                               crepancy theory, we improve previous work of several authors concern-
+                                               ing range queries to higher-dimensional data. We give a declustering
+                                               scheme with an additive error of Od (logd−1 M ) independent of the
+                                               data size, where d is the dimension, M the number of storage devices
+                                               and d − 1 does not exceed the smallest prime power in the canonical
+                                               decomposition of M into prime powers. In particular, our schemes
+                                               work for arbitrary M in dimensions two and three. For general d,
+                                               they work for all M ≥ d − 1 that are powers of two. Concerning lower
+                                                                                                   d−1
+                                               bounds, we show that a recent proof of a Ωd (log 2 M ) bound con-
+                                               tains an error. We close the gap in the proof and thus establish the
+                                               bound.
+                                           ∗
+                                             supported by the DFG-Graduiertenkolleg 357 “Effiziente Algorithmen und
+                                        Mehrskalenmethoden”.
+                                           †
+                                             Max–Planck–Institut für Informatik, Saarbrücken, Germany.
+                                           ‡
+                                             Max–Planck–Institut für Informatik, Saarbrücken, Germany.
+                                           §
+                                             Institut für Informatik und Praktische Mathematik, Christian-Albrechts-Universität
+                                        zu Kiel, Germany
+
+
+
+
+                                                                                   1
+1    Introduction
+
+The last decade saw dramatic improvements in computer processing speeds
+and storage capacities. Nowadays, the bottleneck in data-intensive appli-
+cations is the time needed to retrieve typically large amounts of data from
+external storage devices. One idea to overcome this obstacle is to distribute
+the data on disks of multi-disk systems so that it can be retrieved in parallel.
+Hopefully, this declustering reduces the retrieval time by a factor equal to the
+number of disks. The data allocation is determined by so-called declustering
+schemes. The schemes should allocate the data in such a manner that typical
+requests find their data evenly distributed on the disks.
+
+We consider the problem of declustering uniform multi-dimensional data that
+is arranged in a multi-dimensional grid. There are many data-intensive
+applications that deal with this kind of data, especially multi-dimensional
+databases [CMA+ 97, GM93, JRR99]. A range query Q requests the data
+blocks that are associated with a hyper-rectangular subspace of the grid.
+Since we will not deal with syntactic issues of queries, we may identify a
+query with the set of requested block. In consequence, |Q| denotes the num-
+ber of requested blocks.
+
+The response time of a query Q is (proportional to) the maximum number
+of blocks of Q that are assigned to the same disk (hence we assume identical
+disks). For an ideal declustering scheme for a system with M disks, this would
+be |Q|/M for all queries Q. As we will see, this aim cannot be achieved.
+The quality of a declustering scheme is measured by the worst case (over
+all queries Q) additive deviation of the response time from the ideal value
+|Q|/M.
+
+The declustering problem for range queries is an intensively studied problem
+and a number of schemes [CBS03, PAGAA98, AP00, DS82, FB93] have been
+developed in the last twenty years. It was an important turning point when
+discrepancy theory was connected to declustering.
+
+Before the use of discrepancy theory, no provable performance bounds were
+known for arbitrary dimension d. Such bounds existed only for a few rather
+restricted declustering schemes in two dimensions: For the scheme proposed
+in [CBS03], a proof for the average performance is given if the number M of
+
+
+                                       2
+disks is a Fibonacci number. For the construction of the scheme in [AP00],
+M has to be a power of 2.
+
+A breakthrough was marked by noting that the declustering problem is a
+discrepancy problem. For the case d = 2, Sinha, Bhatia and Chen [SBC03]
+as well as Anstee, Demetrovics, Katona and Sali [ADKS00] developed declus-
+tering schemes for all M and proved their asymptotically optimal behavior.
+The schemes of Sinha et al. [SBC03] are based on two dimensional low dis-
+crepancy point sets. They also give generalizations to arbitrary dimension d,
+but without bounds on the error.
+
+Both papers show a lower bound of Ω(log M) for the additive error of any
+declustering scheme in dimension two. The result of Anstee et al. [ADKS00]
+applies to latin square type colorings only, but their proof can easily be
+extended to the general case as well. Sinha et al. [SBC03] also claim a bound
+          d−1
+of Ωd (log 2 M) for arbitrary dimension d, but their proof contains an error,
+that is critical for d ≥ 3 (cf. Section 3).
+
+The first non-trivial upper bounds for declustering schemes in arbitrary di-
+mension were proposed by Chen and Cheng [CC02], who present two schemes
+for the d–dimensional declustering problem. The first one has an additive
+error of Od (logd−1 M), but works only if M = pk for some k ∈ N and p is a
+prime such that d ≤ p. The second one works for arbitrary M, but the error
+increases with the size of the data. (Note that all other bounds stated in this
+paper are independent of the data size.)
+
+Our Results: We work both on upper and lower bounds. For the up-
+per bound, we present an improved scheme that yields an additive error of
+Od (logd−1 M) for all values of M (independent of the data size) and all d such
+that d ≤ q1 + 1, where q1 is the smallest factor in the canonical decomposi-
+tion of M into prime powers. This compares to the current best declustering
+scheme (with worst case additive error independent of the data size) due to
+Chen and Cheng [CC02] as follows. Its worst case additive error is of the
+same order of magnitude as ours, but has stronger restrictions on M. It works
+only if M = pk is a power of a prime and if d ≤ p. Note that our scheme in
+the case M = pk requires only d ≤ pk + 1. Thus, in particular, for M being a
+power of two our scheme can be used in every dimension d ≤ M + 1, whereas
+the scheme in [CC02] only works for dimension d = 2. This and the fact that
+our scheme can be used for all M in dimension 2 and 3, is useful from the
+
+                                      3
+viewpoint of application. After preparation of this paper and its conference
+version [DHW04], the journal version [CC04] of Chen and Cheng [CC02] was
+published. There, the quite strict limitations of [CC02] could be relaxed to
+the ones obtained in this paper.
+
+We also show that the latin hypercube construction used by Chen and
+Cheng [CC02, CC04] and in our work is much better than proven there.
+Where they show that the final scheme has an error of at most 2d times the
+one of the latin hypercube coloring, we show that both errors are the same.
+                                                                                  d−1
+For the lower bound, we present the first correct proof of the Ωd (log 2 M)
+bound for dimension d ≥ 3 and the Ω(log M) bound for dimension d =
+2. This is particularly interesting with regard to a recent result of Che-
+did [Che04]. There a declustering scheme is presented that works for 22t
+(t ∈ N) disks in dimension d = 2. It is claimed that it has an additive error
+of at most 3.
+
+
+
+2       Discrepancy Theory
+
+In this section, we sketch the connection between the declustering problem
+and discrepancy theory.
+
+
+2.1     Combinatorial Discrepancy
+
+Recall that the declustering problem is to assign data blocks from a multi-
+dimensional grid to M storage devices (disks) in a balanced manner. The
+aim is that range queries use all storage devices in a similar amount. More
+precisely, our grid is V = [n1 ]×· · ·×[nd ] for some positive integers n1 , . . . , nd .1
+A query Q requests the data assigned to a rectangle (or box ) [x1 ..y1 ] × · · · ×
+[xd ..yd ] for some integers 1 ≤ xi ≤ yi ≤ ni . We identify a query with the set
+of blocks it requests, i.e., Q = [x1 ..y1 ] × · · · × [xd ..yd ].
+    1
+    We use the notations [n] := {1, 2, . . . , n} and [n..m] := {k ∈ N | n ≤ k ≤ m} for
+n, m ∈ N, n ≤ m.
+
+
+
+
+                                            4
+We assume that the time to process a query is proportional to the maximum
+number of requested data blocks that are stored on a single device. We
+represent the assignment of data blocks to devices through a mapping χ :
+V → [M]. The processing time of the query Q then is maxi∈[M ] |χ−1 (i) ∩ Q|,
+where, as usual, χ−1 (i) = {v ∈ V : χ(v) = i}. Clearly, no declustering
+scheme can do better than |Q|/M. Hence a natural performance measure
+is the additive deviation from this lower bound. We are interested in the
+worst-case behavior. Thus we are looking for declustering schemes such that
+maxQ maxi∈[M ] |χ−1 (i) ∩ Q| is small.
+
+This makes the problem a combinatorial discrepancy problem in M colors.
+Denote by E the set of all rectangles in V . Then H = (V, E) is a hypergraph.
+For a coloring χ : V → [M], the discrepancy of a hyperedge E ∈ E with
+respect to χ is
+                 disc(E, χ) := max |χ−1 (i) ∩ E| − M1 |E| ,
+                                 i∈[M ]
+
+the discrepancy of H with respect to χ is
+               disc(H, χ) :=     max            |χ−1 (i) ∩ E| − M1 |E| ,
+                               i∈[M ],E∈E
+
+and the discrepancy of H in M colors is
+                     disc(H, M) := min disc(H, χ).
+                                          χ:V →[M ]
+
+
+
+These definitions were introduced by Srivastav and the first author in [DS99,
+DS03] extending the well-known notion of combinatorial discrepancy to any
+number of colors. Similar notions were used by Biedl et al. [BČC+ 02] and
+Babai, Hayes and Kimmel [BHK01]. For our purposes, only positive devia-
+tions have to be regarded (“too many blocks on one disk”). We adapt the
+multi-color discrepancy notion in the obvious way and define the positive
+discrepancy by
+                                                              
+              disc+ (H, χ) :=    max |χ−1 (i) ∩ E| − M1 |E| ,
+                                 i∈[M ],E∈E
+                +
+            disc (H, M) :=         min disc+ (H, χ).
+                                 χ:V →[M ]
+
+Clearly, we have M1−1 disc(H) ≤ disc+ (H) ≤ disc(H) for all hypergraphs H.
+The first inequality follows from the fact that for every E ∈ E and every
+
+                                            5
+                             P
+coloring χ : V → [M] we have j∈[M ](|χ−1 (j) ∩ E| − M1 |E|) = |E| − |E| = 0.
+Summarizing the discussion above, we have the following.
+Theorem 1. The additive error of an optimal declustering scheme for range
+queries is disc+ (H, M).
+
+Since a central result of this paper are discrepancy bounds independent of
+                                                            d
+         of the grid, we usually work with the hypergraph HN
+the size Q                                                     = ([N]d , ENd ),
+ d         d
+EN = { i=1 [xi ..yi ] | 1 ≤ xi ≤ yi ≤ N} for some sufficiently large integer
+N. Furthermore, we regard only the case that M ≥ 3. For M = 2, a
+checkerboard coloring yields a declustering scheme with an additive error of
+1/2. We prove the following result.
+Theorem 2. Let M ≥ 3 and d ≥ 2 be integers and q1 the smallest prime
+power in the canonical factorization of M into prime powers. Then
+
+  (i) disc+ (HN
+              d
+                , M) = Od (logd−1 M) for d ≤ q1 + 1, independent of N ∈ N,
+                               d−1
+ (ii) disc+ (HN
+              d
+                , M) = Ωd (log 2 M) for N ≥ M,
+(iii) disc+ (HN
+              d
+                , M) = Θ(log M) for d = 2.
+
+
+2.2    Geometric Discrepancy
+
+As mentioned before, the use of geometric discrepancies in the analysis of
+declustering problems in [SBC03, ADKS00] was a major breakthrough in
+this area. We refer to the recent book of Matoušek [Mat99] for both a great
+introduction and a thorough treatment of geometric discrepancies.
+
+The geometric discrepancy problem is to distribute n points evenly in a
+geometric setting. For our purposes, we regard discrepancies of point sets
+      1]d with respect to axis-parallel boxes. Such a box R is the product
+in [0,Q
+R = di=1 [xi , yi ) with 0 ≤ xi ≤ yi ≤ 1 for all i ∈ [d]. Our aim is that each box
+                                                                    Q
+R shall contain approximately n vol(R) points, where vol(R) = di=1 (yi − xi )
+denotes the volume of R. Again, discrepancy quantifies the distance to a
+perfect distribution. The discrepancy of an n–point set P with respect to a
+box R is defined by
+                       D(P, R) = |P ∩ R| − n vol(R) ,
+
+                                        6
+the discrepancy of P with respect to the set Rd of all axis-parallel boxes is
+
+                         D(P, Rd ) = sup |D(P, R)|,
+                                       R∈Rd
+
+and the discrepancy of Rd for n-point sets is
+
+                        D(n, Rd ) =     inf      D(P, Rd ).
+                                      P⊂[0,1)d
+                                       |P|=n
+
+
+
+
+3     The Lower Bound
+
+To prove our lower bounds, we use classical lower bounds for geometric dis-
+crepancies. Roth’s [Rot54] famous lower bound for the L2 discrepancy of the
+axis-parallel boxes immediately implies the following.
+
+Theorem 3 (Roth’s lower bound). Let d ≥ 2. There exists a constant
+k > 0 (depending on d) such that for any n–point set P in the unit cube
+[0, 1)d , there is an axis-parallel box R in [0, 1)d with
+                                                  d−1
+                            D(P, R) ≥ k log 2 n.
+
+
+It was Schmidt [Sch72] who came up with the sharp lower bound in two
+dimensions.
+
+Theorem 4 (Schmidt’s lower bound). There is a constant k > 0 such
+that for any n–point set P in the unit square [0, 1)2 , there is an axis-parallel
+rectangle R in [0, 1)2 with
+
+                              D(P, R) ≥ k log n.
+
+
+The general idea in the proofs of the lower bound for declustering schemes
+in Sinha et al. [SBC03] and Anstee et al. [ADKS00] (for d = 2 only) is the
+following.
+
+Any low-discrepancy M–coloring of [M]d has color classes of approximately
+M d−1 vertices. By scaling, such a color class yields an M d−1 –point set P in
+
+
+                                        7
+[0, 1)d . The lower bounds above give a box R with polylogarithmic discrep-
+ancy. Round R to a box R̄ with corners in {0, M1 , · · · , MM−1 , 1}d in such a
+way that R ∩ P = R̄ ∩ P. Then R and R̄ have similar volume and hence
+similar discrepancy. Rescaling R̄ yields a hyperedge R̂ with combinatorial
+discrepancy equal to the geometric one of R̄.
+
+The small, but crucial mistake in the proof of Sinha et al. [SBC03] is hidden
+in the transfer from the geometric discrepancy setting back to the combina-
+torial one. Unlike in dimension d = 2, rounding R to R̄ does not yield a
+constant change in the discrepancy in higher dimensions. The volume differ-
+ence | vol(R) − vol(R̄)| is still Od ( M1 ). However, since the number of points
+is M d−1 , the change in the discrepancy can be of order Θd (M d−2 ). This is
+way too large for d > 2.
+
+For this reason, a straight generalization of the proof of Anstee et
+al. [ADKS00] of the lower bound in two dimensions (as attempted in [SBC03])
+is not possible. We solve this problem in the following way. Instead of look-
+ing at the whole [M]d –grid, we focus on a small subgrid. This reduces the
+number of points, and hence the change in the discrepancy.
+
+Here is an outline of the proof: Starting with an M–coloring of the [M]d –
+grid we have to show the existence of a box with positive discrepancy of
+              d−1
+order Ωd (log 2 M). We restrict the search to a small subgrid [sM]d (with
+s a multiple of M1 ) to avoid the above mentioned problems in the rounding
+process. The left part of Figure 1 depicts such an [sM]d –subgrid. The crosses
+represent one color class. We choose this color class in such a way that it
+contains at least the average number of sd M d−1 vertices of [sM]d . From
+this color class we get a set of points in the [0, 1]d –cube by scaling. This
+can be seen in the middle part of Figure 1. Using the Theorem of Schmidt
+respectively Roth, we find a box R (in the middle section of Figure 1) with
+large geometric discrepancy. We round this box to a box R̄ containing the
+same points as R but fitting to the grid lines stemming from the [sM]d –grid.
+For the corresponding box R̂ (the box with the continuous lines in the right
+section in Figure 1) in the [sM]d –grid we estimate the discrepancy using the
+geometric discrepancy of the box R and the relatively small change in the
+discrepancy caused by the volume difference between the boxes R and R̄.
+Should this large discrepancy be caused by a lack of vertices in one color,
+we get a lower bound for the positive discrepancy through the following
+
+
+                                       8
+observation. Either R̂ or its complement in [sM]d has a positive discrepancy
+of the wanted order. Although the complement is not a box, it is the union of
+at most 2d boxes. Thus, at least one of these boxes has a positive discrepancy
+                d−1
+of order Ωd (log 2 M).
+
+sM                          1                                 sM
+
+
+
+
+ 1                          0                                  1
+     1                 sM       0                         1        1        sM
+
+
+
+
+          Figure 1: Construction of a box with large discrepancy.
+
+
+Proof of Theorem 2 (ii). Clearly disc+ (HN
+                                         d
+                                           , M) ≥ disc+ (HM
+                                                          d
+                                                            , M) for all N ≥
+M. Hence, we can assume N = M. The proof is organized as follows. We
+                                                          d
+first show a lower bound for the M–color discrepancy of HM   . From this, we
+                                                                d
+derive a lower bound for the positive M–color discrepancy of HM   .
+
+Let χ : [M]d → [M] be an M–coloring of HM                 d
+                                                            . Choose an s ∈
+      d−2        d−2
+    − d−1      − d−1
+[M        , 2M       ) ∩ [0, 1] such that s is a multiple of M1 . Such an s ex-
+                  d−2
+ists since M − d−1 > M1 . Without loss of generality, we may assume that
+n := |χ−1 (1) ∩ [sM]d | ≥ sd M d−1 .
+Claim. There is a box R̂ ⊆ [sM]d such that
+                                                 d−1 
+                   |χ−1 (1) ∩ R̂| − M1 |R̂| = Ωd log 2 M .
+
+
+                       1
+                          d−1    d−1
+If n ≥ sd M d−1 + k2 d−1    2
+                               log 2 M, we clearly have n − sd M d−1         ≥
+k   1
+       d−1    d−1
+
+2 d−1
+         2
+            log 2 M. Therefore, we may assume
+
+                                             1
+                                                   d−1        d−1
+             sd M d−1 ≤ n < sd M d−1 + k2   d−1
+                                                     2
+                                                          log 2 M.         (1)
+
+
+                                      9
+For every vertex z = (z1 , z2 , . . . , zd ) ∈ χ−1 (1) ∩ [sM]d we define xz :=
+  2sM
+       , 2sM , . . . , 2z2sM
+ 2z1 −1 2z2 −1            d −1
+                               . Let P := {xz | z ∈ χ−1 (1) ∩ [sM]d }. Then P is
+an n-point set in the unit cube [0, 1)d . Estimating the cardinality of P, we
+                               (d−2)d               −(d2 −2d)+(d−1)2          1
+get n ≥ sd M d−1 ≥ M − d−1 M               d−1
+                                        Qd = M
+                                                          d−1         = M d−1 . By Theo-
+                                                               d
+rem 3, there exists a box R = i=1 [xi , yi ) in [0, 1) with
+                                                                 d−1
+                                             d−1            1       2       d−1
+        ||R ∩ P| − n vol(R)| ≥ k log 2 n ≥ k                           log 2 M.              (2)
+                                                         d−1
+                                         Q
+Now we construct a box R̄ = di=1 [x̄i , ȳi ) by rounding the xi and yi to the
+                           1
+nearest multiple of sM        . In case of ties, we round down. This ensures           P ∩ R̄ =
+P ∩R as the following argument shows. Let 2z2sM               , 2sM , . . . , 2z2sM
+                                                          1 −1 2z2 −1            d −1
+                                                                                        ∈ P ∩R.
+                                    2zi −1
+This is equivalent to xi ≤ 2sM < yi for all i ∈ [d]. But this holds if and
+only if we have xi ≤ zsM      i −1
+                                  and y i ≥ sMzi
+                                                  for all i ∈ [d], which is equivalent to
+ 2z1 −1 2z2 −1         2zd −1
+  2sM
+       , 2sM , . . . , 2sM ∈ P ∩ R̄.
+We now quantify the effect of this rounding. The symmetric difference of R
+and R̄ is the union of 2d boxes such that all their side lengths are at most 1
+                                                                1
+and one side length of each box is bounded from above by 2sM       (this is due
+                                                             1       d
+to the rounding process). Hence | vol(R) − vol(R̄)| ≤ 2d 2sM = sM      . Using
+          d−2
+        − d−1
+s ≤ 2M        , we get
+                                      d d
+      sd M d−1 | vol(R) − vol(R̄)| ≤ sM s M d−1 = dsd−1 M d−2 ≤ d2d−1 ,                     (3)
+an estimation needed below. Note that the choice of s being small ensures
+that the effect of rounding is independent of M.
+The combinatorial counterpart of R̄ is the box
+                                                           
+               R̂ := x ∈ [M]d 2x2sM  1 −1
+                                          , . . . , 2x2sM
+                                                       d −1
+                                                              ∈ R̄ .
+Hence,
+                          |χ−1 (1) ∩ R̂| = |P ∩ R̄| = |P ∩ R|.
+One also easily verifies that |R̂| = sd M d vol(R̄). By construction,
+    |χ−1 (1) ∩ R̂| − M1 |R̂|     =      |P ∩ R̄| − sd M d−1 vol(R̄)
+                                                                         
+                                 =      |P ∩ R| − n vol(R) + n − sd M d−1 vol(R)
+                                                                   
+                                        +sd M d−1 vol(R) − vol(R̄)
+                                 ≥      |P ∩ R| − n vol(R) − |n − sd M d−1 |
+                                        −sd M d−1 | vol(R) − vol(R̄)|.
+
+                                              10
+                                                     d
+Observe that we bound the M–color discrepancy of HM     from below by the
+geometric discrepancy of the box R minus two terms, comprising the fact
+that n is not exactly sd M d−1 and the effect of rounding R to R̄. Hence
+by (1), (2) and (3),
+
+          |χ−1 (1) ∩ R̂| − M1 |R̂|
+                    1
+                       d−1     d−1
+                                            1
+                                                  d−1     d−1
+           ≥ k d−1       2
+                            log 2 M − k2   d−1
+                                                    2
+                                                         log 2 M − d2d−1
+                    d−1 
+           = Ωd log 2 M .
+
+
+Thus, we have shown the claimed existence of a box R̂ ⊆ [sM]d with
+                                   d−1
+ |χ−1 (1) ∩ R̂| − M1 |R̂| = Ωd (log 2 M). It remains to prove that this bound
+also holds for the positive discrepancy. To this end, let us assume that the
+discrepancy of the box R̂ in color 1 is caused by a lack of vertices in color
+1. Since |χ−1 (1) ∩ [sM]d | ≥ sd M d−1 , the complement of R̂ in [sM]d has at
+least the same discrepancy as R̂, but caused by an excess of vertices in color
+1. Though this complement is not a box, it is the union of at most 2d boxes.
+                                                                            1
+Therefore, one of these boxes has a positive discrepancy that is at least 2d
+times the discrepancy of R̂ in color 1.
+
+This last argument increases the implicit constant of the lower bound by a
+            d
+factor of 32d compared to the approach of Sinha et al. [SBC03].
+
+We briefly show how to use the above to prove the Ω(log M) bound for
+dimension d = 2. For this bound, two not completely satisfying bounds exist.
+Anstee et al. [ADKS00] only treated latin square type colorings of [M]2 and
+posed it an open problem to extend their result to arbitrary colorings. The
+proof in [SBC03] does not have this restriction, but is not very precise, which
+in particular helped to hide the error for d > 2.
+
+As a simple and clean proof we therefore propose the following: Use the same
+reasoning as in the case of arbitrary dimension d ≥ 2, but apply Schmidt’s
+lower bound instead of Roth’s. The parameter s can be choosen as 1. In
+dimension d = 2 we do not need small boxes, because the roundoff error has
+an effect on the discrepancy which is of order O(1).
+
+
+
+                                      11
+4     The Upper Bound
+
+In this section, we present a declustering scheme showing our upper bound.
+As in previous work, we use low discrepancy point sets to construct the
+declustering scheme. In the following we use the notation of Niederreiter
+                    Qd b ≥ −d
+[Nie87]. For an integer        2, an elementary
+                                             −di
+                                                  interval in base b is an interval
+of the form E = i=1 ai b , (ai + 1)b
+                                 i
+                                                  , with integers di ≥ 0 and 0 ≤
+ai < bdi for 1 ≤ i ≤ d. For integers t, m such that 0 ≤ t ≤ m, a (t, m, d)–net
+in base b is a point set of bm points in [0, 1)d such that all elementary intervals
+with volume bt−m contain exactly bt points.
+
+Note that any elementary interval with volume bt−m has discrepancy zero in
+a (t, m, d)–net. Since any subset of an elementary interval of volume bt−m has
+discrepancy at most bt and any box can be packed with elementary intervals
+in a way that the uncovered part can be covered by Od (logd−1 bm ) elementary
+intervals of volume bt−m , the following is immediate:
+
+Theorem 5. A (t, m, d)–net Pnet in base b with n = bm points has discrep-
+ancy
+                     D(Pnet , Rd ) = Od (logd−1 n).
+
+The central argument in our proof of the upper bound is the following result
+of Niederreiter [Nie87] on the existence of (0, m, d)–nets. From the view-point
+of application it is important that his proof is constructive. Admittedly, this
+construction is highly involved. We refer to the book of Niederreiter [Nie87]
+for the details.
+
+Theorem 6. Let b ≥ 2 be an arbitrary base and b = q1 q2 . . . qu be the canon-
+ical factorization of b into prime powers such that q1 < · · · < qu . Then for
+any m ≥ 0 and d ≤ q1 + 1 there exists a (0, m, d)–net in base b.
+
+                                                           d
+We use (0, m, d)–nets to construct an M–coloring of HM        in Lemma 7. For
+the definition
+            Qd of these colorings,    we need the following special elements of
+EM : A set j=1 Ij ∈ EM is called a row of [M]d if there is an i ∈ [d] with
+  d                      d
+
+Ii = [1..M] and |Ij | = 1 for all j 6= i. In Lemma 8 we use the M–coloring of
+   d                                      d
+HM   to construct an M–coloring of HN       with same discrepancy.
+
+
+
+                                        12
+Lemma 7. Let Pnet be a (0, d − 1, d)–net in base M in [0, 1)d. Then there is
+                         d
+an M–coloring χM of HM      = ([M]d , EM
+                                       d
+                                         ) such that all rows of [M]d contain
+every color exactly once2 and
+                                   d
+                             disc(HM , χM ) ≤ D(Pnet , Rd ).
+
+Proof. The net Pnet consists of M d−1 points and all elementary intervalsQdwith
+           −d+1
+volume M        contain exactly one point. In particular, all subsets j=1 Ij
+         d
+of [0, 1) such that there is an i ∈ [d] with Ii = [0, 1) and for all j 6= i there
+                                  a a +1
+exist aj ∈ [0..M − 1] with Ij = [ Mj , jM ), contain exactly one point.
+                               d
+We construct a coloring
+                n       χM of HM = ([M]d , EM
+                                            d
+                                              ) corresponding
+                                                  o           to the set
+                         d
+                                Qd xi −1 xi
+Pnet . Let P̂ := x ∈ [M] Pnet ∩ i=1 [ M , M ) 6= ∅ . Then each row of
+[M]d contains exactly one point of P̂. We define the coloring χM : [M]d →
+[M] by χM (y, x2 , . . . , xd ) = i for all x = (x1 , x2 , . . . , xd ) ∈ P̂, i, y ∈ [M]
+such that y ≡ x1 + (i − 1) mod M . Hence P̂ receives color 1, color class 2
+is obtained from shifting P̂ along the first coordinate and so on. This defines
+                            d
+an M–coloring χM of HM          = ([M]d , EM
+                                           d
+                                             ). Since each color class is constructed
+                                                     d
+by shifting the first color class, each row of HM       contains every color exactly
+                                      d
+once. Thus, each whole row of HM has discrepancy zero.
+                                                                          1
+For this coloring it is sufficient to calculate maxR̂∈E d |χ−1
+                                                            M (1) ∩ R̂| − M |R̂| ,
+                                                               M
+                                                        d
+because for each color i ∈ [M] and each box R̂ ∈ EM        we get the same
+                           ′
+discrepancy for the box R̂ , which is a copy of R̂ shifted along the first
+dimension by i − 1 and wrapped around perhaps, with respect to the color
+1. If R̂′ is wrapped around, it is the union of two boxes. Since whole rows
+have discrepancy zero, the discrepancy of those boxes is the same as the
+discrepancy of the box between them, and we have
+
+                             d
+                       disc(HM , χM ) = max |P̂ ∩ R̂| − M1 |R̂| .
+                                              d
+                                          R̂∈EM
+
+
+          Q
+Let R̂ = di=1 [xi ..yi ] an arbitrary hyperedge of HM
+                                                    d
+                                                      . The associated box in
+             Q d      xi −1 yi
+                                
+[0, 1) is R = i=1 M , M . Then |P̂ ∩ R̂| = |Pnet ∩R| and |R̂| = M d vol(R).
+      d
+
+   2
+       Some authors call this a permutation scheme for [M ]d
+
+
+
+                                             13
+Thus the combinatorial discrepancy of R̂ equals the geometric one of R. We
+have
+                   1
+   |χ−1
+     M (1) ∩ R̂| − M |R̂| = |Pnet ∩ R| − M
+                                           d−1
+                                               vol(R) ≤ D(Pnet , Rd ).
+
+                   d
+Hence we get disc(HM , χM ) ≤ D(Pnet , Rd ).
+
+In the previous lemma we constructed an M–coloring for the [M]d –grid with
+low discrepancy. We now extend this coloring to [N]d –grids for arbitrary
+N ∈ N. We do this by plastering the [N]d –grid with copies of the [M]d –grid
+coloring.
+                                                              d
+Lemma 8. Let χM be an M–coloring of HM                             such that all rows of
+    d                                                                       d
+[M] contain every color exactly once and χ a coloring of HN                    defined by
+χ(x1 , . . . , xd ) = χM (y1 , . . . , yd ) with xi ≡ yi mod M for i ∈ [d], xi ∈ [N],
+yi ∈ [M]. Then
+                                          d              d
+                              disc(HN       , χ) = disc(HM , χM ).
+
+Proof. The proof is organized in the following way. Pick an arbitrary box in
+the [N]d –grid. Using the fact that whole rows in the [M]d –grid coloring χM
+have discrepancy zero, we can ignore all of the box except its corners. By
+construction, these corners can all be found in one common [M]d –subgrid.
+Since whole rows (in the [M]d –grid coloring χM ) have discrepancy zero, tak-
+ing complements in each dimension does not alter the discrepancy. We thus
+obtain a box in the [M]d –grid that has the same discrepancy as the original
+box.
+             Q
+Let R̂ = di=1 [xi ..yi ] be an arbitrary hyperedge of HN        d
+                                                                  . For all i ∈ [d]
+there exist unique x    ei , yei ∈ [M] with xi ≡ x ei (mod M) respectively yi ≡
+yei (mod M). If x   ei ≤ yei , we set x̄i := xei and ȳi := yei . Otherwise we set
+x̄i := yei + 1 and ȳi := x ei − 1. We define the rectangles
+
+                           x1 ..M] × [x2 ..y2 ] × . . . × [xd ..yd ],
+                   R̂l := [e
+                   R̂r := [1..ey1 ] × [x2 ..y2 ] × . . . × [xd ..yd ],
+                   R̂0 := [x̄1 ..ȳ1 ] × [x2 ..y2 ] × . . . × [xd ..yd ].
+
+Using the fact that whole rows have discrepancy zero and the fact, that the
+coloring χ is invariant under shifts with multiples of M in any dimension, we
+
+                                            14
+get for all i ∈ [M]
+
+ |R̂ ∩ χ−1 (i)| − M1 |R̂|   =   |R̂l ∩ χ−1 (i)| − M1 |R̂l | + |R̂r ∩ χ−1 (i)| − M1 |R̂r |
+
+                            =   |R̂0 ∩ χ−1 (i)| − M1 |R̂0 | .
+
+Thus, disc(R̂, χ) = disc(R̂0 , χ). Applying this successively in every coordi-
+nate, we get
+                                   d
+                                   Y                                d
+                                                                    Y
+             disc(R̂, χ) = disc(         [x̄i ..ȳi ], χ) = disc(         [x̄i ..ȳi ], χM ).
+                                   i=1                              i=1
+
+This completes the proof.
+
+Lemma 8 is a remarkable improvement of Theorem 4.2 in [CC02], where
+      d
+disc(HN , χ) ≤ 2d disc(HM
+                        d
+                          , χM ) is shown. Note that this reduces the implicit
+constant in the upper bound by factor of 2d .
+
+It remains to show that the upper bound in Theorem 2 follows from Lemma 7
+and Lemma 8.
+
+Proof of Theorem 2(i). Let M ≥ 3 and d ≥ 2 be positive integers and d ≤
+q1 + 1, where q1 is the smallest prime power in the canonical factorization
+of M into prime powers. Theorem 6 provides a (0, d − 1, d)–net Pnet in base
+M in [0, 1)d . Using Lemma 7 , we get an M–coloring χM of HM   d
+                                                                 such that
+                                                     d
+all rows contain each color exactly once and disc(HM , χM ) ≤ D(Pnet , Rd ).
+                                                  d
+With Lemma 8 and Theorem 5, we have disc(HN         , M) ≤ D(Pnet , Rd ) =
+       d−1
+Od (log M).
+
+
+
+5     Conclusion
+
+We gave lower and upper bounds for the declustering problem of range queries
+to higher-dimensional grids. This paper contains the first complete proof of
+                       d−1
+the lower bound Ωd (log 2 M) for arbitrary values of M and d.
+
+We proposed a declustering scheme that has an additive error of Od (logd−1 M)
+with the sole condition that d ≤ q1 + 1, where q1 is the smallest prime power
+
+                                               15
+in the canonical factorization of M into prime powers. This improves the
+former best declustering schemes of Chen and Cheng [CC02], where either
+bounds depend on the data size N d or M = pt and p ≥ d was required for
+some prime p and t ∈ N. Furthermore, Lemma 8 improves the analysis of
+Chen and Cheng [CC02, CC04] of the discrepancy of latin square colorings
+by a factor of 2−d .
+
+The natural problem arising from this work is to close the gap between the
+lower and upper bound. However, this is probably a very hard one. The
+reason is that the corresponding problem for geometric discrepancies of boxes
+                                                           d−1
+is extremely difficult. Closing the gap between the Ωd (log 2 n) lower and the
+Od (logd−1 n) upper bound for D(n, Rd ) was baptized ‘the great open problem’
+already in Beck and Chen [BC87]. Since then no further progress has been
+made for the general problem. Note that in the proof of a slight improvement
+due to Baker [Bak99] recently a serious error was found, so that the result
+was withdrawn by the author [reported by József Beck, Oberwolfach Seminar
+on Discrepancy Theory and Applications, March 2004].
+
+
+
+References
+[ADKS00]     R. Anstee, J. Demetrovics, G. O. H. Katona, and A. Sali. Low
+             discrepancy allocation of two-dimensional data. In Founda-
+             tions of Information and Knowledge Systems, First Interna-
+             tional Symposium, volume 1762 of Lecture Notes in Computer
+             Science, pages 1–12, 2000.
+
+[AP00]       M. J. Atallah and S. Prabhakar. (Almost) optimal parallel
+             block access for range queries. In Symposium on Principles of
+             Database Systems, pages 205–215, Dallas, 2000.
+
+[Bak99]      R. C. Baker. On irregularities of distribution II. J. London
+             Math. Soc.(2), 59:50–64, 1999.
+
+[BC87]       J. Beck and W. L. Chen. Irregularities of distribution, volume 89
+             of Cambridge Tracts in Mathematics. Cambridge University
+             Press, Cambridge, 1987.
+
+
+
+                                     16
+[BČC+ 02]   T. Biedl, E. Čenek, T. Chan, E. Demaine, M. Demaine, R. Fleis-
+             cher, and M. Wang. Balanced k-colorings. Discrete Math.,
+             254:19–32, 2002.
+
+[BHK01]      L. Babai, T. P. Hayes, and P. G. Kimmel. The cost of the miss-
+             ing bit: communication complexity with help. Combinatorica,
+             21:455–488, 2001.
+
+[CBS03]      C.-M. Chen, R. Bhatia, and R. K. Sinha. Multidimensional
+             declustering schemes using golden ratio and kronecker se-
+             quences. In IEEE Trans. on Knowledge and Data Engineering,
+             volume 15, 2003.
+
+[CC02]       C.-M. Chen and C. Cheng. From discrepancy to declustering:
+             near optimal multidimensional declustering strategies for range
+             queries. In ACM Symp. on Database Principles, pages 29–38,
+             Madison, WI, 2002.
+
+[CC04]       C.-M. Chen and C. Cheng. From discrepancy to declustering:
+             near optimal multidimensional declustering strategies for range
+             queries. J. ACM, 51:46–73, 2004.
+
+[Che04]      F. Chedid. Optimal parallel block access for range queries.
+             In IEEE Tenth International Conference on Parallel and Dis-
+             tributed Systems, pages 115–121, 2004.
+
+[CMA+ 97]    C. Chang, B. Moob, A. Archarya, C. Shock, A. Sussman, and
+             J. Saltz. Titan: a high performance remote-sensing database. In
+             Proc. of International Conference on Data Engineering, pages
+             375–384, 1997.
+
+[DHW04]      B. Doerr, N. Hebbinghaus, and S. Werth. Improved bounds and
+             schemes for the declustering problem. In J. Fiala, V. Koubek,
+             and J. Kratochvı́l, editors, Mathematical Foundations of Com-
+             puter Science 2004, volume 3153 of Lecture Notes in Computer
+             Science, pages 760–771. Springer-Verlag, 2004.
+
+[DS82]       H. C. Du and J. S. Sobolewski. Disk allocation for cartesian
+             product files on multiple disk systems. ACM Trans. Database
+             Systems, 7:82–101, 1982.
+
+
+                                    17
+[DS99]      B. Doerr and A. Srivastav. Approximation of multi-color dis-
+            crepancy. In D. Hochbaum, K. Jansen, J. D. P. Rolim, and
+            A. Sinclair, editors, Randomization, Approximation and Com-
+            binatorial Optimization (Proceedings of APPROX-RANDOM
+            1999), volume 1671 of Lecture Notes in Computer Science, pages
+            39–50, 1999.
+
+[DS03]      B. Doerr and A. Srivastav. Multicolour discrepancies. Combi-
+            natorics, Probability and Computing, 12:365–399, 2003.
+
+[FB93]      C. Faloutsos and P. Bhagwat. Declustering using fractals. In
+            Proceedings of the 2nd International Conference on Parallel and
+            Distributed Information Systems, pages 18–25, San Diego, CA,
+            1993.
+
+[GM93]      N. Gershon and C. Miller. Dealing with the data deluge. IEEE
+            Spectrum, pages 28–32, 1993.
+
+[JRR99]     X. Jia, J. Richards, and D. Ricken, editors. Remote sensing
+            digital image analysis: an introduction. Springer-Verlag, Berlin,
+            Germany, 1999.
+
+[Mat99]     J. Matoušek. Geometric Discrepancy. Springer-Verlag, Berlin,
+            1999.
+
+[Nie87]     H. Niederreiter. Point sets and sequences with small discrep-
+            ancy. Monatsh. Math., 104:273–337, 1987.
+
+[PAGAA98] S. Prabhakar, K. Abdel-Ghaffar, D. Agrawal, and A. El Ab-
+          badi. Cyclic allocation of twodimensional data. In 14th Interna-
+          tional Conference on Data Engineering, pages 94–101, Orlando,
+          Florida, 1998.
+
+[Rot54]     K. F. Roth. On irregularities of distribution. Mathematika,
+            1:73–79, 1954.
+
+[SBC03]     R. K. Sinha, R. Bhatia, and C.-M. Chen. Asymptotically op-
+            timal declustering schemes for 2-dim range queries. Theoret.
+            Comput. Sci., 296:511–534, 2003.
+
+
+
+                                    18
+[Sch72]   W. M. Schmidt. On irregularities of distribution VII. Acta
+          Arith., 21:45–50, 1972.
+
+
+
+
+                               19
+

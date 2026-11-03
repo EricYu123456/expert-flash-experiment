@@ -1,0 +1,211 @@
+{
+  "schema": "expert_flash.second_heldout_metadata.v1",
+  "prepared_utc": "2026-11-02T00:09:14.956262+00:00",
+  "source_script_sha256": "b8618d92fd774329487f538f0e5afaf0336cb7d7187c731b6fa2adf07189ea3d",
+  "source_specs": [
+    {
+      "key": "openbookqa_main_test",
+      "repo": "allenai/openbookqa",
+      "revision": "388097ea7776314e93a529163e0fea805b8a6454",
+      "config": "main",
+      "split": "test",
+      "kind": "qa_mc",
+      "file": "main/test-00000-of-00001.parquet",
+      "rows": 500,
+      "bytes": 55535,
+      "expected_sha256": "cd5483e366daa230c1c87bbdc512d8b7229f14f6dd04d19fc8b1a3855aaaa8a3",
+      "metadata_license": [
+        "unknown"
+      ],
+      "license_note": "Pinned HF card marks data license unknown. Official model-code repository has Apache2.0; it is not asserted to license this externally hosted dataset.",
+      "publisher_repo": "https://github.com/allenai/OpenBookQA",
+      "publisher_commit": "b51971646e9371a61508d9953fc706645e194a71"
+    },
+    {
+      "key": "boolq_validation",
+      "repo": "google/boolq",
+      "revision": "35b264d03638db9f4ce671b711558bf7ff0f80d5",
+      "config": "default",
+      "split": "validation",
+      "kind": "qa_bool",
+      "file": "data/validation-00000-of-00001.parquet",
+      "rows": 3270,
+      "bytes": 1257630,
+      "expected_sha256": "52355d11524b4b874a9b9dcc278feb10f672d52c4f4eff9872e695ede59820f8",
+      "metadata_license": [
+        "cc-by-sa-3.0"
+      ],
+      "license_note": "Official Google dataset README and pinned HF card both state CC-BY-SA3.0.",
+      "publisher_repo": "https://github.com/google-research-datasets/boolean-questions",
+      "publisher_commit": "90af34107399cc7a446b373dc4ee35b8001da7c2"
+    }
+  ],
+  "schemas": [
+    {
+      "source_key": "openbookqa_main_test",
+      "features": [
+        {
+          "name": "id",
+          "dtype": "string"
+        },
+        {
+          "name": "question_stem",
+          "dtype": "string"
+        },
+        {
+          "name": "choices",
+          "sequence": [
+            {
+              "name": "text",
+              "dtype": "string"
+            },
+            {
+              "name": "label",
+              "dtype": "string"
+            }
+          ]
+        },
+        {
+          "name": "answerKey",
+          "dtype": "string"
+        }
+      ],
+      "target_split_metadata": {
+        "name": "test",
+        "num_bytes": 91759,
+        "num_examples": 500
+      }
+    },
+    {
+      "source_key": "boolq_validation",
+      "features": [
+        {
+          "name": "question",
+          "dtype": "string"
+        },
+        {
+          "name": "answer",
+          "dtype": "bool"
+        },
+        {
+          "name": "passage",
+          "dtype": "string"
+        }
+      ],
+      "target_split_metadata": {
+        "name": "validation",
+        "num_bytes": 1998182,
+        "num_examples": 3270
+      }
+    }
+  ],
+  "metadata_receipts": [
+    {
+      "source": "openbookqa_main_test",
+      "role": "metadata",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata/openbookqa_main_test.metadata.json",
+      "url": "https://huggingface.co/api/datasets/allenai/openbookqa/revision/388097ea7776314e93a529163e0fea805b8a6454",
+      "bytes": 3710,
+      "sha256": "c1715ae0ceea2cbb28ef14570fff7b597bd13d8c8ce772065161c72eb13aacbb",
+      "retrieved_utc": "2026-11-02T00:09:13.951731+00:00",
+      "etag": "W/\"e7e-NpQe36vqqpf65jhYSFRITNT7zaQ\"",
+      "final_url_without_query": "https://huggingface.co/api/datasets/allenai/openbookqa/revision/388097ea7776314e93a529163e0fea805b8a6454"
+    },
+    {
+      "source": "openbookqa_main_test",
+      "role": "tree",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata/openbookqa_main_test.tree.json",
+      "url": "https://huggingface.co/api/datasets/allenai/openbookqa/tree/388097ea7776314e93a529163e0fea805b8a6454/main",
+      "bytes": 937,
+      "sha256": "507aa5520365e86defaabd8b73a446ecde55a2cfc9c618785a58dda028dc724e",
+      "retrieved_utc": "2026-11-02T00:09:14.154189+00:00",
+      "etag": "W/\"3a9-18ZOGHsO7ns0RNwvJ0jiccy0M24\"",
+      "final_url_without_query": "https://huggingface.co/api/datasets/allenai/openbookqa/tree/388097ea7776314e93a529163e0fea805b8a6454/main"
+    },
+    {
+      "source": "openbookqa_main_test",
+      "role": "README",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata/openbookqa_main_test.README.md",
+      "url": "https://huggingface.co/datasets/allenai/openbookqa/resolve/388097ea7776314e93a529163e0fea805b8a6454/README.md",
+      "bytes": 9061,
+      "sha256": "a58e68a31e20e7cbac02f80f44f3282ffbb8a40aeb20488670e5ffa975687960",
+      "retrieved_utc": "2026-11-02T00:09:14.359542+00:00",
+      "etag": "\"08128898cc0433b97f7a9c9ff09c5054c8587e3e\"",
+      "final_url_without_query": "https://huggingface.co/api/resolve-cache/datasets/allenai/openbookqa/388097ea7776314e93a529163e0fea805b8a6454/README.md"
+    },
+    {
+      "source": "boolq_validation",
+      "role": "metadata",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata/boolq_validation.metadata.json",
+      "url": "https://huggingface.co/api/datasets/google/boolq/revision/35b264d03638db9f4ce671b711558bf7ff0f80d5",
+      "bytes": 2386,
+      "sha256": "896893162ff77b3fc4320760fe755bfbea6e4ad57406dc63e49d82d9e52e5604",
+      "retrieved_utc": "2026-11-02T00:09:14.557115+00:00",
+      "etag": "W/\"952-SXMQCsNGsIrlcsyOIsHwwtYVjUY\"",
+      "final_url_without_query": "https://huggingface.co/api/datasets/google/boolq/revision/35b264d03638db9f4ce671b711558bf7ff0f80d5"
+    },
+    {
+      "source": "boolq_validation",
+      "role": "tree",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata/boolq_validation.tree.json",
+      "url": "https://huggingface.co/api/datasets/google/boolq/tree/35b264d03638db9f4ce671b711558bf7ff0f80d5/data",
+      "bytes": 634,
+      "sha256": "a40154eca34466866bc3f8a29294bdc0d7251a5487ac5f60a0d88583267ffaf5",
+      "retrieved_utc": "2026-11-02T00:09:14.758069+00:00",
+      "etag": "W/\"27a-rBg8Pp5rogca7JbvboabrHqIyic\"",
+      "final_url_without_query": "https://huggingface.co/api/datasets/google/boolq/tree/35b264d03638db9f4ce671b711558bf7ff0f80d5/data"
+    },
+    {
+      "source": "boolq_validation",
+      "role": "README",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata/boolq_validation.README.md",
+      "url": "https://huggingface.co/datasets/google/boolq/resolve/35b264d03638db9f4ce671b711558bf7ff0f80d5/README.md",
+      "bytes": 6570,
+      "sha256": "07447668f46c7c1e62e24b650ea2a73f1ab34f2b3759b1587c7b7a81b4bf1cf4",
+      "retrieved_utc": "2026-11-02T00:09:14.955789+00:00",
+      "etag": "\"5f4799732ac5ef5996a61d51973210cb2da61629\"",
+      "final_url_without_query": "https://huggingface.co/api/resolve-cache/datasets/google/boolq/35b264d03638db9f4ce671b711558bf7ff0f80d5/README.md"
+    }
+  ],
+  "official_repository_receipts": [
+    {
+      "i": 0,
+      "name": "official-openbookqa.README.md",
+      "repo": "allenai/OpenBookQA",
+      "revision": "b51971646e9371a61508d9953fc706645e194a71",
+      "file": "README.md",
+      "blob_sha": "538cafb0f2f61e8207aa1b42fea3eb53287a38e3",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata/official-openbookqa.README.md",
+      "url": "https://github.com/allenai/OpenBookQA/blob/b51971646e9371a61508d9953fc706645e194a71/README.md",
+      "sha256": "9482b3bd2c9f507214e1e19e9813bea4b688b78691a819af37f95b074b4df2db"
+    },
+    {
+      "i": 1,
+      "name": "official-openbookqa.LICENSE",
+      "repo": "allenai/OpenBookQA",
+      "revision": "b51971646e9371a61508d9953fc706645e194a71",
+      "file": "LICENSE",
+      "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata/official-openbookqa.LICENSE",
+      "url": "https://github.com/allenai/OpenBookQA/blob/b51971646e9371a61508d9953fc706645e194a71/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "i": 2,
+      "name": "official-boolq.README.md",
+      "repo": "google-research-datasets/boolean-questions",
+      "revision": "90af34107399cc7a446b373dc4ee35b8001da7c2",
+      "file": "README.md",
+      "blob_sha": "b0e32f57faec237c573000cea99fef4241c1c350",
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata/official-boolq.README.md",
+      "url": "https://github.com/google-research-datasets/boolean-questions/blob/90af34107399cc7a446b373dc4ee35b8001da7c2/README.md",
+      "sha256": "0afe70d7cdbb644637592212f0cb15339389910bf00f35764ec3c545257aa663"
+    }
+  ],
+  "official_receipts_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata/official_repository_receipts.json",
+  "official_receipts_sha256": "01d88acc6265e1db785bc87e207251a687cdec83f3d8103227d7c79cbbb5de80",
+  "target_payload_downloaded": false,
+  "plan_freeze_pending": true,
+  "metadata_exposure": "Official repository README schema examples were viewed; their membership in a target split was not tested. AI2homepage redirected to HFlanding, which may carry automatic previews. No target Parquet/JSONL/footer/viewer-rows endpoint was fetched, and no example is used for ranking or eligibility.",
+  "preparation_erratum": "Before any acquisition freeze, one extra final LF introduced when saving GitHub text through apply_patch was removed from each of3official metadata snapshots. Every restored file now exactly matches its pinned Gitblob SHA1. Metadata hashes were updated; no target split or selection was opened."
+}

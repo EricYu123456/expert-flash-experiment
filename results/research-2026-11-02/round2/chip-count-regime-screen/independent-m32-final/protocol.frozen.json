@@ -1,0 +1,77 @@
+{
+  "status": "frozen_before_final_producer_report_read",
+  "utc": "2026-11-02T04:50:52.629259+00:00",
+  "producer_protocol_sha256": "18e728fb9ad4b0cd02cc6b04aa1aac34c55154d5173833007f35175ae246e8ab",
+  "producer_source_sha256": "76a4c5b03bd4834e4650ee92e06cd36c4aecb0ba3fb0cafd171836418504d40a",
+  "inputs": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/protocol.frozen.json",
+      "sha256": "18e728fb9ad4b0cd02cc6b04aa1aac34c55154d5173833007f35175ae246e8ab"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_g4_m32_coupled_cp.py",
+      "sha256": "76a4c5b03bd4834e4650ee92e06cd36c4aecb0ba3fb0cafd171836418504d40a",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/source-snapshot/76a4c5b03bd4834e-research_20261103_g4_m32_coupled_cp.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/stage-b/granite4tiny.M32.minimum_depth.plan.npz",
+      "sha256": "3b48aa066d43bf06d40493b513b38919484f6766403a364d7e57719ab05e63ee"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/stage-b/cost_arrays.npz",
+      "sha256": "18308c5b2d2c4c1b440136f2ee6e2f29ab72a2dfedad3097095669ca8862b390"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/source-snapshot/ef7994fa2ba37a4b-research_20261103_ordinary_read_native.cpp",
+      "sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/source-snapshot/ef7994fa2ba37a4b-ef7994fa2ba37a4b-research_20261103_ordinary_read_native.cpp"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/source-snapshot/7c61f09756e24f11-research_20261103_ordinary_read_backend.py",
+      "sha256": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/source-snapshot/7c61f09756e24f11-7c61f09756e24f11-research_20261103_ordinary_read_backend.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_topology_placement_replay.py",
+      "sha256": "0d4fc512b639f0e551f6365a6e92797e3222792821db8b5dd1d4b9d3653f9464",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/source-snapshot/0d4fc512b639f0e5-research_20261103_topology_placement_replay.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_whole_row_compiler.py",
+      "sha256": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/source-snapshot/23cfb0c655567802-research_20261102_whole_row_compiler.py"
+    }
+  ],
+  "prior_coefficient_audit": {
+    "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/independent-m32-coeff/audit.json",
+    "sha256": "62fc78c25720f78213db20d3aa755d1830936c41481277f2b70d64df8244c202"
+  },
+  "budget": {
+    "maps_max": 8,
+    "TRAIN_routes_per_map": 512,
+    "copies": [
+      1,
+      4
+    ],
+    "reference_queries": [
+      0,
+      255,
+      511
+    ],
+    "reference_graphs_max": 54,
+    "new_cpp_costs": 0
+  },
+  "selection": "Audit every saved retained map and any saved peak witness, at most8; include selected input4 GF/DF and source fallback if chosen. No selection based on independent outcomes.",
+  "checks": [
+    "allX5/O7disjoint",
+    "rowcount_multisets/shared_unchanged",
+    "all512query/chip_owned_service_exact",
+    "all_complete_logicalrows_onecopy",
+    "singleblock_physical_intervals_and_capacity",
+    "q0savednative_trace_allfields_vsPython",
+    "q255/511savednative_cost_vsPython",
+    "selection_and_report_stats",
+    "peak10witness_if_retained"
+  ],
+  "claim_scope": "Feasibility OPTIMAL is SAT for fixed feasibility constraints, not latency optimum. Work objective/bound differs from native cost; TRAIN-only/scale-model/standard CP scope retained."
+}

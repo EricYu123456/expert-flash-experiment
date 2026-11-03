@@ -1,0 +1,16 @@
+{
+  "scope": "Metadata correction only; frozen fitter, protocol, maps, metrics, and original receipt remain unchanged.",
+  "affected_file": "map_receipt.frozen.json",
+  "affected_field": "scope",
+  "incorrect_fragment": "withoriginalrows164? fullrowbands176routed/352sharedperchip",
+  "corrected_statement": "One physical-chip address template is replicated across 16 distinct chips. Each chip holds a distinct 176-row shard for each routed GU expert and a distinct 352-row shard for the shared GU. All coefficients are W8 and activations A8. C=2048, so each 16384-byte page contains eight complete output rows. No coefficient copy is introduced.",
+  "logical_rows": {
+    "routed_GU_rows_per_expert": 2816,
+    "shared_GU_rows": 5632,
+    "routed_rows_per_chip": 176,
+    "shared_rows_per_chip": 352
+  },
+  "row_assignment": "For chip c, owner-local page j covers original output rows c*owner_rows_per_chip+8*j through c*owner_rows_per_chip+8*j+7. Physical placement may reorder whole pages; fixed source order 0123 remains row safe because every page contains complete C2048 dots and output identities are scattered to their original rows.",
+  "RR_label_scope": "flat_global_RR preserves the standard global RR block/plane assignment. Its materialized ledger uses equivalent compact per-plane word-line addresses and owner-local whole-row page ordering; numerical row identities are explicit. Under the assumed skip-WL geometry, this changes neither resident capacity nor useful read count nor wave count. It is not a claim that the original natural logical-row order is preserved.",
+  "timing_effect": "None. This screen does not simulate finite PB/ECC execution or complete native timing."
+}

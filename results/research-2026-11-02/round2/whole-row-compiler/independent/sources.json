@@ -1,0 +1,52 @@
+{
+  "created_utc": "2026-11-01T22:48:09.828639+00:00",
+  "search_scope": "Bounded targeted ordinary-NAND whole-row tiling / padding / divisibility / hardware-aware tiling audit; not an exhaustive novelty search.",
+  "sources": [
+    {
+      "id": "aif2025",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "year": 2025,
+      "venue": "ISCA 2025",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "local_primary": "/home/ericyu/expert_flash_experiment/paper/aif.txt",
+      "read_depth": "Re-read Fig.14 on-chip command/computation paragraphs, \u00a75.2 aif_post/aif_gemv and footnotes 8\u20139, Table 2; previously read broader architecture. Publisher search extract available; direct DOI open returned 403 this round.",
+      "evidence": "Public description gives input dimension, block ID, block offset and page count; aif_post uses equal-sized submatrices; footnote 9 allows a submatrix crossing blocks to become two operations.",
+      "relation": "Direct ordinary NAND full-row baseline and native address/cost constraints. The inspected sections do not provide an unequal whole-row work/depth frontier or the gcd packing lemma.",
+      "limit": "No proof from these fields of output dtype, desired-row cutoff, cross-block partial-row accumulation or arbitrary plane-private inputs."
+    },
+    {
+      "id": "cambricon2024",
+      "title": "Cambricon-LLM: A Chiplet-Based Hybrid Architecture for On-Device Inference of 70B LLM",
+      "year": 2024,
+      "venue": "MICRO 2024; arXiv 2409.15654v1 (2024-09-24)",
+      "url": "https://arxiv.org/html/2409.15654v1",
+      "read_depth": "Re-read \u00a7IV-B\u2013C, \u00a7V-A\u2013B and Fig.7; prior round also read setup/selected results.",
+      "evidence": "Page-sized atomic tiles, channel/compute-core partitioning, same-channel input broadcast; minimizes input/output movement under fixed tile area, then balances NPU/flash work.",
+      "relation": "Strong direct hardware-aware flash tiling prior: page/parallelism-aware matrix mapping and input reuse are already established. Its inspected construction is 2D atomic tiling with NPU collaboration, not the whole-row-only ordinary-wave rounding frontier.",
+      "limit": "This does not establish priority of every whole-row specialization; public code/complete numerical return ABI not verified."
+    },
+    {
+      "id": "nvidia2023",
+      "title": "Matrix Multiplication Background User\u2019s Guide",
+      "year": 2023,
+      "venue": "NVIDIA official documentation, last updated 2023-02-01",
+      "url": "https://docs.nvidia.com/deeplearning/performance/dl-performance-matrix-multiplication/index.html",
+      "read_depth": "Read \u00a7\u00a72.3, 3.1 Tile Quantization and 3.2 Wave Quantization plus document date.",
+      "evidence": "Explains padding/work inflation from nondivisible tile sizes, tile-efficiency versus parallelism, and tail-wave inefficiency when tile counts do not fill multiprocessors.",
+      "relation": "Established terminology and mechanism-level precedent for integer tiling/parallelism discontinuities. The NAND complete-row divisibility result is an elementary specialization, not a new number-theory contribution.",
+      "limit": "GPU wave means a scheduling wave across SMs, not a NAND four-plane read. Its timings or native semantics cannot be imported."
+    },
+    {
+      "id": "felix2024",
+      "title": "Felix: Optimizing Tensor Programs with Gradient Descent",
+      "year": 2024,
+      "venue": "ASPLOS 2024; DOI 10.1145/3620666.3651348",
+      "url": "https://misailo.web.engr.illinois.edu/papers/felix-asplos24.pdf",
+      "read_depth": "Read title/abstract/intro plus \u00a73.3 constraint/divisibility handling, beginning of \u00a73.4 and \u00a74 implementation; not a full-paper reread.",
+      "evidence": "Searches hardware tensor schedules including tiling; explicitly handles divisibility constraints by rounding to legal integer factors and validates/generated schedules.",
+      "relation": "General compiler prior against claiming integer legality constraints, factor enumeration or schedule search as new. Does not directly study ordinary NAND complete-row GEMV wave rounding.",
+      "limit": "GPU tensor-program compiler; no NAND command lowering, no opaque GEMV-row ABI certificate established by this paper."
+    }
+  ],
+  "negative_finding": "No inspected primary source directly states the same whole-row ordinary-read exact-work versus least-depth frontier with a physical/numeric lowering certificate. This bounded negative is not a proof of originality. FlexLLM and DIAMoND full texts remain unread/unavailable in earlier legal-access attempts."
+}

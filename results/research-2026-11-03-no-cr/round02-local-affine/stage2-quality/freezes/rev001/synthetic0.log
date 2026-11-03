@@ -1,0 +1,22 @@
+[New LWP 2671399]
+[New LWP 2671400]
+[New LWP 2671401]
+[New LWP 2671402]
+[New LWP 2671403]
+[New LWP 2671404]
+[New LWP 2671405]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+0x00007c11cf0ea42f in __GI___wait4 (pid=2671424, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:30
+#0  0x00007c11cf0ea42f in __GI___wait4 (pid=2671424, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:30
+30	in ../sysdeps/unix/sysv/linux/wait4.c
+#1  0x00005be298eeb73b in ggml_print_backtrace ()
+#2  0x00005be298eeb8ce in ggml_abort ()
+#3  0x00005be298f0cddf in ggml_backend_cpu_buffer_from_ptr ()
+#4  0x00005be298c4664d in Tensor::Tensor(ggml_type, long, long, long, long, unsigned long, unsigned long, unsigned long) ()
+#5  0x00005be298c4a8c0 in Fixture::Fixture(int, int, bool) ()
+#6  0x00005be298c41188 in hook_tests(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) ()
+#7  0x00005be298c3a17e in main ()
+[Inferior 1 (process 2671398) detached]
+/home/nfs_client/ericyu/expert_flash_experiment/sources/llama.cpp-927dada6c/ggml/src/ggml-backend.cpp:2369: GGML_ASSERT((uintptr_t)ptr % TENSOR_ALIGNMENT == 0 && "buffer pointer must be aligned") failed
+30	../sysdeps/unix/sysv/linux/wait4.c: No such file or directory.

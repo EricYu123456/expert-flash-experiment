@@ -1,0 +1,40 @@
+TRAIN-only full-FFN W8A8 routing capture
+
+Status: both models complete, 32 prompts per model, 16 decode tokens per prompt.
+The same 32 IDs and complete original text files are used for both models.
+Task allocation: mathematics6, long_context6, qa5, programming5, translation5, summarization5.
+Fixed seed20261103 SHA256 task/ID ranking and balanced round-robin; selected15long/10short/7medium.
+
+This is canonical-only collection, explicitly approved for TRAIN routing. New routed rows are not paired with placed reruns.
+It reuses unchanged numeric/cache/operator/run helper bodies from the previously paired full-FFN references.
+No compiler refit, quality measurement, new quantization method, model download, or test/fresh text access occurred.
+
+Numerics: original GGUF complete-row to_float; per-row fixed symmetric W8[-127,127]; once per full operator-input vector dynamic A8; exact I64 complete-row dot; one F32 rowScale*inputScale rescale.
+All routed and shared gate/up/down projections and all prefill tokens are replaced; attention/router/SSM retain source GGUF execution.
+DeepSeek raw0 dense gate/up/down are additionally replaced and counted separately. Raw1..26 are MoE; sharedI2816 is one concatenated branch and one down.
+
+Decode NPZ: routes[prompt,decode_step,raw_layer_index,ordered_top6], prompt_ids/tasks/length_buckets/layers/completed metadata.
+Decode step0 means processing the first generated token at position n_prefill; the last prompt-token routes are in the prefill archive.
+Prefill NPZ: routes[flattened_prompt_token,raw_layer_index,ordered_top6], prompt_offsets[33], token_ids, prompt_ids, layers, completed.
+Both completed masks are all true. Source route JSONL, coverage ledger, scales and cache ledger remain in each batch directory.
+Counts below are unique F32 FFN operator-output scalars checked finite, not integer-operation counts or cross-run/paired comparisons.
+Continuation logits checked finite are the final-prefill vector plus each of16 decode vectors, not all intermediate prefill-vocabulary vectors.
+Snapshots retain final-prefill and first-decode full vocabulary vectors for each prompt.
+
+deepseek: decode shape[32, 16, 26, 6], raw layers1..26, prefill20795 tokens +decode512 tokens.
+  All159 FFN tensor names covered on all tokens; callbacks91266.
+  Unique finite FFN output scalars20931996800; by kind{'dense': 510004352, 'routed': 16167410688, 'shared': 4254581760}.
+  decode NPZ SHA256 11168c1e899c8ce0bf23e719e908f243fa09d30980a65488a3f92aa448344fed
+  prefill NPZ SHA256 210f6c0391591b6d1b87d5cd096ccc19a0f51b3eae0aedb5d8f7e23f8d803181
+
+granite4tiny: decode shape[32, 16, 40, 6], raw layers0..39, prefill18953 tokens +decode512 tokens.
+  All240 FFN tensor names covered on all tokens; callbacks135360.
+  Unique finite FFN output scalars14749798400; by kind{'routed': 11959296000, 'shared': 2790502400}.
+  decode NPZ SHA256 304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4
+  prefill NPZ SHA256 4fca2f82907ebed3abcc96d3e7ecd1767da3015c9d221e42427ca6cc394754d2
+
+Inference orchestration wall seconds: 720.094759, max4 processes x8threads,1200second budget, all8 batches exit0.
+This measured wall time describes the CPU functional harness, including cache construction and concurrency; it is not hardware/native/placement performance.
+Protocol SHA256: f003fdbc1c8bd02c47dca0ef4afa90affc0d1b160a2b0cb2e8c4993c99bfdde0
+numeric_helper_identity.json records seven byte-identical function spans per model.
+independent/audit.json is a separate read-only reconstruction of selection, arrays, routes, full-token FFN geometry/counts, finite reports, snapshots, and cross-batch weight/scale identity.

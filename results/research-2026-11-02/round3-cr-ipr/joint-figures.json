@@ -1,0 +1,668 @@
+{
+  "status": "descriptive_only_no_selection",
+  "source_sha256": "407bfa7466a5b234afa3ad2d58aff1a1ef5f7b1756e6652aaa521ab1a03542c3",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-replica-full-ffn/TRAIN512/report.json": "029f8c6324e94d6cb7a50645666f8edd4b70ea492d43065f7b872a9019bef013",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/g2-availability-full-ffn/TRAIN512/report.json": "e02242da88e7bb097579451b102ad166a1eb04c4a4662139194b0e3bdfcde84f",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/joint-shared-full-ffn/TRAIN512/report.json": "47faea9b9f160cfd50883d6c602c670d9668c0b117b5cfcc6939e1685bc41d70",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/joint-shared-fixed-capacity-control/TRAIN512/report.json": "fb0b2069c83616e54e24f17ba50f309a9934cc7e3c788a5858316d87b7b56593",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/second-prospective-routes/comparison/report.json": "94fb6c4ab30315bdb53593397fa05cc07b02eaff8662a5ab6fea0f13fb696a6b",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/native-group-control/v2/report.json": "8c25df6374905195164cd1d98857c4a80eb73ba7b9610395471962d56393fe7f",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_eight_pair_cbc.py": "f289c0ef125c3cd962187d2a2c74d0f6d87df82c1f41155b299a1c9f40b04d9a"
+  },
+  "panels": [
+    {
+      "panel": "TRAIN: speed and extra stored weights",
+      "rows": [
+        {
+          "name": "candidate.triple_private_shared4.input1.GF",
+          "mean_us": 280.526,
+          "event_P99_us": 280.526
+        },
+        {
+          "name": "candidate.g2availability.input1.GF",
+          "mean_us": 254.712,
+          "event_P99_us": 254.712
+        },
+        {
+          "name": "candidate.cr.joint8.input1.GF",
+          "mean_us": 254.712,
+          "event_P99_us": 254.712
+        }
+      ]
+    },
+    {
+      "panel": "TRAIN: isolate shared placement, same 303 MiB",
+      "rows": [
+        {
+          "name": "candidate.cr.fixedShared.input1.GF",
+          "mean_us": 263.9705703125,
+          "event_P99_us": 340.966
+        },
+        {
+          "name": "candidate.cr.joint8.input1.GF",
+          "mean_us": 254.712,
+          "event_P99_us": 254.712
+        }
+      ]
+    },
+    {
+      "panel": "Second prospective diagnostic: no refitting",
+      "rows": [
+        {
+          "name": "candidate.cr.g4triples.input1.GF",
+          "mean_us": 280.526,
+          "event_P99_us": 280.526
+        },
+        {
+          "name": "candidate.cr.g2_fitted.input1.GF",
+          "mean_us": 254.82430989583335,
+          "event_P99_us": 254.712
+        },
+        {
+          "name": "candidate.cr.joint8.input1.GF",
+          "mean_us": 254.712,
+          "event_P99_us": 254.712
+        }
+      ]
+    }
+  ],
+  "native_feature_ablation": [
+    {
+      "array": "cr",
+      "reference_mean_us": 308.4315208333333,
+      "joint_mean_us": 282.957484375,
+      "reduction_pct": 8.259219547180685
+    },
+    {
+      "array": "ordinary",
+      "reference_mean_us": 586.8958177083334,
+      "joint_mean_us": 579.68178125,
+      "reduction_pct": 1.2291851876713444
+    }
+  ],
+  "illustrative_routes": [
+    {
+      "feasible": true,
+      "capacity": 1,
+      "route": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "assignment": {
+        "5": 0,
+        "4": 1,
+        "3": 2,
+        "0": 4,
+        "1": 5,
+        "2": 6
+      },
+      "shared_half_assignment": {
+        "0": 3,
+        "1": 7
+      },
+      "group_owners": [
+        "e5",
+        "e4",
+        "e3",
+        "S0",
+        "e0",
+        "e1",
+        "e2",
+        "S1"
+      ],
+      "group_load": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "selected_jobs": [
+        {
+          "expert": 0,
+          "copy": 0,
+          "resident_copy": 4,
+          "shared_half": null,
+          "resident_job_id": "e0.g4.c8",
+          "chip": 8,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 128,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 0,
+          "copy": 0,
+          "resident_copy": 4,
+          "shared_half": null,
+          "resident_job_id": "e0.g4.c9",
+          "chip": 9,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 128,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 1,
+          "copy": 0,
+          "resident_copy": 5,
+          "shared_half": null,
+          "resident_job_id": "e1.g5.c10",
+          "chip": 10,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 128,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 1,
+          "copy": 0,
+          "resident_copy": 5,
+          "shared_half": null,
+          "resident_job_id": "e1.g5.c11",
+          "chip": 11,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 128,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 2,
+          "copy": 0,
+          "resident_copy": 6,
+          "shared_half": null,
+          "resident_job_id": "e2.g6.c12",
+          "chip": 12,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 128,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 2,
+          "copy": 0,
+          "resident_copy": 6,
+          "shared_half": null,
+          "resident_job_id": "e2.g6.c13",
+          "chip": 13,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 128,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 3,
+          "copy": 0,
+          "resident_copy": 2,
+          "shared_half": null,
+          "resident_job_id": "e3.g2.c4",
+          "chip": 4,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 146,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 3,
+          "copy": 0,
+          "resident_copy": 2,
+          "shared_half": null,
+          "resident_job_id": "e3.g2.c5",
+          "chip": 5,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 146,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 4,
+          "copy": 0,
+          "resident_copy": 1,
+          "shared_half": null,
+          "resident_job_id": "e4.g1.c2",
+          "chip": 2,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 152,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 4,
+          "copy": 0,
+          "resident_copy": 1,
+          "shared_half": null,
+          "resident_job_id": "e4.g1.c3",
+          "chip": 3,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 152,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 5,
+          "copy": 0,
+          "resident_copy": 0,
+          "shared_half": null,
+          "resident_job_id": "e5.g0.c0",
+          "chip": 0,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 158,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 5,
+          "copy": 0,
+          "resident_copy": 0,
+          "shared_half": null,
+          "resident_job_id": "e5.g0.c1",
+          "chip": 1,
+          "rows": 768,
+          "columns": 512,
+          "block": 0,
+          "wl_start": 158,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 64,
+          "copy": 0,
+          "resident_copy": 3,
+          "shared_half": 0,
+          "resident_job_id": "S0.g3.c6",
+          "chip": 6,
+          "rows": 384,
+          "columns": 1024,
+          "block": 1,
+          "wl_start": 132,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 64,
+          "copy": 0,
+          "resident_copy": 3,
+          "shared_half": 0,
+          "resident_job_id": "S0.g3.c7",
+          "chip": 7,
+          "rows": 384,
+          "columns": 1024,
+          "block": 1,
+          "wl_start": 132,
+          "pages": 24,
+          "row_start": 384,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 64,
+          "copy": 0,
+          "resident_copy": 7,
+          "shared_half": 1,
+          "resident_job_id": "S1.g7.c14",
+          "chip": 14,
+          "rows": 384,
+          "columns": 1024,
+          "block": 1,
+          "wl_start": 138,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 64,
+          "copy": 0,
+          "resident_copy": 7,
+          "shared_half": 1,
+          "resident_job_id": "S1.g7.c15",
+          "chip": 15,
+          "rows": 384,
+          "columns": 1024,
+          "block": 1,
+          "wl_start": 138,
+          "pages": 24,
+          "row_start": 1152,
+          "reserved_WL": 6
+        }
+      ],
+      "input_contract": "Everyroutedchip job takes fullC512; eachsharedhalfchip job takes fullC1024. No fragmented input or shared dot context."
+    },
+    {
+      "feasible": true,
+      "capacity": 1,
+      "route": [
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "assignment": {
+        "58": 2,
+        "62": 4,
+        "63": 3,
+        "61": 5,
+        "60": 6,
+        "59": 7
+      },
+      "shared_half_assignment": {
+        "0": 0,
+        "1": 1
+      },
+      "group_owners": [
+        "S0",
+        "S1",
+        "e58",
+        "e63",
+        "e62",
+        "e61",
+        "e60",
+        "e59"
+      ],
+      "group_load": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "selected_jobs": [
+        {
+          "expert": 58,
+          "copy": 0,
+          "resident_copy": 2,
+          "shared_half": null,
+          "resident_job_id": "e58.g2.c4",
+          "chip": 4,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 120,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 58,
+          "copy": 0,
+          "resident_copy": 2,
+          "shared_half": null,
+          "resident_job_id": "e58.g2.c5",
+          "chip": 5,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 120,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 59,
+          "copy": 0,
+          "resident_copy": 7,
+          "shared_half": null,
+          "resident_job_id": "e59.g7.c14",
+          "chip": 14,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 108,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 59,
+          "copy": 0,
+          "resident_copy": 7,
+          "shared_half": null,
+          "resident_job_id": "e59.g7.c15",
+          "chip": 15,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 108,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 60,
+          "copy": 0,
+          "resident_copy": 6,
+          "shared_half": null,
+          "resident_job_id": "e60.g6.c12",
+          "chip": 12,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 114,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 60,
+          "copy": 0,
+          "resident_copy": 6,
+          "shared_half": null,
+          "resident_job_id": "e60.g6.c13",
+          "chip": 13,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 114,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 61,
+          "copy": 0,
+          "resident_copy": 5,
+          "shared_half": null,
+          "resident_job_id": "e61.g5.c10",
+          "chip": 10,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 120,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 61,
+          "copy": 0,
+          "resident_copy": 5,
+          "shared_half": null,
+          "resident_job_id": "e61.g5.c11",
+          "chip": 11,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 120,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 62,
+          "copy": 0,
+          "resident_copy": 4,
+          "shared_half": null,
+          "resident_job_id": "e62.g4.c8",
+          "chip": 8,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 126,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 62,
+          "copy": 0,
+          "resident_copy": 4,
+          "shared_half": null,
+          "resident_job_id": "e62.g4.c9",
+          "chip": 9,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 126,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 63,
+          "copy": 0,
+          "resident_copy": 3,
+          "shared_half": null,
+          "resident_job_id": "e63.g3.c6",
+          "chip": 6,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 126,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 63,
+          "copy": 0,
+          "resident_copy": 3,
+          "shared_half": null,
+          "resident_job_id": "e63.g3.c7",
+          "chip": 7,
+          "rows": 768,
+          "columns": 512,
+          "block": 1,
+          "wl_start": 126,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 64,
+          "copy": 0,
+          "resident_copy": 0,
+          "shared_half": 0,
+          "resident_job_id": "S0.g0.c0",
+          "chip": 0,
+          "rows": 384,
+          "columns": 1024,
+          "block": 1,
+          "wl_start": 132,
+          "pages": 24,
+          "row_start": 0,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 64,
+          "copy": 0,
+          "resident_copy": 0,
+          "shared_half": 0,
+          "resident_job_id": "S0.g0.c1",
+          "chip": 1,
+          "rows": 384,
+          "columns": 1024,
+          "block": 1,
+          "wl_start": 132,
+          "pages": 24,
+          "row_start": 384,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 64,
+          "copy": 0,
+          "resident_copy": 1,
+          "shared_half": 1,
+          "resident_job_id": "S1.g1.c2",
+          "chip": 2,
+          "rows": 384,
+          "columns": 1024,
+          "block": 1,
+          "wl_start": 138,
+          "pages": 24,
+          "row_start": 768,
+          "reserved_WL": 6
+        },
+        {
+          "expert": 64,
+          "copy": 0,
+          "resident_copy": 1,
+          "shared_half": 1,
+          "resident_job_id": "S1.g1.c3",
+          "chip": 3,
+          "rows": 384,
+          "columns": 1024,
+          "block": 1,
+          "wl_start": 138,
+          "pages": 24,
+          "row_start": 1152,
+          "reserved_WL": 6
+        }
+      ],
+      "input_contract": "Everyroutedchip job takes fullC512; eachsharedhalfchip job takes fullC1024. No fragmented input or shared dot context."
+    }
+  ],
+  "outputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/joint-overview.png": "0e0c6c4707866ad78028679e5e4888f77c5831d4ac9c8c2cb6f25ce31698b69a",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/joint-overview.pdf": "f3a7b6a7c5073d697abaf9413696527b62af8a732f3bf5c9301bb97633993a78",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/native-feature-ablation.png": "1b5a28b2d485420b7ffb2da84604a0f4b8b306a193f2f3683cfc61c1c238a27e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/native-feature-ablation.pdf": "9dd30247f856439a0e7df161a2f4cd65fe6fdf2b44267628c7aa1668f612f927",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/joint-layout.png": "879c6574952bd933227ca754dadc4a03f524e02084d9f6b827504abb8723ada3",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/joint-layout.pdf": "deb8b2b3ce3a2628f2c04e9e823cadee7cf68423eeab4f0cd654762424124081"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "status": "PASS elementary arithmetic",
+  "profiles": [
+    {
+      "model": "granite4tiny",
+      "gu_high_chips": 9,
+      "down_high_chips": 12,
+      "minimum_high_intersection": 5,
+      "categories": [
+        {
+          "gu_wave": 1,
+          "down_wave": 1,
+          "chips": 7
+        },
+        {
+          "gu_wave": 2,
+          "down_wave": 0,
+          "chips": 4
+        },
+        {
+          "gu_wave": 2,
+          "down_wave": 1,
+          "chips": 5
+        }
+      ],
+      "joined_wave_histogram": {
+        "2": 11,
+        "3": 5
+      },
+      "total_joined_waves": 37,
+      "claim": "Elementary intersection/count certificate,not a new theorem or proof of optimal routed makespan."
+    },
+    {
+      "model": "deepseek",
+      "gu_high_chips": 8,
+      "down_high_chips": 13,
+      "minimum_high_intersection": 5,
+      "categories": [
+        {
+          "gu_wave": 5,
+          "down_wave": 3,
+          "chips": 8
+        },
+        {
+          "gu_wave": 6,
+          "down_wave": 2,
+          "chips": 3
+        },
+        {
+          "gu_wave": 6,
+          "down_wave": 3,
+          "chips": 5
+        }
+      ],
+      "joined_wave_histogram": {
+        "8": 11,
+        "9": 5
+      },
+      "total_joined_waves": 133,
+      "claim": "Elementary intersection/count certificate,not a new theorem or proof of optimal routed makespan."
+    }
+  ],
+  "shared_counterexample": {
+    "scope": "Abstract single-query wave arithmetic only;not the actual shared expert distribution or native timing.",
+    "GU_high_mask": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "Down_high_mask": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0
+    ],
+    "fixed_shared_wave_offsets": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2
+    ],
+    "independent_joined_waves": [
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1
+    ],
+    "independent_max_with_shared": 3,
+    "counterbalanced_minimum_max_with_shared": 4,
+    "proof": "Three-category complement forbids both-low,so joined>=2 on everychip. Fixed shared offset2 on chip15 forces max>=4. The provided legal independent masks put both-low there and all other totals<=3. Thus complement is a useful restriction/regularizer,not universally optimal with fixed offsets."
+  },
+  "independent_superset": "Every jointly permuted counterbalanced row assignment is also a legal independent GU/Down row assignment with the same per-phase rowhistograms. Therefore an unrestricted joint-objective optimum cannot be worse. Any restricted-search empirical advantage needs move-neighborhood/initialization/budget attribution.",
+  "exact_cost_warning": "Same joined wave count does not imply same native ownedcost:input/command presence differs for G4 Downzero;Deep GUhigh/low andDownhigh/low have unequal all-page output increments. Use actual cost tables,not wave labels alone."
+}

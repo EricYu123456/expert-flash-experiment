@@ -1,0 +1,180 @@
+G4 elastic 8-source A / original B prefix: independent bounded contract
+=====================================================================
+
+PASS for symbolic complete-row ownership, immutable scale identities, charged
+fringe and single-block virtual addresses. This is a construction/service-model
+audit, not weights arithmetic, native-device validation or a new algorithm.
+No weights, heldout, native replay, fitting or other agents' source changes.
+
+Frozen independent source:
+scripts/research_20261103_g4_elastic_prefix_contract_audit.py
+Independent protocol SHA256:
+6f50bc852c37236b28154060c2e160bbfead618446250a31e7a5efcab7678f00
+Selected work-v1 protocol SHA256:
+aef40f6cb3d9952d9b1365bddab92f292f799915e39485135395aef572a9137b
+
+The source is CP0107 G4L0/input1/command250/output_fringe1 and its original
+completed W8 TRAIN512 routes. These hashes and original TRAIN-only equality
+were checked. No inference or quality assertion follows from this audit.
+
+Two fixed views and complete logical rows
+----------------------------------------
+B has6x83+3x82+7x40=1024GU rows, with512gate+512up rows and1536columns.
+An offline choice omits one of the nine high chips; the other eight become A
+sources. Each source stores its original B core82/83 followed by original
+offsource rows, filling128complete rows. Offsource original B rows remain
+stored. Donor rows are partitioned in chip/row order over ascending sources.
+
+Omitting83 leaves661source-core rows and363copied offsource rows; omitting82
+leaves662core rows and362copies. Each image stores1387/1386 row slots but only
+1024 unique logical rows. Exactly363/362 logical rows have two physical copies;
+the rest occur once. These copies remain resident and count even in allocator
+holes or if TRAIN never selects A. No coefficient is relabeled by its new chip.
+
+A executes128rows on each of eight sources. B executes only the original core
+prefix on all16chips. Both consume exactly the original1024logical GU rows,
+each once. Every stored slot refers to the original expert/gate-up/logical-row
+ID, complete1536columns and its immutable original F32 row scale. Scale identity
+is (gate/up, logical row0..511), not physical output position. Source append
+can contain multiple disjoint logical intervals and needs host scatter.
+
+All64experts x9offline choices =576images passed independent symbolic A/B
+coverage, uniqueness, duplicate-count and scale-ID checks. These nine choices
+are separate offline materializations, not nine free runtime A views inside
+one33wave image. For one fixed image only its chosen A and original B are
+asserted. Runtime source-set adaptation would need another storage proof.
+
+Under the existing fixed numerical format, original full-row W8 bytes/scales
+and the identical full1536-vector A8 input/scale preserve each useful full-row
+dot, its I64->F32 conversion once, and F32 rowScale*inputScale once, FMA off.
+Do not quantize the copied subset or infer scales from a physical row index.
+This audit verifies the symbolic identity conditions; it does not read or
+compare actual coefficient bytes/scales or certify native PE output arithmetic.
+
+Full1024useful GU rows must reach host and be scattered before SwiGLU and one
+full512-element dynamic A8 quantization for private Down. GU commands all reload
+the full input, own one chip context through output drain and do not preserve
+page-buffer weights across jobs. Shared/Down geometry, router weights and
+private Down dependencies stay fixed. No partial dots, new MAC, plane context,
+row mask, validR, row-stop, early-ready or independent accumulator is supplied.
+
+Page prefixes, fringe and partial-row tails
+-----------------------------------------
+One row is1536B. B high82/83 uses8pages=2waves; B low40 uses4pages=1wave.
+In the declared output_fringe1 service,8pages contain85complete rows plus512B
+of the next row;4pages contain42complete rows plus1024B of the next row.
+
+On A-source chips, the extra complete rows in B are real appended copies:
+core82 ->3discarded full copied rows, then512B of the fourth;
+core83 ->2discarded full copied rows, then512B of the third.
+They are computed/read and their complete outputs transferred, then discarded;
+the original offsource B jobs supply their useful logical results. Their copies
+must not be counted twice in GU or router combine. On offsource chips the
+extra complete rows/partial tail are page padding rather than logical weights.
+Padding is physically read and must not be treated as absent page work.
+
+Across all B chips:9x85+7x42=1059complete outputs,1024useful,35discarded.
+Omit83 gives19real-copy fringe rows plus16padding outputs; omit82 gives18real
+copy fringe rows plus17padding outputs. All16partial-row tails total11776B
+of coefficient stream:9x512+7x1024. The model charges every NAND page/wave
+and all1059complete output scalars on channel and PCIe. It does not pretend
+that partial tails are useful full rows or return/merge partial dot products.
+
+A128rows is exactly196608B=12pages=3waves:128complete outputs, no fringe or
+partial tail. Thus B=100pages/25waves/16jobs and A=96pages/24waves/8jobs.
+Resident max prefixes occupy8x3+(1x2+7x1)=33waves/expert, +8waves over B.
+The native behavior of an incomplete final row and reset at the next ordinary
+command remains an existing ABI prerequisite, not a demonstrated feature.
+
+Independent source/service/address cross-check of selected work-v1
+----------------------------------------------------------------
+review_selected.py reads the completed frozen fitter outputs only. Its selected
+64physical images agree exactly with the independent576-case row construction.
+All resident descriptors and chip/block/WL prefixes reproduce independently.
+No view spans a192WL block; all allocated intervals are nonoverlapping. Static
+repacking is allowed; source addresses are not falsely declared unchanged.
+The resident storage descriptor counts row slots; it must never be submitted
+as if each expert had1386/1387independent logical GU rows.
+
+Independent GU service arithmetic: B high57188ns, B low29102ns, A12885274ns
+(command250, full input768, read28000/wave, output2ns/scalar). Every A replaces
+total B chip-owned work by exactly -36214ns/expert: one saved wave, eight saved
+commands/reloads and35fewer emitted scalars. This is aggregate work, not FFN
+completion time or a claim about the selected query's bottleneck chip.
+All576service-menu deltas and32768query A/B masks match the saved work oracle.
+The optimistic sorted first-start bound was independently rebuilt as
+  2000+min_masks max_rank(sort_desc(W_chip)[rank]+rank*250).
+It uses serialized first chip commands and allows an optimistically favorable
+order; chip work/readiness alone does not give an achievable schedule.
+
+The completed work screen already fails its gate: necessary work mean
+554446.3671875ns; sorted first-start lower bound557032.4765625ns; possible
+native mean gain at most0.7247460479% vs561099.01953125ns. No native replay or
+large copy controls are justified for this bounded screen. This does not prove
+a global impossibility for arbitrary row maps, copies, schedulers or hardware.
+
+Four storage ledgers and allocation granularity
+----------------------------------------------
+                                    CP0107 B       Selected resident    Extra
+Useful coefficient bytes            155713536      191351808            35638272
+Useful coefficient MiB              148.5          182.4873046875        33.9873046875
+Programmed16KiB pages                9760           11808                2048
+Reserved64KiB waves                  2440           2952                 512
+Page/wave byte MiB                   152.5          184.5                32
+Stored matrix bands                 1824           1824                 0
+BFD allocated LSB blocks             16             20                   4
+BFD allocated LSB MiB                192            240                  48
+
+The512added waves do not imply only32MiB duplicated useful weights: new source
+suffixes fill2083840B of previously counted B page padding. All35,638,272B
+copies still count. Nine uniform omit-rank global examples independently have
+33.94921875--34.02685546875MiB copies and19--22BFD blocks; these are finite
+examples, not all9^64placements. The selected mixed layout has20blocks and
+reaches per-chip ceil(total resident waves/192) for its fixed inventory. BFD
+optimality is asserted only where that explicit per-chip lower bound matches;
+no optimality over different source choices or general placement is claimed.
+
+Addresses are coefficient-only virtual LSB certificates. They exclude attention,
+dense weights, FTL/spare space, CSB/MSB and host mapping/scale metadata. A mapping
+can share immutable logical scales in host memory; no chosen native scale ABI
+or metadata capacity is certified. Allocator holes do not make copies free.
+
+Necessary strong controls if another screen passed its gate
+----------------------------------------------------------
+The static controls must use the same A/B choices without copies and also a
+strong simple g8/all9source-menu row-map control. Fitter work-v1 provides both
+finite work-only controls. Runtime selection/scatter costs remain uncharged.
+
+A complete GU is1024x1536=1.5MiB; legal128x8 geometry needs24waves/96pages and
+eight jobs. The512wave budget therefore funds21complete GU backups (504waves,
+31.5MiB useful/page storage), leaving8waves/0.5MiB of added page/wave budget.
+With the selected useful-copy budget,2.4873046875MiB of useful-byte allowance
+also remains; residual controls must obey both ledgers simultaneously. Generic
+partial/hybrid copies may use old padding only with explicit row-ID/address
+proof.22complete24wave backups fit the useful-byte allowance but use528waves,
+exceeding the512wave budget by1MiB. Forcing copies to original B's25wave profile
+would yield only20backups and is a weaker control. Whole-GU expert selection,
+locations, profiles and residual resources require comparable TRAIN effort.
+Per-chip allocated blocks and holes must be reported as well as useful/page/
+wave totals. Such controls are deliberately not fitted after this failed gate.
+
+Known versus unknown native contract
+-----------------------------------
+paper/aif.txt:744-749,761-779 describes ordinary dense GEMV with input dimension,
+block ID, block offset and page count. The views here change page count only:
+8or12pages for sources. paper/aif.txt:818-823 describes FIFO polling/output, but
+does not establish maxR/pagecount bits, complete-row/padding/partial-tail/reset
+behavior, actual output format/scaling or native host scatter. Input1536B is
+the same existing G4 operator; the paper's typical8--32KiB input description
+(724-743) is not a complete legal-shape encoding specification. Cross-block
+operations must split (925-928); none of these virtual bands crosses blocks.
+kernel/aif.h:11 explicitly says metadata only, no weights or GEMV outputs.
+Therefore page-prefix numerical correctness, FIFO behavior and scaling remain
+conditional existing ordinary-row limitations. Unknowns do not authorize a new
+row stop, validR, extra buffer, PE operation, context or free output omission.
+
+The construction is standard common-core/copied-suffix replication with two
+elastic sharding profiles. Neither the finite coordinate fit nor the symbolic
+coverage lemma is claimed as a new theorem. Root's closest-prior audit is in
+the adjacent closest-prior directory; this independent contract does not
+establish priority or a publication claim.

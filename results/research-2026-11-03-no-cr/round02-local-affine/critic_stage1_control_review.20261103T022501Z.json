@@ -1,0 +1,54 @@
+{
+  "status": "approved_for_bounded_implementation_design",
+  "reviewer": "/root/critic_sol",
+  "reviewed_at_utc": "2026-11-03T02:25:01Z",
+  "round": 2,
+  "scope": "Theory-only review of stronger controls for the existing eight unguarded primary operators; no new experimental round or outcome classification.",
+  "reviewed_artifact_sha256": {
+    "stage1_controls.protocol.draft.json": "06fc23d7c5fbd9ad5ef92f39916268728694919c102d30ba846707fd6504961a",
+    "thinking_stage1_sol.md": "cf7d9c3419928c4c64ee70eb5241f1488991be1a6a695e447cbf82259dfb3d3a",
+    "gemini_stage1_control_review.md": "8ed679bde97f45427867f86f5f0479f25d7ef56a98904e1cfb10c84593cf8790",
+    "stage1_root_review_notes.md": "2bef00ad5cb4d354d2b36139953521fb38cea650935f18bf2a3d4a8e52ec81c8"
+  },
+  "design_decision": "GO for the compact G-RRR and PE-RRR controls plus the primary pooled-OLS numerical closure. The design addresses real identification alternatives; no mathematical necessity currently protects the full conditional output bank. This is not source or data-execution approval.",
+  "minimal_identification_set": [
+    "Keep all eight preselected C32/r128/normal/unweighted/N120/guard100 local points unchanged.",
+    "Primary pooled eta values are zero: perform one matched two-stage numerical/lowering closure, not a new eta-by-lambda grid.",
+    "G-RRR: one expert-specific full-input slope factored into U,V, retaining the same contextual biases and actual Stage0 full-H decoded-A8 input design.",
+    "PE-RRR: one expert-specific U shared across leaves and conditional small B_c, using the same centered decoded-A8 low-rank design and fixed float shrink estimator.",
+    "Exactly q128 FP32 and q512 W8 main endpoints; q128 W8 and native-A8-latent execution remain explicitly predeclared diagnostics rather than a new rank/format search."
+  ],
+  "mathematical_closure": [
+    "M_target correctly minimizes teacher FIT SSE only among output projections of the fixed float ridge predictions. It is not joint unrestricted unpenalized RRR, a deployed-quantization optimum, or a new theorem.",
+    "Use weighted within-leaf centered teacher Y and Z=actual decoded-A8 input minus its weighted leaf mean. Centered full-precision x does not imply centered quantized Z.",
+    "Preserve the fixed real-valued ridge estimator when constructing M; post-W8 predictions and recalibrated deployment biases require separate actual-arithmetic evaluation.",
+    "Freeze eigensolver, sign/tie policy and numerical-rank handling. Rank-at-most-q should not add directions with negative teacher-SSE benefit; any PSD claim retains the stated same-FIT weighted contraction assumptions.",
+    "G-RRR still uses contextual centers, biases and quantization. It is a global slope in those features, not a literal globally affine function of unquantized F32 x.",
+    "If a fixed-U oracle floor is reported for a W8 path, use the actual dequantized U column-space projector, such as U U-dagger, and that path's frozen biases. The ideal orthonormal U floor does not bound a different quantized span."
+  ],
+  "required_freeze_closures_before_execution": [
+    "Declare exact host floating arithmetic separately from native integer/F32 order. All-host latents may remain floating point; do not impose a gratuitous second A8 quantizer.",
+    "Fix any FIT RMS gauge policy and its max-coordinate-RMS/16 floor. If two lowerings are retained, predeclare their role and VALID-only choice rather than select from SCORE.",
+    "Recalibrate biases from actual deployed FIT predictions using the original runtime input. Ideal centered algebra alone is insufficient.",
+    "Any N80 learning curve must reconstruct supervised U, M and slopes using only N80 teacher targets. Reusing N120 supervised U is not an N80 data-efficiency result; the existing unsupervised tree/P convention can remain separately disclosed.",
+    "Freeze the new finite comparisons, data-development labels, cost dimensions and source/build gate. Preserve the original Stage0 comparison family and results unchanged."
+  ],
+  "cost_and_falsification": [
+    "Matching operator error with a smaller factor bank can falsify representational necessity of C full-output matrices for this finite family. It does not automatically falsify a systems advantage if host latency or other costs increase.",
+    "A systems dominance claim requires actual whole-bank residency, host traffic/compute, conversion, scales, biases, P/tree, non-FFN, shared placement, KV, workspace and cache behavior under both inclusive 8e9-byte and 8-GiB budgets. Zero NAND reads is not zero latency.",
+    "Keep EPYC pilot timings separate from target-host models and native AiF schedules. Eight cached operators do not reproduce a full-model working set; shared-branch placement and legal CPU/NAND overlap are symmetric choices.",
+    "Use prespecified paired prompt-level error comparisons on the same natural-route reference; no arbitrary percent cutoff or SCORE-based control reselection.",
+    "A successful G or PE point is an identification counterexample, not proof that its proposed causal explanation uniquely generated the observed gap. A failed fixed rank/precision point does not eliminate all global or common-output models.",
+    "Improving curves, wide or undefined bands, sparse routes, or crossed quality/resource frontiers remain limited or inconclusive. A credible local-bank Pareto point may advance within this same round without strict victory over every control on every metric.",
+    "The eight unguarded operators cannot dispose of other guarded points, complete mixtures, all layers or free-running quality. Publication value still requires a meaningful quality/latency/resource frontier beyond the strong controls; existing affine/RRR machinery is not itself novel."
+  ],
+  "reviewer_access": {
+    "SCORE_outcomes_read": false,
+    "TEST_read": false,
+    "candidate_implementation_or_probe_executed": false,
+    "candidate_code_modified": false,
+    "files_written": "Only this unique critic receipt and the critic research note."
+  },
+  "data_execution_authorized": false,
+  "scientific_success_or_failure_assigned": false
+}

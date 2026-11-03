@@ -1,0 +1,43 @@
+{
+  "status": "Completed reproducible second-backend placement test and conditional depth-capacity audit; no publication breakthrough established",
+  "scope": "Published3D-FPIM software backend, unchanged hardware geometry and native instruction vocabulary. Single G4 layer64 experts fixed1280 matrix cores. First3 layers, train32x64 routes only; no holdout or numeric inference.",
+  "reproduce": [
+    "python3 build_backend.py",
+    "python3 run_mapping_experiment.py --steps 40000",
+    "python3 audit_hypergraph.py",
+    "python3 audit_depth_capacity.py"
+  ],
+  "working_directory": "results/research-2026-11-02/round2/3dfpim-placement",
+  "backend_evidence": {
+    "original_compiler_build": "PASS",
+    "adapted_compiler_build": "PASS",
+    "adapter": "Fixed core-to-tile mapping input inserted before original movement insertion; original partitioner is copied separately, original upstream is unchanged. Hardware common.h hashes identical.",
+    "native_trace_attempts": 22,
+    "native_trace_passes": 20,
+    "native_trace_failures": "2 original GP_RANDOM graph cases hit original linearizer input-guard assertion. Analytic GP_RANDOM scores are explicitly not claimed executable; fixed random physical mapping with original semantic affinity executes.",
+    "counter_equality": "Every successful checked trace exactly matches independently counted load/store/send/receive and864 MVM depth instructions; zero register spill.",
+    "fixed_addresses": "Two different selected routes share60 active matrix cores with identical physical tile/core addresses, checked for both private/aggregate outputs.",
+    "not_established": "Native chip runtime, binary/weight programming ABI, numerical accuracy and calibrated cycles/energy. NVSim cannot complete without unpublished example configuration parameters."
+  },
+  "placement_result": {
+    "strong_control": "Same native input multicast, activation placement, output policy, capacity and instruction work for all mappings. Marginal multicast affinity baseline uses no joint routing tuples. Corrected-endpoint weighted graph is our greedy/annealing solver, not KaHIP.",
+    "private_output_query_gain_percent_by_layer": [1.47022462293398, 1.1123086454810638, 1.733045950082779],
+    "local_output_aggregation_query_gain_percent_by_layer": [2.1498621435800835, 1.412613806521601, 3.495011372631218],
+    "metric": "Train mean send element-length units; no dtype bytes, hardware latency or model speedup claimed.",
+    "reduction_scope": "Existing MULI and ADD instructions implement the same aggregation graph for every layout. Alpha values differ per expert in the toy graph. Precision/scale/order fidelity is unverified, so this is native graph composition and movement only.",
+    "decision": "Traffic gains alone are small, train-only, and exactly expressible as conventional connectivity hypergraph partitioning. Do not claim a new objective or algorithm.",
+    "independent_audit": "12 exact standard hypergraph evaluations match native multicast objective. Nets include selected common-input consumers, paired gate/up, private activations, and the identical selected-output aggregation policy; fixed IO terminals and exact core capacity are represented."
+  },
+  "depth_packing_result": {
+    "hardware_status": "Unverified existing-hardware composition. The source does not establish nonzero absolute-depth group start, independent accumulator clear, programming offsets or numerical QA-ADC scale. No invented reset interpreter is used.",
+    "conditional_capacity_audit": "PASS all unique addresses and all same-layer/phase core collisions. Granite3 geometry admits1152 cores at exact depth-slot capacity floor through purely route-oblivious cross-layer packing; no MoE anti-coactivation required. GU/down core pools disjoint.",
+    "granite4tiny_geometry": "40-layer expert slots alone require at least5760 cores, exceeding original5376; non-expert weights and quantization can only add requirements.",
+    "prior": "3D-aCortex already specifies3D kernel packing and explicit layer-select/reset in its own design. IBM US20240086682A1 directly describes MoE expert tiers, including NAND, and sequential selected-expert execution. Neither is evidence for3D-FPIM's missing reset contract.",
+    "decision": "No capacity-fit novelty claim. Only a separately demonstrated latency/movement/throughput tradeoff beyond route-oblivious cross-layer dense packing could justify more work, after the existing instruction contract is verified."
+  },
+  "evidence_files": [
+    "results.json", "fixed_mappings.npz", "independent_objective_audit.json",
+    "adapter_manifest.json", "offline_mapping_adapter.diff", "crosschecks",
+    "depth_packing_boundary.json", "depth_sources.json", "depth_capacity_audit.json"
+  ]
+}

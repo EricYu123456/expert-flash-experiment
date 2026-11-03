@@ -1,0 +1,142 @@
+{
+  "status": "PASS",
+  "audit_source_sha256": "f45aa3f2d63cb2125343e4e073bd361ec36d12fc7fb12cba61ff631d817f797a",
+  "execution_source_sha256": "bcde27d7c73bc83ad4072aad0bcfb4f4d1fb14fa28e8a8de8e488c289f633bdf",
+  "mode": "screen",
+  "checks": {
+    "physical_pages": 172512,
+    "layer_plans": 9,
+    "representative_traces": 9
+  },
+  "capacity": [
+    {
+      "case": "phase_triples",
+      "layer": 0,
+      "stored_MiB": 331.5,
+      "extra_GU_MiB": 87,
+      "extra_Down_MiB": 96.0,
+      "nonempty_blocks": 28,
+      "allocated_budget_blocks": 32
+    },
+    {
+      "case": "phase_triples",
+      "layer": 1,
+      "stored_MiB": 331.5,
+      "extra_GU_MiB": 87,
+      "extra_Down_MiB": 96.0,
+      "nonempty_blocks": 28,
+      "allocated_budget_blocks": 32
+    },
+    {
+      "case": "phase_triples",
+      "layer": 2,
+      "stored_MiB": 331.5,
+      "extra_GU_MiB": 87,
+      "extra_Down_MiB": 96.0,
+      "nonempty_blocks": 28,
+      "allocated_budget_blocks": 32
+    },
+    {
+      "case": "phase_onecopy",
+      "layer": 0,
+      "stored_MiB": 235.5,
+      "extra_GU_MiB": 87,
+      "extra_Down_MiB": 0.0,
+      "nonempty_blocks": 28,
+      "allocated_budget_blocks": 32
+    },
+    {
+      "case": "phase_onecopy",
+      "layer": 1,
+      "stored_MiB": 235.5,
+      "extra_GU_MiB": 87,
+      "extra_Down_MiB": 0.0,
+      "nonempty_blocks": 28,
+      "allocated_budget_blocks": 32
+    },
+    {
+      "case": "phase_onecopy",
+      "layer": 2,
+      "stored_MiB": 235.5,
+      "extra_GU_MiB": 87,
+      "extra_Down_MiB": 0.0,
+      "nonempty_blocks": 28,
+      "allocated_budget_blocks": 32
+    },
+    {
+      "case": "group_triples",
+      "layer": 0,
+      "stored_MiB": 331.5,
+      "extra_GU_MiB": 87,
+      "extra_Down_MiB": 96.0,
+      "nonempty_blocks": 28,
+      "allocated_budget_blocks": 32
+    },
+    {
+      "case": "group_triples",
+      "layer": 1,
+      "stored_MiB": 331.5,
+      "extra_GU_MiB": 87,
+      "extra_Down_MiB": 96.0,
+      "nonempty_blocks": 28,
+      "allocated_budget_blocks": 32
+    },
+    {
+      "case": "group_triples",
+      "layer": 2,
+      "stored_MiB": 331.5,
+      "extra_GU_MiB": 87,
+      "extra_Down_MiB": 96.0,
+      "nonempty_blocks": 28,
+      "allocated_budget_blocks": 32
+    }
+  ],
+  "paired": [
+    {
+      "input_copies": 1,
+      "priority": "GF",
+      "baseline": "equal_byte_group_triples",
+      "cost_arrays_exact": true,
+      "mean_gain": 0.0,
+      "event_p99_gain": 0.0,
+      "slower": 0,
+      "equal": 192,
+      "faster": 0
+    },
+    {
+      "input_copies": 1,
+      "priority": "GF",
+      "baseline": "old_candidateperm_triples",
+      "cost_arrays_exact": true,
+      "mean_gain": 0.0,
+      "event_p99_gain": 0.0,
+      "slower": 0,
+      "equal": 192,
+      "faster": 0
+    },
+    {
+      "input_copies": 1,
+      "priority": "GF",
+      "baseline": "old_RRperm_triples",
+      "cost_arrays_exact": false,
+      "mean_gain": 0.004985327036788445,
+      "event_p99_gain": 0.06803851086024859,
+      "slower": 52,
+      "equal": 56,
+      "faster": 84
+    },
+    {
+      "input_copies": 1,
+      "priority": "GF",
+      "baseline": "old_g8fixed_triples",
+      "cost_arrays_exact": false,
+      "mean_gain": 0.048686703152904354,
+      "event_p99_gain": 0.17966698443704932,
+      "slower": 0,
+      "equal": 81,
+      "faster": 111
+    }
+  ],
+  "contribution_scope": "Phase placement is not uniquelyneeded: equalbyte standard wholeGU group copies reproduce everymeasured FFN cost and eventcount. Both replace programmablePBsource by extra87MiBGUstorage underconditionalfixedsource/IPR/drop/PB contract. No placement/CBCalgorithmnovelty.",
+  "limits": "PreviouslyobservedTRAIN, noheldout/fullweights/nativehardwaremeasurement. SameWL groupwhole-dummyoptionalkernel is not splitIPRprimary."
+}

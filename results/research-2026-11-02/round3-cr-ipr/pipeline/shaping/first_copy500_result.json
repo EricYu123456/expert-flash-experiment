@@ -1,0 +1,115 @@
+{
+  "splits": [
+    [
+      10,
+      1
+    ]
+  ],
+  "config": {
+    "page_bytes": 16384,
+    "row_bytes": 1536,
+    "cold_ns": 28000,
+    "cr_ns": 9700,
+    "recycle_ns": 6040,
+    "ecc_bytes_per_second": 6400000000,
+    "cache_copy_ns": 500,
+    "weight_slots": 2,
+    "overwrite_at": "evaluation_start",
+    "copy_overlaps_recycle": true,
+    "availability_phase_ns": 0,
+    "source_policy": "permutation",
+    "issue_policy": "strict_no_interval",
+    "array_mode": "cr",
+    "copy_scope": "per_plane",
+    "validate_row_stream": true,
+    "unselected_policy": "drop_before_ecc_conditional",
+    "cold_discharge_ns": 0
+  },
+  "waves": 13,
+  "pages": 48,
+  "bytes": 786432,
+  "physical_read_pages": 52,
+  "physical_read_bytes": 851968,
+  "ecc_pages": 48,
+  "ecc_bytes": 786432,
+  "functional_ok": true,
+  "timing_feasible": true,
+  "feasible": true,
+  "makespan_ns": 155140,
+  "hypothetical_makespan_ns": 155140,
+  "array_end_ns": 144400,
+  "array_busy_ns": 144400,
+  "ecc_busy_ns": 122880,
+  "issue_stall_ns": 0,
+  "cold_waves": 1,
+  "cr_waves": 12,
+  "first_page_ready_ns": 28000,
+  "first_ecc_page_complete_ns": 31060,
+  "peak_unconsumed_pages": 7,
+  "resource_bounds": {
+    "array_service_ns": 144400,
+    "ecc_service_ns": 122880,
+    "first_release_plus_ecc_ns": 150880,
+    "unlimited_weight_buffer_release_ecc_lb_ns": 154640,
+    "combined_lower_bound_ns": 154640,
+    "interpretation": "Necessary resource/release bounds only; finite PB scheduling is checked separately."
+  },
+  "conservation": {
+    "requested_pages": 48,
+    "array_read_pages": 52,
+    "unselected_read_pages": 4,
+    "ecc_completed_pages": 48,
+    "useful_ecc_completed_pages": 48,
+    "array_bytes": 851968,
+    "ecc_bytes": 786432,
+    "cache_copies": 48,
+    "each_page_once": true,
+    "resource_intervals_audited": true,
+    "physical_trace_valid": true
+  },
+  "violation_count": 0,
+  "first_violation": null,
+  "stream_errors": [],
+  "dummy_addresses": [
+    {
+      "page_id": "e6.p0",
+      "owner": "e6",
+      "page_index": 0,
+      "plane": 0,
+      "block": 0,
+      "wl": 12,
+      "bytes": 16384,
+      "dummy_unselected_expert": 6
+    },
+    {
+      "page_id": "e6.p1",
+      "owner": "e6",
+      "page_index": 1,
+      "plane": 1,
+      "block": 0,
+      "wl": 12,
+      "bytes": 16384,
+      "dummy_unselected_expert": 6
+    },
+    {
+      "page_id": "e6.p2",
+      "owner": "e6",
+      "page_index": 2,
+      "plane": 2,
+      "block": 0,
+      "wl": 6,
+      "bytes": 16384,
+      "dummy_unselected_expert": 6
+    },
+    {
+      "page_id": "e6.p5",
+      "owner": "e6",
+      "page_index": 5,
+      "plane": 3,
+      "block": 0,
+      "wl": 6,
+      "bytes": 16384,
+      "dummy_unselected_expert": 6
+    }
+  ]
+}

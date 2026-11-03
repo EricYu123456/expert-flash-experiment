@@ -1,0 +1,101 @@
+{
+  "cases": [
+    {
+      "rows_per_shard": 1,
+      "columns": 1,
+      "parity_count": 1,
+      "all_chip_erasure_patterns_checked": 16,
+      "extra_weight_fraction": 0.25,
+      "exact_integer_outputs": true,
+      "distinct_post_row_scales_supported": true
+    },
+    {
+      "rows_per_shard": 1,
+      "columns": 1,
+      "parity_count": 2,
+      "all_chip_erasure_patterns_checked": 136,
+      "extra_weight_fraction": 0.5,
+      "exact_integer_outputs": true,
+      "distinct_post_row_scales_supported": true
+    },
+    {
+      "rows_per_shard": 5,
+      "columns": 31,
+      "parity_count": 1,
+      "all_chip_erasure_patterns_checked": 16,
+      "extra_weight_fraction": 0.25,
+      "exact_integer_outputs": true,
+      "distinct_post_row_scales_supported": true
+    },
+    {
+      "rows_per_shard": 5,
+      "columns": 31,
+      "parity_count": 2,
+      "all_chip_erasure_patterns_checked": 136,
+      "extra_weight_fraction": 0.5,
+      "exact_integer_outputs": true,
+      "distinct_post_row_scales_supported": true
+    },
+    {
+      "rows_per_shard": 4,
+      "columns": 129,
+      "parity_count": 1,
+      "all_chip_erasure_patterns_checked": 16,
+      "extra_weight_fraction": 0.25,
+      "exact_integer_outputs": true,
+      "distinct_post_row_scales_supported": true
+    },
+    {
+      "rows_per_shard": 4,
+      "columns": 129,
+      "parity_count": 2,
+      "all_chip_erasure_patterns_checked": 136,
+      "extra_weight_fraction": 0.5,
+      "exact_integer_outputs": true,
+      "distinct_post_row_scales_supported": true
+    },
+    {
+      "rows_per_shard": 3,
+      "columns": 2048,
+      "parity_count": 1,
+      "all_chip_erasure_patterns_checked": 16,
+      "extra_weight_fraction": 0.25,
+      "exact_integer_outputs": true,
+      "distinct_post_row_scales_supported": true
+    },
+    {
+      "rows_per_shard": 3,
+      "columns": 2048,
+      "parity_count": 2,
+      "all_chip_erasure_patterns_checked": 136,
+      "extra_weight_fraction": 0.5,
+      "exact_integer_outputs": true,
+      "distinct_post_row_scales_supported": true
+    }
+  ],
+  "total_erasure_checks": 608,
+  "fp32_failure": {
+    "exact_raw_output": 26431657,
+    "fp32_return_reconstruction": 26431658.0,
+    "demonstrates": "I32 raw-output mode is required for exact reconstruction; FP32 is insufficient."
+  },
+  "groupwise_scale_failure": {
+    "actual_first_output": 38.0,
+    "invalid_naive_reconstruction": 7.0,
+    "demonstrates": "Column-group quantization needs per-group partial recovery or a different code."
+  },
+  "assumptions": [
+    "Equal-shaped sixteen data shards; original g8/unequal row layouts require padding/repartitioning.",
+    "Native signed INT8 weights and INT8 vector, raw I32 dot outputs before nonlinearities/scales.",
+    "No claim of bitwise parity for BF16/FP16 inputs or current GGUF groupwise Q8 arithmetic.",
+    "Two opposite data halves; P/Q each have two radix parts on disjoint destinations.",
+    "Recovery uses measured-or-modeled extra GEMV, transfers and I64 host work, not zero time."
+  ],
+  "prior_art": [
+    "Coded matrix-vector multiplication is established.",
+    "TR-ABFT already uses this signed radix-256 checksum decomposition.",
+    "RAIL/TTFLASH already use NAND parity to avoid blocking."
+  ],
+  "source_sha256": "e6804997d61c2538e527ed62ac65c7ceef76c8393007f9b3c117d0121fc5f20f",
+  "seconds": 0.23479294776916504
+}

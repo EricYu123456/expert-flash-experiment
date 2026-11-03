@@ -1,0 +1,324 @@
+{
+  "created_utc": "2026-11-01T19:57:59.671650+00:00",
+  "scope": "Existing hardware physical placement only; unchanged routing, quality, quantization, sparsity, decoder, ABI and operator set. Dense-GEMV composition with host summation is conditional on the existing documented output contract.",
+  "verdict": "Zero confirmed novel methods. Two falsifiable experimental branches remain; prior art already covers their broad ideas. Whole-row negative results cannot exclude native partial-column compositions.",
+  "sources": [
+    {
+      "id": "cambricon2024",
+      "title": "Cambricon-LLM: A Chiplet-Based Hybrid Architecture for On-Device Inference of 70B LLM",
+      "year": 2024,
+      "venue_or_version": "MICRO 2024; author arXiv2409.15654v1",
+      "url": "https://arxiv.org/html/2409.15654v1",
+      "github": null,
+      "read_depth": "Read architecture IV-B, hardware-aware tiling V-A/V-B, experiment hardware table; searched v1 for expert.",
+      "verified_finding": "Native page-sized matrix work; two-axis tiling across cores/channels; transfer-minimizing tile aspect ratio; result vectors returned to NPU. Column partition logically requires output reduction.",
+      "scope_limit": "No expert-specific coactivation orientation located in v1. Partial reduction is inferred from its explicit column decomposition, not a quoted partial-sum passage. Hardware input broadcast and its custom flash design are not capabilities established for AiF."
+    },
+    {
+      "id": "flexllm2026",
+      "title": "Cambricon-FlexLLM: A Flexible Chiplet-Based Hybrid Architecture for On-Device 70B LLM Inference",
+      "year": 2026,
+      "venue_or_version": "ACM TACO; DOI10.1145/3844618",
+      "url": "https://dl.acm.org/doi/10.1145/3844618",
+      "github": null,
+      "read_depth": "Metadata/title verified; publisher full text403; no full author manuscript obtained.",
+      "verified_finding": "This is a potentially closest later version and remains unresolved.",
+      "scope_limit": "Cannot say full text was checked or that activation-aware placement/shape optimization was excluded. Do not use a third-party summary as a substitute for primary full text."
+    },
+    {
+      "id": "hda2026",
+      "title": "Hybrid Parallelism and Dynamic, Adaptive Scheduling for Mixture-of-Experts with 3D Near-Memory Processing",
+      "year": 2026,
+      "venue_or_version": "IEEE TCAD; DOI10.1109/TCAD.2026.3733620",
+      "url": "https://ieeexplore.ieee.org/document/11690625",
+      "github": "https://github.com/angerybob/HDA-MoE",
+      "read_depth": "Read author repository README and node_allocation.py lines43-146,499-559; paper full text not obtained.",
+      "verified_finding": "Source allows fractional expert weight share P[e,d], binary participation Z[e,d], capacity constraints, marginal-frequency compute costs, and coactivation-set communication union costs.",
+      "scope_limit": "No explicit NAND page/WL rounding, rectangular fusion, 2:1 column shape, or partial-output multiplicity found in reviewed source. Its fractional+coactivation concepts already cover the broad proposed framing. Original-routing ICCAD2025 predecessor matters for fixed-routing comparison.",
+      "pinned_commit": "56ea3725b2c621d4aea248f16345c34f5e06b8ed",
+      "source_url": "https://github.com/angerybob/HDA-MoE/blob/56ea3725b2c621d4aea248f16345c34f5e06b8ed/node_allocation.py",
+      "downloaded_source_sha256": "7c044365d8c106c1de52e825dac244045211ae6f59acf099f2914b006b3c0f3b"
+    },
+    {
+      "id": "hd2025",
+      "title": "HD-MoE: Hybrid and Dynamic Parallelism for Mixture-of-Expert LLMs with 3D Near-Memory Processing",
+      "year": 2025,
+      "venue_or_version": "ICCAD2025; DOI10.1109/ICCAD66269.2025.11240984",
+      "url": "https://doi.org/10.1109/ICCAD66269.2025.11240984",
+      "github": "https://github.com/angerybob/HDA-MoE",
+      "read_depth": "Verified predecessor citation and author README comparison; no full paper read.",
+      "verified_finding": "Predecessor uses hybrid parallelism and keeps original routing; suitable fixed-routing conceptual baseline rather than importing HDA gating.",
+      "scope_limit": "No claim about its detailed shape-selection algorithm without full text."
+    },
+    {
+      "id": "hexa2024",
+      "title": "HEXA-MoE: Efficient and Heterogeneous-aware MoE Acceleration with ZERO Computation Redundancy",
+      "year": 2024,
+      "venue_or_version": "arXiv2411.01288v1; formal venue not verified",
+      "url": "https://arxiv.org/html/2411.01288v1",
+      "github": "https://github.com/UNITES-Lab/HEXA-MoE",
+      "read_depth": "Read sections4.3/4.4 and official README.",
+      "verified_finding": "Experts are partitioned along FFN hidden dimension; local outputs combine by all-reduce. Unequal hidden widths derive from measured device throughput.",
+      "scope_limit": "No NAND cost or documented expert-coactivation-conditioned asymmetric orientation found. Its custom GPU operators cannot be assumed native AiF functionality."
+    },
+    {
+      "id": "occult2025",
+      "title": "Occult: Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference",
+      "year": 2025,
+      "venue_or_version": "ICML2025; PMLR267:41235-41253",
+      "url": "https://proceedings.mlr.press/v267/luo25f.html",
+      "github": "https://github.com/UNITES-Lab/Occult",
+      "read_depth": "Read author/publisher full PDF sections3.1/3.2, Algorithm1; downloaded PDF and text.",
+      "verified_finding": "Exact system-only path uses expert coactivation for placement, shares input dispatch among colocated experts, and aggregates locally before cross-device communication.",
+      "scope_limit": "Separate collaboration-pruning path changes the model and is excluded. Reviewed sections do not specify NAND rectangular shape optimization.",
+      "pdf_url": "https://raw.githubusercontent.com/mlresearch/v267/main/assets/luo25f/luo25f.pdf",
+      "pdf_sha256": "5b7cfdb82806707d080982b186caddf272159601c2b8bc85eab03ba326991f30"
+    },
+    {
+      "id": "ktransformers2025",
+      "title": "KTransformers: Unleashing the Full Potential of CPU/GPU Hybrid Inference for MoE Models",
+      "year": 2025,
+      "venue_or_version": "SOSP2025",
+      "url": "https://madsys.cs.tsinghua.edu.cn/publication/ktransformers-unleashing-the-full-potential-of-cpu/gpu-hybrid-inference-for-moe-models/SOSP25-chen.pdf",
+      "github": "https://github.com/kvcache-ai/ktransformers",
+      "read_depth": "Read NUMA tensor-parallel partition paragraph/Figure8, corresponding local extracted text.",
+      "verified_finding": "Expert matrices are row/column partitioned across NUMA sockets; local results combined using lightweight reduce-scatter.",
+      "scope_limit": "Does not establish NAND page geometry or coactivation orientation in read portion. Expert deferral changes execution semantics and is excluded from our physical-only comparison.",
+      "pdf_sha256": "d3c5af7a9e118aef23f0fc2b95a61bfe098979b56680a1291a7b41b848e328f3"
+    },
+    {
+      "id": "tutel2023",
+      "title": "Tutel: Adaptive Mixture-of-Experts at Scale",
+      "year": 2023,
+      "venue_or_version": "MLSys2023",
+      "url": "https://proceedings.mlsys.org/paper_files/paper/2023/file/5616d34cf8ff73942cfd5aa922842556-Paper-mlsys2023.pdf",
+      "github": "https://github.com/microsoft/Tutel",
+      "read_depth": "Read abstract and official README only in this review.",
+      "verified_finding": "Adaptive combinations of data/model/expert parallelism and unified layout are established.",
+      "scope_limit": "Not evidence of this exact asymmetric NAND split. Its 2DH communication term means hierarchical all-to-all, not two-axis matrix tiling."
+    },
+    {
+      "id": "flashpim2025",
+      "title": "Dissecting and Re-architecting 3D NAND Flash PIM Arrays for Efficient Single-Batch Token Generation in LLMs",
+      "year": 2025,
+      "venue_or_version": "arXiv2511.12860v1",
+      "url": "https://arxiv.org/html/2511.12860v1",
+      "github": null,
+      "read_depth": "Read IV-B/Figures11-12.",
+      "verified_finding": "Enumerates row/column tiling combinations across channel/way/die/plane, trading input broadcast/scatter against result concatenation/reduction.",
+      "scope_limit": "Its new H-tree/RPUs/analog PIM architecture is not an existing AiF mechanism. No MoE-specific coactivation mechanism located in reviewed text."
+    },
+    {
+      "id": "rlv2020",
+      "title": "RLV: Latency Variation Aware Read Performance Optimization on 3D High Density NAND Flash Memory",
+      "year": 2020,
+      "venue_or_version": "GLSVLSI2020:411-414; DOI10.1145/3386263.3406953",
+      "url": "https://doi.org/10.1145/3386263.3406953",
+      "github": null,
+      "read_depth": "Official indexed abstract read; direct full text unavailable.",
+      "verified_finding": "Places read-hot data into appropriate low-latency bit-page types.",
+      "scope_limit": "TLC page-type latency is not measured variation inside the fixed LSB/be-enc mode of the current service model; hot-fast placement itself is prior."
+    },
+    {
+      "id": "readguard2024",
+      "title": "ReadGuard: Integrated SSD Management for Priority-Aware Read Performance Differentiation",
+      "year": 2024,
+      "venue_or_version": "ACM TOS20(4),article25; DOI10.1145/3676884",
+      "url": "https://doi.org/10.1145/3676884",
+      "github": null,
+      "read_depth": "Read official publisher search-indexed sections3.1/5.2/limitations; full direct publisher page403.",
+      "verified_finding": "Uses real-chip block-quality read-latency variation, fast-block priority placement and priority-aware preemption.",
+      "scope_limit": "Paper notes low-retry regimes weaken its premise. No measured transfer of its LDPC/retry variation to AiF be-enc/ECC settings; no author artifact verified."
+    },
+    {
+      "id": "lepa2025",
+      "title": "LEPA: Latency estimation-based page allocation for improving SSD performance",
+      "year": 2025,
+      "venue_or_version": "IEICE Electronics Express22(19),20250435; DOI10.1587/elex.22.20250435",
+      "url": "https://globals.ieice.org/en_publications/elex/10.1587/elex.22.20250435/_f",
+      "github": null,
+      "read_depth": "Read official HTML sections2-4.",
+      "verified_finding": "Page allocation estimates read/write/erase load and exploits independent-wordline operation.",
+      "scope_limit": "Independent-WL support is a hardware assumption, not established for ordinary same-address multipane AiF. General latency-aware placement is prior."
+    },
+    {
+      "id": "ptdm2023",
+      "title": "Page Type-Aware Data Migration Technique for Read Disturb Management of NAND Flash Memory",
+      "year": 2023,
+      "venue_or_version": "IEEE TVLSI; DOI10.1109/TVLSI.2023.3240172",
+      "url": "https://dtl.yonsei.ac.kr/docs/International_Journal/%5B2023%5D%5BIEEE_TVLSI%5DPage%20Type%20aware%20Data%20Migration%20Technique%20for%20Read%20Disturb%20Management%20of%20NAND%20Flash%20Memory.pdf",
+      "github": null,
+      "read_depth": "Read abstract,II-B,III-B,IV-A.",
+      "verified_finding": "Already distributes read-hot pages into free/low-read blocks and isolates cold blocks; explicitly benefits when free capacity is sufficient.",
+      "scope_limit": "Its simulation read-disturb thresholds are not calibration of our fixed be-enc/LSB target. Spreading hot model weights over empty blocks is not by itself new."
+    },
+    {
+      "id": "straw2025",
+      "title": "STRAW: A Stress-Aware WL-Based Read Reclaim Technique for High-Density NAND Flash-Based SSDs",
+      "year": 2025,
+      "venue_or_version": "arXiv2501.02517v1",
+      "url": "https://arxiv.org/html/2501.02517v1",
+      "github": null,
+      "read_depth": "Read II-III-A.",
+      "verified_finding": "Real-chip study measures WL-adjacency stress asymmetry and endurance variation, then models weighted WL stress.",
+      "scope_limit": "Changing reclaim policy is outside the proposed placement-only scope. Physical adjacency may create nonseparable placement cost, but target-specific calibration and a stronger prior search are needed."
+    },
+    {
+      "id": "sweep2026",
+      "title": "SWEEP: Gathering Hot Read/Write Data Together To Minimize Read Reclaims in SSDs",
+      "year": 2026,
+      "venue_or_version": "ACM TODAES31(5),article90; DOI10.1145/3795519",
+      "url": "https://doi.org/10.1145/3795519",
+      "github": "https://github.com/912ssdlab/Source-Code-for-SWEEP",
+      "read_depth": "Read official indexed abstract/method excerpt and title-matching repository README; source not run.",
+      "verified_finding": "Joint read/write heat grouping uses garbage collection to reset read stress.",
+      "scope_limit": "A read-only immutable model does not generate user-write GC. Formal author-to-repo crosslink was not independently verified; repository is labeled title-matching rather than an authenticated artifact."
+    }
+  ],
+  "candidates": [
+    {
+      "id": "native_rectangular_2d",
+      "status": "Untested native-contract branch; direct2D/fractional-sharding prior; mixed-profile screen has zero residual benefit.",
+      "mechanism": "Use column-asymmetric contiguous dense rectangles to redistribute one-copy wave work, and fuse adjacent page atoms into larger native rectangles to reduce command and partial-output costs. Learn only static physical owners; sum existing result vectors on host.",
+      "geometry": "Granite4Tiny GU:R1024,C1536;8 rowblocks128;1024/512-column split yields2/1waves on paired8-chip halves. Qwen down:R2048,C768;8 rowblocks256;512/256 yields2/1waves.",
+      "oracle": "For per-expert g in{0,1,2,3}, S=sum selected g and Z=selected interior count. Native-accounting objective before host sum is28us*max(S,3K-S)+(2000ns+R/2)*(K+Z)+2us+K*C/2. Per-query unrestricted g is an optimistic lower bound, not a static layout. A static exact MILP or certified bound must include command/fusion/output multiplicity.",
+      "prior_attack": [
+        "Cambricon-LLM already optimizes2D page-tile shape and communication.",
+        "HDA-MoE code already has fractional expert shares and coactivation-set communication.",
+        "HEXA-MoE/KTransformers already combine partial expert outputs.",
+        "Occult already optimizes coactivation-driven dispatch sharing and local aggregation.",
+        "Generic fixed512-column64KiB atoms with legal rectangular repacking/fusion contain the proposed2:1 family. Handicapping this control as uncoalesced24commands/expert would create a false advantage."
+      ],
+      "strong_baselines": [
+        "All phase-specific unbalanced-count whole-row layouts.",
+        "Same trained binary colors for03 and12, with identical normalized search trajectories.",
+        "Generic2D atom declustering with the same contiguous-rectangle fusion, native command, input reload and output reduction costs.",
+        "Cambricon-style hardware shape optimized under actual AiF contracts, without importing its broadcast hardware.",
+        "Random,frequency and coactivation colors; equal-half columns; fixed and mixed shapes under matched search budgets."
+      ],
+      "minimal_experiment": "Done:32original-train prompts×64steps; G4first3GU and Qwenfirst2down, no heldout. Read mixed-columns/screen.json. Need native-output legality plus root host-sum measurement before any performance conclusion.",
+      "failure_gates": [
+        "No supported existing result contract for correct host summation.",
+        "Shape-dependent PE throughput or measured host reduction consumes the analytic margin.",
+        "Improvement disappears against equally coalesced generic2D baseline.",
+        "Mixed shape freedom produces no residual improvement: observed here in all five phases, conditional on heuristic search, so do not expand that subbranch."
+      ],
+      "claim_boundary": "A genuine contribution would need a new proven command/communication coupling or a hardware-grounded optimality characterization. Calling2D, fractional sharding, or learned orientation new is unsupported."
+    },
+    {
+      "id": "calibrated_same_mode_physical_effects",
+      "status": "No calibrated target evidence yet; do not invent positive simulation.",
+      "mechanism": "Keep existing commands and maintenance/ECC policies fixed, change only static PPAs; measure same-LSB/be-enc latency variation or read-only WL-neighbor stress that a homogeneous independent-bucket model cannot represent.",
+      "oracle": [
+        "Latency: capacity-aware assignment to measured legal contiguous4-plane/WL runs. An unrestricted per-query fast-location assignment lower-bounds static performance.",
+        "Read stress: measured adjacency kernel and victim endurance constraints under fixed reclaim policy; fractional/QAP lower bound, plus a zero-maintenance foreground lower bound."
+      ],
+      "required_measurements": [
+        "Raw-PPA controllability and same allowed read mode/ECC/retry policy. NVMe-LBA latency alone under an unknown FTL is insufficient.",
+        "Per block/WL read time, retry/RBER, aging and temperature, split into calibration/validation intervals.",
+        "For read-only stress: stress kernel, endurance distribution, real service time to first reclaim, copied valid pages and fixed suspend/reclaim timings."
+      ],
+      "strong_baselines": [
+        "All-fast placement if all weights fit measured legal fast regions.",
+        "RLV/ReadGuard-style heat or priority placement.",
+        "Page-Type-Aware migration heat-only spread over low-read/free blocks.",
+        "Existing homogeneous legal geometry plus measured heterogeneous-cost declustering.",
+        "STRAW fixed maintenance policy; SWEEP only for a real mixed-write workload, never invented writes."
+      ],
+      "capacity_gate": "The20GiB/chip assumption is nonbinding for these models: G4useful0.3515625GiB/chip(1.758%); Qwen1.6875GiB/chip(8.438%). If all weights fit fast legal intervals, hot-fast optimization is trivial. Capacity must include all unrelated model data/spares before deployment claims.",
+      "analytic_null": "With a common reclaim threshold H and equal valid-copy cost, sum_b floor(N_b/H) differs from total_reads/H by less than the number of blocks. Mere heat balancing does not create an asymptotic total-reclaim reduction. Need measured nonuniform adjacency/endurance/valid occupancy or a sustained tail effect.",
+      "failure_gates": [
+        "No repeatable within-mode variation or no reclaim in the deployment service window.",
+        "Only known heat-sort/spread benefit remains.",
+        "Gain requires copied TLC thresholds, artificial near-full occupancy, invented user writes or unsupported retry/read modes.",
+        "Fixed existing suspend policy eliminates foreground advantage."
+      ],
+      "claim_boundary": "This is a measurement-dependent hypothesis, not an established new algorithm. A positive measured interaction still needs graph/QAP/heterogeneous-declustering and SSD-management novelty review."
+    }
+  ],
+  "negative_characterization": {
+    "status": "Potentially more defensible than another small heuristic placement gain, but a publishable result is not established.",
+    "required_new_evidence": [
+      "Resolve native denseGEMV address, shape, output/dequantization and host reduction contracts; separate whole-row limits from2D compositions.",
+      "Calibrate command dispatch, host launch, NAND read, vector transfer and actual PE throughput; ECC bandwidth is not PE compute throughput.",
+      "Provide certified lower bounds with integer rows/pages/waves, actual capacity and command/input/output costs. Heuristic failure is not optimality.",
+      "Use phase-specific unbalanced-count group baselines, non-power-of-two/overlapping stripe baselines, heterogeneous declustering and generic replication/fusion where allowed.",
+      "Pre-register a broader official-config geometry census and disjoint model/shape confirmation; do not select only discovered positive outliers.",
+      "Preserve training-only fit and exact freeze/holdout provenance. Existing public corpora seen for other models are not a blind source-family test.",
+      "Report routed-FFN service only unless shared FFN,SSM,attention and end-to-end measurements establish an Amdahl-correct full-model claim.",
+      "A useful theorem should identify reachable optimality regimes and a counterexample where native geometry/communication breaks a simpler bound. Our search failing is not itself such a theorem."
+    ]
+  },
+  "artifacts": {
+    "column_split_gate": "column_split_cost_gate.json",
+    "matched_mixed_train_screen": "mixed-columns/screen.json",
+    "primary_download_hashes": "download_receipts.json"
+  },
+  "limitations": [
+    "No physical AiF prototype or end-to-end timing measured here.",
+    "No new heldout data opened.",
+    "Cambricon-FlexLLM full text is unresolved403, not a cleared novelty threat.",
+    "At most two experimental branches are proposed; neither is a verified publication breakthrough."
+  ],
+  "matched_train_screen_results": {
+    "status": "Final: zero mixed-shape benefit beyond the strongest shared fixed-family controls in all five phases; no expansion.",
+    "search": "Shared28-run binary pool, then equal20runs per family per phase, each12000anneal iterations and up to100greedy sweeps. Binary colors discovered by any family are shared back to both fixed controls. Heuristic search, no global optimality claim.",
+    "granite4tiny": {
+      "phases": "first3gate_up",
+      "legacy_routed_ffn_ns": 1539197.53125,
+      "best_fixed_and_mixed_routed_ffn_ns": 1511586.484375,
+      "benefit_excluding_host_sum_pct": 1.7938598727206045,
+      "mixed_extra_pct": 0.0,
+      "per_layer_host_sum_break_even_ns": [
+        8159.9375,
+        9459.140625,
+        9991.96875
+      ],
+      "winner": "all1/2 rectangles in every examined phase"
+    },
+    "qwen3": {
+      "phases": "first2down",
+      "legacy_routed_ffn_ns": 2243035.046875,
+      "best_fixed_and_mixed_routed_ffn_ns": 2234250.484375,
+      "benefit_excluding_host_sum_pct": 0.39163732694407205,
+      "mixed_extra_pct": 0.0,
+      "winner": "layer0whole03 and layer1all1/2 rectangles",
+      "layer0_binary_refit_gain_ns": 1640.625,
+      "layer1_host_sum_break_even_ns": 7143.9375
+    },
+    "audit": "All32x64training routes checked against independent chip/rectangle ledger. Full routed weight placement remains one-copy, same total useful bytes/pages, legal4-plane waves and192WLblock fits. Per-chip inventory/reserved bytes may differ.20GiB/chip scenario nonbinding.",
+    "optimistic_oracle": [
+      {
+        "model": "granite4tiny",
+        "layer": 0,
+        "query_dependent_oracle_ns": 273680,
+        "best_fixed_mean_ns": 301904.34375
+      },
+      {
+        "model": "granite4tiny",
+        "layer": 1,
+        "query_dependent_oracle_ns": 273680,
+        "best_fixed_mean_ns": 302369.1875
+      },
+      {
+        "model": "granite4tiny",
+        "layer": 2,
+        "query_dependent_oracle_ns": 273680,
+        "best_fixed_mean_ns": 302287.15625
+      },
+      {
+        "model": "qwen3",
+        "layer": 0,
+        "query_dependent_oracle_ns": 365264,
+        "best_fixed_mean_ns": 401316.734375
+      },
+      {
+        "model": "qwen3",
+        "layer": 1,
+        "query_dependent_oracle_ns": 365264,
+        "best_fixed_mean_ns": 404549.75
+      }
+    ],
+    "main_scope_limit": "These are routed-FFN service predictions conditional on existing output summation support and inherited FP32 transfer assumptions. Host sum, native PE throughput and physical timing remain uncalibrated; not end-to-end speed."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "source_and_inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_physical_fault_placement_design.py": "7707357c1d5c560aa8fa9e2446f3f07c16f951e45672cf0c0f88909f794245fb",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/physical-fault-placement-design/QCFlash_artifact_v1.0.zip": "f4e434bb05d994b73bee78a77b95d66f68a70aa46f9d96077f7a2837aea06fbb",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/physical-fault-placement-design/artifact_receipt.json": "8fdf5a6e627f8baf1a45b94d3211a10bf517baa9c8fc102090a42c8d1f3af1e9",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/continuation/native/0107.npz": "7fb2789d65f9b59f73a516c5761161ca679fd2d0765c4ed7431a80d93c355abb",
+    "/home/ericyu/expert_flash_experiment/paper/aif.txt": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/physical-error-prior/review.json": "73b24cdefa81d2986cfcf1453027aee6aa1f6e13372938327f682e8010e9b2cc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/physical-reliability/notes.json": "3d3ad1b2232fa411a25c57c052f53b313cac3d5384eb7b111c8d513bf291ac41"
+  },
+  "zip_members_sha256": {
+    "QCFlash/data/vth_states_wl10.xlsx": "108b14c1cb8a4d2e3247245fc5d8c6ce701a93f93b9400957fb9e635ed29ca62",
+    "QCFlash/data/vth_states_wl11.xlsx": "f1847578187ccde5fb5fa6fb7fc263def7aa8bfda47919abcf09261706e1e3a8",
+    "QCFlash/data/vth_states_wl12.xlsx": "14bcc76fea9051487badec4138c66f3ac27d0cc849fb909752d3551eb023efe1",
+    "QCFlash/qcflash.py": "d1e8e4df561dbec5ade5120d20817f36a10dbabc4d0d7bc1dc028e0107154e9c",
+    "QCFlash/README.md": "ba3be3e422da113c41849298513374441a1d036cc6f7d5c758cab9c0a599c552",
+    "QCFlash/DATA_LICENSE": "3ac6ba42e324e89aa2b0aa70c94bc5dc1b832a0c7496fedf2643586bea4899fd"
+  },
+  "measured_scope": "Three released QLC WLs, native unshifted Vref reads only; no repeated reads, ECC, reprogramming, AiF be-enc, or service-time inference.",
+  "measurement_processing": "Parse original XLSX XML, preserve cell index; validate programmed state/page bits, reconstruct threshold reads, exclude missing Vth in measured-only RBER and explicitly label official perfect-label fallback.",
+  "window_diagnostic": "Consecutive logical 8192-bit windows are descriptive only; unknown codeword/parity/interleaver. >10 raw errors is not an observed UCE/SDC. Incomplete last windows are separate.",
+  "symbolic_witness": "Enumerate all balanced two-domain placements for four experts and two equally frequent disjoint two-expert routes. Fixed independent Bernoulli domain p values are hypothetical, not fitted to QCFlash.",
+  "coarse_domain_null": "Check CP0107 whole-GU expert chip touch; a one-block/chip allocation cannot decluster experts against total chip/block loss.",
+  "forbidden": "No model/weight access, heldout, LLM bitflip campaign, ECC/decoder/format change, model corruption, inferred physical latency, native simulator campaign, or new hardware."
+}

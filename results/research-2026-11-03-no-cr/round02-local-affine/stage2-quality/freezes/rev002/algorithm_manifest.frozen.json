@@ -1,0 +1,59 @@
+{
+  "candidate_scope": "eight naturally selected partial operators only; other routed/shared/dense sourceGGUF pinned host functions",
+  "arms": {
+    "source": 0,
+    "observer": 1,
+    "copyoriginal": 2,
+    "B_pilotcanonical": 3,
+    "copycanonical": 4,
+    "C_local_pilot": 5,
+    "D_factor_pilot": 6
+  },
+  "core": "Immutable Stage0 canonical quantize/dot/rescale/full-I GGML SiLU and local predictor; immutable Stage1 q512W8 host_floatlatent FMA predictor. No driver imports.",
+  "arithmetic": "Canonical input full-H A8 once/layer request; exact DGEMM integer dot; F32 scale order; full-I pinned GGML SiLU/product; full-I A8; Down; actual calibrated separate F32 bias. Factor host FMA latent never A8.",
+  "numeric_environment": "x87 RN and MXCSR roundbits0x6000=0/FTZ0/DAZ0; actual8 GGML threadpool checked, strict original activation wrapper checks all8 OMP workers, frozen FMA guard checks all8 and each numeric helper bracketed by strict pool checks. Exact integer DGEMM BLAS restricted to checked caller1 (independent BLAS workers are not inferred from OMP checks); FMA/OpenMP remain8, no candidate arithmetic change.",
+  "wire": {
+    "little_endian_header_bytes": 116,
+    "version": 1,
+    "max_payload_bytes": 16777216,
+    "fields": "magic/version/kind/mode/request/run/context/subrun/arm/decode/micro/model/layer/T/H/K/slots/bytes/status/reserved/absolute_position/token_phase/reserved2",
+    "token_phase": {
+      "prefix": 0,
+      "own_generated_decode": 1,
+      "fixed_replay_or_GT": 2
+    },
+    "timeout_seconds": 120,
+    "stdout": "binary only",
+    "stderr": "diagnostics",
+    "rows": "owned F32 X + I32 IDs, reply only complete H2048 pilot slots (t,k,e,flags,y)",
+    "errors": "short/duplicate/unsolicited/misepoch/nonfinite/workerdeath abort whole prompt before graph write; no silent fallback"
+  },
+  "state": "Evaluated up owns X/IDs, Down same epoch/IDs and consumeonce even zero mask, final live alpha MUL and native sum unchanged. No crossrun scratch/KV; all subruns fresh context; metadata callback ask never reads payload.",
+  "preprocessing": "Explicit approved registry operator preprocessing_path + payload manifest path/SHA; Root release binds registry SHA. No hardcoded old tree/P; future refresh registry may bind new tree/P/model hashes with same roles/numerics. No refresh/refit or collector enabled here.",
+  "provenance_extension": "Worker observe(epoch,owned_X,owned_IDs) no-op extension point, with absolute input position and prefix/generated/fixed phase. No second capture pipeline or payload persistence.",
+  "tooling": "first fixed FIT context/model, source nohook/observer/copyoriginal/repeat fresh fullvocab bits and IDs/alpha trace bits; B/copycanonical actual IPC scatter bit identity. Generated synthetic canonical B1/batch/IPC and pinned activation reference before actual tooling.",
+  "development": "first8 fixed FIT records, same model-native tokenized immutable raw128 prefix across arms; source-token replay and <=32 EOG-stopped free run use independent fresh prefixes/KV; no benchmark success/failure.",
+  "quality_interface": "explicit 256prefixIDs+256GT IDs; input position255 predicts GT0, input510 predicts GT255; all target NLL serial F64 stable logsumexp; requires separate quality protocol/jobs release. No PG acquisition/refit/bootstrap implemented.",
+  "resources": "CPU-only eight distinct physical CPUs from launcher for all children; sequential model processes. Quality graph already computes original Down and IPC replacement: timing/RSS is harness overhead, no compressed B1 latency or8GB proof.",
+  "review_schema": {
+    "status": "approved",
+    "phase": "TOOLING|DEVELOPMENT|QUALITY",
+    "protocol_sha256": "0e59b5cc4d3fad695d500a1b50897864fa048ba682d51702914d66b9075e57c6",
+    "source_revision": "integer",
+    "source_freeze_sha256": "sha256(freeze_receipt.json)",
+    "registry_sha256": "sha256(explicit registry.json)",
+    "development_extra": "TOOLING_complete_sha256",
+    "quality_extra": "approved_jobs_sha256 and quality_protocol_sha256"
+  },
+  "compile_flags": [
+    "-O3",
+    "-march=native",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-std=c++17",
+    "-fopenmp",
+    "-pthread"
+  ],
+  "TEST_opened": false,
+  "all_upstream_sources_unchanged": true
+}

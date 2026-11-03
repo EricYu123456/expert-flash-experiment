@@ -1,0 +1,57 @@
+{
+  "reviewer": "/root/critic_sol",
+  "at_utc": "2026-11-03 05:48:37 UTC",
+  "review_revision": 1,
+  "status": "approved_for_source_implementation_only",
+  "reviewed_protocol": "stage3_control_cost.protocol.draft002.json",
+  "reviewed_protocol_sha256": "5f21869ae968057a09ed1f5f64cf06f83aa22fa1dc442303fa6ce5c25f9b58be",
+  "preserved_parent_draft": "stage3_control_cost.protocol.draft001.json",
+  "parent_draft_sha256": "6887638a63f278244c636a91a08dd2b4ea08d5337d7c0dafb05d29028b4c9616",
+  "same_round": 2,
+  "new_method_or_thinking_clock": false,
+  "blockers_after_draft002": [],
+  "disposition": "The revised finite NL8/control-cost design may proceed to new source, build and generated synthetic implementation. It grants no actual BIND/GU_FIT/BENCH/DEV_QUALITY payload or execution release.",
+  "reviewed_notes": [
+    "Root_stage3_planning_review.20261103.md",
+    "nonlinear_baseline_design.sol.md",
+    "aif_bank_break_even.sol.md",
+    "docs/i9_integer_dot_sources_terra.md"
+  ],
+  "closed_revision_requirements": [
+    "C8/D8/tree/P/centers/support/canonical reference and old quality artifacts stay byte-identical; NL8 is a distinct arm/registry, no D relabeling.",
+    "NL8 uses exactly the complete bound unit-weight TRAIN union, one eta0 pooled within-leaf-demeaned GU-OLS, fixed P128/C32, FP32 GU slopes, original canonical W8 Down and actual deployed-residual intercept/output-bias calibration.",
+    "Raw GU targets are new and retained:236888 expert rows,2304667648 F32 bytes,1179989835776 GU integer MACs; Down calibration589994917888 MACs and projected-GU73749364736 FMA are additionally stated. Audit reproduction/statistics/activation/IO work is separately counted.",
+    "D W8 input factor uses exact signed integer dots and canonical scale order; only host U lift uses the frozen eight-lane FMA. G uses centered full-H A8, distinct from canonical B's uncentered A8; PE shares only the identical C latent design.",
+    "AVX2 B/C kernels require exact non-saturating I32 dot/reduction with overflow proof, fixed F32 rescaling/bias and pinned activation/quantization. No unchecked maddubs saturation or float substitute.",
+    "Benchmark32 and first4 numeric rows use only previously final-alpha dual-ledger-closed PGTRAIN provenance, hash-fixed before reading values; full-union NL fitting is unchanged. Old named-callback alpha is not retrospectively certified.",
+    "Routing inputs/IDs/alpha are supplied equally. B does not pay tree/P; G pays tree/centering/its own A8 but no P; C/PE/NL pay shared preprocessing only when a live approximation needs it. Private nonlinear/latent work remains per expert.",
+    "Natural-partial and synthetic full-K resource-only cohorts remain distinct. Physical coefficient replicas, allocations and dispatch are charged; no duplicate-template activation reuse or full64 quality claim.",
+    "Warm resident does not promise LLC residency. Cold uses all eight persistent workers touching disjoint128MiB slices of one1GiB buffer, reports topology/coverage and is labeled a specified cache-pollution condition rather than universal full coldness.",
+    "Research RSS ceilings are8e9 bytes for generated/numeric, GU_FIT and BENCH; the source-GGUF quality reference harness gets32e9. Deployment8e9 versus8GiB remains a separate inclusive capacity proof.",
+    "NL-minus-B has two fixed developmental primary endpoints, log1.02 margin,10000 shared paired-book draws, seed2026110303 and the specified max-absolute-t bands. Both upper bands below margin support fixed-NL development viability; any lower above rejects only this NL recipe; otherwise/undefined is inconclusive.",
+    "NL-minus-C and old C-minus-B are descriptive and cannot select a new model. Reused PG16 is development evidence; TEST and new held-out acquisition stay sealed.",
+    "EPYC AVX2 is a tested implementation proxy, not target-i9 optimal service. Target ISA/CPUID,86.4 paper/configured and89.6 advertised bandwidth cases are qualified; neither bandwidth is sustained throughput.",
+    "Ordinary AiF/ECC/PE/FIFO/short-row/context/placement uncertainty remains a conditional whole-DAG break-even region. Two lower bounds, isolated route service or harness RSS/time do not establish dominance, minor hardware cost or whole-model speed."
+  ],
+  "source_audit_checkpoints_without_new_grid": [
+    "Confirm the direct kernels preserve D first/second-stage and G quantizer distinctions, actual eight-worker environment, tails and exact output/alpha arithmetic before any payload benchmark.",
+    "For natural-partial benchmarks, explicitly label whether the returned object is per-expert output or the pilot contribution in original slot order. Do not call a partial sum the full native MoE output or acquire nonpilot targets outside the8op scope to hide the distinction.",
+    "Treat cache pollution as the frozen condition, not a measurement of a full-model hit distribution; record NUMA/CCD topology, preparation, transient repacking and retained packed/original copies.",
+    "Reusing old B/C/D quality records needs immutable source/input/artifact bindings. A stored64-bit checksum is a consistency diagnostic, not an actual historical full-vector memcmp; label evidence honestly and recompute a bounded needed control if hard equality is required.",
+    "A common2% quality budget can establish budget viability but does not itself mean NL has no higher quality loss than C or strictly Pareto-dominates it.",
+    "Full-model all-host alternatives remain required capacity/placement analyses; actual exports/runs beyond the eight operators require a separate scope release, not silent implementation growth.",
+    "Optional earliest-layer perturbation preflight can be omitted now and deferred to a later first64 protocol; it is not necessary to close this NL8/cost question."
+  ],
+  "interpretation_limits": [
+    "A positive NL8 result challenges the need for local conditional output slopes at this bounded scope; it does not prove all-region/all-layer dominance.",
+    "A negative NL8 result refutes only this fixed projected-GU/eta0/r128 recipe, not MoLAE/shared-output or all nonlinear alternatives.",
+    "No statistical outcome, research timeout, memory condition or implementation repair automatically consumes a scientific failed round.",
+    "Preserve the original partial C8 quality pass and Stage0/1 inconclusive results."
+  ],
+  "prerequisites_for_actual_phases": [
+    "Freeze the revised scientific protocol and exact inherited artifact/data manifests.",
+    "Review immutable new source/build/generated synthetic receipts and phase-specific numeric tests.",
+    "Root and critic separately authorize BIND, GU_FIT, BENCH and exposed-data DEV_QUALITY as specified; the current review is not such authorization."
+  ],
+  "reviewer_actions": "Read protocol/design/source notes and frozen FMA source only. No candidate weights, fitted arrays, targets, activations, book/model payloads or new evaluation outcomes read; no candidate code, probe, benchmark or tests executed."
+}

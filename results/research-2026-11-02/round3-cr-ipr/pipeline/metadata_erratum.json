@@ -1,0 +1,31 @@
+{
+  "status": "metadata_correction_only",
+  "sealed_source": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_pipeline.py",
+  "sealed_source_sha256": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+  "sealed_report": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/pipeline/report.json",
+  "sealed_report_sha256": "a257ada5f54c7196c5ea57ccf17506138692e3f7ba3c0250f2c3d970098d9b2f",
+  "original_fields": {
+    "qbits": 4,
+    "paired_GU_row_bytes": 1536
+  },
+  "corrected_fields": {
+    "weight_bits": 8,
+    "activation_bits": 8,
+    "planes": 4,
+    "single_output_row_bytes": 1536,
+    "Down_single_output_row_bytes": 512,
+    "page_bytes": 16384,
+    "macro_pages": 3,
+    "macro_complete_output_rows": 32
+  },
+  "correction": "The parent task used q=4 for the number of planes. This agent incorrectly labeled it as quantization bits and labeled the1536-byte single GU output row as paired-GU row bytes. The intended reference is W8_A8; source GGUF Q4_K_M provenance does not make placed reference weights4-bit.",
+  "execution_unchanged_reasons": [
+    "qbits and paired_GU_row_bytes are output metadata labels, not simulator configuration variables or arithmetic inputs.",
+    "The simulator explicitly used16384-byte pages and ROW_BYTES=1536 throughout; these match one W8 gate or up output row with1536 input coefficients.",
+    "Three pages contain49152bytes/1536=32 complete output rows. The64-expert resident page counts and all48requested-page stream/copy/ECC traces are unchanged.",
+    "The new Down arithmetic uses512bytes per output row:384rows/chip=196608bytes=12pages=3full four-plane waves.",
+    "No weights, numeric replay outputs, routing traces, pipeline events, scalar timing costs, page conservation or capacity certificates were recomputed or altered by this correction."
+  ],
+  "sealed_artifacts_modified": false,
+  "attribution": "Agent misunderstanding of plane notation; preserve sealed source/report and cite this erratum for corrected format labels."
+}

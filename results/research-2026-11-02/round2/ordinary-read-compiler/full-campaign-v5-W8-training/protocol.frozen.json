@@ -1,0 +1,53 @@
+{
+  "created_utc": "2026-11-02T00:03:56.750279+00:00",
+  "sources_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_compile.py": "803203d158775ade54d5b72c91c50d9cbd2d2f42ece221e0276f8857c54e0a7b",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_backend.py": "a28c32e0baa1419ee3e6183f0f98dfb28627d4da71078c6dd877d11af7a81166",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp": "c1036d53dc5e841f0f3349da672c21c6a075ec29763bbb348ddd72b61e3c753a",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_whole_row_compiler.py": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_fit.py": "1f437a51b917bb5c251bb4e8dc031e6638da475adfcab1db8ef5232b545a936c",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_native_labels.cpp": "4039a59b94be9d05ad029f251044622c5d71ac48193fa255989ed9ebaa8f2280",
+    "results/research-2026-11-02/round2/w8-format-training/compiler_inputs.frozen.json": "49563291e385e5c58ee23a21c8c8714aa0a6f007066206030916d1b7fe42c4c1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/deepseek/decode.routes.npz": "11168c1e899c8ce0bf23e719e908f243fa09d30980a65488a3f92aa448344fed"
+  },
+  "arguments": {
+    "models": [
+      "granite4tiny",
+      "deepseek"
+    ],
+    "layers": null,
+    "all_layers": true,
+    "command_ns": [
+      250,
+      5000
+    ],
+    "fit_queries": 1024,
+    "select_queries": 64,
+    "iterations": 4000,
+    "replay_budget": 256,
+    "workers": 8,
+    "reuse_fitting": null,
+    "training_manifest": "results/research-2026-11-02/round2/w8-format-training/compiler_inputs.frozen.json",
+    "output": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v5-W8-training"
+  },
+  "build": {
+    "source": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp",
+    "source_sha256": "c1036d53dc5e841f0f3349da672c21c6a075ec29763bbb348ddd72b61e3c753a",
+    "binary": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v5-W8-training/build/ordinary-read-c1036d53dc5e841f.so",
+    "binary_sha256": "903ba1b05da5595a924cc170ed90283fbf412523caf0d1a7abff801934802645",
+    "command": "c++ -std=c++17 -O3 -shared -fPIC SOURCE -o BINARY"
+  },
+  "reused_fitting_inputs_sha256": null,
+  "label_fitter": {
+    "binary": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v5-W8-training/build/native_labels.so",
+    "binary_sha256": "816257e67f27a45198be0ca366b5238533c1cf1ea69c0e2d383c21e136af8b0a",
+    "source_sha256": "4039a59b94be9d05ad029f251044622c5d71ac48193fa255989ed9ebaa8f2280",
+    "command": "c++ -std=c++17 -O3 -shared -fPIC SOURCE -o BINARY"
+  },
+  "controls": "Same label-swap iterations and temperatures pergeometry; same complete-row native lowering, controller, channels, PCIe, output-fringe and single chip context. Disjoint, every cyclic width and whole-row work/depth alternatives. All16relative down rotations offered to each family.",
+  "selection": "Training-only finite candidate pairs, valid resource/ownership lowerbounds ordered exact event replay with explicit optional budget. Earlier control is an incumbent for larger pools.",
+  "geometry_deduplication": "Within unrestricted expert-pair label swaps, the initial assigned physical-rowvector histogram defines the exact reachable assignment set. Fit its canonical first candidate once and retain aliases; unused or duplicate ordinal variants add no extra seeded search.",
+  "input_buffer": "32768B is the described AiF two16KiB input read latches perplane, inferred from paper Section4.4/Table2; not an exposed ISA maximum or cross-plane input-capacity aggregation. All seven A8 shapes fit.",
+  "limits": "Development data reused. No external validation, priority/new-algorithm claim, calibration, native PE arithmetic or full-model speedup. A label fitted for a phase bound need not be a global best label for full FFN service."
+}

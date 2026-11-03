@@ -1,0 +1,9 @@
+{
+  "status": "frozen_before_LP_MILP_checks",
+  "contract": "Eight2-chipgroups,64routedobjects andtwofixedsharedhalfobjects. An object hasonefull24page/6WLcopy on eachgroup in itsnonemptysupport. Everytop6routedobjects plusbothsharedobjects mustmatch distinctgroups. No partialcopies, variableobjectrows, multipleconcurrentinputs, extraPEselector, fittingorfullFFN.",
+  "question": "Can allgroups storeatmost33residentobjects includingthetwo sharedobjects, soDown198WL+GU186WL fits2blocks? Known34feasibleconstructionuses64distinct4supports afterdeleting3complementpairs,sharedobjects onall8groups.",
+  "Hall": "ForallgroupT,min(n_E(T),6)+s(T)<=|T| isnecessaryandsufficient. ForfixedsharedsupportsA/B, when|T|-s(T)<6 constrain sum_{nonemptySsubsetT}x_S<=|T|-s(T). sumx=64, x>=0integer, groupresidentE+shared<=33.",
+  "arithmetic_certificate": "AunionB mustcover8groups, elseamissinggroupmuststore>=59E. Anysharedsupporta<=5forcesoutsideEcopylowerbounds300/251/206/162/113 foroutside7/6/5/4/3groups, exceeding32timesoutsidegroups. Hencea,b>=6. Sumall56T5Hallconstraints plus6d+C(8-d,5-d)>=28 givesEcopies>=252. Global33cap givesEcopies+a+b<=264,forcinga=b6,Ecopies252,andallT5exactly5E. Ashared6supportcontains6suchT5, sum30, butHallallowsatmost5Einsideit andeachnonemptyEbelongsatmost5ofthoseT5, giving30<=25contradiction.",
+  "solver": "Scipyoptimize.milp on255supportcountvariables;all24sharedsize symmetryrepresentativeswithunion8useLPrelaxation. DirectintegerMILPchecks(4,4),(6,6),(8,8). Per-calltime_limit2s<=120s;solverunknownisnotinfeasible. Exactarithmeticcertificateprimary,solvercrosscheckonly. Known34witnesschecksall255Hallconstraints exactly.",
+  "scope": "Capacity/mathcertificateonly.NoTRAIN,prospectiveinputs/outcomes,heldout,fullFFNornewhardware. StandardHall/CBCaccounting,nottheoremnovelty. Fixedwhole24pagecopycontract;doesnotruleoutotherABIsorrowlayouts."
+}

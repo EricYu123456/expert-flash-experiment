@@ -1,0 +1,481 @@
+{
+  "status": "derived nominal per-output-row W8 scale/address ledger",
+  "records": [
+    {
+      "model": "granite3",
+      "hidden": 1024,
+      "routed_intermediate": 512,
+      "routed_experts": 32,
+      "top_k": 8,
+      "moe_layers": 24,
+      "shared_combined_intermediate": 0,
+      "shared_matrix_objects_per_layer": 0,
+      "rows_per_routed_expert": 2048,
+      "rows_per_shared_ffn": 0,
+      "resident_row_scales": {
+        "routed_scalars": 1572864,
+        "shared_scalars": 0,
+        "routed_FP32_bytes": 6291456,
+        "shared_FP32_bytes": 0,
+        "total_FP32_bytes": 6291456
+      },
+      "per_token": {
+        "routed_row_scales": 393216,
+        "shared_row_scales": 0,
+        "scale_read_bytes_if_each_selected_scale_used_once": 1572864,
+        "useful_opaque_4B_output_bytes": 1572864,
+        "dense_pooled_metadata_pages_lower_bound": 96,
+        "projection_page_aligned_metadata_fetch_pages": 384
+      },
+      "address_ledger": {
+        "logical_fused_projection_handles_resident": 1536,
+        "logical_fused_projection_handles_per_token": 384,
+        "g16_physical_row_band_entries_resident": 24576,
+        "g16_physical_row_band_entries_per_token": 6144,
+        "g16_resident_band_descriptor_bytes_at32B": 786432,
+        "g16_per_token_band_descriptor_bytes_at32B": 196608,
+        "g16_per_token_gather_descriptor_bytes_at16B": 98304,
+        "scale_per_row_address_entries_required": 0
+      },
+      "shape_receipt": [
+        {
+          "name": "blk.0.ffn_down_exps.weight",
+          "shape_ggml": [
+            512,
+            1024,
+            32
+          ]
+        },
+        {
+          "name": "blk.0.ffn_gate_exps.weight",
+          "shape_ggml": [
+            1024,
+            512,
+            32
+          ]
+        },
+        {
+          "name": "blk.0.ffn_up_exps.weight",
+          "shape_ggml": [
+            1024,
+            512,
+            32
+          ]
+        }
+      ]
+    },
+    {
+      "model": "olmoe",
+      "hidden": 2048,
+      "routed_intermediate": 1024,
+      "routed_experts": 64,
+      "top_k": 8,
+      "moe_layers": 16,
+      "shared_combined_intermediate": 0,
+      "shared_matrix_objects_per_layer": 0,
+      "rows_per_routed_expert": 4096,
+      "rows_per_shared_ffn": 0,
+      "resident_row_scales": {
+        "routed_scalars": 4194304,
+        "shared_scalars": 0,
+        "routed_FP32_bytes": 16777216,
+        "shared_FP32_bytes": 0,
+        "total_FP32_bytes": 16777216
+      },
+      "per_token": {
+        "routed_row_scales": 524288,
+        "shared_row_scales": 0,
+        "scale_read_bytes_if_each_selected_scale_used_once": 2097152,
+        "useful_opaque_4B_output_bytes": 2097152,
+        "dense_pooled_metadata_pages_lower_bound": 128,
+        "projection_page_aligned_metadata_fetch_pages": 256
+      },
+      "address_ledger": {
+        "logical_fused_projection_handles_resident": 2048,
+        "logical_fused_projection_handles_per_token": 256,
+        "g16_physical_row_band_entries_resident": 32768,
+        "g16_physical_row_band_entries_per_token": 4096,
+        "g16_resident_band_descriptor_bytes_at32B": 1048576,
+        "g16_per_token_band_descriptor_bytes_at32B": 131072,
+        "g16_per_token_gather_descriptor_bytes_at16B": 65536,
+        "scale_per_row_address_entries_required": 0
+      },
+      "shape_receipt": [
+        {
+          "name": "blk.0.ffn_down_exps.weight",
+          "shape_ggml": [
+            1024,
+            2048,
+            64
+          ]
+        },
+        {
+          "name": "blk.0.ffn_gate_exps.weight",
+          "shape_ggml": [
+            2048,
+            1024,
+            64
+          ]
+        },
+        {
+          "name": "blk.0.ffn_up_exps.weight",
+          "shape_ggml": [
+            2048,
+            1024,
+            64
+          ]
+        }
+      ]
+    },
+    {
+      "model": "deepseek",
+      "hidden": 2048,
+      "routed_intermediate": 1408,
+      "routed_experts": 64,
+      "top_k": 6,
+      "moe_layers": 26,
+      "shared_combined_intermediate": 2816,
+      "shared_matrix_objects_per_layer": 1,
+      "rows_per_routed_expert": 4864,
+      "rows_per_shared_ffn": 7680,
+      "resident_row_scales": {
+        "routed_scalars": 8093696,
+        "shared_scalars": 199680,
+        "routed_FP32_bytes": 32374784,
+        "shared_FP32_bytes": 798720,
+        "total_FP32_bytes": 33173504
+      },
+      "per_token": {
+        "routed_row_scales": 758784,
+        "shared_row_scales": 199680,
+        "scale_read_bytes_if_each_selected_scale_used_once": 3833856,
+        "useful_opaque_4B_output_bytes": 3833856,
+        "dense_pooled_metadata_pages_lower_bound": 234,
+        "projection_page_aligned_metadata_fetch_pages": 390
+      },
+      "address_ledger": {
+        "logical_fused_projection_handles_resident": 3380,
+        "logical_fused_projection_handles_per_token": 364,
+        "g16_physical_row_band_entries_resident": 54080,
+        "g16_physical_row_band_entries_per_token": 5824,
+        "g16_resident_band_descriptor_bytes_at32B": 1730560,
+        "g16_per_token_band_descriptor_bytes_at32B": 186368,
+        "g16_per_token_gather_descriptor_bytes_at16B": 93184,
+        "scale_per_row_address_entries_required": 0
+      },
+      "shape_receipt": [
+        {
+          "name": "blk.1.ffn_down_exps.weight",
+          "shape_ggml": [
+            1408,
+            2048,
+            64
+          ]
+        },
+        {
+          "name": "blk.1.ffn_gate_exps.weight",
+          "shape_ggml": [
+            2048,
+            1408,
+            64
+          ]
+        },
+        {
+          "name": "blk.1.ffn_up_exps.weight",
+          "shape_ggml": [
+            2048,
+            1408,
+            64
+          ]
+        },
+        {
+          "name": "blk.1.ffn_down_shexp.weight",
+          "shape_ggml": [
+            2816,
+            2048
+          ]
+        },
+        {
+          "name": "blk.1.ffn_gate_shexp.weight",
+          "shape_ggml": [
+            2048,
+            2816
+          ]
+        },
+        {
+          "name": "blk.1.ffn_up_shexp.weight",
+          "shape_ggml": [
+            2048,
+            2816
+          ]
+        }
+      ],
+      "excluded_initial_dense_layer": {
+        "layers": 1,
+        "intermediate": 10944,
+        "row_scales": 23936,
+        "FP32_scale_bytes": 95744,
+        "useful_4B_output_bytes": 95744
+      }
+    },
+    {
+      "model": "qwen3",
+      "hidden": 2048,
+      "routed_intermediate": 768,
+      "routed_experts": 128,
+      "top_k": 8,
+      "moe_layers": 48,
+      "shared_combined_intermediate": 0,
+      "shared_matrix_objects_per_layer": 0,
+      "rows_per_routed_expert": 3584,
+      "rows_per_shared_ffn": 0,
+      "resident_row_scales": {
+        "routed_scalars": 22020096,
+        "shared_scalars": 0,
+        "routed_FP32_bytes": 88080384,
+        "shared_FP32_bytes": 0,
+        "total_FP32_bytes": 88080384
+      },
+      "per_token": {
+        "routed_row_scales": 1376256,
+        "shared_row_scales": 0,
+        "scale_read_bytes_if_each_selected_scale_used_once": 5505024,
+        "useful_opaque_4B_output_bytes": 5505024,
+        "dense_pooled_metadata_pages_lower_bound": 336,
+        "projection_page_aligned_metadata_fetch_pages": 768
+      },
+      "address_ledger": {
+        "logical_fused_projection_handles_resident": 12288,
+        "logical_fused_projection_handles_per_token": 768,
+        "g16_physical_row_band_entries_resident": 196608,
+        "g16_physical_row_band_entries_per_token": 12288,
+        "g16_resident_band_descriptor_bytes_at32B": 6291456,
+        "g16_per_token_band_descriptor_bytes_at32B": 393216,
+        "g16_per_token_gather_descriptor_bytes_at16B": 196608,
+        "scale_per_row_address_entries_required": 0
+      },
+      "shape_receipt": [
+        {
+          "name": "blk.0.ffn_down_exps.weight",
+          "shape_ggml": [
+            768,
+            2048,
+            128
+          ]
+        },
+        {
+          "name": "blk.0.ffn_gate_exps.weight",
+          "shape_ggml": [
+            2048,
+            768,
+            128
+          ]
+        },
+        {
+          "name": "blk.0.ffn_up_exps.weight",
+          "shape_ggml": [
+            2048,
+            768,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "model": "mixtral",
+      "hidden": 4096,
+      "routed_intermediate": 14336,
+      "routed_experts": 8,
+      "top_k": 2,
+      "moe_layers": 32,
+      "shared_combined_intermediate": 0,
+      "shared_matrix_objects_per_layer": 0,
+      "rows_per_routed_expert": 32768,
+      "rows_per_shared_ffn": 0,
+      "resident_row_scales": {
+        "routed_scalars": 8388608,
+        "shared_scalars": 0,
+        "routed_FP32_bytes": 33554432,
+        "shared_FP32_bytes": 0,
+        "total_FP32_bytes": 33554432
+      },
+      "per_token": {
+        "routed_row_scales": 2097152,
+        "shared_row_scales": 0,
+        "scale_read_bytes_if_each_selected_scale_used_once": 8388608,
+        "useful_opaque_4B_output_bytes": 8388608,
+        "dense_pooled_metadata_pages_lower_bound": 512,
+        "projection_page_aligned_metadata_fetch_pages": 512
+      },
+      "address_ledger": {
+        "logical_fused_projection_handles_resident": 512,
+        "logical_fused_projection_handles_per_token": 128,
+        "g16_physical_row_band_entries_resident": 8192,
+        "g16_physical_row_band_entries_per_token": 2048,
+        "g16_resident_band_descriptor_bytes_at32B": 262144,
+        "g16_per_token_band_descriptor_bytes_at32B": 65536,
+        "g16_per_token_gather_descriptor_bytes_at16B": 32768,
+        "scale_per_row_address_entries_required": 0
+      },
+      "shape_receipt": [
+        {
+          "name": "blk.0.ffn_gate_exps.weight",
+          "shape_ggml": [
+            4096,
+            14336,
+            8
+          ]
+        },
+        {
+          "name": "blk.0.ffn_down_exps.weight",
+          "shape_ggml": [
+            14336,
+            4096,
+            8
+          ]
+        },
+        {
+          "name": "blk.0.ffn_up_exps.weight",
+          "shape_ggml": [
+            4096,
+            14336,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "model": "granite4tiny",
+      "hidden": 1536,
+      "routed_intermediate": 512,
+      "routed_experts": 64,
+      "top_k": 6,
+      "moe_layers": 40,
+      "shared_combined_intermediate": 1024,
+      "shared_matrix_objects_per_layer": 1,
+      "rows_per_routed_expert": 2560,
+      "rows_per_shared_ffn": 3584,
+      "resident_row_scales": {
+        "routed_scalars": 6553600,
+        "shared_scalars": 143360,
+        "routed_FP32_bytes": 26214400,
+        "shared_FP32_bytes": 573440,
+        "total_FP32_bytes": 26787840
+      },
+      "per_token": {
+        "routed_row_scales": 614400,
+        "shared_row_scales": 143360,
+        "scale_read_bytes_if_each_selected_scale_used_once": 3031040,
+        "useful_opaque_4B_output_bytes": 3031040,
+        "dense_pooled_metadata_pages_lower_bound": 185,
+        "projection_page_aligned_metadata_fetch_pages": 560
+      },
+      "address_ledger": {
+        "logical_fused_projection_handles_resident": 5200,
+        "logical_fused_projection_handles_per_token": 560,
+        "g16_physical_row_band_entries_resident": 83200,
+        "g16_physical_row_band_entries_per_token": 8960,
+        "g16_resident_band_descriptor_bytes_at32B": 2662400,
+        "g16_per_token_band_descriptor_bytes_at32B": 286720,
+        "g16_per_token_gather_descriptor_bytes_at16B": 143360,
+        "scale_per_row_address_entries_required": 0
+      },
+      "shape_receipt": [
+        {
+          "name": "blk.0.ffn_down_exps.weight",
+          "shape_ggml": [
+            512,
+            1536,
+            64
+          ]
+        },
+        {
+          "name": "blk.0.ffn_gate_exps.weight",
+          "shape_ggml": [
+            1536,
+            512,
+            64
+          ]
+        },
+        {
+          "name": "blk.0.ffn_up_exps.weight",
+          "shape_ggml": [
+            1536,
+            512,
+            64
+          ]
+        },
+        {
+          "name": "blk.0.ffn_down_shexp.weight",
+          "shape_ggml": [
+            1024,
+            1536
+          ]
+        },
+        {
+          "name": "blk.0.ffn_gate_shexp.weight",
+          "shape_ggml": [
+            1536,
+            1024
+          ]
+        },
+        {
+          "name": "blk.0.ffn_up_shexp.weight",
+          "shape_ggml": [
+            1536,
+            1024
+          ]
+        }
+      ]
+    },
+    {
+      "model": "qwen38",
+      "hidden": 2560,
+      "routed_intermediate": 640,
+      "routed_experts": 512,
+      "top_k": 10,
+      "moe_layers": 48,
+      "shared_combined_intermediate": 640,
+      "shared_matrix_objects_per_layer": 1,
+      "rows_per_routed_expert": 3840,
+      "rows_per_shared_ffn": 3840,
+      "resident_row_scales": {
+        "routed_scalars": 94371840,
+        "shared_scalars": 184320,
+        "routed_FP32_bytes": 377487360,
+        "shared_FP32_bytes": 737280,
+        "total_FP32_bytes": 378224640
+      },
+      "per_token": {
+        "routed_row_scales": 1843200,
+        "shared_row_scales": 184320,
+        "scale_read_bytes_if_each_selected_scale_used_once": 8110080,
+        "useful_opaque_4B_output_bytes": 8110080,
+        "dense_pooled_metadata_pages_lower_bound": 495,
+        "projection_page_aligned_metadata_fetch_pages": 1056
+      },
+      "address_ledger": {
+        "logical_fused_projection_handles_resident": 49248,
+        "logical_fused_projection_handles_per_token": 1056,
+        "g16_physical_row_band_entries_resident": 787968,
+        "g16_physical_row_band_entries_per_token": 16896,
+        "g16_resident_band_descriptor_bytes_at32B": 25214976,
+        "g16_per_token_band_descriptor_bytes_at32B": 540672,
+        "g16_per_token_gather_descriptor_bytes_at16B": 270336,
+        "scale_per_row_address_entries_required": 0
+      },
+      "shape_receipt": [],
+      "excluded_MTP_layers": 1
+    }
+  ],
+  "assumptions": [
+    "One FP32 weight scale per logical output row; nominal rowwise-W8 contract, not actual GGUF/NVFP4/groupwise metadata or a demonstrated AiF ABI.",
+    "Scales live in ordinary existing host DRAM and remain in original row order. INT8 coefficient row bytes and wave geometry are unchanged.",
+    "Per-token scale read is a logical payload if host rescale/dequantization uses each selected row scale once. Opaque F32 copy does not itself require those reads.",
+    "Two logical projections mean fused vertical gate/up plus down. Unfused gate/up/down uses three handles; physical row scale count is unchanged.",
+    "32B band entry is an explicit host-format sizing assumption: uint64 flash address plus uint32 row_start,rows,columns,pages,chip,flags. No published AiF descriptor size is asserted.",
+    "16B gather entry is the actual benchmark struct: uint32 chip,source_offset,destination_offset,rows. Per-row pointers are unnecessary with dense scale vectors and row bands.",
+    "Flash-resident metadata is a separate ordinary read, not free MAC coefficient access. Page-aligned per-projection fetch is a stated alternative; pooled ceil is only a payload lower bound and ignores layer boundaries/route locality.",
+    "Routed/shared FFN only; routers, biases, activation input scales, attention, KV, dense initial layer and auxiliary MTP are excluded or separately identified. No alpha/output merging assumed."
+  ]
+}

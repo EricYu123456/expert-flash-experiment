@@ -1,0 +1,91 @@
+{
+  "status": "Recomputed from sealed independent audit results,no replay",
+  "records": [
+    {
+      "campaign": "full-campaign-v5-W8-training",
+      "model": "deepseek",
+      "command_ns": 250,
+      "input_channel_copies": 1,
+      "cyclic_ms": 52.35601615625,
+      "whole_ms": 50.391603296875,
+      "reduction": 0.037520289044003174,
+      "extra_allocated_fraction": -0.05063291139240511
+    },
+    {
+      "campaign": "full-campaign-v5-W8-training",
+      "model": "deepseek",
+      "command_ns": 5000,
+      "input_channel_copies": 1,
+      "cyclic_ms": 55.16578878125,
+      "whole_ms": 54.009973890625,
+      "reduction": 0.02095166073321597,
+      "extra_allocated_fraction": -0.013157894736842146
+    },
+    {
+      "campaign": "full-campaign-v5-W8-training",
+      "model": "granite4tiny",
+      "command_ns": 250,
+      "input_channel_copies": 1,
+      "cyclic_ms": 23.41257984375,
+      "whole_ms": 23.21777771875,
+      "reduction": 0.008320404086181954,
+      "extra_allocated_fraction": 0.015873015873015817
+    },
+    {
+      "campaign": "full-campaign-v5-W8-training",
+      "model": "granite4tiny",
+      "command_ns": 5000,
+      "input_channel_copies": 1,
+      "cyclic_ms": 27.53358725,
+      "whole_ms": 27.53358725,
+      "reduction": 0.0,
+      "extra_allocated_fraction": 0.0
+    },
+    {
+      "campaign": "full-campaign-v6-W8-input4",
+      "model": "deepseek",
+      "command_ns": 250,
+      "input_channel_copies": 4,
+      "cyclic_ms": 53.4515031875,
+      "whole_ms": 51.44833090625,
+      "reduction": 0.03747644428676156,
+      "extra_allocated_fraction": -0.013157894736842146
+    },
+    {
+      "campaign": "full-campaign-v6-W8-input4",
+      "model": "deepseek",
+      "command_ns": 5000,
+      "input_channel_copies": 4,
+      "cyclic_ms": 56.1818658125,
+      "whole_ms": 55.002679484375,
+      "reduction": 0.02098873561907655,
+      "extra_allocated_fraction": -0.013157894736842146
+    },
+    {
+      "campaign": "full-campaign-v6-W8-input4",
+      "model": "granite4tiny",
+      "command_ns": 250,
+      "input_channel_copies": 4,
+      "cyclic_ms": 24.0533385,
+      "whole_ms": 24.01473115625,
+      "reduction": 0.0016050721503794163,
+      "extra_allocated_fraction": 0.015873015873015817
+    },
+    {
+      "campaign": "full-campaign-v6-W8-input4",
+      "model": "granite4tiny",
+      "command_ns": 5000,
+      "input_channel_copies": 4,
+      "cyclic_ms": 28.092033875,
+      "whole_ms": 28.092033875,
+      "reduction": 0.0,
+      "extra_allocated_fraction": 0.0
+    }
+  ],
+  "scope": "Same-format W8 TRAIN32x16,64selection queries,full40/26MoElayers+shared. Not heldout or fullmodel. Qwen oldexternal+nominalI8 evidence remains separate.",
+  "notes": [
+    "G4copies4lowcommandgain0.1605% uses1.5873% more allocatedLSBbytes;strict samecapacity comparison is required before a Pareto improvement claim.",
+    "Deep lowcommandgain~3.75% andhighcommand~2.10% surviveinputfanout4inthistrainingselection.",
+    "Deep raw0denseprefix,attention/router/otherweights not included;no fullmodel speedclaim."
+  ]
+}

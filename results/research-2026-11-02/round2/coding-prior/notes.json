@@ -1,0 +1,129 @@
+{
+  "checked_date": "2026-11-02",
+  "status": "Prior-art and hardware feasibility audit, not a novelty clearance or publication breakthrough.",
+  "scope": "Native signed W8A8, exact raw signed INT32 chip results, host INT64 decoding; groupwise GGUF scales and floating-point exactness excluded.",
+  "strong_priors": [
+    {
+      "title": "Systems and methods for distributed in-storage computation-conscious erasure coding",
+      "document": "Samsung US20220011935A1; public 2022-01-13; priority 2020-06-10",
+      "url": "https://patents.google.com/patent/US20220011935A1/en",
+      "read_depth": "Original description around FIG. 10 and application-controlled EC/mapping read; not a legal scope analysis.",
+      "evidence": "Explicitly describes linear-combination parity, matrix multiplication on both data/parity storage devices, reconstruction from the fastest k computation results, and selecting devices by relative speed.",
+      "implication": "Computational-storage output repair itself is prior art. NAND die-local INT8 implementation, quantization width, page/plane placement and maintenance-progress behavior are not established by this description."
+    },
+    {
+      "title": "Distributed Matrix-Vector Multiplication: A Convolutional Coding Approach",
+      "year": 2019,
+      "venue": "ISIT",
+      "url": "https://par.nsf.gov/servlets/purl/10166025",
+      "read_depth": "Original first-page systematic sum-parity example and motivation read.",
+      "evidence": "Computes A0*x, A1*x and (A0+A1)*x on workers and recovers from any two; cites earlier work for this example.",
+      "implication": "Sum-parity row-shard matvec recovery and coding versus replication are established, independently of NAND."
+    },
+    {
+      "title": "TR-ABFT: Tile-Resilient Fault Detection for Neural Processing Units",
+      "year": 2026,
+      "venue": "Electronics 15(12):2715; Crossref date 2026-06-19",
+      "url": "https://doi.org/10.3390/electronics15122715",
+      "original_text_mirror": "https://www.researchgate.net/publication/407306691_TR-ABFT_Tile-Resilient_Fault_Detection_for_Neural_Processing_Units",
+      "read_depth": "Official abstract/metadata and original section 3.2.1 from public paper indexing; official full text returned 429/403.",
+      "evidence": "Signed radix256 checksum decomposition into two INT8 matrices, each computed on native INT8 PEs, appears explicitly.",
+      "implication": "Radix decomposition is not new. The paper targets detection rather than missing-chip latency repair."
+    },
+    {
+      "title": "RAIL: Predictable, Low Tail Latency for NVMe Flash",
+      "year": 2022,
+      "venue": "ACM TOS 18(1)",
+      "url": "https://hlitz.github.io/papers/rail.pdf",
+      "doi_url": "https://doi.org/10.1145/3465406",
+      "read_depth": "Original sections 2-4, 6 and whole-paper term scan read; evaluation not reproduced.",
+      "evidence": "XOR data/parity on separate LUNs reconstructs reads blocked by writes/erases. Read path observes target LUN state and issues recovery immediately. At most one high-latency operation per stride is enforced. No P/E suspend mechanism is described.",
+      "implication": "Known blocking, alternate recovery paths and physical parity placement are prior. It repairs bytes rather than computing encoded GEMV outputs.",
+      "artifact_status": "Real PBLK/LightNVM implementation reported; paper-specific public code not verified."
+    },
+    {
+      "title": "Tiny-Tail Flash: Near-Perfect Elimination of Garbage Collection Tail Latencies in NAND SSDs",
+      "year": 2017,
+      "venue": "USENIX FAST",
+      "url": "https://www.usenix.org/system/files/conference/fast17/fast17-yan.pdf",
+      "read_depth": "Original design excerpts, section 6.2 and constraints/related work read; evaluation not reproduced.",
+      "evidence": "Uses RAIN to bypass GC-blocked reads, rotating GC and buffered writes. Section 6.2 preemptive-GC baseline postpones future copybacks after an incoming user I/O; it does not suspend an already-issued P/E pulse.",
+      "implication": "Its preemptive-GC comparison does not justify excluding actual P/E suspension from a new experiment.",
+      "artifact_status": "SSDSim and emulation described; no modified simulator verified as public."
+    },
+    {
+      "title": "Respecting the block interface - computational storage using virtual objects",
+      "year": 2019,
+      "venue": "USENIX HotStorage",
+      "url": "https://www.usenix.org/system/files/hotstorage19-paper-adams.pdf",
+      "read_depth": "Original erasure-coded deployment discussion and examples read.",
+      "evidence": "Computes over large independently interpretable data chunks, excludes parity from offloaded searches, and returns split-record fragments for host processing.",
+      "implication": "Computational-storage/EC integration prior, but not the same as linear parity-output repair."
+    }
+  ],
+  "suspension_baselines": {
+    "fast2012": {
+      "title": "Reducing SSD Read Latency via NAND Flash Program and Erase Suspension",
+      "url": "https://www.usenix.org/system/files/conference/fast12/wu.pdf",
+      "read_depth": "Original abstract/introduction and mechanism description read; detailed parameter tables not audited.",
+      "evidence": "Proposes suspend/resume of committed P/E to serve reads; ordinary read prioritization cannot preempt an already committed P/E. Modifies command set/control state and considers program pulse boundaries or cancellation."
+    },
+    "atc2019": {
+      "title": "Practical Erase Suspension for Modern Low-latency SSDs",
+      "url": "https://www.usenix.org/system/files/atc19-kim-shine.pdf",
+      "read_depth": "Original sections 2-3 mechanism, parameters, starvation and methodology read; whole-paper relevant-term scan.",
+      "evidence": "Immediate ES cancels the current erase step and later repeats its work; Deferred ES waits until the current step ends; Timeout ES switches from immediate to deferred to avoid starvation. Arbitrary-point suspension has reliability/peripheral costs.",
+      "parameter_anchor": "Read 3us, program 100us, five 1ms erase steps, 100us suspend penalty, timeout 64ms. These are the paper's low-latency NAND assumptions, not measurements of AiF's device.",
+      "artifact_status": "Modified MQSim, calibrated against a prototype low-latency SSD; modified source not verified public. SNIA IOTTA TPC-C traces cited."
+    },
+    "vendor_update": {
+      "title": "Rethinking the erase operation of low-latency SSDs to achieve high throughput and less long latency",
+      "date": "2023-09-20",
+      "url": "https://www.kioxia.com/en-jp/rd/technology/topics/topics-51.html",
+      "read_depth": "Official vendor technical summary only, not its underlying full paper.",
+      "evidence": "Describes BOOSTER, combining multi-block erase and adaptive erase suspension, and says conventional SSDs can approach ideal behavior with ES while low-latency devices retain important limitations.",
+      "implication": "Non-suspendable millisecond blocking is a device-specific assumption, not universal modern NAND behavior."
+    },
+    "required_experiments": [
+      "Read-priority with page/copyback boundaries and the same persistent background job.",
+      "Immediate ES with explicit suspension latency and discarded erase progress.",
+      "Deferred ES with finite safe-point spacing and preserved progress.",
+      "Timeout ES or equivalent bounded-progress scheduler; include background completion time and deadline violations.",
+      "Zero-cost ideal suspension as an upper-bound baseline, clearly identified as unrealistic.",
+      "Sweep timing anchors rather than asserting the ATC2019 low-latency NAND values apply directly to AiF."
+    ]
+  },
+  "aif_raw_i32_feasibility": {
+    "primary_source": "AiF ISCA2025 local original PDF, sections 4.4 and 5.2-6.1",
+    "url": "https://doi.org/10.1145/3695053.3731073",
+    "evidence": "Paper specifies INT8 multipliers, adder tree, output FIFO, controller polling FIFO via SREG, and aif_post/aif_gemv. It does not specify INT32 accumulator width or output dtype. Its evaluation returns dummy vectors.",
+    "assessment": "Raw I32 is a plausible proposed extension, not a verified existing AiF ABI. No new multiplier type is necessary, but exact accumulator width, output path and controller/driver changes are required.",
+    "required_changes": [
+      "Define signed W8A8 input/weight representation and non-saturating accumulation. A conservative signed-I32 bound is K*16384 <= 2^31-1, hence K <= 131071 for full-range operands.",
+      "Expose raw signed-I32 FIFO output before scaling, bias, clipping or activation. Check output FIFO capacity, packing and bandwidth rather than assuming unchanged cost.",
+      "Add physical placement descriptors to aif_post or an equivalent registration operation; existing automatic equal all-chip striping would incorrectly distribute parity-owner matrices.",
+      "Add active-chip mask, row identity and raw-output format to aif_gemv/controller commands; allow completion from the intended subset without waiting on the unavailable chip.",
+      "Update NVMe/ioctl descriptors, result length validation, host parsing, and raw-result reconstruction in host I64. Keep scales/bias/activation outside the decoded integer domain.",
+      "Give every matched baseline the same raw-I32 interface and command costs.",
+      "Do not infer MAC lanes or throughput from AiF's 6.4GB/s ECC throughput."
+    ],
+    "page_buffer_caveat": "AiF's input-vector PB reuse relies on single-sensing weight reads and otherwise unused latches. NO-CR need not remove be-enc. Removing both be-enc and the dedicated input SRAM assumption may invalidate this storage path. Program suspension also does not automatically prove these PB latches are available for GEMV. Erase suspension and ordinary read support must be distinguished from custom compute support."
+  },
+  "radix128_three_object_candidate": {
+    "status": "New local construction suggested as a stronger implementable baseline; generic digit coding and erasure coding are prior. Not a novelty claim.",
+    "definition": "For 16 aligned INT8 data matrices, S=sum_i W_i is elementwise in [-2048,2032]. Let L=((S+64) mod 128)-64, H=(S-L)/128, C=L+H. All three matrices fit signed INT8. Store L,H,C on three distinct chips.",
+    "decoding": "Any two outputs suffice: from L,H use yS=yL+128*yH; from H,C use yL=yC-yH; from L,C use yH=yC-yL. Then reconstruct missing raw data output as yS minus the other 15 outputs.",
+    "capacity": "Three full shard-shaped INT8 objects / sixteen data objects =18.75% extra bytes before page padding and metadata. Decode uses two ordinary GEMVs, one on each chosen available owner, not a wider MAC.",
+    "validation": "Exhaustively checked every attainable scalar sum -2048..2032 (4081 values): L range [-64,63], H [-16,16], C [-79,78]; representation and all two-of-three decoding identities passed. This checks algebra and storage range only, not PE, quantized-model accuracy or latency.",
+    "timing_caveat": "An owner must also execute its own data shard. Under equal shard work T, two distinct recovery owners carry about 2T each; co-locating two parity limbs with one owner instead yields about 3T. Persistent background state and command timing still determine whether waiting or suspension wins."
+  },
+  "claim_boundaries_and_no_go": [
+    "Do not claim the first sum-parity matvec, radix decomposition, parity bypass of flash blocking, or computational-storage output recovery.",
+    "A defensible implementation contribution would need native-INT8 correctness plus measured/synthesized FIFO/control overhead, NAND page/plane constraints, same-capacity best uncoded placement, and maintenance-progress-aware suspension comparisons.",
+    "Coverage versus replication is a known coding benefit. Any claimed capacity lower bound must state the permitted code and placement class: the 18.75% construction already refutes a universal 25% lower bound.",
+    "For the three-object construction, all owners must be distinct because every chip also holds required data. This is a sufficiency statement for one unavailable chip, not universal storage optimality.",
+    "Coactivation-aware recovery placement is only additional evidence if it beats balanced/random parity owners with the same routing/repair scheduler, including a strong online choice among available owners.",
+    "No-go if bounded suspension beats repair and no maintenance-progress advantage survives, if improvement needs independent artificial per-expert erase events, or if same-capacity uncoded replication/placement removes the benefit.",
+    "The bounded direct search found no verified NAND-die ABFT output-repair implementation; absence in this search is not evidence that none exists."
+  ]
+}

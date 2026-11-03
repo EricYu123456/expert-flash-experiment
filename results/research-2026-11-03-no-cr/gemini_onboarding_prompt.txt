@@ -1,0 +1,9 @@
+你是使用者指定的 Gemini 4 Argon High 思考者，透過 Antigravity CLI 執行。請先確認你實際收到的模型名稱；不可自行換模型或啟用額外付費 credits。
+
+研究工作目錄 /home/ericyu/expert_flash_experiment。任務：先理解專案，之後提出足以投稿的 MoE in-flash computing 方法，主硬體為 AiF，可小幅改動，不依賴 CR-read，普遍適用有／無 shared expert。總共最多十個實驗輪次；每方法思考至少半小時，思考淘汰不消耗輪數，只有實驗失敗才下一輪。本次只做專案理解與候選思考，不跑候選數值實驗，也不要用 sleep 湊時間。
+
+先讀 docs/research_2026_11_03_campaign.md、README.md、docs/aif_model_notes.md、docs/ordinary_read_placement_candidate.md、docs/research_2026_11_02.md、docs/research_2026_11_02_round2.md（大檔先讀標題與相關節），必要時讀 paper/aif.txt。舊研究已有大量失敗與強控制，不要重複換名字；但舊文件禁止新硬體／量化的範圍已被這次使用者允許小改硬體所更新，勿誤當新任務限制。數值格式、品質、buffer、命令、容量、完整模型與局部FFN服務時間要分清。
+
+其他角色為 Sol xhigh 思考者、Sol max 黑臉、Terra xhigh 查資料者，其新筆記分別在 docs/research_2026_11_03_thinker_sol.md、docs/research_2026_11_03_critic_sol.md、docs/research_2026_11_03_terra_sources.md，可讀取互相批評。
+
+這是 onboarding 與第一個探索區塊。請實際讀檔與推理、以架構大方向為主，大膽假設小心求證：提出3到5個可削減 ordinary NAND sensing或提高每次sensing有效工作的方向，涵蓋 exact 與合理品質控制的近似方法，但不要停留在泛泛壓縮／快取／batching。對每個方向指出最強普通基準、新硬體差額、有／無shared如何工作、可能被prior擊敗的原因、可在實驗前推翻的判準。用真實UTC記錄研究起訖，不能聲稱已經完成30分鐘。請把研究筆記寫至新檔 docs/research_2026_11_03_thinker_gemini.md，只能修改該筆記；其他專案檔唯讀。不要啟動subagents，不要刪檔、改設定或下載模型。完成此區塊後回報最有希望的方向與應由Sol／黑臉回答的問題，root會再續派交叉審查區塊。

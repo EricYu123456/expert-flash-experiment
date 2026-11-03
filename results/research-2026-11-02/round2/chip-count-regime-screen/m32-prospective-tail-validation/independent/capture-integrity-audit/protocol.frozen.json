@@ -1,0 +1,23 @@
+{
+  "utc": "2026-11-02T05:35:10.333840+00:00",
+  "source_sha256": "7ca664e9f4d6a3f0223483b55796a7fd65f43979ba273011fb1a2457078959fe",
+  "inputs": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/root_release.json": "07ea0440e55edaf3d48abd30094df7c0f7b9bae52577b6b91e8dbecf876e3884",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/data-capture/acquisition_capture_protocol.frozen.json": "b4f75b76c751b4afd870f1312b1522bb59b9adf7be8c980214ee7b4be00be3a1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/data-capture/completion.frozen.json": "8f7b2389fb0f8e42f024dd73b7ad271969ca8749f77f8a759811981e1b407909",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/data-capture/manifest.json": "2e3f10d9d9505bf0ffee3af40e701c06be95a951c17f2785b02f10b8e24d533c",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/data-capture/capture_summary.json": "403b5393f1070075a7b31f0aa157305f537f95207afcf451e98764ae32292fe0",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/data-capture/granite4tiny/decode.routes.npz": "d4f7cc54970ef1223668c92b68eea22f22c775be9f3293fa61203601df8535ca",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/protocol.frozen.json": "911ecbdb77dcd18ccc880870f70a6a231c0a67730bfac7ac9144eea061e9b516",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/data-capture/exclusion_catalog.json": "a3f7ec38626a8f634fcd8278592cfa313d4e17e1f07f20a3b0df110edc0f47e3",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/data-capture/capture_execution.json": "8a8c6666d0cb172b5188345a796d033fc98e3c2e92d4c4c5e36bed9c870aa354"
+  },
+  "rules": [
+    "Verify explicit root release and pinned completion/protocol/manifest/archive hashes.",
+    "Full32x16x40x6 ordered archive: integer, range, unique top6, allcomplete masks, exact prompt/sourceIDs/layers/position/token identities.",
+    "Independently rebuild all decode and prefill route keys from32 raw JSONL files; reject duplicates or missing coordinates. Compare decode expert order exactly with archive.",
+    "Verify32 prompt file hashes, exclusions, source payload byte hashes, deterministic source-ID ranking, fixed batch assignment and no truncation/replacement. No old prompt text/test payload read.",
+    "Inspect all per-operator coverage metadata for complete40layers and all6projection types; this checks ledger provenance, not recomputation of1.4B numerical values.",
+    "Generate the binding for the separately pre-frozen descriptive route-shift rule, with no costs/selection/refit."
+  ]
+}

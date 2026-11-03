@@ -1,0 +1,98 @@
+{
+  "source_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/summary.json": "af29317223ff2238fbab440f609f98a8d7b8596f258272d960e4f7d289187963",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/protocol.frozen.json": "a59c3b33bc507d5bf21c8cedac8341c21140913cdb5ed2c27849b4ed763f46d8",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/input.frozen.npz": "3d8224482b18013d4b977c88d2852079648c1ed7c3d74bd32b96cdaf131c9285",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/057.mean_work.npz": "f069928fd0675063bc61c173f8ea46fd1df32ba7266997cd5e7a75300a6035dc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/continuation/research_20261103_compact_coupled_continuation.py": "1ec3e42c4fa7cfc16e02e4a5f41be2436a01f8cee8e48080602f68a37f963295",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/snapshots/research_20261103_ordinary_read_backend.py": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/snapshots/research_20261103_compact_coupled_solver.py": "56b46a1a3b1715812f519c3dd40d2aed98ca44cf514d09f5061a50c62ac651b9",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/snapshots/research_20261102_whole_row_compiler.py": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/snapshots/research_20261103_ordinary_read_native.cpp": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821"
+  },
+  "warm": {
+    "index": 57,
+    "stage": "mean_work",
+    "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/incumbents/057.mean_work.npz",
+    "sha256": "f069928fd0675063bc61c173f8ea46fd1df32ba7266997cd5e7a75300a6035dc",
+    "mask_sha256": "5ec5cafd76a33b295a386a28878417c43b186ed7c39b8b556560fac24a00be46",
+    "metric": {
+      "weighted_sum_ns": 284850448,
+      "mean_ns": 556348.53125,
+      "max_ns": 601778,
+      "p99_ns": 601102.0,
+      "NAND_peak_histogram": {
+        "19": 313,
+        "20": 191,
+        "21": 8
+      }
+    },
+    "reported_objective_half_ns": 142425224.0,
+    "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/057.mean_work.npz",
+    "arrays_sha256": "3e6d540bcc25909a5ee4a470e1e01b9b07331735e22396206d22974a93f1105e",
+    "physical": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/057.mean_work.physical.json.gz",
+    "physical_sha256": "5676c8c9cb749455c4a4f59c99ed92f79aad36c0406a1cf60fb3ee7594bceac3",
+    "physical_audit": {
+      "jobs": 1824,
+      "useful_bytes": 155713536,
+      "pages": 9760,
+      "waves": 2440,
+      "chip_blocks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "allocated_lsb_block_bytes": 201326592
+    },
+    "reference_trace_checks": [
+      {
+        "query": 0,
+        "nodes": 1031,
+        "jobs": 200,
+        "resources": 28,
+        "chip_owner_intervals": 200
+      },
+      {
+        "query": 255,
+        "nodes": 1031,
+        "jobs": 200,
+        "resources": 28,
+        "chip_owner_intervals": 200
+      },
+      {
+        "query": 511,
+        "nodes": 1031,
+        "jobs": 200,
+        "resources": 28,
+        "chip_owner_intervals": 200
+      }
+    ],
+    "native_mean_ns": 561770.9140625,
+    "native_p99_ns": 603763.14,
+    "native_min_ns": 549128,
+    "native_max_ns": 606754,
+    "mean_native_LB_ns": 558348.53125,
+    "native_mean_gain_vs_v2": 0.00159890404344476,
+    "native_p99_gain_vs_v2": 0.0018944333950340342,
+    "allocated_bytes_delta_vs_v2": 0
+  },
+  "solver_limit_seconds": 80,
+  "workers": 8,
+  "seed": 20261103,
+  "reason": "Original predetermined64callback cap stopped mean optimization at8.20sec;this continuation has no solution-count stop. Same mathematical epigraph model;do not pool as independent statistical runs.",
+  "constraint": "Same X5/O4/disjoint/fixedshared;min weighted maxchip-owned occupancy,not native DAG latency. All distinct callbacks saved and replayed. No heldout.",
+  "earlier_solver_seconds": 68.52888916060328
+}

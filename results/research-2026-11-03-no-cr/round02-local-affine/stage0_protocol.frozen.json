@@ -1,0 +1,116 @@
+{
+  "revision": "frozen-001",
+  "status": "frozen_implementation_build_synthetic_allowed_real_data_requires_source_audit",
+  "candidate": "layer-shared-input-partition-local-affine-expert-compiler",
+  "experimental_round": 2,
+  "thinking_started_at_utc": "2026-11-02T21:26:00+00:00",
+  "earliest_experiment_at_utc": "2026-11-02T21:56:00+00:00",
+  "scientific_question": "Do conditional slopes buy a quantized operator-error/active-work point beyond the same contextual free intercepts and an optimally pooled shared slope?",
+  "scope": "Bounded necessary-condition pilot, not whole-model quality, latency, or publication success. Any credible nondominated point requires expansion in the SAME experimental round.",
+  "models": [
+    {
+      "name": "deepseek",
+      "gguf": "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-v2-lite-chat-q8_0.gguf",
+      "hidden": 2048,
+      "experts": 64,
+      "top_k": 6,
+      "intermediate": 1408,
+      "pilot_layers": [
+        1,
+        13
+      ],
+      "native_shared_intermediate": 2816,
+      "routed_layer_count": 26
+    },
+    {
+      "name": "olmoe",
+      "gguf": "/home/nfs_client/ericyu/expert_flash_experiment/models/olmoe-1b-7b-0924-q4_k_m.gguf",
+      "hidden": 2048,
+      "experts": 64,
+      "top_k": 8,
+      "intermediate": 1024,
+      "pilot_layers": [
+        0,
+        8
+      ],
+      "native_shared_intermediate": 0,
+      "routed_layer_count": 16
+    }
+  ],
+  "data": {
+    "source": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts",
+    "eligible": "The 200 existing train_*.txt filename IDs only; no content-based eligibility or filtering.",
+    "split_rule": "Sort IDs by SHA256 of UTF-8 string '20261103-local-affine-v1:' + ID, then ID as tie breaker. First120 FIT, next40 VALID, last40 SCORE. Freeze exact IDs, paths and content hashes before capture. Existing100 TEST remain unopened by this pilot.",
+    "independence": "Disjoint prompts for this candidate; existing research TRAIN corpus, not a new unseen external benchmark. Separate token rows are correlated, not independent prompts.",
+    "tokenization": "Pinned llama tokenizer on raw text, add_special=true and parse_special=true, no chat-template wrapping. Keep first min(128,N) token IDs including native special tokens. Record full length and actual retained token IDs.",
+    "generation": "Native source-GGUF trajectory, greedy argmax with smallest-ID ties, exactly8 fed decode steps even if EOS/EOG occurs. Record retained prefill and all generated tokens and routing.",
+    "capture": "Capture every input x and natural routing at the four fixed model/layer pairs. Inputs are from original GGUF inference, not full canonical-W8A8-model trajectories. No whole-model canonical or candidate quality claim.",
+    "expert_selection": "At each fixed layer, count natural FIT hits over prefill and decode, sort nonzero-hit expert IDs by decreasing count then increasing ID. Choose first and floor((count-1)/2) in that list; require two distinct choices or mark layer insufficient. Exactly8 operators total (4 per model). Freeze IDs before VALID/SCORE target queries.",
+    "teacher_queries": "Query each of the8 chosen experts on ALL FIT layer inputs. All controls receive identical query data. Query VALID/SCORE targets for chosen experts as needed for natural-route scoring and separately labelled all-x diagnostics. Report query counts, times, bytes, route-conditioned counts and distinct prompts. Offroute querying supplies targets, not additional independent inputs."
+  },
+  "teacher": {
+    "definition": "Dequantize pinned GGUF complete rows, quantize weights to signed I8[-127,127] with per-row F32 amax/127 scales. Dynamic A8 whole vector uses std::round ties away. Exact signed integer dots. Canonical output order: float s=sw*sx; float f=(float)dot; return f*s. Full-intermediate pinned ggml SiLU, then F32 elementwise Up product, whole-intermediate A8 and exact Down dot/rescale.",
+    "acceleration": "Optional pure-FP64 BLAS dot of integer-valued operands, alpha1/beta0, permitted only after proving sum(abs(products))<2^53 and passing signed worst-case/random I64 exact audits. No mixed precision. Post-dot F32 order and full-I SiLU remain canonical. Batched throughput is not B1 deployment latency.",
+    "validation": "Fail closed on nonfinite values, wrong tensor shape/stride/model identity, missing coverage, arithmetic mismatch or incomplete capture. Such faults are implementation/inconclusive states, not scientific failures. No random/synthetic substitution for real data."
+  },
+  "partition_and_projection": {
+    "tree": "One FIT-only input tree per layer, shared across all experts. Recursive leading-PCA-direction median splits; C in1,4,16,32 uses prefixes of the same tree. Record deterministic PCA sign convention and numerical solver. Runtime decisions depend only on x. Split thresholds must separate distinct projected values; input-dependent secondary coordinates may resolve ties, but identical x cannot be separated by sample ID. Re-run the actual runtime selector on FIT and report achieved occupancies; balanced counts are conditional, not guaranteed.",
+    "centers": "One unweighted FIT meanX per leaf, shared by all experts, stored in F32. Compute shared delta=P(x-meanX_leaf) using the frozen host operation order, then one dynamic A8 vector common to all K local maps at that layer.",
+    "projection": "Nested FIT-only PCA coordinates. r128 primary, r64 secondary; r512 and H2048 for global controls. P=I allowed at full rank to avoid an unnecessary dense projection.",
+    "balancing": "Two preregistered complete configurations, normal PCA and variance-balanced PCA: divide PC j by max(sigma_j,sigma_1/16); if sigma_1=0 use identity scale. Run and report BOTH for every applicable family; no SCORE-based per-operator format synthesis. Each uses its own actual A8 design and refitted pooled prior. Isotropic ridge in these coordinates is explicitly a different regularizer, not a coordinate-equivalence claim. Full-H identity coordinates are a separate fixed global control; full-PCA/normal and balanced full-rank controls are also allowed as prespecified configurations. Any additional format requires an explicit pre-data amendment, not executor choice after SCORE.",
+    "short_inputs": "Native GEMV dimension parameter exists. Low-rank operand layout, wire representation, minimum supported width, complete-row packing and input-post costs require an explicit firmware/hardware contract before system claims; no free K PB contexts or free input retention."
+  },
+  "fitting": {
+    "primary": "Free-intercept local ridge, r128/C32; C1/4/16 ablations. Fit actual dequantized A8 delta design v=sx*q, not an unquantized substitute. Shrink local slopes toward the optimally pooled same-leaf shared slope.",
+    "weighting": "Unweighted all-FIT primary; prespecified bounded-route-weight secondary has weight1 for naturally routed FIT rows and1/4 otherwise. All families get both. Report sum weights, Kish effective N, effective degrees of freedom, numerical rank/conditioning and prompt counts per leaf.",
+    "shared_slope": "Within every leaf compute weighted means of design and target, pool within-leaf-demeaned sufficient statistics, and fit a single optimal slope per expert. Give it a free intercept for each same leaf. Do not fit a global through-origin slope then append leaf biases.",
+    "lambda_grid": [
+      0,
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1,
+      10,
+      "infinity"
+    ],
+    "regularization": "Local penalty is lambda*trace(local weighted covariance)/r*||A_leaf - A_pooled||_F^2 on normalized weighted loss; lambda grid is separate from pooled eta. One lambda per operator/C/format/weight, not per leaf, selected by natural VALID deployed error. Lambda infinity is its own-basis pooled prior. Lambda0 uses minimum-norm correction at relative eigen cutoff1e-10; zero-trace leaf uses zero correction. Runtime-empty leaf is forbidden by the fitted nonempty tree; unsupported/missing region is a documented original-expert fallback and inconclusive coverage, not NaN. Preserve both the selected endpoint and the best-FINITE-lambda-by-VALID point, so all-infinity selection cannot create a vacuous local-family failure.",
+    "deployment": "W8 row-amax quantization of fitted maps, complete-row scales. Use actual I64/F32 scaled-integer predictions, then set each F32 bias from weighted FIT mean(target - deployed prediction), calculated by an explicitly frozen reduction. Bias-plus-prediction uses declared F32 order. This handles quantization and rounding means; all controls receive the same calibration.",
+    "learning_curve": "Coefficient fits on deterministic first2/3 FIT prompt IDs versus all FIT, using the same full-FIT unsupervised tree/P and disclosing this reuse. Assess curve and sample adequacy on VALID. SCORE never selects N, lambda, basis or format. If pilot SCORE is opened and further same-round refinement occurs, label that SCORE as reused development data; reserved100 TEST is still required for new held-out final validation.",
+    "pooled_prior": "For every C/r/format/weight/operator, fit within-leaf-demeaned pooled ridge on FIT. Its independent eta grid is0,1e-4,1e-3,1e-2,.1,1,10,infinity, selected by naturally routed VALID deployed error; eta infinity means zero slope, not pooled recursion. Use covariance normalized by total weight, ridge scale trace/r, relative eigen cutoff1e-10 and minimum-norm solution at eta0. If trace is zero use zero slope. Never transform another format winning matrix in place of refitting its actual quantized design.",
+    "zero_rule": "Follow canonical zero-amax rule: scale1 and all-zero q for inputs/maps. Teacher energy0 gives undefined normalized error and an absolute-error report, not an artificial infinity. No valid-row or bootstrap-repeat filtering based on observed errors."
+  },
+  "controls": [
+    "R0: same leaf selector, only fitted regional mean output, no NAND map read.",
+    "R1: same tree/centers/free leaf biases, optimally pooled within-leaf shared slope at r128; same weight/quantization/VALID capability.",
+    "R2: same contextual bias class and optimal global slopes at r512 and H2048, with actual projection/host/cache/native-page costs. Full rank can use identity coordinates.",
+    "Canonical W8A8 original chosen expert (zero approximation error by definition), with original two-phase physical work.",
+    "FP32 fitted-map predictions as quantization diagnostics only; no deployment cost or quality claims from them."
+  ],
+  "evaluation": {
+    "primary": "Naturally selected SCORE inputs, unweighted expert-output sum-squared error divided by canonical teacher sum-squared energy. Prefill and decode reported separately. Report per-operator, per-model and prespecified equal-operator aggregate; also cosine, absolute errors, route-alpha-weighted diagnostics and all-x secondary results.",
+    "uncertainty": "Paired prompt bootstrap with10000 resamples, seed20261103, shared resampling of the same40 prompt IDs across all comparisons, never token-iid. Freeze candidate points, VALID-matched controls and the complete comparison list before SCORE. Formal sign claims use the95th percentile of bootstrap max-|t| over centered, studentized differences to form simultaneous approximate familywise bands; implement its exact statistic and undefined-variance policy in the source freeze. This is a40-prompt bootstrap approximation, not a finite-sample theorem. Pointwise95% intervals are descriptive. Exact bit-identical ties can be reported directly. Missing-hit/zero-energy/undefined-studentization bootstrap cases are counted and cause inconclusive inference, never silently dropped. No Bonferroni extreme-tail interpolation from only10000 draws. SCORE frontier is descriptive; it does not select controls, formats, hyperparameters or stopping samples. Exact statistic: s_j is bootstrap SD of ratio difference; c is the95th percentile of max_j abs((Delta_b_j-Delta_hat_j)/s_j), and bands are Delta_hat_j +/- c*s_j. Nonliteral s_j=0 is inconclusive.",
+    "scientific_failure": "Only a bounded result for the frozen family and sampled distribution: all VALID-selected finite-local candidates are supported as dominated or exact ties by controls with no greater relevant active work/host/retained-storage costs, with uncertainty sufficient to support the claimed sign. Lambda-infinity alone is a fallback/control, not a local-map gain. Absence of significance, exclusion only of an arbitrary2-5% improvement, sparse decode hits or incomplete fits cannot establish this failure.",
+    "continue_same_round": "Any credible nondominated local point, mixed/inconclusive operators, insufficient coverage or unsettled sample curve require same-round investigation/expansion, not a new failed round. A local MSE improvement is not publication success. Stage0 does not prove whole-model NLL/quality dominance because signed cross-expert errors and downstream trajectories differ.",
+    "positive_expansion": "Before success: all-layer real candidate insertion, canonical and original-GGUF controls, truly free-running quality and held-out NLL/PPL/tasks; MoLAE/nonlinear shared-output-lift, projected-GU-on-host plus original Down, SPICE/global residual, calibrated W4 originals and W4 candidate, lower-K, all-host/hot-map cache and strong native scheduling. Freeze expanded protocol before opening reserved TEST. A direct no-KD output-subspace control concatenates fitted regional slopes, computes a common output SVD U_q and region-specific host B_c, then reads only one U_q flash map. It tests output-space rotation versus host conditional latent transforms. Pay host B storage/compute, latent A8 and per-expert input posts; real SVD factorization does not imply bit-exact W8/A8 outputs.",
+    "guards": "Prespecified optional-to-claim guarded family is explicitly included: distance=||x-meanX_leaf||_2, computable before map reads from shared leaf/full x. For each operator calibrate scalar cutoffs at natural VALID distance quantiles50%,70%,85%, plus100% unguarded. Freeze exact cutoffs before SCORE; identical policy capability for every control. Report coverage, covered-input loss, total output loss with exact-original fallback, and mixed original/map physical work. Do not merely drop costly outliers. Selection is based on VALID distance, not SCORE error. Coverage/CI insufficiency is inconclusive; no whole-model quality deduction. Guard passes distance<=the frozen empirical VALID quantile (linear interpolation rule documented in source freeze). Select a scalar lambda by deployed total normalized VALID loss separately for each operator/C/format/weight/guard configuration; fallback output equals canonical original for pilot purposes. Controls have the same selection ability. This is not per-leaf lambda selection; finite-grid fitted maps may be reused across policies."
+  },
+  "resource_contract": {
+    "ordinary_read": "16 chips,4 planes/chip,16KiB pages,be-enc LSB28us. CR disabled. Native sequential matrix-page commands; fragmented/block-crossing commands and input posts paid. No ECC throughput presented as proven PE throughput.",
+    "legal_layout": "Complete output rows. For H2048 raw W8: r64 map8pages can g2, r12816pages g4, r25632pages g8, r51264pages g16. Group collisions, channels, commands, row scales, buffers, tails and mixed fallback epochs remain explicit; aggregate ideal pages alone do not establish latency.",
+    "capacity": "Nominal1TB/3 ordinary be-enc coefficient budget in decimal bytes, with physical usable/ECC/spare audited before deployment claims. Original fallback retained. Both8,000,000,000-byte and8GiB target-host interpretations audited inclusive of projections, keys, scales, biases, non-FFN weights, KV and cache. OLM r128C32 raw map bank is exactly8GiB before all auxiliaries.",
+    "fairness": "Allow all families equally capable legal placement/replicas/host input factors/cache/CPU execution under the same budgets. Deduplicate identical lowered maps, including lambda-infinity shared slopes; do not bill C duplicate globals. All-host cost is measured, not assumed zero; do not force small maps to flash to create a story.",
+    "claims": "CPU numeric work, modelled native physical schedules and actual hardware measurements remain separate. Any >=10% whole-model engineering speed gain without publication value gets its own explicit label. No such gain has yet been measured for this candidate.",
+    "tree_metadata": "Count both internal-node F32 normals and leaf meanX: at C32/H2048/Deep26 layers these are about6.60MB and6.82MB separately, plus thresholds/headers. Runtime traverses only one depth5 path. Per-map bias and row-scale storage are separate; a nominal8GiB map bank does not include them.",
+    "shared_branch": "The pilot leaves native shared experts unchanged. Deep therefore retains the shared GU-to-Down dependency even when every routed expert uses one map; only replaced experts lose that barrier. OLM without a shared branch can remove the full routed FFN barrier only when no selected expert falls back. Mixed-path critical paths and host-cached shared execution require a real DAG."
+  },
+  "execution": {
+    "role": "Only executor_sol gpt-6.1-sol/xhigh implements and runs after Root/critic thought and protocol gates.",
+    "freeze": "Before candidate data: immutable protocol, prompt IDs/content identities, sources/build/libraries, synthetic arithmetic/selector checks and explicit source review. Preserve every revision/partial attempt; no overwrite or reselection after seeing results.",
+    "resources": "CPU only initially,8 threads per process and at most2 model processes; pin BLAS/OpenMP limits. Existing busy GPU jobs untouched. No model download. Archive actual walltimes and outputs.",
+    "stages": "Implementation/build/synthetic checks may start only after thought+critic gates and frozen protocol. Actual model/prompt capture or fitting requires separate immutable source/build freeze and Root source-review receipt. Compiler/CLI/numeric/capture faults preserve evidence and stay in Round2."
+  },
+  "prior_scope": "Local ridge/Taylor/fallback and host splitting are existing ideas (Flash-Jacobian, TARDIS, Half-the-Nonlinearity, MoLAE, AiF). EBC full paper unverified; public author development code inspected source-only. Candidate value is unmeasured shared-input finite-flash deployment, not a claim that these algorithmic primitives are novel.",
+  "updated_at_utc": "2026-11-02T21:52:54.991123+00:00",
+  "frozen_at_utc": "2026-11-02T22:02:01.243873+00:00"
+}

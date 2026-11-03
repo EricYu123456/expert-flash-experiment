@@ -1,0 +1,46 @@
+{
+  "status": "algorithm_choices_before_candidate_data",
+  "tree": {
+    "leading_solver": "scipy eigsh LinearOperator centered covariance, k1 LA, fixed normal v0 seed20261103+layer*1000+node, tol1e-10 maxiter4096 ncvmin(H,20); residual<=1e-8; explicit evr symmetric covariance fallback",
+    "sign": "largest-absolute coordinate positive; argmax chooses smallest coordinate tie",
+    "normal_storage": "F32; recompute split projected values using runtime C++ sequential FP64 products/adds, no contraction",
+    "threshold": "choose distinct-value boundary minimizing |2left-N|; lower boundary tie; FP64 midpoint or lower endpoint if midpoint rounds up",
+    "ties": "no ID/rank split; identical x always same runtime result; actual FIT occupancy audited; missing depth is inconclusive",
+    "leaf_centers": "unweighted FP64 FIT mean, stored F32, each C prefix separately"
+  },
+  "projection": {
+    "solver": "full centered-FIT FP64 covariance scipy symmetric eigh evd, descending stable eigenvalue order, same sign convention; nested basis",
+    "normal_and_balanced": "both complete configurations separately refit; balanced stored F32 P_j divided by max(sigma_j,sigma1/16), identity scaling if sigma1=0",
+    "runtime": "F32 x-minus-mean, stored F32 P promoted to FP64, pure-FP64 BLAS DGEMM, cast once F32, then C++ dynamicA8",
+    "families": "r128 C1/4/16/32 primary+ablation; r64 C16/32 secondary; pooled R2 r512 normal/balanced and H2048 identity at each C"
+  },
+  "ridge": {
+    "grid": [
+      0.0,
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      "infinity"
+    ],
+    "normalization": "local normalized by sum local weights; pooled within-leaf demean then sum weighted statistics normalized by total weight",
+    "eigen": "symmetric evd, clamp only roundoff negatives, relative cutoff1e-10 of largest eigenvalue; lambda0 minimum-norm correction around own-basis optimal pooled prior",
+    "infinity": "pooled eta infinity=zero; local lambda infinity=own-basis pooled slope; zero trace=no correction",
+    "selection": "natural VALID total deployed error for each operator/C/rank/format/weight/guard/N; independent pooled eta before local lambda; preserve selected and best finite",
+    "learning": "80 first deterministic FIT IDs versus all120 coefficients; same full120 unsupervised tree/P disclosed; no SCORE sample selection"
+  },
+  "numeric": {
+    "quantization": "C++ std::round ties away on F32 quotient; zero amax scale1 q0; no numpy rint",
+    "integer_dots": "pure FP64 ndarray DGEMM integer operands alpha1 beta0; width127^2<2^53 proof plus signed/random I64 audits",
+    "teacher": "canonical G/U full rows then F32 sw*sx, dot castF32, multiply; original pinned full-I ggml SiLU/product bit comparison; whole-I A8; canonical Down",
+    "bias": "C++ sequential original row order FP64 weighted residual accumulation per output, divide sum weights, castF32; actual prediction then separate F32+bias, no FMA",
+    "FP32_diagnostic": "selected FP32 map coefficients, same exact-real A8 design, FP64 BLAS accumulation and F32 cast, independently calibrated same biases; VALID quantization diagnostic only"
+  },
+  "guard": "natural VALID Euclidean distance<=np.quantile(method=linear) at50/70/85; 100 unguarded; original exact fallback has error0 and paid3HI/two epochs; missing cutoff/hits=inconclusive",
+  "bootstrap": "same40prompt multinomial draws from default_rng(20261103),10000; SD ddof1; max-|t| centered Delta_b-Delta_hat; linear95quantile; any undefined draw/nonliteral SD0 makes family inference inconclusive; no redraw/drop",
+  "comparison_selection": "both formats separate; finite local selected and bestfinite versus best VALID eligible same-format same-rank pooled R1 or same-leaf R0; cost eligibility includes actual leaf zero maps, guard fraction, host P and retained metadata; peroperator, permodel, equaloperator and pooled aggregates frozen before SCORE",
+  "SCORE_gate": "separate explicit Root score-review reference after comparisons frozen; no SCORE capture/teacher/fit in prepare or fitval",
+  "resource_claim": "logical complete-row pages/work only; separate actual CPU walltime. No NAND latency, PE rate, one-phase whole-layer or whole-model quality claim. Full rawbank, scales/bias/keys/P/tree/centers/nonFFN/KV ledgers audited under8e9 and8GiB."
+}

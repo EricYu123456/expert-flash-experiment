@@ -1,0 +1,133 @@
+{
+  "checked_utc": "2026-11-02T04:39:55.286257+00:00",
+  "scope": "Bounded primary evidence plus arithmetic; no additional inference, arrivals, native timing, model modification or new hardware. Existing sealed studies untouched.",
+  "main_conclusion": "No newly verified >5% same-capacity placement gain. Two distinct published-capability screens are possible; their gains must survive matched native controls. Mixed fast/slow GEMV page placement lacks a calibrated execution contract.",
+  "page_classes": {
+    "AiF": "No-go for substituting standard page classes into unchanged borrowed-latch GEMV.",
+    "Cambricon": "Dedicated buffers remove the obvious AiF latch argument, but page-class support/timing is unverified rather than impossible.",
+    "SLIM": "Positive SLC-or-TLC device portability; no verified co-resident heterogeneous pool. Table2 also says16channels while methodology prose says8: do not silently select a count.",
+    "KVNAND": "Published target is SLC-mode.",
+    "NVLLM": "Positive MLC/TLC multi-Vread support; finite buffers can mask latency. No calibrated per-class visible service model.",
+    "Lincoln": "Fulltext not obtained; unknown.",
+    "NASiC": "Direct MoE/interleave prior already in base; analog multi-state is not digital page-class capability.",
+    "required_before_experiment": [
+      "A legal address→class map on one fixed configuration.",
+      "Same GEMV/input/ECC/numerical contract on both classes.",
+      "Measured or author-modeled class service after FIFO/ECC, including retention/temperature when claiming shortened tR.",
+      "Fixed capacity and same fast-first/frequency plus phase-critical controls."
+    ]
+  },
+  "screens": [
+    {
+      "name": "SLIM native batched weight fetch, bounded SRAM",
+      "native_evidence": "SLIM5.4 explicitly allows read-once GEMM across B inputs and reduce; no inference of AiF PB replay is used.",
+      "what_is_newly_eligible": "Bounded multiple-request physical mapping under an already described batch engine, not a new batching operator.",
+      "arithmetic_inference": [
+        {
+          "E": 64,
+          "K": 6,
+          "B": 2,
+          "expected_unique_experts": 11.4375,
+          "separate_expert_evaluations": 12,
+          "ideal_weight_read_saving_fraction": 0.046875
+        },
+        {
+          "E": 64,
+          "K": 6,
+          "B": 4,
+          "expected_unique_experts": 20.83099365234375,
+          "separate_expert_evaluations": 24,
+          "ideal_weight_read_saving_fraction": 0.13204193115234375
+        },
+        {
+          "E": 64,
+          "K": 6,
+          "B": 8,
+          "expected_unique_experts": 34.881826421187725,
+          "separate_expert_evaluations": 48,
+          "ideal_weight_read_saving_fraction": 0.2732952828919224
+        }
+      ],
+      "peak_only_check": {
+        "formula": "PageBytes*B/(16 MAC/cycle*1GHz); excludes ECC, SRAM traffic, nonlinear ops and outputs.",
+        "B4_SLC4KiB_MAC_ns": 1024,
+        "SLC_tR_ns": 3000,
+        "B4_TLC16KiB_MAC_ns": 4096,
+        "TLC_tR_ns": 40000
+      },
+      "strong_controls": [
+        "Identical batch/cohort and expert-centric read-once scheduler for equal-allwidth, simple-balanced and phase-coupled placements.",
+        "Fixed64KiB PE total SRAM, with input/output/scratch partition stated; not64KiB free input.",
+        "Dense unchanged model; no adaptive thresholding or invented activation quantizer.",
+        "Same GEMM/reduce/output costs and full expert-input dependencies for every placement."
+      ],
+      "cheap_falsifier": "Actual TRAIN only, same decode-step B4/B8 cohorts: count union-selected experts and per-die necessary weight pages; compare strongest same-batching placement floor. If ideal placement-only gain is below5%, stop before a serving simulator.",
+      "blocking_unknowns": [
+        "Native command fields and batch limits are not published.",
+        "Output format/scales and standalone projection versus fused-FFN interface are not verified.",
+        "Dynamic full-vector A8 scaling must not be replaced by the paper fused-neuron flow without proving compatibility."
+      ],
+      "status": "Worth necessary-work bound only; no placement gain established; delegated evidence to boundary by root request."
+    },
+    {
+      "name": "Cambricon two-plane read/compute role placement with fixed NPU",
+      "native_evidence": "IV-B/C permit one shared compute core and another plane serving sliced ordinary reads to NPU.",
+      "hypothesis": "Routed row ownership may affect whether a coactive set simultaneously fills the existing core and sliced-read path; this resource asymmetry is absent from homogeneous AiF wave accounting.",
+      "strong_controls": [
+        "Original sectionV optimal workload proportion and2D atomic tiling.",
+        "Same sliced-read scheduler, route choices, NPU capacity and fixed one-copy weights.",
+        "Best plane coloring/input-affinity baseline; do not compare compute-only weak baseline."
+      ],
+      "cheap_falsifier": "Before implementation, solve a zero-overhead perfect read/compute split relaxation for selected pages with one core per die and finite channel service. If it is at most5% below the best static split, stop. A surviving gap still requires legal row/page lowering and the actual buffer/numeric contract.",
+      "caveat": "Original paper already optimizes hybrid distribution; no missing mechanism or >5% headroom is proven. Third-party simulator is not primary hardware validation.",
+      "status": "Lower priority conditional screen, not a recommendation to build a new backend or claim novel hybrid mapping."
+    }
+  ],
+  "rejected_shortcuts": [
+    "Use28/46us as AiF fast/slow GEMV tiers.",
+    "Treat64KiB SLIM PE SRAM as64KiB dedicated input.",
+    "Count total batching/read-reuse gain as physical-placement gain.",
+    "Import SLIM multi-plane-read future-work as existing capability.",
+    "Treat NASiC CAM/ADC or new independent contexts as an AiF software configuration.",
+    "Use cell-error variation as visible latency without a safe tR/ready/ECC contract."
+  ],
+  "local_source_hashes": {
+    "aif": {
+      "path": "paper/aif.txt",
+      "sha256": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7"
+    },
+    "cambricon": {
+      "path": "results/research-2026-11-02/round2/qwen38-placement/joint-prior/cambricon.html",
+      "sha256": "67d0cdad54384ae67db5b0ab207b305928dbe1d814dbafdb861bc744cc50eee3"
+    },
+    "kvnand": {
+      "path": "results/research-2026-11-02/round2/chip-count-regime-prior/primary/KVNAND.v1.html",
+      "sha256": "c362c10a0d827c4df7daa18995a9d91fc908b1706d3a90b6760dc51bdf053f37"
+    },
+    "nvllm": {
+      "path": "results/research-2026-11-02/round2/nvllm-conduit-audit/nvllm.html",
+      "sha256": "a4e739c5d9149947b2debc2f2ca0e4498b6bb063cdd3d2886972e521e3485de0"
+    },
+    "nasic_pdf": {
+      "path": "results/research-2026-11-02/round2/backend-capabilities/nasic-primary/2605.23294v1.pdf",
+      "sha256": "56237d510cb328fcdfa1a7017e171909107835fba8a086c42863e225986c9176"
+    },
+    "prior_backend_audit": {
+      "path": "results/research-2026-11-02/round2/backend-capabilities/2026_backend_audit.json",
+      "sha256": "085e48e99afc4b976512024d9b2e1478a6f62f14c26d95a79c9419c1801d0b00"
+    },
+    "prior_backend_matrix": {
+      "path": "results/research-2026-11-02/round2/backend-capabilities/capability_matrix.json",
+      "sha256": "f3515137325685a3db0d21e0fc1a28353a33758a86d6de54886b137ba59196a5"
+    },
+    "prior_numeric_smoke": {
+      "path": "results/research-2026-11-02/round2/backend-capabilities/repository_smoke.json",
+      "sha256": "748081480ebc6c10fa79aeb5cf90d8c06ba7d261934f018c075d2796df6184ae"
+    }
+  },
+  "prior_closures": {
+    "same_allocated_witness": "g4-joint-prefix-replica-screen/same-allocated-witness/independent_review_receipt.json",
+    "topology": "chip-count-regime-prior/completion.json",
+    "note": "Both independent same-allocated reviews passed; no evidence in this screen changes that finite L0 conclusion."
+  }
+}

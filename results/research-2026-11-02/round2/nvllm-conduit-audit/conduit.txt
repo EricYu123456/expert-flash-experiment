@@ -1,0 +1,7243 @@
+Conduit: Programmer-Transparent Near-Data Processing Using Multiple Compute-Capable Resources in Solid State Drives
+Skip to main content
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Contents
+Reading mode
+Colour theme
+Abstract
+1
+Introduction
+2
+Background
+2.1
+SSD Overview
+2.2
+Near-Data Processing
+3
+Motivation
+3.1
+Case Study on Offloading Computations in SSD
+3.2
+Effectiveness of Prior Offloading Approaches
+4
+Conduit
+4.1
+Overview
+4.2
+Design Challenges for an SSD Offloading Policy
+4.3
+Detailed Design of Conduit
+4.3.1
+Compile-Time Preprocessing in the Host
+4.3.2
+Runtime Offloading and Instruction Transformation
+4.4
+System Integration
+4.5
+Overhead Analysis
+5
+Evaluation Methodology
+5.1
+Simulator Overview
+5.2
+Performance and Energy Modeling
+5.3
+Evaluated Techniques
+5.4
+Evaluated Workloads
+6
+Evaluation
+6.1
+Performance Analysis
+6.2
+Energy Analysis
+6.3
+Tail Latency
+6.4
+Offloading Decisions
+6.5
+Workload-Computation Resource Interaction
+7
+Discussion
+8
+Related Work
+9
+Conclusion
+References
+License: CC BY 4.0
+arXiv:2601.17633v1 [cs.AR] 24 Jan 2026
+Conduit: Programmer-Transparent Near-Data Processing
+Using Multiple Compute-Capable Resources in
+Solid State Drives
+Rakesh Nadig
+†
+\dagger
+Vamanan Arulchelvan
+†
+\dagger
+Mayank Kabra
+†
+\dagger
+Harshita Gupta
+†
+\dagger
+Rahul Bera
+†
+\dagger
+Nika Mansouri Ghiasi
+†
+\dagger
+Nanditha Rao
+†
+\dagger
+Qingcai Jiang
+†
+\dagger
+Andreas Kosmas Kakolyris
+†
+\dagger
+Yu Liang
+†
+\dagger
+‡
+\ddagger
+Mohammad Sadrosadati
+†
+\dagger
+Onur Mutlu
+†
+\dagger
+†
+\dagger
+ETH Zürich
+‡
+\ddagger
+Inria, Paris
+Abstract
+Near-data processing (NDP) mitigates the data movement bottleneck in modern computing systems by performing computation
+close
+to where the data resides.
+Solid-state drives (SSDs) are well suited for NDP because they:
+(1) store large application datasets that exceed main memory capacity, and (2) contain multiple heterogeneous computation resources,
+e.g.,
+general-purpose embedded cores in the SSD controller, DRAM
+chips
+, and NAND flash chips, which enable three NDP paradigms: in-storage processing (ISP), processing using DRAM in the SSD (PuD-SSD), and in-flash processing (IFP).
+These resources offer massive internal parallelism and enable in-place computation, which reduces
+data movement across
+the memory hierarchy.
+A large body of prior SSD-based NDP techniques operate in isolation, mapping computations to only one or two NDP paradigms (i.e., ISP, PuD-SSD, or IFP) within the SSD.
+These techniques (1) are tailored to specific workloads or kernels, (2) do not offload computations across all three NDP paradigms in the SSD and thus fail to exploit the full computational potential of an SSD, and (3) lack programmer-transparency, often requiring significant manual effort to identify offloadable code regions and map them to the SSD computation resources, which limits their general applicability and ease of deployment.
+While several prior works propose techniques to partition computation between the host and near-memory accelerators, adapting these techniques to SSDs offers limited benefits because they (1) ignore the heterogeneity of the SSD computation resources, and (2) make offloading decisions based on limited factors such as
+bandwidth utilization, data movement cost, or memory intensity
+, while ignoring key factors such as resource utilization.
+We propose Conduit, a general-purpose, programmer-transparent NDP framework for SSDs that accelerates a broad range of workloads by leveraging available SSD computation resources.
+Conduit operates in two stages.
+At
+compile time, Conduit executes a custom
+compiler (e.g., LLVM)
+pass that (i) vectorizes suitable application code segments into single-instruction multiple-data (SIMD) operations that align with the SSD’s page layout, and (ii) embeds metadata (e.g., operation type, operand sizes) into the vectorized instructions to guide runtime offloading decisions.
+At
+runtime, within the SSD, Conduit performs instruction-granularity offloading by evaluating six key application and system features
+(e.g., operation type, computation resource utilization, data dependence delay)
+, and uses a cost function to select the most suitable SSD computation resource to execute each vectorized instruction.
+We evaluate Conduit and two prior NDP offloading techniques using an in-house event-driven SSD simulator on six data-intensive applications
+(e.g., large language model inference and training, encryption)
+.
+Conduit outperforms the best-performing prior offloading policy by 1.8
+×
+\times
+and reduces energy consumption by 46%, with
+small
+latency and storage overheads, and no additional hardware
+cost
+.
+1
+Introduction
+Near-data processing (NDP) techniques
+(e.g.,
+[
+1
+,
+2
+,
+3
+,
+4
+,
+5
+,
+6
+,
+7
+,
+8
+,
+9
+,
+10
+,
+11
+,
+12
+,
+13
+,
+14
+,
+15
+,
+16
+,
+17
+,
+18
+,
+19
+,
+20
+,
+21
+,
+22
+,
+23
+,
+24
+,
+25
+,
+26
+,
+27
+,
+28
+,
+29
+,
+30
+,
+31
+,
+32
+,
+33
+,
+34
+,
+35
+,
+36
+,
+37
+,
+38
+,
+39
+,
+40
+,
+41
+,
+42
+,
+43
+]
+)
+alleviate the performance and energy overheads caused by
+data movement
+in modern computing systems by enabling computation close to where data resides
+[
+6
+,
+44
+,
+5
+]
+.
+In
+processor-centric
+computing systems, the performance and energy efficiency of modern data-intensive applications
+(e.g., databases
+[
+45
+,
+46
+,
+47
+,
+16
+,
+48
+,
+49
+,
+50
+,
+51
+,
+52
+,
+53
+,
+54
+,
+55
+,
+56
+,
+12
+,
+57
+,
+11
+,
+58
+,
+59
+,
+60
+,
+61
+,
+62
+]
+,
+web search
+[
+63
+,
+64
+,
+65
+,
+66
+,
+67
+,
+68
+,
+69
+]
+,
+data analytics
+[
+70
+,
+71
+,
+72
+,
+12
+,
+73
+,
+21
+,
+74
+,
+75
+,
+76
+,
+77
+,
+78
+,
+79
+,
+80
+,
+81
+]
+,
+genomics
+[
+82
+,
+83
+,
+84
+,
+85
+,
+86
+,
+87
+,
+88
+,
+89
+,
+90
+,
+25
+,
+91
+,
+92
+,
+93
+]
+,
+graph processing
+[
+94
+,
+95
+,
+96
+,
+97
+,
+98
+,
+99
+,
+100
+,
+101
+,
+102
+,
+103
+,
+14
+,
+11
+]
+,
+machine learning
+[
+104
+,
+105
+,
+106
+,
+107
+,
+41
+,
+40
+,
+108
+,
+109
+,
+110
+,
+30
+,
+39
+,
+111
+,
+112
+,
+113
+,
+114
+,
+115
+,
+116
+,
+117
+,
+118
+,
+119
+]
+,
+cryptography
+[
+120
+,
+121
+,
+122
+,
+123
+,
+124
+,
+125
+,
+126
+,
+127
+,
+128
+,
+129
+,
+130
+]
+, mobile workloads
+[
+1
+,
+131
+,
+132
+,
+35
+,
+133
+,
+134
+,
+135
+,
+69
+]
+)
+are limited by data movement between the compute units (e.g., CPU, GPU) and the memory
+system
+.
+Many
+of these workloads (e.g., graph processing, sorting, sparse matrices) perform simple computations (e.g., bitwise operations,
+comparisons
+) with low arithmetic intensity, making data movement the dominant cost during execution.
+NDP reduces unnecessary
+data movement
+and enables efficient use of memory and storage bandwidth
+[
+44
+,
+6
+,
+5
+,
+2
+,
+136
+,
+137
+]
+.
+A solid-state drive (SSD) (e.g.,
+[
+138
+,
+139
+,
+140
+,
+141
+,
+142
+,
+143
+,
+144
+,
+145
+,
+146
+,
+147
+,
+148
+,
+149
+]
+) is well-suited for NDP
+due to at least
+three reasons.
+First, it stores large application datasets that often exceed main memory capacity.
+Second, it enables three heterogeneous NDP paradigms:
+1)
+processing using general-purpose embedded cores in the SSD controller (in-storage processing (ISP))
+[
+150
+,
+62
+,
+151
+,
+152
+,
+153
+,
+73
+,
+154
+,
+155
+,
+156
+,
+157
+,
+158
+,
+79
+,
+159
+,
+80
+,
+160
+,
+161
+,
+162
+,
+163
+,
+164
+,
+165
+,
+166
+,
+167
+,
+65
+,
+71
+,
+21
+,
+168
+,
+24
+,
+169
+,
+170
+,
+171
+,
+172
+,
+173
+,
+174
+,
+175
+,
+176
+,
+177
+,
+178
+,
+90
+,
+25
+,
+179
+,
+180
+,
+112
+,
+181
+,
+182
+,
+74
+,
+183
+,
+13
+,
+38
+,
+184
+,
+185
+,
+186
+,
+187
+,
+188
+,
+41
+,
+117
+,
+118
+,
+119
+]
+,
+2)
+processing using DRAM in the SSD (PuD-SSD)
+[
+12
+,
+11
+,
+26
+,
+102
+,
+189
+,
+190
+,
+56
+,
+191
+,
+192
+,
+193
+,
+194
+,
+195
+,
+196
+,
+197
+,
+198
+,
+57
+,
+199
+,
+200
+]
+, and
+3)
+in-flash processing (IFP)
+[
+10
+,
+14
+,
+201
+,
+202
+,
+203
+,
+204
+,
+205
+,
+206
+,
+207
+,
+111
+,
+208
+,
+62
+,
+170
+]
+(see §
+2
+for details). These in-situ computation capabilities reduce unnecessary data movement between the host
+processor
+and the SSD, and ease the burden on the memory hierarchy.
+Third,
+an SSD
+provides high internal parallelism for concurrent data access and computation.
+While a large
+number
+of prior works (e.g.,
+[
+150
+,
+62
+,
+151
+,
+152
+,
+153
+,
+73
+,
+154
+,
+155
+,
+156
+,
+157
+,
+187
+,
+158
+,
+79
+,
+159
+,
+80
+,
+160
+,
+161
+,
+162
+,
+163
+,
+164
+,
+165
+,
+166
+,
+167
+,
+65
+,
+71
+,
+21
+,
+168
+,
+24
+,
+169
+,
+170
+,
+171
+,
+172
+,
+173
+,
+174
+,
+175
+,
+186
+,
+176
+,
+177
+,
+178
+,
+90
+,
+25
+,
+179
+,
+180
+,
+112
+,
+181
+,
+182
+,
+74
+,
+183
+,
+13
+,
+38
+,
+184
+,
+185
+,
+10
+,
+14
+,
+201
+,
+92
+,
+209
+]
+)
+propose
+SSD-based NDP techniques, they have two key limitations.
+First, these techniques operate largely in isolation, offloading parts of the application to
+only
+one or two SSD computation resources, which prevents them from exploiting the SSD’s full computational potential.
+For example, Active Flash
+[
+79
+]
+offloads data analytics kernels to SSD controller cores (ISP) and
+Flash-Cosmos
+[
+10
+]
+exploits only flash chips to accelerate bulk bitwise operations via in-flash processing.
+Second, these techniques are typically application-specific and
+not
+programmer-transparent, which
+limits their general applicability
+. For example, MARS
+[
+92
+]
+accelerates raw signal genome analysis in the SSD by adding specialized hardware units in the SSD DRAM and the SSD controller, but it relies on custom data layouts and the explicit identification of offloadable sections by the programmer.
+The need for such programmer
+intervention limits the generality of these techniques and their
+ease of
+adoption in modern storage
+and system
+stacks.
+Limitations of Prior Offloading Approaches.
+To our knowledge,
+no
+prior work exploits
+multiple
+SSD computation resources in a
+general-purpose
+and
+application-transparent
+manner.
+Several
+prior NDP offloading techniques (e.g.,
+[
+29
+,
+30
+,
+31
+,
+28
+,
+32
+,
+33
+,
+34
+,
+35
+,
+36
+,
+37
+,
+210
+,
+38
+,
+211
+,
+212
+,
+213
+,
+214
+,
+215
+]
+) propose partitioning and mapping applications for execution between
+specifically
+the host and NDP units near main memory (e.g., 3D stacked memory with
+general-purpose
+cores in its logic layer).
+Unfortunately,
+adapting these techniques to SSD-based NDP provides limited benefits because they (1) do
+not
+account for the architectural heterogeneity of the SSD computation resources, which vary in their parallelism, access granularities, and computation capabilities, and (2) optimize for
+only
+a limited set of system-level metrics such as bandwidth utilization (e.g.,
+[
+28
+]
+) or data movement cost (e.g.,
+[
+29
+]
+), while ignoring key factors such as computation resource utilization
+, operand location, and data dependencies
+.
+We study the effectiveness of two prior offloading models, BW-Offloading
+(e.g.,
+[
+210
+,
+38
+,
+28
+,
+211
+,
+212
+,
+213
+]
+)
+and DM-Offloading
+(e.g.,
+[
+29
+,
+214
+,
+36
+,
+215
+]
+)
+, when applied to offloading computations within an SSD.
+Our motivational study shows that the best-performing prior model, DM-Offloading, shows an average performance gap of 2.5
+×
+\times
+compared to an Ideal offloading approach that assumes no resource contention and always selects
+the
+resource with the lowest computation latency (see §
+3.2
+for more
+detail
+).
+These results show the need for an offloading mechanism that fully exploits the heterogeneity of SSD computation resources and makes workload- and system-aware offloading decisions.
+Our goal
+is to enable programmer-transparent near-data processing in SSDs that (1) schedules and coordinates computation across multiple heterogeneous SSD computation resources and (2) makes offloading decisions that are aware of both workload characteristics and dynamic system conditions, and (3) improves the performance and energy efficiency of a wide range of applications.
+To this end, we propose
+Conduit
+, a general-purpose programmer-transparent NDP framework that dynamically offloads fine-grained computations (at instruction granularity) to SSD controller cores, SSD DRAM chips, and flash chips.
+Conduit consists of two key steps.
+First, Conduit performs compile-time vectorization to identify offloadable code regions (e.g., loops with computations) and transforms them into SIMD operations that match the internal bit-level parallelism of an SSD.
+Second, at runtime, Conduit (i) determines the most suitable SSD computation resource to execute each vector operation using a holistic cost function, which is based on six key factors: operation type, operand location, data dependencies, resource utilization, data movement costs
+,
+and computation latencies, (ii) translates each vector operation to the native instruction set architecture (ISA) of the chosen SSD computation resource, and (iii) dispatches the transformed instruction to the chosen resource’s execution queue.
+We evaluate Conduit and six prior NDP
+techniques
+[
+216
+,
+26
+,
+10
+,
+201
+,
+38
+,
+29
+]
+using an event-driven SSD simulator.
+1
+1
+1
+We develop Conduit’s simulator due to the lack of SSD simulators that support NDP. Our
+simulator
+inherits its core SSD model from the state-of-the-art SSD simulator, MQSim
+[
+217
+,
+218
+]
+. Our NDP extensions (i.e., models for SSD computation resources) are calibrated using real-device characterization studies (e.g.,
+[
+10
+,
+201
+]
+) and open-source
+infrastructures
+(e.g.,
+[
+219
+,
+26
+,
+220
+]
+) from prior works (See §
+5.2
+).
+Our evaluation includes six data-intensive applications (see §
+5
+) that cover diverse
+computation
+and access patterns.
+Conduit outperforms the best-performing prior offloading policy
+[
+29
+]
+by 1.8
+×
+\times
+and reduces energy consumption by 46% on average.
+This work makes the following key contributions:
+•
+We demonstrate that prior NDP offloading approaches offer limited benefits when adapted to SSDs because they (1) do not account for the architectural heterogeneity of SSDs, and (2) optimize for only a limited set of system-level metrics (e.g., data movement or bandwidth).
+•
+We propose Conduit, the first general-purpose programmer-transparent NDP framework that enables fine-grained
+(i.e., instruction-granularity)
+offloading across
+multiple
+heterogeneous SSD computation resources.
+Conduit dynamically determines the most suitable computation resource for each instruction using a holistic cost function that is based on multiple application and system characteristics.
+•
+We evaluate Conduit and
+six
+prior offloading techniques on six real-world data-intensive applications. Conduit provides significant performance and energy benefits over prior offloading techniques across all workloads.
+2
+Background
+We
+provide an overview of
+a modern
+SSD architecture and its computation resources. We describe the principles of the three NDP paradigms enabled by SSDs: in-storage processing, processing using DRAM (PuD-SSD), and in-flash processing.
+2.1
+SSD Overview
+Fig.
+1
+shows a NAND flash-based SSD, which consists of three main components: the SSD controller
+1
+, DRAM
+2
+, and NAND flash chips
+3
+.
+The SSD controller includes multiple general-purpose embedded cores
+4
+(e.g.,
+[
+221
+,
+216
+]
+) that execute the Flash Translation Layer (FTL) firmware
+[
+222
+,
+217
+,
+223
+,
+224
+,
+225
+]
+and handle
+six
+key functions:
+(1) communicate with the host
+using
+protocols such as SATA
+[
+226
+]
+or NVMe
+[
+227
+]
+over system I/O bus (e.g., PCIe
+[
+228
+]
+)
+5
+,
+(2) translate the logical address of every I/O request to a physical address (L2P mapping),
+(3) schedule accesses to flash chips and DRAM via multiple chip
+6
+and bank-level queues
+7
+respectively.
+(4) perform garbage collection
+[
+229
+,
+144
+,
+217
+,
+230
+,
+231
+,
+232
+,
+233
+,
+234
+,
+235
+,
+236
+,
+237
+]
+to reclaim old and invalid blocks,
+(5) distribute writes (i.e., wear-leveling
+[
+238
+,
+239
+,
+240
+,
+237
+,
+241
+]
+) across flash blocks to uniformly wear out the SSD and improve the endurance, and
+(6) maintain FTL metadata and
+cache
+frequently accessed pages in
+SSD’s DRAM
+2
+.
+Figure 1:
+High-level overview of a modern SSD
+A flash controller (FC)
+8
+[
+242
+,
+243
+,
+244
+,
+145
+,
+245
+,
+238
+,
+241
+,
+246
+,
+247
+,
+248
+,
+249
+,
+240
+,
+239
+,
+237
+,
+250
+,
+144
+,
+236
+,
+251
+,
+252
+,
+253
+]
+is a
+specialized processor
+that connects to flash chips
+[
+230
+,
+238
+,
+241
+,
+246
+,
+247
+,
+248
+,
+249
+,
+240
+,
+239
+,
+237
+,
+250
+,
+144
+,
+236
+]
+via shared channels
+9
+.
+A modern SSD typically includes one FC per flash channel to maximize internal SSD parallelism.
+Each FC is responsible for (1) command/data transfer
+[
+145
+,
+254
+]
+, (2) data randomization
+[
+144
+,
+237
+,
+236
+]
+, and (3)
+ECC encoding/decoding
+[
+144
+,
+237
+,
+236
+,
+10
+,
+255
+,
+145
+,
+256
+,
+257
+,
+258
+,
+251
+,
+252
+,
+253
+]
+.
+Each flash chip contains 1–4 independently operating dies
+10
+, which provide fine-grained parallelism by enabling independent access and command execution. We provide a more detailed description of the flash chip structure, and how it enables in-flash computation in §
+2.2
+.
+2.2
+Near-Data Processing
+Near-data processing (NDP)
+[
+1
+,
+2
+,
+3
+,
+4
+,
+5
+,
+6
+,
+7
+,
+8
+,
+9
+,
+10
+,
+11
+,
+12
+,
+13
+,
+14
+,
+15
+,
+16
+,
+17
+,
+18
+,
+19
+,
+20
+,
+21
+,
+22
+,
+23
+,
+24
+,
+25
+,
+26
+,
+27
+,
+28
+,
+29
+,
+30
+,
+39
+,
+40
+,
+41
+,
+31
+,
+42
+,
+43
+,
+32
+,
+33
+,
+34
+,
+35
+,
+36
+,
+37
+,
+38
+,
+201
+,
+62
+,
+202
+,
+170
+,
+205
+,
+203
+,
+102
+,
+189
+,
+190
+,
+56
+,
+191
+,
+192
+,
+193
+,
+194
+,
+57
+,
+198
+,
+195
+,
+199
+,
+150
+,
+151
+,
+152
+,
+153
+,
+73
+,
+154
+,
+155
+,
+156
+,
+157
+,
+187
+,
+158
+,
+79
+,
+159
+,
+80
+,
+160
+,
+161
+,
+162
+,
+163
+,
+164
+,
+165
+,
+166
+,
+167
+,
+65
+,
+71
+,
+168
+,
+169
+,
+171
+,
+172
+,
+173
+,
+174
+,
+175
+,
+186
+,
+176
+,
+177
+,
+178
+,
+90
+,
+179
+,
+180
+,
+112
+,
+181
+,
+182
+,
+74
+,
+183
+,
+184
+,
+185
+,
+188
+,
+259
+,
+196
+,
+197
+,
+204
+,
+72
+,
+260
+,
+261
+,
+262
+,
+263
+]
+mitigates the data movement bottleneck by enabling computation closer to the data, typically
+inside
+or near memory or storage
+arrays
+.
+SSDs are well-suited for NDP because they inherently include three heterogeneous computation resources: (1) SSD controller cores, which support general-purpose computation
+capability
+, (2)
+SSD-internal
+DRAM, which enables fast, parallel bulk bitwise and arithmetic operations, and (3) NAND flash chips, which
+enable parallel
+in-place bulk bitwise and arithmetic operations.
+In-Storage Processing (ISP).
+The SSD controller cores
+[
+221
+,
+216
+,
+264
+,
+265
+,
+144
+,
+146
+,
+266
+,
+267
+,
+268
+,
+269
+,
+270
+,
+271
+,
+272
+,
+242
+,
+243
+]
+typically execute FTL firmware and handle host communication, but they can be repurposed to perform general-purpose computations.
+Prior works (e.g.,
+[
+150
+,
+62
+,
+151
+,
+152
+,
+153
+,
+73
+,
+155
+,
+156
+,
+157
+,
+79
+,
+159
+,
+80
+,
+160
+,
+161
+,
+162
+,
+163
+,
+164
+,
+165
+,
+166
+,
+167
+,
+65
+,
+71
+,
+21
+,
+168
+,
+24
+,
+169
+,
+171
+,
+172
+,
+173
+,
+174
+,
+175
+,
+186
+,
+176
+,
+177
+,
+178
+,
+90
+,
+25
+,
+179
+,
+180
+,
+112
+,
+181
+,
+182
+,
+74
+,
+183
+,
+13
+,
+38
+,
+184
+,
+185
+,
+187
+,
+154
+,
+188
+,
+41
+,
+209
+,
+117
+,
+118
+,
+119
+]
+) demonstrate that these embedded cores can accelerate
+various
+tasks
+including filtering, aggregation, encryption, compression and search
+.
+Limited SIMD parallelism (e.g., 32-bit registers in ARM Cortex-R5
+[
+221
+]
+) in the SSD controller cores reduces the computation throughput, making ISP less effective for data-parallel workloads.
+Processing-using-DRAM in SSD (PuD-SSD).
+Modern SSDs integrate a
+set of
+low-power DRAM
+chips
+(e.g., 4GB LPDDR4 for 4TB SSDs
+[
+138
+]
+) to store metadata and cache frequently accessed pages
+[
+222
+,
+217
+,
+223
+,
+224
+,
+225
+,
+144
+,
+273
+,
+274
+,
+275
+,
+276
+,
+277
+]
+.
+This DRAM subsystem exposes high internal bandwidth and parallelism, making it a well-suited substrate for NDP.
+Fig.
+2
+shows DRAM organization and the architectural principles that enable PuD-SSD.
+Each DRAM module consists of 8–16 chips, and each chip contains several independent DRAM banks
+2a
+capable of serving requests in parallel.
+A bank is composed of multiple mats (subarrays
+[
+278
+,
+56
+,
+279
+,
+12
+,
+280
+,
+281
+,
+282
+,
+57
+,
+283
+,
+284
+]
+)
+2b
+, each composed of cell arrays
+2c
+organized as rows and columns.
+The mat selector
+[
+26
+]
+2d
+connects a chosen mat to global bitlines and shared sense amplifiers, while local row decoders
+2e
+activate local wordlines
+2f
+to access stored bits.
+The activated row is latched in a row buffer
+2g
+. The global wordlines
+2h
+coordinate access across mats. Each DRAM cell
+2i
+stores a single bit using a capacitor-transistor pair.
+Figure 2:
+Overview of processing-using-DRAM
+Processing using DRAM (PuD) techniques leverage DRAM’s intrinsic operational principles to perform computation directly within memory arrays.
+Prior works (e.g.,
+[
+12
+,
+11
+,
+26
+,
+102
+,
+189
+,
+190
+,
+56
+,
+191
+,
+192
+,
+193
+,
+194
+,
+57
+,
+198
+,
+195
+,
+199
+,
+44
+,
+136
+,
+285
+,
+286
+,
+30
+,
+287
+,
+288
+,
+196
+,
+289
+,
+197
+,
+290
+]
+) show that careful orchestration of ACT (row activation) and PRE (precharge) commands enables a range of primitive operations (e.g., AND, OR, NOT, MAJORITY) in a highly parallel manner within the DRAM chips.
+RowClone
+[
+56
+]
+demonstrates that consecutively activating two rows within the same DRAM subarray enables fast bulk data copy and initialization by transferring data through shared sense amplifiers.
+Ambit
+[
+12
+]
+exploits triple-row activation to compute the bitwise MAJORITY (AND and OR by extension) function, and implements bitwise NOT using sense amplifiers, with DRAM circuit modifications.
+Building on these techniques, SIMDRAM
+[
+11
+]
+introduces a software-hardware co-designed framework that maps arbitrary logic circuits composed of AND, OR, and NOT gates onto the Ambit substrate. SIMDRAM enables complex operations (e.g., multiplication, addition, convolution) to be performed entirely within the DRAM chips.
+MIMDRAM
+[
+26
+]
+improves programmability and applicability of the Ambit substrate by (1) supporting finer-granularity operations than full-row execution, and (2) providing compiler support that transparently transforms applications to exploit bulk-bitwise execution.
+Recent studies on commercial-off-the-shelf (COTS) DRAM chips
+[
+44
+,
+136
+,
+195
+,
+291
+,
+292
+,
+199
+,
+198
+,
+196
+,
+194
+,
+197
+,
+293
+,
+294
+,
+295
+]
+demonstrate that existing DRAM chips are capable of performing all of these operations by violating specific timing parameters in the memory controllers, without modifying the DRAM chip and the DRAM interface.
+Compared to execution on SSD controller cores, PuD-SSD enables executing computations in DRAM chips, and significantly improves performance and energy efficiency. However, PuD-SSD operates on data in the DRAM, which requires transferring operands from flash chips via bandwidth-limited flash channels. These data transfers introduce additional latency and flash channel contention.
+In-Flash Processing (IFP).
+Fig.
+3
+shows the organization of a NAND flash chip and the principles that enable computations inside the flash array.
+A NAND flash chip
+3a
+[
+296
+,
+297
+,
+144
+,
+298
+,
+143
+,
+271
+,
+146
+,
+299
+,
+236
+,
+237
+,
+238
+,
+239
+,
+241
+,
+247
+,
+240
+,
+248
+,
+246
+,
+249
+]
+contains 1-4 independent dies
+3b
+, each capable of operating concurrently.
+Each flash die has multiple planes
+3c
+(typically 1 to 4) that share the flash die’s peripheral circuitry for row decoding, sensing, and programming. Each plane holds thousands of blocks
+3d
+.
+Each block consists of hundreds of pages. Each page corresponds to a row of flash cells connected to a single wordline in a block. Read/write operations are performed at page granularity (e.g., 16KB).
+Planes within the same die operate concurrently (
+enabling
+multi-plane operations), but only when accessing pages at the same offset.
+Vertically stacked flash cells (typically
+consisting of 24-1024 cells
+) connected in series form NAND strings
+3e
+that connect to bitlines (BLs). Multiple NAND strings across different BLs constitute a sub-block
+3f
+.
+A flash cell
+3g
+stores
+bits
+in terms of its
+threshold voltage:
+a cell in the programmed state (0) has a high threshold voltage, whereas an erased cell (1) has a low threshold voltage. During reads, a programmed cell behaves as an open switch, and an erased cell operates as a resistor.
+Figure 3:
+Overview of in-flash processing
+IFP techniques
+[
+10
+,
+14
+,
+201
+,
+62
+,
+202
+,
+170
+,
+205
+,
+203
+]
+exploit the flash chip’s structure to perform bulk bitwise and arithmetic operations within the flash chips.
+Flash-Cosmos
+[
+10
+]
+enables bitwise AND
+3h
+(OR
+3i
+) by simultaneously activating multiple wordlines within (across) blocks.
+Several works
+[
+201
+,
+62
+,
+14
+]
+control the latches (S-latch, D-latch)
+3j
+in the page buffer within the flash die’s peripheral circuitry to enable more complex operations such as addition and multiplication
+3k
+.
+These techniques exploit both bit-level and array-level parallelism within the SSD to enable efficient in-place computation.
+While IFP eliminates data movement overhead and enables high parallelism, it supports a limited set of operations and is
+therefore
+less suitable for workloads that require complex computations.
+3
+Motivation
+We demonstrate
+the need for an effective offloading policy for SSD-based NDP. We (1) describe the limitations of NDP techniques proposed for SSDs, (2) present a case study that demonstrates the need for offloading computations across
+multiple
+SSD computation resources, and (3) quantitatively demonstrate that prior offloading techniques proposed for other NDP architectures fall short when adapted to SSDs.
+A modern SSD contains multiple heterogeneous computation resources, including general-purpose embedded controller cores, SSD-internal DRAM, and NAND flash chips (see §
+2.2
+). Each computation resource enables an NDP paradigm with different strengths and limitations. We describe the strengths and limitations of each of these computation paradigms in §
+2.2
+.
+Limitations of SSD-based NDP Techniques.
+A large body of prior work
+(e.g.,
+[
+150
+,
+62
+,
+151
+,
+152
+,
+153
+,
+73
+,
+154
+,
+155
+,
+156
+,
+157
+,
+187
+,
+158
+,
+79
+,
+159
+,
+80
+,
+160
+,
+161
+,
+162
+,
+163
+,
+164
+,
+165
+,
+166
+,
+167
+,
+65
+,
+71
+,
+21
+,
+168
+,
+24
+,
+169
+,
+170
+,
+171
+,
+172
+,
+173
+,
+174
+,
+175
+,
+186
+,
+176
+,
+177
+,
+178
+,
+90
+,
+25
+,
+179
+,
+180
+,
+112
+,
+181
+,
+182
+,
+74
+,
+183
+,
+13
+,
+38
+,
+184
+,
+185
+,
+10
+,
+14
+,
+201
+,
+92
+,
+209
+,
+202
+,
+205
+,
+203
+,
+41
+,
+75
+,
+300
+,
+119
+,
+301
+,
+206
+,
+207
+]
+)
+proposes SSD-based NDP techniques. These techniques have two key limitations.
+First, these techniques operate largely in isolation and map specific portions of an application to
+only
+one or two SSD computation resources, which prevents them from exploiting the SSD’s full computational potential.
+For instance, Active Flash
+[
+79
+]
+offloads data analytics kernels to SSD controller cores (ISP), and Flash-Cosmos
+[
+10
+]
+accelerates bulk bitwise operations directly within NAND flash chips (IFP).
+Our motivational experiments in §
+3.2
+on six real-world workloads show that ISP and IFP, in isolation, underperform by 1.8
+×
+\times
+and 1.9
+×
+\times
+on average compared to an offloading approach
+[
+29
+]
+that leverages
+multiple
+SSD computation resources.
+Second, these techniques are typically application-specific and
+not
+programmer-transparent.
+For example, MARS
+[
+92
+]
+accelerates raw signal genome analysis
+[
+302
+,
+303
+,
+304
+,
+305
+,
+306
+]
+by performing computations within the SSD-internal DRAM and the SSD controller. MARS requires the programmer to explicitly identify offloadable sections and manage data placement
+and code scheduling
+to enable in-situ computations. The need for such programmer intervention limits
+generality and ease of adoption in modern storage and system stacks
+.
+3.1
+Case Study on Offloading Computations in SSD
+Offloading computation across multiple SSD computation resources is key to exploiting the SSD’s full computational potential. To study how different workloads interact with SSD computation resources, we conduct a case study that examines performance bottlenecks (i.e., data movement or computation) across
+three execution models
+2
+2
+2
+We exclude PuD-SSD from this case study because PuD-SSD incurs similar data-movement overheads as ISP, since data must be transferred from flash chips to DRAM over bandwidth-limited flash channels.
+(see §
+5
+for our experimental methodology):
+(1) Outside-storage processing (OSP) on host CPU or GPU,
+(2) In-storage processing (ISP) on SSD controller cores, and
+(3) In-flash processing (IFP) within flash chips.
+Fig.
+4
+presents our analyses for three categories of workloads, I/O-intensive, more compute-intensive, and mixed workloads.
+I/O-Intensive Workloads.
+For workloads dominated by data transfer
+(e.g., databases
+[
+48
+,
+54
+]
+, bitmap indices
+[
+58
+,
+61
+,
+51
+,
+57
+]
+)
+, OSP is limited by the host-SSD data movement.
+ISP outperforms OSP by 30% by reducing host-SSD data movement, but ISP’s performance is limited by the significant data movement between the flash chips and the SSD controller via bandwidth-limited flash channels.
+IFP outperforms OSP by 70% by executing computations directly within the flash chips and significantly reducing the data movement
+.
+Naively combining IFP and ISP reduces performance by 15% compared to IFP, because the additional data movement overhead between flash chips and the controller offsets the benefits of IFP’s
+highly
+parallel computation capability.
+More Compute-Intensive Workloads.
+For more compute-intensive workloads (e.g., encryption
+[
+307
+]
+, matrix multiplication
+[
+308
+]
+), ISP outperforms OSP by 20% by avoiding host-SSD transfers, but ISP’s limited SIMD parallelism constrains the throughput.
+IFP outperforms both OSP and ISP (50% improvement over OSP) by exploiting the massive bit- and array-level parallelism of flash arrays.
+Combining IFP and ISP provides additional performance gains
+(28% over IFP)
+because: (i) ISP handles control-intensive operations and complex operations that IFP does not support, and (ii) IFP accelerates bulk data-parallel computation. This result demonstrates that leveraging multiple computation resources mitigates the limitations of individual computation paradigms.
+Mixed Workloads.
+For workloads that involve both computation and data movement
+(e.g., aggregation
+[
+92
+]
+, sorting
+[
+309
+,
+310
+,
+92
+,
+311
+,
+312
+,
+313
+,
+314
+,
+315
+,
+316
+,
+317
+,
+318
+,
+187
+]
+)
+, OSP is bottlenecked by host-SSD data transfers. ISP outperforms OSP by
+25%
+by reducing the host-SSD communication, but ISP is constrained by the limited SIMD parallelism in the SSD controller cores.
+IFP outperforms OSP by 53% by significantly reducing the data movement while exploiting the massive bit- and array-level parallelism of flash arrays.
+Combining IFP and ISP improves performance by
+40% over IFP
+, as IFP accelerates bulk data-parallel computations and ISP efficiently executes control-intensive operations and complex operations that IFP does not support.
+Figure 4:
+Case
+study
+on offloading computations across computation resources.
+Overall execution time of OSP, ISP, IFP and IFP+ISP normalized to that of OSP. Lower is better.
+This case study provides three key insights.
+First, no single execution model consistently performs well across different workloads. IFP is effective for I/O-intensive workloads where data movement dominates. Combining ISP and IFP is most effective for
+the
+more compute-intensive and mixed workloads
+we examine
+. Our case study demonstrates that relying
+only
+on a single computation resource leads to suboptimal performance across diverse workloads.
+Second, performance bottlenecks shift across execution models. OSP’s performance is limited by host-SSD data movement. ISP’s performance is constrained by its limited SIMD parallelism, and IFP by its limited operation set. These bottlenecks are workload-dependent and can vary
+across
+different execution phases of the same workload.
+Third, combining multiple SSD computation resources provides benefits, but only when done judiciously.
+Naively combining ISP and IFP does not always provide performance gains
+and can reduce performance compared to each alone
+. In I/O-intensive workloads, combining ISP and IFP leads to additional inter-resource data movement.
+This case study demonstrates that effective SSD-based NDP requires fine-grained, workload- and system-aware
+scheduling
+across multiple heterogeneous SSD computation resources.
+Figure 5:
+Speedup of GPU, ISP, PuD-SSD, Flash-Cosmos, Ares-Flash, BW-Offloading, DM-Offloading normalized to CPU.
+3.2
+Effectiveness of Prior Offloading Approaches
+NDP Offloading Techniques.
+To our knowledge,
+no
+prior work
+proposes
+general-purpose, application-transparent
+offloading of computations across
+multiple
+heterogeneous
+SSD
+computation resources.
+Several prior techniques (e.g.,
+[
+28
+,
+38
+,
+29
+,
+210
+,
+211
+,
+212
+,
+213
+,
+214
+,
+36
+,
+215
+]
+) explore partitioning and mapping application code segments for execution between host and NDP units near main memory (e.g., 3D stacked memory with general-purpose cores in its logic layer). These techniques make offloading decisions using a narrow set of system-level characteristics, and do not account for the heterogeneity of SSD computation resources.
+We categorize these techniques into two classes: (1)
+BW-Offloading
+: techniques (e.g.,
+[
+28
+,
+38
+,
+210
+,
+211
+,
+212
+,
+213
+]
+) that make offloading decisions based on bandwidth utilization of the host and NDP units, and (2)
+DM-Offloading
+: techniques (e.g.,
+[
+29
+,
+214
+,
+36
+,
+215
+]
+) that prioritize minimizing data movement cost when executing application code across host and NDP units.
+Methodology.
+To evaluate the effectiveness of these prior offloading models when adapted to SSD-based NDP, we extend both BW-Offloading and DM-Offloading models to utilize all three SSD computation resources.
+We implement these approaches in our in-house event-driven simulator and evaluate them across six real-world workloads (see §
+5
+for our evaluation methodology and workload characteristics).
+We compare their performance against:
+(1) host CPU and GPU,
+(2) standalone NDP techniques (see §
+2.2
+) - ISP, PuD-SSD, Flash-Cosmos
+[
+10
+]
+, and Ares-Flash
+[
+201
+]
+, and
+(3) an Ideal approach that assumes (i) no resource contention (for both computation resources and shared channels), (ii) zero data movement latency to move the operands to the target computation resource, and (iii) the selection of a computation resource that provides the lowest computation latency
+for each instruction
+.
+Performance Analysis.
+Fig.
+5
+shows the speedup of GPU, ISP, PuD-SSD, Flash-Cosmos, Ares-Flash, BW-Offloading, DM-Offloading and Ideal normalized to CPU.
+We make four key observations.
+First, DM-Offloading is the best-performing prior NDP offloading technique with an average speedup of 2.3
+×
+\times
+over CPU,
+0.98
+×
+\times
+over GPU, 1.8
+×
+\times
+over ISP, 1.3
+×
+\times
+over PuD-SSD, 1.9
+×
+\times
+over Flash-Cosmos, 1.3
+×
+\times
+over Ares-Flash, and 1.1
+×
+\times
+over BW-Offloading.
+DM-Offloading’s benefits come from offloading computation to multiple SSD computation resources based on data movement cost reduction.
+Second, DM-Offloading falls short of an Ideal policy’s performance by 2.5
+×
+\times
+on average
+(and by up to 4.6
+×
+\times
+for LLM inference and training)
+. This is because DM-Offloading relies on a
+limited
+offloading model that frequently favors IFP to reduce data movement costs. However, repeated offloading to flash chips (i.e., IFP) introduces queueing delays and resource contention, which reduces IFP’s effectiveness.
+Third, BW-Offloading achieves an average speedup of 2.1
+×
+\times
+over CPU but underperforms DM-Offloading by 11%. BW-Offloading prefers
+lightly-loaded
+computation resources based on bandwidth utilization without considering the cost of moving operands across the computation resources. This
+result
+shows that bandwidth awareness alone is insufficient for SSD-based NDP, where internal data movement and contention can
+greatly affect
+performance.
+Fourth, GPU has comparable
+average
+performance to DM-Offloading, and even outperforms DM-Offloading in highly data-parallel workloads (e.g., heat-3d and jacobi-1d). These workloads benefit from GPU’s massive SIMD parallelism and wide vector processing units.
+We conclude that prior offloading techniques consider limited factors, which leads to
+suboptimal
+performance compared to the Ideal offloading policy. An effective offloading policy must jointly consider computation capability, data locality, and resource contention across heterogeneous SSD computation resources.
+Our goal
+is to enable programmer-transparent near-data processing in SSDs that (1) schedules and coordinates computation across multiple heterogeneous SSD computation resources, (2) makes offloading decisions that are aware of both workload characteristics and dynamic system conditions, and (3) improves the performance and energy efficiency of a wide range of applications.
+4
+Conduit
+4.1
+Overview
+We propose Conduit, a
+general-purpose programmer-transparent
+NDP framework that dynamically offloads fine-grained computations (at instruction granularity) to
+multiple
+heterogeneous SSD computation resources.
+Conduit consists of two key steps:
+(1)
+Compile-time preprocessing
+, where Conduit identifies offloadable code regions (e.g., loops with computations) and transforms them into SIMD operations that match the SSD’s internal bit-level parallelism (see §
+4.3.1
+), and
+(2)
+Runtime dynamic offloading
+, where Conduit (i) selects the most suitable SSD computation resource to execute each vector operation using a holistic cost function, which
+takes into account
+six key factors: operation type, operand location, data dependencies, resource utilization, data movement costs, and expected computation latencies, (ii) translates each vector operation to the native ISA of the chosen resource, and (iii) dispatches the instruction to the chosen resource’s execution queue (see §
+4.3.2
+).
+4.2
+Design Challenges for an SSD Offloading Policy
+Offloading across multiple SSD computation resources is non-trivial and presents three key challenges.
+First, SSD computation resources exhibit heterogeneity in computation capabilities, parallelism, and data-access latencies. This architectural heterogeneity makes it challenging to determine a suitable computation resource for each instruction.
+Second, the shared buses (e.g., DRAM bus, flash channels) in an SSD are prone to contention (e.g.,
+[
+143
+,
+243
+]
+). Offloading decisions that cause frequent data transfers over these shared buses can reduce the benefits of NDP, making
+SSD-
+internal data movement a critical bottleneck.
+Third, an effective offloading policy must (1) provide performance benefits across a wide range of workloads, (2) balance utilization of all the available computation resources, and (3) reduce the programmer’s burden of manually identifying offloadable code sections and mapping them to suitable computation resources.
+4.3
+Detailed Design of Conduit
+Fig.
+6
+shows Conduit’s high-level design. We describe Conduit’s components and its execution flow in detail.
+Figure 6:
+Design Overview of Conduit.
+4.3.1
+Compile-Time Preprocessing in the Host
+Conduit performs a
+one-time
+offline preprocessing
+A
+of the application for NDP in an SSD.
+This phase consists of
+three
+steps:
+(1) loop auto-vectorization, (2) vectorized code compilation, and (3) binary transfer
+.
+Compile-time
+preprocessing (1) keeps the runtime offloading decisions lightweight and
+thus,
+reduces the burden on the SSD controller, and (2) enables near-data processing with
+small
+changes to the storage and system stacks.
+Loop Auto-Vectorization.
+Conduit runs a custom compiler (e.g., LLVM
+[
+319
+]
+) pass on the application code
+A1
+to identify offloadable code regions (e.g., loops with computations).
+We compile applications with
+the
+Clang compiler
+[
+320
+]
+, using custom flags to enable loop auto-vectorization.
+Loop auto-vectorization is a well-known compiler optimization technique that preserves programmer transparency, and is used in many prior DRAM-based NDP techniques
+(e.g.,
+[
+11
+,
+26
+,
+321
+,
+200
+,
+322
+,
+323
+,
+324
+]
+)
+.
+We perform loop auto-vectorization
+A2
+using LLVM compiler toolchain (version 12.0.0)
+[
+319
+]
+to transform scalar instructions into wide vector (i.e., SIMD) operations that match
+the SSD-internal
+parallelism.
+Conduit makes three customizations to the loop auto-vectorization process to accommodate SSD-specific constraints and heterogeneous computation resources.
+First, Conduit compiles the application code with flags (
+-O3 -g -mllvm -force-vector-width=4096 -force-vector-interleave=1 -Rpass-analysis=loop-vectorize -Rpass=loop-vectorize
+).
+The
+-force-vector-width=4096
+flag configures the vector width to 4096 for 32-bit operands (16KiB in total), which aligns each vector to a typical NAND flash page.
+This (i) simplifies data movement across computation resources, (ii) avoids misaligned accesses, and (iii) matches FTL’s logical-to-physical (L2P) mapping granularity.
+While this vector width is optimized for IFP, other SSD computation resources (i.e., PuD-SSD and ISP) support smaller vector widths. Conduit’s runtime SSD offloader handles this mismatch at runtime (see §
+4.3.2
+)
+.
+The
+-force-vector-interleave=1
+flag controls loop unrolling (i.e., how many iterations are processed simultaneously) to enable instruction-granularity offloading.
+Second, not all loops are fully vectorizable due to control flow or data dependencies (see §
+7
+). Conduit leverages
+partial
+vectorization (e.g., strip-mining
+[
+325
+]
+) so that partially vectorizable code regions can still benefit from SIMD execution in SSDs. This is essential for workloads with mixed data dependencies (e.g., LLM attention kernels
+[
+308
+,
+119
+,
+41
+,
+111
+]
+).
+Third, the custom compiler pass records lightweight metadata (e.g., instruction type, operand pointers, element sizes, vector length) for each vector operation.
+During the preprocessing step, Conduit takes the application’s LLVM intermediate representation (IR) as input and generates an optimized IR that contains SIMD instructions and metadata.
+Embedding the metadata in the optimized IR at compile time reduces runtime scheduling latency and preserves programmer transparency.
+Vectorized Code Compilation and Transferring the Binary.
+Conduit’s compile-time preprocessing step converts the optimized IR to a binary executable file based on ARM ISA
+A3
+, and transfers the binary
+A4
+to the SSD.
+We select
+the
+ARM ISA because SSD controllers
+(e.g.,
+[
+264
+,
+265
+,
+144
+,
+146
+,
+266
+,
+267
+,
+268
+,
+269
+,
+270
+,
+271
+,
+272
+,
+242
+,
+243
+]
+)
+typically
+use
+ARM cores (e.g.,
+[
+221
+,
+216
+,
+265
+]
+).
+To transfer the ARM binary from the host to the SSD, Conduit repurposes existing NVMe admin commands
+[
+227
+]
+for firmware update,
+fw-download
+and
+fw-commit
+(See §
+4.4
+for details).
+4.3.2
+Runtime Offloading and Instruction Transformation
+At runtime
+B
+, Conduit dynamically identifies the most suitable SSD computation resource for each SIMD instruction in the binary, transforms the instruction to the target resource’s ISA, and dispatches the transformed instruction to the target resource’s execution queue.
+Conduit performs this step entirely inside the SSD controller
+B1
+for two key reasons. First, the SSD controller has real-time knowledge of the current state of all SSD computation resources (e.g., execution queue occupancy, flash channel utilization, data location), which enables timely offloading decisions based on current system conditions.
+Second, making offloading decisions within the SSD avoids changes to the host-side storage stack and preserves programmer transparency.
+Conduit’s runtime offloading is tightly coupled with its data mapping and internal data transfer policies (see §
+4.4
+). This allows offloading decisions to account for operand placement and internal data movement during instruction execution.
+The runtime offloading phase involves three components: (1) the SSD offloader
+B2
+, (2) a holistic cost function
+B3
+, and (3) instruction transformation
+B4
+.
+SSD Offloader.
+Conduit’s SSD offloader
+B2
+is responsible for mapping each vectorized instruction in the binary executable to the most suitable SSD computation resource at runtime and executing them.
+This unit operates alongside the flash translation layer (FTL) within the SSD controller.
+At runtime, Conduit executes the transferred ARM executable
+A4
+on one of the several
+embedded
+cores
+B5
+present in the SSD controller.
+The SSD offloader dynamically selects the most suitable computation resource by evaluating a holistic cost function
+B3
+(see Cost Function in §
+4.3.2
+).
+Based on the cost function’s decision, the SSD offloader selects one of three NDP paradigms (see §
+2.2
+for detailed background):
+(1) processing using the controller cores (ISP)
+3
+3
+3
+We leverage one of the several SSD controller cores to execute offloaded computations. We use the other controller cores for latency-critical tasks, including FTL functions, host communication, and Conduit’s offloading and instruction transformation tasks.
+B5
+,
+(2) processing-using-DRAM in SSD (PuD-SSD)
+B6
+, and
+(3) in-flash processing (IFP)
+B7
+.
+At compile time, Conduit vectorizes instructions to match the NAND flash page size (i.e., 16KiB). However, this vector width may not always align with other SSD computation resources, such as SSD DRAM (e.g., 8KiB) or the controller cores (e.g., 32B), which support smaller SIMD widths.
+To address this mismatch, the SSD offloader dynamically adjusts the vector length by splitting the original operation into multiple smaller operations that suit the target computation resource’s architectural constraints.
+For example, a 4096-element vector operation is decomposed into several 2048-element (or smaller) sub-operations for execution in DRAM or controller cores.
+When the offloader selects an SSD computation resource to execute an instruction, Conduit performs instruction transformation
+B4
+(see Instruction Transformation Unit in §
+4.3.2
+) to translate the SIMD instruction to the native ISA of the target computation resource.
+After instruction transformation, the SSD offloader dispatches the instruction to the target computation resource’s execution queues (see §
+2
+).
+Conduit enables concurrent utilization of SSD’s multiple computation resources by leveraging their execution queues. For example, while flash chips are performing computations, the SSD DRAM or SSD controller core can execute other independent instructions simultaneously. This overlap allows Conduit to exploit parallelism across resources and mitigate performance bottlenecks during execution.
+Conduit’s offloading unit incurs minimal runtime overhead because the cost function evaluation and instruction transformation are lightweight operations (see §
+4.5
+).
+The more compute-intensive offline preprocessing phase (see §
+4.3.1
+) is performed on the host CPU during compile time.
+Cost Function.
+Conduit uses a holistic cost function to select the SSD computation resource with the lowest offloading cost for each instruction. The cost function uses six key features (see Table
+1
+) from the application and current system state.
+(1)
+Operation Type
+.
+This feature indicates the type of computation (e.g., bulk-bitwise, arithmetic, predication) in the vectorized instruction.
+SSD computation resources differ significantly in the operations they currently support. ISP (e.g.,
+[
+216
+,
+326
+]
+) supports
+∼
+\sim
+300 ISA instructions. PuD-SSD (e.g.,
+[
+26
+,
+11
+,
+200
+]
+) supports 16 operations, including arithmetic, predication, and relational operations. IFP (e.g.,
+[
+62
+,
+10
+,
+201
+]
+) supports nine operations: six bitwise operations, and three arithmetic operations.
+Conduit embeds the operation type in the optimized IR at compile time.
+At runtime, Conduit estimates the execution latency of an instruction in each computation resource based on the operation type.
+Feature
+Description
+Operation Type
+Type of operation
+(e.g., bulk-bitwise, arithmetic, predication)
+Operand Location
+Current location of the operand
+(flash chips or SSD DRAM)
+Data
+Dependence
+Delay (
+d
+​
+e
+​
+l
+​
+a
+​
+y
+d
+​
+d
+delay_{dd}
+)
+Delay for operand availability
+Resource Queueing Delay
+(
+d
+​
+e
+​
+l
+​
+a
+​
+y
+q
+​
+u
+​
+e
+​
+u
+​
+e
+delay_{queue}
+)
+Delay caused by pending instructions
+in a computation resource’s execution queue
+Data Movement Latency
+(
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+d
+​
+m
+latency_{dm}
+)
+Data movement latencies if the operands
+are not in the target computation unit
+Expected Computation Latency
+(
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+c
+​
+o
+​
+m
+​
+p
+latency_{comp}
+)
+Estimated instruction execution latency
+on a computation resource
+Table 1:
+Features Used by the Cost Function to Select the SSD Computation Resource.
+(2)
+Operand Location
+.
+Conduit tracks each operand’s current location
+(i.e., flash chips, SSD DRAM)
+via
+an
+L2P mapping table lookup (see §
+2
+). At runtime, Conduit uses
+the operand location
+to estimate data movement latencies when the target computation resource differs from the current operand location.
+(3)
+Data Dependence
+Delay (
+d
+​
+e
+​
+l
+​
+a
+​
+y
+d
+​
+d
+delay_{dd}
+)
+.
+This feature captures the time until an instruction’s operands become available.
+For each instruction, Conduit checks if operands are ready or if the execution must wait for pending computations to complete.
+Conduit estimates
+dependence-induced
+stall time by summing the predicted computation costs of pending instructions that produce the required operands.
+This ensures correct ordering of instructions and avoids pipeline
+bubbles
+.
+(4)
+Resource Queueing Delay
+(
+d
+​
+e
+​
+l
+​
+a
+​
+y
+q
+​
+u
+​
+e
+​
+u
+​
+e
+delay_{queue}
+)
+.
+Conduit tracks the delay caused by pending instructions in each computation resource’s execution queue. This feature reflects the computation resource’s current utilization. By incorporating resource queueing delays into the cost function, Conduit aims to reduce resource congestion, which results in better load balancing across the SSD computation resources.
+(5)
+Data Movement Latencies
+(
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+d
+​
+m
+latency_{dm}
+).
+Conduit estimates the latency cost of moving operands between computation resources (e.g., flash chips to SSD DRAM, SSD DRAM to SSD controller). We precompute the expected data-movement latencies for different operand locations (e.g., SSD DRAM, flash chips), operand sizes, and target computational resources, and store these latencies in the SSD DRAM.
+These latencies capture the data transfer cost over SSD internal interconnects (e.g., flash channels and SSD DRAM bus) under no contention. Conduit does not explicitly model real-time contention for this feature, because accurately tracking utilization across multiple flash channels and the DRAM bus incurs significant runtime overhead.
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+d
+​
+m
+latency_{dm}
+serves as a static estimate that enables the offloader to avoid decisions that inherently incur internal data movement. Conduit incorporates contention effects on the execution latency when the instruction is executed in the computation resource chosen by the SSD offloader.
+(6)
+Expected Computation Latency
+(
+d
+​
+e
+​
+l
+​
+a
+​
+y
+c
+​
+o
+​
+m
+​
+p
+delay_{comp}
+).
+Based on profiling data and analytical models (see §
+5.2
+), Conduit estimates the execution latency of each instruction on every computation resource. This feature captures the differences in computation capabilities and parallelism across computation resources.
+We calculate the latency of offloading an instruction to each computation resource,
+t
+​
+o
+​
+t
+​
+a
+​
+l
+​
+_
+​
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+​
+_
+​
+r
+​
+e
+​
+s
+​
+o
+​
+u
+​
+r
+​
+c
+​
+e
+i
+total\_latency\_resource_{i}
+, using Eqn.
+1
+:
+t
+​
+o
+​
+t
+​
+a
+​
+l
+​
+_
+​
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+​
+_
+​
+r
+​
+e
+​
+s
+​
+o
+​
+u
+​
+r
+​
+c
+​
+e
+i
+=
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+c
+​
+o
+​
+m
+​
+p
++
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+d
+​
+m
++
+max
+⁡
+(
+d
+​
+e
+​
+l
+​
+a
+​
+y
+d
+​
+d
+,
+d
+​
+e
+​
+l
+​
+a
+​
+y
+q
+​
+u
+​
+e
+​
+u
+​
+e
+)
+\begin{split}total\_latency\_resource_{i}=latency_{comp}+\\
+latency_{dm}+\max(delay_{dd},delay_{queue})\end{split}
+(1)
+where
+i
+i
+denotes the computation resource (i.e., ISP, PuD-SSD, or IFP),
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+c
+​
+o
+​
+m
+​
+p
+latency_{comp}
+is the expected computation latency,
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+d
+​
+m
+latency_{dm}
+is the data movement latency,
+d
+​
+e
+​
+l
+​
+a
+​
+y
+d
+​
+d
+delay_{dd}
+and
+d
+​
+e
+​
+l
+​
+a
+​
+y
+q
+​
+u
+​
+e
+​
+u
+​
+e
+delay_{queue}
+are the data
+dependence delay and resource queueing delay
+, respectively.
+We calculate the maximum of data-dependence and resource queueing delays because these delays overlap, i.e., an instruction can be executed only when the operands and the computation resource are ready
+.
+Conduit selects the target computation resource using the cost function in Eqn.
+2
+:
+o
+f
+f
+l
+o
+a
+d
+i
+n
+g
+_
+t
+a
+r
+g
+e
+t
+=
+a
+r
+g
+m
+i
+n
+(
+t
+o
+t
+a
+l
+_
+l
+a
+t
+e
+n
+c
+y
+I
+​
+S
+​
+P
+,
+OPEN
+t
+​
+o
+​
+t
+​
+a
+​
+l
+​
+_
+​
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+P
+​
+u
+​
+D
+​
+_
+​
+S
+​
+S
+​
+D
+,
+t
+​
+o
+​
+t
+​
+a
+​
+l
+​
+_
+​
+l
+​
+a
+​
+t
+​
+e
+​
+n
+​
+c
+​
+y
+I
+​
+F
+​
+P
+)
+\begin{split}offloading\_target=argmin(total\_latency_{ISP},\\
+total\_latency_{PuD\_SSD},total\_latency_{IFP})\end{split}
+(2)
+For each vectorized instruction, Conduit calculates the latency of executing computations on each resource, and selects the computation resource with the
+lowest execution latency
+.
+Instruction Transformation Unit.
+Conduit’s instruction transformation unit transforms each vectorized instruction into the native ISA of the target computation resource.
+Conduit performs this transformation in the SSD controller on the critical path of instruction execution.
+For
+ISP
+, we utilize ARM’s M-Profile Vector Extension (MVE)
+[
+326
+]
+(
+B8
+in Fig.
+6
+) to exploit SIMD execution on ARM cores.
+We use the ISA proposed by prior NDP techniques to enable computation on SSD DRAM and flash chips.
+For
+PuD-SSD
+, we use ISA extensions (e.g.,
+bbop_op
+for 2-input arithmetic) from
+SIMDRAM
+[
+11
+]
+, MIMDRAM
+[
+26
+]
+, and Proteus
+[
+200
+]
+(
+B9
+in Fig.
+6
+).
+For
+IFP
+, we leverage the multi-wordline sensing
+MWS
+primitives from Flash-Cosmos
+[
+10
+]
+, and
+shift_and_add
+from Ares-Flash
+[
+201
+]
+(
+B10
+in Fig.
+6
+).
+4.4
+System Integration
+Transferring the Binary.
+We transfer the
+ARM binary
+from the host to the SSD using existing
+NVMe firmware update admin commands
+[
+227
+]
+:
+fw-download
+and
+fw-commit
+.
+To distinguish
+between Conduit’s
+binary and FTL firmware binary from SSD manufacturers, we extend the firmware update commands with a new flag. The SSD controller interprets this flag to identify the binary and executes it on the controller core.
+Data Mapping and SSD-Internal Data Movement.
+We assume that all application data resides in the SSD at the start of application execution, and the application can be executed entirely using the SSD computation resources.
+Conduit relies on the FTL to manage data mapping and data transfer across SSD computation resources.
+All data is addressed at logical-page granularity, and the L2P mapping table tracks the current physical location of each page.
+When the SSD offloader selects a target computation resource, Conduit consults the L2P table to locate the operands, and moves the operands to the target resource if they are not already resident there.
+We extend the FTL to enforce the data layout constraints of different NDP paradigms. For example, Flash-Cosmos
+[
+10
+]
+requires all the operands of a bitwise AND operation to be placed in the pages of the same flash block. Similarly, we adhere to the access and alignment constraints
+[
+44
+,
+136
+,
+195
+,
+291
+,
+292
+,
+199
+,
+198
+,
+196
+,
+194
+,
+197
+,
+293
+,
+294
+,
+295
+,
+200
+]
+of PuD-SSD when placing data in DRAM for computation.
+We transfer data between flash chips, SSD DRAM, and controller cores using existing read and DMA operations.
+Host-SSD Communication.
+To enable both host I/O processing and NDP on an SSD, we enable two operating modes: (1)
+regular I/O mode
+, where host I/O and FTL operations are executed, and (2)
+computation mode
+, where all computation resources (controller cores, SSD DRAM, and flash chips) are utilized for NDP.
+In computation mode, host I/O traffic is suspended, and Conduit allocates all the SSD resources for NDP.
+The SSD controller performs maintenance tasks such as garbage collection and wear-leveling in both modes.
+The SSD reverts to regular I/O mode when the host explicitly notifies the SSD controller.
+Coherence between SSD Computation Resources.
+To maintain data coherence across resources, Conduit employs a lazy coherence mechanism.
+A strict coherence policy that synchronizes data after every modification is unsuitable for an SSD as it incurs high latency, increases energy consumption, and accelerates flash wear.
+Conduit synchronizes data across SSD computation resources
+only
+when: (i) another computation resource requests data, (ii) the computation result must be transferred to the host, and (iii) data must be evicted from SSD DRAM, page buffers or SSD controller registers to reuse these temporary locations for computations, (iv) the FTL initiates garbage collection, and (v) the SSD undergoes a power cycle.
+The data remains local to the SSD computation resource until the coherence mechanism performs synchronization.
+Conduit maintains coherence at logical-page granularity using lightweight metadata stored in the L2P table in SSD DRAM. For each logical page, the L2P mapping table stores three fields:
+(1)
+owner
+, the SSD computation resource (i.e., flash or DRAM) that holds the latest version of the page,
+(2)
+state
+, the page’s modification status (i.e., clean, dirty), and
+(3)
+version
+, a one-byte monotonically increasing counter to order updates and detect stale copies.
+4
+4
+4
+A 3-bit counter for
+version
+ensures correctness in our evaluated workloads because Conduit: (i) enforces a single owner per logical page at any time, and (ii) flushes a page before the counter wraps around. We extend the counter to one byte to support future extensions.
+When a computation resource modifies a page, Conduit updates the owner field, sets the state to dirty, and increments the version counter.
+When a dirty page is updated by the same computation resource, Conduit only increments the version number.
+If another computation resource or the host requests the page, Conduit commits the updated page to the NAND flash chips, sets the owner field to flash, marks the state as clean, and resets the version.
+Failure Handling.
+Conduit leverages existing SSD firmware mechanisms for error mitigation. For transient faults (e.g., ECC correction failure
+[
+238
+,
+239
+,
+241
+,
+240
+,
+237
+,
+236
+]
+, instruction abort), the SSD controller detects timeouts and invalidates the instruction. Conduit maintains completion and status flags, and the scheduler replays the instruction on another resource using the latest data version. For permanent faults (e.g.,
+bad blocks
+[
+238
+,
+237
+,
+236
+,
+144
+,
+248
+,
+299
+]
+), Conduit relies on existing FTL recovery mechanisms such as bad-block remapping, garbage collection, and wear-leveling
+[
+238
+,
+237
+,
+236
+,
+144
+,
+248
+,
+241
+,
+299
+]
+.
+4.5
+Overhead Analysis
+Storage Overhead.
+Conduit maintains a small metadata table in the SSD DRAM to guide the cost function in identifying the target computation resource.
+Table
+1
+lists the parameters stored in the metadata table.
+We use
+two bytes
+to store the computation type (e.g., 0x01 represents bitwise AND).
+We encode operand location using four bits (e.g., 0 = flash, 1 = DRAM) to provide support for more operand locations in the future.
+We use two bytes to store the data
+dependence
+delays (measured in cycles).
+We compute each computation resource’s queueing delay
+5
+5
+5
+Conduit tracks the queueing delay at each computation resource by maintaining a running counter of the total execution latency (in cycles) of instructions currently enqueued in the execution queue. When a new instruction is dispatched, Conduit increments the counter by the instruction’s estimated execution latency. When the instruction is executed, Conduit decrements the execution latency from the counter.
+as the latency (in cycles) of execution of pending instructions in its execution queue. This requires four bytes for each computation resource.
+The data movement and computation latencies (in cycles) each consume
+four
+bytes.
+To support instruction transformation, Conduit stores a translation table in the SSD DRAM that maps more than 300 operation types (listed in Table
+1
+) to native instructions for each computation resource (i.e., SSD controller cores, SSD DRAM chips, and flash chips).
+Each entry maps the vectorized instruction to its corresponding native instruction, which consumes four bytes. This table incurs a total storage overhead of 1.5 KiB in SSD DRAM.
+Runtime Latency Overhead.
+Conduit’s runtime latency overhead includes (1) feature collection latency (i.e., gathering six features
+listed
+in Table
+1
+), and (2) instruction transformation latency (i.e., latency of mapping vector operations to the ISA of the target computation resource).
+Runtime feature collection (see Table
+1
+) involves five steps.
+First, extracting operand location involves an L2P table lookup, which incurs an average latency of 100
+n
+n
+s
+(30
+μ
+\mu
+s)
+per operand if the L2P mapping entry is in the SSD DRAM (flash chips).
+Second, to measure data
+dependence
+delays, Conduit adds the predicted computation costs of pending instructions that produce the required operands. This involves tracking pending instructions in each computation resource’s execution queue, which incurs
+1
+μ
+\mu
+s
+per queue on average.
+Third, Conduit tracks resource queuing delays by computing the cumulative execution latency of pending instructions in each computation resource’s execution queue. Tracking the queueing delay for each resource incurs 1
+μ
+\mu
+s on average.
+Fourth, we precompute the expected data-movement latencies for different operand locations, operand sizes, and target computational resources, and store these latencies in the SSD DRAM. A lookup of the expected data-movement latencies incurs 100
+n
+n
+s on average.
+Fifth, we precompute expected latencies of computations in each resource and store them in SSD DRAM. Each lookup of expected computation latencies incurs 150
+n
+n
+s on average.
+During instruction transformation, Conduit performs a lightweight lookup of a translation table that is stored in the SSD DRAM.
+This translation table lookup incurs an average latency of 300
+n
+n
+s
+.
+Combined with feature collection, the total runtime latency overhead is 3.77
+u
+u
+s on average (up to 33
+u
+u
+s).
+Area Overhead.
+Conduit is implemented entirely in the firmware running on the SSD controller, and requires no hardware modifications.
+It builds on the hardware capabilities proposed by prior NDP techniques.
+For processing-using-DRAM, Conduit leverages MIMDRAM
+[
+26
+]
+, which incurs an area overhead of 1.11% on the DRAM array
+[
+26
+,
+44
+,
+136
+,
+195
+,
+291
+,
+292
+,
+199
+,
+198
+,
+196
+,
+194
+,
+197
+,
+293
+,
+294
+,
+295
+]
+.
+For in-flash processing, Conduit relies on Flash-Cosmos
+[
+10
+]
+and Ares-Flash
+[
+201
+]
+.
+Flash-Cosmos introduces minimal modifications to the peripheral circuitry of flash chips
+[
+10
+,
+230
+,
+238
+,
+241
+,
+246
+,
+247
+,
+248
+,
+249
+,
+240
+,
+239
+,
+237
+,
+250
+,
+144
+,
+236
+]
+.
+Ares-Flash adds additional transistors and transmission wires to each latch in the flash chip’s page buffer, which incurs a 1.5% area overhead to the flash chip’s peripheral circuitry
+[
+201
+,
+230
+,
+238
+,
+241
+,
+246
+,
+247
+,
+248
+,
+249
+,
+240
+,
+239
+,
+237
+,
+250
+,
+144
+,
+236
+]
+.
+5
+Evaluation Methodology
+5.1
+Simulator Overview
+To evaluate Conduit and the baselines, we develop an in-house event-driven SSD simulator that (1) builds on the state-of-the-art SSD simulator, MQSim
+[
+217
+,
+218
+]
+, which is validated against real SSDs, and (2) adds computation models for SSD controller cores, SSD DRAM, and NAND flash chips to support NDP. Table
+2
+describes the characteristics of our simulated SSD.
+SSD Modeling.
+Conduit leverages MQSim’s cycle-
+level
+modeling of SSD I/O behavior (i.e., program, erase, and read operations) and its detailed FTL management policies, which include (1) L2P address translation, (2) request scheduling across channels and flash dies, (3) garbage collection and wear-leveling, (4) the NVMe interface over PCIe for host-device communication, and (5) contention on shared resources such as flash channels and dies.
+We implement a demand-based L2P mapping cache (e.g., DFTL
+[
+222
+]
+) based on MQSim’s DRAM cache modeling. Only a subset of mapping entries is cached in SSD DRAM, and the remaining entries are fetched from flash chips on demand.
+NDP Extensions.
+To enable realistic modeling of NDP in SSDs, we implement five key extensions in Conduit’s simulator.
+First, we add a detailed internal DRAM architecture to our simulator based on
+Ramulator 2.0
+[
+327
+,
+328
+,
+219
+,
+329
+]
+to capture bank-level parallelism, timing constraints (e.g., tRCD, tRP, tRAS), and DRAM channel bandwidth (see Table
+2
+for our simulated
+SSD-internal DRAM
+characteristics).
+Second, we add the computation models of three NDP paradigms: ISP, PuD-SSD, and IFP. We describe the NDP paradigms in §
+2.2
+and their performance modeling in §
+5.2
+.
+Third, we add a dedicated execution queue to each SSD computation resource to accurately capture its utilization.
+Fourth, we extend MQSim’s request scheduling mechanism to work in conjunction with Conduit’s offloader.
+Conduit uses this scheduling policy to move operands across computation resources and dispatch computation instructions to execution queues of computation resources.
+Fifth, we extend MQSim’s page allocation policy to enforce the data layout constraints of each NDP paradigm. We describe Conduit’s data mapping and internal data movement
+policies
+in §
+4.4
+.
+We design the computation units, scheduling policy, and resource queues as modular components, which can be easily disabled for SSD-only simulation.
+SSD
+[
+218
+,
+217
+]
+(Simulated)
+48-WL-layer 3D TLC NAND flash-based SSD
+[
+138
+]
+; 2 TB
+External Bandwidth
+: PCIe 4.0, 8GB/s
+NAND Config
+: 8 channels; 8 dies/channel; 2 planes/die;
+2,048 blocks/plane; 196 (4
+×
+\times
+48) WLs/block; 4 KiB/page
+Flash Channel Bandwidth
+: 1.2 GB/s
+Latency
+:
+T
+read
+(SLC mode): 22.5
+μ
+\mu
+s
+[
+10
+]
+;
+T
+prog
+(SLC mode): 400
+μ
+\mu
+s
+[
+10
+]
+; T
+bers
+: 3500
+μ
+\mu
+s
+[
+10
+]
+T
+AND/OR
+: 20 ns
+[
+14
+]
+; T
+latchtransfer
+: 20 ns
+[
+14
+]
+;
+T
+XOR
+: 30 ns
+[
+10
+]
+; T
+DMA
+: 3.3
+μ
+\mu
+s;
+Energy
+:
+E
+read
+(SLC mode): 20.5
+μ
+\mu
+J/channel
+[
+10
+]
+;
+E
+AND/OR
+: 10nJ/KB
+[
+14
+]
+; E
+latchtransfer
+: 10nJ/KB
+[
+14
+]
+;
+E
+XOR
+: 20nJ/KB
+[
+10
+]
+; E
+DMA
+: 7.656
+μ
+\mu
+J/channel;
+SSD DRAM
+(Simulated)
+[
+327
+,
+328
+,
+219
+,
+329
+]
+2GB LPDDR4-1866
+[
+330
+,
+331
+]
+DRAM
+;
+1 channel, 1 rank, 8 banks
+Latency:
+T
+bbop
+: 49 ns;
+Energy:
+E
+bbop
+: 0.864 nJ;
+where
+b
+​
+b
+​
+o
+​
+p
+bbop
+is bulk bitwise operation
+SSD Controller Cores
+(Emulated)
+[
+220
+]
+5 ARM Cortex-R8 cores @1.5 GHz
+[
+216
+]
+Host CPU
+(Real System)
+Intel(R) Xeon(R) Gold 5118
+[
+332
+]
+x86-64
+[
+333
+]
+, 6 cores, out-of-order, 3.2 GHz
+L1 Data + Inst. Private Cache:
+32kB, 8-way, 64B line
+L2 Private Cache:
+256kB, 4-way, 64B line
+L3 Shared Cache:
+8MB, 16-way, 64B line
+Host GPU
+(Real System)
+NVIDIA A100 GPU
+[
+334
+,
+335
+]
+,
+NVIDIA Ampere Architecture
+[
+336
+]
+(7nm)
+108 Streaming Multiprocessors, 1.4 GHz base clock;
+L2 Cache:
+40 MB; Main Memory: 40GB HBM2
+[
+337
+,
+338
+]
+Host Main Memory
+(Simulated)
+32GB DDR4-2400
+[
+339
+,
+340
+]
+, 4 channels, 1 rank, 16 banks;
+Peak throughput: 19.2 GB/s;
+FR-FCFS scheduling
+[
+341
+,
+342
+,
+343
+,
+344
+]
+Table 2:
+Evaluated Configurations.
+5.2
+Performance and Energy Modeling
+Performance Modeling.
+We model the performance of computations performed on three SSD computation resources.
+∘
+\circ
+Computation Using Flash Memory Chips:
+We model: (i) command transfer latency,
+(ii) flash sensing latency (i.e.,
+t
+R
+t_{R}
+),
+(iii) data transfer from page buffer to flash controller (i.e.,
+t
+D
+​
+M
+​
+A
+t_{DMA}
+),
+(iv) program latency of Enhanced SLC-mode programming technique
+[
+10
+]
+,
+(iv) arithmetic operations (i.e., addition, multiplication) using the peripheral circuitry (e.g.,
+[
+201
+,
+62
+]
+) (see §
+2
+),
+(v) bitwise
+operations
+via multi-wordline sensing (MWS)
+[
+10
+]
+(see §
+2
+).
+We rigorously validate our flash
+memory
+model based on results from prior works
+[
+201
+,
+62
+,
+10
+]
+.
+∘
+\circ
+Computation Using DRAM:
+We model (i) SSD DRAM access latencies, (ii) data movement from NAND flash memory to SSD DRAM using flash read and DMA operations, and (iii) bitwise and arithmetic operations based on SIMDRAM, MIMDRAM and Proteus frameworks
+[
+11
+,
+26
+,
+200
+]
+(see §
+2
+).
+∘
+\circ
+Computation
+on
+SSD Controller Cores:
+We model computation latencies of the SSD controller cores using QEMU-based emulation
+[
+220
+]
+, configured for ARM Cortex R8
+[
+216
+]
+.
+For runtime offloading, Conduit tracks the: (i) latency of data movement between SSD computation resources, (ii) queuing delays of SSD controller core, NAND flash chips, and SSD DRAM, and (iii) computation latency of the offloaded instructions. We provide a detailed description of these components in §
+4.3.2
+.
+Energy Modeling.
+We model the energy consumption of (1) computation on each SSD computation resource, and (2) data movement between the host and SSD, and across SSD computation resources.
+For NAND flash memory, we use the SSD power values of Samsung 980 Pro SSDs
+[
+138
+]
+and the NAND flash power values measured by Flash-Cosmos
+[
+10
+]
+.
+We model the energy consumption of computations on the controller cores using power models from prior works
+[
+345
+,
+346
+,
+347
+,
+216
+,
+220
+]
+.
+For SSD DRAM, we use the power values of DDR4 DRAM
+[
+348
+,
+349
+]
+.
+5.3
+Evaluated Techniques
+Host CPU and GPU.
+We execute all computations on the host CPU and GPU (see Table
+2
+for our CPU and GPU configurations) by reading operands from the SSD via host memory. The operands are transferred from the SSD to the host memory through the NVMe interface.
+We evaluate host CPU and GPU on a real system to establish strong baselines using architecture-optimized implementations (e.g., optimized CUDA for GPU).
+To strengthen the baselines, we combine real-system-based host CPU and GPU execution with simulation-based modeling of SSD-to-host data transfers.
+We assume full PCIe 4.0 bandwidth availability for the host baselines to prevent PCIe contention from degrading computation performance.
+We model the host main memory (including DRAM latency and DRAM bandwidth) using parameters in Table
+2
+.
+NDP Baselines.
+We evaluate four baseline NDP techniques and two prior offloading policies against Conduit.
+First, Flash-Cosmos
+[
+10
+]
+proposes in-flash bulk bitwise operations. Flash-Cosmos enables bitwise AND on 48 operands located within the same block and bitwise OR on four operands located in different blocks within the same plane.
+Second, Ares-Flash
+[
+201
+]
+extends in-flash processing by supporting both bulk bitwise and arithmetic operations.
+Third, Processing-using SSD-DRAM (PuD-SSD) uses the MIMDRAM framework
+[
+26
+]
+for computations on SSD DRAM. It leverages the detailed DRAM subsystem modeling in our simulator with computation latencies derived from DRAM row-activation and bus timing.
+Fourth,
+ISP performs all computations on embedded general-purpose cores in the SSD controller. Flash-Cosmos, Ares-Flash, and PuD-SSD leverage the SSD controller cores to execute computations that they do not support.
+Fifth, the bandwidth-based offloading model (BW-Offloading)
+[
+28
+,
+38
+,
+210
+,
+211
+,
+212
+,
+213
+]
+offloads each instruction to a computation resource that has the lowest bandwidth utilization among the SSD computation resources.
+Sixth, the data-movement-based offloading model (DM-Offloading)
+[
+29
+,
+214
+,
+36
+,
+215
+]
+offloads each instruction to a computation resource that minimizes operand data movement.
+Ideal Approach.
+We implement an Ideal policy that assumes (1) no queueing delays in each computation resource, (2) zero data movement latency when operands are moved across resources, and (3) selection of a target computation resource with the least computation latency. This approach is
+not
+realizable in practice, but serves as an upper bound of performance when exploiting all SSD computation resources without runtime bottlenecks.
+Figure 7:
+Speedup (a) and energy consumption (b) of Conduit and baselines normalized to those of CPU. Each bar in Figure (b) shows energy consumption of data movement (in red) and computation (rest of the bar).
+5.4
+Evaluated Workloads
+We evaluate Conduit and baselines on six data-intensive workloads from diverse benchmark suites (e.g., polybench
+[
+350
+]
+, Rodinia
+[
+351
+]
+, LLMs
+[
+308
+]
+) (see Table
+3
+).
+We select these workloads to capture diverse computation patterns, data movement characteristics, and vectorization coverage.
+We characterize each workload based on three characteristics.
+First, the vectorizable code percentage represents the fraction of application code that is automatically vectorized by Conduit’s compile-time preprocessing (see §
+4.3.1
+).
+This defines the amount of computation suitable for fine-grained instruction-granularity offloading.
+Second, average reuse measures the average number of operations that consume the same data before it is replaced or evicted. Average reuse directly affects data movement across SSD computation resources.
+Third, we capture the mix of low-latency (e.g., bitwise, logical), medium-latency (e.g., add, predication), and high-latency (e.g., multiplication) operations in each workload.
+This influences the runtime selection of SSD computation resources.
+We quantize floating-point operations to integer (INT8) because SSD computation resources lack native floating-point arithmetic support. This quantization enables the complete execution of all workloads within the SSD.
+The memory footprint of each workload exceeds the SSD capacity by 2
+×
+\times
+, inducing resource contention and data movement scenarios.
+Our workloads include
+the following
+:
+(1)
+Advanced Encryption Standard (AES)
+[
+352
+,
+353
+,
+307
+,
+354
+]
+. 256-bit encryption and decryption algorithm with high data reuse and low-latency bitwise operations, which makes it suitable for IFP.
+(2)
+XOR Filter
+[
+355
+,
+356
+,
+357
+]
+. A probabilistic data structure for fast membership tests similar to Bloom filters
+[
+358
+]
+, dominated by arithmetic and predication operations, which execute efficiently in flash or DRAM.
+(3)
+heat-3d
+[
+350
+]
+. A three-dimensional stencil computation that repeatedly updates each grid point using its neighbors. heat-3d has moderate-to-high arithmetic intensity with high data reuse across time steps, which benefits from coordinated offloading across multiple SSD computation resources.
+(4)
+jacobi-1d
+[
+350
+]
+. A one-dimensional stencil computation solver that updates each element using values from its immediate neighbors. jacobi-1d has moderate-to-high latency operations and data dependencies that benefit from offloading across multiple SSD computation resources.
+(5)
+LlaMA2 Inference
+[
+308
+,
+359
+]
+. INT8 inference of
+the 7B-parameter
+LLaMA2 model
+[
+359
+]
+with a mix of high- and medium-latency operations.
+(6)
+LLM Training
+[
+308
+,
+359
+]
+. Bandwidth-intensive INT8 training of
+the 7B-parameter
+LLaMA2 model
+[
+359
+]
+, characterized by frequent weight updates, data movement, and a combination of arithmetic and control-intensive operations.
+Workload
+Vectorizable
+Code%
+Avg. Reuse
+Low
+Latency
+Operations
+Medium
+Latency
+Operations
+High
+Latency
+Operations
+AES
+[
+352
+,
+353
+,
+307
+,
+354
+]
+65%
+15.2
+87%
+13%
+0%
+XOR-Filter
+[
+355
+,
+356
+,
+357
+]
+16%
+2.0
+1%
+98%
+1%
+heat-3d
+[
+350
+]
+95%
+16
+0%
+60%
+40%
+jacobi-1d
+[
+350
+]
+95%
+3
+0%
+67%
+33%
+LlaMA2
+Inference
+[
+308
+,
+359
+]
+70%
+1.8
+0%
+53%
+47%
+LLM
+Training
+[
+308
+,
+359
+]
+60%
+5.2
+0%
+88%
+12%
+Table 3:
+Characteristics of the Evaluated Workloads.
+6
+Evaluation
+6.1
+Performance Analysis
+Fig.
+7
+(a) shows the speedup of Conduit and the baselines normalized to that of CPU across six real-world applications. We make four key observations.
+First, Conduit outperforms all baselines, achieving average speedup of
+4.2
+×
+4.2\times
+over CPU,
+1.8
+×
+1.8\times
+over GPU,
+3.3
+×
+3.3\times
+over ISP,
+2.2
+×
+2.2\times
+over PuD-SSD,
+3.3
+×
+3.3\times
+over Flash-Cosmos,
+2.3
+×
+2.3\times
+over Ares-Flash,
+2.0
+×
+2.0\times
+over BW-Offloading and
+1.8
+×
+1.8\times
+over DM-Offloading.
+Second, Conduit outperforms the best-performing prior offloading model, DM-Offloading, by
+1.8
+×
+1.8\times
+on average by making holistic offloading decisions that account for factors such as resource queueing delays and data dependence delays, which DM-Offloading does not consider. By prioritizing data movement reduction, DM-Offloading frequently offloads instructions to the same computation resource (e.g., flash chips), which leads to resource contention and significant queueing delays.
+Third, Conduit
+provides
+62
+%
+62\%
+of
+the
+Ideal offloading approach’s performance, which demonstrates Conduit’s ability to effectively exploit SSD computation resources without the ideal approach’s
+unrealistic
+assumptions.
+Fourth, Conduit provides higher performance benefits (
+2.6
+×
+2.6\times
+on average over DM-Offloading, up to
+4.5
+×
+4.5\times
+) over prior offloading approaches for compute-intensive workloads (e.g., heat-3d, jacobi-1d, LlaMA2 Inference, LLM Training). These workloads exhibit high vectorization coverage and a large fraction of medium- and high-latency operations (see Table
+3
+), which makes them sensitive to both computation throughput and resource contention.
+Conduit dynamically exploits multiple computation resources effectively, whereas prior offloading approaches prefer specific resources (e.g., IFP for DM-Offloading).
+For memory-bound workloads (e.g., AES, XOR Filter), prior offloading approaches achieve performance comparable (Conduit outperforms DM-Offloading by
+1.2
+×
+1.2\times
+on average) to Conduit because data movement is a key factor in resource selection.
+We conclude that Conduit provides significant performance gains by dynamically
+and judiciously
+exploiting multiple computation resources.
+6.2
+Energy Analysis
+Fig.
+7
+(b) shows the energy consumption of Conduit and the baselines normalized to that of CPU. Each bar in Fig.
+7
+(b) shows a breakdown of data movement energy (in red) and computation energy (the rest of the bar). We make five key observations.
+First, Conduit has lower average energy consumption than all baselines, reducing energy consumption by
+78.2
+%
+78.2\%
+over CPU,
+58.2
+%
+58.2\%
+over GPU,
+67.3
+%
+67.3\%
+over ISP,
+60.6
+%
+60.6\%
+over PuD-SSD,
+68.0
+%
+68.0\%
+over Flash-Cosmos,
+57.4
+%
+57.4\%
+over Ares-Flash,
+47.8
+%
+47.8\%
+over BW-Offloading, and
+46.8
+%
+46.8\%
+over DM-Offloading. Conduit reduces data movement and the overall execution time by efficiently exploiting multiple SSD computation resources.
+Second, Conduit
+provides
+68
+%
+68\%
+of the energy efficiency of
+the
+Ideal approach, which assumes no resource contention.
+Third, DM-Offloading is the most energy-efficient prior offloading approach because it explicitly reduces data movement across computation resources. Conduit reduces energy consumption by
+46.8
+%
+46.8\%
+on average over DM-Offloading by jointly considering resource contention with data movement costs.
+Fourth, Conduit reduces energy consumption by
+57
+%
+57\%
+over Ares-Flash, the most energy-efficient single-resource NDP technique. While Ares-Flash has lower data movement energy, it relies on ISP to execute computations that it does not support.
+Fifth, although GPU offers high computation throughput, it incurs
+58.2
+%
+58.2\%
+more energy than Conduit due to significant data movement over PCIe and high computation power.
+We conclude that Conduit provides significant energy benefits by exploiting SSD-internal parallelism, reducing data movement, and avoiding expensive host-side computation.
+6.3
+Tail Latency
+Figs.
+8
+(a)
+and
+8
+(b) show the 99th and 99.99th percentile I/O latencies (
+tail latencies
+) of Ideal, Conduit, BW-Offloading and DM-Offloading using two representative workloads, LlaMA2 Inference, and jacobi-1d (see §
+5.4
+).
+Conduit significantly reduces tail latency compared to the baselines across the two workloads.
+In LlaMA2 Inference, compared to BW-Offloading (DM-Offloading), Conduit reduces the 99th percentile latency by
+1.8
+×
+1.8\times
+(
+5.6
+×
+5.6\times
+), and 99.99th percentile latency by
+10.7
+×
+10.7\times
+(
+22.3
+×
+22.3\times
+).
+In jacobi-1d, compared to BW-Offloading (DM-Offloading), Conduit reduces the 99th percentile latency by
+1.7
+×
+1.7\times
+(
+1.1
+×
+1.1\times
+), and 99.99th percentile latency by
+1.9
+×
+1.9\times
+(
+1.3
+×
+1.3\times
+).
+Conduit’s tail latency
+benefits stem
+from its resource contention-aware offloading, which balances execution across multiple computation resources.
+Figure 8:
+Comparison of (a) 99th percentile and (b) 99.99th percentile of I/O request latencies of Ideal, Conduit, BW-Offloading, DM-Offloading in LlaMA2 Inference and jacobi-1d.
+6.4
+Offloading Decisions
+Fig.
+9
+shows the offloading decisions of Ideal, Conduit, DM-Offloading and BW-Offloading.
+Offloading
+decisions are represented as the fraction of instructions offloaded to each computation resource. We make three key observations.
+Figure 9:
+Fraction of Instructions Offloaded to Each Computation Resource in Ideal, Conduit, DM-Offloading and BW-Offloading.
+First, Conduit’s computation resource utilization closely matches that of an Ideal policy across most workloads.
+Second, in memory-bound workloads (e.g., AES, XOR-Filter), all approaches, including Conduit, utilize ISP very sparingly (Conduit offloads
+0.4
+%
+0.4\%
+of instructions to ISP in AES and
+0.6
+%
+0.6\%
+in XOR Filter). ISP’s limited SIMD parallelism and significant data movement from the flash chips to the SSD controller make IFP and PuD-SSD more efficient
+(see §
+3.1
+)
+.
+Third, in compute-intensive applications (e.g., LLM Training, heat-3d), Conduit and Ideal distribute computations across multiple resources. In LlaMA 2 Inference, both Conduit and Ideal split execution almost equally between PuD-SSD and ISP. Both policies avoid IFP because multiplication operations in IFP require frequent operand transfers between the flash controller and flash chips for shift-and-add
+operations
+[
+201
+]
+.
+We conclude that Conduit successfully selects the resource to use for computation based on characteristics of the executing workload.
+6.5
+Workload-Computation Resource Interaction
+To analyze the interaction between the workload and computation resources, we observe the operations and the computation resources chosen by different offloading policies during the execution of LlaMA2 Inference
+[
+308
+]
+.
+Fig.
+10
+(a) shows the different operations (i.e., addition, subtraction, multiplication, and shuffle) in the workload.
+Figs.
+10
+(b),
+10
+(c),
+10
+(d) show the computation resources chosen by BW-Offloading, DM-Offloading and Conduit respectively.
+We show the execution of 12000 vectorized instructions.
+Figure 10:
+Instructions to computation resource mapping in Conduit and prior offloading policies.
+We make three key observations.
+First, BW-Offloading frequently switches between flash, DRAM, and controller cores to balance bandwidth, which results in frequent data transfers.
+Second, DM-Offloading executes addition and multiplication operations (instructions 6000-12000) in flash to minimize data movement, but this leads to flash contention and underutilization of other SSD computational resources.
+Third, Conduit dynamically adapts resource selection based on instruction type and runtime conditions.
+It executes locality-friendly addition operations (i.e., pink phases after 6000 instructions) in flash while performing costly multiplication operations (i.e., purple phases after 6000 instructions) in DRAM and control-intensive operations in the controller cores. Unlike BW-Offloading, Conduit balances computation across computation resources less aggressively, which reduces synchronization and data movement overheads.
+Overall, Conduit
+adapts its decisions to both workload phases and resource availability
+and
+thereby
+delivers higher performance than prior offloading policies.
+7
+Discussion
+Conduit’s Extensibility.
+Conduit leverages existing commodity SSD computation resources, but it can be extended to support new operations
+(e.g., sort
+[
+309
+,
+310
+,
+92
+,
+311
+,
+312
+,
+313
+,
+314
+,
+315
+,
+316
+,
+317
+,
+318
+,
+187
+]
+, search
+[
+62
+,
+205
+,
+360
+,
+361
+,
+88
+,
+362
+,
+175
+]
+)
+or specialized hardware accelerators
+(e.g.,
+[
+25
+,
+90
+,
+185
+,
+71
+,
+363
+,
+117
+,
+173
+,
+152
+,
+360
+,
+364
+,
+169
+,
+41
+]
+)
+.
+Conduit’s extensibility to future hardware capabilities and application demands requires adding new application and hardware-specific characteristics in its cost function.
+Limitations of Auto-Vectorization.
+The compiler’s auto-vectorization technique can fail for application code regions with
+(1)
+complex
+data dependencies, memory aliasing, or indirect accesses,
+(2) complex control flow or multiple exit points,
+(3) atomic or synchronized operations, and
+(4) loops with unknown or small iteration counts.
+As a result, Conduit may not fully leverage SIMD performance benefits.
+To mitigate this limitation, programmers can restructure the code, add compiler hints (pragmas), or manually vectorize.
+Applicability to Irregular Workloads.
+Conduit is effective not only for workloads dominated by computation-heavy loops, but also for irregular workloads (e.g., database sorting, merging, aggregation) that contain both computation-heavy loops and control-intensive code regions (e.g., branches and conditional statements)
+, as we show in §
+5.4
+. Such workloads are challenging for single-resource NDP because different workload phases exhibit different execution characteristics.
+Conduit address this challenge by leveraging multiple computation resources with diverse computation capabilities. Conduit offloads vectorizable, data-parallel code sections to PuD-SSD and IFP, which exploit SIMD parallelism. It executes control-intensive code regions on general-purpose SSD cores, which provide flexible control flow and low data-movement overhead for non-vectorizable code. By dynamically matching each code region to the most suitable computation resource, Conduit efficiently supports a broad class of applications.
+8
+Related Work
+To our knowledge, Conduit is the first general-purpose programmer-transparent NDP framework that dynamically exploits multiple heterogeneous SSD computation resources.
+We
+already qualitatively and quantitatively compared
+Conduit against (1) state-of-the-art NDP approaches, PuD-SSD (e.g.,
+[
+11
+,
+26
+]
+), Flash-Cosmos
+[
+10
+]
+and Ares-Flash
+[
+201
+]
+, and (2) two NDP offloading models from other domains, BW-Offloading (e.g.,
+[
+28
+,
+38
+,
+210
+,
+211
+,
+212
+,
+213
+]
+) and DM-Offloading (e.g.,
+[
+29
+,
+214
+,
+36
+,
+215
+]
+).
+We review related works on SSD-based NDP techniques and NDP offloading.
+Application-Specific NDP Using Multiple SSD Computation Resources.
+Various
+works
+(e.g.,
+[
+40
+,
+41
+,
+185
+,
+92
+,
+117
+,
+118
+,
+205
+,
+62
+,
+360
+,
+364
+,
+173
+,
+187
+,
+175
+,
+39
+,
+111
+,
+24
+,
+150
+,
+151
+,
+152
+,
+153
+,
+73
+,
+155
+,
+156
+,
+157
+,
+79
+,
+159
+,
+80
+,
+160
+,
+161
+,
+162
+,
+163
+,
+164
+,
+167
+,
+65
+,
+71
+,
+21
+,
+168
+,
+169
+,
+170
+,
+171
+,
+172
+,
+174
+,
+186
+,
+176
+,
+177
+,
+178
+,
+90
+,
+25
+,
+179
+,
+180
+,
+112
+,
+181
+,
+182
+,
+74
+,
+183
+,
+13
+,
+184
+,
+188
+,
+209
+,
+119
+]
+)
+propose domain-specific NDP designs that leverage multiple SSD computation resources for targeted applications such as genomics, nearest neighbor search, retrieval-augmented generation,
+graph processing,
+and LLM training/inference acceleration.
+MARS
+[
+92
+]
+accelerates raw signal genome analysis
+[
+302
+,
+303
+,
+304
+,
+305
+,
+306
+]
+by performing computations within the SSD-internal DRAM and the SSD controller.
+REIS
+[
+185
+]
+accelerates approximate nearest neighbor search (ANNS) kernels by offloading computations to the peripheral circuitry of flash chips and the SSD controller.
+NDSearch
+[
+360
+]
+offloads graph traversal to the SSD controller and distance computations to hardware accelerators near flash chips.
+CIPHERMATCH
+[
+62
+]
+accelerates homomorphic encryption-based string matching using in-flash arithmetic and comparison operations in the SSD controller.
+In contrast
+to these specialized approaches
+, Conduit provides a general, application-transparent NDP framework that dynamically distributes computations across multiple heterogeneous SSD resources.
+NDP Offloading Approaches.
+Several PIM frameworks identify offloadable code regions using profiling-based techniques
+(e.g.,
+[
+36
+,
+365
+]
+)
+or compiler-based techniques
+(e.g.,
+[
+366
+,
+367
+,
+42
+,
+368
+,
+31
+,
+321
+,
+211
+,
+28
+,
+29
+,
+289
+,
+322
+,
+323
+,
+324
+]
+)
+.
+Prior works
+[
+368
+,
+31
+,
+321
+,
+211
+]
+propose PIM offloading techniques that incorporate data locality into their offloading strategies.
+Other works
+[
+43
+,
+369
+,
+370
+,
+35
+]
+propose offloading frameworks that leverage a single computation resource near memory or storage.
+ISP Agent
+[
+43
+]
+and SODE
+[
+369
+]
+propose changes across the storage stack to enable offloading to ISP in an SSD.
+CORD
+[
+371
+]
+proposes techniques to offload query execution across multiple computational storage devices (CSDs) in a distributed environment.
+Unlike these approaches, Conduit proposes a general-purpose programmer-transparent offloading framework that dynamically leverages multiple SSD computation resources.
+9
+Conclusion
+We introduce Conduit, the first general-purpose programmer-transparent NDP framework that enables fine-grained instruction-granularity offloading across multiple heterogeneous SSD computation resources
+(including SSD controller cores, SSD-internal DRAM, and flash chips)
+.
+Conduit performs compile-time vectorization to identify offloadable code regions (e.g., loops with computations) and transforms them into SIMD operations.
+At runtime, Conduit (i) determines the most suitable SSD computation resource using a holistic cost function, (ii) translates each vector operation to the native ISA of the chosen computation resource, and (iii) dispatches the transformed instruction to the chosen resource’s execution queue.
+Our evaluation using an in-house simulator
+(guided by real system execution)
+on six real-world applications shows Conduit outperforms the best-performing prior offloading policy by 1.8
+×
+\times
+and reduces energy consumption by 46% on average.
+Acknowledgments
+We thank the anonymous reviewers of MICRO 2025 and HPCA 2026 for their feedback. We thank the SAFARI Research Group members for providing a stimulating, inclusive, intellectual, and scientific environment.
+We acknowledge the generous gifts from our industrial partners, including Google, Huawei, Intel, Microsoft, and VMware.
+This research was partially supported by European Union’s Horizon Programme for research and innovation under Grant Agreement No. 101047160 (project BioPIM), Swiss National Science Foundation (SNSF), Semiconductor Research Corporation (SRC), ETH Future Computing Laboratory (EFCL), Huawei ZRC Storage Team, and the AI Chip Center for Emerging Smart Systems Limited (ACCESS).
+References
+[1]
+Amirali Boroumand, Saugata Ghose, Youngsok Kim, Rachata Ausavarungnirun, Eric Shiu, Rahul Thakur, Daehyun Kim, Aki Kuusela, Allan Knies, Parthasarathy Ranganathan, et al.
+Google Workloads for Consumer Devices: Mitigating Data Movement Bottlenecks.
+In
+ASPLOS
+, 2018.
+[2]
+Onur Mutlu, Saugata Ghose, Juan Gómez-Luna, and Rachata Ausavarungnirun.
+Enabling Practical Processing in and near Memory for Data-Intensive Computing.
+In
+DAC
+, 2019.
+[3]
+Onur Mutlu.
+Memory Scaling: A Systems Architecture Perspective.
+IMW
+, 2013.
+[4]
+Svilen Kanev, Juan Pablo Darago, Kim Hazelwood, Parthasarathy Ranganathan, Tipp Moseley, Gu-Yeon Wei, and David Brooks.
+Profiling a Warehouse-Scale Computer.
+In
+ISCA
+, 2015.
+[5]
+Onur Mutlu, Saugata Ghose, Juan Gómez-Luna, and Rachata Ausavarungnirun.
+Processing Data Where It Makes Sense: Enabling In-Memory Computation.
+MicPro
+, 2019.
+[6]
+Onur Mutlu, Saugata Ghose, Juan Goḿes-Luna, and Rachata Ausavarungnirun.
+A Modern Primer on Processing in Memory.
+In
+Emerging Computing: From Devices to Systems – Looking Beyond Moore and Von Neumann
+. Springer, 2022.
+[7]
+Shibo Wang and Engin Ipek.
+Reducing Data Movement Energy via Online Data Clustering and Encoding.
+In
+MICRO
+, 2016.
+[8]
+Sally A McKee.
+Reflections on the Memory Wall.
+In
+CF
+, 2004.
+[9]
+Onur Mutlu and Lavanya Subramanian.
+Research Problems and Opportunities in Memory Systems.
+SUPERFRI
+, 2014.
+[10]
+Jisung Park, Roknoddin Azizi, Geraldo F Oliveira, Mohammad Sadrosadati, Rakesh Nadig, David Novo, Juan Gómez-Luna, Myungsuk Kim, and Onur Mutlu.
+Flash-Cosmos: In-flash Bulk Bitwise Operations Using Inherent Computation Capability of NAND-Flash Memory.
+In
+MICRO
+, 2022.
+[11]
+Nastaran Hajinazar, Geraldo F Oliveira, Sven Gregorio, João Dinis Ferreira, Nika Mansouri Ghiasi, Minesh Patel, Mohammed Alser, Saugata Ghose, Juan Gómez-Luna, and Onur Mutlu.
+SIMDRAM: A Framework for Bit-serial SIMD Processing-using-DRAM.
+In
+ASPLOS
+, 2021.
+[12]
+Vivek Seshadri, Donghyuk Lee, Thomas Mullins, Hasan Hassan, Amirali Boroumand, Jeremie Kim, Michael A Kozuch, Onur Mutlu, Phillip B Gibbons, and Todd C Mowry.
+Ambit: In-Memory Accelerator for Bulk Bitwise Operations Using Commodity DRAM Technology.
+In
+MICRO
+, 2017.
+[13]
+Boncheol Gu, Andre S. Yoon, Duck-Ho Bae, Insoon Jo, Jinyoung Lee, Jonghyun Yoon, Jeong-Uk Kang, Moonsang Kwon, Chanho Yoon, Sangyeun Cho, et al.
+Biscuit: A Framework for Near-Data Processing of Big Data Workloads.
+In
+ISCA
+, 2016.
+[14]
+Congming Gao, Xin Xin, Youyou Lu, Youtao Zhang, Jun Yang, and Jiwu Shu.
+ParaBit: Processing Parallel Bitwise Operations in NAND Flash Memory Based SSDs.
+In
+MICRO
+, 2021.
+[15]
+Antonio Barbalace, Martin Decky, Javier Picorel, and Pramod Bhatotia.
+blockNDP: Block-storage Near Data Processing.
+In
+Middleware
+, 2020.
+[16]
+Aurelia Augusta and Stratos Idreos.
+JAFAR: Near-Data Processing for Databases.
+In
+SIGMOD
+, 2015.
+[17]
+Amirali Boroumand, Saugata Ghose, Minesh Patel, Hasan Hassan, Brandon Lucia, Rachata Ausavarungnirun, Kevin Hsieh, Nastaran Hajinazar, Krishna T. Malladi, Hongzhong Zheng, and Onur Mutlu.
+CoNDA: Efficient Cache Coherence Support for Near-Data Accelerators.
+In
+ISCA
+, 2019.
+[18]
+Ivan Fernandez, Ricardo Quislant, Christina Giannoula, Mohammed Alser, Juan Gomez-Luna, Eladio Gutierrez, Oscar Plata, and Onur Mutlu.
+NATSA: A Near-Data Processing Accelerator for Time Series Analysis.
+In
+ICCD
+, 2020.
+[19]
+Gagandeep Singh, Juan Gómez-Luna, Giovanni Mariani, Geraldo F Oliveira, Stefano Corda, Sander Stuijk, Onur Mutlu, and Henk Corporaal.
+NAPEL: Near-memory Computing Application Performance Prediction via Ensemble Learning.
+In
+DAC
+, 2019.
+[20]
+Mingyu Gao and Christos Kozyrakis.
+HRL: Efficient and Flexible Reconfigurable Logic for Near-Data Processing.
+In
+HPCA
+, 2016.
+[21]
+Joo Hwan Lee, Hui Zhang, Veronica Lagrange, Praveen Krishnamoorthy, Xiaodong Zhao, and Yang Seok Ki.
+SmartSSD: FPGA Accelerated Near-Storage Data Analytics on SSD.
+IEEE CAL
+, 2020.
+[22]
+Gagandeep Singh, Mohammed Alser, Damla Senol Cali, Dionysios Diamantopoulos, Juan Gómez-Luna, Henk Corporaal, and Onur Mutlu.
+FPGA-based Near-Memory Acceleration of Modern Data-Intensive Applications.
+IEEE Micro
+, 2021.
+[23]
+Wenqin Huangfu, Xueqi Li, Shuangchen Li, Xing Hu, Peng Gu, and Yuan Xie.
+MEDAL: Scalable DIMM Based Near Data Processing Accelerator for DNA Seeding Algorithm.
+In
+MICRO
+, 2019.
+[24]
+Shengwen Liang, Ying Wang, Cheng Liu, Huawei Li, and Xiaowei Li.
+InS-DLA: An In-SSD Deep Learning Accelerator for Near-Data Processing.
+In
+FPL
+, 2019.
+[25]
+Nika Mansouri Ghiasi, Jisung Park, Harun Mustafa, Jeremie Kim, Ataberk Olgun, Arvid Gollwitzer, Damla Senol Cali, Can Firtina, Haiyu Mao, Nour Almadhoun Alserr, Rachata Ausavarungnirun, Nandita Vijaykumar, Mohammed Alser, and Onur Mutlu.
+GenStore: A High-Performance and Energy-Efficient In-Storage Computing System for Genome Sequence Analysis.
+In
+ASPLOS
+, 2022.
+[26]
+Geraldo F Oliveira, Ataberk Olgun, Abdullah Giray Yağlıkçı, F Nisa Bostancı, Juan Gómez-Luna, Saugata Ghose, and Onur Mutlu.
+MIMDRAM: An End-to-End Processing-Using-DRAM System for High-Throughput, Energy-Efficient and Programmer-Transparent Multiple-Instruction Multiple-Data Computing.
+In
+HPCA
+, 2024.
+[27]
+Joel Nider, Craig Mustard, Andrada Zoltan, and Alexandra Fedorova.
+Processing in Storage Class Memory.
+In
+HotStorage
+, 2020.
+[28]
+Kevin Hsieh, Eiman Ebrahimi, Gwangsun Kim, Niladrish Chatterjee, Mike O’Conner, Nandita Vijaykumar, Onur Mutlu, and Stephen Keckler.
+Transparent Offloading and Mapping (TOM): Enabling Programmer-Transparent Near-Data Processing in GPU Systems.
+In
+ISCA
+, 2016.
+[29]
+Nika Mansouri Ghiasi, Nandita Vijaykumar, Geraldo F. Oliveira, Lois Orosa, Ivan Fernandez, Mohammad Sadrosadati, Konstantinos Kanellopoulos, Nastaran Hajinazar, Juan Gómez Luna, and Onur Mutlu.
+ALP: Alleviating CPU-Memory Data Movement Overheads in Memory-Centric Systems.
+TETC
+, 2023.
+[30]
+Jaehyun Park, Jaewan Choi, Kwanhee Kyung, Michael Jaemin Kim, Yongsuk Kwon, Nam Sung Kim, and Jung Ho Ahn.
+AttAcc! Unleashing the Power of PIM for Batched Transformer-based Generative Model Inference.
+In
+ASPLOS
+, 2024.
+[31]
+Dan Chen, Hai Jin, Long Zheng, Yu Huang, Pengcheng Yao, Chuangyi Gui, Qinggang Wang, Haifeng Liu, Haiheng He, Xiaofei Liao, and Ran Zheng.
+A General Offloading Approach for Near-DRAM Processing-In-Memory Architectures.
+In
+IPDPS
+, 2022.
+[32]
+Dongyang Li, Yafei Yang, Weijun Li, and Qing Yang.
+CISC: Coordinating Intelligent SSD and CPU to Speedup Graph Processing.
+In
+ISPDC
+, 2018.
+[33]
+Lin Li, Xianzhang Chen, Jiali Li, Jiapin Wang, Duo Liu, Yujuan Tan, and Ao Ren.
+Optimizing the Performance of NDP Operations by Retrieving File Semantics in Storage.
+In
+DAC
+, 2023.
+[34]
+Satanu Maity, Manojit Ghose, Avinash Kumar, Anol Chakraborty, and Ankit Chakraborty.
+Unguided Machine Learning-Based Computation Offloading for Near-Memory Processing.
+In
+VLSID
+, 2025.
+[35]
+Pierre Olivier, AKM Fazla Mehrab, Stefan Lankes, Mohamed Lamine Karaoui, Robert Lyerly, and Binoy Ravindran.
+HEXO: Offloading HPC Compute-Intensive Workloads on Low-Cost, Low-Power Embedded Systems.
+In
+HPDC
+, 2019.
+[36]
+Yizhou Wei, Minxuan Zhou, Sihang Liu, Korakit Seemakhupt, Tajana Rosing, and Samira Khan.
+PIMProf: An Automated Program Profiler for Processing-in-Memory Offloading Decisions.
+In
+DATE
+, 2022.
+[37]
+Johannes Weiner, Niket Agarwal, Dan Schatzberg, Leon Yang, Hao Wang, Blaise Sanouillet, Bikash Sharma, Tejun Heo, Mayank Jain, Chunqiang Tang, and Dimitrios Skarlatos.
+TMO: Transparent Memory Offloading in Datacenters.
+In
+ASPLOS
+, 2022.
+[38]
+Zhe Yang, Youyou Lu, Xiaojian Liao, Youmin Chen, Junru Li, Siyu He, and Jiwu Shu.
+{
+\{
+λ
+\lambda
+-IO
+}
+\}
+: A Unified IO Stack for Computational Storage.
+In
+FAST
+, 2023.
+[39]
+Sun Weiyi, Gao Mingyu, Li Zhaoshi, Zhang Aoyang, Ying Chou Iris, Shaojun Wei Jianfeng, Zhu, and Leibo Liu.
+Lincoln: Real-Time 50-100B LLM Inference on Consumer Devices with LPDDR-Interfaced, Compute-Enabled Flash Memory.
+In
+HPCA
+, 2025.
+[40]
+Hongsun Jang, Siung Noh, Changmin Shin, Jaewon Jung, Jaeyong Song, and Jinho Lee.
+INFˆ 2: High-Throughput Generative Inference of Large Language Models using Near-Storage Processing.
+arXiv preprint arXiv:2502.09921
+, 2025.
+[41]
+Xiurui Pan, Endian Li, Qiao Li, Shengwen Liang, Yizhou Shan, Ke Zhou, Yingwei Luo, Xiaolin Wang, and Jie Zhang.
+InstAttention: In-Storage Attention Offloading for Cost-Effective Long-Context LLM Inference.
+In
+HPCA
+, 2025.
+[42]
+Lokesh Jaliminche, Yangwook Kang, Changho Choi, Pankaj Mehra, and Heiner Litz.
+CS-Assist: A Tool to Assist Computational Storage Device Offload.
+NVMW
+, 2024.
+[43]
+Seokwon Kang, Jongbin Kim, Gyeongyong Lee, Jeongmyung Lee, Jiwon Seo, Hyungsoo Jung, Yong Ho Song, and Yongjun Park.
+ISP Agent: A Generalized In-storage-processing Workload Offloading Framework by Providing Multiple Optimization Opportunities.
+ACM TACO
+, 2024.
+[44]
+Onur Mutlu, Ataberk Olgun, and İsmail Emir Yüksel.
+Memory-Centric Computing: Solving Computing’s Memory Problem.
+In
+IMW
+, 2025.
+[45]
+Doty, Greenblatt, and Stanley Y.W. Su.
+Magnetic Bubble Memory Architectures for Supporting Associative Searching of Relational Databases.
+IEEE TC
+, 1980.
+[46]
+Ramez Elmasri.
+Fundamentals of Database Systems
+.
+Pearson, 2007.
+[47]
+Yusuf Onur Koçberber, Boris Grot, Javier Picorel, Babak Falsafi, Kevin T. Lim, and Parthasarathy Ranganathan.
+Meet the Walkers: Accelerating Index Traversals for In-Memory Databases.
+In
+MICRO
+, 2013.
+[48]
+Oracle Database In-Memory.
+http://www.oracle.com/us/corporate/features/database-in-memory-option/index.html
+.
+[49]
+Stratos Idreos, Fabian Groffen, Niels Nes, Stefan Manegold, Sjoerd Mullender, and Martin Kersten.
+MonetDB: Two Decades of Research in Column-oriented Database Architectures.
+IEEE Data Eng. Bull.
+, 2012.
+[50]
+Lisa Wu, Andrea Lottarini, Timothy K Paine, Martha A Kim, and Kenneth A Ross.
+Q100: the Architecture and Design of a Database Processing Unit.
+In
+ASPLOS
+, 2014.
+[51]
+Chee-Yong Chan and Yannis E Ioannidis.
+Bitmap Index Design and Evaluation.
+In
+SIGMOD
+, 1998.
+[52]
+Elizabeth O’Neil, Patrick O’Neil, and Kesheng Wu.
+Bitmap Index Design Choices and their Performance Implications.
+In
+IDEAS
+, 2007.
+[53]
+Yinan Li and Jignesh M. Patel.
+WideTable: An Accelerator for Analytical Data Processing.
+In
+PVLDB
+, 2014.
+[54]
+Yinan Li and Jignesh M. Patel.
+BitWeaving: Fast Scans for Main Memory Data Processing.
+In
+SIGMOD
+, 2013.
+[55]
+Bob Goodwin, Michael Hopcroft, Dan Luu, Alex Clemmer, Mihaela Curmei, Sameh Elnikety, and Yuxiong He.
+BitFunnel: Revisiting Signatures for Search.
+In
+SIGIR
+, 2017.
+[56]
+Vivek Seshadri, Yoongu Kim, Chris Fallin, Donghyuk Lee, Rachata Ausavarungnirun, Gennady Pekhimenko, Yixin Luo, Onur Mutlu, Michael A Kozuch, Phillip B Gibbons, and Todd C. Mowry.
+RowClone: Fast and Energy-Efficient In-DRAM Bulk Data Copy and Initialization.
+In
+MICRO
+, 2013.
+[57]
+Vivek Seshadri, Kevin Hsieh, Amirali Boroumand, Donghyuk Lee, Michael A Kozuch, Onur Mutlu, Phillip B Gibbons, and Todd C Mowry.
+Fast Bulk Bitwise AND and OR in DRAM.
+IEEE CAL
+, 2015.
+[58]
+FastBit: An Efficient Compressed Bitmap Index Technology.
+https://sdm.lbl.gov/fastbit/
+.
+[59]
+Ming-Chuan Wu and Alejandro P Buchmann.
+Encoded Bitmap Indexing for Data Warehouses.
+In
+ICDE
+, 1998.
+[60]
+Zvika Guz, Manu Awasthi, Vijay Balakrishnan, Mrinmoy Ghosh, Anahita Shayesteh, Tameesh Suri, and Samsung Semiconductor.
+Real-Time Analytics as the Killer Application for Processing-In-Memory.
+WoNDP
+, 2014.
+[61]
+Redis.
+Redis bitmaps.
+https://redis.io/docs/latest/develop/data-types/bitmaps/
+.
+[62]
+Mayank Kabra, Rakesh Nadig, Harshita Gupta, Rahul Bera, Manos Frouzakis, Vamanan Arulchelvan, Yu Liang, Haiyu Mao, Mohammad Sadrosadati, and Onur Mutlu.
+CIPHERMATCH: Accelerating Homomorphic Encryption-Based String Matching via Memory-Efficient Data Packing and In-Flash Processing.
+In
+ASPLOS
+, 2025.
+[63]
+Gizem S Çetin, Wei Dai, Yarkın Doröz, William J Martin, and Berk Sunar.
+Blind Web Search: How Far Are We from a Privacy-preserving Search Engine?
+Cryptology ePrint Archive
+, 2016.
+[64]
+Seth H. Pugsley, Jeffrey Jestes, Huihui Zhang, Rajeev Balasubramonian, Vijayalakshmi Srinivasan, Alper Buyuktosunoglu, Al Davis, and Feifei Li.
+NDC: Analyzing the Impact of 3D-Stacked Memory+Logic Devices on MapReduce Workloads.
+In
+ISPASS
+, 2014.
+[65]
+Benjamin Y Cho, Won Seob Jeong, Doohwan Oh, and Won Woo Ro.
+XSD: Accelerating MapReduce by Harnessing the GPU inside an SSD .
+In
+WoNDP
+, 2013.
+[66]
+Vijay Janapa Reddi, Benjamin C Lee, Trishul Chilimbi, and Kushagra Vaid.
+Web Search Using Mobile Cores: Quantifying and Mitigating the Price of Efficiency.
+In
+ISCA
+, 2010.
+[67]
+Grant Ayers, Jung Ho Ahn, Christos Kozyrakis, and Parthasarathy Ranganathan.
+Memory Hierarchy for Web Search.
+In
+HPCA
+, 2018.
+[68]
+Yuhao Zhu and Vijay Janapa Reddi.
+High-Performance and Energy-Efficient Mobile Web Browsing on Big/Little Systems.
+In
+HPCA
+, 2013.
+[69]
+Vijay Janapa Reddi, Benjamin C Lee, Trishul Chilimbi, and Kushagra Vaid.
+Mobile Processors for Energy-Efficient Web Search.
+ACM TOCS
+, 2011.
+[70]
+Zhen Jia, Wanling Gao, Yingjie Shi, Sally A McKee, Jianfeng Zhan, Lei Wang, and Lixin Zhang.
+Understanding Processors Design Decisions for Data Analytics in Homogeneous Data Centers.
+In
+TBDATA
+, 2017.
+[71]
+Sang-Woo Jun, Ming Liu, Sungjin Lee, Jamey Hicks, John Ankcorn, Myron King, Shuotao Xu, and Arvind.
+BlueDBM: An Appliance for Big Data Analytics.
+In
+ISCA
+, 2015.
+[72]
+Ben Perach, Ronny Ronen, Benny Kimelfeld, and Shahar Kvatinsky.
+PIMDB: Understanding Bulk-Bitwise Processing In-Memory Through Database Analytics.
+IEEE TETC
+, 2022.
+[73]
+Mahdi Torabzadehkashi, Siavash Rezaei, Ali Heydarigorji, Hosein Bobarshad, Vladimir Alves, and Nader Bagherzadeh.
+Catalina: In-Storage Processing Acceleration for Scalable Big Data Analytics.
+In
+PDP
+, 2019.
+[74]
+Sang-Woo Jun, Andy Wright, Sizhuo Zhang, Shuotao Xu, and Arvind.
+GraFBoost: Using Accelerated Flash Storage for External Graph Analytics.
+In
+ISCA
+, 2018.
+[75]
+I Stephen Choi and Yang-Suk Kee.
+Energy Efficient Scale-In Clusters with In-Storage Processing for Big-Data Analytics.
+In
+MEMSYS
+, 2015.
+[76]
+Reena Panda and Lizy Kurian John.
+Data Analytics Workloads: Characterization and Similarity Analysis.
+In
+IPCCC
+, 2014.
+[77]
+Sang-Woo Jun, Ming Liu, Kermin Elliott Fleming, and Arvind.
+Scalable Multi-Access Flash Store for Big Data Analytics.
+In
+FPGA
+, 2014.
+[78]
+Aosen Wang, Lizhong Chen, and Wenyao Xu.
+XPro: A Cross-End Processing Architecture for Data Analytics in Wearables.
+ISCA
+, 2017.
+[79]
+Devesh Tiwari, Simona Boboila, Sudharshan Vazhkudai, Youngjae Kim, Xiaosong Ma, Peter Desnoyers, and Yan Solihin.
+Active Flash: Towards Energy-Efficient, In-Situ Data Analytics on Extreme-Scale Machines.
+In
+FAST
+, 2013.
+[80]
+Simona Boboila, Youngjae Kim, Sudharshan S Vazhkudai, Peter Desnoyers, and Galen M Shipman.
+Active Flash: Out-of-core Data Analytics on Flash Storage .
+In
+MSST
+, 2012.
+[81]
+Mingyu Gao, Grant Ayers, and Christos Kozyrakis.
+Practical Near-Data Processing for In-Memory Analytics Frameworks.
+In
+PACT
+, 2015.
+[82]
+Mohammed Alser, Hasan Hassan, Hongyi Xin, Oğuz Ergin, Onur Mutlu, and Can Alkan.
+GateKeeper: A New Hardware Architecture for Accelerating Pre-alignment in DNA Short Read Mapping.
+Bioinformatics
+, 2017.
+[83]
+Joshua Loving, Yozen Hernandez, and Gary Benson.
+BitPAl: A Bit-Parallel, General Integer-Scoring Sequence Alignment Algorithm.
+Bioinformatics
+, 2014.
+[84]
+Hongyi Xin, John Greth, John Emmons, Gennady Pekhimenko, Carl Kingsford, Can Alkan, and Onur Mutlu.
+Shifted Hamming Distance: A Fast and Accurate SIMD-Friendly Filter to Accelerate Alignment Verification in Read Mapping.
+Bioinformatics
+, 2015.
+[85]
+Damla Senol Cali, Gurpreet S. Kalsi, Zülal Bingöl, Can Firtina, Lavanya Subramanian, Jeremie S. Kim, Rachata Ausavarungnirun, Mohammed Alser, Juan Gómez-Luna, Amirali Boroumand, Anant Nori, Allison Scibisz, Sreenivas Subramoney, Can Alkan, Saugata Ghose, and Onur Mutlu.
+GenASM: A High-Performance, Low-Power Approximate String Matching Acceleration Framework for Genome Sequence Analysis.
+In
+MICRO
+, 2020.
+[86]
+Jeremie S Kim, Damla Senol Cali, Hongyi Xin, Donghyuk Lee, Saugata Ghose, Mohammed Alser, Hasan Hassan, Oguz Ergin, Can Alkan, and Onur Mutlu.
+Catalina-Filter: Fast Seed Location Filtering in DNA Read Mapping Using Processing-in-Memory Technologies.
+BMC Genomics
+, 2018.
+[87]
+Eric S Lander, Lauren M Linton, Bruce Birren, Chad Nusbaum, Michael C Zody, Jennifer Baldwin, Keri Devon, Ken Dewar, Michael Doyle, William Fitzhugh, et al.
+Initial Sequencing and Analysis of the Human Genome.
+Nature
+, 2001.
+[88]
+Stephen F Altschul, Warren Gish, Webb Miller, Eugene W Myers, and David J Lipman.
+Basic Local Alignment Search Tool.
+JMB
+, 1990.
+[89]
+Gene Myers.
+A Fast Bit-Vector Algorithm for Approximate String Matching Based on Dynamic Programming.
+JACM
+, 1999.
+[90]
+Nika Mansouri Ghiasi, Mohammad Sadrosadati, Harun Mustafa, Arvid Gollwitzer, Can Firtina, Julien Eudine, Haiyu Mao, Joël Lindegger, Meryem Banu Cavlak, Mohammed Alser, et al.
+MegIS: High-Performance, Energy-Efficient, and Low-Cost Metagenomic Analysis with In-Storage Processing.
+In
+ISCA
+, 2024.
+[91]
+Louis Papageorgiou, Picasi Eleni, Sofia Raftopoulou, Meropi Mantaiou, Vasileios Megalooikonomou, and Dimitrios Vlachakis.
+Genomic Big Data Hitting the Storage Bottleneck.
+In
+EMBnet. J
+, 2018.
+[92]
+Melina Soysal, Konstantina Koliogeorgi, Can Firtina, Nika Mansouri Ghiasi, Rakesh Nadig, Haiyu Mao, Geraldo F Oliveira, Yu Liang, Klea Zambaku, Mohammad Sadrosadati, et al.
+MARS: Processing-In-Memory Acceleration of Raw Signal Genome Analysis Inside the Storage Subsystem.
+In
+ICS
+, 2025.
+[93]
+C. Alkan et al.
+Personalized Copy Number and Segmental Duplication Maps Using Next-Generation Sequencing.
+Nature Genetics
+, 2009.
+[94]
+Wonbo Shim and Shimeng Yu.
+GP3D: 3D NAND Based In-memory Graph Processing Accelerator.
+IEEE JETCAS
+, 2022.
+[95]
+Mingxing Zhang, Youwei Zhuo, Chao Wang, Mingyu Gao, Yongwei Wu, Kang Chen, Christos Kozyrakis, and Xuehai Qian.
+GraphP: Reducing Communication for PIM-based Graph Processing with Efficient Data Partition.
+In
+HPCA
+, 2018.
+[96]
+Junwhan Ahn, Sungpack Hong, Sungjoo Yoo, Onur Mutlu, and Kiyoung Choi.
+A Scalable Processing-in-memory Accelerator for Parallel Graph Processing.
+In
+ISCA
+, 2015.
+[97]
+Youwei Zhuo, Chao Wang, Mingxing Zhang, Rui Wang, Dimin Niu, Yanzhi Wang, and Xuehai Qian.
+GraphQ: Scalable PIM-based Graph Processing.
+In
+MICRO
+, 2019.
+[98]
+Yu Huang, Long Zheng, Pengcheng Yao, Jieshan Zhao, Xiaofei Liao, Hai Jin, and Jingling Xue.
+A Heterogeneous PIM Hardware-Software Co-Design for Energy-Efficient Graph Processing.
+In
+IPDPS
+, 2020.
+[99]
+Linghao Song, Youwei Zhuo, Xuehai Qian, Hai Li, and Yiran Chen.
+GraphR: Accelerating Graph Processing using ReRAM.
+In
+HPCA
+, 2018.
+[100]
+Guohao Dai, Tianhao Huang, Yuze Chi, Jishen Zhao, Guangyu Sun, Yongpan Liu, Yu Wang, Yuan Xie, and Huazhong Yang.
+GraphH: A Processing-in-Memory Architecture for Large-scale Graph Processing.
+IEEE TCAD
+, 2018.
+[101]
+Scott Beamer, Krste Asanovic, and David Patterson.
+Direction-Optimizing Breadth-First Search.
+In
+SC
+, 2012.
+[102]
+Maciej Besta, Raghavendra Kanakagiri, Grzegorz Kwasniewski, Rachata Ausavarungnirun, Jakub Beránek, Konstantinos Kanellopoulos, Kacper Janda, Zur Vonarburg-Shmaria, Lukas Gianinazzi, Ioana Stefan, Juan Gómez Luna, Jakub Golinowski, Marcin Copik, Lukas Kapp-Schwoerer, Salvatore Di Girolamo, Nils Blach, Marek Konieczny, Onur Mutlu, and Torsten Hoefler.
+SISA: Set-Centric Instruction Set Architecture for Graph Mining on Processing-in-Memory Systems.
+In
+MICRO
+, 2021.
+[103]
+Shuangchen Li, Cong Xu, Qiaosha Zou, Jishen Zhao, Yu Lu, and Yuan Xie.
+Pinatubo: A Processing-in-Memory Architecture for Bulk Bitwise Operations in Emerging Non-Volatile Memories.
+In
+DAC
+, 2016.
+[104]
+Aayush Ankit, Izzat El Hajj, Sai Rahul Chalamalasetti, Geoffrey Ndu, Martin Foltin, R. Stanley Williams, Paolo Faraboschi, Wen-Mei W Hwu, John Paul Strachan, Kaushik Roy, and Dejan S. Milojicic.
+PUMA: A Programmable Ultra-Efficient Memristor-Based Accelerator for Machine Learning Inference.
+In
+ASPLOS
+, 2019.
+[105]
+Yucheng Low, Danny Bickson, Joseph Gonzalez, Carlos Guestrin, Aapo Kyrola, and Joseph M Hellerstein.
+Distributed GraphLab: A Framework for Machine Learning and Data Mining in the Cloud.
+PVLDB
+, 2012.
+[106]
+Meng Wang, Weijie Fu, Xiangnan He, Shijie Hao, and Xindong Wu.
+A Survey on Large-Scale Machine Learning.
+IEEE TKDE
+, 2020.
+[107]
+Ying Sheng, Lianmin Zheng, Binhang Yuan, Zhuohan Li, Max Ryabinin, Beidi Chen, Percy Liang, Christopher Ré, Ion Stoica, and Ce Zhang.
+FlexGen: High-Throughput Generative Inference of Large Language Models with a Single GPU.
+In
+PMLR
+, 2023.
+[108]
+Amirali Boroumand, Saugata Ghose, Berkin Akin, Ravi Narayanaswami, Geraldo F. Oliveira, Xiaoyu Ma, Eric Shiu, and Onur Mutlu.
+Google Neural Network Models for Edge Devices: Analyzing and Mitigating Machine Learning Inference Bottlenecks.
+In
+PACT
+, 2021.
+[109]
+Yintao He, Haiyu Mao, Christina Giannoula, Mohammad Sadrosadati, Juan Gómez-Luna, Huawei Li, Xiaowei Li, Ying Wang, and Onur Mutlu.
+PAPI: Exploiting Dynamic Parallelism in Large Language Model Decoding with a Processing-In-Memory-Enabled Computing System.
+In
+ASPLOS
+, 2025.
+[110]
+Yufeng Gu, Alireza Khadem, Sumanth Umesh, Ning Liang, Xavier Servot, Onur Mutlu, Ravi Iyer, and Reetuparna Das.
+PIM Is All You Need: A CXL-Enabled GPU-Free System for Large Language Model Inference.
+In
+ASPLOS
+, 2025.
+[111]
+Jaeyong Lee, Hyeunjoo Kim, Sanghun Oh, Myoungjun Chun, Myungsuk Kim, and Jihong Kim.
+AiF: Accelerating On-Device LLM Inference Using In-Flash Processing.
+In
+ISCA
+, 2025.
+[112]
+Junkyum Kim, Myeonggu Kang, Yunki Han, Yang-Gon Kim, and Lee-Sup Kim.
+OptimStore: In-Storage Optimization of Large Scale DNNs with On-Die Processing.
+In
+HPCA
+, 2023.
+[113]
+Sepp Hochreiter and Jürgen Schmidhuber.
+Long short-term memory.
+Neural Computation
+, 1997.
+[114]
+Ronald J Williams.
+Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement Learning.
+In
+ML
+, 1992.
+[115]
+Juan Gómez-Luna, Yuxin Guo, Sylvan Brocard, Julien Legriel, Remy Cimadomo, Geraldo F. Oliveira, Gagandeep Singh, and Onur Mutlu.
+Machine Learning Training on a Real Processing-in-Memory System.
+In
+ISVLSI
+, 2022.
+[116]
+Christopher JCH Watkins and Peter Dayan.
+Q-learning.
+In
+ML
+, 1992.
+[117]
+Yuyue Wang, Xiurui Pan, Yuda An, Jie Zhang, and Glenn Reinman.
+BeaconGNN: Large-Scale GNN Acceleration with Out-of-Order Streaming In-Storage Computing.
+In
+HPCA
+, 2024.
+[118]
+Zhongkai Yu, Shengwen Liang, Tianyun Ma, Yunke Cai, Ziyuan Nan, Di Huang, Xinkai Song, Yifan Hao, Jie Zhang, Tian Zhi, et al.
+Cambricon-LLM: A Chiplet-Based Hybrid Architecture for On-Device Inference of 70B LLM.
+In
+MICRO
+, 2024.
+[119]
+Xiurui Pan, Endian Li, Qiao Li, Shengwen Liang, Yizhou Shan, Ke Zhou, Yingwei Luo, Xiaolin Wang, and Jie Zhang.
+InstInfer: In-Storage Attention Offloading for Cost-Effective Long-Context LLM Inference.
+arXiv
+, 2024.
+[120]
+Pim Tuyls, Henk DL Hollmann, Jack H Van Lint, and LMGM Tolhuizen.
+XOR-based Visual Cryptography Schemes.
+Des. Codes, Cryptogr.
+, 2005.
+[121]
+Svetlin A Manavski.
+CUDA Compatible GPU as an Efficient Hardware Accelerator for AES Cryptography.
+In
+SPCOM
+, 2007.
+[122]
+Hamid Nejatollahi, Saransh Gupta, Mohsen Imani, Tajana Simunic Rosing, Rosario Cammarota, and Nikil Dutt.
+CryptoPIM: In-memory Acceleration for Lattice-based Cryptographic Hardware.
+In
+DAC
+, 2020.
+[123]
+JongWook Han, Choon-Sik Park, Dae-Hyun Ryu, and Eun-Soo Kim.
+Optical Image Encryption Based on XOR Operations.
+Optical Engineering
+, 1999.
+[124]
+Ruby B Lee, Peter CS Kwan, John P McGregor, Jeffrey Dwoskin, and Zhenghong Wang.
+Architecture for Protecting Critical Secrets in Microprocessors.
+In
+ISCA
+, 2005.
+[125]
+Ali Hajiabadi and Trevor E Carlson.
+Cassandra: Efficient Enforcement of Sequential Execution for Cryptographic Programs.
+In
+ISCA
+, 2025.
+[126]
+Michael LeMay, Joydeep Rakshit, Sergej Deutsch, David M Durham, Santosh Ghosh, Anant Nori, Jayesh Gaur, Andrew Weiler, Salmin Sultana, Karanvir Grewal, et al.
+Cryptographic Capability Computing.
+In
+MICRO
+, 2021.
+[127]
+Srinivas Devadas, Simon Langowski, Nikola Samardzic, Sacha Servan-Schreiber, and Daniel Sánchez.
+Designing Hardware for Cryptography and Cryptography for Hardware.
+In
+CCS
+, 2022.
+[128]
+Xin Wang, Jagadish B Kotra, and Xun Jian.
+Eager Memory Cryptography in Caches.
+In
+MICRO
+, 2022.
+[129]
+Whitfield Diffie and Martin E Hellman.
+New Directions in Cryptography.
+In
+Democratizing Cryptography: The Work of Whitfield Diffie and Martin Hellman
+. 2022.
+[130]
+Jed Kao-Tung Chang, Chen Liu, Shaoshan Liu, and Jean-Luc Gaudiot.
+Workload Characterization of Cryptography Algorithms for Hardware Acceleration.
+In
+ICPE
+, 2011.
+[131]
+Ren Wang, Bianny Bian, and Chengkai Shi.
+Architectural Characterization and Analysis of High-end Mobile Client Workloads.
+In
+ICEAC
+, 2013.
+[132]
+Yu Liang, Aofeng Shen, Chun Jason Xue, Riwei Pan, Haiyu Mao, Nika Mansouri Ghiasi, Qingcai Jiang, Rakesh Nadig, Lei Li, Rachata Ausavarungnirun, et al.
+Ariadne: A Hotness-Aware and Size-Adaptive Compressed Swap Technique for Fast Application Relaunch and Reduced CPU Usage on Mobile Devices.
+In
+HPCA
+, 2025.
+[133]
+Matthew Halpern, Yuhao Zhu, and Vijay Janapa Reddi.
+Mobile CPU’s Rise to Power: Quantifying the Impact of Generational Mobile CPU Design Trends on Performance, Energy, and User Satisfaction.
+In
+HPCA
+, 2016.
+[134]
+Sudhanshu Gupta and Sandhya Dwarkadas.
+RELIEF: Relieving Memory Pressure In SoCs Via Data Movement-Aware Accelerator Scheduling.
+In
+HPCA
+, 2024.
+[135]
+Google LLC.
+TensorFlow: Mobile.
+https://www.tensorflow.org/mobile/
+.
+[136]
+Onur Mutlu, Ataberk Olgun, Geraldo F Oliveira, and Ismail E Yuksel.
+Memory-Centric Computing: Recent Advances in Processing-in-DRAM.
+In
+IEDM
+, 2024.
+[137]
+Saugata Ghose, Amirali Boroumand, Jeremie S Kim, Juan Gómez-Luna, and Onur Mutlu.
+Processing-in-memory: A workload-driven perspective.
+IBM JRD
+, 2019.
+[138]
+Samsung.
+Samsung SSD 980 PRO.
+https://www.samsung.com/semiconductor/minisite/ssd/product/consumer/980pro/
+.
+[139]
+ADATA.
+ADATA Ultimate Series: SU630.
+https://www.adata.com/en/consumer/category/ssds/591/
+.
+[140]
+Intel.
+Intel SSD 660p Series,
+https://www.intel.com/content/www/us/en/products/docs/memory-storage/solid-state-drives/consumer-ssds/660p-series-brief.html
+.
+[141]
+Intel.
+Intel SSD D3-S4510 Series,
+https://www.intel.com/content/www/us/en/products/memory-storage/solid-state-drives/data-center-ssds/d3-series/d3-s4510-series/d3-s4510-1-92tb-2-5inch-3d2.html
+.
+[142]
+Intel.
+Intel SSD DC P4610 Series.
+https://ark.intel.com/content/www/us/en/ark/products/140103/intel-ssd-dc-p4610-series-1-6tb-2-5in-pcie-3-1-x4-3d2-tlc.html
+.
+[143]
+Rakesh Nadig, Mohammad Sadrosadati, Haiyu Mao, Nika Mansouri Ghiasi, Arash Tavakkol, Jisung Park, Hamid Sarbazi-Azad, Juan Gómez Luna, and Onur Mutlu.
+Venice: Improving Solid-State Drive Parallelism at Low Cost via Conflict-Free Accesses.
+In
+ISCA
+, 2023.
+[144]
+Yu Cai, Saugata Ghose, Erich F Haratsch, Yixin Luo, and Onur Mutlu.
+Error Characterization, Mitigation, and Recovery in Flash-Memory-based Solid-State Drives.
+Proc. IEEE
+, 2017.
+[145]
+Rino Micheloni, Luca Crippa, and Alessia Marelli.
+Inside NAND Flash Memories
+.
+Springer, 2010.
+[146]
+Rino Micheloni, Alessia Marelli, and Kam Eshghi.
+Inside Solid State Drives (SSDs)
+.
+Springer, 2013.
+[147]
+Intel.
+Intel Optane SSD DC P4801X Series,
+https://ark.intel.com/content/www/us/en/ark/products/149365/intel-optane-ssd-dc-p4801x-series-100gb-2-5in-pcie-x4-3d-xpoint.html
+.
+[148]
+Samsung.
+Samsung SSD 960 PRO NVMe M.2 512GB,
+https://www.samsung.com/us/computing/memory-storage/solid-state-drives/ssd-960-pro-m-2-512gb-mz-v6p512bw
+.
+[149]
+Samsung.
+Ultra-Low Latency with Samsung Z-NAND SSD,
+https://www.samsung.com/semiconductor/global.semi.static/Ultra-Low_Latency_with_Samsung_Z-NAND_SSD-0.pdf
+.
+[150]
+Dongchul Park, Jianguo Wang, and Yang-Suk Kee.
+In-storage Computing for Hadoop MapReduce Framework: Challenges and Possibilities.
+ToC
+, 2016.
+[151]
+Vikram Sharma Mailthody, Zaid Qureshi, Weixin Liang, Ziyan Feng, Simon Garcia De Gonzalo, Youjie Li, Hubertus Franke, Jinjun Xiong, Jian Huang, and Wen-mei Hwu.
+DeepStore: In-Storage Acceleration for Intelligent Queries.
+In
+MICRO
+, 2019.
+[152]
+Shine Kim, Yunho Jin, Gina Sohn, Jonghyun Bae, Tae Jun Ham, and Jae W Lee.
+Behemoth: A Flash-centric Training Accelerator for Extreme-scale
+{
+\{
+DNNs
+}
+\}
+.
+In
+FAST
+, 2021.
+[153]
+Yangwook Kang, Yang suk Kee, Ethan L. Miller, and Chanik Park.
+Enabling Cost-effective Data Processing with Smart SSD.
+In
+MSST
+, 2013.
+[154]
+Sudharsan Seshadri, Mark Gahagan, Sundaram Bhaskaran, Trevor Bunker, Arup De, Yanqin Jin, Yang Liu, and Steven Swanson.
+Willow: A User-Programmable SSD.
+In
+USENIX OSDI
+, 2014.
+[155]
+Xiaohao Wang, Yifan Yuan, You Zhou, Chance C Coats, and Jian Huang.
+Project Almanac: A Time-Traveling Solid-State Drive.
+In
+EuroSys
+, 2019.
+[156]
+Anurag Acharya, Mustafa Uysal, and Joel Saltz.
+Active Disks: Programming Model, Algorithms and Evaluation.
+ASPLOS
+, 1998.
+[157]
+Kimberly Keeton, David A Patterson, and Joseph M Hellerstein.
+A Case for Intelligent Disks (IDISKs).
+SIGMOD Rec.
+, 1998.
+[158]
+Gunjae Koo, Kiran Kumar Matam, Te I, HV Krishna Giri Narra, Jing Li, Hung-Wei Tseng, Steven Swanson, and Murali Annavaram.
+Summarizer: Trading Communication with Computing Near Storage.
+In
+MICRO
+, 2017.
+[159]
+Devesh Tiwari, Sudharshan S Vazhkudai, Youngjae Kim, Xiaosong Ma, Simona Boboila, and Peter J Desnoyers.
+Reducing Data Movement Costs Using Energy-Efficient, Active Computation on SSD.
+In
+HotPower
+, 2012.
+[160]
+Duck-Ho Bae, Jin-Hyung Kim, Sang-Wook Kim, Hyunok Oh, and Chanik Park.
+Intelligent SSD: A Turbo for Big Data Mining.
+In
+CIKM
+, 2013.
+[161]
+Mahdi Torabzadehkashi, Siavash Rezaei, Vladimir Alves, and Nader Bagherzadeh.
+CompStor: An In-Storage Computation Platform for Scalable Distributed Processing.
+In
+IPDPSW
+, 2018.
+[162]
+Shuyi Pei, Jing Yang, and Qing Yang.
+REGISTOR: A Platform for Unstructured Data Processing inside SSD Storage.
+ACM TOS
+, 2019.
+[163]
+Jaeyoung Do, Yang-Suk Kee, Jignesh M Patel, Chanik Park, Kwanghyun Park, and David J DeWitt.
+Query Processing on Smart SSDs: Opportunities and Challenges.
+In
+ACM SIGMOD
+, 2013.
+[164]
+Sungchan Kim, Hyunok Oh, Chanik Park, Sangyeun Cho, Sang-Won Lee, and Bongki Moon.
+In-Storage Processing of Database Scans and Joins.
+Information Sciences
+, 2016.
+[165]
+Erik Riedel, Christos Faloutsos, Garth A Gibson, and David Nagle.
+Active Disks for Large-Scale Data Processing.
+Computer
+, 2001.
+[166]
+Erik Riedel, Garth Gibson, and Christos Faloutsos.
+Active Storage for Large-Scale Data Mining and Multimedia Applications.
+PVLDB
+, 1998.
+[167]
+Shengwen Liang, Ying Wang, Youyou Lu, Zhe Yang, Huawei Li, and Xiaowei Li.
+Cognitive SSD: A Deep Learning Engine for In-Storage Data Retrieval.
+In
+USENIX ATC
+, 2019.
+[168]
+Mohammadamin Ajdari, Pyeongsu Park, Joonsung Kim, Dongup Kwon, and Jangwoo Kim.
+CIDR: A Cost-effective In-line Data Reduction System for Terabit-per-second Scale SSD Arrays.
+In
+HPCA
+, 2019.
+[169]
+Sang-Woo Jun, Huy T Nguyen, Vijay Gadepally, et al.
+In-Storage Embedded Accelerator for Sparse Pattern Processing.
+In
+HPEC
+, 2016.
+[170]
+Myeonggu Kang, Hyeonuk Kim, Hyein Shin, Jaehyeong Sim, Kyeonghan Kim, and Lee-Sup Kim.
+S-FLASH: A NAND Flash-based Deep Neural Network Accelerator Exploiting Bit-Level Sparsity.
+IEEE TC
+, 2021.
+[171]
+Minsub Kim and Sungjin Lee.
+Reducing Tail Latency of DNN-based Recommender Systems using In-Storage Processing.
+In
+APSys
+, 2020.
+[172]
+Yunjae Lee, Jinha Chung, and Minsoo Rhu.
+SmartSAGE: Training Large-scale Graph Neural Networks using In-Storage Processing Architectures.
+In
+ISCA
+, 2022.
+[173]
+Siqi Li, Fengbin Tu, Liu Liu, Jilan Lin, Zheng Wang, Yangwook Kang, Yufei Ding, and Yuan Xie.
+ECSSD: Hardware/Data Layout Co-Designed In-Storage-Computing Architecture for Extreme Classification.
+In
+ISCA
+, 2023.
+[174]
+Zhenyuan Ruan, Tong He, and Jason Cong.
+INSIDER: Designing In-Storage Computing System for Emerging High-Performance Drive.
+In
+USENIX ATC
+, 2019.
+[175]
+Jianguo Wang, Dongchul Park, Yannis Papakonstantinou, and Steven Swanson.
+SSD In-storage Computing for Search Engines.
+IEEE TC
+, 2016.
+[176]
+Won Seob Jeong, Changmin Lee, Keunsoo Kim, Myung Kuk Yoon, Won Jeon, Myoungsoo Jung, and Won Woo Ro.
+REACT: Scalable and High-performance Regular Expression Pattern Matching Accelerator for In-storage Processing.
+IEEE TPDS
+, 2019.
+[177]
+Yandong Mao, Eddie Kohler, and Robert Tappan Morris.
+Cache Craftiness for Fast Multicore Key-Value Storage.
+In
+EuroSys
+, 2012.
+[178]
+Donghyun Gouk, Miryeong Kwon, Hanyeoreum Bae, and Myoungsoo Jung.
+DockerSSD: Containerized In-Storage Processing and Hardware Acceleration for Computational SSDs.
+In
+HPCA
+, 2024.
+[179]
+Luyi Kang, Yuqi Xue, Weiwei Jia, Xiaohao Wang, Jongryool Kim, Changhwan Youn, Myeong Joon Kang, Hyung Jin Lim, Bruce Jacob, and Jian Huang.
+IceClave: A Trusted Execution Environment for In-Storage Computing.
+In
+MICRO
+, 2021.
+[180]
+Leonid Yavits, Roman Kaplan, and Ran Ginosar.
+GIRAF: General Purpose In-Storage Resistive Associative Framework.
+IEEE TPDS
+, 2021.
+[181]
+Minje Lim, Jeeyoon Jung, and Dongkun Shin.
+LSM-Tree Compaction Acceleration Using In-Storage Processing.
+In
+ICCE-Asia
+, 2021.
+[182]
+Sai Narasimhamurthy, Nikita Danilov, Sining Wu, Ganesan Umanesan, Stefano Markidis, Sergio Rivas-Gomez, Ivy Bo Peng, Erwin Laure, Dirk Pleiter, and Shaun De Witt.
+SAGE: Percipient Storage for Exascale Data Centric Computing.
+Parallel Computing
+, 2019.
+[183]
+Dina Fakhry, Mohamed Abdelsalam, M Watheq El-Kharashi, and Mona Safar.
+A Review on Computational Storage Devices and Near Memory Computing for High-Performance Applications.
+J. Memori
+, 2023.
+[184]
+Insoon Jo, Duck-Ho Bae, Andre S. Yoon, Jeong-Uk Kang, Sangyeun Cho, Daniel D. G. Lee, and Jaeheon Jeong.
+YourSQL: A High-Performance Database System Leveraging In-storage Computing.
+PVLDB
+, 2016.
+[185]
+Kangqi Chen, Rakesh Nadig, Manos Frouzakis, Nika Mansouri Ghiasi, Yu Liang, Haiyu Mao, Jisung Park, Mohammad Sadrosadati, and Onur Mutlu.
+REIS: A High-Performance and Energy-Efficient Retrieval System with In-Storage Processing.
+In
+ISCA
+, 2025.
+[186]
+Cangyuan Li, Ying Wang, Cheng Liu, Shengwen Liang, Huawei Li, and Xiaowei Li.
+GLIST: Towards In-Storage Graph Learning.
+In
+USENIX ATC
+, 2021.
+[187]
+Jianguo Wang, Dongchul Park, Yang-Suk Kee, Yannis Papakonstantinou, and Steven Swanson.
+SSD In-storage Computing for List Intersection.
+In
+DaMoN
+, 2016.
+[188]
+Rohan Mahapatra, Harsha Santhanam, Christopher Priebe, Hanyang Xu, and Hadi Esmaeilzadeh.
+In-Storage Acceleration of Retrieval Augmented Generation as a Service.
+In
+ISCA
+, 2025.
+[189]
+Vivek Seshadri and Onur Mutlu.
+In-DRAM Bulk Bitwise Execution Engine.
+arXiv
+, 2019.
+[190]
+Shuangchen Li, Dimin Niu, Krishna T Malladi, Hongzhong Zheng, Bob Brennan, and Yuan Xie.
+DRISA: A DRAM-based Reconfigurable In-Situ Accelerator.
+In
+MICRO
+, 2017.
+[191]
+Vivek Seshadri and Onur Mutlu.
+The Processing Using Memory Paradigm: In-DRAM Bulk Copy, Initialization, Bitwise AND and OR.
+arXiv
+, 2016.
+[192]
+Quan Deng, Lei Jiang, Youtao Zhang, Minxuan Zhang, and Jun Yang.
+DrAcc: A DRAM based Accelerator for Accurate CNN Inference.
+In
+DAC
+, 2018.
+[193]
+Xin Xin, Youtao Zhang, and Jun Yang.
+ELP2IM: Efficient and Low Power Bitwise Operation Processing in DRAM.
+In
+HPCA
+, 2020.
+[194]
+Fei Gao, Georgios Tziantzioulis, and David Wentzlaff.
+ComputeDRAM: In-Memory Compute Using Off-the-Shelf DRAMs.
+In
+MICRO
+, 2019.
+[195]
+Ismail Emir Yuksel, Ataberk Olgun, F Bostanci, Oguzhan Canpolat, Geraldo F Oliveira, Mohammad Sadrosadati, Abdullah Giray Yaglikci, and Onur Mutlu.
+In-DRAM True Random Number Generation Using Simultaneous Multiple-Row Activation: An Experimental Study of Real DRAM Chips.
+In
+ICCD
+, 2025.
+[196]
+Ataberk Olgun, Hasan Hassan, A Giray Yağlıkçı, Yahya Can Tuğrul, Lois Orosa, Haocong Luo, Minesh Patel, Oğuz Ergin, and Onur Mutlu.
+DRAM Bender: An Extensible and Versatile FPGA-based Infrastructure to Easily Test State-of-the-art DRAM Chips.
+TCAD
+, 2023.
+[197]
+Fei Gao, Georgios Tziantzioulis, and David Wentzlaff.
+FracDRAM: Fractional Values in Off-the-Shelf DRAM.
+In
+MICRO
+, 2022.
+[198]
+İsmail Emir Yüksel, Yahya Can Tuğrul, Ataberk Olgun, F Nisa Bostancı, A Giray Yağlıkçı, Geraldo F Oliveira, Haocong Luo, Juan Gómez-Luna, Mohammad Sadrosadati, and Onur Mutlu.
+Functionally-Complete Boolean Logic in Real DRAM Chips: Experimental Characterization and Analysis.
+In
+HPCA
+, 2024.
+[199]
+İsmail Emir Yüksel, Yahya Can Tuğrul, F Nisa Bostancı, Geraldo F Oliveira, A Giray Yağlıkçı, Ataberk Olgun, Melina Soysal, Haocong Luo, Juan Gómez-Luna, Mohammad Sadrosadati, et al.
+Simultaneous Many-Row Activation in Off-the-Shelf DRAM Chips: Experimental Characterization and Analysis.
+In
+DSN
+, 2024.
+[200]
+Geraldo Francisco De Oliveira Junior, Mayank Kabra, Yuxin Guo, Kangqi Chen, Abdullah Giray Yaglikci, Melina Soysal, Mohammad Sadrosadati, Joaquin Olivares Bueno, Saugata Ghose, Juan Gómez-Luna, et al.
+Proteus: Achieving High-Performance Processing-Using-DRAM with Dynamic Bit-Precision, Adaptive Data Representation, and Flexible Arithmetic.
+In
+ICS
+, 2025.
+[201]
+Jian Chen, Congming Gao, Youyou Lu, Yuhao Zhang, and Jiwu Shu.
+Ares-Flash: Efficient Parallel Integer Arithmetic Operations Using NAND Flash Memory.
+In
+MICRO
+, 2024.
+[202]
+Hyunjin Kim, Seunghwan Song, Sukhyun Choi, Jeongin Choe, Sanghyeok Han, Jisung Park, Jinho Lee, and Jae-Joon Kim.
+CrossBit: Bitwise Computing in NAND Flash Memory with Inter-Bitline Data Communication.
+In
+MICRO
+, 2025.
+[203]
+Ryan Wong, Nikita Kim, Kevin Higgs, Sapan Agarwal, Engin Ipek, Saugata Ghose, and Ben Feinberg.
+TCAM-SSD: A Framework for Search-Based Computing in Solid-State Drives.
+arXiv
+, 2024.
+[204]
+Ryan Wong, Nikita Kim, Aniket Das, Kevin Higgs, Engin Ipek, Sapan Agarwal, Saugata Ghose, and Ben Feinberg.
+Anvil: An in-storage accelerator for name–value data stores.
+In
+ISCA
+, 2025.
+[205]
+Yun-Chih Chen, Yuan-Hao Chang, and Tei-Wei Kuo.
+Search-In-Memory: Reliable, Versatile, and Efficient Data Matching in SSD’s NAND Flash Memory Chip for Data Indexing Acceleration.
+IEEE TCAD
+, 2024.
+[206]
+Won Ho Choi, Pi-Feng Chiu, Wen Ma, Gertjan Hemink, Tung Thanh Hoang, Martin Lueker-Boden, and Zvonimir Bandic.
+An In-flash Binary Neural Network Accelerator with SLC NAND Flash Array.
+In
+ISCAS
+, 2020.
+[207]
+Myungjun Chun, Jaeyong Lee, Sanggu Lee, Myungsuk Kim, and Jihong Kim.
+PiF: In-Flash Acceleration for Data-Intensive Applications.
+In
+HotStorage
+, 2022.
+[208]
+Panni Wang, Feng Xu, Bo Wang, Bin Gao, Huaqiang Wu, He Qian, and Shimeng Yu.
+Three-Dimensional NAND Flash for Vector–Matrix Multiplication.
+IEEE TVLSI
+, 2018.
+[209]
+Jinho Lee, Heesu Kim, Sungjoo Yoo, Kiyoung Choi, H Peter Hofstee, Gi-Joon Nam, Mark R Nutter, and Damir Jamsek.
+ExtraV: Boosting Graph Processing Near Storage with a Coherent Accelerator.
+PVLDB
+, 2017.
+[210]
+Rich Wolski, Selim Gurun, Chandra Krintz, and Dan Nurmi.
+Using Bandwidth Data To Make Computation Offloading Decisions.
+In
+IPDPS
+, 2008.
+[211]
+Ramyad Hadidi, Lifeng Nai, Hyojong Kim, and Hyesoon Kim.
+CAIRO: A Compiler-assisted Technique for Enabling Instruction-level Offloading of Processing-in-Memory.
+ACM TACO
+, 2017.
+[212]
+Yudong Wu, Mingyao Shen, Yi-Hui Chen, and Yuanyuan Zhou.
+Tuning Applications for Efficient GPU Offloading to In-Memory Processing.
+In
+ICS
+, 2020.
+[213]
+Johnathan Alsop, Shaizeen Aga, Mohamed Ibrahim, Mahzabeen Islam, Nuwan Jayasena, and Andrew McCrabb.
+PIM-Potential: Broadening the Acceleration Reach of PIM Architectures.
+In
+MEMSYS
+, 2024.
+[214]
+Gwangsun Kim, Niladrish Chatterjee, Mike O’Connor, and Kevin Hsieh.
+Toward Standardized Near-Data Processing with Unrestricted Data Placement for GPUs.
+In
+SC
+, 2017.
+[215]
+Qingcai Jiang, Shaojie Tan, Junshi Chen, and Hong An.
+A
+3
+A^{3}
+PIM: An Automated, Analytic and Accurate Processing-in-Memory Offloader.
+In
+DATE
+, 2024.
+[216]
+ARM.
+ARM Cortex-R8.
+https://developer.arm.com/Processors/Cortex-R8
+.
+[217]
+Arash Tavakkol, Juan Gómez-Luna, Mohammad Sadrosadati, Saugata Ghose, and Onur Mutlu.
+MQSim: A Framework for Enabling Realistic Studies of Modern Multi-Queue SSD Devices.
+In
+FAST
+, 2018.
+[218]
+CMU-SAFARI.
+MQSim.
+https://github.com/CMU-SAFARI/MQSim.git
+.
+[219]
+Haocong Luo, Yahya Can Tuğrul, F Nisa Bostancı, Ataberk Olgun, A Giray Yağlıkçı, and Onur Mutlu.
+Ramulator 2.0: A Modern, Modular, and Extensible DRAM Simulator.
+IEEE CAL
+, 2023.
+[220]
+QEMU.
+https://docs.zephyrproject.org/latest/boards/renode/cortex_r8_virtual/doc/index.html
+.
+[221]
+ARM.
+ARM Cortex-R5.
+https://developer.arm.com/Processors/Cortex-R5
+.
+[222]
+Aayush Gupta, Youngjae Kim, and Bhuvan Urgaonkar.
+DFTL: A Flash Translation Layer Employing Demand-based Selective Caching of Page-level Address Mappings.
+In
+ASPLOS
+, 2009.
+[223]
+Sang-Phil Lim, Sang-Won Lee, and Bongki Moon.
+FASTer FTL for Enterprise-Class Flash Memory SSDs.
+In
+SNAPI
+, 2010.
+[224]
+Ji-Yong Shin, Zeng-Lin Xia, Ning-Yi Xu, Rui Gao, Xiong-Fei Cai, Seungryoul Maeng, and Feng-Hsiung Hsu.
+FTL Design Exploration in Reconfigurable High-Performance SSD for Server Applications.
+In
+ICS
+, 2009.
+[225]
+You Zhou, Fei Wu, Ping Huang, Xubin He, Changsheng Xie, and Jian Zhou.
+An Efficient Page-level FTL to Optimize Address Translation in Flash Memory.
+In
+EuroSys
+, 2015.
+[226]
+Serial ATA International Organization.
+Serial ATA Revision 3.1.
+https://sata-io.org/system/files/specifications/SerialATA_Revision_3_1_Gold.pdf
+.
+[227]
+NVM Express.
+Everything You Need to Know About the NVMe 2.0 Specifications and New Technical Proposals.
+https://nvmexpress.org/
+.
+[228]
+PCISIG.
+PCIe Specification, 2017.
+https://pcisig.com/specifications/pciexpress/
+.
+[229]
+Ming-Chang Yang, Yu-Ming Chang, Che-Wei Tsao, Po-Chun Huang, Yuan-Hao Chang, and Tei-Wei Kuo.
+Garbage Collection and Wear Leveling for Flash Memory: Past and Future.
+In
+SMARTCOMP
+, 2014.
+[230]
+Nitin Agrawal, Vijayan Prabhakaran, Ted Wobber, John D Davis, Mark Manasse, and Rina Panigrahy.
+Design Tradeoffs for SSD Performance.
+In
+USENIX ATC
+, 2008.
+[231]
+Narges Shahidi, Mahmut T Kandemir, Mohammad Arjomand, Chita R Das, Myoungsoo Jung, and Anand Sivasubramaniam.
+Exploring the Potentials of Parallel Garbage Collection in SSDs for Enterprise Storage Systems.
+In
+SC
+, 2016.
+[232]
+Junghee Lee, Youngjae Kim, Galen M Shipman, Sarp Oral, and Jongman Kim.
+Preemptible I/O Scheduling of Garbage Collection for Solid State Drives.
+IEEE TCAD
+, 2013.
+[233]
+Myoungsoo Jung, Ramya Prabhakar, and Mahmut Taylan Kandemir.
+Taking Garbage Collection Overheads Off the Critical Path in SSDs.
+In
+Middleware
+, 2012.
+[234]
+Wonil Choi, Myoungsoo Jung, Mahmut Kandemir, and Chita Das.
+Parallelizing Garbage Collection with I/O to Improve Flash Resource Utilization.
+In
+HPDC
+, 2018.
+[235]
+Suzhen Wu, Yanping Lin, Bo Mao, and Hong Jiang.
+GCaR: Garbage Collection aware Cache Management with Improved Performance for Flash-based SSDs.
+In
+ICS
+, 2016.
+[236]
+Yu Cai, Saugata Ghose, Erich F. Haratsch, Yixin Luo, and Onur Mutlu.
+Reliability Issues in Flash-memory-based Solid-state Drives: Experimental Analysis, Mitigation, Recovery.
+In
+Inside Solid State Drives
+, 2018.
+[237]
+Yu Cai, Saugata Ghose, Yixin Luo, Ken Mai, Onur Mutlu, and Erich F Haratsch.
+Vulnerabilities in MLC NAND Flash Memory Programming: Experimental Analysis, Exploits, and Mitigation Techniques.
+In
+HPCA
+, 2017.
+[238]
+Yu Cai, Erich F Haratsch, Onur Mutlu, and Ken Mai.
+Error Patterns in MLC NAND Flash Memory: Measurement, Characterization, and Analysis.
+In
+DATE
+, 2012.
+[239]
+Yu Cai, Yixin Luo, Saugata Ghose, and Onur Mutlu.
+Read Disturb Errors in MLC NAND Flash Memory: Characterization, Mitigation, and Recovery.
+In
+DSN
+, 2015.
+[240]
+Yu Cai, Yixin Luo, Erich F. Haratsch, Ken Mai, and Onur Mutlu.
+Data Retention in MLC NAND Flash Memory: Characterization, Optimization, and Recovery.
+In
+HPCA
+, 2015.
+[241]
+Yu Cai, Gulay Yalcin, Onur Mutlu, Erich F. Haratsch, Adrian Cristal, Osman S. Unsal, et al.
+Flash Correct-and-Refresh: Retention-Aware Error Management for Increased Flash Memory Lifetime.
+In
+ICCD
+, 2012.
+[242]
+Jiho Kim, Myoungsoo Jung, and John Kim.
+Decoupled SSD: Reducing Data Movement on NAND-Based Flash SSD.
+IEEE CAL
+, 2021.
+[243]
+Jiho Kim, Seokwon Kang, Yongjun Park, and John Kim.
+Networked SSD: Flash Memory Interconnection Network for High-Bandwidth SSD.
+In
+MICRO
+, 2022.
+[244]
+Guanying Wu and Xubin He.
+Reducing SSD Read Latency via NAND Flash Program and Erase Suspension.
+In
+FAST
+, 2012.
+[245]
+Microchip.
+Microchip 16-Channel PCIe Gen 5 Enterprise NVMe SSD Controller.
+https://ww1.microchip.com/downloads/en/DeviceDoc/00003489.pdf
+, 2022.
+[246]
+Yu Cai, Gulay Yalcin, Onur Mutlu, Erich F. Haratsch, Adrian Crista, Osman S. Unsal, et al.
+Error Analysis and Retention-aware Management for NAND Flash Memory.
+Intel Tech. J.
+, 2013.
+[247]
+Yu Cai, Erich F Haratsch, Onur Mutlu, and Ken Mai.
+Threshold Voltage Distribution in MLC NAND Flash Memory: Characterization, Analysis, and Modeling.
+In
+DATE
+, 2013.
+[248]
+Yu Cai, Onur Mutlu, Erich F. Haratsch, and Ken Mai.
+Program Interference in MLC NAND Flash Memory: Characterization, Modeling, and Mitigation.
+In
+ICCD
+, 2013.
+[249]
+Yu Cai, Gulay Yalcin, Onur Mutlu, Erich F Haratsch, Osman Unsal, Adrian Cristal, and Ken Mai.
+Neighbor-cell Assisted Error Correction for MLC NAND Flash Memories.
+In
+SIGMETRICS
+, 2014.
+[250]
+Yixin Luo, Saugata Ghose, Yu Cai, Erich F. Haratsch, and Onur Mutlu.
+Improving 3D NAND Flash Memory Lifetime by Tolerating Early Retention Loss and Process Variation.
+In
+SIGMETRICS
+, 2018.
+[251]
+Yixin Luo, Saugata Ghose, Yu Cai, Erich F Haratsch, and Onur Mutlu.
+HeatWatch: Improving 3D NAND Flash Memory Device Reliability by Exploiting Self-Recovery and Temperature Awareness.
+In
+HPCA
+, 2018.
+[252]
+Yixin Luo, Saugata Ghose, Yu Cai, Erich F Haratsch, and Onur Mutlu.
+Enabling Accurate and Practical Online Flash Channel Modeling for Modern MLC NAND Flash Memory.
+IEEE JSAC
+, 2016.
+[253]
+Yixin Luo, Yu Cai, Saugata Ghose, Jongmoo Choi, and Onur Mutlu.
+WARM: Improving NAND Flash Memory Lifetime with Write-hotness Aware Retention Management.
+In
+MSST
+, 2015.
+[254]
+ONFI Workgroup.
+Open NAND Flash Interface Specification Revision 5.1, 2022.
+https://media-www.micron.com/-/media/client/onfi/specs/onfi_5_1_final_1,-d-,0.pdf
+.
+[255]
+Kai Zhao, Wenzhe Zhao, Hongbin Sun, Xiaodong Zhang, Nanning Zheng, and Tong Zhang.
+{
+\{
+LDPC-in-SSD
+}
+\}
+: Making advanced error correction codes work effectively in solid state drives.
+In
+11th USENIX Conference on File and Storage Technologies (FAST 13)
+, pages 243–256, 2013.
+[256]
+Shuhei Tanakamaru, Yuki Yanagihara, and Ken Takeuchi.
+Error-Prediction LDPC and Error-Recovery Schemes for Highly Reliable Solid-State Drives (SSDs).
+IEEE JSSC
+, 2013.
+[257]
+Jisung Park, Myungsuk Kim, Myoungjun Chun, Lois Orosa, Jihong Kim, and Onur Mutlu.
+Reducing Solid-State Drive Read Latency by Optimizing Read-Retry.
+In
+ASPLOS
+, 2021.
+[258]
+Yixin Luo, Saugata Ghose, Yu Cai, Erich F Haratsch, and Onur Mutlu.
+Improving 3D NAND Flash Memory Lifetime by Tolerating Early Retention Loss and Process Variation.
+SIGMETRICS
+, 2018.
+[259]
+Mahdi Torabzadehkashi, Siavash Rezaei, Vladimir Alves, and Nader Bagherzadeh.
+CompStor: An In-storage Computation Platform for Scalable Distributed Processing.
+In
+IPDPSW
+, 2018.
+[260]
+Maya Gokhale, Bill Holmes, and Ken Iobst.
+Processing in Memory: The Terasys Massively Parallel PIM Array.
+IEEE Computer
+, 1995.
+[261]
+David A. Patterson, Thomas E. Anderson, Neal Cardwell, Richard Fromm, Kimberly Keeton, Christoforos E. Kozyrakis, Randi Thomas, and Katherine A. Yelick.
+A Case for Intelligent RAM.
+IEEE Micro
+, 1997.
+[262]
+Mark Oskin, Frederic T. Chong, and Timothy Sherwood.
+Active Pages: A Computation Model for Intelligent Memory.
+In
+ISCA
+, 1998.
+[263]
+Yi Kang, Wei Huang, Seung-Moon Yoo, Diana Keen, Zhenzhou Ge, Vinh Lam, Pratap Pattnaik, and Josep Torrellas.
+FlexRAM: Toward an Advanced Intelligent Memory System.
+In
+ICCD
+, 1999.
+[264]
+Marvell.
+Marvell® Bravera™ SC5 SSD Controllers.
+https://www.marvell.com/content/dam/marvell/en/public-collateral/storage/marvell-ssd-mv-ss1331-1333-product-brief.pdf
+.
+[265]
+ARM.
+Arm Storage Solution for SSD Controllers.
+https://armkeil.blob.core.windows.net/developer/Files/pdf/solution-brief/arm-storage-solution-for-ssd-solutions-brief.pdf
+.
+[266]
+W. Cheong, C. Yoon, S. Woo, K. Han, D. Kim, C. Lee, Y. Choi, S. Kim, D. Kang, G. Yu, J. Kim, J. Park, K. Song, K. Park, S. Cho, H. Oh, D. D. G. Lee, J. Choi, and J. Jeong.
+A Flash Memory Controller for 15
+μ
+\mu
+s Ultra-Low-Latency SSD Using High-Speed 3D NAND Flash with 3
+μ
+\mu
+s Read Time.
+In
+ISSCC
+, 2018.
+[267]
+Teruyoshi Hatanaka and Ken Takeuchi.
+NAND Controller System With Channel Number Detection and Feedback for Power-Efficient High-Speed 3D-SSD.
+IEEE JSSC
+, 2012.
+[268]
+Jhih-Jian Liao and Chin-Hsien Wu.
+A Multi-Controller Design for Solid-State Drives.
+In
+RACS
+, 2012.
+[269]
+Chanik Park, Prakash Talawar, Daeski Won, MyungJin Jung, JungBeen Im, Suksan Kim, and Youngjoon Choi.
+A High Performance Controller for NAND Flash-based Solid State Disk (NSSD).
+In
+NVMSW
+, 2006.
+[270]
+Jaeyoung Do, David Lomet, and Ivan Luiz Picoli.
+Improving CPU I/O Performance via SSD Controller FTL Support for Batched Writes.
+In
+DaMoN
+, 2019.
+[271]
+Cagdas Dirik and Bruce Jacob.
+The Performance of PC Solid-State Disks (SSDs) as a Function of Bandwidth, Concurrency, Device Architecture, and System Organization.
+In
+ISCA
+, 2009.
+[272]
+Ken Takeuchi.
+Novel Co-Design of NAND Flash Memory and NAND Flash Controller Circuits for Sub-30 nm Low-Power High-Speed Solid-State Drives (SSD).
+IEEE JSSC
+, 2009.
+[273]
+Sang-Phil Lim, Sang-Won Lee, and Bongki Moon.
+FASTer FTL for Enterprise-Class Flash Memory SSDs.
+In
+SNAPI
+, 2010.
+[274]
+Jinghan Sun, Shaobo Li, Yunxin Sun, Chao Sun, Dejan Vucinic, and Jian Huang.
+LeaFTL: A Learning-Based Flash Translation Layer for Solid-State Drives.
+In
+ASPLOS
+, 2023.
+[275]
+Shengzhe Wang, Zihang Lin, Suzhen Wu, Hong Jiang, Jie Zhang, and Bo Mao.
+LearnedFTL: A Learning-Based Page-Level FTL for Reducing Double Reads in Flash-Based SSDs.
+In
+HPCA
+, 2024.
+[276]
+Dongzhe Ma, Jianhua Feng, and Guoliang Li.
+LazyFTL: A Page-level Flash Translation LayerOptimized for NAND Flash Memory.
+SIGMOD
+, 2011.
+[277]
+You Zhou, Fei Wu, Ping Huang, Xubin He, Changsheng Xie, and Jian Zhou.
+An Efficient Page-level FTL to Optimize Address Translation in Flash Memory.
+In
+EuroSys
+, 2015.
+[278]
+Yoongu Kim, Vivek Seshadri, Donghyuk Lee, Jamie Liu, and Onur Mutlu.
+A Case for Exploiting Subarray-Level Parallelism (SALP) in DRAM.
+In
+ISCA
+, 2012.
+[279]
+Donghyuk Lee, Yoongu Kim, Vivek Seshadri, Jamie Liu, Lavanya Subramanian, and Onur Mutlu.
+Tiered-Latency DRAM: A Low Latency and Low Cost DRAM Architecture.
+In
+HPCA
+, 2013.
+[280]
+Kevin K Chang, Prashant J Nair, Donghyuk Lee, Saugata Ghose, Moinuddin K Qureshi, and Onur Mutlu.
+Low-Cost Inter-Linked Subarrays (LISA): Enabling Fast Inter-Subarray Data Movement in DRAM.
+In
+HPCA
+, 2016.
+[281]
+K. K. Chang, Donghyuk Lee, Z. Chishti, A. R. Alameldeen, C. Wilkerson, Yoongu Kim, and O. Mutlu.
+Improving DRAM Performance by Parallelizing Refreshes with Accesses.
+In
+HPCA
+, 2014.
+[282]
+Donghyuk Lee, Yoongu Kim, Gennady Pekhimenko, Samira Khan, Vivek Seshadri, Kevin Chang, and Onur Mutlu.
+Adaptive-Latency DRAM: Optimizing DRAM Timing for the Common-Case.
+In
+HPCA
+, 2015.
+[283]
+Hasan Hassan, Gennady Pekhimenko, Nandita Vijaykumar, Vivek Seshadri, Donghyuk Lee, Oguz Ergin, and Onur Mutlu.
+ChargeCache: Reducing DRAM Latency by Exploiting Row Access Locality.
+In
+HPCA
+, 2016.
+[284]
+D. Lee, S. Khan, L. Subramanian, S. Ghose, R. Ausavarungnirun, G. Pekhimenko, V. Seshadri, and O. Mutlu.
+Design-Induced Latency Variation in Modern DRAM Chips: Characterization, Analysis, and Latency Reduction Mechanisms.
+In
+SIGMETRICS
+, 2017.
+[285]
+Marzieh Lenjani, Patricia Gonzalez, Elaheh Sadredini, Shuangchen Li, Yuan Xie, Ameen Akel, Sean Eilert, Mircea R. Stan, and Kevin Skadron.
+Fulcrum: A Simplified Control and Access Mechanism Toward Flexible and Practical In-Situ Accelerators.
+In
+HPCA
+, 2020.
+[286]
+Chang Hyun Kim, Won Jun Lee, Yoonah Paik, Kiyong Kwon, Seok Young Kim, Il Park, and Seon Wook Kim.
+Silent-PIM: Realizing the Processing-in-Memory Computing With Standard Memory Requests.
+IEEE TPDS
+, 2022.
+[287]
+Orian Leitersdorf, Dean Leitersdorf, Jonathan Gal, Mor Dahan, Ronny Ronen, and Shahar Kvatinsky.
+Aritpim: High-throughput in-memory arithmetic.
+IEEE TETC
+, 2023.
+[288]
+Ataberk Olgun, Juan Gómez Luna, Konstantinos Kanellopoulos, Behzad Salami, Hasan Hassan, Oguz Ergin, and Onur Mutlu.
+PiDRAM: A Holistic End-to-end FPGA-based Framework for Processing-in-DRAM.
+ACM TACO
+, 2022.
+[289]
+Xiangjun Peng, Yaohua Wang, and Ming-Chang Yang.
+CHOPPER: A Compiler Infrastructure for Programmable Bit-serial SIMD Processing Using Memory in DRAM.
+In
+HPCA
+, 2023.
+[290]
+Sourjya Roy, Mustafa Ali, and Anand Raghunathan.
+PIM-DRAM: Accelerating Machine Learning Workloads Using Processing in Commodity DRAM.
+IEEE JETCAS
+, 2021.
+[291]
+Ismail Emir Yuksel, Ataberk Olgun, Nisa Bostanci, Haocong Luo, Abdullah Giray Yaglikci, and Onur Mutlu.
+ColumnDisturb: Understanding Column-based Read Disturbance in Real DRAM Chips and Implications for Future Systems.
+In
+MICRO
+, 2025.
+[292]
+Ismail Emir Yuksel, Akash Sood, Ataberk Olgun, Oğuzhan Canpolat, Haocong Luo, Nisa Bostanci, Mohammad Sadrosadati, Giray Yaglikci, and Onur Mutlu.
+PuDHammer: Experimental Analysis of Read Disturbance Effects of Processing-using-DRAM in Real DRAM Chips.
+In
+ISCA
+, 2025.
+[293]
+Ataberk Olgun, Minesh Patel, Abdullah Giray Yağlıkçı, Haocong Luo, Jeremie S. Kim, F. Nisa Bostancı, Nandita Vijaykumar, Oğuz Ergin, and Onur Mutlu.
+QUAC-TRNG: High-Throughput True Random Number Generation Using Quadruple Row Activation in Commodity DRAMs.
+In
+ISCA
+, 2021.
+[294]
+Jeremie S Kim, Minesh Patel, Hasan Hassan, Lois Orosa, and Onur Mutlu.
+D-RaNGe: Using Commodity DRAM Devices to Generate True Random Numbers with Low Latency and High Throughput.
+In
+HPCA
+, 2019.
+[295]
+Jeremie S Kim, Minesh Patel, Hasan Hassan, and Onur Mutlu.
+The DRAM Latency PUF: Quickly Evaluating Physical Unclonable Functions by Exploiting the Latency-Reliability Tradeoff in Modern Commodity DRAM Devices.
+In
+HPCA
+, 2018.
+[296]
+Radu Stoica, Roman Pletka, Nikolas Ioannou, Nikolaos Papandreou, Sasa Tomic, and Haris Pozidis.
+Understanding the Design Trade-offs of Hybrid Flash Controllers.
+In
+MASCOTS
+, 2019.
+[297]
+Laura M Grupp, Adrian M Caulfield, Joel Coburn, Steven Swanson, Eitan Yaakobi, Paul H Siegel, and Jack K Wolf.
+Characterizing Flash Memory: Anomalies, Observations, and Applications.
+In
+MICRO
+, 2009.
+[298]
+Yu Cai.
+NAND Flash Memory: Characterization, Analysis, Modeling, and Mechanisms
+.
+PhD thesis, Carnegie Mellon University, 2013.
+[299]
+Yu Cai, Saugata Ghose, Erich F Haratsch, Yixin Luo, and Onur Mutlu.
+Errors in Flash-Memory-Based Solid-State Drives: Analysis, Mitigation, and Recovery.
+arXiv
+, 2018.
+[300]
+Ikenna Okafor, Akshay Krishna Ramanathan, Nagadastagiri Reddy Challapalle, Zheyu Li, and Vijaykrishnan Narayanan.
+Fusing In-storage and Near-storage Acceleration of Convolutional Neural Networks.
+JETC
+, 2023.
+[301]
+Zsolt István, David Sidler, and Gustavo Alonso.
+Caribou: Intelligent Distributed Storage.
+In
+PVLDB
+, 2017.
+[302]
+Can Firtina, Nika Mansouri Ghiasi, Joel Lindegger, Gagandeep Singh, Meryem Banu Cavlak, Haiyu Mao, and Onur Mutlu.
+RawHash: Enabling Fast and Accurate Real-Time Analysis of Raw Nanopore Signals for Large Genomes.
+In
+ISMB/ECCB
+, 2023.
+[303]
+Can Firtina, Melina Soysal, Joël Lindegger, and Onur Mutlu.
+RawHash2: Mapping Raw Nanopore Signals Using Hash-Based Seeding and Adaptive Quantization.
+Bioinformatics
+, 2024.
+[304]
+Can Firtina, Maximilian Mordig, Harun Mustafa, Sayan Goswami, Nika Mansouri Ghiasi, Stefano Mercogliano, Furkan Eris, Joël Lindegger, Andre Kahles, and Onur Mutlu.
+Rawsamble: Overlapping Raw Nanopore Signals using a Hash-based Seeding Mechanism.
+In
+ISMB
+, 2024.
+[305]
+Joël Lindegger, Can Firtina, Nika Mansouri Ghiasi, Mohammad Sadrosadati, Mohammed Alser, and Onur Mutlu.
+RawAlign: Accurate, Fast, and Scalable Raw Nanopore Signal Mapping via Combining Seeding and Alignment.
+IEEE Access
+, 2024.
+[306]
+Furkan Eris, Ulysse McConnell, Can Firtina, and Onur Mutlu.
+RawBench: A Comprehensive Benchmarking Framework for Raw Nanopore Signal Analysis Techniques.
+In
+BCB
+, 2025.
+[307]
+Joan Daemen and Vincent Rijmen.
+AES Proposal: Rijndael.
+1999.
+[308]
+LlaMA2.
+https://github.com/karpathy/llama2.c
+.
+[309]
+Erik Vermij, Leandro Fiorin, Christoph Hagleitner, and Koen Bertels.
+Sorting Big Data on Heterogeneous Near-data Processing Systems.
+In
+CF
+, 2017.
+[310]
+Michael Stonebraker and Ariel Weisberg.
+The VoltDB Main Memory DBMS.
+IEEE Data Eng. Bull.
+, 2013.
+[311]
+Nooshin Mirzadeh, Yusuf Onur Koçberber, Babak Falsafi, and Boris Grot.
+Sort vs. Hash Join Revisited for Near-Memory Execution.
+In
+ASBD
+, 2015.
+[312]
+Luis Cavazos Quero, Young-Sik Lee, and Jin-Soo Kim.
+Self-sorting SSD: Producing Sorted Data Inside Active SSDs.
+In
+MSST
+, 2015.
+[313]
+Young-Sik Lee, Luis Cavazos Quero, Sang-Hoon Kim, Jin-Soo Kim, and Seungryoul Maeng.
+ActiveSort: Efficient External Sorting Using Active SSDs in the MapReduce Framework.
+Future Generation Computer Systems
+, 2016.
+[314]
+Sahand Salamat, Armin Haj Aboutalebi, Behnam Khaleghi, Joo Hwan Lee, Yang Seok Ki, and Tajana Rosing.
+NASCENT: Near-Storage Acceleration of Database Sort on SmartSSD.
+In
+FPGA
+, 2021.
+[315]
+Kihyeon Myung, Sunggon Kim, Heon Young Yeom, and Jiwoong Park.
+Efficient and Scalable External Sort Framework for NVMe SSD.
+IEEE TC
+, 2020.
+[316]
+Sahand Salamat, Hui Zhang, Yang Seok Ki, and Tajana Rosing.
+NASCENT2: Generic Near-Storage Sort Accelerator for Data Analytics on SmartSSD.
+ACM TRETS
+, 2022.
+[317]
+Joonhee Lee, Hongchan Roh, and Sanghyun Park.
+External Mergesort for Flash-Based Solid State Drives.
+IEEE TC
+, 2015.
+[318]
+Chin-Hsien Wu and Kuo-Yi Huang.
+Data sorting in flash memory.
+ACM TOS
+, 2015.
+[319]
+LLVM.
+LLVM.
+https://releases.llvm.org/12.0.0/docs/ReleaseNotes.html
+.
+[320]
+LLVM.
+Clang Compiler User’s Manual.
+https://clang.llvm.org/docs/UsersManual.html
+.
+[321]
+Hameeza Ahmed, Paulo C Santos, João PC Lima, Rafael F Moura, Marco AZ Alves, Antônio CS Beck, and Luigi Carro.
+A Compiler for Automatic Selection of Suitable Processing-in-Memory Instructions.
+In
+DATE
+, 2019.
+[322]
+Alexandar Devic, Siddhartha Balakrishna Rai, Anand Sivasubramaniam, Ameen Akel, Sean Eilert, and Justin Eno.
+To PIM or Not for Emerging General Purpose Processing in DDRMemory Systems.
+In
+ISCA
+, 2022.
+[323]
+Gian Singh and Sarma Vrudhula.
+A Scalable and Energy-Efficient Processing-In-Memory Architecture for Gen-AI.
+IEEE JETCAS
+, 2025.
+[324]
+Alireza Khadem, Daichi Fujiki, Nishil Talati, Scott Mahlke, and Reetuparna Das.
+Vector-Processing for Mobile Devices: Benchmark and Analysis.
+In
+IISWC
+, 2023.
+[325]
+Sara S Baghsorkhi, Nalini Vasudevan, and Youfeng Wu.
+Flexvec: Auto-vectorization for irregular loops.
+In
+PLDI
+, 2016.
+[326]
+ARM.
+M-Profile Vector Instructions for ARM.
+https://developer.arm.com/documentation/107564/0100/Introduction/M-Profile-Vector-Extension--Helium-
+.
+[327]
+CMU-SAFARI.
+Ramulator.
+https://github.com/CMU-SAFARI/ramulator.git
+.
+[328]
+SAFARI Research Group.
+Ramulator-PIM: A Processing-in-Memory Simulation Framework – GitHub Repository.
+https://github.com/CMU-SAFARI/ramulator-pim
+.
+[329]
+Yoongu Kim, Weikun Yang, and Onur Mutlu.
+Ramulator: A Fast and Extensible DRAM Simulator.
+IEEE CAL
+, 2016.
+[330]
+Tae-Young Oh, Hoeju Chung, Jun-Young Park, Ki-Won Lee, Seunghoon Oh, Su-Yeon Doo, Hyoung-Joo Kim, ChangYong Lee, Hye-Ran Kim, Jong-Ho Lee, et al.
+A 3.2 Gbps/pin 8 Gbit 1.0 V LPDDR4 SDRAM With Integrated ECC Engine for Sub-1 V DRAM Core Operation.
+IEEE JSSC
+, 2014.
+[331]
+JEDEC.
+JESD209-4D LPDDR4 SDRAM standard, 2021.
+[332]
+Intel.
+Intel® Xeon® Gold 5118 Processor.
+https://www.intel.com/content/www/us/en/products/sku/120473/intel-xeon-gold-5118-processor-16-5m-cache-2-30-ghz/specifications.html
+, 2017.
+[333]
+Intel.
+Intel® 64 and IA-32 Architectures Software Developer’s Manual, Vol. 3
+, 2016.
+[334]
+NVIDIA.
+NVIDIA A100 Tensor Core GPU Architecture. White Paper.
+https://images.nvidia.com/aem-dam/en-zz/Solutions/data-center/nvidia-ampere-architecture-whitepaper.pdf
+, 2020.
+[335]
+Jack Choquette and Wish Gandhi.
+NVIDIA A100 GPU: Performance & Innovation for GPU Computing.
+In
+IEEE HCS
+, 2020.
+[336]
+Jack Choquette, Wishwesh Gandhi, Olivier Giroux, Nick Stam, and Ronny Krashinsky.
+NVIDIA A100 Tensor Core GPU: Performance and Innovation.
+IEEE Micro
+, 2021.
+[337]
+Donghyuk Lee, Saugata Ghose, Gennady Pekhimenko, Samira Khan, and Onur Mutlu.
+Simultaneous Multi-Layer Access: Improving 3D-Stacked Memory Bandwidth at Low Cost.
+TACO
+, 2016.
+[338]
+Dong Uk Lee, Kyung Whan Kim, Kwan Weon Kim, Hongjung Kim, Ju Young Kim, Young Jun Park, Jae Hwan Kim, Dae Suk Kim, Heat Bit Park, Jin Wook Shin, et al.
+A 1.2V 8Gb 8-Channel 128GB/s High-Bandwidth Memory (HBM) Stacked DRAM with Effective Microbump I/O Test Methods Using 29nm Process and TSV.
+In
+ISSCC
+, 2014.
+[339]
+Micron Technology Inc.
+4Gb: x4, x8, x16 DDR4 SDRAM Data Sheet, 2016.
+[340]
+JEDEC.
+JESD79-4C: DDR4 SDRAM Standard
+, 2020.
+[341]
+Onur Mutlu and Thomas Moscibroda.
+Stall-Time Fair Memory Access Scheduling for Chip Multiprocessors.
+In
+MICRO
+, 2007.
+[342]
+Scott Rixner, William J Dally, Ujval J Kapasi, Peter Mattson, and John D Owens.
+Memory access scheduling.
+In
+ISCA
+, 2000.
+[343]
+Scott Rixner.
+Memory Controller Optimizations for Web Servers.
+In
+MICRO
+, 2004.
+[344]
+William K Zuravleff and Timothy Robinson.
+Controller for a Synchronous DRAM that Maximizes Throughput by Allowing Memory Requests and Commands to be Issued Out of Order, 1997.
+US Patent 5,630,096.
+[345]
+Seokhei Cho, Changhyun Park, Youjip Won, Sooyong Kang, Jaehyuk Cha, Sungroh Yoon, and Jongmoo Choi.
+Design Tradeoffs of SSDs: From Energy Consumption’s Perspective.
+ACM TOS
+, 2015.
+[346]
+Bryan Harris and Nihat Altiparmak.
+Ultra-Low Latency SSDs’ Impact on Overall Energy Efficiency.
+In
+HotStorage
+, 2020.
+[347]
+Vidyabhushan Mohan, Trevor Bunker, Laura Grupp, Sudhanva Gurumurthi, Mircea R Stan, and Steven Swanson.
+Modeling Power Consumption of NAND Flash Memories Using FlashPower.
+IEEE TCAD
+, 2013.
+[348]
+Saugata Ghose, Tianshi Li, Nastaran Hajinazar, Damla Senol Cali, and Onur Mutlu.
+Demystifying Complex Workload-DRAM Interactions: An Experimental Study.
+ACM POMACS
+, 2019.
+[349]
+Saugata Ghose, Abdullah Giray Yaglikçi, Raghav Gupta, Donghyuk Lee, Kais Kudrolli, William X Liu, Hasan Hassan, Kevin K Chang, Niladrish Chatterjee, Aditya Agrawal, et al.
+What Your DRAM Power Models Are Not Telling You: Lessons from a Detailed Experimental Study.
+SIGMETRICS
+, 2018.
+[350]
+Polybench: The Polyhedral Benchmark Suite.
+https://www.cs.colostate.edu/~pouchet/software/polybench/#description
+.
+[351]
+Shuai Che, Michael Boyer, Jiayuan Meng, David Tarjan, Jeremy W Sheaffer, Sang-Ha Lee, and Kevin Skadron.
+Rodinia: A Benchmark Suite for Heterogeneous Computing.
+In
+IISWC
+, 2009.
+[352]
+CHStone Benchmark Suite.
+https://github.com/A-T-Kristensen/patmos_HLS/
+.
+[353]
+Yuko Hara, Hiroyuki Tomiyama, Shinya Honda, Hiroaki Takada, and Katsuya Ishii.
+CHStone: A Benchmark Program Suite for Practical C-Based High-Level Synthesis.
+In
+ISCAS
+, 2008.
+[354]
+Joan Daemen and Vincent Rijmen.
+The Data Encryption Standard.
+In
+The Design of Rijndael: AES—The Advanced Encryption Standard
+. Springer, 2002.
+[355]
+FastFilter: Binary Fuse & XOR Filters for Zig.
+https://github.com/hexops/fastfilter
+.
+[356]
+Thomas Mueller Graf and Daniel Lemire.
+XOR Filters: Faster and Smaller Than Bloom and Cuckoo Filters.
+JEA
+, 2020.
+[357]
+Thomas Mueller Graf and Daniel Lemire.
+Binary Fuse Filters: Fast and Smaller Than XOR Filters.
+JEA
+, 2022.
+[358]
+Burton H Bloom.
+Space/Time Trade-offs in Hash Coding with Allowable Errors.
+Communications of the ACM
+, 1970.
+[359]
+Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, et al.
+Llama 2: Open Foundation and Fine-Tuned Chat Models.
+arXiv
+, 2023.
+[360]
+Yitu Wang, Shiyu Li, Qilin Zheng, Linghao Song, Zongwang Li, Andrew Chang, Yiran Chen, et al.
+NDS EARCH: Accelerating Graph-Traversal-Based Approximate Nearest Neighbor Search through Near Data Processing.
+In
+ISCA
+, 2024.
+[361]
+Alan Bundy and Lincoln Wallen.
+Breadth-first Search.
+In
+Catalogue of Artificial Intelligence Tools
+. Springer, 1984.
+[362]
+Fan Zhang, Shaahin Angizi, and Deliang Fan.
+Max-PIM: Fast and Efficient Max/Min Searching in DRAM.
+In
+DAC
+, 2021.
+[363]
+Kiran Kumar Matam, Gunjae Koo, Haipeng Zha, Hung-Wei Tseng, and Murali Annavaram.
+GraphSSD: Graph Semantics Aware SSD.
+In
+ISCA
+, 2019.
+[364]
+Han-Wen Hu, Wei-Chen Wang, Yuan-Hao Chang, Yung-Chun Lee, Bo-Rong Lin, Huai-Mu Wang, Yen-Po Lin, Yu-Ming Huang, Chong-Ying Lee, Tzu-Hsiang Su, et al.
+ICE: An Intelligent Cognition Engine with 3D NAND-based In-memory Computing for Vector Similarity Search Acceleration.
+In
+MICRO
+, 2022.
+[365]
+Geraldo F Oliveira, Juan Gómez-Luna, Lois Orosa, Saugata Ghose, Nandita Vijaykumar, Ivan Fernandez, Mohammad Sadrosadati, and Onur Mutlu.
+DAMOV: A New Methodology And Benchmark Suite For Evaluating Data Movement Bottlenecks.
+IEEE Access
+, 2021.
+[366]
+Yan Solihin, Jaejin Lee, and Josep Torrellas.
+Automatic Code Mapping on an Intelligent Memory Architecture.
+IEEE TC
+, 2001.
+[367]
+Lifeng Nai, Ramyad Hadidi, Jaewoong Sim, Hyojong Kim, Pranith Kumar, and Hyesoon Kim.
+GraphPIM: Enabling Instruction-level PIM Offloading in Graph Computing Frameworks.
+In
+HPCA
+, 2017.
+[368]
+Satanu Maity, Mayank Goel, and Manojit Ghose.
+CoaT: Compiler-assisted Two-Stage Offloading Approach for Data-Intensive Applications Under NMP Framework.
+IEEE TETC
+, 2024.
+[369]
+Chanyoung Park, Minu Chung, and HyunGon Moon.
+Selective On-Device Execution of Data-Dependent Read I/Os.
+In
+FAST
+, 2025.
+[370]
+Satanu Maity, Manojit Ghose, and Sudeep Pasricha.
+A Framework for Near Memory Processing with Computation Offloading and Load Balancing.
+IEEE TCAD
+, 2025.
+[371]
+Wahid Uz Zaman, Cyan Subhra Mishra, Saleh AlSaleh, Abutalib Aghayev, and Mahmut Taylan Kandemir.
+CORD: Parallelizing Query Processing Across Multiple Computational Storage Devices.
+In
+IPDPS
+, 2025.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+Click the "Report Issue"
+(
+)
+button, located in the page header.
+Tip:
+You can select the relevant text first, to include it in your report.
+Our team has already identified
+the following issues
+. We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a
+list of packages that need conversion
+, and welcome
+developer contributions
+.
+We gratefully acknowledge support from our
+major funders
+,
+member institutions
+,
+,
+and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status
+(opens in new tab)

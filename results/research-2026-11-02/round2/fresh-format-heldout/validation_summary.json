@@ -1,0 +1,170 @@
+{
+  "status": "complete",
+  "acquisition_manifest_sha256": "a7b28fb43eda7cf35f0add73aaab9d79c6536905aec6d057be5e113dbecdbedf",
+  "quality_summary": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/quality/summary.json",
+  "generation_summary": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/generation/summary.json",
+  "quality": {
+    "prompts": 8,
+    "scored_next_tokens": 1016,
+    "source_gguf_mean_NLL_F64": 2.798108740412623,
+    "full_FFN_W8A8_mean_NLL_F64": 2.7990450129151756,
+    "delta_NLL_W8_minus_GGUF": 0.0009362725025527929,
+    "source_gguf_perplexity": 16.413575066821085,
+    "full_FFN_W8A8_perplexity": 16.428949842191308,
+    "perplexity_ratio_W8_over_GGUF": 1.0009367109424747,
+    "teacher_top1_agreement_count": 935,
+    "teacher_top1_agreement_fraction": 0.9202755905511811,
+    "full_fixed_input_router_comparison": {
+      "records": 40960,
+      "ordered_exact": 22000,
+      "ordered_exact_fraction": 0.537109375,
+      "set_exact": 33274,
+      "set_exact_fraction": 0.812353515625,
+      "mean_intersection_over6": 0.9678141276041666,
+      "mean_jaccard": 0.9452651092396553
+    },
+    "all40layers_all6projections_all128tokens_covered": true,
+    "independent_context_first_W8_prompt_bitwise_repeat": true
+  },
+  "generation": {
+    "fresh_prompts": 16,
+    "old_binary_unchanged": true,
+    "old_placement_unchanged": true,
+    "placement_refit": false,
+    "all40layers_all6projections_prefill_and_decode_replaced": true,
+    "all_routes_and_generated_token_ids_identical": true,
+    "unique_placed_row_outputs": 1698897920,
+    "cross_run_F32_scalar_comparisons": 1698897920,
+    "cross_run_vocabulary_logits_compared": 27295744,
+    "integer_mismatches": 0,
+    "cross_run_F32_bit_mismatches": 0,
+    "cross_run_logit_bit_mismatches": 0,
+    "actual_total_prefill_tokens": 1986,
+    "actual_total_decode_tokens_per_mode": 256
+  },
+  "limits": [
+    "Bounded fresh examples, not official benchmark accuracy or population-level generalization.",
+    "Fixed teacher NLL is sensitivity relative to Q4 GGUF; not original BF16 quality.",
+    "No quantizer/placement tuning or new quantization-method performance claim.",
+    "No native AiF ABI, real flash weight programming or hardware performance inference."
+  ],
+  "frozen_placement_replay": {
+    "summary": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/frozen-placement-replay/summary.json",
+    "independent_audit": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/frozen-placement-replay/independent/audit.json",
+    "protocol_sha256": "13470b7099b0211d732c0445b185f0f71b90a975dd58984f30aab3d753947e22",
+    "totals": [
+      {
+        "case": "frozen_phase_group",
+        "samples": 256,
+        "mean_ns": 25573718.3125,
+        "p50_ns": 25559485.0,
+        "p95_ns": 26336037.0,
+        "p99_ns": 26573161.0,
+        "min_ns": 24536382,
+        "max_ns": 26650372
+      },
+      {
+        "case": "frozen_whole_rows",
+        "samples": 256,
+        "mean_ns": 24564730.4765625,
+        "p50_ns": 24558955.0,
+        "p95_ns": 25235885.0,
+        "p99_ns": 25572326.099999998,
+        "min_ns": 23619420,
+        "max_ns": 25745258
+      }
+    ],
+    "mean_reduction_fraction": 0.03945409203339523,
+    "dataset_groups": [
+      {
+        "dataset_group": "lm",
+        "prompts": 8,
+        "phase_group": {
+          "samples": 128,
+          "mean_ns": 25549269.890625,
+          "p50_ns": 25555950.0,
+          "p95_ns": 26237359.5,
+          "p99_ns": 26405303.3,
+          "min_ns": 24536382,
+          "max_ns": 26476754
+        },
+        "whole_rows": {
+          "samples": 128,
+          "mean_ns": 24571544.015625,
+          "p50_ns": 24583672.0,
+          "p95_ns": 25179185.9,
+          "p99_ns": 25355268.82,
+          "min_ns": 23689920,
+          "max_ns": 25546020
+        },
+        "mean_reduction_fraction": 0.038268251076668314,
+        "paired_mean_delta_ns": 977725.875,
+        "per_prompt_mean_reduction_fractions": [
+          0.03895858923537121,
+          0.035903008134501424,
+          0.0372112150023437,
+          0.03885030941450773,
+          0.03653921483124056,
+          0.039760040639114314,
+          0.03939308997749025,
+          0.039530715058050836
+        ]
+      },
+      {
+        "dataset_group": "arc",
+        "prompts": 8,
+        "phase_group": {
+          "samples": 128,
+          "mean_ns": 25598166.734375,
+          "p50_ns": 25561485.0,
+          "p95_ns": 26458780.599999998,
+          "p99_ns": 26575530.2,
+          "min_ns": 24545452,
+          "max_ns": 26650372
+        },
+        "whole_rows": {
+          "samples": 128,
+          "mean_ns": 24557916.9375,
+          "p50_ns": 24551919.0,
+          "p95_ns": 25266193.2,
+          "p99_ns": 25702841.12,
+          "min_ns": 23619420,
+          "max_ns": 25745258
+        },
+        "mean_reduction_fraction": 0.04063766783259837,
+        "paired_mean_delta_ns": 1040249.796875,
+        "per_prompt_mean_reduction_fractions": [
+          0.042830789798855684,
+          0.04106085338422272,
+          0.03860786605497479,
+          0.04111903320237198,
+          0.038522436427854356,
+          0.04233412878138332,
+          0.04026442471447256,
+          0.040336412291033796
+        ]
+      }
+    ],
+    "prompts": 16,
+    "paired_decode_positions": 256,
+    "refit": false,
+    "independent_layer_query_layout_cases": 20480,
+    "independent_audit_status": "PASS"
+  },
+  "generic_backend_crosscheck": {
+    "status": "PASS",
+    "cost_cases_exact": 20480,
+    "first_query_traces_exact": 80,
+    "native_build": {
+      "source": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp",
+      "source_sha256": "9c7fad0ad3a1ec61fc51087c0185320db4fa1a9e3234cc8a3a4f0d664a1a3084",
+      "binary": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/frozen-placement-replay/independent/generic_backend_build/ordinary-read-9c7fad0ad3a1ec61.so",
+      "binary_sha256": "e7dadc11182471719edcd9ddae87a0d138cb39f2121d54d9cf975abcf96bebd4",
+      "command": "c++ -std=c++17 -O3 -shared -fPIC SOURCE -o BINARY"
+    },
+    "report": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/frozen-placement-replay/independent/generic_backend_crosscheck.report.json",
+    "tested_source_snapshots": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/frozen-placement-replay/independent/source"
+  },
+  "quality_per_chunk_table": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/quality/per_chunk_quality.md",
+  "numeric_contract_scope_audit": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/quality/numeric_contract_scope_audit.json"
+}

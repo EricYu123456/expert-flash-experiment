@@ -1,0 +1,259 @@
+--- rev003/research_20261103_local_affine_stage3_run.py
++++ rev006/research_20261103_local_affine_stage3_run.py
+@@ -1,6 +1,7 @@
+ #!/usr/bin/env python3
+ """One explicit Stage3 phase per invocation; no implicit scientific release."""
+ import argparse
++import ctypes
+ from datetime import datetime,timezone
+ import hashlib
+ import json
+@@ -52,31 +53,160 @@
+             f=d/'cpufreq'/key;v[key]=f.read_text().strip() if f.exists() else None
+         v['caches']=[{k:(q/k).read_text().strip() for k in ['level','type','size','shared_cpu_list']} for q in (d/'cache').glob('index*')];cores.append(v)
+     return {'at_utc':now(),'cores':cores,'CPU_affinity':sorted(os.sched_getaffinity(0)),'cpuinfo':Path('/proc/cpuinfo').read_text().split('\n\n')[0],'loadavg':Path('/proc/loadavg').read_text().strip(),'other_jobs_not_modified':True,'disk_free_bytes':shutil.disk_usage(OUT).free,'actual_EPYC_not_target_i9':True,'compiler':subprocess.run(['c++','--version'],capture_output=True,text=True).stdout.splitlines()[0]}
+-def monitored(cmd,folder,cap,checkpoint=None):
+-    folder=Path(folder);folder.mkdir(parents=True,exist_ok=True);assert not (folder/'launch.json').exists();t=time.monotonic();utc=now();samples=[];violations=[];peak=0
+-    with (folder/'stdout.log').open('w') as stdout,(folder/'stderr.log').open('w') as stderr:
+-        p=subprocess.Popen(cmd,stdout=stdout,stderr=stderr,start_new_session=True);save(folder/'launch.json',{'at_utc':utc,'PID':p.pid,'parent_PID':os.getpid(),'argv':cmd,'CPU_affinity':sorted(os.sched_getaffinity(p.pid)),'RSS_cap_bytes':cap,'checkpoint_seconds':checkpoint});print(json.dumps({'launched_PID':p.pid,'phase_folder':str(folder),'at_utc':utc}),flush=True)
+-        with (folder/'resource_samples.jsonl').open('w') as f:
+-            while p.poll() is None:
+-                pp=process_samples(os.getpid());rss=sum(v['RSS_KiB'] for v in pp)*1024;peak=max(peak,rss);sample={'at_utc':now(),'aggregate_RSS_bytes':rss,'processes':pp};f.write(json.dumps(sample)+'\n');f.flush();samples.append(sample)
+-                bad=[(v['PID'],tid,a) for v in pp for tid,a in v['thread_affinities'].items() if not a or not set(a)<=set(range(8))]
+-                if rss>cap or bad or (checkpoint is not None and time.monotonic()-t>checkpoint):
+-                    violations.append({'at_utc':now(),'RSS_bytes':rss,'affinity_violations':bad,'checkpoint_exhausted':checkpoint is not None and time.monotonic()-t>checkpoint});os.killpg(p.pid,signal.SIGTERM);break
+-                time.sleep(.2)
+-        rc=p.wait()
+-    receipt={'started_at_utc':utc,'completed_at_utc':now(),'PID':p.pid,'returncode':rc,'wall_seconds':time.monotonic()-t,'peak_observed_aggregate_RSS_bytes':peak,'sampling_interval_seconds':.2,'observed_peak_is_lower_bound':True,'violations':violations,'samples':len(samples),'CPU_affinity':list(range(8))};save(folder/'exit.json',receipt);assert rc==0 and not violations,'preserved tooling/resource/checkpoint failure; same stage needs review';return receipt
++def process_identity(pid):
++    try:
++        text=Path(f'/proc/{pid}/stat').read_text();v=text[text.rfind(')')+2:].split();return {'PID':int(pid),'starttime_ticks':int(v[19]),'PPID':int(v[1]),'process_group':int(v[2]),'session':int(v[3]),'state':v[0]}
++    except (FileNotFoundError,ProcessLookupError):return None
++def direct_children(pid):
++    children=set()
++    try:
++        for t in Path(f'/proc/{pid}/task').iterdir():
++            try:children.update(map(int,(t/'children').read_text().split()))
++            except (FileNotFoundError,ProcessLookupError):pass
++    except (FileNotFoundError,ProcessLookupError):pass
++    return children
++def open_pidfd(pid):
++    if hasattr(os,'pidfd_open'):return os.pidfd_open(pid,0)
++    # This pinned EPYC host's Anaconda build omits os.pidfd_open and its libc
++    # predates the wrapper. Linux x86_64 syscall434 supplies the same pidfd.
++    assert os.uname().sysname=='Linux' and os.uname().machine=='x86_64','pidfd syscall fallback is Linux x86_64 only'
++    # Primary local UAPI: /usr/include/x86_64-linux-gnu/asm/unistd_64.h,
++    # __NR_pidfd_open = 434. Unsupported kernel -> errno -> fail closed.
++    libc=ctypes.CDLL(None,use_errno=True);libc.syscall.restype=ctypes.c_long;fd=libc.syscall(ctypes.c_long(434),ctypes.c_int(pid),ctypes.c_uint(0))
++    if fd<0:
++        code=ctypes.get_errno();raise OSError(code,os.strerror(code))
++    return int(fd)
++class OwnedProcesses:
++    """Linux subreaper + pidfds: new sessions cannot escape owned teardown.
++
++    Capture existing children before spawning; never signal/reap those. New
++    direct children adopted after double-fork are ours because this supervisor
++    starts one monitored tree at a time. pidfds prevent PID-reuse signaling.
++    """
++    def __init__(self):
++        assert hasattr(signal,'pidfd_send_signal'),'Linux pidfd signal support required, fail before spawn';probe=open_pidfd(os.getpid());os.close(probe)
++        libc=ctypes.CDLL(None,use_errno=True);assert libc.prctl(36,1,0,0,0)==0,'PR_SET_CHILD_SUBREAPER required';enabled=ctypes.c_int();assert libc.prctl(37,ctypes.byref(enabled),0,0,0)==0 and enabled.value==1
++        self.supervisor=os.getpid();self.baseline={pid:process_identity(pid) for pid in direct_children(self.supervisor)};self.owned={};self.signals=[];self.reaped=[];self.root=None
++    def add(self,pid,reason):
++        if pid in self.owned or pid==self.supervisor:return
++        before=process_identity(pid)
++        if before is None:return
++        base=self.baseline.get(pid)
++        if base is not None and base['starttime_ticks']==before['starttime_ticks']:return
++        try:fd=open_pidfd(pid)
++        except ProcessLookupError:return
++        after=process_identity(pid)
++        if after is None or after['starttime_ticks']!=before['starttime_ticks']:os.close(fd);return
++        self.owned[pid]={'identity':after,'pidfd':fd,'ownership_reason':reason}
++    def discover(self):
++        # Discover/re-discover fixed points before any kill. Descendants may
++        # create their own process groups or sessions without leaving this tree.
++        for _ in range(8):
++            count=len(self.owned)
++            for pid,item in list(self.owned.items()):
++                current=process_identity(pid)
++                if current and current['starttime_ticks']==item['identity']['starttime_ticks']:
++                    for child in direct_children(pid):self.add(child,'descendant_of_owned_identity')
++            for child in direct_children(self.supervisor):self.add(child,'new_direct_child_or_subreaper_adoption')
++            if len(self.owned)==count:break
++    def current(self,pid):
++        v=process_identity(pid);return v if v and v['starttime_ticks']==self.owned[pid]['identity']['starttime_ticks'] else None
++    def reap(self):
++        for pid in list(self.owned):
++            if pid==self.root:continue # Popen retains its actual OS returncode.
++            v=self.current(pid)
++            if v and v['state']=='Z' and v['PPID']==self.supervisor:
++                try:
++                    reaped,status=os.waitpid(pid,os.WNOHANG)
++                    if reaped:self.reaped.append({'PID':pid,'starttime_ticks':v['starttime_ticks'],'wait_status':status})
++                except ChildProcessError:pass
++    def alive(self):return [pid for pid in self.owned if (v:=self.current(pid)) and v['state']!='Z']
++    def send(self,pid,sig):
++        if not self.current(pid):return
++        try:signal.pidfd_send_signal(self.owned[pid]['pidfd'],sig,None,0);self.signals.append({'at_utc':now(),'PID':pid,'starttime_ticks':self.owned[pid]['identity']['starttime_ticks'],'signal':int(sig),'pidfd_identity_safe':True})
++        except ProcessLookupError:pass
++    def teardown(self,p,forced):
++        t=time.monotonic();self.discover();self.reap();unexpected=False
++        if not forced:
++            # Successful numerical roots must quiesce their children; briefly
++            # allow normal EOF/shutdown races, then reject surviving workload.
++            until=time.monotonic()+1
++            while self.alive() and time.monotonic()<until:self.discover();p.poll();self.reap();time.sleep(.02)
++            unexpected=bool(self.alive());forced=unexpected
++        if forced:
++            until=time.monotonic()+.6;termed=set()
++            while True:
++                self.discover();p.poll();self.reap()
++                for pid in self.alive():
++                    if pid not in termed:self.send(pid,signal.SIGTERM);termed.add(pid)
++                if not self.alive() or time.monotonic()>=until:break
++                time.sleep(.02)
++            until=time.monotonic()+5
++            while True:
++                self.discover();p.poll();self.reap()
++                for pid in self.alive():self.send(pid,signal.SIGKILL)
++                if not self.alive() or time.monotonic()>=until:break
++                time.sleep(.02)
++        p.wait(timeout=5)
++        # After root exit, escaped-session orphans are synchronously adopted.
++        # Require two stable empty scans, reap every adopted zombie as well.
++        stable=0;until=time.monotonic()+5
++        while stable<2 and time.monotonic()<until:
++            self.discover();self.reap();remaining=[pid for pid in self.owned if self.current(pid)]
++            if remaining:
++                stable=0
++                for pid in self.alive():self.send(pid,signal.SIGKILL)
++            else:stable+=1
++            time.sleep(.02)
++        remaining=[pid for pid in self.owned if self.current(pid)];receipt={'supervisor_PID':self.supervisor,'subreaper_enabled':True,'root_PID':self.root,'forced_cleanup':bool(forced),'unexpected_descendants_after_normal_root_exit':unexpected,'owned_processes':{str(pid):{k:v for k,v in item.items() if k!='pidfd'} for pid,item in self.owned.items()},'preexisting_children_excluded':self.baseline,'pidfd_signals':self.signals,'adopted_children_reaped':self.reaped,'remaining_owned_identities':remaining,'all_owned_processes_gone':not remaining,'wall_seconds':time.monotonic()-t}
++        return receipt
++    def close(self):
++        for v in self.owned.values():os.close(v['pidfd'])
++def monitored(cmd,folder,cap,checkpoint=None,_generated_exception_after=None):
++    folder=Path(folder);folder.mkdir(parents=True,exist_ok=True);assert not (folder/'launch.json').exists();assert _generated_exception_after is None or 'generated' in folder.parts
++    t=time.monotonic();utc=now();violations=[];peak=0;sample_count=0;failure=None;life=None;p=None;owned=OwnedProcesses()
++    try:
++        with (folder/'stdout.log').open('w') as stdout,(folder/'stderr.log').open('w') as stderr:
++            p=subprocess.Popen(cmd,stdout=stdout,stderr=stderr,start_new_session=True);owned.root=p.pid;owned.add(p.pid,'explicit_Popen_root');assert p.pid in owned.owned,'root pidfd identity capture';save(folder/'launch.json',{'at_utc':utc,'PID':p.pid,'parent_PID':os.getpid(),'root_identity':owned.owned[p.pid]['identity'],'argv':cmd,'CPU_affinity':sorted(os.sched_getaffinity(p.pid)),'RSS_cap_bytes':cap,'checkpoint_seconds':checkpoint,'owned_subreaper_pidfd_supervision':True});print(json.dumps({'launched_PID':p.pid,'phase_folder':str(folder),'at_utc':utc}),flush=True)
++            try:
++                with (folder/'resource_samples.jsonl').open('w') as f:
++                    while p.poll() is None:
++                        owned.discover();pp=process_samples(os.getpid());rss=sum(v['RSS_KiB'] for v in pp)*1024;peak=max(peak,rss);sample={'at_utc':now(),'aggregate_RSS_bytes':rss,'processes':pp};f.write(json.dumps(sample)+'\n');f.flush();sample_count+=1
++                        bad=[(v['PID'],tid,a) for v in pp for tid,a in v['thread_affinities'].items() if not a or not set(a)<=set(range(8))];expired=checkpoint is not None and time.monotonic()-t>checkpoint
++                        if rss>cap or bad or expired:violations.append({'at_utc':now(),'RSS_bytes':rss,'affinity_violations':bad,'checkpoint_exhausted':expired});break
++                        if _generated_exception_after is not None and time.monotonic()-t>=_generated_exception_after:raise RuntimeError('GENERATED supervisor exception fixture')
++                        time.sleep(.2)
++            except BaseException as e:failure=e
++            finally:life=owned.teardown(p,bool(violations) or failure is not None)
++    except BaseException as e:
++        if failure is None:failure=e
++        if p is not None and life is None:
++            try:life=owned.teardown(p,True)
++            except BaseException as cleanup_error:life={'all_owned_processes_gone':False,'cleanup_exception':repr(cleanup_error)}
++    finally:owned.close()
++    rc=p.returncode if p is not None else None;receipt={'started_at_utc':utc,'completed_at_utc':now(),'PID':None if p is None else p.pid,'returncode':rc,'wall_seconds':time.monotonic()-t,'peak_observed_aggregate_RSS_bytes':peak,'sampling_interval_seconds':.2,'observed_peak_is_lower_bound':True,'violations':violations,'exception':None if failure is None else repr(failure),'samples':sample_count,'CPU_affinity':list(range(8)),'lifecycle':life};save(folder/'exit.json',receipt)
++    if failure is not None:raise failure
++    assert rc==0 and not violations and life['all_owned_processes_gone'] and not life['unexpected_descendants_after_normal_root_exit'],'preserved tooling/resource/checkpoint/lifecycle failure; same stage needs review';return receipt
+ def manifest():
+     return {'base_protocol_sha256':EXPECTED,'phase_order_amendment_sha256':AMEND_SHA,'new_arms':{'NL':7,'COPY_NL':8,'old_D_unchanged':6},'phase_order':['prepare','bind','bench-bcd','Root_critic_checkpoint','gu-fit','bench-nl','dev-quality'],'bench_arms':{'BENCH_BCD':[3,5,6],'BENCH_NL':[7]},'bench_arm_rotation':'trialmod3 forBCD; NLonly separatephase, never fused simultaneousrace','GU':'one productionpass, complete union236888 expertrows; rawtargets retained; one cached actual FMA GU prediction pass then one Down calibration pass; additional audits/B1calls separately counted','numeric':'exactAVX2 signextendedI16 nonsaturatingmaddI32, width1..2048 APIaccepts[-128,127], absbound33554432; canonical127; FMA original8lanes/pairtree/tail; sequentialFP64 tree; original8FP64 P lanes withtailtosums0; separateF32rescale/bias/alpha','activation':'timed onlypinnedfullI GGML SiLU×F32Up+finite usingpreallocatedscratch; fusedbitcomparison auditonly; no IPCintimedregion','team':'persistent8 stdthreads pinnedCPU0..7, crossselectedslots firststage once/completeoutputstage once, privatewholeI activation cohort once; Cnofallback oneoutputteam; scratchpreallocatedcountedRAM, actualx87/SSE RN FTZDAZ0 eachworker before/afterjob; identicalrowlaneorder andtruebarriers','bench_rows':'SHA256 domain bytes stage3-bench-v1\\0 + canonical JSON(sortkeys,compact,ensure_ascii) provenance;32 perlayer frozenbeforearrayread; first4 numericallrows/offroute','cohorts':'operator0/operator1 rawx-tooutput(alpha1); naturalpartial orderedlivepilotIDs/finalalpha; fullKresourceonly templatescycle2 physicallydistinctallocations. Sharedinput iffidenticalfunctions; zero naturalhit no P/tree','cache':'warm5warmups/31trials; cold all8 workers each128MiB of1GiB stride64 beforeeachtrial, barrieroutsideinvocation; observedscenario notuniversalcacheclaim','source_quality':'newmode loop uses immutableHook/ownedX/finalalpha/scatter. PG16 alreadyexposed devonly, nativeGT512 IDs frompreviousapprovedqualityresult, freshKVeacharm, fixed256targets; no booksdownload/re-tokenization/windowchange. Firstfixedbook actualsource/copy/B controls, BCDprior64bitchecksum+NLL consistency explicitlynot historicalmemcmp, NLcopy actualmemcmp; zero-causal needsactualB replay','dev_statistics':'NL-B2endpoint centeredmaxabsT10000shared16bookdraws seed2026110303 ddof1 linear95; anymissing/nonfinite/zeroSD familyinconclusive; no classification/reselection','review_schema':{'status':'approved','phase':'BIND|BENCH_BCD|GU_FIT|BENCH_NL|DEV_QUALITY','protocol_sha256':EXPECTED,'phase_order_amendment_sha256':AMEND_SHA,'source_revision':'int','source_freeze_sha256':'SHA','upstream_receipts':'exactfreeze mapping','BIND_complete_sha256':'required allafterBIND','BENCH_BCD_complete_sha256':'required GU_FIT andlater','GU_FIT_complete_sha256':'required BENCH_NL/DEV','NL_registry_sha256':'requiredDEV'},'no_actual_payload_during_prepare':True,'optional_structural_preflight_omitted':True,'cost_scope':'EPYC9354AVX2 actualservice only, targetISA/bandwidthunmeasured; conditionalordinaryAiFDAG no fixedspeedup; allhost/cache andflashGUhostDown andsamebankordinaryload alternatives retained'}
+ def prepare():
+     assert sha(PROTOCOL)==EXPECTED and sha(AMEND)==AMEND_SHA;approved=ROUND/'Root_stage3_SOURCE_BUILD_GENERATED.approved.json';assert sha(approved)=='12279b2de05196968f6311dd805e5b8b268b34600fb0ea149238de1a5e755e2c';OUT.mkdir(exist_ok=True);fr=OUT/'freezes';fr.mkdir(exist_ok=True);rev=1+max([int(p.name[3:]) for p in fr.glob('rev[0-9][0-9][0-9]')],default=0);rd=fr/f'rev{rev:03d}';rd.mkdir()
+-    for p in SOURCES:shutil.copy2(p,rd/p.name)
++    repair=OUT/'Root_runner_repair.rev004.SOURCE_BUILD_GENERATED.approved.json';assert sha(repair)=='8c74f52176a0ee359b547571d6ca7a9495ac0c2fad3879878d7febe27c039375';parent=OUT/'freezes/rev003';assert sha(parent/'freeze_receipt.json')=='9dcd169be9bdfe9a2b83bd01702c357e87d5af2b201cb550ff6eeb5dddb4ef8f'
++    for p in SOURCES:
++        if p.name not in [PREFIX+'_run.py',PREFIX+'_synthetic.py']:assert p.read_bytes()==(parent/p.name).read_bytes(),'runner-only repair mathematical source invariant'
++        shutil.copy2(p,rd/p.name)
++    import difflib
++    diffs=[]
++    for suffix in ['_run.py','_synthetic.py']:
++        name=PREFIX+suffix;diffs.extend(difflib.unified_diff((parent/name).read_text().splitlines(True),(rd/name).read_text().splitlines(True),fromfile='rev003/'+name,tofile=rd.name+'/'+name))
++    (rd/'runner_only.diff').write_text(''.join(diffs));save(rd/'runner_repair_binding.json',{'approval':str(repair),'approval_sha256':sha(repair),'parent_source_freeze_sha256':sha(parent/'freeze_receipt.json'),'existing_BIND_complete_sha256':sha(OUT/'BIND.complete.json'),'unchanged_scientific_sources':{p.name:sha(p) for p in SOURCES if p.name not in [PREFIX+'_run.py',PREFIX+'_synthetic.py']},'BIND_not_rerun':True,'actual_BENCH_GU_PG_TEST_not_started':True})
+     save(rd/'algorithm_manifest.frozen.json',manifest());save(rd/'hardware.json',hardware_snapshot());base=read(FQ/'build_commands.json')[0];i=next(k for k,v in enumerate(base) if v.endswith('_harness.cpp'));flags=base[1:i];libs=base[base.index('-o')+2:];numericflags=[v for v in flags if v!='-march=native']+['-mavx2','-mfma','-mno-avx512f'];cmds=[['c++',*numericflags,'-I'+str(rd),str(rd/(PREFIX+'_numeric.cpp')),'-o',str(rd/'host-numeric'),*libs],['c++',*numericflags,'-I'+str(rd),'-fPIC','-shared','-DLS3_LIBRARY',str(rd/(PREFIX+'_numeric.cpp')),'-o',str(rd/'numeric.so')],['c++',*flags,'-I'+str(rd),str(rd/(PREFIX+'_harness.cpp')),'-o',str(rd/'dev-harness'),*libs]];save(rd/'build_commands.json',cmds)
+     for index,cmd in enumerate(cmds):monitored(cmd,rd/f'build{index}',8000000000,1800)
+     tests=[[str(rd/'host-numeric'),'synthetic'],[sys.executable,str(rd/(PREFIX+'_synthetic.py')),'--folder',str(rd/'generated')]]
+     testreceipts=[]
+     for index,cmd in enumerate(tests):testreceipts.append(monitored(cmd,rd/f'test{index}',8000000000,1800))
+     sys.path.insert(0,str(rd));import research_20261103_local_affine_stage3_core as s
+-    upstream={str(p):sha(p) for p in s.UPSTREAM};deps={str(p):sha(p) for p in SOURCES+[PROTOCOL,AMEND,approved]}
++    upstream={str(p):sha(p) for p in s.UPSTREAM};deps={str(p):sha(p) for p in SOURCES+[PROTOCOL,AMEND,approved,repair,parent/'freeze_receipt.json']}
+     for p,h in read(FREF/'freeze_receipt.json')['files'].items():
+         # This predecessor source freeze contains source/build/manifest files,
+         # not numerical payloads. Fail closed rather than hash a forbidden body.
+@@ -85,7 +215,7 @@
+     for p,h in read(FQ/'freeze_receipt.json')['files'].items():assert Path(p).suffix not in ['.npy','.npz','.i8','.f32','.gguf','.raw','.utf8'];assert sha(p)==h;deps[p]=h
+     for p in rd.rglob('*'):
+         if p.is_file():deps[str(p)]=sha(p)
+-    f={'status':'READY_source_build_generated_only_pending_Root_critic_payload_review','revision':rev,'at_utc':now(),'protocol_sha256':EXPECTED,'phase_order_amendment_sha256':AMEND_SHA,'upstream_receipts':upstream,'files':deps,'manifest':manifest(),'generated_tests':testreceipts,'actual_payload_read':False,'TEST_opened':False};save(rd/'freeze_receipt.json',f);pointer={'revision':rev,'freeze_receipt':str(rd/'freeze_receipt.json'),'sha256':sha(rd/'freeze_receipt.json')};save(OUT/'CURRENT_FREEZE.json',pointer);print(json.dumps({'READY':pointer,'files':len(deps)}),flush=True)
++    f={'status':'READY_source_build_generated_only_pending_Root_critic_payload_review','revision':rev,'at_utc':now(),'protocol_sha256':EXPECTED,'phase_order_amendment_sha256':AMEND_SHA,'upstream_receipts':upstream,'files':deps,'manifest':manifest(),'generated_tests':testreceipts,'actual_payload_read_during_this_runner_repair':False,'existing_BIND_receipt_reference_only':sha(OUT/'BIND.complete.json'),'BIND_reuse_requires_Root_critic_pure_runner_bridge':True,'TEST_opened':False};save(rd/'freeze_receipt.json',f);pointer={'revision':rev,'freeze_receipt':str(rd/'freeze_receipt.json'),'sha256':sha(rd/'freeze_receipt.json')};save(OUT/'CURRENT_FREEZE.json',pointer);print(json.dumps({'READY':pointer,'files':len(deps)}),flush=True)
+ def context_plan(book_ids):
+     jobs=[];contexts={};n=0
+     for bi,b in enumerate(book_ids):
+--- rev003/research_20261103_local_affine_stage3_synthetic.py
++++ rev006/research_20261103_local_affine_stage3_synthetic.py
+@@ -4,6 +4,7 @@
+ import ctypes as ct
+ import io
+ import json
++import os
+ from pathlib import Path
+ import subprocess
+ import sys
+@@ -13,6 +14,44 @@
+ import research_20261103_local_affine_stage3_run as run
+ np,old,core,w=s.np,s.old,s.core,s.w
+ def bits(a,b):assert a.shape==b.shape and a.dtype==b.dtype and np.array_equal(a.view(np.uint32),b.view(np.uint32))
++def lifecycle_fixtures(folder,activation_pid):
++    folder=Path(folder)/'lifecycle';folder.mkdir();dummy=folder/'dummy.py'
++    dummy.write_text('''import json,os,pathlib,signal,subprocess,sys,time
++role,mode,log=sys.argv[1:];signal.signal(signal.SIGTERM,signal.SIG_IGN)
++if role=='root':subprocess.Popen([sys.executable,__file__,'middle',mode,log],start_new_session=True)
++elif role=='middle':subprocess.Popen([sys.executable,__file__,'leaf',mode,log],start_new_session=True)
++blob=bytearray(256<<20) if role=='leaf' and mode=='rss' else bytearray(1<<20)
++for i in range(0,len(blob),4096):blob[i]=1
++text=pathlib.Path('/proc/self/stat').read_text();v=text[text.rfind(')')+2:].split();entry={'PID':os.getpid(),'starttime_ticks':int(v[19]),'role':role,'session':os.getsid(0)}
++fd=os.open(log,os.O_WRONLY|os.O_CREAT|os.O_APPEND,0o600);os.write(fd,(json.dumps(entry)+'\\n').encode());os.close(fd)
++if role=='leaf':pathlib.Path(log+'.ready').write_text('ready')
++if role=='root' and mode=='orphan':
++ while not pathlib.Path(log+'.ready').exists():time.sleep(.01)
++ sys.exit(0)
++while True:time.sleep(.05)
++''')
++    sentinel=subprocess.Popen([sys.executable,'-c','import time;time.sleep(30)'],start_new_session=True);receipts=[]
++    try:
++        protected={sentinel.pid,activation_pid}
++        for mode in ['timeout','rss','exception','orphan']:
++            case=folder/mode;trace=folder/(mode+'.identities.jsonl');base=sum(v['RSS_KiB'] for v in run.process_samples(os.getpid()))*1024;cap=base+(160<<20) if mode=='rss' else 8000000000
++            try:
++                run.monitored([sys.executable,str(dummy),'root',mode,str(trace)],case,cap,.45 if mode=='timeout' else None,_generated_exception_after=.45 if mode=='exception' else None);raise RuntimeError('lifecycle expected failure not raised')
++            except (AssertionError,RuntimeError) as ex:assert str(ex)!='lifecycle expected failure not raised'
++            r=json.loads((case/'exit.json').read_text());life=r['lifecycle'];assert life['all_owned_processes_gone'] and not life['remaining_owned_identities'];assert any(v['signal']==9 for v in life['pidfd_signals']),'TERM-resistant workload requires recorded escalation';known=[json.loads(v) for v in trace.read_text().splitlines()];assert {v['role'] for v in known}=={'root','middle','leaf'} and len(known)==3
++            assert all(str(v['PID']) in life['owned_processes'] and life['owned_processes'][str(v['PID'])]['identity']['starttime_ticks']==v['starttime_ticks'] for v in known);assert not protected.intersection(map(int,life['owned_processes'])) and protected<=set(map(int,life['preexisting_children_excluded']))
++            for v in known:
++                current=run.process_identity(v['PID']);assert current is None or current['starttime_ticks']!=v['starttime_ticks']
++            assert sentinel.poll() is None and run.process_identity(activation_pid) is not None
++            if mode=='timeout':assert any(v['checkpoint_exhausted'] for v in r['violations'])
++            if mode=='rss':assert r['peak_observed_aggregate_RSS_bytes']>cap
++            if mode=='exception':assert r['exception']=='RuntimeError(\'GENERATED supervisor exception fixture\')'
++            if mode=='orphan':assert r['returncode']==0 and life['unexpected_descendants_after_normal_root_exit']
++            receipts.append({'mode':mode,'exit_receipt':str(case/'exit.json'),'root_returncode':r['returncode'],'all3_identity_bound_processes_gone':True,'preexisting_sentinel_and_activation_survived':True,'TERM_KILL_escalation_recorded':True})
++        result={'status':'passed','generated_only':True,'subreaper_pidfd_owned_identity_teardown':True,'cases':receipts,'actual_model_BENCH_not_run':True};s.save(folder/'receipt.json',result);return result
++    finally:
++        if sentinel.poll() is None:sentinel.terminate()
++        sentinel.wait(timeout=5)
+ def main(folder):
+     folder=Path(folder);folder.mkdir();rng=np.random.default_rng(20261103);fma=core.FMA(w.FROZEN1/'fma.so');num=w.GuardedNumeric(fma,s.F2/'strict-activation');lib=ct.CDLL(str(Path(__file__).parent/'numeric.so'));H=2048;I=17;Q=512;N=64
+     try:
+@@ -90,7 +129,7 @@
+         fixture=folder/'identity.bin';fixture.write_bytes(b'generated');identity=s.identities({str(fixture):s.sha(fixture)});fixture.write_bytes(b'changed')
+         try:s.identities({str(fixture):identity[str(fixture)]['sha256']});raise RuntimeError('expected identity failure')
+         except AssertionError:pass
+-        result={'status':'passed','generated_only':True,'real_weights_arrays_targets_books_read':False,'I64_all_signed_extremes_and_tails':True,'frozen_FMA_and_FP64_P_bits':True,'A8_frozen_bits':True,'eta0_rank_deficient_fit_archive_B1_batch':True,'actual_raw_GU_prediction_passes':report['GU_actual_FMA_prediction_passes'],'direct_CXX_B_C_D_NL_allrows_and_Gcentered_integerfirst_floatlift':True,'inherited_support_fallback':True,'natural_fullK_zero_cohorts_signedalpha_slotF32order_bits':True,'NL7_COPY_NL8_distinct_binary_roundtrip_and_zero_mask':True,'duplicate_short_badmode_failclosed':True,'paired_twoendpoint_bootstrap_independent_loop':True,'zero_missing_family_preserved':True,'largefinite_report_serializes':True,'stable_provenance_selection_and_identitymutation_rejected':True};s.save(folder/'receipt.json',result);print(json.dumps(result),flush=True)
++        lifecycle=lifecycle_fixtures(folder,num.worker.pid);result={'status':'passed','generated_only':True,'real_weights_arrays_targets_books_read':False,'I64_all_signed_extremes_and_tails':True,'frozen_FMA_and_FP64_P_bits':True,'A8_frozen_bits':True,'eta0_rank_deficient_fit_archive_B1_batch':True,'actual_raw_GU_prediction_passes':report['GU_actual_FMA_prediction_passes'],'direct_CXX_B_C_D_NL_allrows_and_Gcentered_integerfirst_floatlift':True,'inherited_support_fallback':True,'natural_fullK_zero_cohorts_signedalpha_slotF32order_bits':True,'NL7_COPY_NL8_distinct_binary_roundtrip_and_zero_mask':True,'duplicate_short_badmode_failclosed':True,'paired_twoendpoint_bootstrap_independent_loop':True,'zero_missing_family_preserved':True,'largefinite_report_serializes':True,'stable_provenance_selection_and_identitymutation_rejected':True,'runner_lifecycle_generated':lifecycle};s.save(folder/'receipt.json',result);print(json.dumps(result),flush=True)
+     finally:num.close()
+ if __name__=='__main__':
+     p=argparse.ArgumentParser();p.add_argument('--folder',required=True);a=p.parse_args();main(a.folder)

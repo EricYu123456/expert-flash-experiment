@@ -1,0 +1,396 @@
+{
+  "status": "sealed_atomic_counts_symbolic_only_uncalibrated_service",
+  "protocol_sha256": "5e9459b3720b08046086606f42af75a4d4e585727e161819863b412f1883ca8e",
+  "models": [
+    {
+      "model": "granite4tiny",
+      "queries": 512,
+      "first_MoE_raw_layer": 0,
+      "projections": [
+        {
+          "projection": "routed_GU",
+          "rows": 1024,
+          "columns": 1536,
+          "atomic_row_tiles": 16,
+          "atomic_column_tiles": 6,
+          "atomic_pages": 96,
+          "useful_coefficient_bytes": 1572864,
+          "stored_page_bytes": 1572864,
+          "zero_padding_bytes": 0,
+          "useful_MACs": 1572864,
+          "dense_padded_MAC_slots": 1572864,
+          "column_slice_reduction_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "original_row_scale_ID": "expert,projection,logicalrow"
+        },
+        {
+          "projection": "routed_Down",
+          "rows": 1536,
+          "columns": 512,
+          "atomic_row_tiles": 24,
+          "atomic_column_tiles": 2,
+          "atomic_pages": 48,
+          "useful_coefficient_bytes": 786432,
+          "stored_page_bytes": 786432,
+          "zero_padding_bytes": 0,
+          "useful_MACs": 786432,
+          "dense_padded_MAC_slots": 786432,
+          "column_slice_reduction_order": [
+            0,
+            1
+          ],
+          "original_row_scale_ID": "expert,projection,logicalrow"
+        },
+        {
+          "projection": "shared_GU",
+          "rows": 2048,
+          "columns": 1536,
+          "atomic_row_tiles": 32,
+          "atomic_column_tiles": 6,
+          "atomic_pages": 192,
+          "useful_coefficient_bytes": 3145728,
+          "stored_page_bytes": 3145728,
+          "zero_padding_bytes": 0,
+          "useful_MACs": 3145728,
+          "dense_padded_MAC_slots": 3145728,
+          "column_slice_reduction_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "original_row_scale_ID": "expert,projection,logicalrow"
+        },
+        {
+          "projection": "shared_Down",
+          "rows": 1536,
+          "columns": 1024,
+          "atomic_row_tiles": 24,
+          "atomic_column_tiles": 4,
+          "atomic_pages": 96,
+          "useful_coefficient_bytes": 1572864,
+          "stored_page_bytes": 1572864,
+          "zero_padding_bytes": 0,
+          "useful_MACs": 1572864,
+          "dense_padded_MAC_slots": 1572864,
+          "column_slice_reduction_order": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "original_row_scale_ID": "expert,projection,logicalrow"
+        }
+      ],
+      "per_query_atomic_pages": 1152,
+      "per_query_useful_coefficient_bytes": 18874368,
+      "per_query_page_bytes": 18874368,
+      "per_query_zero_padding_bytes": 0,
+      "per_query_useful_MACs": 18874368,
+      "per_query_dense_padded_MAC_slots": 18874368,
+      "phase_atomic_pages": [
+        768,
+        384
+      ],
+      "route_label_independent_total_count": true,
+      "best_any_address_64plane_array_service_floor_ns": 540000,
+      "read_compute_shared_core": "Onecore/die; actual occupancy tau_core_ns/atomic is unspecified, not NANDtR.",
+      "layouts": [
+        {
+          "name": "local_cyclic",
+          "onecopy": true,
+          "resident_pages": 9504,
+          "resident_useful_bytes": 155713536,
+          "resident_page_bytes": 155713536,
+          "resident_zero_padding_bytes": 0,
+          "per_query_max_plane_pages": {
+            "min": 23.0,
+            "mean": 23.0,
+            "p99": 23.0,
+            "max": 23.0
+          },
+          "per_query_max_core_pages": {
+            "min": 39.0,
+            "mean": 39.0,
+            "p99": 39.0,
+            "max": 39.0
+          },
+          "per_query_max_channel_pages": {
+            "min": 144.0,
+            "mean": 144.0,
+            "p99": 144.0,
+            "max": 144.0
+          },
+          "known_resource_relaxation_ns": {
+            "min": 690000.0,
+            "mean": 690000.0,
+            "p99": 690000.0,
+            "max": 690000.0
+          },
+          "static_and_oracle_known_resource_relaxations_equal": true,
+          "equality_scope": "Set unknown core service/output/input/command/precedence to zero. Both beststatic andperfectsplit chooseallPIM; equality is only this coarse LB, not an actual gain ceiling."
+        },
+        {
+          "name": "global_cyclic",
+          "onecopy": true,
+          "resident_pages": 9504,
+          "resident_useful_bytes": 155713536,
+          "resident_page_bytes": 155713536,
+          "resident_zero_padding_bytes": 0,
+          "per_query_max_plane_pages": {
+            "min": 18.0,
+            "mean": 19.482421875,
+            "p99": 21.889999999999986,
+            "max": 22.0
+          },
+          "per_query_max_core_pages": {
+            "min": 36.0,
+            "mean": 36.875,
+            "p99": 39.0,
+            "max": 39.0
+          },
+          "per_query_max_channel_pages": {
+            "min": 144.0,
+            "mean": 144.0,
+            "p99": 144.0,
+            "max": 144.0
+          },
+          "known_resource_relaxation_ns": {
+            "min": 540000.0,
+            "mean": 584472.65625,
+            "p99": 656699.9999999995,
+            "max": 660000.0
+          },
+          "static_and_oracle_known_resource_relaxations_equal": true,
+          "equality_scope": "Set unknown core service/output/input/command/precedence to zero. Both beststatic andperfectsplit chooseallPIM; equality is only this coarse LB, not an actual gain ceiling."
+        }
+      ],
+      "paper_equations": {
+        "global_tile_rows": 256,
+        "global_tile_columns": 2048,
+        "atomic_pages_per_global_tile": 32,
+        "t_rc_ns": 30256.0,
+        "rate_rc": 0.017066666666666667,
+        "t_r_ns": 16668.47531199132,
+        "alpha_read_compute": 0.355219215583467,
+        "unit_caution": "t_rc is globaltile service with32atomicpages; t_r numerator is1page. Preservepublishedformula, but no dimension-corrected optimum or physical minmax guarantee inferred."
+      }
+    },
+    {
+      "model": "deepseek",
+      "queries": 512,
+      "first_MoE_raw_layer": 1,
+      "projections": [
+        {
+          "projection": "routed_GU",
+          "rows": 2816,
+          "columns": 2048,
+          "atomic_row_tiles": 44,
+          "atomic_column_tiles": 8,
+          "atomic_pages": 352,
+          "useful_coefficient_bytes": 5767168,
+          "stored_page_bytes": 5767168,
+          "zero_padding_bytes": 0,
+          "useful_MACs": 5767168,
+          "dense_padded_MAC_slots": 5767168,
+          "column_slice_reduction_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "original_row_scale_ID": "expert,projection,logicalrow"
+        },
+        {
+          "projection": "routed_Down",
+          "rows": 2048,
+          "columns": 1408,
+          "atomic_row_tiles": 32,
+          "atomic_column_tiles": 6,
+          "atomic_pages": 192,
+          "useful_coefficient_bytes": 2883584,
+          "stored_page_bytes": 3145728,
+          "zero_padding_bytes": 262144,
+          "useful_MACs": 2883584,
+          "dense_padded_MAC_slots": 3145728,
+          "column_slice_reduction_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "original_row_scale_ID": "expert,projection,logicalrow"
+        },
+        {
+          "projection": "shared_GU",
+          "rows": 5632,
+          "columns": 2048,
+          "atomic_row_tiles": 88,
+          "atomic_column_tiles": 8,
+          "atomic_pages": 704,
+          "useful_coefficient_bytes": 11534336,
+          "stored_page_bytes": 11534336,
+          "zero_padding_bytes": 0,
+          "useful_MACs": 11534336,
+          "dense_padded_MAC_slots": 11534336,
+          "column_slice_reduction_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "original_row_scale_ID": "expert,projection,logicalrow"
+        },
+        {
+          "projection": "shared_Down",
+          "rows": 2048,
+          "columns": 2816,
+          "atomic_row_tiles": 32,
+          "atomic_column_tiles": 11,
+          "atomic_pages": 352,
+          "useful_coefficient_bytes": 5767168,
+          "stored_page_bytes": 5767168,
+          "zero_padding_bytes": 0,
+          "useful_MACs": 5767168,
+          "dense_padded_MAC_slots": 5767168,
+          "column_slice_reduction_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "original_row_scale_ID": "expert,projection,logicalrow"
+        }
+      ],
+      "per_query_atomic_pages": 4320,
+      "per_query_useful_coefficient_bytes": 69206016,
+      "per_query_page_bytes": 70778880,
+      "per_query_zero_padding_bytes": 1572864,
+      "per_query_useful_MACs": 69206016,
+      "per_query_dense_padded_MAC_slots": 70778880,
+      "phase_atomic_pages": [
+        2816,
+        1504
+      ],
+      "route_label_independent_total_count": true,
+      "best_any_address_64plane_array_service_floor_ns": 2040000,
+      "read_compute_shared_core": "Onecore/die; actual occupancy tau_core_ns/atomic is unspecified, not NANDtR.",
+      "layouts": [
+        {
+          "name": "local_cyclic",
+          "onecopy": true,
+          "resident_pages": 35872,
+          "resident_useful_bytes": 570949632,
+          "resident_page_bytes": 587726848,
+          "resident_zero_padding_bytes": 16777216,
+          "per_query_max_plane_pages": {
+            "min": 71.0,
+            "mean": 71.0,
+            "p99": 71.0,
+            "max": 71.0
+          },
+          "per_query_max_core_pages": {
+            "min": 135.0,
+            "mean": 135.0,
+            "p99": 135.0,
+            "max": 135.0
+          },
+          "per_query_max_channel_pages": {
+            "min": 540.0,
+            "mean": 540.0,
+            "p99": 540.0,
+            "max": 540.0
+          },
+          "known_resource_relaxation_ns": {
+            "min": 2130000.0,
+            "mean": 2130000.0,
+            "p99": 2130000.0,
+            "max": 2130000.0
+          },
+          "static_and_oracle_known_resource_relaxations_equal": true,
+          "equality_scope": "Set unknown core service/output/input/command/precedence to zero. Both beststatic andperfectsplit chooseallPIM; equality is only this coarse LB, not an actual gain ceiling."
+        },
+        {
+          "name": "global_cyclic",
+          "onecopy": true,
+          "resident_pages": 35872,
+          "resident_useful_bytes": 570949632,
+          "resident_page_bytes": 587726848,
+          "resident_zero_padding_bytes": 16777216,
+          "per_query_max_plane_pages": {
+            "min": 68.0,
+            "mean": 68.529296875,
+            "p99": 70.0,
+            "max": 71.0
+          },
+          "per_query_max_core_pages": {
+            "min": 135.0,
+            "mean": 135.0,
+            "p99": 135.0,
+            "max": 135.0
+          },
+          "per_query_max_channel_pages": {
+            "min": 540.0,
+            "mean": 540.0,
+            "p99": 540.0,
+            "max": 540.0
+          },
+          "known_resource_relaxation_ns": {
+            "min": 2040000.0,
+            "mean": 2055878.90625,
+            "p99": 2100000.0,
+            "max": 2130000.0
+          },
+          "static_and_oracle_known_resource_relaxations_equal": true,
+          "equality_scope": "Set unknown core service/output/input/command/precedence to zero. Both beststatic andperfectsplit chooseallPIM; equality is only this coarse LB, not an actual gain ceiling."
+        }
+      ],
+      "paper_equations": {
+        "global_tile_rows": 256,
+        "global_tile_columns": 2048,
+        "atomic_pages_per_global_tile": 32,
+        "t_rc_ns": 30256.0,
+        "rate_rc": 0.017066666666666667,
+        "t_r_ns": 16668.47531199132,
+        "alpha_read_compute": 0.355219215583467,
+        "unit_caution": "t_rc is globaltile service with32atomicpages; t_r numerator is1page. Preservepublishedformula, but no dimension-corrected optimum or physical minmax guarantee inferred."
+      }
+    }
+  ],
+  "symbolic_LP": {
+    "variables": "x_i in[0,1] PIM fraction/choice for each selected full atomic tile; T latency. Static comparator requires one fixed fraction and routeblind fixed onecopy tile addresses; oracle may choose x_i perquery, storage/precedence relaxed.",
+    "plane": "For every physicalplane p: T >= 30000 * number of all selected pages on p (both read andPIM fetch once). Distinctplanes may read only as explicitly allowed; this lowerbound imposes no invented overlap.",
+    "core": "For eachdie/core d: T >= tau_core_ns * sum_{tiles on d} x_i; tau_core is unknown and shared by bothplanes, never two cores/contexts per die.",
+    "channel": "For eachchannel h: 1e9*T/1e9 >= 16384*sum_{tiles on h}(1-x_i) + actual_input_bytes_h(x) + actual_result_bytes_h(x). Inputs canbroadcast only whenidentical, perV-A; bytes/outputdtype/amortization notinvented. Dropping unknowntraffic gives safe weaker bound.",
+    "NPU": "T >= (2*16384 /2000) * sum_i(1-x_i) ns at reported2TOPS peak; usingpaddedMACs assumesoriginaldenseatomicexecution. MoreconservativeusefulMACbound may replace16384 withvalidrows*validcols; NPU16x16@1GHz prose conflicts with2TOPS, so no effective-utilization claim.",
+    "buffers": "Fixedcombined2KiB coreinput+output, unknownpartition; NPUcapacity absent. 256B A8input fits total but outputbuffer anddtype notverified. Oracle relaxes buffer/storageconstraints, never claims capacityfeasible.",
+    "reduction": "Originalfixedatomiccolumnsliceorder preserved symbolically; completeGU/wholevectorA8/privateDown barrier retained incontract but ignored only fororacle lowerbound. No rawI32outputs/partialA8/newnumericexecution."
+  },
+  "conclusion": "No calibrated quantitative placement-only latencyheadroom canbe deduced: missingcoreoccupancy/resultABI/commands/NPUbuffers prevent a feasiblematchedstaticservice comparator. ThecoarseknownresourceLBequality is not proof of <=2%/5% actualgain. Stopbeforebackend/native/fit; no firsthybrid/firsttiling contribution.",
+  "comparison_gate": "Unresolved/uncalibrated, not positivegain andnot globalNO-GO. Anyfuture test mustfirstpin servicecontract andthen compareoriginaloptimalstaticfraction+2Datomicuniforminterleave usingidenticalresources/reductionorder."
+}

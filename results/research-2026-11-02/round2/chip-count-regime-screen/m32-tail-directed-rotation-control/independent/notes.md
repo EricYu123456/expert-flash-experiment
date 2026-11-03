@@ -1,0 +1,5 @@
+Independent TRAIN audit: PASS
+
+All6maps preserveexactphaseorbits (including40row),fullonecopyrows/shared, pages/waves andsingle-blockaddresses. All12288freshCPPcosts andbounds match savedresults;24newPythonfulltraces match every node.
+
+Supplementarycontrol frozeafternewpromptacquisition andbeforerootviewedfreshoutcomes, perparentattestation. It isnot theoriginalprospectiveprimary; no claimthatallteam memberswereunexposed. Thisauditorreadnonewcapture/prompt/routes.

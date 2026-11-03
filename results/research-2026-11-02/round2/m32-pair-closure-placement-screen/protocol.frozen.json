@@ -1,0 +1,38 @@
+{
+  "status": "frozen_before_TRAIN_graph_and_screen",
+  "utc": "2026-11-02T05:52:31.102275+00:00",
+  "source_sha256": "3b81164b53dc5cfb07573c98729e5dbff555eeea6d416cd6c9041957f22fe1a0",
+  "references": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_m32_pair_closure_screen.py",
+      "sha256": "3b81164b53dc5cfb07573c98729e5dbff555eeea6d416cd6c9041957f22fe1a0",
+      "bytes": 12191,
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/m32-pair-closure-placement-screen/source-snapshot/3b81164b53dc5cfb-research_20261103_m32_pair_closure_screen.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz",
+      "sha256": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+      "bytes": 136020
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/native/incumbent4.plan.npz",
+      "sha256": "bdabb93e82613e0acbf50160a298b57cfe2fc962f0829643c4359e8f263443b9",
+      "bytes": 14810
+    }
+  ],
+  "graph": "64experts, undirected edge iff at leastone oforiginal512TRAIN L0 top6routes contains thepair; threshold exactly1, no dev/fresh access.",
+  "closure": "Every6vertexclique inthatpairgraph, not allpossible6sets. AllTRAINroutes are included byconstruction. Syntheticjoint closure is a conservative enlargement, not asserted realizable router support.",
+  "characterization": "Enumerate maximalcliques exactly with deterministic bitsetBronKerbosch. For C size>=6 and cap1/2/3, all6subsets satisfying sumX<=cap iff sumC X<=cap. Any cap+1markedvertices extendto6 insideC.",
+  "capacity": "For each cap1/2/3 separately maximize sum64BooleansX subjectto eachmaximalclique>=6 sumX<=cap. This relaxes allcross-chip O/perexpertXdegree constraints, so provides perchip upperbounds, not a placement.",
+  "peak10": "For fixedcoupledX5/O7, everyquery chipwaves=6+sumselectedX+sharedS. ActualS histogram12x3,17x2,3x1. Need320totalX incidences; if12U1+17U2+3U3<320, closure/profile/shared peak10 impossible.",
+  "solver": {
+    "version": "9.15.6755",
+    "seconds_per_cap": 30,
+    "workers": 8,
+    "seed": 20261116,
+    "integer_bound": "Pure Maximize sumX uses original objective scaling=-1,offset0,coeffs=-1. Use exact response inner_objective_lower_bound negated only for FEASIBLE/OPTIMAL and crosscheck external bound/incumbent; UNKNOWN conservatively uses64. Save model/response. No noninteger rounding needed.",
+    "fallback": "If integer response crosscheck fails, do not trust it; use trivial64. No UNKNOWN-as-infeasible."
+  },
+  "enumeration_budget": "Maximalclique recursion<=50s. Optional exact6clique count<=65s totalgeometrytime. If enumeration incomplete, discoveredvalidcliques still yield a relaxed safeupperbound, but counts/coverage-by-maximal reportedpartial.",
+  "limits": "No full placement fitting, native/inference, backend change, T11/12 study, dev graph/coverage or threshold selection. Pair-unseen new routes are outsideprotection; no universal routing robustness ornew graph theorem claim."
+}

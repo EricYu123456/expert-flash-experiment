@@ -1,0 +1,187 @@
+{
+  "status": "frozen_before_candidate_code_and_data",
+  "created_at_utc": "2026-11-02T19:50:03.551425+00:00",
+  "candidate": "gate-first-certified-activation-quantizer-zero",
+  "earliest_experiment_at_utc": "2026-11-02T19:58:00+00:00",
+  "experimental_round_if_launched": 1,
+  "purpose": "Bounded TRAIN-only falsification of whether conservative certificates have enough real headroom to justify native hardware/scheduling work; not a publication or device-speed claim.",
+  "models": [
+    {
+      "name": "deepseek-v2-lite",
+      "shared_experts": true,
+      "gguf": "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-v2-lite-chat-q8_0.gguf",
+      "metadata": "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-metadata.json"
+    },
+    {
+      "name": "olmoe-1b-7b",
+      "shared_experts": false,
+      "gguf": "/home/nfs_client/ericyu/expert_flash_experiment/models/olmoe-1b-7b-0924-q4_k_m.gguf",
+      "metadata": "/home/nfs_client/ericyu/expert_flash_experiment/models/olmoe-metadata.json"
+    }
+  ],
+  "selection": {
+    "source_protocol": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/selection_protocol.frozen.json",
+    "source_sha256": "ffe96565460fe747e57a41687f1488f087b708f49911a6a056222ddcb0d6aa7b",
+    "rule": "first 8 IDs in the already frozen balanced TRAIN32 order; no content/output filtering",
+    "jobs": [
+      {
+        "id": "train_mathematics_long_020",
+        "task": "mathematics",
+        "length_bucket": "long",
+        "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_mathematics_long_020.txt",
+        "selection_index": 0,
+        "task_rank": "5b299af344576b6f025a40171b496d561d31fb9386fcc01649490caebd5c3709",
+        "prompt_rank": "05cebf5d30f5947e7b925b0356780079ffc24a1cfab53f185e9206b26a5dfc25"
+      },
+      {
+        "id": "train_long_context_short_012",
+        "task": "long_context",
+        "length_bucket": "short",
+        "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_long_context_short_012.txt",
+        "selection_index": 1,
+        "task_rank": "73dc87bb1a4166217bfe3f0a8eb0c1c714df886fc09c61f3ac35cedcc94ef460",
+        "prompt_rank": "039bdac8360bf6a8ec339f6d1d869898d32a7db8bea8f1e6ea708ab8ad9c5829"
+      },
+      {
+        "id": "train_qa_long_020",
+        "task": "qa",
+        "length_bucket": "long",
+        "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_qa_long_020.txt",
+        "selection_index": 2,
+        "task_rank": "8f55790402144782ee813a4579b734846154ec38376ddab73f25513cee2f0b5c",
+        "prompt_rank": "05c24457b61682f28c37407685b94973315d91870312b1ec1466a73fd4788619"
+      },
+      {
+        "id": "train_programming_short_015",
+        "task": "programming",
+        "length_bucket": "short",
+        "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_programming_short_015.txt",
+        "selection_index": 3,
+        "task_rank": "a43635c9e25da93d02ac4f1317af367e4627b8177f6434f5d99007e7b55eeb80",
+        "prompt_rank": "004f59e5da191a7cbab9cf0a70397bfa66b09d56d42045332d9ee77454bdff83"
+      },
+      {
+        "id": "train_translation_long_014",
+        "task": "translation",
+        "length_bucket": "long",
+        "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_translation_long_014.txt",
+        "selection_index": 4,
+        "task_rank": "f5cac1e5c89a53147a0bf01e067b0697ce43a639b11525a78ed3dbf849b9799f",
+        "prompt_rank": "02281e2c46c1d3ffb78972cad7b9cb18fd573088096ec216e698c621248679d4"
+      },
+      {
+        "id": "train_summarization_medium_016",
+        "task": "summarization",
+        "length_bucket": "medium",
+        "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_summarization_medium_016.txt",
+        "selection_index": 5,
+        "task_rank": "f6a58689a559b086aeb84d5062bd3a535008d5a71268b7244992f432cee2c517",
+        "prompt_rank": "03bb4677a6fd34cb6c1e3420290b9f763059d27245baf9c1d3cef491f01c0e4a"
+      },
+      {
+        "id": "train_mathematics_medium_028",
+        "task": "mathematics",
+        "length_bucket": "medium",
+        "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_mathematics_medium_028.txt",
+        "selection_index": 6,
+        "task_rank": "5b299af344576b6f025a40171b496d561d31fb9386fcc01649490caebd5c3709",
+        "prompt_rank": "0e5d99beb49215bd75ae907f8b221bde9656318921bbe4dec837288b897fcf2d"
+      },
+      {
+        "id": "train_long_context_medium_016",
+        "task": "long_context",
+        "length_bucket": "medium",
+        "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_long_context_medium_016.txt",
+        "selection_index": 7,
+        "task_rank": "73dc87bb1a4166217bfe3f0a8eb0c1c714df886fc09c61f3ac35cedcc94ef460",
+        "prompt_rank": "08cfa8bcccd565230405047cf7366fa23c3857828621e456c7d955cc0603a5cd"
+      }
+    ],
+    "new_heldout_claim": false,
+    "prompt_tokens_cap": 128,
+    "decode_steps": 8,
+    "all_layers": true,
+    "threads_per_process": 8,
+    "max_concurrent_models": 2,
+    "tokenization": "Use llama_tokenize on raw prompt bytes, add_special=true, parse_special=true; no new chat-template wrapping. Record tokenizer/model IDs, full token length and retained tokens. Keep first min(128,N) token IDs including source tokenizer BOS; no EOS insertion/removal beyond tokenizer semantics. Short-prefix screening only, not long-context evaluation.",
+    "sampling": "Greedy argmax with deterministic smallest-token-ID tie; no random sampling. Process retained prefill, then choose and feed 8 greedy tokens, including EOS/EOG if selected (fixed-step diagnostic, no semantic early stop). Record actual steps and tokens.",
+    "primary_scoring": "Autoregressive decode steps only; prefill diagnostics separately. Separate routed, shared, and dense FFN classes and layer/token/expert counts."
+  },
+  "reference": "CPU raw-W8 row-scaled FFN with dynamic A8 inputs, I64 integer dot and the existing F32 scale_output contract throughout prefill and decoding. GGUF supplies original non-FFN tensors. This is not original-GGUF numerical equivalence and not a physical AiF run. All target FFNs are canonicalized, including DeepSeek layer0 dense and layers1..26 routed plus the actual merged shared branch of I=2816. Shared amax is over the real merged branch, not split into two metadata experts. OLMoE all layers routed. Preserve non-FFN tensors. Verify every target hook and all prefilling/decode coverage; fallback cannot silently count as canonical.",
+  "primary_activation_quantizer": {
+    "down_input_bits": 8,
+    "qmax": 127,
+    "rounding": "C++ std::round of F32 quotient; ties away; same finite/underflow rules as reference"
+  },
+  "shadow_quantizers": {
+    "bits": [
+      6,
+      4
+    ],
+    "qmax": [
+      31,
+      7
+    ],
+    "scope": "post-hoc diagnostics on primary reference activations only; no free-running W8A6/W8A4 quality/speed claim"
+  },
+  "primary_bounds": [
+    "integer global Cauchy B=isqrt(W2*X2)",
+    "integer block-L2, width128, sum of block isqrts and min global bound",
+    "gate-dot-conditioned integer interval using G,V,C,X,d and 128-bit checked arithmetic; raw gate dot treated as explicit oracle capability"
+  ],
+  "secondary_deflation": {
+    "enabled": true,
+    "coordinates": 16,
+    "fit_rule": "Per model/layer top16 sum of actual q_x[j]^2 from first4 TRAIN jobs, decode8 positions ONLY; each common layer/token input counts ONCE, not duplicated across selected or shared experts. Ties by coordinate ID. Freeze coordinates before scoring last4; no prefill energy.",
+    "report_fit_and_last4_separately": true,
+    "rule": "exact contribution on stored coordinates + residual L2 bound; metadata bytes and host work reported"
+  },
+  "witnesses": [
+    {
+      "name": "true_amax_oracle",
+      "purpose": "optimistic upper envelope; free witness and metadata compute are explicitly unavailable runtime assumptions"
+    },
+    {
+      "name": "fixed_first_up_page",
+      "purpose": "paid causal policy; original contiguous rows only, seed rows never counted as skipped",
+      "policy": "Fixed original row-major Up page at logical offset0, seed rows=floor(16384/H); pilot H2048 => first8 complete rows. Partial/padding rows and any crossing explicitly tracked. Single16KiB witness policy used for both16KiB and hypothetical4KiB opportunity diagnostics. Always pay entire seed page and force all its rows read, even h==0; do not label it a64KiB four-plane wave.",
+      "attribution": "Compute separate baseline h==0 skip mask and candidate (h==0 OR certified) mask with entire seed page forced READ. Compare complete-unit counts from each mask, including lost h==0 opportunities in paid seed. Free true_amax oracle is a separate optimistic table."
+    }
+  ],
+  "controls": [
+    "full W8A8 dense",
+    "full GU plus exact post-A8 zero sparse Down, with identical available layout/hardware",
+    "gate exactly zero after actual GGML activation, no witness/bound, plus exact post-A8 zero Down",
+    "same scalar/page actions with metadata and stage costs exposed; stronger general sparse/approximate gate prior required before a positive paper claim"
+  ],
+  "metrics": [
+    "all operator/model/layer/token/expert coverage and finite checks",
+    "Every claimed primary zero checked against actual reference q8 and unchanged per-expert amax/scale bits after removal; q6/q4 shadows against respective own quantizers.",
+    "true-zero versus extra certificate-zero counts, excluding already exact gate zeros",
+    "Original-order complete logical4KiB/16KiB read-unit opportunities, two full masks with witness forced read, padding/cross-row policy explicit.16KiB is nominal AiF,4KiB hypothetical hardware extension; neither is native wave/latency.",
+    "Optimistic coefficient-work ratios with strong-baseline denominator; Down savings ideal per-coefficient d only unless physical layout proved. No native latency label.",
+    "norm/conditional/deflation metadata footprint and operation counts",
+    "source/model/collector hashes and wall-time logs",
+    "Report physical dims and pooled row-byte denominators separately from prompt/class ratio means. Equalprojection coefficient-work comparisons never imply native delay bounds."
+  ],
+  "decision": "Prespecified decisive bounded negative: on BOTH models, under free true-amax oracle and the per-row minimum of all primary conservative bounds, decode pooled additional gross Up weight-BYTES skip (sum skipped row bytes / sum selected Up bytes; additionally report prompt means, but no unweighted ratio averaging) beyond exact gate-zero <=1%, and ZERO additional complete16KiB unit opportunities versus gate-zero control. Secondary deflation is evaluated on last4 separately; decisive negative requires it also satisfy these limits. This retires this bound/reference performance regime only (ideal extra equal-projection dense-FFN coefficient saving <=0.334% even before costs), not all certificates/all models. Any larger, mixed, or only page-negative result is inconclusive and requires same-round follow-up protocol before new data. Positive scalar headroom is not speedup/submission success. User10% flag is not a hard fail threshold.",
+  "not_authorized_by_time_alone": [
+    "candidate code generation",
+    "weight/activation probes",
+    "candidate runtime experiments"
+  ],
+  "required_before_launch": [
+    "at least 1800 seconds substantive candidate thinking",
+    "Sol/Gemini cross review and critic approval for bounded test",
+    "final protocol/source freeze before actual candidate data are read"
+  ],
+  "floating_contract": {
+    "gate": "Call pinned ggml_vec_silu_f32 at full original I length with same ISA/actual gate; compare to actual fused graph product. A compressed subset or unrelated scalar exp is invalid. If graph differs, fallback and report.",
+    "certificate": "B integer conservative bound; U=scale_output(B,sw,sx) with exact canonical operation order; Ba=F32(abs(actual_h)*U); sL=F32(L/Qmax); finite positive sL, Ba<L, F32(Ba/sL)<0.5 required. L0/nonfinite/underflow/unsupported FTZ fallback. Verify claimed zeros, amaxbits and scale bits. A6/A4 shadow tested against own q6/q4, never against q8.",
+    "environment": "Record compiler version, ISA, optimization -fno-fast-math -ffp-contract=off, F32 rounding mode and FTZ/DAZ. Check integer overflow before128bit products; exact integer sqrt/directed checked intervals; conditional G=0 or invalid Gram falls back to global bound."
+  },
+  "repair_policy": "CLI/build/assertion/tooling bugs are repaired and retried within same experimental round. A numerical correctness bug invalidates that run, not scientific method failure; advance only on completed scientific negative after critic review.",
+  "page_model": "Logical opportunity diagnostic: each expert Up matrix independently aligned to the stated unit, original contiguous row-major I8 weights, last unit padded and paid unless all real rows skippable. Count all intersecting rows if a row crosses a page. No claimed four-plane/native placement. This assumption is an optimistic opportunity bound, not an existing physical mapping.",
+  "frozen_at_utc": "2026-11-02T19:59:57.514006+00:00",
+  "critic_reviewed_draft_sha256": "d429210585c6c2ec3342ece41b00e8002cf0c467eca8709bc243f9e1e13cff88"
+}

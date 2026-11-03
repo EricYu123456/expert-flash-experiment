@@ -1,0 +1,102 @@
+{
+  "audit_date": "2026-11-02",
+  "policy": "Primary publications, author repositories, institutional records and patent text. Publication metadata is not treated as full-paper access. No outside performance number is used to calibrate the placement experiment.",
+  "sources": [
+    {
+      "id": "3dfpim_official_artifact",
+      "title": "3D-FPIM official artifact",
+      "year": 2023,
+      "publication_context": "Artifact for MICRO 2022 paper; audited repository commit last authored in May 2023",
+      "url": "https://github.com/SNU-HPCS/3D-FPIM",
+      "commit": "bd17a3a3c7a6a2ef98beb7a5379e2110f94df706",
+      "local_path": "../3dfpim-audit/upstream",
+      "read_depth": "README and complete compiler paths for matrix construction, placement, movement insertion, scheduling, register allocation and code serialization; pertinent NVSim geometry/decoder/precharger/capacitor paths; quantized linear implementation. Compiler and NVSim built; original and adapted static traces generated. No public numerical instruction executor found.",
+      "evidence": [
+        "common.h:128x128x64-depth MVMU, one MVMU/core, 24 cores/tile, maximum 224 tiles.",
+        "operations.cpp:526-579 builds each MVM group at depths 0 through nStack-1; isLast marks its final MVM.",
+        "codegen.cpp:129-158 serializes depth, stacks, precision, slideId and isLast; line34 states binary ABI is TODO.",
+        "regalloc.cpp:248-254 treats non-last MVMs as not writing a register.",
+        "linearizer.cpp:190-245 MVM guard derives from last input load; not an accumulator reset definition.",
+        "include/3dfpim.h:245-258 declares ModelInstance.bind/generateData; corresponding implementation not found.",
+        "Cap.cpp models area/energy, not execution state or clear signals. SubArray.cpp bitline-discharge comments do not establish integrator reset semantics."
+      ],
+      "inference": "Compiler depth fields permit a plausible software offset representation, but independent nonzero-depth groups, weight programming and physical accumulator reset remain unverified. Absence of an adapter does not prove new hardware is required.",
+      "maturity": "Published simulated architecture, public compiler/circuit model; not manufactured hardware or a complete runnable numerical chip model."
+    },
+    {
+      "id": "3dfpim_paper_access_boundary",
+      "title": "3D-FPIM: An Extreme Energy-Efficient DNN Acceleration System Using 3D NAND Flash-Based In-Situ PIM Unit",
+      "year": 2022,
+      "venue": "MICRO 2022, pp.1359-1376",
+      "doi": "10.1109/MICRO56248.2022.00093",
+      "url": "https://ieeexplore.ieee.org/document/9923791",
+      "author_url": "https://hunjunlee.github.io/",
+      "institution_url": "https://hpcs.snu.ac.kr/research/ai-acceleration-system/",
+      "institution_metadata_url": "https://snu.elsevierpure.com/en/publications/3d-fpim-an-extreme-energy-efficient-dnn-acceleration-system-using/",
+      "read_depth": "Primary author/lab publication entries and institutional abstract/metadata only. Original full paper not obtained. Author homepage repository recursive tree has no paper PDF. MICRO2022 official program lists the session without paper/talk files. IEEE public page requires JavaScript challenge. IDEC listing confirms title but no accessible full paper obtained.",
+      "not_claimed": "No original-paper figure, page, ADC-reset signal, random-depth latency or programmer contract is cited as read."
+    },
+    {
+      "id": "ibm_moe_tiers",
+      "title": "Function-based activation of memory tiers",
+      "year": 2024,
+      "type": "Primary patent application",
+      "publication": "US20240086682A1",
+      "published": "2024-03-14",
+      "priority_and_filed": "2022-09-13",
+      "grant": "US12743604B2",
+      "grant_date": "2026-09-22",
+      "authors": ["Julian Roettger Buechel", "Manuel Le Gallo-Bourdeau", "Irem Boybat Kara", "Abbas Rahimi", "Abu Sebastian"],
+      "assignee": "IBM",
+      "url": "https://patents.google.com/patent/US20240086682A1/en",
+      "official_grant_pdf": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/12743604",
+      "application_pdf": "https://patentimages.storage.googleapis.com/c8/71/1c/39789a4bd9cd1a/US20240086682A1.pdf",
+      "read_depth": "Application abstract; detailed description associated with Figures1-3,8A/B,10A/B; claims1-17. Official grant29-page PDF downloaded and cover visually inspected to verify grant/date, not read in full.",
+      "evidence": "Description explicitly includes 3D NAND as a possible nonvolatile substrate. Different experts may occupy different tiers of the same physical tile, may span tiers/tiles, and are dynamically selected by expert index/wordline circuitry. Selected experts execute successively; converted outputs are gate-scaled and accumulated. Figures8 and10 address multiple selected experts.",
+      "inference": "The concept of exploiting inactive depth to co-store and select MoE experts is direct prior art. No learned anti-coactivation placement algorithm was identified in the read portions. Patent architecture capability is not evidence that 3D-FPIM implements its tier-selection contract.",
+      "code": "No runnable artifact identified in this source.",
+      "legal_scope": "Technical prior-art comparison only; no patent validity or infringement opinion."
+    },
+    {
+      "id": "3dacortex_preprint",
+      "title": "3D-aCortex: An Ultra-Compact Energy-Efficient Neurocomputing Platform Based on Commercial 3D-NAND Flash Memories",
+      "year": 2019,
+      "version": "arXiv1908.02472; PDF header August2019,2nd revision; journal metadata not independently audited this turn",
+      "authors": ["Mohammad Bavandpour", "Shubham Sahay", "Mohammad Reza Mahmoodi", "Dmitri B. Strukov"],
+      "url": "https://arxiv.org/abs/1908.02472",
+      "pdf": "https://arxiv.org/pdf/1908.02472",
+      "read_depth": "Sections2.1-2.2 and4.1-4.3; relevant Figures7-9 captions and controller description. Not all device experiments or quantitative results.",
+      "evidence": "Section2.1 explicitly resets capacitor voltages before an operation. Section2.2 selects an arbitrary memory layer, applying inputs through BSLs; the sweep phase uses a designated layer. Section4.2 defines Vreset-connected capacitor pass gates, layer selection and temporal partial-output accumulation. Section4.3 quantizes/reshapes kernels and performs randomized-order greedy 3D weight packing, searching already-used layers before allocating another.",
+      "inference": "Strong dense-kernel depth-packing prior and a published backend with clearer reset/select semantics. It does not establish 3D-FPIM's missing contract; its reserved sweep layer and precision differ.",
+      "code": "The manuscript describes a software framework. No public author simulator repository verified in this audit.",
+      "maturity": "Circuit/system simulations of a proposed processor using commercial NAND array technology; not a commercial inference chip."
+    },
+    {
+      "id": "shim_yu_2021",
+      "title": "Technological Design of 3D NAND-Based Compute-in-Memory Architecture for GB-Scale Deep Neural Network",
+      "year": 2021,
+      "venue": "IEEE Electron Device Letters42(2):160-163, February2021",
+      "doi": "10.1109/LED.2020.3048101",
+      "authors": ["Wonbo Shim", "Shimeng Yu"],
+      "url": "https://pure.seoultech.ac.kr/en/publications/technological-design-of-3d-nand-based-compute-in-memory-architect/",
+      "author_tutorial": "https://www.aspdac.com/aspdac2024/archive/pdf/T1-1.pdf",
+      "read_depth": "Institutional abstract/metadata only for original four-page article. Official author ASP-DAC2024 tutorial slide36, zero-based PDFpage35, inspected; it explicitly diagrams Google's MoE experts and cites this EDL paper.",
+      "evidence": "The tutorial associates NAND capacity with a multi-expert model and shows input buffer, wordline selectors, bitline MUX/ADC, adder/shifter and output buffer.",
+      "inference": "Earlier direct NAND/MoE context. Fine-grained expert-to-depth mapping and numerical isolation cannot be inferred from the abstract/tutorial figure alone.",
+      "not_claimed": "Original paper fulltext or a runnable author simulator was not obtained. Online2020 DOI does not change issue year2021."
+    },
+    {
+      "id": "nitro_2026",
+      "title": "NITRO: High-Performance 3D NAND Flash-Based In-Storage Computing with Enhanced Activation Dataflow",
+      "year": 2026,
+      "version": "arXiv2608.11920v1, submitted2026-08-12; manuscript says extended DATE2026 paper",
+      "authors": ["Sanghun Shin", "Sangyeon Kim", "Gisan Ji", "Sungju Ryu"],
+      "url": "https://arxiv.org/abs/2608.11920",
+      "pdf": "https://arxiv.org/pdf/2608.11920",
+      "read_depth": "Abstract, introduction, background and architecture overview through SectionIII.A; text search for relevant 3D-FPIM references. No full architecture/circuit audit.",
+      "evidence": "Describes 3D-FPIM as analog NAND-PIM and identifies its quantization-aware conversion and low-power decoder. Proposes distributed intra-plane mapping and activation buffering as architecture changes.",
+      "inference": "Useful recent physical-dataflow prior; this secondary description of 3D-FPIM does not fill its reset/programmer semantics. NITRO's new architecture cannot be inserted into the present backend as an existing instruction.",
+      "not_claimed": "No NITRO code, numerical accuracy result, or timing calibration is asserted from the portions read."
+    }
+  ]
+}

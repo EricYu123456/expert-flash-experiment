@@ -1,0 +1,143 @@
+{
+  "status": "sealed_small_screen_no_go_for_expansion",
+  "created_utc": "2026-11-01T19:24:06.875788+00:00",
+  "verdict": "No mixed profile survivor in the requested screen. Granite/Qwen have zero gain against the stronger fixed-width controls. Granite4 has 0.0020665% raw search gain, but remains all-g12, so allowing mixed profiles contributes zero. Do not expand or claim global impossibility from this coordinate-descent screen.",
+  "protocol": "32 original train prompts x first64 decode steps. Granite4 first3layers, Granite/Qwen first2layers, both GU/down. No test routes, weights, model inference or VM access.",
+  "profiles": "All widths1..16, 16cyclicwindows, floor/ceil complete row counts. No width divisibility shortcut. Include wave_template rotations. Every expert retains one complete weight copy; no replication or changed numerical row dot products.",
+  "controls": "Read and snapshot moe agent matched-budget strong same-g winners. Independently refit fixed-width overlapping cyclic masks and the fixed wave-template family. Mixed seeds include original main, strong same-g, best fixed family and ALL minimum-work fixed-width local optima (including coarse g1), plus wave-template local optima. Every run has the same32-pass cap; all reached a strict coordinate local optimum.",
+  "search_budget_caveat": "The mixed family receives more total candidate evaluations because its menu and number of starts are larger. This favors detecting mixed gains. A uniform winner is explicitly also a feasible fixed-profile control; its different search path is not credited to mixed geometry. No equal-total-proposal novelty claim is made.",
+  "exact_cost": "For every proposed whole-row profile recompute per-chip page/wave/run, input presence or expert-specific vector, output rows, channel sums and host transfer. C++ weighted objectives match independent NumPy evaluation over all unique events; scalar selected routes also agree. NAND28us/wave dominates6.4GB/s for <=4pages/wave.",
+  "dependence": "GU -> host complete-row reassembly/activation -> down remains mandatory. No local activation, free cross-command vector retention, fractional row or new MAC.",
+  "g4_down_granularity": "Widths3/4/6/12 all have exactly12waves/expert; individual tile grains4/3/2/1 respectively and native commands3/4/6/12. These profiles were included as candidates and as starting families. They did not yield a mixed winning solution.",
+  "bound_limit": "The saved profile_work_command_relaxation is deliberately optimistic: route-adaptive profiles, ideal aggregate-work balance and no ONFI fanout. It does not enforce indivisible job bin packing or one fixed layout across routes. Its5-wave G4down headroom is NOT a feasible fixed-layout certificate or a no-go proof.",
+  "capacity": "Final complete-model virtual addresses were reparsed: every tensor row appears once and every chip/plane range is disjoint.20GiB/chip is a research scenario proposed by the coordinating root agent; it is not a direct user constraint or measured hardware capacity. Results also fit if the assumed20GiB is TLC raw. Model useful/16 is a namespace comparison reference, not an equal physical-chip quota. Some block tails grow; reservation is reported separately from payload. Only routed I8 FFN payload is counted; scales/other tensors/FTL are excluded.",
+  "no_global_claim": "Two-expert block moves, unrestricted masks, global optimization and other layers were not exhausted. The coordinating root agent set a below1% screening gate for this branch; this was not a human instruction to stop research. The observed attributable mixed-profile gain is zero.",
+  "models": [
+    {
+      "model": "granite4tiny",
+      "layers": [
+        0,
+        1,
+        2
+      ],
+      "phases": 6,
+      "mixed_starts": 41,
+      "fixed_profile_controls": 99,
+      "maximum_passes_used": 19,
+      "all_searches_converged": true,
+      "all_winners_uniform_profile_family": true,
+      "training_totals_ns": {
+        "original_main_ns": 1451995.875,
+        "unbalanced_disjoint_ns": 1539197.53125,
+        "chosen_ns": 1450160.96875,
+        "best_fixed_width_ns": 1450190.9375,
+        "strongest_per_phase_reference_ns": 1450190.9375,
+        "gain_vs_strongest_reference_fraction": 2.0665382209350547e-05,
+        "single_profile_feasible_control_ns": 1450160.96875,
+        "attributable_mixed_profile_gain_fraction": 0.0
+      },
+      "useful_bytes_unchanged": true,
+      "inventory": {
+        "original_pages": 368640,
+        "new_pages": 368640,
+        "original_waves": 92160,
+        "new_waves": 92160,
+        "original_native_commands": 51200,
+        "new_native_commands": 51200,
+        "original_reserved_lsb_gib": 5.625,
+        "new_reserved_lsb_gib": 5.71875,
+        "new_max_chip_reserved_lsb_gib": 0.36328125,
+        "new_max_chip_covered_tlc_raw_gib": 1.08984375,
+        "maximum_useful_to_equal_share_ratio": 1.0006944444444446
+      }
+    },
+    {
+      "model": "granite",
+      "layers": [
+        0,
+        1
+      ],
+      "phases": 4,
+      "mixed_starts": 20,
+      "fixed_profile_controls": 64,
+      "maximum_passes_used": 13,
+      "all_searches_converged": true,
+      "all_winners_uniform_profile_family": true,
+      "training_totals_ns": {
+        "original_main_ns": 815740.890625,
+        "unbalanced_disjoint_ns": 801363.9375,
+        "chosen_ns": 801363.9375,
+        "best_fixed_width_ns": 801363.9375,
+        "strongest_per_phase_reference_ns": 801363.9375,
+        "gain_vs_strongest_reference_fraction": 0.0,
+        "single_profile_feasible_control_ns": 801363.9375,
+        "attributable_mixed_profile_gain_fraction": 0.0
+      },
+      "useful_bytes_unchanged": true,
+      "inventory": {
+        "original_pages": 73728,
+        "new_pages": 73728,
+        "original_waves": 18432,
+        "new_waves": 18432,
+        "original_native_commands": 18432,
+        "new_native_commands": 17920,
+        "original_reserved_lsb_gib": 1.125,
+        "new_reserved_lsb_gib": 1.21875,
+        "new_max_chip_reserved_lsb_gib": 0.08203125,
+        "new_max_chip_covered_tlc_raw_gib": 0.24609375,
+        "maximum_useful_to_equal_share_ratio": 1.0130208333333333
+      }
+    },
+    {
+      "model": "qwen3",
+      "layers": [
+        0,
+        1
+      ],
+      "phases": 4,
+      "mixed_starts": 28,
+      "fixed_profile_controls": 66,
+      "maximum_passes_used": 23,
+      "all_searches_converged": true,
+      "all_winners_uniform_profile_family": true,
+      "training_totals_ns": {
+        "original_main_ns": 2260507.703125,
+        "unbalanced_disjoint_ns": 2243035.046875,
+        "chosen_ns": 2243035.046875,
+        "best_fixed_width_ns": 2243035.046875,
+        "strongest_per_phase_reference_ns": 2243035.046875,
+        "gain_vs_strongest_reference_fraction": 0.0,
+        "single_profile_feasible_control_ns": 2243035.046875,
+        "attributable_mixed_profile_gain_fraction": 0.0
+      },
+      "useful_bytes_unchanged": true,
+      "inventory": {
+        "original_pages": 1769472,
+        "new_pages": 1769472,
+        "original_waves": 442368,
+        "new_waves": 442368,
+        "original_native_commands": 147456,
+        "new_native_commands": 147456,
+        "original_reserved_lsb_gib": 27.0,
+        "new_reserved_lsb_gib": 27.09375,
+        "new_max_chip_reserved_lsb_gib": 1.69921875,
+        "new_max_chip_covered_tlc_raw_gib": 5.09765625,
+        "maximum_useful_to_equal_share_ratio": 1.0003255208333333
+      }
+    }
+  ],
+  "editorial_revision": {
+    "kind": "editorial source-attribution correction only; no search rerun",
+    "updated_utc": "2026-11-01T19:34:54.423057+00:00",
+    "screening_gate_source": "The coordinating root agent set the below1% screen gate; the human user did not request stopping research.",
+    "capacity_scenario_source": "The coordinating root agent proposed20GiB/chip as a research scenario; no direct human capacity requirement or measured hardware specification is asserted."
+  },
+  "search_source_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_mixed_profiles.py": "96f47049f2b36555cda3473663a08bf682ae66efb45f824eac4f50cfdf2605f1",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_mixed_profiles.cpp": "6398ae68c9fd556ac8c8e2a825e562b1797e8ed63cf9cf80352aa276aaf0534d"
+  },
+  "editorial_source_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_mixed_profiles.py": "7be595bc9fde5b0abc0dc9780e17a02f204226887be0855c9b238406f948ead0",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_mixed_profiles.cpp": "6398ae68c9fd556ac8c8e2a825e562b1797e8ed63cf9cf80352aa276aaf0534d"
+  }
+}

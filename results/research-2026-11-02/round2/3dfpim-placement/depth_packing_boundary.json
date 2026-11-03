@@ -1,0 +1,42 @@
+{
+  "status": "unverified existing-hardware composition; not declared impossible or hardware extension; capacity novelty alone fails a stronger cross-layer baseline",
+  "request": "Pack sixteen experts, four down depths each, into one existing 64-depth MVMU with same output-row range.",
+  "positive_evidence": [
+    "Original mvm text opcode contains depth, stacks, precision, isLast; source forms depth-serial accumulated matrix operations.",
+    "NVSim LPDecoder models existing wordline reuse/shift; no new context is requested by sequential expert GEMVs."
+  ],
+  "missing_specific_contract": [
+    "Whether an MVM group can start at nonzero depth while selecting only four physical depths.",
+    "Whether isLast performs ADC readout and clears the analog accumulator, or reset is implicitly tied to depth zero / sequence start.",
+    "How multiple logical matrices are programmed into depth-offset ranges of one MVMU and selected by the weight binary ABI.",
+    "How numerical QA-ADC scaling/precision depends on a partial depth range."
+  ],
+  "read_depth": "Full public compiler opcode construction/serialization, register allocation references, relevant NVSim timing/config source. Original MICRO2022 full paper still not obtained; author homepage and HPCS primary publication pages provide metadata but no visible preprint link. Detailed source and access boundaries are in depth_sources.json.",
+  "why_no_conclusion": "Public repository has no instruction executor or numerical accumulator/reset implementation. isLast references are compiler graph/register-allocation metadata and code serialization, insufficient to infer physical clear semantics.",
+  "experiment_scope": "Current mapping study conservatively retains original one ConstantMatrixTile per MVMU/core. It does not claim that this policy is a fundamental hardware capacity bound or that depth-offset packing would require new hardware.",
+  "why_no_numerical_offset_demo": "A CPU interpreter that clears on isLast would choose the missing semantics, not verify the published hardware. Reset-on-isLast and reset-on-depth-zero both agree with the compiler's existing zero-start groups, yet can disagree when a new independent group starts at a nonzero depth. No hardware proof or emulated reset claim is made.",
+  "minimal_required_existing_contract": [
+    "Absolute selected WL/depth address is independent of the group's logical first/last index and ADC scale.",
+    "Independent MVM groups reset or otherwise isolate accumulation even when the first absolute depth is nonzero.",
+    "Weight programming associates a matrix's local column chunk with an arbitrary disjoint physical depth range, while retaining one original accumulator and one input register bank per core.",
+    "A legal existing control sequence and its random-depth select/clear cost are documented; codegen field values alone are insufficient."
+  ],
+  "strong_baseline_capacity_counterexample": {
+    "file": "depth_capacity_audit.json",
+    "reproduce": "python3 audit_depth_capacity.py",
+    "assumption": "Conditional geometry only, single-token DNN layers execute sequentially; native absolute depth/reset/programming remains unverified.",
+    "granite3": "A route-oblivious cross-DNN-layer packing uses exactly1152 cores, saturates all73728/64 slots, and has at most one tile per DNN layer/phase in a core. GU and down core pools are disjoint. No anti-coactivation learning is needed to attain capacity floor or avoid same-phase route collisions.",
+    "granite4tiny": "Expert geometry alone needs at least5760 cores, exceeding original224*24=5376. Depth packing does not establish a full40-layer fit."
+  },
+  "direct_prior": [
+    "3D-aCortex arXiv1908.02472 Section4.3 already packs kernels in the third dimension; Sections2.1,2.2,4.2 explicitly describe layer selection and capacitor reset in its own architecture.",
+    "IBM US20240086682A1, published2024-03-14, explicitly maps different experts to different tiers, includes3D NAND as an embodiment, and sequentially executes selected experts with gated output accumulation. This does not prove the same control exists in3D-FPIM."
+  ],
+  "decision": "Do not claim native depth co-packing established, do not claim MoE-tier storage novel, and do not credit capacity fit over the one-tile-per-core compiler policy as a paper contribution. A future experiment first needs the native contract, then a resource/workload advantage over route-oblivious cross-layer dense packing and conventional communication-aware packing at identical depth capacity.",
+  "primary_sources": [
+    "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/codegen.cpp#L129",
+    "https://github.com/SNU-HPCS/3D-FPIM/blob/bd17a3a3c7a6a2ef98beb7a5379e2110f94df706/3DFPIM-Compiler/src/operations.cpp#L526",
+    "https://hpcs.snu.ac.kr/research/ai-acceleration-system/",
+    "https://hpcs.snu.ac.kr/publications/"
+  ]
+}

@@ -1,0 +1,2730 @@
+{
+  "schema_version": 1,
+  "upstream_commit": "bd17a3a3c7a6a2ef98beb7a5379e2110f94df706",
+  "probe": "fixed two-matrix inventory, route-conditioned static operations",
+  "weight_shape_each": [
+    512,
+    512
+  ],
+  "experts": 2,
+  "original_core_parameters_unchanged": true,
+  "passes": 18,
+  "interpretation": {
+    "proved": "Unmodified row/column/random compiler emits selected-only MVMs with invariant matrix tile/core/depth assignment across route masks and shared/private inputs.",
+    "movement_units": "Report labels say bytes; implementation increments by vector length. Record original labels without asserting an undisclosed element-to-byte ABI.",
+    "not_proved": [
+      "numerical MVM correctness",
+      "weight programming binary",
+      "native host runtime and dispatch overhead",
+      "cycle or energy timing",
+      "KaHIP fixed-layout trace generation",
+      "multiple expert matrices in one MVMU depth range"
+    ]
+  },
+  "source_sha256": {
+    "route_trace_probe.cpp": "051515e9488131b11fed14001774c61d01e703d4150ad4e5b4538121af02d61b",
+    "run_route_trace_probe.py": "6af99af08615dfff53787f18db0c821d5da86b600e5da0c3d73fda3b9989dd74"
+  },
+  "runs": [
+    {
+      "case": "row-shared-r1",
+      "partition": "row",
+      "input_mode": "shared",
+      "route_mask": 1,
+      "exit_code": 0,
+      "mapping": {
+        "expert0[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert0[3][0]": [
+          2,
+          3,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core1.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "row-shared-r2",
+      "partition": "row",
+      "input_mode": "shared",
+      "route_mask": 2,
+      "exit_code": 0,
+      "mapping": {
+        "expert1[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core4.3dfpim": "de3b8f5174f4bae872876aa2e98251a69a6b50391d480c8a5a14de9602e68071",
+        "toy-tile2-core5.3dfpim": "459f046c04f0bff56f1fe7439a839cb21c084b54e0314a16559153aa884660e8",
+        "toy-tile2-core6.3dfpim": "68f202634e93e8e689c942bba35800b3eab13243a2e23bf6ba507175fac3f596",
+        "toy-tile2-core7.3dfpim": "a4b91d7d221ea94b0aacebd4add27a65184186784d8895291861e8c8cb47ad6b",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "row-shared-r3",
+      "partition": "row",
+      "input_mode": "shared",
+      "route_mask": 3,
+      "exit_code": 0,
+      "mapping": {
+        "expert0[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert0[3][0]": [
+          2,
+          3,
+          0
+        ],
+        "expert1[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 32,
+      "report_labels_and_values": {
+        "load bytes": 4096,
+        "store bytes": 1024,
+        "load + store bytes": 5120,
+        "send bytes": 1536,
+        "receive bytes": 1536,
+        "send + receive bytes": 3072,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 48,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "e3ba9afc37a2e3d05ccf7738599a7a628b52b0561cc21189783b66714f419fb2",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "533462fbc9b0571b1235e37ff2d5999ffebe70a264cc991343ccf725c6c67b0b",
+        "toy-tile2-core0.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core1.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core4.3dfpim": "a80a11d37ae8ffece1833be0cd870a02919d8e6410b8c8f82adf87749404027b",
+        "toy-tile2-core5.3dfpim": "a575ec40a7242271be975b8cc116fed7a1b08f0cb8c6826da6a7c3c09051ab8d",
+        "toy-tile2-core6.3dfpim": "a96bed2fd3a52acf78b4897ee1925cd0935b8452db9318f805b9b44c5f34cbe7",
+        "toy-tile2-core7.3dfpim": "77475e56cb753ead0e5d54c797e498621e17ac42c5b423258ac2596d863388ca",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "18a29854d5e4ef22c90b2b4ec460c89fc62f56c403e55a8275bba85d05a413b4"
+      }
+    },
+    {
+      "case": "row-private-r1",
+      "partition": "row",
+      "input_mode": "private",
+      "route_mask": 1,
+      "exit_code": 0,
+      "mapping": {
+        "expert0[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert0[3][0]": [
+          2,
+          3,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core1.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "row-private-r2",
+      "partition": "row",
+      "input_mode": "private",
+      "route_mask": 2,
+      "exit_code": 0,
+      "mapping": {
+        "expert1[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core4.3dfpim": "de3b8f5174f4bae872876aa2e98251a69a6b50391d480c8a5a14de9602e68071",
+        "toy-tile2-core5.3dfpim": "459f046c04f0bff56f1fe7439a839cb21c084b54e0314a16559153aa884660e8",
+        "toy-tile2-core6.3dfpim": "68f202634e93e8e689c942bba35800b3eab13243a2e23bf6ba507175fac3f596",
+        "toy-tile2-core7.3dfpim": "a4b91d7d221ea94b0aacebd4add27a65184186784d8895291861e8c8cb47ad6b",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "row-private-r3",
+      "partition": "row",
+      "input_mode": "private",
+      "route_mask": 3,
+      "exit_code": 0,
+      "mapping": {
+        "expert0[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert0[3][0]": [
+          2,
+          3,
+          0
+        ],
+        "expert1[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 32,
+      "report_labels_and_values": {
+        "load bytes": 4096,
+        "store bytes": 1024,
+        "load + store bytes": 5120,
+        "send bytes": 2048,
+        "receive bytes": 2048,
+        "send + receive bytes": 4096,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 48,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "0d55c5a9dc2997188ebec2a5235cc7c62a372eb2448bde45561f1ebefbb24f03",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "fce38b3acceab4ac4a9d245bef1b40f030d36444b43d9eb11b06d4d934c9b5c9",
+        "toy-tile2-core0.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core1.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core4.3dfpim": "8ef80a011b8ee08f9613ff5cf4454390876e691f616ba83e6547990adb003886",
+        "toy-tile2-core5.3dfpim": "5d80a9c2243943495a78ebf5361bfd57ba34aaa7dac7798390638d30f02d000a",
+        "toy-tile2-core6.3dfpim": "e0e02d3a12915fbc82428af8d4ec6fe1b7bb0b20e7838967fae5444ab91aca7a",
+        "toy-tile2-core7.3dfpim": "b80bf3e9a56e7b548e692a3bccdec24ed4c61685572b935e8db7c8a0b249a063",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "9d35ce5b7ff105f29bd0450c47c8ff8789d34c8c1f3dc9cc14f86cb51e7d3a5e"
+      }
+    },
+    {
+      "case": "col-shared-r1",
+      "partition": "col",
+      "input_mode": "shared",
+      "route_mask": 1,
+      "exit_code": 0,
+      "mapping": {
+        "expert0[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert0[3][0]": [
+          2,
+          3,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core1.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "col-shared-r2",
+      "partition": "col",
+      "input_mode": "shared",
+      "route_mask": 2,
+      "exit_code": 0,
+      "mapping": {
+        "expert1[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core4.3dfpim": "de3b8f5174f4bae872876aa2e98251a69a6b50391d480c8a5a14de9602e68071",
+        "toy-tile2-core5.3dfpim": "459f046c04f0bff56f1fe7439a839cb21c084b54e0314a16559153aa884660e8",
+        "toy-tile2-core6.3dfpim": "68f202634e93e8e689c942bba35800b3eab13243a2e23bf6ba507175fac3f596",
+        "toy-tile2-core7.3dfpim": "a4b91d7d221ea94b0aacebd4add27a65184186784d8895291861e8c8cb47ad6b",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "col-shared-r3",
+      "partition": "col",
+      "input_mode": "shared",
+      "route_mask": 3,
+      "exit_code": 0,
+      "mapping": {
+        "expert0[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert0[3][0]": [
+          2,
+          3,
+          0
+        ],
+        "expert1[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 32,
+      "report_labels_and_values": {
+        "load bytes": 4096,
+        "store bytes": 1024,
+        "load + store bytes": 5120,
+        "send bytes": 1536,
+        "receive bytes": 1536,
+        "send + receive bytes": 3072,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 48,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "e3ba9afc37a2e3d05ccf7738599a7a628b52b0561cc21189783b66714f419fb2",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "533462fbc9b0571b1235e37ff2d5999ffebe70a264cc991343ccf725c6c67b0b",
+        "toy-tile2-core0.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core1.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core4.3dfpim": "a80a11d37ae8ffece1833be0cd870a02919d8e6410b8c8f82adf87749404027b",
+        "toy-tile2-core5.3dfpim": "a575ec40a7242271be975b8cc116fed7a1b08f0cb8c6826da6a7c3c09051ab8d",
+        "toy-tile2-core6.3dfpim": "a96bed2fd3a52acf78b4897ee1925cd0935b8452db9318f805b9b44c5f34cbe7",
+        "toy-tile2-core7.3dfpim": "77475e56cb753ead0e5d54c797e498621e17ac42c5b423258ac2596d863388ca",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "18a29854d5e4ef22c90b2b4ec460c89fc62f56c403e55a8275bba85d05a413b4"
+      }
+    },
+    {
+      "case": "col-private-r1",
+      "partition": "col",
+      "input_mode": "private",
+      "route_mask": 1,
+      "exit_code": 0,
+      "mapping": {
+        "expert0[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert0[3][0]": [
+          2,
+          3,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core1.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "col-private-r2",
+      "partition": "col",
+      "input_mode": "private",
+      "route_mask": 2,
+      "exit_code": 0,
+      "mapping": {
+        "expert1[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core4.3dfpim": "de3b8f5174f4bae872876aa2e98251a69a6b50391d480c8a5a14de9602e68071",
+        "toy-tile2-core5.3dfpim": "459f046c04f0bff56f1fe7439a839cb21c084b54e0314a16559153aa884660e8",
+        "toy-tile2-core6.3dfpim": "68f202634e93e8e689c942bba35800b3eab13243a2e23bf6ba507175fac3f596",
+        "toy-tile2-core7.3dfpim": "a4b91d7d221ea94b0aacebd4add27a65184186784d8895291861e8c8cb47ad6b",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "col-private-r3",
+      "partition": "col",
+      "input_mode": "private",
+      "route_mask": 3,
+      "exit_code": 0,
+      "mapping": {
+        "expert0[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert0[3][0]": [
+          2,
+          3,
+          0
+        ],
+        "expert1[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 32,
+      "report_labels_and_values": {
+        "load bytes": 4096,
+        "store bytes": 1024,
+        "load + store bytes": 5120,
+        "send bytes": 2048,
+        "receive bytes": 2048,
+        "send + receive bytes": 4096,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 48,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "0d55c5a9dc2997188ebec2a5235cc7c62a372eb2448bde45561f1ebefbb24f03",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "fce38b3acceab4ac4a9d245bef1b40f030d36444b43d9eb11b06d4d934c9b5c9",
+        "toy-tile2-core0.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core1.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core4.3dfpim": "8ef80a011b8ee08f9613ff5cf4454390876e691f616ba83e6547990adb003886",
+        "toy-tile2-core5.3dfpim": "5d80a9c2243943495a78ebf5361bfd57ba34aaa7dac7798390638d30f02d000a",
+        "toy-tile2-core6.3dfpim": "e0e02d3a12915fbc82428af8d4ec6fe1b7bb0b20e7838967fae5444ab91aca7a",
+        "toy-tile2-core7.3dfpim": "b80bf3e9a56e7b548e692a3bccdec24ed4c61685572b935e8db7c8a0b249a063",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "9d35ce5b7ff105f29bd0450c47c8ff8789d34c8c1f3dc9cc14f86cb51e7d3a5e"
+      }
+    },
+    {
+      "case": "random-shared-r1",
+      "partition": "random",
+      "input_mode": "shared",
+      "route_mask": 1,
+      "exit_code": 0,
+      "mapping": {
+        "expert0[3][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert0[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core1.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core4.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core6.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core7.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "random-shared-r2",
+      "partition": "random",
+      "input_mode": "shared",
+      "route_mask": 2,
+      "exit_code": 0,
+      "mapping": {
+        "expert1[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          3,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "de3b8f5174f4bae872876aa2e98251a69a6b50391d480c8a5a14de9602e68071",
+        "toy-tile2-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "a4b91d7d221ea94b0aacebd4add27a65184186784d8895291861e8c8cb47ad6b",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "68f202634e93e8e689c942bba35800b3eab13243a2e23bf6ba507175fac3f596",
+        "toy-tile2-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core5.3dfpim": "459f046c04f0bff56f1fe7439a839cb21c084b54e0314a16559153aa884660e8",
+        "toy-tile2-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "random-shared-r3",
+      "partition": "random",
+      "input_mode": "shared",
+      "route_mask": 3,
+      "exit_code": 0,
+      "mapping": {
+        "expert1[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert0[3][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          3,
+          0
+        ],
+        "expert0[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 32,
+      "report_labels_and_values": {
+        "load bytes": 4096,
+        "store bytes": 1024,
+        "load + store bytes": 5120,
+        "send bytes": 1536,
+        "receive bytes": 1536,
+        "send + receive bytes": 3072,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 48,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "e3ba9afc37a2e3d05ccf7738599a7a628b52b0561cc21189783b66714f419fb2",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "533462fbc9b0571b1235e37ff2d5999ffebe70a264cc991343ccf725c6c67b0b",
+        "toy-tile2-core0.3dfpim": "a80a11d37ae8ffece1833be0cd870a02919d8e6410b8c8f82adf87749404027b",
+        "toy-tile2-core1.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "77475e56cb753ead0e5d54c797e498621e17ac42c5b423258ac2596d863388ca",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "a96bed2fd3a52acf78b4897ee1925cd0935b8452db9318f805b9b44c5f34cbe7",
+        "toy-tile2-core4.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core5.3dfpim": "a575ec40a7242271be975b8cc116fed7a1b08f0cb8c6826da6a7c3c09051ab8d",
+        "toy-tile2-core6.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core7.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "18a29854d5e4ef22c90b2b4ec460c89fc62f56c403e55a8275bba85d05a413b4"
+      }
+    },
+    {
+      "case": "random-private-r1",
+      "partition": "random",
+      "input_mode": "private",
+      "route_mask": 1,
+      "exit_code": 0,
+      "mapping": {
+        "expert0[3][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert0[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core1.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core4.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core6.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core7.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "random-private-r2",
+      "partition": "random",
+      "input_mode": "private",
+      "route_mask": 2,
+      "exit_code": 0,
+      "mapping": {
+        "expert1[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          3,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "mvm_instruction_count": 16,
+      "report_labels_and_values": {
+        "load bytes": 2048,
+        "store bytes": 512,
+        "load + store bytes": 2560,
+        "send bytes": 1024,
+        "receive bytes": 1024,
+        "send + receive bytes": 2048,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 24,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "671034af98c5c5dcf018017485f9e2994bfab6dab2141d88f2574c50ff1f1099",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "f06c1d147611af133952673eb04f03609bc7f5d787abc068e3473b1e187011da",
+        "toy-tile2-core0.3dfpim": "de3b8f5174f4bae872876aa2e98251a69a6b50391d480c8a5a14de9602e68071",
+        "toy-tile2-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "a4b91d7d221ea94b0aacebd4add27a65184186784d8895291861e8c8cb47ad6b",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "68f202634e93e8e689c942bba35800b3eab13243a2e23bf6ba507175fac3f596",
+        "toy-tile2-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core5.3dfpim": "459f046c04f0bff56f1fe7439a839cb21c084b54e0314a16559153aa884660e8",
+        "toy-tile2-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "fcce8c3a43228d4eb9f56f28d173d9834402785e5a69139087a07c8e3dd256af"
+      }
+    },
+    {
+      "case": "random-private-r3",
+      "partition": "random",
+      "input_mode": "private",
+      "route_mask": 3,
+      "exit_code": 0,
+      "mapping": {
+        "expert1[0][0]": [
+          2,
+          0,
+          0
+        ],
+        "expert0[3][0]": [
+          2,
+          1,
+          0
+        ],
+        "expert1[3][0]": [
+          2,
+          2,
+          0
+        ],
+        "expert1[2][0]": [
+          2,
+          3,
+          0
+        ],
+        "expert0[0][0]": [
+          2,
+          4,
+          0
+        ],
+        "expert1[1][0]": [
+          2,
+          5,
+          0
+        ],
+        "expert0[2][0]": [
+          2,
+          6,
+          0
+        ],
+        "expert0[1][0]": [
+          2,
+          7,
+          0
+        ]
+      },
+      "active_cores": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "mvm_instruction_count": 32,
+      "report_labels_and_values": {
+        "load bytes": 4096,
+        "store bytes": 1024,
+        "load + store bytes": 5120,
+        "send bytes": 2048,
+        "receive bytes": 2048,
+        "send + receive bytes": 4096,
+        "load bytes from spilling": 0,
+        "store bytes from spilling": 0,
+        "load + store bytes from spilling": 0,
+        "unspilled register accesses": 48,
+        "spilled register accesses": 0
+      },
+      "trace_sha256": {
+        "toy-tile0-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile0.3dfpim": "0d55c5a9dc2997188ebec2a5235cc7c62a372eb2448bde45561f1ebefbb24f03",
+        "toy-tile1-core0.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core1.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core2.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core3.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core4.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core5.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core6.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core7.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile1.3dfpim": "fce38b3acceab4ac4a9d245bef1b40f030d36444b43d9eb11b06d4d934c9b5c9",
+        "toy-tile2-core0.3dfpim": "8ef80a011b8ee08f9613ff5cf4454390876e691f616ba83e6547990adb003886",
+        "toy-tile2-core1.3dfpim": "8eb3a54c64b677e8f35375a4bab10d27eee51b24457006eb26c11bf743f85abf",
+        "toy-tile2-core10.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core11.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core12.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core13.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core14.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core15.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core16.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core17.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core18.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core19.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core2.3dfpim": "b80bf3e9a56e7b548e692a3bccdec24ed4c61685572b935e8db7c8a0b249a063",
+        "toy-tile2-core20.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core21.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core22.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core23.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core3.3dfpim": "e0e02d3a12915fbc82428af8d4ec6fe1b7bb0b20e7838967fae5444ab91aca7a",
+        "toy-tile2-core4.3dfpim": "0a2f2425ca8cbe84ee3ef5e6032c5ecbb81d87ecf1de90dfeed71a98fa12779d",
+        "toy-tile2-core5.3dfpim": "5d80a9c2243943495a78ebf5361bfd57ba34aaa7dac7798390638d30f02d000a",
+        "toy-tile2-core6.3dfpim": "a8e13d7a209c9ba8c5c4f4d5dca6352bc95ec3b9270f13135487c543acf35777",
+        "toy-tile2-core7.3dfpim": "64061d551f7a9bd9c71d9192a4e51a12824196b32329fcf4a6ddc52dc3ff1178",
+        "toy-tile2-core8.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2-core9.3dfpim": "442bd82028a9d967989081849cae8f090f57e83383ee28cfaa16ee75c6b43bbc",
+        "toy-tile2.3dfpim": "9d35ce5b7ff105f29bd0450c47c8ff8789d34c8c1f3dc9cc14f86cb51e7d3a5e"
+      }
+    }
+  ]
+}

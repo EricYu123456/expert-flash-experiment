@@ -1,0 +1,1109 @@
+{
+  "status": "PASS small independent frozen-plan parameter substitution/cost sanity audit",
+  "created_utc": "2026-11-01T22:58:54.587544+00:00",
+  "protocol_sha256": "0c7f878d73b1b5585732ae4e9f59f364b7639b0619f4ca3553598c868d7b0878",
+  "summary_sha256": "2a2c9f1222dc9bdf7228d7f11b7862ce6b0bc6ea1fd73d7e4cca695e88d6312d",
+  "verified_protocol_inputs": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_parameters.py",
+      "expected": "2a26b7a346dcf3c1007bb678baef49b8995f926c4224464d413bd7053d3c9c9f",
+      "actual": "2a26b7a346dcf3c1007bb678baef49b8995f926c4224464d413bd7053d3c9c9f"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_native_parameters.cpp",
+      "expected": "dd35dbeb2af73bc2c26a7a9a1e60c047a43c13b150638960d38c1389ed18a264",
+      "actual": "dd35dbeb2af73bc2c26a7a9a1e60c047a43c13b150638960d38c1389ed18a264"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/native_parameters.so",
+      "expected": "a15f1b89a5747f90c8398e8ff4ec5871b8ba331d2da4d1a42d5dd99023166ff0",
+      "actual": "a15f1b89a5747f90c8398e8ff4ec5871b8ba331d2da4d1a42d5dd99023166ff0"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/native-full48/plans.frozen.json",
+      "expected": "9db047b5335c4d95e45755dc62ee1b545ba97b1119ec39294d09a86299b5e505",
+      "actual": "9db047b5335c4d95e45755dc62ee1b545ba97b1119ec39294d09a86299b5e505"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-trace-audit/external-doc-grounded-stride1-short/external_decode.npz",
+      "expected": "2111de845e4e8938e2158d0fc778f7910c48879184aeb1900759cd764d5f4736",
+      "actual": "2111de845e4e8938e2158d0fc778f7910c48879184aeb1900759cd764d5f4736"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/output-fringe/summary.json",
+      "expected": "275e0033dc4f502757190e39e37e002d7ef7b07c936adcf10bfa3d61e5fd90f1",
+      "actual": "275e0033dc4f502757190e39e37e002d7ef7b07c936adcf10bfa3d61e5fd90f1"
+    }
+  ],
+  "all_240_plan_hashes_match": true,
+  "command_counts_all_96_whole_overlap_plans": [
+    {
+      "layer": 0,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 0,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 1,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 1,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 2,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 2,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 3,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 3,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 4,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 4,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 5,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 5,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 6,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 6,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 7,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 7,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 8,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 8,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 9,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 9,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 10,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 10,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 11,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 11,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 12,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 12,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 13,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 13,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 14,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 14,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 15,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 15,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 16,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 16,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 17,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 17,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 18,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 18,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 19,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 19,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 20,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 20,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 21,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 21,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 22,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 22,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 23,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 23,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 24,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 24,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 25,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 25,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 26,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 26,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 27,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 27,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 28,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 28,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 29,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 29,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 30,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 30,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 31,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 31,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 32,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 32,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 33,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 33,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 34,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 34,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 35,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 35,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 36,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 36,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 37,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 37,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 38,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 38,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 39,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 39,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 40,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 40,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 41,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 41,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 42,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 42,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 43,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 43,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 44,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 44,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 45,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 45,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 46,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 46,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    },
+    {
+      "layer": 47,
+      "case": "overlap_best",
+      "routed_commands_per_expert": 26,
+      "shared_commands": 32,
+      "top10_total": 292
+    },
+    {
+      "layer": 47,
+      "case": "whole_row",
+      "routed_commands_per_expert": 32,
+      "shared_commands": 32,
+      "top10_total": 352
+    }
+  ],
+  "traces_checked": [
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L0.whole_row.command_250.trace.json",
+      "sha256": "5ee4a8ad2f10e3ed0620926bf04f0d6cfa4229463d587be6e1cad712352473f2",
+      "compiled_one_event_matches": true,
+      "command_count": 352,
+      "routed_commands": 320,
+      "shared_commands": 32,
+      "controller_work_ns": 88000,
+      "controller_internal_idle_ns": 1427380,
+      "controller_first_start_ns": 2000,
+      "controller_last_end_ns": 1517380,
+      "tail_after_last_command_ns": 56830,
+      "makespan_ns": 1574210,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 352,
+        "input_channel_reload": 352,
+        "nonpreemptive_native_compute": 352,
+        "output_channel": 352,
+        "output_pcie": 352,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L0.whole_row.command_10000.trace.json",
+      "sha256": "f31cb20f381bb3f1c5f47302e101c57df1d74dd9e864682404e7f9d33af39a2e",
+      "compiled_one_event_matches": true,
+      "command_count": 352,
+      "routed_commands": 320,
+      "shared_commands": 32,
+      "controller_work_ns": 3520000,
+      "controller_internal_idle_ns": 0,
+      "controller_first_start_ns": 2000,
+      "controller_last_end_ns": 3522000,
+      "tail_after_last_command_ns": 28575,
+      "makespan_ns": 3550575,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 352,
+        "input_channel_reload": 352,
+        "nonpreemptive_native_compute": 352,
+        "output_channel": 352,
+        "output_pcie": 352,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L0.whole_row.host_10000.trace.json",
+      "sha256": "20821411ccdbc1715a110b96a8a01a262b9dac0a02bc3b2e2d73a17daf909142",
+      "compiled_one_event_matches": true,
+      "command_count": 352,
+      "routed_commands": 320,
+      "shared_commands": 32,
+      "controller_work_ns": 88000,
+      "controller_internal_idle_ns": 1427380,
+      "controller_first_start_ns": 10000,
+      "controller_last_end_ns": 1525380,
+      "tail_after_last_command_ns": 56830,
+      "makespan_ns": 1582210,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 352,
+        "input_channel_reload": 352,
+        "nonpreemptive_native_compute": 352,
+        "output_channel": 352,
+        "output_pcie": 352,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L0.whole_row.read_56000.trace.json",
+      "sha256": "8fcdf0f006fdbdf005b811a5ae4f80d08d2b612254142eea6fb199054ca8de4d",
+      "compiled_one_event_matches": true,
+      "command_count": 352,
+      "routed_commands": 320,
+      "shared_commands": 32,
+      "controller_work_ns": 88000,
+      "controller_internal_idle_ns": 2911380,
+      "controller_first_start_ns": 2000,
+      "controller_last_end_ns": 3001380,
+      "tail_after_last_command_ns": 112830,
+      "makespan_ns": 3114210,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 352,
+        "input_channel_reload": 352,
+        "nonpreemptive_native_compute": 352,
+        "output_channel": 352,
+        "output_pcie": 352,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L0.overlap_best.command_250.trace.json",
+      "sha256": "9b9cff7f3dcded546252707feed30383be1ac7256f4c362e23cf1fab9fffd26a",
+      "compiled_one_event_matches": true,
+      "command_count": 292,
+      "routed_commands": 260,
+      "shared_commands": 32,
+      "controller_work_ns": 73000,
+      "controller_internal_idle_ns": 1635912,
+      "controller_first_start_ns": 2000,
+      "controller_last_end_ns": 1710912,
+      "tail_after_last_command_ns": 28575,
+      "makespan_ns": 1739487,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 292,
+        "input_channel_reload": 292,
+        "nonpreemptive_native_compute": 292,
+        "output_channel": 292,
+        "output_pcie": 292,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L0.overlap_best.command_10000.trace.json",
+      "sha256": "6ae94f603e5371a97162228c30b7a712deef3ac5cb02bcc6e8e8af81f5aae145",
+      "compiled_one_event_matches": true,
+      "command_count": 292,
+      "routed_commands": 260,
+      "shared_commands": 32,
+      "controller_work_ns": 2920000,
+      "controller_internal_idle_ns": 0,
+      "controller_first_start_ns": 2000,
+      "controller_last_end_ns": 2922000,
+      "tail_after_last_command_ns": 28575,
+      "makespan_ns": 2950575,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 292,
+        "input_channel_reload": 292,
+        "nonpreemptive_native_compute": 292,
+        "output_channel": 292,
+        "output_pcie": 292,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L0.overlap_best.host_10000.trace.json",
+      "sha256": "2fa6175281123975a61efe1386f6b24614098cc23f45d5f8c73fcc1a74de644d",
+      "compiled_one_event_matches": true,
+      "command_count": 292,
+      "routed_commands": 260,
+      "shared_commands": 32,
+      "controller_work_ns": 73000,
+      "controller_internal_idle_ns": 1635912,
+      "controller_first_start_ns": 10000,
+      "controller_last_end_ns": 1718912,
+      "tail_after_last_command_ns": 28575,
+      "makespan_ns": 1747487,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 292,
+        "input_channel_reload": 292,
+        "nonpreemptive_native_compute": 292,
+        "output_channel": 292,
+        "output_pcie": 292,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L0.overlap_best.read_56000.trace.json",
+      "sha256": "e65724be1bce949ad61390cfb2d607b40afae14131519d399c713028b0358eaa",
+      "compiled_one_event_matches": true,
+      "command_count": 292,
+      "routed_commands": 260,
+      "shared_commands": 32,
+      "controller_work_ns": 73000,
+      "controller_internal_idle_ns": 3315912,
+      "controller_first_start_ns": 2000,
+      "controller_last_end_ns": 3390912,
+      "tail_after_last_command_ns": 56575,
+      "makespan_ns": 3447487,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 292,
+        "input_channel_reload": 292,
+        "nonpreemptive_native_compute": 292,
+        "output_channel": 292,
+        "output_pcie": 292,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L23.whole_row.command_10000.trace.json",
+      "sha256": "d4f3688bd74d82d475071e90317e3a6bd3d75dfb1b0f0da2860dc4e0b56ee667",
+      "compiled_one_event_matches": true,
+      "command_count": 352,
+      "routed_commands": 320,
+      "shared_commands": 32,
+      "controller_work_ns": 3520000,
+      "controller_internal_idle_ns": 0,
+      "controller_first_start_ns": 2000,
+      "controller_last_end_ns": 3522000,
+      "tail_after_last_command_ns": 28575,
+      "makespan_ns": 3550575,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 352,
+        "input_channel_reload": 352,
+        "nonpreemptive_native_compute": 352,
+        "output_channel": 352,
+        "output_pcie": 352,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L23.overlap_best.command_10000.trace.json",
+      "sha256": "9503f36a1233f37e024ab39f313420142e45f37139cf8dec5e1d6a007690460b",
+      "compiled_one_event_matches": true,
+      "command_count": 292,
+      "routed_commands": 260,
+      "shared_commands": 32,
+      "controller_work_ns": 2920000,
+      "controller_internal_idle_ns": 0,
+      "controller_first_start_ns": 2000,
+      "controller_last_end_ns": 2922000,
+      "tail_after_last_command_ns": 28575,
+      "makespan_ns": 2950575,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 292,
+        "input_channel_reload": 292,
+        "nonpreemptive_native_compute": 292,
+        "output_channel": 292,
+        "output_pcie": 292,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L47.whole_row.command_10000.trace.json",
+      "sha256": "3fa3d307b9b0e2453c46cea2b8f7ef3a6f1016069756d8ff30923820f8ac8326",
+      "compiled_one_event_matches": true,
+      "command_count": 352,
+      "routed_commands": 320,
+      "shared_commands": 32,
+      "controller_work_ns": 3520000,
+      "controller_internal_idle_ns": 0,
+      "controller_first_start_ns": 2000,
+      "controller_last_end_ns": 3522000,
+      "tail_after_last_command_ns": 28575,
+      "makespan_ns": 3550575,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 352,
+        "input_channel_reload": 352,
+        "nonpreemptive_native_compute": 352,
+        "output_channel": 352,
+        "output_pcie": 352,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    },
+    {
+      "file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/parameter-sensitivity/L47.overlap_best.command_10000.trace.json",
+      "sha256": "b2ef0dcb1f8b2edfd9102e7ecae60163a2330eeda6eb9a40f79999d906187b4e",
+      "compiled_one_event_matches": true,
+      "command_count": 292,
+      "routed_commands": 260,
+      "shared_commands": 32,
+      "controller_work_ns": 2920000,
+      "controller_internal_idle_ns": 0,
+      "controller_first_start_ns": 2000,
+      "controller_last_end_ns": 2922000,
+      "tail_after_last_command_ns": 28575,
+      "makespan_ns": 2950575,
+      "kinds": {
+        "initial_host_submission": 1,
+        "common_input_to_controller": 1,
+        "matrix_command": 292,
+        "input_channel_reload": 292,
+        "nonpreemptive_native_compute": 292,
+        "output_channel": 292,
+        "output_pcie": 292,
+        "whole_expert_gu_host_ready": 11,
+        "host_activation": 11,
+        "expert_down_host_submission": 11,
+        "private_input_to_controller": 11,
+        "host_combine": 1
+      }
+    }
+  ],
+  "closed_controller_forms": [
+    {
+      "case": "whole_row",
+      "commands_per_layer": 352,
+      "commands_48_layers": 16896,
+      "controller_floor_48_layers_ns": 168960000,
+      "per_layer_noncontroller_tail_ns": 30575,
+      "full_tail_ns": 1467600,
+      "observed_full_ns": 170427600,
+      "all_48x256_saved_values_equal": true
+    },
+    {
+      "case": "overlap_best",
+      "commands_per_layer": 292,
+      "commands_48_layers": 14016,
+      "controller_floor_48_layers_ns": 140160000,
+      "per_layer_noncontroller_tail_ns": 30575,
+      "full_tail_ns": 1467600,
+      "observed_full_ns": 141627600,
+      "all_48x256_saved_values_equal": true
+    }
+  ],
+  "conditional_curve": [
+    {
+      "profile": "command_250",
+      "whole_ms": 76.8455734140625,
+      "overlap_ms": 84.66448835546875,
+      "whole_relative_latency_reduction_vs_overlap": 0.09235176510579124
+    },
+    {
+      "profile": "command_4000",
+      "whole_ms": 87.02149491015625,
+      "overlap_ms": 90.46451037109375,
+      "whole_relative_latency_reduction_vs_overlap": 0.038059294709206215
+    },
+    {
+      "profile": "command_5000",
+      "whole_ms": 96.4933256015625,
+      "overlap_ms": 92.5798768046875,
+      "whole_relative_latency_reduction_vs_overlap": -0.04227105211136828
+    },
+    {
+      "profile": "command_10000",
+      "whole_ms": 170.4276,
+      "overlap_ms": 141.6276,
+      "whole_relative_latency_reduction_vs_overlap": -0.20335019445362335
+    }
+  ],
+  "profile_substitution_read_audit": {
+    "command_ns": "Only resource1 acquiring matrix_command duration; every matrix job charged equally. Function receives no case label.",
+    "host_ns": "Only initial host submission and each expert_down_host_submission; same initial plus11 down submissions in each checked FFN. No activation or reconstruction duration changed.",
+    "read_ns": "Only each nonpreemptive native compute duration=waves*read_ns. Wave/job geometry unchanged.",
+    "unchanged": "Same descriptors/routes, 1us conditional partial reconstructions, zero activation/combine, requested-page fringe mode1, rawI8/A8 input transfer, assumed4B output transfer, channel/chip assignment, priorities, chip lock through output-channel drain.",
+    "python_guard": "Python duration==2000 host substitution is safe for this campaign because activation/combine=0 and reconstruction=1000; a generic graph containing another2000ns host kind would require kind-based replacement."
+  },
+  "tail_derivation": "Each layer: initial host2000 + continuous serialized command_count*10000 + last shared down input320 + one read28000 +102 emitted outputs*2ns +PCIe ceil(102*4/8)=51. Thus noncontroller overhead2000+320+28000+204+51=30575ns, and48 layers give1467600ns.",
+  "scope": "Read code, hash240 plans, count96 relevant layouts, inspect12 saved traces, execute12 one-event C++ checks, and reduce saved10us vectors. No refit, new route opening, or full campaign rerun.",
+  "interpretation": "250ns command timing is uncalibrated. Whole-row configuration benefits at low modeled dispatch cost but issues2880 more matrix commands per48-layer FFN. At10us, those commands explain exactly28.8ms loss. This is a conditional software cost result, not a universal hardware speedup or native device timing measurement."
+}

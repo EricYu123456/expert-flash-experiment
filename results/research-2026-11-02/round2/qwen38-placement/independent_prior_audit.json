@@ -1,0 +1,66 @@
+{
+  "status": "Independent primary-prior and capability audit; no new algorithm or speedup claim",
+  "evidence_vs_inference": {
+    "established_by_current_checks": [
+      "All four exported16-rectangle layouts cover the rawI8 matrix exactly once, with no coefficient replication and no page/wave padding inside eachjob.",
+      "GU16jobs have14 three-wave and2 four-wave jobs; down16jobs have7 one-wave and9 two-wave jobs.",
+      "The comparison baseline is balancedwhole-row51/26waves, not weakuniform64/32. Total coefficient-wave work reduction is2/77=2.5974%, not an end-to-end speedup.",
+      "The proposedGU two-stripe scheme minimizes partialoutput count within exact3/4wave rectangles; the three-stripe scheme attains the input+4-byte-output lower bound for that fixed balancedjob profile.",
+      "FullQwen matrix shapes execute correctly through original idealFP32 Tier/Linear plus host partialsum;256-square native operation counts differ from AiF64KiBwaves."
+    ],
+    "not_established": [
+      "AiF returns rawI32, unscaledFP32 or other additive partials preserving the model's scale contract.",
+      "One modelrectangle corresponds to one shippedaif_post/NVMe command. Existing hardware operands support dense runs, but a heterogeneous rectangleplan requires controller address/input scatter software and its commandfanout cost must be retained.",
+      "Any partialoutput is consumed by nonlinearactivation before all contributing columnpieces are reduced.",
+      "RawI8 byte counts implement the publicNVFP4 checkpoint's original deployed format.",
+      "Channelinput broadcast, pagebufferreplay, independentplane contexts, or arbitrary intercommandinput residency.",
+      "A measuredhardware or complete-model speedup."
+    ]
+  },
+  "primary_sources": [
+    {
+      "title": "Cambricon-LLM: A Chiplet-Based Hybrid Architecture for On-Device Inference of70B LLM",
+      "year": 2024,
+      "version": "arXiv2409.15654, public15-page manuscript",
+      "url": "https://arxiv.org/abs/2409.15654",
+      "pdf": "https://arxiv.org/pdf/2409.15654",
+      "read_depth_this_audit": "SectionV.A andV.B, printedpp6-7, Figure7; relevant read-compute explanation. Not all othersections or all resultplots.",
+      "evidence": "SectionV.A splits weightmatrices into2D tiles, then channel/coreatomic tiles whose size matches a page. It models input+result traffic, uses same-channel inputbroadcast, and derives anAM-GM tile-shape optimum. SectionV.B balances flash andNPU workload.",
+      "inference": "Direct strongprior for page-aligned2D dense tiling, partial results and aspectratio optimization. Our finite exact16job stripe constructions are straightforward geometry controls of this class, not a new tensoralgebra/IOoptimization principle. Its broadcast andNPU split cannot be assumed free inAiF.",
+      "code_status": "No author runnableartifact was fetched or executed in this audit."
+    },
+    {
+      "title": "HDA-MoE: Hybrid Parallelism and Dynamic, Adaptive Scheduling for Mixture-of-Experts with3D Near-Memory Processing",
+      "year": 2026,
+      "venue": "IEEE TCAD online per official authorREADME; predecessorHD-MoE ICCAD2025",
+      "doi": "10.1109/TCAD.2026.3733620",
+      "url": "https://github.com/angerybob/HDA-MoE",
+      "code": "https://github.com/angerybob/HDA-MoE/blob/56ea3725b2c621d4aea248f16345c34f5e06b8ed/node_allocation.py",
+      "commit": "56ea3725b2c621d4aea248f16345c34f5e06b8ed",
+      "read_depth_this_audit": "OfficialREADME and rawnode_allocation.py lines401-426 and538-620; searches for placementvariables. OriginalTCAD/ICCAD fullpapers not obtained this audit.",
+      "evidence": "P[l,e,d] is a fractionalexpertshare. Solver constrains shares to sumtoone, balances frequency-weighted computation, imposes devicecapacity, and models query-group/device incidence withbinaryplacementvariables for communication. OfficialREADME distinguishes originalgatingHD-MoE from adaptivegatingHDA-MoE.",
+      "inference": "Strongprior for fractional hybridexpertplacement with coactivation-aware communication. Adapt its fixed-routing deployment concept to legalnativeatoms as a control. Readsource does not establish NANDpage/waveceil costs, physicalrectanglecoverage or AiFpartialoutput ABI. HDAadaptivegating is outside the present fixedrouting scope.",
+      "code_status": "Read-only primarysource inspection; solver not run and noGurobilicense assumed."
+    },
+    {
+      "title": "MoEwithPIM idealFP32 executable backend",
+      "year": 2026,
+      "url": "https://github.com/superstarghy/MoEwithPIM",
+      "commit": "77044e8efe8dfccb09b2ecaca2f4bf55db8cb334",
+      "read_depth": "Tier,Linear,weightprogrammer and mapping paths audited previously; fullQwen rectanglefunctionalprobe executed in this audit.",
+      "evidence": "Tier returns F.linear. Linear splits inputs into fixednative tierrows, sums columnpartials digitally, and concatenates outputpieces. Explicitexistingweightaddresses can represent every rectangle using256x256 chunks.",
+      "inference": "It validates idealFP32 composition, not identicalhardware cost. GUgridH26/two-stripe/three-stripe require84/84/54TierMVMs versus dense50; down requires32 versus dense30. OneAiFjob is not oneTierMVM."
+    },
+    {
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "year": 2025,
+      "venue": "ISCA2025, June21-25, Tokyo; suppliedpaper firstpage verified",
+      "doi": "10.1145/3695053.3731073",
+      "source": "Locally supplied paper/aif.txt and docs/aif_model_notes.md",
+      "read_depth_this_audit": "Existing evidence table for vector-dimension/block-offset/page-count command operands, INT8multipliers, unspecifiedoutputprecision, and block-crossing split. No newdeviceABI source obtained.",
+      "evidence": "DenseGEMV runs and per-chip inputdimension are documented; supplied driver models metadata/dummy results. Publicoutputprecision/scale is insufficient to prove cross-column partials preserve deployednumericsemantics.",
+      "inference": "These rectangles are conditional existingdenseoperation compositions plus controller/hostsoftware; neither newMACs nor newplanecontexts are introduced. Maintain numericalABI and exactcommandcost conditions rather than declaring either hardwareimpossibility or hardwarevalidation."
+    }
+  ],
+  "decision": "Keep all threeGU stripe/grid recipes and downminimum-output recipe as explicitstrong2D controls. Their shape/IO choices and labelassignment must be refit with the same trainingbudget and nativecoalescing as all whole-row/group baselines. If realtrace latency fails those controls, archive this candidate; do not rebrand the elementaryrectangletiling or existingquery-aware allocation as novelty."
+}

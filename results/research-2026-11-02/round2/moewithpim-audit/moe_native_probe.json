@@ -1,0 +1,3141 @@
+{
+  "backend": "moe",
+  "upstream": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/moewithpim-audit/upstream",
+  "upstream_commit": "77044e8efe8dfccb09b2ecaca2f4bf55db8cb334",
+  "torch": "2.12.0+cu130",
+  "device": "CPU",
+  "scheduler_import": "PASS unmodified native import; plotting tracked files exist",
+  "upstream_source_changes": "none",
+  "numerical_scope": "Native ideal torch.float32 F.linear/digital_add. No ADC quantization, scale, noise, retention or fabricated-device precision proof.",
+  "timing_scope": "Unmodified backend default event-scheduler model only; no physical NAND/AiF calibration. Router softmax/topk/gate multiplies are not separately timed by the original IMPORTANT_NODES list.",
+  "pair_shared": {
+    "execution_time_native_ns": 229,
+    "peak_memory_reported": 16,
+    "energy_native_nJ": 25.5754946875,
+    "flops_reported": 263.75,
+    "energy_breakdown": {
+      "passive": 5.52348,
+      "tier_linear": 20,
+      "communication": 0.05172,
+      "mha": {
+        "dram_kv": 0,
+        "dram_go": 0,
+        "comp": 0
+      },
+      "layer_norm": 0,
+      "digital_relu": 0,
+      "digital_gelu": 0,
+      "digital_add": 0.0002946875,
+      "multinomial": 0
+    },
+    "latency_breakdown": {
+      "tier_linear": 200,
+      "communication": 48,
+      "mha": {
+        "dram_kv": 0,
+        "dram_go": 0,
+        "comp": 0
+      },
+      "layer_norm": 0,
+      "digital_relu": 0,
+      "digital_gelu": 0,
+      "digital_add": 5,
+      "multinomial": 0
+    },
+    "tier_operations": [
+      {
+        "name": "tier_linear_seq_0",
+        "tile_idx": 0,
+        "tier_idx": 0,
+        "utilization": 0.000244140625,
+        "n_rows": 8,
+        "n_cols": 8,
+        "token_id": 0,
+        "seq_len": 1,
+        "decoding_id": 0,
+        "layer_name": "lin_a"
+      },
+      {
+        "name": "tier_linear_1_seq_0",
+        "tile_idx": 0,
+        "tier_idx": 1,
+        "utilization": 0.000244140625,
+        "n_rows": 8,
+        "n_cols": 8,
+        "token_id": 0,
+        "seq_len": 1,
+        "decoding_id": 0,
+        "layer_name": "lin_b"
+      }
+    ],
+    "tile_active_times": [
+      76,
+      0,
+      0,
+      0
+    ],
+    "tile_conflicts": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "numeric_exact": true,
+    "output": [
+      -35.0,
+      -26.5,
+      -42.0,
+      -21.5,
+      -49.0,
+      -16.5,
+      -56.0,
+      -11.5
+    ],
+    "addresses": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "native_mvm_count": 2
+  },
+  "pair_spread": {
+    "execution_time_native_ns": 129,
+    "peak_memory_reported": 16,
+    "energy_native_nJ": 23.163494687500002,
+    "flops_reported": 263.75,
+    "energy_breakdown": {
+      "passive": 3.11148,
+      "tier_linear": 20,
+      "communication": 0.05172,
+      "mha": {
+        "dram_kv": 0,
+        "dram_go": 0,
+        "comp": 0
+      },
+      "layer_norm": 0,
+      "digital_relu": 0,
+      "digital_gelu": 0,
+      "digital_add": 0.0002946875,
+      "multinomial": 0
+    },
+    "latency_breakdown": {
+      "tier_linear": 200,
+      "communication": 48,
+      "mha": {
+        "dram_kv": 0,
+        "dram_go": 0,
+        "comp": 0
+      },
+      "layer_norm": 0,
+      "digital_relu": 0,
+      "digital_gelu": 0,
+      "digital_add": 5,
+      "multinomial": 0
+    },
+    "tier_operations": [
+      {
+        "name": "tier_linear_seq_0",
+        "tile_idx": 0,
+        "tier_idx": 0,
+        "utilization": 0.000244140625,
+        "n_rows": 8,
+        "n_cols": 8,
+        "token_id": 0,
+        "seq_len": 1,
+        "decoding_id": 0,
+        "layer_name": "lin_a"
+      },
+      {
+        "name": "tier_linear_1_seq_0",
+        "tile_idx": 1,
+        "tier_idx": 0,
+        "utilization": 0.000244140625,
+        "n_rows": 8,
+        "n_cols": 8,
+        "token_id": 0,
+        "seq_len": 1,
+        "decoding_id": 0,
+        "layer_name": "lin_b"
+      }
+    ],
+    "tile_active_times": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "tile_conflicts": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "numeric_exact": true,
+    "output": [
+      -35.0,
+      -26.5,
+      -42.0,
+      -21.5,
+      -49.0,
+      -16.5,
+      -56.0,
+      -11.5
+    ],
+    "addresses": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "native_mvm_count": 2
+  },
+  "rectangular": {
+    "execution_time_native_ns": 144,
+    "peak_memory_reported": 1400,
+    "energy_native_nJ": 43.61444,
+    "flops_reported": 840203.6875,
+    "energy_breakdown": {
+      "passive": 3.47328,
+      "tier_linear": 40,
+      "communication": 0.10344,
+      "mha": {
+        "dram_kv": 0,
+        "dram_go": 0,
+        "comp": 0
+      },
+      "layer_norm": 0,
+      "digital_relu": 0,
+      "digital_gelu": 0,
+      "digital_add": 0.03772,
+      "multinomial": 0
+    },
+    "latency_breakdown": {
+      "tier_linear": 400,
+      "communication": 96,
+      "mha": {
+        "dram_kv": 0,
+        "dram_go": 0,
+        "comp": 0
+      },
+      "layer_norm": 0,
+      "digital_relu": 0,
+      "digital_gelu": 0,
+      "digital_add": 40,
+      "multinomial": 0
+    },
+    "tier_operations": [
+      {
+        "name": "tier_linear_seq_0",
+        "tile_idx": 0,
+        "tier_idx": 0,
+        "utilization": 1.0,
+        "n_rows": 512,
+        "n_cols": 512,
+        "token_id": 0,
+        "seq_len": 1,
+        "decoding_id": 0,
+        "layer_name": "linear"
+      },
+      {
+        "name": "tier_linear_1_seq_0",
+        "tile_idx": 1,
+        "tier_idx": 0,
+        "utilization": 0.3671875,
+        "n_rows": 512,
+        "n_cols": 188,
+        "token_id": 0,
+        "seq_len": 1,
+        "decoding_id": 0,
+        "layer_name": "linear"
+      },
+      {
+        "name": "tier_linear_2_seq_0",
+        "tile_idx": 2,
+        "tier_idx": 0,
+        "utilization": 0.171875,
+        "n_rows": 88,
+        "n_cols": 512,
+        "token_id": 0,
+        "seq_len": 1,
+        "decoding_id": 0,
+        "layer_name": "linear"
+      },
+      {
+        "name": "tier_linear_3_seq_0",
+        "tile_idx": 3,
+        "tier_idx": 0,
+        "utilization": 0.0631103515625,
+        "n_rows": 88,
+        "n_cols": 188,
+        "token_id": 0,
+        "seq_len": 1,
+        "decoding_id": 0,
+        "layer_name": "linear"
+      }
+    ],
+    "tile_active_times": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "tile_conflicts": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "shape": [
+      600,
+      700
+    ],
+    "tier_shape": [
+      512,
+      512
+    ],
+    "mapping": [
+      [
+        [
+          0,
+          0,
+          1.0,
+          512,
+          512
+        ],
+        [
+          1,
+          0,
+          0.3671875,
+          512,
+          188
+        ]
+      ],
+      [
+        [
+          2,
+          0,
+          0.171875,
+          88,
+          512
+        ],
+        [
+          3,
+          0,
+          0.0631103515625,
+          88,
+          188
+        ]
+      ]
+    ],
+    "numeric_exact": true,
+    "partial_sums": 2,
+    "output_concat": true,
+    "original_programmer_error": "",
+    "outside_programmer_fix": true,
+    "output_sha256": "d278532fcf82c16ced8553390b415f4781108873b93101ffb1f09e1a3449ff0d"
+  },
+  "moe_layouts": [
+    {
+      "label": "in-order",
+      "strategy": "GREEDY_IN_ORDER",
+      "order_override": null,
+      "native_actual_gate_topk": [
+        0,
+        3
+      ],
+      "max_numeric_abs_error": 0.0,
+      "all_eager_and_unpruned_fx_numeric_pass": true,
+      "mapping_invariant": true,
+      "weight_inventory_invariant": true,
+      "mapping_sha256": "46fbd5c37cfdb5a37dcb8bd60946e7368c9e2254d5bf5be1ae5b0aa2cc53a066",
+      "weight_inventory_sha256": "1786c9931ab3d7a5fa8ac74a4e2459d341fc8117d7c269ff21b9a4a44e64d5df",
+      "addresses": {
+        "router": [
+          [
+            [
+              0,
+              0,
+              0.0001220703125,
+              8,
+              4
+            ]
+          ]
+        ],
+        "experts.0.ffn1": [
+          [
+            [
+              1,
+              0,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.0.ffn2": [
+          [
+            [
+              2,
+              0,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ],
+        "experts.1.ffn1": [
+          [
+            [
+              3,
+              0,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.1.ffn2": [
+          [
+            [
+              0,
+              1,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ],
+        "experts.2.ffn1": [
+          [
+            [
+              1,
+              1,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.2.ffn2": [
+          [
+            [
+              2,
+              1,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ],
+        "experts.3.ffn1": [
+          [
+            [
+              3,
+              1,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.3.ffn2": [
+          [
+            [
+              0,
+              2,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ]
+      },
+      "query_distribution": {
+        "(0, 1)": 0.4,
+        "(2, 3)": 0.4,
+        "(0, 2)": 0.1,
+        "(1, 3)": 0.1
+      },
+      "weighted_native_time_ns": 422.0,
+      "schedules": [
+        {
+          "route": [
+            0,
+            3
+          ],
+          "execution_time_native_ns": 402.0,
+          "peak_memory_reported": 28,
+          "energy_native_nJ": 59.87755656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 9.69624,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "route": [
+            0,
+            1
+          ],
+          "execution_time_native_ns": 402.0,
+          "peak_memory_reported": 28,
+          "energy_native_nJ": 59.87755656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 9.69624,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "route": [
+            2,
+            3
+          ],
+          "execution_time_native_ns": 402.0,
+          "peak_memory_reported": 28,
+          "energy_native_nJ": 59.87755656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 9.69624,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "route": [
+            0,
+            2
+          ],
+          "execution_time_native_ns": 502.0,
+          "peak_memory_reported": 24,
+          "energy_native_nJ": 62.28955656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 12.10824,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            76.0,
+            125.0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            1,
+            2,
+            0
+          ]
+        },
+        {
+          "route": [
+            1,
+            3
+          ],
+          "execution_time_native_ns": 502.0,
+          "peak_memory_reported": 24,
+          "energy_native_nJ": 62.28955656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 12.10824,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            125.0,
+            0,
+            0,
+            76.0
+          ],
+          "tile_conflicts": [
+            2,
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "label": "util",
+      "strategy": "GREEDY_UTIL",
+      "order_override": null,
+      "native_actual_gate_topk": [
+        0,
+        3
+      ],
+      "max_numeric_abs_error": 0.0,
+      "all_eager_and_unpruned_fx_numeric_pass": true,
+      "mapping_invariant": true,
+      "weight_inventory_invariant": true,
+      "mapping_sha256": "93840a09fc325b2c8c4ceb3076759da540fe338b1ffdd9cd00a9070fee4ec1d5",
+      "weight_inventory_sha256": "b158ba8ce06b24bd09b205745c64afcd3e3a9fa3d07dad62ba940c397c7f9a8f",
+      "addresses": {
+        "router": [
+          [
+            [
+              0,
+              0,
+              0.0001220703125,
+              8,
+              4
+            ]
+          ]
+        ],
+        "experts.0.ffn1": [
+          [
+            [
+              1,
+              0,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.0.ffn2": [
+          [
+            [
+              2,
+              0,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ],
+        "experts.1.ffn1": [
+          [
+            [
+              3,
+              0,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.1.ffn2": [
+          [
+            [
+              1,
+              1,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ],
+        "experts.2.ffn1": [
+          [
+            [
+              2,
+              1,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.2.ffn2": [
+          [
+            [
+              3,
+              1,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ],
+        "experts.3.ffn1": [
+          [
+            [
+              1,
+              2,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.3.ffn2": [
+          [
+            [
+              2,
+              2,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ]
+      },
+      "query_distribution": {
+        "(0, 1)": 0.4,
+        "(2, 3)": 0.4,
+        "(0, 2)": 0.1,
+        "(1, 3)": 0.1
+      },
+      "weighted_native_time_ns": 402.0,
+      "schedules": [
+        {
+          "route": [
+            0,
+            3
+          ],
+          "execution_time_native_ns": 502.0,
+          "peak_memory_reported": 24,
+          "energy_native_nJ": 62.28955656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 12.10824,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            76.0,
+            125.0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            1,
+            2,
+            0
+          ]
+        },
+        {
+          "route": [
+            0,
+            1
+          ],
+          "execution_time_native_ns": 402.0,
+          "peak_memory_reported": 28,
+          "energy_native_nJ": 59.87755656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 9.69624,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "route": [
+            2,
+            3
+          ],
+          "execution_time_native_ns": 402.0,
+          "peak_memory_reported": 28,
+          "energy_native_nJ": 59.87755656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 9.69624,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "route": [
+            0,
+            2
+          ],
+          "execution_time_native_ns": 402.0,
+          "peak_memory_reported": 28,
+          "energy_native_nJ": 59.87755656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 9.69624,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "route": [
+            1,
+            3
+          ],
+          "execution_time_native_ns": 402.0,
+          "peak_memory_reported": 28,
+          "energy_native_nJ": 59.87755656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 9.69624,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "label": "top2",
+      "strategy": "GREEDY_TOP2",
+      "order_override": null,
+      "native_actual_gate_topk": [
+        0,
+        3
+      ],
+      "max_numeric_abs_error": 0.0,
+      "all_eager_and_unpruned_fx_numeric_pass": true,
+      "mapping_invariant": true,
+      "weight_inventory_invariant": true,
+      "mapping_sha256": "46fbd5c37cfdb5a37dcb8bd60946e7368c9e2254d5bf5be1ae5b0aa2cc53a066",
+      "weight_inventory_sha256": "48a8825aeee3e64d210e37c4b2a616fd2a2aa2637e1223bc51fa9d8f69bd6f76",
+      "addresses": {
+        "router": [
+          [
+            [
+              0,
+              0,
+              0.0001220703125,
+              8,
+              4
+            ]
+          ]
+        ],
+        "experts.0.ffn1": [
+          [
+            [
+              1,
+              0,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.0.ffn2": [
+          [
+            [
+              2,
+              0,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ],
+        "experts.1.ffn1": [
+          [
+            [
+              3,
+              0,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.1.ffn2": [
+          [
+            [
+              0,
+              1,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ],
+        "experts.2.ffn1": [
+          [
+            [
+              1,
+              1,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.2.ffn2": [
+          [
+            [
+              2,
+              1,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ],
+        "experts.3.ffn1": [
+          [
+            [
+              3,
+              1,
+              0.0003662109375,
+              8,
+              12
+            ]
+          ]
+        ],
+        "experts.3.ffn2": [
+          [
+            [
+              0,
+              2,
+              0.0003662109375,
+              12,
+              8
+            ]
+          ]
+        ]
+      },
+      "query_distribution": {
+        "(0, 1)": 0.4,
+        "(2, 3)": 0.4,
+        "(0, 2)": 0.1,
+        "(1, 3)": 0.1
+      },
+      "weighted_native_time_ns": 422.0,
+      "schedules": [
+        {
+          "route": [
+            0,
+            3
+          ],
+          "execution_time_native_ns": 402.0,
+          "peak_memory_reported": 28,
+          "energy_native_nJ": 59.87755656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 9.69624,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "route": [
+            0,
+            1
+          ],
+          "execution_time_native_ns": 402.0,
+          "peak_memory_reported": 28,
+          "energy_native_nJ": 59.87755656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 9.69624,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "route": [
+            2,
+            3
+          ],
+          "execution_time_native_ns": 402.0,
+          "peak_memory_reported": 28,
+          "energy_native_nJ": 59.87755656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 9.69624,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "route": [
+            0,
+            2
+          ],
+          "execution_time_native_ns": 502.0,
+          "peak_memory_reported": 24,
+          "energy_native_nJ": 62.28955656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 12.10824,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.0.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 1,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 2,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.2.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            0,
+            76.0,
+            125.0,
+            0
+          ],
+          "tile_conflicts": [
+            0,
+            1,
+            2,
+            0
+          ]
+        },
+        {
+          "route": [
+            1,
+            3
+          ],
+          "execution_time_native_ns": 502.0,
+          "peak_memory_reported": 24,
+          "energy_native_nJ": 62.28955656250002,
+          "flops_reported": 863.1875,
+          "energy_breakdown": {
+            "passive": 12.10824,
+            "tier_linear": 50,
+            "communication": 0.18102,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 1.8749999999999998e-06,
+            "digital_gelu": 0,
+            "digital_add": 0.0002946875,
+            "multinomial": 0
+          },
+          "latency_breakdown": {
+            "tier_linear": 500,
+            "communication": 168.0,
+            "mha": {
+              "dram_kv": 0,
+              "dram_go": 0,
+              "comp": 0
+            },
+            "layer_norm": 0,
+            "digital_relu": 2,
+            "digital_gelu": 0,
+            "digital_add": 5,
+            "multinomial": 0
+          },
+          "tier_operations": [
+            {
+              "name": "tier_linear_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 0,
+              "utilization": 0.0001220703125,
+              "n_rows": 8,
+              "n_cols": 4,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "router"
+            },
+            {
+              "name": "tier_linear_1_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 0,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn1"
+            },
+            {
+              "name": "tier_linear_2_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.1.ffn2"
+            },
+            {
+              "name": "tier_linear_3_seq_0",
+              "tile_idx": 3,
+              "tier_idx": 1,
+              "utilization": 0.0003662109375,
+              "n_rows": 8,
+              "n_cols": 12,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn1"
+            },
+            {
+              "name": "tier_linear_4_seq_0",
+              "tile_idx": 0,
+              "tier_idx": 2,
+              "utilization": 0.0003662109375,
+              "n_rows": 12,
+              "n_cols": 8,
+              "token_id": 0,
+              "seq_len": 1,
+              "decoding_id": 0,
+              "layer_name": "experts.3.ffn2"
+            }
+          ],
+          "tile_active_times": [
+            125.0,
+            0,
+            0,
+            76.0
+          ],
+          "tile_conflicts": [
+            2,
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "exhaustive_same_geometry_control": {
+    "best_order": [
+      0,
+      1,
+      3,
+      2
+    ],
+    "best_weighted_native_time_ns": 402.0,
+    "trials": [
+      {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "time_ns": 422.0
+      },
+      {
+        "order": [
+          0,
+          1,
+          3,
+          2
+        ],
+        "time_ns": 402.0
+      },
+      {
+        "order": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "time_ns": 482.0
+      },
+      {
+        "order": [
+          0,
+          2,
+          3,
+          1
+        ],
+        "time_ns": 402.0
+      },
+      {
+        "order": [
+          0,
+          3,
+          1,
+          2
+        ],
+        "time_ns": 482.0
+      },
+      {
+        "order": [
+          0,
+          3,
+          2,
+          1
+        ],
+        "time_ns": 422.0
+      },
+      {
+        "order": [
+          1,
+          0,
+          2,
+          3
+        ],
+        "time_ns": 402.0
+      },
+      {
+        "order": [
+          1,
+          0,
+          3,
+          2
+        ],
+        "time_ns": 422.0
+      },
+      {
+        "order": [
+          1,
+          2,
+          0,
+          3
+        ],
+        "time_ns": 482.0
+      },
+      {
+        "order": [
+          1,
+          2,
+          3,
+          0
+        ],
+        "time_ns": 422.0
+      },
+      {
+        "order": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "time_ns": 482.0
+      },
+      {
+        "order": [
+          1,
+          3,
+          2,
+          0
+        ],
+        "time_ns": 402.0
+      },
+      {
+        "order": [
+          2,
+          0,
+          1,
+          3
+        ],
+        "time_ns": 402.0
+      },
+      {
+        "order": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "time_ns": 482.0
+      },
+      {
+        "order": [
+          2,
+          1,
+          0,
+          3
+        ],
+        "time_ns": 422.0
+      },
+      {
+        "order": [
+          2,
+          1,
+          3,
+          0
+        ],
+        "time_ns": 482.0
+      },
+      {
+        "order": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "time_ns": 422.0
+      },
+      {
+        "order": [
+          2,
+          3,
+          1,
+          0
+        ],
+        "time_ns": 402.0
+      },
+      {
+        "order": [
+          3,
+          0,
+          1,
+          2
+        ],
+        "time_ns": 422.0
+      },
+      {
+        "order": [
+          3,
+          0,
+          2,
+          1
+        ],
+        "time_ns": 482.0
+      },
+      {
+        "order": [
+          3,
+          1,
+          0,
+          2
+        ],
+        "time_ns": 402.0
+      },
+      {
+        "order": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "time_ns": 482.0
+      },
+      {
+        "order": [
+          3,
+          2,
+          0,
+          1
+        ],
+        "time_ns": 402.0
+      },
+      {
+        "order": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "time_ns": 422.0
+      }
+    ],
+    "scope": "All24 expert-order permutations through original shape allocator, not all possible atom mappings; same query weights and scheduler for every layout."
+  },
+  "real_route_smoke": {
+    "route_source": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/screen/routes.npz",
+    "route_source_sha256": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+    "selection": "train[0,0:2,layer0]",
+    "semantic_scope": "Real selected expert IDs replayed on known toy weights; not the actual G4 weights/activations or its router probabilities. Golden reference uses exactly the supplied route and toy router coefficient for each selected expert.",
+    "fixed_mapping_sha256": "0263759e9d2070f8e5267bb7c6868df886a918a03ee66842fc760e360202498c",
+    "fixed_weights_sha256": "c72f5dd571bb8bfd20f4d9e46dc895b6a0c02a1c9260fc924c670275b526be38",
+    "hardware_config": {
+      "tiles": 16,
+      "tiers": 9,
+      "tier_shape": [
+        256,
+        256
+      ]
+    },
+    "checks": [
+      {
+        "route": [
+          1,
+          33,
+          4,
+          10,
+          51,
+          49
+        ],
+        "max_numeric_abs_error": 0.0,
+        "execution_time_native_ns": 554.0,
+        "peak_memory_reported": 116,
+        "energy_native_nJ": 143.60962906249998,
+        "flops_reported": 3433.5,
+        "energy_breakdown": {
+          "passive": 13.36248,
+          "tier_linear": 130,
+          "communication": 0.24566999999999997,
+          "mha": {
+            "dram_kv": 0,
+            "dram_go": 0,
+            "comp": 0
+          },
+          "layer_norm": 0,
+          "digital_relu": 5.6249999999999995e-06,
+          "digital_gelu": 0,
+          "digital_add": 0.0014734375,
+          "multinomial": 0
+        },
+        "latency_breakdown": {
+          "tier_linear": 1300,
+          "communication": 228.0,
+          "mha": {
+            "dram_kv": 0,
+            "dram_go": 0,
+            "comp": 0
+          },
+          "layer_norm": 0,
+          "digital_relu": 6,
+          "digital_gelu": 0,
+          "digital_add": 25,
+          "multinomial": 0
+        },
+        "tier_operations": [
+          {
+            "name": "tier_linear_seq_0",
+            "tile_idx": 0,
+            "tier_idx": 0,
+            "utilization": 0.0078125,
+            "n_rows": 8,
+            "n_cols": 64,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "router"
+          },
+          {
+            "name": "tier_linear_1_seq_0",
+            "tile_idx": 3,
+            "tier_idx": 0,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.1.ffn1"
+          },
+          {
+            "name": "tier_linear_2_seq_0",
+            "tile_idx": 4,
+            "tier_idx": 0,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.1.ffn2"
+          },
+          {
+            "name": "tier_linear_3_seq_0",
+            "tile_idx": 3,
+            "tier_idx": 4,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.33.ffn1"
+          },
+          {
+            "name": "tier_linear_4_seq_0",
+            "tile_idx": 4,
+            "tier_idx": 4,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.33.ffn2"
+          },
+          {
+            "name": "tier_linear_5_seq_0",
+            "tile_idx": 9,
+            "tier_idx": 0,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.4.ffn1"
+          },
+          {
+            "name": "tier_linear_6_seq_0",
+            "tile_idx": 10,
+            "tier_idx": 0,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.4.ffn2"
+          },
+          {
+            "name": "tier_linear_7_seq_0",
+            "tile_idx": 5,
+            "tier_idx": 1,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.10.ffn1"
+          },
+          {
+            "name": "tier_linear_8_seq_0",
+            "tile_idx": 6,
+            "tier_idx": 1,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.10.ffn2"
+          },
+          {
+            "name": "tier_linear_9_seq_0",
+            "tile_idx": 7,
+            "tier_idx": 6,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.51.ffn1"
+          },
+          {
+            "name": "tier_linear_10_seq_0",
+            "tile_idx": 8,
+            "tier_idx": 6,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.51.ffn2"
+          },
+          {
+            "name": "tier_linear_11_seq_0",
+            "tile_idx": 3,
+            "tier_idx": 6,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.49.ffn1"
+          },
+          {
+            "name": "tier_linear_12_seq_0",
+            "tile_idx": 4,
+            "tier_idx": 6,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.49.ffn2"
+          }
+        ],
+        "tile_active_times": [
+          0,
+          0,
+          0,
+          176.0,
+          201.0,
+          0,
+          25.0,
+          0,
+          25.0,
+          0,
+          25.0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tile_conflicts": [
+          0,
+          0,
+          0,
+          3,
+          3,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "route": [
+          1,
+          3,
+          45,
+          33,
+          20,
+          51
+        ],
+        "max_numeric_abs_error": 0.0,
+        "execution_time_native_ns": 464.0,
+        "peak_memory_reported": 120,
+        "energy_native_nJ": 141.4388290625,
+        "flops_reported": 3433.5,
+        "energy_breakdown": {
+          "passive": 11.19168,
+          "tier_linear": 130,
+          "communication": 0.24566999999999997,
+          "mha": {
+            "dram_kv": 0,
+            "dram_go": 0,
+            "comp": 0
+          },
+          "layer_norm": 0,
+          "digital_relu": 5.6249999999999995e-06,
+          "digital_gelu": 0,
+          "digital_add": 0.0014734375,
+          "multinomial": 0
+        },
+        "latency_breakdown": {
+          "tier_linear": 1300,
+          "communication": 228.0,
+          "mha": {
+            "dram_kv": 0,
+            "dram_go": 0,
+            "comp": 0
+          },
+          "layer_norm": 0,
+          "digital_relu": 6,
+          "digital_gelu": 0,
+          "digital_add": 25,
+          "multinomial": 0
+        },
+        "tier_operations": [
+          {
+            "name": "tier_linear_seq_0",
+            "tile_idx": 0,
+            "tier_idx": 0,
+            "utilization": 0.0078125,
+            "n_rows": 8,
+            "n_cols": 64,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "router"
+          },
+          {
+            "name": "tier_linear_1_seq_0",
+            "tile_idx": 3,
+            "tier_idx": 0,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.1.ffn1"
+          },
+          {
+            "name": "tier_linear_2_seq_0",
+            "tile_idx": 4,
+            "tier_idx": 0,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.1.ffn2"
+          },
+          {
+            "name": "tier_linear_3_seq_0",
+            "tile_idx": 7,
+            "tier_idx": 0,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.3.ffn1"
+          },
+          {
+            "name": "tier_linear_4_seq_0",
+            "tile_idx": 8,
+            "tier_idx": 0,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.3.ffn2"
+          },
+          {
+            "name": "tier_linear_5_seq_0",
+            "tile_idx": 11,
+            "tier_idx": 5,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.45.ffn1"
+          },
+          {
+            "name": "tier_linear_6_seq_0",
+            "tile_idx": 12,
+            "tier_idx": 5,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.45.ffn2"
+          },
+          {
+            "name": "tier_linear_7_seq_0",
+            "tile_idx": 3,
+            "tier_idx": 4,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.33.ffn1"
+          },
+          {
+            "name": "tier_linear_8_seq_0",
+            "tile_idx": 4,
+            "tier_idx": 4,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.33.ffn2"
+          },
+          {
+            "name": "tier_linear_9_seq_0",
+            "tile_idx": 9,
+            "tier_idx": 2,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.20.ffn1"
+          },
+          {
+            "name": "tier_linear_10_seq_0",
+            "tile_idx": 10,
+            "tier_idx": 2,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.20.ffn2"
+          },
+          {
+            "name": "tier_linear_11_seq_0",
+            "tile_idx": 7,
+            "tier_idx": 6,
+            "utilization": 0.00146484375,
+            "n_rows": 8,
+            "n_cols": 12,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.51.ffn1"
+          },
+          {
+            "name": "tier_linear_12_seq_0",
+            "tile_idx": 8,
+            "tier_idx": 6,
+            "utilization": 0.00146484375,
+            "n_rows": 12,
+            "n_cols": 8,
+            "token_id": 0,
+            "seq_len": 1,
+            "decoding_id": 0,
+            "layer_name": "experts.51.ffn2"
+          }
+        ],
+        "tile_active_times": [
+          0,
+          0,
+          0,
+          88.0,
+          113.0,
+          0,
+          0,
+          88.0,
+          113.0,
+          0,
+          25.0,
+          0,
+          25.0,
+          0,
+          0,
+          0
+        ],
+        "tile_conflicts": [
+          0,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          1,
+          2,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "upstream_git_diff": ""
+}

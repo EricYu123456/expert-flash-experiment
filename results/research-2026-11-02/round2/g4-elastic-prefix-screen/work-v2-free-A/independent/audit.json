@@ -1,0 +1,270 @@
+{
+  "status": "PASS_bounded_no_go",
+  "source_sha256": "ff783725989328db2539d183aa84545fcfbe8027e89ad4e2fd358140e32f006d",
+  "producer_protocol_sha256": "cd242ca3c55d5f0965d3ea54b0e276ce44853db0c1d39d610e17d1928cff2df1",
+  "independently_enumerated_query_masks": 1245184,
+  "matching_primary_optimum": 685,
+  "static_controls": {
+    "same_layout_static": [
+      {
+        "mean_ns": 555559.67578125,
+        "p99_ns": 573734.0
+      },
+      {
+        "mean_ns": 572112.63671875,
+        "p99_ns": 629794.26
+      }
+    ],
+    "free_static": [
+      {
+        "mean_ns": 555559.67578125,
+        "p99_ns": 573734.0
+      },
+      {
+        "mean_ns": 595893.58203125,
+        "p99_ns": 684983.04
+      }
+    ]
+  },
+  "baseline_native": {
+    "mean_ns": 561099.01953125,
+    "p99_ns": 580695.14
+  },
+  "selected_maxchip_work": {
+    "mean_ns": 550669.140625,
+    "p99_ns": 573622.26
+  },
+  "ceilings": {
+    "host_plus_work": {
+      "LB": {
+        "mean_ns": 552669.140625,
+        "p99_ns": 575622.26
+      },
+      "mean_pct": 1.5023870320237664,
+      "p99_pct": 0.8735874731102489
+    },
+    "optimal_firststart": {
+      "LB": {
+        "mean_ns": 553191.27734375,
+        "p99_ns": 575729.38
+      },
+      "mean_pct": 1.4093309580377134,
+      "p99_pct": 0.8551406164687414
+    }
+  },
+  "all_trained_endpoints": [
+    {
+      "mean_pct": 1.5023870320237664,
+      "p99_pct": 0.8735874731102489
+    },
+    {
+      "mean_pct": 1.3868130687076707,
+      "p99_pct": 0.97075722038934
+    }
+  ],
+  "copied_rows": 28015,
+  "copied_coefficient_bytes": 43031040,
+  "extra_waves": 625,
+  "extra_pages": 2500,
+  "extra_programmed_bytes": 40960000,
+  "perchip_inventory_columns": [
+    "coefficient_bytes",
+    "pages",
+    "waves",
+    "LSB_blocks"
+  ],
+  "baseline_perchip_inventory": [
+    [
+      10109952,
+      632,
+      158
+    ],
+    [
+      9978368,
+      624,
+      156
+    ],
+    [
+      9315328,
+      584,
+      146
+    ],
+    [
+      9514496,
+      596,
+      149
+    ],
+    [
+      9521664,
+      596,
+      149
+    ],
+    [
+      9449472,
+      592,
+      148
+    ],
+    [
+      9910784,
+      620,
+      155
+    ],
+    [
+      9513472,
+      596,
+      149
+    ],
+    [
+      9248256,
+      580,
+      145
+    ],
+    [
+      10297344,
+      644,
+      161
+    ],
+    [
+      9501184,
+      596,
+      149
+    ],
+    [
+      10146816,
+      636,
+      159
+    ],
+    [
+      9938944,
+      624,
+      156
+    ],
+    [
+      9801216,
+      616,
+      154
+    ],
+    [
+      9475584,
+      596,
+      149
+    ],
+    [
+      9990656,
+      628,
+      157
+    ]
+  ],
+  "resident_perchip_inventory": [
+    [
+      12725760,
+      784,
+      196,
+      2
+    ],
+    [
+      12591104,
+      776,
+      194,
+      2
+    ],
+    [
+      12255232,
+      756,
+      189,
+      1
+    ],
+    [
+      12251648,
+      756,
+      189,
+      1
+    ],
+    [
+      12126720,
+      748,
+      187,
+      1
+    ],
+    [
+      12258816,
+      756,
+      189,
+      1
+    ],
+    [
+      12386816,
+      764,
+      191,
+      1
+    ],
+    [
+      12255232,
+      756,
+      189,
+      1
+    ],
+    [
+      12321792,
+      760,
+      190,
+      1
+    ],
+    [
+      12847104,
+      792,
+      198,
+      2
+    ],
+    [
+      12255232,
+      756,
+      189,
+      1
+    ],
+    [
+      12771840,
+      788,
+      197,
+      2
+    ],
+    [
+      12379648,
+      764,
+      191,
+      1
+    ],
+    [
+      12172800,
+      752,
+      188,
+      1
+    ],
+    [
+      12512256,
+      772,
+      193,
+      2
+    ],
+    [
+      12632576,
+      780,
+      195,
+      2
+    ]
+  ],
+  "replica_views": "Each expert has one fixed A8 source set and B. 32routeblind+4TRAINmatching are offline alternatives, not free runtime views.",
+  "attribution": "Adaptive geometry is the possible latency mechanism. Identical A/B geometry stored as two full images has the same descriptors/work/DAG; prefix sharing only reduces capacity.",
+  "limitations": [
+    "Finite two-start/two-pass local search, not global offline-copy optimum.",
+    "Variable copy budgets; not same-budget comparison with v1 or any copy competitor.",
+    "Work/firststart are necessary lower bounds, not achieved latency; no native replay, selector timings, full-copy/partial-copy controls or heldout.",
+    "Output page-fringe/native ABI and performance are the declared synthetic model, not newly measured device capability.",
+    "All copy budgets are per layer, not the full 40-layer model."
+  ],
+  "gate": {
+    "mean_threshold_pct": 2,
+    "p99_threshold_pct": 5,
+    "passed": false
+  }
+}

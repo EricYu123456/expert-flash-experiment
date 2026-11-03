@@ -1,0 +1,2688 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-27",
+  "timezone": "Asia/Taipei",
+  "run_dir": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1",
+  "corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+  "corpus": {
+    "schema_version": 1,
+    "seed": 20261027,
+    "corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+    "prompts": 300,
+    "split_counts": {
+      "train": 200,
+      "test": 100
+    },
+    "task_counts": {
+      "summarization": 50,
+      "translation": 50,
+      "programming": 50,
+      "qa": 50,
+      "long_context": 50,
+      "mathematics": 50
+    },
+    "length_counts": {
+      "short": 104,
+      "medium": 100,
+      "long": 96
+    },
+    "cells": {
+      "train/qa/short": 12,
+      "train/qa/medium": 11,
+      "train/qa/long": 11,
+      "train/programming/short": 12,
+      "train/programming/medium": 11,
+      "train/programming/long": 11,
+      "train/mathematics/short": 11,
+      "train/mathematics/medium": 11,
+      "train/mathematics/long": 11,
+      "train/summarization/short": 11,
+      "train/summarization/medium": 11,
+      "train/summarization/long": 11,
+      "train/translation/short": 11,
+      "train/translation/medium": 11,
+      "train/translation/long": 11,
+      "train/long_context/short": 11,
+      "train/long_context/medium": 11,
+      "train/long_context/long": 11,
+      "test/qa/short": 6,
+      "test/qa/medium": 5,
+      "test/qa/long": 5,
+      "test/programming/short": 6,
+      "test/programming/medium": 5,
+      "test/programming/long": 5,
+      "test/mathematics/short": 6,
+      "test/mathematics/medium": 6,
+      "test/mathematics/long": 5,
+      "test/summarization/short": 6,
+      "test/summarization/medium": 6,
+      "test/summarization/long": 5,
+      "test/translation/short": 6,
+      "test/translation/medium": 6,
+      "test/translation/long": 5,
+      "test/long_context/short": 6,
+      "test/long_context/medium": 6,
+      "test/long_context/long": 5
+    },
+    "provenance": "Locally authored, deterministic, self-contained synthetic workload; not an accuracy benchmark.",
+    "length_policy": "1 / 4 / 16 document paragraphs for short / medium / long; actual tokenizer lengths saved per model.",
+    "split_policy": "Prompt-level 200/100, stratified by task and length; disjoint scenario IDs, names and numerical instances.",
+    "test_use": "Never used for expert swaps, g selection, stacking selection or search-budget tuning.",
+    "decode_steps": 128,
+    "prefix_steps": 32
+  },
+  "models": {
+    "granite": {
+      "frozen_plan_sha256": "c39fa1a1ffd284c512ffe2929f441d4f86254a6b4708c328f0b700c8e7eab1b6",
+      "collection": {
+        "identity": {
+          "corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+          "metadata_sha256": "6cc8a48c5e7ad11c54227cbdfbe03a33de864e23a6f7c942ca1a94c6985e3bed",
+          "binary_sha256": "a8d2e228d0ed1d5439f605ef776e4b5bb61ef5ef8ba96ec32dc8b5d38d0b2e68",
+          "steps": 128,
+          "batch_size": 8,
+          "threads": 8
+        },
+        "model": "granite",
+        "model_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/granite-3.1-1b-a400m-instruct-Q4_K_M.gguf",
+        "model_sha256": "3a2ec1c2a78cb29d901e29bbf5162dcd03381e13803d2cbdcff838d4d08142eb",
+        "source_commit": "927dada6c9143ba4c940b72004d2698fa5e4e930",
+        "routing": "Actual llama.cpp ffn_moe_topk callback, independent sequence IDs, CPU, greedy, fixed EOS-inclusive length.",
+        "checkpoint_policy": "Resume whole original sequence batches to preserve numerical configuration."
+      },
+      "validation_prompts": 300,
+      "replays": [
+        {
+          "label": "baseline_16_stacked_prefix32",
+          "commands": 153600,
+          "all_kernel_counters_match": true,
+          "model_ns": 40651161600,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 42819768659,
+          "ioctl_overhead_ns": 2168607059
+        },
+        {
+          "label": "baseline_16_stacked_tail96",
+          "commands": 460800,
+          "all_kernel_counters_match": true,
+          "model_ns": 121953484800,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 129442936705,
+          "ioctl_overhead_ns": 7489451905
+        },
+        {
+          "label": "learned_selected_prefix32",
+          "commands": 153600,
+          "all_kernel_counters_match": true,
+          "model_ns": 21999393504,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 23365273447,
+          "ioctl_overhead_ns": 1365879943
+        },
+        {
+          "label": "learned_selected_tail96",
+          "commands": 460800,
+          "all_kernel_counters_match": true,
+          "model_ns": 65952509600,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 70751178172,
+          "ioctl_overhead_ns": 4798668572
+        }
+      ],
+      "winners": {
+        "modulo": {
+          "policy": "modulo",
+          "group_chips": 4,
+          "stack_gate_up": true,
+          "training_ffn_ms_per_token": 8.3482510125,
+          "training_components_ms": {
+            "flash_ns": 7.6163060625,
+            "control_ns": 0.384,
+            "host_ns": 0.096,
+            "input_ns": 0.055336949999999996,
+            "output_ns": 0.196608
+          }
+        },
+        "learned": {
+          "policy": "learned",
+          "group_chips": 4,
+          "stack_gate_up": true,
+          "training_ffn_ms_per_token": 6.8727683175,
+          "training_components_ms": {
+            "flash_ns": 6.1440324375,
+            "control_ns": 0.384,
+            "host_ns": 0.096,
+            "input_ns": 0.052127879999999994,
+            "output_ns": 0.196608
+          }
+        }
+      },
+      "evaluation": {
+        "frozen_plan_sha256": "c39fa1a1ffd284c512ffe2929f441d4f86254a6b4708c328f0b700c8e7eab1b6",
+        "test_evaluated_unix": 1793051128.8241477,
+        "test_prompts": 100,
+        "decode_steps": 128,
+        "prefix_steps": 32,
+        "fixed_same_plan_for_both_windows": true,
+        "prompt_level_bootstrap_resamples": 2000,
+        "test_reference_checks": {
+          "checks": 480,
+          "routing_cases": 25920,
+          "all_components_match_reference": true,
+          "components": [
+            "flash_ns",
+            "control_ns",
+            "host_ns",
+            "input_ns",
+            "output_ns"
+          ]
+        },
+        "test_routing": [
+          {
+            "id": "test_translation_medium_004",
+            "routing_sha256": "b993542568c482e963bd55fdb49788b1016f900cca6f818797c35d2b69cc7db4"
+          },
+          {
+            "id": "test_translation_short_009",
+            "routing_sha256": "af1bd5b2e5f4fc6e3806b5adf06f2f228d6a8f1a57033d55fc4cc139eead01bd"
+          },
+          {
+            "id": "test_qa_short_003",
+            "routing_sha256": "8804f4d7a2ae86ed600178cb3d1cb1919485cb67e7d4a95329e715615731796d"
+          },
+          {
+            "id": "test_qa_medium_001",
+            "routing_sha256": "b2dba22fa90ff8861e93dbfe5bc4082d0f35fd450744a6a6d5abff052d5bfe20"
+          },
+          {
+            "id": "test_qa_short_009",
+            "routing_sha256": "1bff88b7ea783b05642264eb4ff6ab108b91ef44e1d0128f5bb1ffcaf1b413a6"
+          },
+          {
+            "id": "test_mathematics_medium_010",
+            "routing_sha256": "aa88bd5786f2d8968a05bbffe3fa7eb76b0b43bea435b92a58f41d9d77c0d84f"
+          },
+          {
+            "id": "test_programming_short_000",
+            "routing_sha256": "f709838fd1540e17bf0b8b04c99673cdd22a9e32860135f5954cf09f937fe0ad"
+          },
+          {
+            "id": "test_summarization_long_008",
+            "routing_sha256": "372b6df9c08eb64daa83b6f6daa9f45d9d62c96bd0f6d40efdfd34269ec2a647"
+          },
+          {
+            "id": "test_qa_medium_004",
+            "routing_sha256": "28b54024b9b1ac6c9ccb34ccccf42e24aa22a5e55b583159d4509642ff95867c"
+          },
+          {
+            "id": "test_qa_medium_013",
+            "routing_sha256": "04d9b8a7f15ee6ef569f8577a23a1530a9f83ee685ee75f6936b6908ebb7b9ea"
+          },
+          {
+            "id": "test_translation_medium_007",
+            "routing_sha256": "07140da3fa11f363e8e7d02948d0e7f2c29308421e11d9898e8bcf7dfa01335e"
+          },
+          {
+            "id": "test_translation_long_002",
+            "routing_sha256": "0f9f02615110006ee44dbcbb17a89ca0ddc0c3286041a5b092c489e64352923b"
+          },
+          {
+            "id": "test_summarization_long_011",
+            "routing_sha256": "83df894e6830dc8781a48575373e1b72214908f90fcb39602cfc3c072d7b91cc"
+          },
+          {
+            "id": "test_long_context_medium_010",
+            "routing_sha256": "dc9bd3ff04e454c25cfdd8d18cc545312ba4b032e89439c944d69c7abe96e391"
+          },
+          {
+            "id": "test_programming_short_009",
+            "routing_sha256": "86addbc2aacb83bdc6d611f0d18edf0c7d34d4285fb4d5c515e883b63539a7d4"
+          },
+          {
+            "id": "test_mathematics_long_011",
+            "routing_sha256": "83fbe618c57fce3c98b3f27d7ba6308b7203e3f5797bd295b75adc2f2b19afa1"
+          },
+          {
+            "id": "test_mathematics_long_008",
+            "routing_sha256": "81d06aaf913b75d0617a1de2f65f04b30ca424c99020df0e229086ce430c7346"
+          },
+          {
+            "id": "test_programming_long_011",
+            "routing_sha256": "f8a67e6eeecadb6ea15f193218a1eff3c517546c6e159ce53e19327f4db533e1"
+          },
+          {
+            "id": "test_programming_long_008",
+            "routing_sha256": "25a4d09bb4924014f8b528a80b937ce595b3f81d4e98aa0fb5d6bf743d5b8f22"
+          },
+          {
+            "id": "test_programming_short_015",
+            "routing_sha256": "79cb079d66afec1b0b4b213b690da46230ac305c8fa2341f769d455cebc68bc3"
+          },
+          {
+            "id": "test_long_context_short_015",
+            "routing_sha256": "5fd0169a9d068b908037ff4ca4363514e4be05caf63de216a8a98ccfa7682732"
+          },
+          {
+            "id": "test_mathematics_medium_007",
+            "routing_sha256": "2450764faccaecb9fcead0d4f18ee707447e51ae82b00159f3ff3a7cb57ffa8d"
+          },
+          {
+            "id": "test_long_context_medium_016",
+            "routing_sha256": "bd88d8450e38f46d4c5fd7c324f59478a1fc083d07e8756445906232bd92036e"
+          },
+          {
+            "id": "test_long_context_medium_001",
+            "routing_sha256": "a489d69ebc19166c26eb24e360ccb64402a82011eedbcfd86bc6aab342680fc0"
+          },
+          {
+            "id": "test_summarization_long_002",
+            "routing_sha256": "503ae21136192665c5eb5cb91b8bfb44ba758df0ea87dfd709e5c12ce72138aa"
+          },
+          {
+            "id": "test_qa_long_005",
+            "routing_sha256": "7cdf9434a1b6e9e87e60aedafa577d95140a99b1875c5b9679afbf7c06db2a29"
+          },
+          {
+            "id": "test_qa_short_015",
+            "routing_sha256": "a6aa3f9807bc7c07802fcbf399c94f6806ab5658f2034c8e065dcfa9b1719c9c"
+          },
+          {
+            "id": "test_long_context_medium_013",
+            "routing_sha256": "064c87092ef01eda84c3c3f984dd53a1d7d5b91ab31f4ab31aa0a8ebdd3bf50f"
+          },
+          {
+            "id": "test_long_context_long_002",
+            "routing_sha256": "2fbdc733b66d8337f0ae2553454f71f33b77c8d84da7614c79c5e98f25fa9f90"
+          },
+          {
+            "id": "test_mathematics_short_009",
+            "routing_sha256": "86f301ccd2587e8b9f90411e35b365730c4575b846edeec9226967b827e078e7"
+          },
+          {
+            "id": "test_long_context_short_006",
+            "routing_sha256": "f1b20c52c34a13726c5b5310bf8f361519ac6431e80987fd60de8583d3ece271"
+          },
+          {
+            "id": "test_translation_medium_016",
+            "routing_sha256": "011b2d5c7019ddb7c60c58cf765ef55b6add32662a0658a16cca7444ee6af7a7"
+          },
+          {
+            "id": "test_qa_short_012",
+            "routing_sha256": "db06e6f240e44a44b09fbe76e31284efa7e73638e66e19f50586d4b7ee7ca386"
+          },
+          {
+            "id": "test_translation_medium_001",
+            "routing_sha256": "aa82529e4f73f93601ad63c4e82727730df1af493f9156d8b35835a06ebd4545"
+          },
+          {
+            "id": "test_mathematics_medium_013",
+            "routing_sha256": "8873ebfebe32374e19ea8ad5c8769ff0d77d8c0746804b336558f7332783e5e8"
+          },
+          {
+            "id": "test_summarization_short_006",
+            "routing_sha256": "154b0fe5c30691f4188dd7f7887a7f73736256ce641aaa5df8d66c9688dd8d9d"
+          },
+          {
+            "id": "test_summarization_short_015",
+            "routing_sha256": "06876e2a7d342058a9d22d4ef6832a65b7ec104eac984d58c111c7f0136e6770"
+          },
+          {
+            "id": "test_long_context_long_008",
+            "routing_sha256": "a8effaa19e7448a2c074c6021b0a75373f1e4019bc9bb8283665561e8fef5397"
+          },
+          {
+            "id": "test_long_context_short_003",
+            "routing_sha256": "854fe3c12b859106aa41f96fdd93318e048390d5459145c506a1484722c6f647"
+          },
+          {
+            "id": "test_qa_long_011",
+            "routing_sha256": "f008bca3e56c082c92c5fae285589471b9a01a255d7ec6d4ac24913970b7847e"
+          },
+          {
+            "id": "test_summarization_medium_007",
+            "routing_sha256": "011c80fc2523397885e3550e2344d2f37f3092b166b370fdab6db6aca3cab22f"
+          },
+          {
+            "id": "test_long_context_medium_007",
+            "routing_sha256": "71c344fbc167f9a587ed8b4fd031dfe284158564f4d4f2952dfa3396fa897279"
+          },
+          {
+            "id": "test_translation_short_003",
+            "routing_sha256": "014735c58b9e001260e73658b760dfa75b924878861ac1cb50d3bc20d63d6b04"
+          },
+          {
+            "id": "test_translation_medium_013",
+            "routing_sha256": "8ba70a7d60f922c813bfd788dc3b3255c8e974624d0417bf49dceeb5e99fbbbb"
+          },
+          {
+            "id": "test_summarization_medium_010",
+            "routing_sha256": "4d16b9c68d880173233afcb1b185916eb5db39d901587d5f48af5a9b2809f30c"
+          },
+          {
+            "id": "test_programming_medium_010",
+            "routing_sha256": "238e708695e4d4daedbe751e39f4d4c258371dec0037f2576599d63d1f597cc5"
+          },
+          {
+            "id": "test_translation_long_008",
+            "routing_sha256": "f3dd375ef06f7808e4602475607a8af7225cbd3d622a39c12b7112e2c8fbf435"
+          },
+          {
+            "id": "test_qa_medium_007",
+            "routing_sha256": "d323c0d0a7ccf063442c857a3b162877c43cc7c44f461ebfe0b4d7d3e789be3a"
+          },
+          {
+            "id": "test_programming_medium_001",
+            "routing_sha256": "0050fcc582ab1ad36842a01a8130fd27690bc1aee586eef1868e649b8afd99fe"
+          },
+          {
+            "id": "test_long_context_long_011",
+            "routing_sha256": "40204c0c4c16abc883b6fe7f41f8ce9d8694a967e985a4b7fc7bf29ddadf8743"
+          },
+          {
+            "id": "test_summarization_short_012",
+            "routing_sha256": "f03b5f0411d66f43bd51cc1391e63d0a3b486d7b43efcd225489ecb2731c26fd"
+          },
+          {
+            "id": "test_translation_short_012",
+            "routing_sha256": "1844f754e5391fe19f25029dcdd8750f9bd98446584ab0297dd6cb3a134bd10a"
+          },
+          {
+            "id": "test_long_context_short_009",
+            "routing_sha256": "401ced18ffcd02e34924ca04c50d1bd28662016cc128a5cd1af24e55acd83346"
+          },
+          {
+            "id": "test_qa_short_000",
+            "routing_sha256": "aadde6ccb7acdf76681f083928596f2445da5099dbebc63384201062c4ba98bd"
+          },
+          {
+            "id": "test_programming_medium_007",
+            "routing_sha256": "7784b999d818bc86a68720e314feea8866257c2fb40579e8a7226550e52e9b2f"
+          },
+          {
+            "id": "test_summarization_long_014",
+            "routing_sha256": "6be035a3e8fd78a541fa489a4618718fe7f278f990a04a33202898cd705230d9"
+          },
+          {
+            "id": "test_translation_long_014",
+            "routing_sha256": "c900a1be3777a39391f3c3c21d4db415354a575b2df4557cabd1c3e20f93c64e"
+          },
+          {
+            "id": "test_long_context_medium_004",
+            "routing_sha256": "ed134433c818761d7c396ec3a609b5aa3f93128963d431e6990d12533e2159bb"
+          },
+          {
+            "id": "test_mathematics_long_002",
+            "routing_sha256": "a14ee4b3fb08a0768958cc55acf6e1b8e4900e4d6f8e09fcc77d18907a3b7cbc"
+          },
+          {
+            "id": "test_programming_long_005",
+            "routing_sha256": "036a921c95c9b485cf4b8e6b79fd5ffc423de27d70a99f36b86df34974a96f5b"
+          },
+          {
+            "id": "test_summarization_short_003",
+            "routing_sha256": "0d374a1da480d8b161a40d78d26f2bf6add29c67db1aa1d88628824a87e94a39"
+          },
+          {
+            "id": "test_translation_long_011",
+            "routing_sha256": "bac5addc83ef8a4d11ab7ef5f1af185f357b15e87ac42690281c00a21e38fb84"
+          },
+          {
+            "id": "test_programming_short_003",
+            "routing_sha256": "da6e35f81a8f4d18f957617a9ca183b087dded494078d67c84656fc1755bdbd0"
+          },
+          {
+            "id": "test_mathematics_medium_004",
+            "routing_sha256": "a49b12986918f6b784ec03b4bcaa88b87d432cdc7cf55016c059201141b53e26"
+          },
+          {
+            "id": "test_mathematics_long_014",
+            "routing_sha256": "30dabb47d63aec78ae2ad374d8f631fd08dc9ef77155441ae794c28b403c6dac"
+          },
+          {
+            "id": "test_qa_long_014",
+            "routing_sha256": "4edb14ddf0e29336f230a653372bfba82db8cf2508733a4b6ca4d47dd59dac1a"
+          },
+          {
+            "id": "test_mathematics_short_015",
+            "routing_sha256": "f9f89023e22615cc753137b39d5c33320b6651c1ea812899bc145e8083cd9295"
+          },
+          {
+            "id": "test_summarization_short_000",
+            "routing_sha256": "46a9b31a52f73e6ad96d243f12bc8170e88910aa0e40947252a9769cecf1ba86"
+          },
+          {
+            "id": "test_mathematics_short_006",
+            "routing_sha256": "2e3fea16c530fe1aa3225b5f6eb71206de3eed582b3061d874690c3e4b46607e"
+          },
+          {
+            "id": "test_mathematics_short_000",
+            "routing_sha256": "27a4788404e2114925d27dd51896aba7a2cc601981c18ec81d4836988e6fc42d"
+          },
+          {
+            "id": "test_translation_medium_010",
+            "routing_sha256": "43088e571506711ccf708a443efbf25e33f248169bbe202ab3fa794aea62948f"
+          },
+          {
+            "id": "test_mathematics_medium_001",
+            "routing_sha256": "afbc14a80f447c0f2681fe5a8ced0a5e055167c4af3037c3bdd23421bd3c8ec4"
+          },
+          {
+            "id": "test_programming_long_002",
+            "routing_sha256": "338160e339f89b6fb121a8d88bd54d09919a5d640445c46e4fab8610220f9596"
+          },
+          {
+            "id": "test_qa_long_002",
+            "routing_sha256": "80b7c3e5576a5051673c202ee18d88da60325d3beec8f3c5c0b2f20f3f3dabbc"
+          },
+          {
+            "id": "test_translation_short_006",
+            "routing_sha256": "5ad332e89c870d8a79ad9b8646fc647157b58ee3a452614dd92f62b0bd6c3ab4"
+          },
+          {
+            "id": "test_programming_short_006",
+            "routing_sha256": "8f4773bd869c2d191101f98420af2744745c2001cc9a7d575269624378891dd0"
+          },
+          {
+            "id": "test_translation_short_000",
+            "routing_sha256": "53547af9a63838c1d3f307279629bb9a2d9af4bb26d97fcd0fab1b4aa141a52d"
+          },
+          {
+            "id": "test_summarization_short_009",
+            "routing_sha256": "079ee7f3f6480985c3257cb1fb94609bd37179586bc06ff8d60a488e38152018"
+          },
+          {
+            "id": "test_summarization_medium_001",
+            "routing_sha256": "f371939779ab2ebb2dd3bc885801519caa23362a524c87414ecb5718ddacf795"
+          },
+          {
+            "id": "test_mathematics_short_012",
+            "routing_sha256": "b71d11377304088222b662f4127b66dd7a9a01be8fd09e1bf22380cd00f4dfa3"
+          },
+          {
+            "id": "test_programming_long_014",
+            "routing_sha256": "8bb11ec2f12d2b0ce4afc2347cf53576dd095bb7eae68b3b69b6ebcfc848f458"
+          },
+          {
+            "id": "test_translation_long_005",
+            "routing_sha256": "5182fb4470fd1967d04bf750a2083bc17801babd87b035c706d63cfc6066cb98"
+          },
+          {
+            "id": "test_mathematics_medium_016",
+            "routing_sha256": "b8f8482add7e148130714b8f13ec06c5a10493572399b541808b5050451f42bc"
+          },
+          {
+            "id": "test_summarization_medium_004",
+            "routing_sha256": "eba67d8f9832e3179bd1394289277727beef38176a6e5197193a9b81b3ae14e3"
+          },
+          {
+            "id": "test_summarization_medium_016",
+            "routing_sha256": "40565fe55e8a6d841df1c596f84123ee3093007f62365c962a5f6f2a018917b2"
+          },
+          {
+            "id": "test_qa_long_008",
+            "routing_sha256": "bd35bd2b35d6438352c601ec24c04263ab1caf61c82d2ec013a103aa8f87ba62"
+          },
+          {
+            "id": "test_mathematics_long_005",
+            "routing_sha256": "669106cab27c8b9ff00bc1205901f2977c7ecf5cebee6600cf86c20ae4c6dda0"
+          },
+          {
+            "id": "test_long_context_short_012",
+            "routing_sha256": "86e5dc22b73a29c1ee73d72f357b713f5e16a935956396bd12447970c81af8ea"
+          },
+          {
+            "id": "test_mathematics_short_003",
+            "routing_sha256": "2cdbd442c3190fd57f3dee5264d2d0181de1bbf53c601dd9bca638b754572fe6"
+          },
+          {
+            "id": "test_qa_medium_010",
+            "routing_sha256": "d6d65edd2ae9808080c611a46e84d500b81e25becd306399bcf2a85da49f9b43"
+          },
+          {
+            "id": "test_summarization_long_005",
+            "routing_sha256": "f3d7b150baf2610474b6e0cc3f15334cf35609a6846fb86d4a8ed74eb2d5a05a"
+          },
+          {
+            "id": "test_long_context_long_014",
+            "routing_sha256": "56b5ce59e6d44d7ad845ea8678d08fdb1aaa20b6d3ae2be4cd912dfc3ed010f7"
+          },
+          {
+            "id": "test_translation_short_015",
+            "routing_sha256": "e40086e92ca780187a73246bcb6b228602d28871a994f13a71bf53a179d66ea4"
+          },
+          {
+            "id": "test_programming_medium_004",
+            "routing_sha256": "cddb0b6257336197722f8cc4dfe54f0ece4f89275e2bcb5fb4426301e48fed90"
+          },
+          {
+            "id": "test_summarization_medium_013",
+            "routing_sha256": "69b969ee586118d67e7d49048e68e00e3223b2bd5876844bf5e6e4cd892f783d"
+          },
+          {
+            "id": "test_qa_short_006",
+            "routing_sha256": "edede7aaa840a4592204b29551e17050ff44dc5211352107ee6f607b869c5c2e"
+          },
+          {
+            "id": "test_long_context_short_000",
+            "routing_sha256": "cd402237599ee37e85f90753e496e56b091ef45b8b8c7a87490e8b8c0e1d9147"
+          },
+          {
+            "id": "test_long_context_long_005",
+            "routing_sha256": "bca78862eb3fed246883fdfe4be2b1b36ca35b69132e074ce4ac095f88f5de08"
+          },
+          {
+            "id": "test_programming_short_012",
+            "routing_sha256": "0714bc7ca8d744ef1937341314b79b183713b16c823693b9f18b7ad05396ee0a"
+          },
+          {
+            "id": "test_programming_medium_013",
+            "routing_sha256": "945393ac1795a1dd79b6b863409f7f7441a777045aa9ecc7c580884fb998ca32"
+          }
+        ]
+      }
+    },
+    "olmoe": {
+      "frozen_plan_sha256": "89bb7204839b945a62a919e52a2b854eca2cf014044be5207f11adfc1714c4ac",
+      "collection": {
+        "identity": {
+          "corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+          "metadata_sha256": "8af16cdc141e13dba85262a844580a76bd03801cd4a43bb02966bd9e24a620b1",
+          "binary_sha256": "a8d2e228d0ed1d5439f605ef776e4b5bb61ef5ef8ba96ec32dc8b5d38d0b2e68",
+          "steps": 128,
+          "batch_size": 8,
+          "threads": 8
+        },
+        "model": "olmoe",
+        "model_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/olmoe-1b-7b-0924-q4_k_m.gguf",
+        "model_sha256": "f3ae25f6c7e83efb0e3632ef068b321f4d4a644bcfb6c0e01dd8c00e94e53f14",
+        "source_commit": "927dada6c9143ba4c940b72004d2698fa5e4e930",
+        "routing": "Actual llama.cpp ffn_moe_topk callback, independent sequence IDs, CPU, greedy, fixed EOS-inclusive length.",
+        "checkpoint_policy": "Resume whole original sequence batches to preserve numerical configuration."
+      },
+      "validation_prompts": 300,
+      "replays": [
+        {
+          "label": "baseline_16_stacked_prefix32",
+          "commands": 102400,
+          "all_kernel_counters_match": true,
+          "model_ns": 43674828800,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 45885606708,
+          "ioctl_overhead_ns": 2210777908
+        },
+        {
+          "label": "baseline_16_stacked_tail96",
+          "commands": 307200,
+          "all_kernel_counters_match": true,
+          "model_ns": 131024486400,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 137484968065,
+          "ioctl_overhead_ns": 6460481665
+        },
+        {
+          "label": "learned_selected_prefix32",
+          "commands": 102400,
+          "all_kernel_counters_match": true,
+          "model_ns": 38866105576,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 40877037948,
+          "ioctl_overhead_ns": 2010932372
+        },
+        {
+          "label": "learned_selected_tail96",
+          "commands": 307200,
+          "all_kernel_counters_match": true,
+          "model_ns": 117844034536,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 123974173999,
+          "ioctl_overhead_ns": 6130139463
+        }
+      ],
+      "winners": {
+        "modulo": {
+          "policy": "modulo",
+          "group_chips": 8,
+          "stack_gate_up": true,
+          "training_ffn_ms_per_token": 13.35671327,
+          "training_components_ms": {
+            "flash_ns": 12.42034875,
+            "control_ns": 0.512,
+            "host_ns": 0.064,
+            "input_ns": 0.09822052,
+            "output_ns": 0.262144
+          }
+        },
+        "learned": {
+          "policy": "learned",
+          "group_chips": 8,
+          "stack_gate_up": true,
+          "training_ffn_ms_per_token": 12.21897762125,
+          "training_components_ms": {
+            "flash_ns": 11.28253078125,
+            "control_ns": 0.512,
+            "host_ns": 0.064,
+            "input_ns": 0.09830284,
+            "output_ns": 0.262144
+          }
+        }
+      },
+      "evaluation": {
+        "frozen_plan_sha256": "89bb7204839b945a62a919e52a2b854eca2cf014044be5207f11adfc1714c4ac",
+        "test_evaluated_unix": 1793052144.0030994,
+        "test_prompts": 100,
+        "decode_steps": 128,
+        "prefix_steps": 32,
+        "fixed_same_plan_for_both_windows": true,
+        "prompt_level_bootstrap_resamples": 2000,
+        "test_reference_checks": {
+          "checks": 320,
+          "routing_cases": 17280,
+          "all_components_match_reference": true,
+          "components": [
+            "flash_ns",
+            "control_ns",
+            "host_ns",
+            "input_ns",
+            "output_ns"
+          ]
+        },
+        "test_routing": [
+          {
+            "id": "test_translation_medium_004",
+            "routing_sha256": "ae36d4f8a4d7e07a3ff87e3bce6fba74d7d97b79c8d253994c8447f04f7e76d0"
+          },
+          {
+            "id": "test_translation_short_009",
+            "routing_sha256": "16144a62727cd2e2763394eaf02c6e31ee5603561aac3ac962bdc9787e429d58"
+          },
+          {
+            "id": "test_qa_short_003",
+            "routing_sha256": "5340d23ef1470e0d196bb266ca1d712d4ae0258264e1034c671bba9ad047cb9c"
+          },
+          {
+            "id": "test_qa_medium_001",
+            "routing_sha256": "fbfcdc5132df479c8a53f0d2d1ad79c8e7f994cb8efeeb27dfd78b1f89710d2a"
+          },
+          {
+            "id": "test_qa_short_009",
+            "routing_sha256": "6bc72cda786109dd6abb52736cfc4a0e6d6ab7e6392d9f250608ca9239d55814"
+          },
+          {
+            "id": "test_mathematics_medium_010",
+            "routing_sha256": "749d2739859fe8dfd2d8d44ce685f7f780d9a1950457f577cd11c1d28571c767"
+          },
+          {
+            "id": "test_programming_short_000",
+            "routing_sha256": "56428b3f1ebb60b2719f39c7cae4c9cd4a2b4294aedf8c52932f48612f14df05"
+          },
+          {
+            "id": "test_summarization_long_008",
+            "routing_sha256": "5f73e6fd9f05608c7ed0c63c8212c251b437753ec0373ae97a263623b429e90d"
+          },
+          {
+            "id": "test_qa_medium_004",
+            "routing_sha256": "36276f474225796b5a10703c8c66a3c4cfdff2dc179a8afb745b8c81fb01d933"
+          },
+          {
+            "id": "test_qa_medium_013",
+            "routing_sha256": "0a4afa9b43f95ede039b972944aba86082921cf9bf8510601fcfa89241bff57e"
+          },
+          {
+            "id": "test_translation_medium_007",
+            "routing_sha256": "f82c0148501b4ed860172536d6b58ccc74486bb991c6bd1d7ad053d39ab35517"
+          },
+          {
+            "id": "test_translation_long_002",
+            "routing_sha256": "d78419d4bacedd5692a2324db8576e3369dc6e5913d7249e104d2934cc21939f"
+          },
+          {
+            "id": "test_summarization_long_011",
+            "routing_sha256": "7eb2d7ae3082e51f9abbbfffa42cc121172aaaf40eb06f105f6f5cee7aa1a9a9"
+          },
+          {
+            "id": "test_long_context_medium_010",
+            "routing_sha256": "288a8f740210ce8ea3680b74302059d5278cb142dc1630b55e1cb74313c80adb"
+          },
+          {
+            "id": "test_programming_short_009",
+            "routing_sha256": "f0744a93895bb4cfee1636cf1e58434ed067a5c1d2ea8a3591d748798b71e731"
+          },
+          {
+            "id": "test_mathematics_long_011",
+            "routing_sha256": "9147c978e09ce6625da34a2e0c02635505ac62ab901490aab729991c15e64f19"
+          },
+          {
+            "id": "test_mathematics_long_008",
+            "routing_sha256": "770b258c040f9bc3ca95d7ff3ac0139dc5c21edf9928f1cd590040aac61c959e"
+          },
+          {
+            "id": "test_programming_long_011",
+            "routing_sha256": "34415abab02b1228c39187fc1000734739d265874abc9558e7710ce570b3958a"
+          },
+          {
+            "id": "test_programming_long_008",
+            "routing_sha256": "aa3c6f41261d64f51dd3e9d7e7a07bc5dd7fce25ff9d246df02219aba3cde576"
+          },
+          {
+            "id": "test_programming_short_015",
+            "routing_sha256": "d01cf1235cbec36b245d214ae58474d82659c5e68060465e51d15538ed7dc843"
+          },
+          {
+            "id": "test_long_context_short_015",
+            "routing_sha256": "59a85c3edd6eede8cb9a8b63a0e581fc45026ae846306cd5187600bb68057cb5"
+          },
+          {
+            "id": "test_mathematics_medium_007",
+            "routing_sha256": "34c1417ce46f19fb339553d8e74c9e9f674d052952e0a05c5f2f285f9f32a68c"
+          },
+          {
+            "id": "test_long_context_medium_016",
+            "routing_sha256": "d93eea532fd813d8821240b8b0edf2de0b2944ba44fa546dd486468b32ede78f"
+          },
+          {
+            "id": "test_long_context_medium_001",
+            "routing_sha256": "19e89f35b6093a99bb9bf5ee9aaad5702de74f8956b2d9f394d4f9d361ee9220"
+          },
+          {
+            "id": "test_summarization_long_002",
+            "routing_sha256": "a39dcf8e5bdc2443d5fb917e961db4cf210f9a9f959da3252f5d299113ef6b78"
+          },
+          {
+            "id": "test_qa_long_005",
+            "routing_sha256": "86803d68d19ec14a13055ed3f575954e87fd60926db6f507cfc5b45b165b03ad"
+          },
+          {
+            "id": "test_qa_short_015",
+            "routing_sha256": "bd266c51c5cede453da554923b4a133436d0bc95991384e1c8ff97e86f3d0843"
+          },
+          {
+            "id": "test_long_context_medium_013",
+            "routing_sha256": "41519b9d6abc2e1c0c5b1b5b84686dc0910f97e10d383265bfc77687d23dd011"
+          },
+          {
+            "id": "test_long_context_long_002",
+            "routing_sha256": "f4b49fd993f0960e0bd62b09265bc8c0f43fd5175b7a2274732e4ea3211a5c8f"
+          },
+          {
+            "id": "test_mathematics_short_009",
+            "routing_sha256": "792538dd5317b5c61c95f19b9bbb5a4a4a7d4e7d61275105fa0161ace8287513"
+          },
+          {
+            "id": "test_long_context_short_006",
+            "routing_sha256": "f21036ce27557b033265fbb7c2f2e3478d2bc4e4f3f50e2cb17f22f4259eed13"
+          },
+          {
+            "id": "test_translation_medium_016",
+            "routing_sha256": "08c28a54898f55448579a4a932c992fa6a217da7cfa6b966e3e2d6bf1d76a081"
+          },
+          {
+            "id": "test_qa_short_012",
+            "routing_sha256": "47ec0938224c51782d4e2c4860b288641e211c36b42ff3bf09e0486a2b49383d"
+          },
+          {
+            "id": "test_translation_medium_001",
+            "routing_sha256": "a6e07de8e20d5966475820b4d608b155c28054a6492f508fa2ebb43a00f039e9"
+          },
+          {
+            "id": "test_mathematics_medium_013",
+            "routing_sha256": "982f709068e41cd804370ad2492e4795f8a0e5cab160c0ba73245ab7d0d34daa"
+          },
+          {
+            "id": "test_summarization_short_006",
+            "routing_sha256": "881bb3051be70b3ce32885fe4a123cba1d0740277a3b549a745f4d662ea6fe25"
+          },
+          {
+            "id": "test_summarization_short_015",
+            "routing_sha256": "160b57ac23ca1abcbdb15f84028bab07872b50e11331c44fb842990efdf06c94"
+          },
+          {
+            "id": "test_long_context_long_008",
+            "routing_sha256": "e81edc5a3774faa2aa70c1c80a8886c51e09da4a62332c302a7a81993cf528df"
+          },
+          {
+            "id": "test_long_context_short_003",
+            "routing_sha256": "f9752081949a7b7bff5d95898851d8fc49771ade3b803c1bcf85f697be4176a5"
+          },
+          {
+            "id": "test_qa_long_011",
+            "routing_sha256": "a6bc0041f372a7353f6da7b71e6715fc9524d776b1d765368c15927e4aca8918"
+          },
+          {
+            "id": "test_summarization_medium_007",
+            "routing_sha256": "7425d26bfcfbab8033f11548fb64327ab57cd958973b25196265deef03e4868c"
+          },
+          {
+            "id": "test_long_context_medium_007",
+            "routing_sha256": "4a6f8c30d1ab4f4d9aee05efea779cc846fa78236780d8022601b5e731f79dbe"
+          },
+          {
+            "id": "test_translation_short_003",
+            "routing_sha256": "39e28bc1c38d90f4a9c0e093c21091615bb2175694720e0dacef2c0e688f4ab9"
+          },
+          {
+            "id": "test_translation_medium_013",
+            "routing_sha256": "533084d8adfd3efadb5bcd17f5c97b013f38bcb0e9a322b6c44ab07e8cff9241"
+          },
+          {
+            "id": "test_summarization_medium_010",
+            "routing_sha256": "86c14d838f629b9543ed5ff52676da83f2460a792e6cd0335a85c008d7a9f9ae"
+          },
+          {
+            "id": "test_programming_medium_010",
+            "routing_sha256": "443311062876568c4e6747790b4601c3de510fa30c21de9db94924d1fcb0d248"
+          },
+          {
+            "id": "test_translation_long_008",
+            "routing_sha256": "0085e5b5a51316d9c12087ba799e358622261fb99ac86d2c170d4d0caf9dc9f9"
+          },
+          {
+            "id": "test_qa_medium_007",
+            "routing_sha256": "5ecfe84703f9341dad2d49c15d63294e6953961b1b94e0cef5c421c4c2dbf112"
+          },
+          {
+            "id": "test_programming_medium_001",
+            "routing_sha256": "92f1be2bbbda3d6b82b18339b1bf6beb2c3c0e0b354599d092d71aaf817774ba"
+          },
+          {
+            "id": "test_long_context_long_011",
+            "routing_sha256": "8ae06efd131e6f2870fc012abc24b4be3a4a9ef9b366d84f8517ad3e74cebf6a"
+          },
+          {
+            "id": "test_summarization_short_012",
+            "routing_sha256": "19402debc335e3d4856a8bb01ddc79fab5866ba957d62db850277875724c62ac"
+          },
+          {
+            "id": "test_translation_short_012",
+            "routing_sha256": "318dcb7e38d1ceda6d881161103022ec4d360e03b6fc2f18e0c78796b35f3fad"
+          },
+          {
+            "id": "test_long_context_short_009",
+            "routing_sha256": "b21789984c4c07f524199ee2e627af3ecc0a2dd2a0c56f587097555e7d2bbf3b"
+          },
+          {
+            "id": "test_qa_short_000",
+            "routing_sha256": "23e66c121ffeb7e77cf1e604e366fe9cf212ac28da6f7c7a68892f01a22abd70"
+          },
+          {
+            "id": "test_programming_medium_007",
+            "routing_sha256": "c8346938843df61d19abc0bd1e4cb1a03b0d6b20803cdf39a836b9e6b1fb8912"
+          },
+          {
+            "id": "test_summarization_long_014",
+            "routing_sha256": "a383f768cfc3a1090767b5ee7413b53d360038463c2c0b38e4bdd6488a6d5f34"
+          },
+          {
+            "id": "test_translation_long_014",
+            "routing_sha256": "a445d332e4651c2f1c1ceb33529e74e9371e769056a96773b04bb9ecd5e8bea9"
+          },
+          {
+            "id": "test_long_context_medium_004",
+            "routing_sha256": "5d0a8fc4ba6edba0ec5af5beac9205f21476e5ba34177b0c0fdbb137b9dba475"
+          },
+          {
+            "id": "test_mathematics_long_002",
+            "routing_sha256": "a247930aaa34a0e8981133e35052a9d8912cb9dd3b6f231177051d9c80080518"
+          },
+          {
+            "id": "test_programming_long_005",
+            "routing_sha256": "9ce3986f22879795e7375e0df064afddd58bf6510c637b2a267a32ff21aa475f"
+          },
+          {
+            "id": "test_summarization_short_003",
+            "routing_sha256": "afcba965e97a1837f522a4442f2b72933be2c85cb1cfd2209e223e303f04eb78"
+          },
+          {
+            "id": "test_translation_long_011",
+            "routing_sha256": "3d42e5605cb21647854365b305c26b81fac0eb174b4608cf61b33bd802140c95"
+          },
+          {
+            "id": "test_programming_short_003",
+            "routing_sha256": "5b1053ed1884aa168aa9c7b0039d5f5ca7943e95ba608055a1566065d6640805"
+          },
+          {
+            "id": "test_mathematics_medium_004",
+            "routing_sha256": "659ab55b4877729e4674626d5abf56e2c473ba860f6c1c01b678e2a500969e4a"
+          },
+          {
+            "id": "test_mathematics_long_014",
+            "routing_sha256": "431c2a7b9dc71635e673e5684110b1f109fb55d8859c88fff4c07617afb1f708"
+          },
+          {
+            "id": "test_qa_long_014",
+            "routing_sha256": "f11673c88e8efa49c5b039c88afce0508b37644a6e1d2f86e9311d0091a32fb8"
+          },
+          {
+            "id": "test_mathematics_short_015",
+            "routing_sha256": "6ae7131c1212c8b2f17ca5a1050f2b29cdb2a5232251bdf55d481f6928b14488"
+          },
+          {
+            "id": "test_summarization_short_000",
+            "routing_sha256": "c049ab81a1e1cae10f0523da4a5f24116c74ba965f013bbf00aae28838ef7989"
+          },
+          {
+            "id": "test_mathematics_short_006",
+            "routing_sha256": "1f103d0bc0e393760884fe80449812186e83ad8f916b4019f7d829a094d4f34e"
+          },
+          {
+            "id": "test_mathematics_short_000",
+            "routing_sha256": "89b2e15d3dbde534e97382986d7a996bd32d5f1ecbb9338685ce413f5ebc4acf"
+          },
+          {
+            "id": "test_translation_medium_010",
+            "routing_sha256": "dec05da4bea5fba077907ef89f444b15d958774b778e61e4071f78e147a6b8ca"
+          },
+          {
+            "id": "test_mathematics_medium_001",
+            "routing_sha256": "8f61a7e02f85ee4af29c037adf3e8acb3976117cc2aa30036f189bd92e067079"
+          },
+          {
+            "id": "test_programming_long_002",
+            "routing_sha256": "0f77a994d542e3891be6767ccec5fdde78884d7d79e04d8eeff261d4dc12c007"
+          },
+          {
+            "id": "test_qa_long_002",
+            "routing_sha256": "d18376be9498bfa95b2661bee051b1171fdbfbc4e2ed77ced581ea8b94fed013"
+          },
+          {
+            "id": "test_translation_short_006",
+            "routing_sha256": "81d9599083e2438e2e3e0252d944a7b0c296b83bd7e4746d31aeba15917387ab"
+          },
+          {
+            "id": "test_programming_short_006",
+            "routing_sha256": "ac319f98452c3c71cc77342747bbc7715e890a79c30da6fa4416b1863a05adee"
+          },
+          {
+            "id": "test_translation_short_000",
+            "routing_sha256": "a99a96e1a384e87ce78c0004f2d7a984b72df30f979645b2eb28ceb5d57865d7"
+          },
+          {
+            "id": "test_summarization_short_009",
+            "routing_sha256": "adf4005c90425f6a3c04e012d69536c7da06e9b3087bcce8bb2045f8bed48678"
+          },
+          {
+            "id": "test_summarization_medium_001",
+            "routing_sha256": "690c7d6b2dc54ba436d80147bf8476db86159de6705ff9779033a5f95f0bd330"
+          },
+          {
+            "id": "test_mathematics_short_012",
+            "routing_sha256": "41231dceb059b7d49071d1a08a80e2c6d4b4f558dc28373711d27e446e590629"
+          },
+          {
+            "id": "test_programming_long_014",
+            "routing_sha256": "738d700e36c410b215506dee1ffdff9561e0efaa895852c4d68e552863ad929f"
+          },
+          {
+            "id": "test_translation_long_005",
+            "routing_sha256": "bf727edec31f6e1a65e15b13ec7312a2a8ff5cf9d6b9454e05ee428d26a99c1f"
+          },
+          {
+            "id": "test_mathematics_medium_016",
+            "routing_sha256": "7f4d9cd7d51edd19b79e5b2e26c8d36d16874c2ade8eb7b1ea03581dc824fe7a"
+          },
+          {
+            "id": "test_summarization_medium_004",
+            "routing_sha256": "775cc1a46efcad07c60b1cd8a928df025dd0a75490e67533cd66d47692f3656f"
+          },
+          {
+            "id": "test_summarization_medium_016",
+            "routing_sha256": "5119fa8617f03ea36c388849d1f6487f7e3ee03b115c9815e3c427d6dc8b0a97"
+          },
+          {
+            "id": "test_qa_long_008",
+            "routing_sha256": "f577cb26cf35633aeb04fb73ce46c9a2bcdb6ae445c1624eacc73cfece5244b6"
+          },
+          {
+            "id": "test_mathematics_long_005",
+            "routing_sha256": "e4fedd2ba54627446ae526fa7559fe907b77036fe8c5bc1b4b530349386b1377"
+          },
+          {
+            "id": "test_long_context_short_012",
+            "routing_sha256": "c38e990d9a44588d2e17fae0766fb2219d21135898f99007d76c8883437f262d"
+          },
+          {
+            "id": "test_mathematics_short_003",
+            "routing_sha256": "6d4624a1344346dc3f6960182730388dd622abb15033b60f63156434cd88f8fa"
+          },
+          {
+            "id": "test_qa_medium_010",
+            "routing_sha256": "321386c2637db83a4dd7bcca689d1c776d1ea063ca9e2e49efe6088f9b2462fc"
+          },
+          {
+            "id": "test_summarization_long_005",
+            "routing_sha256": "46836b32677170bbd8d9d541fc1b0b81cc2b3b08cda9ffaafc80a22b4378302b"
+          },
+          {
+            "id": "test_long_context_long_014",
+            "routing_sha256": "414d126057a7f22be207abaec22c68926b1952860c8ea3fdf031a6d1cd923ae6"
+          },
+          {
+            "id": "test_translation_short_015",
+            "routing_sha256": "868faa80e473ef19378261ed4896cf6fd8cb50de2d50d55a1e1bc889bc3ed07a"
+          },
+          {
+            "id": "test_programming_medium_004",
+            "routing_sha256": "a63186e1e5bb2e6721bf9ca4aca930a3c1cce3e332766dfe8ebbc4eeb9f91d9b"
+          },
+          {
+            "id": "test_summarization_medium_013",
+            "routing_sha256": "af54cf085b19b8bc8e8360f3a6206308641ffbfab3262e6b2750bfb845827775"
+          },
+          {
+            "id": "test_qa_short_006",
+            "routing_sha256": "57327d61b30e23fc32310d559aa879dc17231afd2ed7df2e835777e3bb9a9cab"
+          },
+          {
+            "id": "test_long_context_short_000",
+            "routing_sha256": "be69ab2a517312093648615731030f8a0804db09db56b7159a67310d5ff47e7f"
+          },
+          {
+            "id": "test_long_context_long_005",
+            "routing_sha256": "8a69cd8e8904e3708228756b1d1045ae7533a55eb68c0455e63f5083aa7ff9f9"
+          },
+          {
+            "id": "test_programming_short_012",
+            "routing_sha256": "c517240399365fe3b030c69f7a6c08b37b2e20cdb8e8c85e4cd9b7745e849b7b"
+          },
+          {
+            "id": "test_programming_medium_013",
+            "routing_sha256": "b441f360b692da305e2320f4f645ff985736c0cc393d48fab4557051a66d7441"
+          }
+        ]
+      }
+    },
+    "deepseek": {
+      "frozen_plan_sha256": "424ca3345c20b757484865ab06831cefcb8a0ebb506fbed420e8b842905d24c1",
+      "collection": {
+        "identity": {
+          "corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+          "metadata_sha256": "76bc65fa3f07436199f1f6b2688f01a0c7ccdb97a29b6c7d67c2eba11327e27c",
+          "binary_sha256": "a8d2e228d0ed1d5439f605ef776e4b5bb61ef5ef8ba96ec32dc8b5d38d0b2e68",
+          "steps": 128,
+          "batch_size": 8,
+          "threads": 8
+        },
+        "model": "deepseek",
+        "model_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-v2-lite-chat-q8_0.gguf",
+        "model_sha256": "09d9abe9170d14386b0a54fe3969035f6a770956cfefa7d2fbaa12e0900a2ba4",
+        "source_commit": "927dada6c9143ba4c940b72004d2698fa5e4e930",
+        "routing": "Actual llama.cpp ffn_moe_topk callback, independent sequence IDs, CPU, greedy, fixed EOS-inclusive length.",
+        "checkpoint_policy": "Resume whole original sequence batches to preserve numerical configuration."
+      },
+      "validation_prompts": 300,
+      "replays": [
+        {
+          "label": "baseline_16_stacked_prefix32",
+          "commands": 166400,
+          "all_kernel_counters_match": true,
+          "model_ns": 68264601600,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 70544847848,
+          "ioctl_overhead_ns": 2280246248
+        },
+        {
+          "label": "baseline_16_stacked_tail96",
+          "commands": 499200,
+          "all_kernel_counters_match": true,
+          "model_ns": 204793804800,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 212334832941,
+          "ioctl_overhead_ns": 7541028141
+        },
+        {
+          "label": "learned_selected_prefix32",
+          "commands": 166400,
+          "all_kernel_counters_match": true,
+          "model_ns": 64686877104,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 67543853268,
+          "ioctl_overhead_ns": 2856976164
+        },
+        {
+          "label": "learned_selected_tail96",
+          "commands": 499200,
+          "all_kernel_counters_match": true,
+          "model_ns": 195321338760,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 203049516491,
+          "ioctl_overhead_ns": 7728177731
+        }
+      ],
+      "winners": {
+        "modulo": {
+          "policy": "modulo",
+          "group_chips": 16,
+          "stack_gate_up": true,
+          "training_ffn_ms_per_token": 21.332688,
+          "training_components_ms": {
+            "flash_ns": 19.3284,
+            "control_ns": 1.248,
+            "host_ns": 0.104,
+            "input_ns": 0.272896,
+            "output_ns": 0.379392
+          }
+        },
+        "learned": {
+          "policy": "learned",
+          "group_chips": 8,
+          "stack_gate_up": true,
+          "training_ffn_ms_per_token": 20.284198341562497,
+          "training_components_ms": {
+            "flash_ns": 19.0138391015625,
+            "control_ns": 0.624,
+            "host_ns": 0.104,
+            "input_ns": 0.16296723999999999,
+            "output_ns": 0.379392
+          }
+        }
+      },
+      "evaluation": {
+        "frozen_plan_sha256": "424ca3345c20b757484865ab06831cefcb8a0ebb506fbed420e8b842905d24c1",
+        "test_evaluated_unix": 1793055329.4178739,
+        "test_prompts": 100,
+        "decode_steps": 128,
+        "prefix_steps": 32,
+        "fixed_same_plan_for_both_windows": true,
+        "prompt_level_bootstrap_resamples": 2000,
+        "test_reference_checks": {
+          "checks": 520,
+          "routing_cases": 28080,
+          "all_components_match_reference": true,
+          "components": [
+            "flash_ns",
+            "control_ns",
+            "host_ns",
+            "input_ns",
+            "output_ns"
+          ]
+        },
+        "test_routing": [
+          {
+            "id": "test_translation_medium_004",
+            "routing_sha256": "49a820560a038757faa93e2173dbde905f72000dc628577fd3e1520758069c15"
+          },
+          {
+            "id": "test_translation_short_009",
+            "routing_sha256": "d2cf79427b8e17a87dfa57cef99ecd89069df228d13e4f21e09df9c95872a731"
+          },
+          {
+            "id": "test_qa_short_003",
+            "routing_sha256": "c6bc8ecded4c56b997c234bfc8c0705cc4eafaa05224d4159f6a6f874fecfb65"
+          },
+          {
+            "id": "test_qa_medium_001",
+            "routing_sha256": "968aa1224e60c118be41887b99b791e9df59d4ab57c02d46c4758070e432fa6f"
+          },
+          {
+            "id": "test_qa_short_009",
+            "routing_sha256": "cd82c380f12ebe0c9a028548f3d8c3621ac126cdd159067de71cbcc62a7f2a8a"
+          },
+          {
+            "id": "test_mathematics_medium_010",
+            "routing_sha256": "91c63413bb628c138e9d990221063234fea0f11fe732f9499e4bfbf8c0a275b0"
+          },
+          {
+            "id": "test_programming_short_000",
+            "routing_sha256": "24e2a12b3e43171db38458e110cd8d949c8ba08ee9bfa0c36c7c67c5b85cd09f"
+          },
+          {
+            "id": "test_summarization_long_008",
+            "routing_sha256": "54de54efa7fa2cc4a28626fb35aba327eff5f7a461628901b9b285ccf3bd2b3b"
+          },
+          {
+            "id": "test_qa_medium_004",
+            "routing_sha256": "01496841164e8eeaaae2132ee4d7bd65ce1b09371a30f953baa025ec43f5ec1e"
+          },
+          {
+            "id": "test_qa_medium_013",
+            "routing_sha256": "c458d31a687b5db31fcba6ed7457a1a480613104c318ea4592f7d8d28583f62a"
+          },
+          {
+            "id": "test_translation_medium_007",
+            "routing_sha256": "8af67fe6d8ab768da9bb2d02113cbf181b1680540024345dc31b178055e2f7f4"
+          },
+          {
+            "id": "test_translation_long_002",
+            "routing_sha256": "9660817bcd0412b0eda1e5a068504a5a3d16b08e0bf2c7fbbdd043b0c7a8ecd4"
+          },
+          {
+            "id": "test_summarization_long_011",
+            "routing_sha256": "2dc75fd052477a269538a0a65052033e9dbab285ca0b7d64c4bd6e9377c7b593"
+          },
+          {
+            "id": "test_long_context_medium_010",
+            "routing_sha256": "a18fa0a2606dfaccbc5f3a9c3cc761e8d5384a863ae5bbd153b6c10ba055a54b"
+          },
+          {
+            "id": "test_programming_short_009",
+            "routing_sha256": "b921633622cc635fffa87ef0fbb8462d0882c82da301f532db0c1a9b1b9e2902"
+          },
+          {
+            "id": "test_mathematics_long_011",
+            "routing_sha256": "019c320d9672b2b668425ca3e2859fa097f6ca070af5b0d8d1490cb46a3f75aa"
+          },
+          {
+            "id": "test_mathematics_long_008",
+            "routing_sha256": "9e134d66039e89c75c5884a43b498f66cc05764d7269656ca8e2a7240f09f50f"
+          },
+          {
+            "id": "test_programming_long_011",
+            "routing_sha256": "c059fcbbae983f2f2bdffc389efcab83af4339b47677efd5fbe701ee75a2f7ad"
+          },
+          {
+            "id": "test_programming_long_008",
+            "routing_sha256": "10f2d8b90a1d14a1ef016bd638cd0b5d59f01b4f02808ac95287fd681fe8c8c3"
+          },
+          {
+            "id": "test_programming_short_015",
+            "routing_sha256": "203e30804665442fe21d13b99455cc932ef7f386cb7b1aec938f9ccf17c922a1"
+          },
+          {
+            "id": "test_long_context_short_015",
+            "routing_sha256": "d6d0a38d1a3cd9b6685dbff104adb92611ad404606b497ae39a75a12f319e243"
+          },
+          {
+            "id": "test_mathematics_medium_007",
+            "routing_sha256": "0e39494b7a72f6743606abfc0047892f3dac0990e03e42329c29ee69981f4e6a"
+          },
+          {
+            "id": "test_long_context_medium_016",
+            "routing_sha256": "3faf7762c249ff1f6b7ef6c48e855db9e965e0069f98b6585315ba101fe84b1a"
+          },
+          {
+            "id": "test_long_context_medium_001",
+            "routing_sha256": "a48729ccf8ea5587016ecb5803ef061b67f22a372f3cea23b3ac66212aea9d15"
+          },
+          {
+            "id": "test_summarization_long_002",
+            "routing_sha256": "2ad0334a12a2c0ab990e55f77194588c705fc3f4a017be50139f654836921124"
+          },
+          {
+            "id": "test_qa_long_005",
+            "routing_sha256": "adf73b37d1f6fc4eacf0a4178e40d8dfed6cc718b86bfdf91bd3148d3a9728ac"
+          },
+          {
+            "id": "test_qa_short_015",
+            "routing_sha256": "1c8a28b8cb1bd9dd0359d8788fc6480b01e634a59328c9df8ff2a1f2c8872d18"
+          },
+          {
+            "id": "test_long_context_medium_013",
+            "routing_sha256": "fcb7aed890cf4d84c6d9dc6245d9304b9807dda4ffb6c1a79af9786ec04fa491"
+          },
+          {
+            "id": "test_long_context_long_002",
+            "routing_sha256": "01ead5b7cd7b4dc48e52892b50594ed8288a1664060059a30a3e002227ecaf15"
+          },
+          {
+            "id": "test_mathematics_short_009",
+            "routing_sha256": "0694fd3051458a17dca86183fc8deb762d7533cbc11b548d151461c076aaff5f"
+          },
+          {
+            "id": "test_long_context_short_006",
+            "routing_sha256": "832d675750720771a15c5b36e1cca2763c315bd36a4af976bdaf7ec64c4b6b96"
+          },
+          {
+            "id": "test_translation_medium_016",
+            "routing_sha256": "cef5268ab5853390a4608369859a20116002a73bf83d83786acdcf8c45fe3d4e"
+          },
+          {
+            "id": "test_qa_short_012",
+            "routing_sha256": "48b3606799394a941ade6570063800adac4a79c07e4dffc39002c38539a98466"
+          },
+          {
+            "id": "test_translation_medium_001",
+            "routing_sha256": "913a37209e3ecc247d4174552c534e6337c21afcb38588faa39402ded81b866a"
+          },
+          {
+            "id": "test_mathematics_medium_013",
+            "routing_sha256": "c3f0450fb017f6f26fb8a89987c2416cacd01077a83c3dfd0f7a32fdefe69cd6"
+          },
+          {
+            "id": "test_summarization_short_006",
+            "routing_sha256": "1334c37fbebae9920d2c1817bc3eb75fa582d70f7144e18ec1d0e8a9a241b4cb"
+          },
+          {
+            "id": "test_summarization_short_015",
+            "routing_sha256": "4726d56da105f0ed89e63fa491bbabb6e6a23edb913a6c040b82c7af7b2f7e3a"
+          },
+          {
+            "id": "test_long_context_long_008",
+            "routing_sha256": "cec74e878f724cc82e356131763b34ba97ba2334569a2874ecd6caba6acf576e"
+          },
+          {
+            "id": "test_long_context_short_003",
+            "routing_sha256": "5bce6112513e35a5559b0c2c395c0ba4da46035ba30e2da74337f2d179cdb99a"
+          },
+          {
+            "id": "test_qa_long_011",
+            "routing_sha256": "920a61911b2addb99b16865982284cebd5c05f6c359d67df57e9857537ff212e"
+          },
+          {
+            "id": "test_summarization_medium_007",
+            "routing_sha256": "34b39a8138c4a3d9edd57c5ba059e6a33622b78050ff98116a4afb7e0cc1605c"
+          },
+          {
+            "id": "test_long_context_medium_007",
+            "routing_sha256": "b44aa764baabe7e5e274c15f449bcb8e132e38fa7b360bb02b8ba65c1c4901b5"
+          },
+          {
+            "id": "test_translation_short_003",
+            "routing_sha256": "d4bb3136f4445ff57db7f53802feb43cc427795e87c9b75684d5675c4ef35641"
+          },
+          {
+            "id": "test_translation_medium_013",
+            "routing_sha256": "df71349fa2a2d0ed0b5185e73ded41d5291f715ce01b54159a5a2fb77d847c5c"
+          },
+          {
+            "id": "test_summarization_medium_010",
+            "routing_sha256": "2aa1dfc4d47568ce90488d744306cdf9d68dc237dd1f7c61b63651211ad4b022"
+          },
+          {
+            "id": "test_programming_medium_010",
+            "routing_sha256": "6fd5d2e2b7d04971a731862f46ee662fe3c023f8e889481e109a7dbca4d269ff"
+          },
+          {
+            "id": "test_translation_long_008",
+            "routing_sha256": "f2e815985972b48e59e6b7f04ef54dd8c948d955189f0f05b0c444420da9631a"
+          },
+          {
+            "id": "test_qa_medium_007",
+            "routing_sha256": "1dcb2fe078f7921ea00ffc1ee212f162b8ffea50cf47ec05214c96973fedb708"
+          },
+          {
+            "id": "test_programming_medium_001",
+            "routing_sha256": "623e3bc0af169a7a154fb56550e694b0d88fa775ddacc4bae00d6626b895fdb0"
+          },
+          {
+            "id": "test_long_context_long_011",
+            "routing_sha256": "58f7571d776d04c17c89a6ca4baad3e9da9122a63772246982a45932b6208f76"
+          },
+          {
+            "id": "test_summarization_short_012",
+            "routing_sha256": "f94e48ed47dc96a6f76f5b48750a8340fd2521c2d00f5d2d0d7ba5d65afab1b7"
+          },
+          {
+            "id": "test_translation_short_012",
+            "routing_sha256": "5b592d9586f94aa9d535cdcbb5d0f522c39ebb031e1837ae86bce8615b0c930e"
+          },
+          {
+            "id": "test_long_context_short_009",
+            "routing_sha256": "b4496ee15a9aced0c8771c715c99237efa7a33f37b1ef40de5f4303619ae149d"
+          },
+          {
+            "id": "test_qa_short_000",
+            "routing_sha256": "b49f37e6abf2720a86a48c9d6fa5c47e565f1fe2151df22763cb099d440f6432"
+          },
+          {
+            "id": "test_programming_medium_007",
+            "routing_sha256": "94959f95c317c1e65c68359d674f591dc101e6d33d80163163718d05f0be86e3"
+          },
+          {
+            "id": "test_summarization_long_014",
+            "routing_sha256": "46d79c959f6c929850930d746473ac563403273ae22d780c1a25bb519a320fc1"
+          },
+          {
+            "id": "test_translation_long_014",
+            "routing_sha256": "434c9f89cf176d88d5145d9ce0032e158b65d25a2d399552d9e4c8c2802d4825"
+          },
+          {
+            "id": "test_long_context_medium_004",
+            "routing_sha256": "2beda0d57c46460bcb976fd3b6dd9ebb9cf8f569632ab159e266ed9cbdf87159"
+          },
+          {
+            "id": "test_mathematics_long_002",
+            "routing_sha256": "ef46273df2444806b554ee38d9b7132f72a273c1211fdf62c73a6a270c2915bc"
+          },
+          {
+            "id": "test_programming_long_005",
+            "routing_sha256": "e6add8208e42abdb10a8b2c87855fa591ff7017b8850ee113325e54bc181e957"
+          },
+          {
+            "id": "test_summarization_short_003",
+            "routing_sha256": "8c867037607573628f5ace57c4493b89353fa8d60ba9d3777a5ddf08006fa87a"
+          },
+          {
+            "id": "test_translation_long_011",
+            "routing_sha256": "bb81aa735827ed9c163b0be37081c3d87adc4a20407245af6cc202a82e26f8b1"
+          },
+          {
+            "id": "test_programming_short_003",
+            "routing_sha256": "e9b8347a2d77410002214be036beeb5bd3b1cd28d014028c9b1806deb0176835"
+          },
+          {
+            "id": "test_mathematics_medium_004",
+            "routing_sha256": "0cf77beaadbf95018ed782b7f7aed8372b818d00989d141fa133e069bb6d876e"
+          },
+          {
+            "id": "test_mathematics_long_014",
+            "routing_sha256": "14a585fc293c34b4ae20edfc78c09bfbcfeb9d6ff2358fc848048804b36db1a6"
+          },
+          {
+            "id": "test_qa_long_014",
+            "routing_sha256": "643c94f0d1023ffcf34fc9e5e853bf09152c2037398172df1f50c0590b479cd9"
+          },
+          {
+            "id": "test_mathematics_short_015",
+            "routing_sha256": "8f71c7e308447ebff7790149646eead6c6b611292f085ec96db058142ab20d5c"
+          },
+          {
+            "id": "test_summarization_short_000",
+            "routing_sha256": "4fec7330a29d7535079abf186e3e7917dee2ec0058dc8f38cbc77f6f48c6c1e2"
+          },
+          {
+            "id": "test_mathematics_short_006",
+            "routing_sha256": "4eb97b1923f1702354e3da6c78e0343b834790644f2a883670ecd900d7c2e18d"
+          },
+          {
+            "id": "test_mathematics_short_000",
+            "routing_sha256": "f1d59485fac287be0764bb449ce549f4ed336d46b959469e5680d5d808a59777"
+          },
+          {
+            "id": "test_translation_medium_010",
+            "routing_sha256": "b4daa00a645ba88ac0d024ebcc202274fe837b92864c9fb1fc927526b313358f"
+          },
+          {
+            "id": "test_mathematics_medium_001",
+            "routing_sha256": "3a47447a9f95edb87283177306a95f51d3c919ffaecc1b51be1998760222c7dc"
+          },
+          {
+            "id": "test_programming_long_002",
+            "routing_sha256": "3265a0d6905f6931c009f4938f2bc270ca2f9a546c6436239966a739186547a4"
+          },
+          {
+            "id": "test_qa_long_002",
+            "routing_sha256": "d004427d4ef67561b769b63fb537790c4221c4b5df36edcb793f6b487fc1ba97"
+          },
+          {
+            "id": "test_translation_short_006",
+            "routing_sha256": "8d99ae97d211d9c94f88d422f358e43fbe9a4cfc984a56dbdbb40b9b2dcaafbc"
+          },
+          {
+            "id": "test_programming_short_006",
+            "routing_sha256": "c5f0daf1b5abe09bb5e08d7973fd8c1d5897a4af7827e337d02d852c9bee7245"
+          },
+          {
+            "id": "test_translation_short_000",
+            "routing_sha256": "b2945ac028f4ed61829ccc80cd61208ef679f4785a7ea0771071ed25fd63584a"
+          },
+          {
+            "id": "test_summarization_short_009",
+            "routing_sha256": "930cd5839a2f338d5b787c4c93130da087b96efb88807bbb5b390f854106ec58"
+          },
+          {
+            "id": "test_summarization_medium_001",
+            "routing_sha256": "4dad57e32e382d6a31703c3aacec265bf9616e51f467b0612119be98b5ac6c96"
+          },
+          {
+            "id": "test_mathematics_short_012",
+            "routing_sha256": "73f785483d61ec9bd1acc594885ee2223fd0fc4ae367cd3f889929cfa59550e6"
+          },
+          {
+            "id": "test_programming_long_014",
+            "routing_sha256": "da86285cbd7c6184e5cdb03cab5e7e2e74a2b9bdd789610b27e5b05f2634f966"
+          },
+          {
+            "id": "test_translation_long_005",
+            "routing_sha256": "373cc14905680e700e2dc74c02b4be34ab2954bd270f6b5b4e261e7fb258c72f"
+          },
+          {
+            "id": "test_mathematics_medium_016",
+            "routing_sha256": "4118db88203e1d2fa7b3bbcc18dd53fb2f7924c2080c711601024c23fdb7b552"
+          },
+          {
+            "id": "test_summarization_medium_004",
+            "routing_sha256": "3c44f280551438ad97521046e9aacd3c81b4113ddeb4d2be728259388e37768a"
+          },
+          {
+            "id": "test_summarization_medium_016",
+            "routing_sha256": "f5aa03e6f1520fd74bb10bb3f1063b35f155f7dfff4c59a57070f6f66f265476"
+          },
+          {
+            "id": "test_qa_long_008",
+            "routing_sha256": "f5e889d18308d737eb7f4b30764141d79866c722c6c4e9e0a88659032bc870ad"
+          },
+          {
+            "id": "test_mathematics_long_005",
+            "routing_sha256": "f8f5bd96eadb9285ce259b75e12b61f89dbb410319fcaf7fa56fefdd8b8d6433"
+          },
+          {
+            "id": "test_long_context_short_012",
+            "routing_sha256": "bb50e21e7c640c72de40290df9f2f575fcac3dfabfdf488828f2a9c022fd8a6d"
+          },
+          {
+            "id": "test_mathematics_short_003",
+            "routing_sha256": "3be3b5ddbf1387ecec102c7c82af9e2d8ce7412739ba6a6fa52d3eaad7501255"
+          },
+          {
+            "id": "test_qa_medium_010",
+            "routing_sha256": "ad1ddb016b4bccec5c781e2e385e241c694eef72bad058e9ba2e715be44eccdb"
+          },
+          {
+            "id": "test_summarization_long_005",
+            "routing_sha256": "e5956974cb85c474289fe529b300f3e92c7ba50c471b72b9fb27ee90f8586ac2"
+          },
+          {
+            "id": "test_long_context_long_014",
+            "routing_sha256": "8923c27befc2dfbcbd1bf9f9b2e3c0e6c02e66c664850279f164d90750dc326a"
+          },
+          {
+            "id": "test_translation_short_015",
+            "routing_sha256": "347d3f45b777d880cf5d90a7df1fcfd1b94032139a23a8fd2e021b648d9d2c5e"
+          },
+          {
+            "id": "test_programming_medium_004",
+            "routing_sha256": "bc51dc928708566aed05567ddf90bd40418434da383e9698ba40883d3ad9f58d"
+          },
+          {
+            "id": "test_summarization_medium_013",
+            "routing_sha256": "c3eebf46f543461bf4fb47fce2c9c7de4a1994ab844bc6f73c3d52895bc859fb"
+          },
+          {
+            "id": "test_qa_short_006",
+            "routing_sha256": "ccc9baec382ea9b6bb15e450d38252023b7dc86b33dfc0368ad61facfe3513c7"
+          },
+          {
+            "id": "test_long_context_short_000",
+            "routing_sha256": "b0e43add690b2bf2099797e43a6e17d65dc8179c6d9bc49884fd29414d55ceab"
+          },
+          {
+            "id": "test_long_context_long_005",
+            "routing_sha256": "f34ef9cdb835ceab933439cd399fc2bc8e74ed5a30b8377fb59a7a18b5233002"
+          },
+          {
+            "id": "test_programming_short_012",
+            "routing_sha256": "0ff86684e50a64e4f299db56ea3019a4112d78b1ac20c5d8daaff76096fc0a9f"
+          },
+          {
+            "id": "test_programming_medium_013",
+            "routing_sha256": "146f65e70627ea0df5436e8feb51876b303acc676c55f735f105fdf3c903bfc8"
+          }
+        ]
+      }
+    },
+    "qwen3": {
+      "frozen_plan_sha256": "19ffdc5fdcdb93aff2b4481a15640aa09dd81c8a8dee6e56e837540bd6470345",
+      "collection": {
+        "identity": {
+          "corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+          "metadata_sha256": "b4964a4ec9f5787f6783662d00f2a2595af515317132c9fabffb9dfecaa84be6",
+          "binary_sha256": "a8d2e228d0ed1d5439f605ef776e4b5bb61ef5ef8ba96ec32dc8b5d38d0b2e68",
+          "steps": 128,
+          "batch_size": 8,
+          "threads": 8
+        },
+        "model": "qwen3",
+        "model_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/qwen3-30b-a3b-instruct-2507-q8_0.gguf",
+        "model_sha256": "e94f6d77ac50d82a849d9a1b4eced5a4a0ba91b4537c58630971340308bb1d33",
+        "source_commit": "927dada6c9143ba4c940b72004d2698fa5e4e930",
+        "routing": "Actual llama.cpp ffn_moe_topk callback, independent sequence IDs, CPU, greedy, fixed EOS-inclusive length.",
+        "checkpoint_policy": "Resume whole original sequence batches to preserve numerical configuration."
+      },
+      "validation_prompts": 300,
+      "replays": [
+        {
+          "label": "baseline_16_stacked_prefix32",
+          "commands": 307200,
+          "all_kernel_counters_match": true,
+          "model_ns": 118475980800,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 123033148487,
+          "ioctl_overhead_ns": 4557167687
+        },
+        {
+          "label": "baseline_16_stacked_tail96",
+          "commands": 921600,
+          "all_kernel_counters_match": true,
+          "model_ns": 355427942400,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 368813496705,
+          "ioctl_overhead_ns": 13385554305
+        },
+        {
+          "label": "learned_selected_prefix32",
+          "commands": 307200,
+          "all_kernel_counters_match": true,
+          "model_ns": 97683394400,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 102097133921,
+          "ioctl_overhead_ns": 4413739521
+        },
+        {
+          "label": "learned_selected_tail96",
+          "commands": 921600,
+          "all_kernel_counters_match": true,
+          "model_ns": 293255949356,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 306007930853,
+          "ioctl_overhead_ns": 12751981497
+        }
+      ],
+      "winners": {
+        "modulo": {
+          "policy": "modulo",
+          "group_chips": 8,
+          "stack_gate_up": true,
+          "training_ffn_ms_per_token": 32.8179187890625,
+          "training_components_ms": {
+            "flash_ns": 30.1563597890625,
+            "control_ns": 1.536,
+            "host_ns": 0.192,
+            "input_ns": 0.245431,
+            "output_ns": 0.688128
+          }
+        },
+        "learned": {
+          "policy": "learned",
+          "group_chips": 8,
+          "stack_gate_up": true,
+          "training_ffn_ms_per_token": 30.5135243146875,
+          "training_components_ms": {
+            "flash_ns": 27.8516455546875,
+            "control_ns": 1.536,
+            "host_ns": 0.192,
+            "input_ns": 0.24575076,
+            "output_ns": 0.688128
+          }
+        }
+      },
+      "evaluation": {
+        "frozen_plan_sha256": "19ffdc5fdcdb93aff2b4481a15640aa09dd81c8a8dee6e56e837540bd6470345",
+        "test_evaluated_unix": 1793054618.115576,
+        "test_prompts": 100,
+        "decode_steps": 128,
+        "prefix_steps": 32,
+        "fixed_same_plan_for_both_windows": true,
+        "prompt_level_bootstrap_resamples": 2000,
+        "test_reference_checks": {
+          "checks": 960,
+          "routing_cases": 51840,
+          "all_components_match_reference": true,
+          "components": [
+            "flash_ns",
+            "control_ns",
+            "host_ns",
+            "input_ns",
+            "output_ns"
+          ]
+        },
+        "test_routing": [
+          {
+            "id": "test_translation_medium_004",
+            "routing_sha256": "eefe2c7ba67d02c5b5145779745e6b06a1b083da11ecb91d6684f5ebc52cce8c"
+          },
+          {
+            "id": "test_translation_short_009",
+            "routing_sha256": "695223188526e1f6c2575f959687561d1b8d4b2375852903bb276f998cc3d0ba"
+          },
+          {
+            "id": "test_qa_short_003",
+            "routing_sha256": "5c04f44664c1a4b884795d9a7bd832efb79fae7c5eb29d987aeb90e199f887c1"
+          },
+          {
+            "id": "test_qa_medium_001",
+            "routing_sha256": "28ff8f05f617219292dd774b564fee5318fbcc6f707cfcc7feac0f469130e32e"
+          },
+          {
+            "id": "test_qa_short_009",
+            "routing_sha256": "8e4ae5040b93f9988fa5adebbd98faf86e9677098fa34c6c4a0fef9a561a0ecd"
+          },
+          {
+            "id": "test_mathematics_medium_010",
+            "routing_sha256": "8ee78b765c08e33339de97759ba3f579458ba24ec4998f1b2cf7f60d907b288e"
+          },
+          {
+            "id": "test_programming_short_000",
+            "routing_sha256": "7d914257fba9e99f7c9aa4e73affa5b01860af33793e24b1814cdee4c58040a5"
+          },
+          {
+            "id": "test_summarization_long_008",
+            "routing_sha256": "6905504316868903731531af407fe55f0ec1f17bcbaa0c25bf8c9e16b5f430d8"
+          },
+          {
+            "id": "test_qa_medium_004",
+            "routing_sha256": "1f8f57b4d172737a77ed77b638935ee7fa31389b362dbfdae4f2385b0735c179"
+          },
+          {
+            "id": "test_qa_medium_013",
+            "routing_sha256": "53567b1870db3606145ef2bac112372147389fa6bb7b3c3d4177213d4b152b5f"
+          },
+          {
+            "id": "test_translation_medium_007",
+            "routing_sha256": "b5d07b1290d1233a8ad2f162c470de0a406abc19f51b0912749437934466412b"
+          },
+          {
+            "id": "test_translation_long_002",
+            "routing_sha256": "92536d6c0f8988d01ad9c506c595b0e52b34c0928e02c0c6174cb8732b6ba48e"
+          },
+          {
+            "id": "test_summarization_long_011",
+            "routing_sha256": "49b229bd39ee910a1581dae9039ef1bf36cab88b4fb4d4f34ec6d2147b319263"
+          },
+          {
+            "id": "test_long_context_medium_010",
+            "routing_sha256": "5768b1f28a371505536221c455efc2cfd547246d7318d8f813eb0e830087ba60"
+          },
+          {
+            "id": "test_programming_short_009",
+            "routing_sha256": "843696817bbf5dc6d7301c4948bfcb249ffda18c275310e107cbb3cd0e683e88"
+          },
+          {
+            "id": "test_mathematics_long_011",
+            "routing_sha256": "5375bd4fce1bad068081ebbf97e05652e5106e34d1679e5739b5f4523dca4641"
+          },
+          {
+            "id": "test_mathematics_long_008",
+            "routing_sha256": "fc917cf428f02483b65971006bd37d27dbecabc5daa37a9a7ee4f483f9b437c0"
+          },
+          {
+            "id": "test_programming_long_011",
+            "routing_sha256": "0f5372af3a5c116f41d163eb3d6666737eb22bde863c3d114b59889102f2af41"
+          },
+          {
+            "id": "test_programming_long_008",
+            "routing_sha256": "679c46d7bd6e8ff48c4dab94db2cc9fd837354664ac5f0d2e0afdc9df3949511"
+          },
+          {
+            "id": "test_programming_short_015",
+            "routing_sha256": "bc098b98ef8d61de3939623a21abffab2c3e774cdd673e52f7dad14b4bc37b74"
+          },
+          {
+            "id": "test_long_context_short_015",
+            "routing_sha256": "946fa103d54b4fedd96a716aecf586c98a06d3448b3879a3649c9b5d6fd33503"
+          },
+          {
+            "id": "test_mathematics_medium_007",
+            "routing_sha256": "f2c96a52acc3513386634a82bbfedee7b9a1ade626d179b2c6615970b1ecb759"
+          },
+          {
+            "id": "test_long_context_medium_016",
+            "routing_sha256": "7ed384e292b26b7ccc7f3566830a54eeb60e78ab2966306abd80ba60bd51ba46"
+          },
+          {
+            "id": "test_long_context_medium_001",
+            "routing_sha256": "abee075a4d7ccf5dfa1e46c3a4eda7344be8a20a4ecd4eb03e68231f23841a3b"
+          },
+          {
+            "id": "test_summarization_long_002",
+            "routing_sha256": "145a9f708091842a7d8fbf74f99ab07b1827daaae33764a8e6544ea1d77fd2a2"
+          },
+          {
+            "id": "test_qa_long_005",
+            "routing_sha256": "49b5ec39a17238a758a1d65f07b50b8de4aa9e8ca34179d97705de4a3e95fbc7"
+          },
+          {
+            "id": "test_qa_short_015",
+            "routing_sha256": "3a365400102d7b9ea8b804985bf838380d67f3a978133a29b93643ce43032772"
+          },
+          {
+            "id": "test_long_context_medium_013",
+            "routing_sha256": "60647f2d81db70ca9b2e8b0da4a454a9a17ca56fe58424f3f71776074227b7cb"
+          },
+          {
+            "id": "test_long_context_long_002",
+            "routing_sha256": "ed4da213978e3235ba5be933d8ccc36c0cd10c3326274c4421154db59ef3324b"
+          },
+          {
+            "id": "test_mathematics_short_009",
+            "routing_sha256": "156952134fd4a055930adb39e4b473daf22013207c359d2353354afde7514b57"
+          },
+          {
+            "id": "test_long_context_short_006",
+            "routing_sha256": "fce249dd9232495df479b2209b03723994615f3d95565bf2e302526bd456a327"
+          },
+          {
+            "id": "test_translation_medium_016",
+            "routing_sha256": "c7050b4374df178492c407dda2125ad92b38f3dc1e7e80aed8fd401632ec89a1"
+          },
+          {
+            "id": "test_qa_short_012",
+            "routing_sha256": "2e5510cbffe4aa5ea26895c7fed29af0678c778b582b883d96ffb07893a9a1f6"
+          },
+          {
+            "id": "test_translation_medium_001",
+            "routing_sha256": "843bf9f95bd11aa57a3ac61c5465318cc9937ddc487caac8cef4b53858981d23"
+          },
+          {
+            "id": "test_mathematics_medium_013",
+            "routing_sha256": "6602ca91888683613b192275d666a81a399791fc1ab0e0b5d1052dbe26b24601"
+          },
+          {
+            "id": "test_summarization_short_006",
+            "routing_sha256": "8c901c2d10f23f040747d1b5c7fcb7b703188b665717973b228bbdef2ac90ae1"
+          },
+          {
+            "id": "test_summarization_short_015",
+            "routing_sha256": "75bd15e11eb3921a958f1754e7b813107858a4303a58bd00ae6603c86f72370b"
+          },
+          {
+            "id": "test_long_context_long_008",
+            "routing_sha256": "fb7ada5a95fd94ba9f5b712a4d75bf80f3e6c15107700c84c0fb9a522d2a4676"
+          },
+          {
+            "id": "test_long_context_short_003",
+            "routing_sha256": "5d38e5bc1b3850141e1ad3c6d39050dee51e9c36d21a4b455c6c9a0e2e984abd"
+          },
+          {
+            "id": "test_qa_long_011",
+            "routing_sha256": "dfda41d4ce4387312fab1778fa567998f7fb871013f39ad330cddbbd3e8c10d1"
+          },
+          {
+            "id": "test_summarization_medium_007",
+            "routing_sha256": "6f082c57c3e2c0b9deb849d56982fc2335b6282e14279c3c66f1268eafe6c7b6"
+          },
+          {
+            "id": "test_long_context_medium_007",
+            "routing_sha256": "8f04329bf3f58ef55dce2aeb7287fc94590beb5a2126b58d0b1610a7fee49254"
+          },
+          {
+            "id": "test_translation_short_003",
+            "routing_sha256": "296e6e8e2dd57ae41c67378f12eaebd5783766de357de34c1991cd0921700744"
+          },
+          {
+            "id": "test_translation_medium_013",
+            "routing_sha256": "053193336223fc724b4dbe356e58758cd8bd91605775c16550ea02e3694e3252"
+          },
+          {
+            "id": "test_summarization_medium_010",
+            "routing_sha256": "7eb1524e9bdeae61b298035657ae3c60ca11c6eade01a8e71d08278557110f12"
+          },
+          {
+            "id": "test_programming_medium_010",
+            "routing_sha256": "d2c367b15bb38b73da8576b67342168e917b8707eecbeeade8837f0c0db412a5"
+          },
+          {
+            "id": "test_translation_long_008",
+            "routing_sha256": "f31bc7ccbc8d41922cc42a0a0371ef535bfd3c17705b93d9e1d7c832e6a8cf10"
+          },
+          {
+            "id": "test_qa_medium_007",
+            "routing_sha256": "4e5ec91624b37ce75eb46be56473ce30ce5b8c427a81277a83555acacee4e8ed"
+          },
+          {
+            "id": "test_programming_medium_001",
+            "routing_sha256": "3b2fa980121a21824751e1d63cd7b579c4ee15df23dff1899c576f02ed0b7a7d"
+          },
+          {
+            "id": "test_long_context_long_011",
+            "routing_sha256": "d14b2e351509f037f3f816a7224709f9edad0e01b5e9a4173f4a599b8e6088ff"
+          },
+          {
+            "id": "test_summarization_short_012",
+            "routing_sha256": "b6976ed3b7d441651233d5cd0c0e301ef1d1cfdb9ac4447f97395cf2b0a382d8"
+          },
+          {
+            "id": "test_translation_short_012",
+            "routing_sha256": "584bbb47721ff8fa09b7bd9a2f4d7ac09beac88c68ccafdef2c8a0d3e8e0adfc"
+          },
+          {
+            "id": "test_long_context_short_009",
+            "routing_sha256": "b9119033b2c3014add9adf53431c397c2707b5aeddbea04a4c4a8ea42e429f6e"
+          },
+          {
+            "id": "test_qa_short_000",
+            "routing_sha256": "509d6a724ac475c8fa1b30e9974751a40c656721a9645ae71555d8216676f6a7"
+          },
+          {
+            "id": "test_programming_medium_007",
+            "routing_sha256": "36117a8e5aa236965c9ffbe6e517d35cffbc611720607a237e99d52178d0954f"
+          },
+          {
+            "id": "test_summarization_long_014",
+            "routing_sha256": "f46a49e24fc7a1be62b381668c85a370b7d2b6ebba90eba0217efb0238d2e4ae"
+          },
+          {
+            "id": "test_translation_long_014",
+            "routing_sha256": "bac729f65501b3de33c7f56cb5f2544a2c3e5ebe34343ccd28908f28dc23fe8b"
+          },
+          {
+            "id": "test_long_context_medium_004",
+            "routing_sha256": "e5e6e72a07ca4c05002b412f75cb3f93574ffcc4b7519ade6d6b8a97f3f6d082"
+          },
+          {
+            "id": "test_mathematics_long_002",
+            "routing_sha256": "fc0c1e918516920c0cb06b1ab1802b5f91e41bc616e06126f8faa0691934fa8f"
+          },
+          {
+            "id": "test_programming_long_005",
+            "routing_sha256": "8824fa6e6ef3a03c51670b189591b94205d437e64188ccaa61caa375c39cab19"
+          },
+          {
+            "id": "test_summarization_short_003",
+            "routing_sha256": "da5c05a8aa7cead1b1ff3d48a8f7c628046c7ce144f13c452ea99dcecdaf9942"
+          },
+          {
+            "id": "test_translation_long_011",
+            "routing_sha256": "5eaa88e908fd03f9273138f74cced8021843560a00b64056b54420390a500dc4"
+          },
+          {
+            "id": "test_programming_short_003",
+            "routing_sha256": "ebc3f0244fec39e55d087c6e267ea7c8fe3e451c5c02ae693c586b88e9ca036d"
+          },
+          {
+            "id": "test_mathematics_medium_004",
+            "routing_sha256": "108b8cbdea4d1ffe5ccfa80910941956def816c9a0e56c07884383b547b4bd13"
+          },
+          {
+            "id": "test_mathematics_long_014",
+            "routing_sha256": "10c335596c1344f67a88e68990c04c8e0ad2eddb1eb751566a1f5f38ca203f30"
+          },
+          {
+            "id": "test_qa_long_014",
+            "routing_sha256": "43d0ed5a3d0fa4be8f72f46757d138aa36d59c1073d9dcef7705816c2403144c"
+          },
+          {
+            "id": "test_mathematics_short_015",
+            "routing_sha256": "a3ed18ad328960cc935e76e4af2cc83783e1c170406d1f203f69cf271a4c7dc5"
+          },
+          {
+            "id": "test_summarization_short_000",
+            "routing_sha256": "7fdf39f420f199e4a0c54d61a83fe401462324fb995f2e1943a9c73600893846"
+          },
+          {
+            "id": "test_mathematics_short_006",
+            "routing_sha256": "c5d5c91caaa613725d42077071838db7b2810ae09cc9948122601a488ddf39a0"
+          },
+          {
+            "id": "test_mathematics_short_000",
+            "routing_sha256": "a394d1d7be59a9d84c90d9a22dc8198b61f36617dc0799f1441d77739222ff6a"
+          },
+          {
+            "id": "test_translation_medium_010",
+            "routing_sha256": "3404b11bcdad510ca5e4a88d8b3cb73f9241a0f8db37a04b03e978d62cafe427"
+          },
+          {
+            "id": "test_mathematics_medium_001",
+            "routing_sha256": "bbe6637912b7b7dd67085dac0e81bc5f63e5f80df0561e5ba4ff6a34a4204607"
+          },
+          {
+            "id": "test_programming_long_002",
+            "routing_sha256": "4fbea714fd7402c14ea4645797911c35401378e8696685d92c0bf9ca4e9f5652"
+          },
+          {
+            "id": "test_qa_long_002",
+            "routing_sha256": "be84583ca0767995c25b4cc46d4c0182a62bc543954037664dc01e63e15704d1"
+          },
+          {
+            "id": "test_translation_short_006",
+            "routing_sha256": "4fd138ca854ea22eede2457a6b2a7794369872f7d1cb87cbfcc7a17b7da9001c"
+          },
+          {
+            "id": "test_programming_short_006",
+            "routing_sha256": "9fc9bc449a470649ab808d4fe2b1140c98d01bab77400486dc31fbf1c9468c71"
+          },
+          {
+            "id": "test_translation_short_000",
+            "routing_sha256": "dfe19f8b00c7ff8dc004e9c83b91608d560c15e3950089d729b23995ad7bf07e"
+          },
+          {
+            "id": "test_summarization_short_009",
+            "routing_sha256": "ca7712bb95fb31a18320914dc29749a68a9803a968969a87707b2459d79af3a2"
+          },
+          {
+            "id": "test_summarization_medium_001",
+            "routing_sha256": "fb0506ff4003226d4eee2abd1b401352ce42f43dcc71eb2fc8abc9beb302bba6"
+          },
+          {
+            "id": "test_mathematics_short_012",
+            "routing_sha256": "23fd2bb6383117c5215f43668fbbd25939ebe4a95b9bba8b925120cf38269b25"
+          },
+          {
+            "id": "test_programming_long_014",
+            "routing_sha256": "9c9ee05823497eeab99cb921b33489847046a2b3d8bb6081d27da1c1ce294608"
+          },
+          {
+            "id": "test_translation_long_005",
+            "routing_sha256": "49835a12d2f55547861060a70a3336d5f24c7015a105d1347c6924471a9ecaa9"
+          },
+          {
+            "id": "test_mathematics_medium_016",
+            "routing_sha256": "674c5d2febd11b283ddfd1d441f2ede0200f9e1ae6b154a3b7aeb46b3f896e4f"
+          },
+          {
+            "id": "test_summarization_medium_004",
+            "routing_sha256": "02f1463e9cdd621032a376e42a5681190b8aa2c10720c67d458babac70eeb818"
+          },
+          {
+            "id": "test_summarization_medium_016",
+            "routing_sha256": "eb160ffd9ce863b7aa6148ea8eeb68d205d8c0ea67e51947171a96fb2a43e24a"
+          },
+          {
+            "id": "test_qa_long_008",
+            "routing_sha256": "5b35e28b0d043e946545f7d2f67116368a8929be687ce29894ec8d81bb39a2c3"
+          },
+          {
+            "id": "test_mathematics_long_005",
+            "routing_sha256": "29223e390b9948bacb4b3674207303cf9f4ce9d2ed45bc6bf70ee7d42284f8d3"
+          },
+          {
+            "id": "test_long_context_short_012",
+            "routing_sha256": "e2936766268695344a4cf64f65e8871ef67e89981b012bdcf9f1661f123bde6d"
+          },
+          {
+            "id": "test_mathematics_short_003",
+            "routing_sha256": "ad531d7d467057d2a1a19d2f0dd034c436195bd3c49965c5bc236be0e7e363bf"
+          },
+          {
+            "id": "test_qa_medium_010",
+            "routing_sha256": "17ef9e596a239a3bb7d2b9bb856e2bdc21626dfd3a2b3d76387870df0642f677"
+          },
+          {
+            "id": "test_summarization_long_005",
+            "routing_sha256": "1d24267d23d72ccbde20c4eecf5600381d6a8284732361afdced705093beb535"
+          },
+          {
+            "id": "test_long_context_long_014",
+            "routing_sha256": "84f33a2ec576ed5f7e7e2d575f7c9768d8c511ff5bb6565efe727c9e699d3ea2"
+          },
+          {
+            "id": "test_translation_short_015",
+            "routing_sha256": "24722d7d30dfba7696cac62e6b82c50f0758f82e63e43aea80af0e7e580e64e2"
+          },
+          {
+            "id": "test_programming_medium_004",
+            "routing_sha256": "747566771af2d7dcf5984068a4df0504f0856343b39663ee7016a0db7aeb22b7"
+          },
+          {
+            "id": "test_summarization_medium_013",
+            "routing_sha256": "7d3ec288cc16d7e31655ba5e51c978baf7412a58e23271aa80456d4ebc432c19"
+          },
+          {
+            "id": "test_qa_short_006",
+            "routing_sha256": "ddf427956139257697fb6d823fa6d86893802e379daa5a928333eecfaa2ca7cb"
+          },
+          {
+            "id": "test_long_context_short_000",
+            "routing_sha256": "dcb2c2485a1a146697c7252ccaecc41d975ae590e1f1ac50fbdcf33c3ef54261"
+          },
+          {
+            "id": "test_long_context_long_005",
+            "routing_sha256": "88c9869d9a9acb4c7df4e6d8511fbeee2b90c1bc466b6f1c03e263260cb793c7"
+          },
+          {
+            "id": "test_programming_short_012",
+            "routing_sha256": "fcd1b9820a9a1c33dd542d6beb84f5fee907f4f32baa44e59451a0b21a07ec16"
+          },
+          {
+            "id": "test_programming_medium_013",
+            "routing_sha256": "53db8322e08bebe459b65f0c21d23f8681c7f838581253ef40dbef072a5a7687"
+          }
+        ]
+      }
+    },
+    "mixtral": {
+      "frozen_plan_sha256": "ff3c0d8d22e71c2fd5227022d0ff742821c24b2415a9aff74ed2065e8f8f187d",
+      "collection": {
+        "identity": {
+          "corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+          "metadata_sha256": "925e117ba7d0ad721afafa20b413aa9baa89cb700e52aa946a52b43268884f26",
+          "binary_sha256": "ff34272c06fe7eb222665262b870516bd290579fd0ff6f606babb98d4b2aacb7",
+          "steps": 128,
+          "batch_size": 32,
+          "threads": 16,
+          "baseline_prefill_state_reused": true
+        },
+        "model": "mixtral",
+        "model_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/mixtral-8x7b-instruct-v0.1-q8_0.gguf",
+        "model_sha256": "72120c812f3e2406fa94bf4f7f5421ecc287ff3e875d0772836f300342d44162",
+        "source_commit": "927dada6c9143ba4c940b72004d2698fa5e4e930",
+        "routing": "Actual llama.cpp ffn_moe_topk callback, independent sequence IDs, CPU, greedy, fixed EOS-inclusive length.",
+        "checkpoint_policy": "Resume whole original sequence batches to preserve numerical configuration."
+      },
+      "validation_prompts": 300,
+      "replays": [
+        {
+          "label": "baseline_16_stacked_prefix32",
+          "commands": 204800,
+          "all_kernel_counters_match": true,
+          "model_ns": 361080422400,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 364838702350,
+          "ioctl_overhead_ns": 3758279950
+        },
+        {
+          "label": "baseline_16_stacked_tail96",
+          "commands": 614400,
+          "all_kernel_counters_match": true,
+          "model_ns": 1083241267200,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 1094571283478,
+          "ioctl_overhead_ns": 11330016278
+        },
+        {
+          "label": "learned_selected_prefix32",
+          "commands": 204800,
+          "all_kernel_counters_match": true,
+          "model_ns": 361080422400,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 364838702350,
+          "ioctl_overhead_ns": 3758279950,
+          "replay_alias_of": "baseline_16_stacked_prefix32"
+        },
+        {
+          "label": "learned_selected_tail96",
+          "commands": 614400,
+          "all_kernel_counters_match": true,
+          "model_ns": 1083241267200,
+          "overhead_counters_checked": true,
+          "ioctl_wall_ns": 1094571283478,
+          "ioctl_overhead_ns": 11330016278,
+          "replay_alias_of": "baseline_16_stacked_tail96"
+        }
+      ],
+      "winners": {
+        "modulo": {
+          "policy": "modulo",
+          "group_chips": 16,
+          "stack_gate_up": true,
+          "training_ffn_ms_per_token": 112.837632,
+          "training_components_ms": {
+            "flash_ns": 110.10048,
+            "control_ns": 0.512,
+            "host_ns": 0.128,
+            "input_ns": 1.048576,
+            "output_ns": 1.048576
+          }
+        },
+        "learned": {
+          "policy": "learned",
+          "group_chips": 16,
+          "stack_gate_up": true,
+          "training_ffn_ms_per_token": 112.837632,
+          "training_components_ms": {
+            "flash_ns": 110.10048,
+            "control_ns": 0.512,
+            "host_ns": 0.128,
+            "input_ns": 1.048576,
+            "output_ns": 1.048576
+          }
+        }
+      },
+      "evaluation": {
+        "frozen_plan_sha256": "ff3c0d8d22e71c2fd5227022d0ff742821c24b2415a9aff74ed2065e8f8f187d",
+        "test_evaluated_unix": 1793055573.251807,
+        "test_prompts": 100,
+        "decode_steps": 128,
+        "prefix_steps": 32,
+        "fixed_same_plan_for_both_windows": true,
+        "prompt_level_bootstrap_resamples": 2000,
+        "test_reference_checks": {
+          "checks": 640,
+          "routing_cases": 34560,
+          "all_components_match_reference": true,
+          "components": [
+            "flash_ns",
+            "control_ns",
+            "host_ns",
+            "input_ns",
+            "output_ns"
+          ]
+        },
+        "test_routing": [
+          {
+            "id": "test_translation_medium_004",
+            "routing_sha256": "0cfc7bcebb34f77fc96931d979755a32ea68d996f5f21000bc2370afb952fc86"
+          },
+          {
+            "id": "test_translation_short_009",
+            "routing_sha256": "060fa6969f64579a5e2105abd38e8152e0a8d4cb9dcc31029af4f73c786be7c3"
+          },
+          {
+            "id": "test_qa_short_003",
+            "routing_sha256": "66e237760d6a85843aeb54fc19e1ed97d652037919135e8258d5e6628a2448a9"
+          },
+          {
+            "id": "test_qa_medium_001",
+            "routing_sha256": "e60814d89f6f747c392cbac0f1f84c8e89111a5a60e0f1667d89f4f844d052bc"
+          },
+          {
+            "id": "test_qa_short_009",
+            "routing_sha256": "4bc89e3dc3d691d95fcf464b8a9b2c3cd749d1bbca3ed6dcfedaf990f3d88920"
+          },
+          {
+            "id": "test_mathematics_medium_010",
+            "routing_sha256": "5d8178dfb48e48a8181fcf6d3a5a16c0cf8840e22972c563c90a8a1b049ae742"
+          },
+          {
+            "id": "test_programming_short_000",
+            "routing_sha256": "13fea7b881890032f415f8492ddf1de04e0f4b5d5f79e90f39b2b51917cecb39"
+          },
+          {
+            "id": "test_summarization_long_008",
+            "routing_sha256": "6e26ebad7e8c01031420fb5bd1d542544b7a25d960f99c0c626e75ef7c30833b"
+          },
+          {
+            "id": "test_qa_medium_004",
+            "routing_sha256": "d413cdb750ec47b1a2bf2134db9a3675e8002d80539db1521507b174d5bab235"
+          },
+          {
+            "id": "test_qa_medium_013",
+            "routing_sha256": "6740476329998a92269b161bf8ed7b02a07e65e02941c7cad58de24936ed37ce"
+          },
+          {
+            "id": "test_translation_medium_007",
+            "routing_sha256": "ecf82e08e6b4987556f3d4f2926c4333e376d580926b51f76b0f79dd038f836e"
+          },
+          {
+            "id": "test_translation_long_002",
+            "routing_sha256": "d549d4eb8a01dd90846a63f7c56441a52a915dd36dd689b95771fda99251357b"
+          },
+          {
+            "id": "test_summarization_long_011",
+            "routing_sha256": "60eece953d1c6e35d80a7fe52d1135282670e07e20c47455531d7f5899583599"
+          },
+          {
+            "id": "test_long_context_medium_010",
+            "routing_sha256": "bb4f89fa118a9ffc376fed859ba1e985876fcbb8711143931d709505f2af93d0"
+          },
+          {
+            "id": "test_programming_short_009",
+            "routing_sha256": "b53e0ed02f3649696c3c71f45150279d1caf2870335697f747099f69b08d2e99"
+          },
+          {
+            "id": "test_mathematics_long_011",
+            "routing_sha256": "b298a5493cc96738ccead38ec7c089c6638d563acc3e9f72d6e028f487ac2495"
+          },
+          {
+            "id": "test_mathematics_long_008",
+            "routing_sha256": "e5ee39c2deb33895039a1e6dc2a7fc53b542379a49eb6e9f32b1636ee87cc1b1"
+          },
+          {
+            "id": "test_programming_long_011",
+            "routing_sha256": "04073f054824a2ff2e0b039bd0e0117983b9bb9c9cb110777f4f44f87f1fc721"
+          },
+          {
+            "id": "test_programming_long_008",
+            "routing_sha256": "4de7473605095f99c08232b6d38255a2fb8a97c15c3e01a901e237e5a3d55bfa"
+          },
+          {
+            "id": "test_programming_short_015",
+            "routing_sha256": "67c39604a1d4f2c85f74933ec6b140a4da8f847cb5ead4662201d4ef76180b5b"
+          },
+          {
+            "id": "test_long_context_short_015",
+            "routing_sha256": "d1b49ada1a7acdde069957c376d5b3cd3611bc0ebbc44a7d3423aa2561f4795d"
+          },
+          {
+            "id": "test_mathematics_medium_007",
+            "routing_sha256": "3cffc98ffbebfdbbc09ca2e7835da5aa5479dc10416b020f1486a321a9f8812e"
+          },
+          {
+            "id": "test_long_context_medium_016",
+            "routing_sha256": "528c827f2c88d39b99a770e6bd39a6fbc2aac5051631eaaa2526fabc7d27b545"
+          },
+          {
+            "id": "test_long_context_medium_001",
+            "routing_sha256": "d5b4aa8d22ef1479ffacc5131d3b84dcb5a96bad5f2e77c4747d3bf4901b507f"
+          },
+          {
+            "id": "test_summarization_long_002",
+            "routing_sha256": "83ff1248068bab2f53f4aac34bbeb48901f796844c390035cec195790a366ca0"
+          },
+          {
+            "id": "test_qa_long_005",
+            "routing_sha256": "d927baffd74cf3ac0e6d53726bf4833a1c6c87c336bd58c14871a1c105cb6b3f"
+          },
+          {
+            "id": "test_qa_short_015",
+            "routing_sha256": "4ced5e7fc7e1903a933a8242237dbb775cbbee2c3dee648c64d595e8df53a487"
+          },
+          {
+            "id": "test_long_context_medium_013",
+            "routing_sha256": "6aa352d6c339871b1dbec765db5077bfcaad6206446ca46beb2cb66ea4eeeac6"
+          },
+          {
+            "id": "test_long_context_long_002",
+            "routing_sha256": "61b26c1bb8f1f8185fe2c8a623883f8589c64021296ff69bb442a570bdc8f7c6"
+          },
+          {
+            "id": "test_mathematics_short_009",
+            "routing_sha256": "de32d84a469185f668311bf0ded3889ef338989ebc7fcbcc280eabbb72f0f793"
+          },
+          {
+            "id": "test_long_context_short_006",
+            "routing_sha256": "f1745572aa1bb4702ca43ec9ec080efee7346f4d041bf2b941e06c607e95c2a9"
+          },
+          {
+            "id": "test_translation_medium_016",
+            "routing_sha256": "6cfe4edb75770982886df9bb8821ecd7e6197b40f222d1d243ab6504e3cee3d7"
+          },
+          {
+            "id": "test_qa_short_012",
+            "routing_sha256": "cc74464827941d00594f7d6b46f3fc1c113aa46f28090d77dbb8d9c502d027e0"
+          },
+          {
+            "id": "test_translation_medium_001",
+            "routing_sha256": "16a2d6258ee1830aef628bebd677469880e26fd0f9da6942243a6212a3c4575b"
+          },
+          {
+            "id": "test_mathematics_medium_013",
+            "routing_sha256": "c18ae96cab3f2aa16829aee114448ff1129bfe6ae41dd82f291a329c3e5ac214"
+          },
+          {
+            "id": "test_summarization_short_006",
+            "routing_sha256": "2d6291f9f7b2db9cfd2a44820d89b62c8f3e194d029bbf04b0d2bf118bf6c493"
+          },
+          {
+            "id": "test_summarization_short_015",
+            "routing_sha256": "244bd0b14f13d4ecac46e8498c56eda4582877e36ef615a567c13f340e023252"
+          },
+          {
+            "id": "test_long_context_long_008",
+            "routing_sha256": "11f9c6ed9b37a9c063b2345bae48a8d84399f74f438925ab5a75d91fa1bf2563"
+          },
+          {
+            "id": "test_long_context_short_003",
+            "routing_sha256": "741916b84a0f759a096ede29624e771c27b56b67e2c9bc0148909d481312676d"
+          },
+          {
+            "id": "test_qa_long_011",
+            "routing_sha256": "ff8c692af74dca4ddbb0639ea720504cff1e23cc01176001a73734ab03e5d1cc"
+          },
+          {
+            "id": "test_summarization_medium_007",
+            "routing_sha256": "bc8b539b12c952939107844fb7bb22f9ecee3a34e17298ce498c95c573190828"
+          },
+          {
+            "id": "test_long_context_medium_007",
+            "routing_sha256": "3e2791985569595871c563abe42b69ebe810350c0594a2eafafc3267f7941c3e"
+          },
+          {
+            "id": "test_translation_short_003",
+            "routing_sha256": "1bfb52acaf38376a49e50e3bcdb2888bf59fe689bda90c1512b6ac31319bf332"
+          },
+          {
+            "id": "test_translation_medium_013",
+            "routing_sha256": "f802d1b0e29d9cb5a32656c3f146fbdbe9c6ea97b00280e39b41aa0e9bfae73c"
+          },
+          {
+            "id": "test_summarization_medium_010",
+            "routing_sha256": "b74f579149d9cca37b52ee74d1639e109b9cfc91768cb8a3c9849263ab6d6c57"
+          },
+          {
+            "id": "test_programming_medium_010",
+            "routing_sha256": "efa8a438fbf8d7674c4a795eedb172544142587e9b9d2d9c96855d6a40ab5954"
+          },
+          {
+            "id": "test_translation_long_008",
+            "routing_sha256": "0db0fcf418394e7c77f90bc6ea168d9fd4a6114e1fbd4664bb74ecbf2597d908"
+          },
+          {
+            "id": "test_qa_medium_007",
+            "routing_sha256": "36f45510ca77a8a0cab9756974d395c8a41e5caffcc37739f4989b4971419dbf"
+          },
+          {
+            "id": "test_programming_medium_001",
+            "routing_sha256": "19ca1030ab677d0f2083c7fa291d5c518a275a87e6b2a8fd62f883235aea5dea"
+          },
+          {
+            "id": "test_long_context_long_011",
+            "routing_sha256": "6376954a25e83f17821ad69ee760a94d637da211800cd602ea625201c7af115e"
+          },
+          {
+            "id": "test_summarization_short_012",
+            "routing_sha256": "4c2b09abc6f6715a5ddb9169c008adfe748fe05b5e413496e50af195aadb4317"
+          },
+          {
+            "id": "test_translation_short_012",
+            "routing_sha256": "5e768a823fe11ea76d14bbaa479247b7f1255e6377793ad7d4068e79f7cb7780"
+          },
+          {
+            "id": "test_long_context_short_009",
+            "routing_sha256": "e463708e4fa24ca9d43c3b47a91e53b3b2a029e97370fb4e26878f06dc3e4753"
+          },
+          {
+            "id": "test_qa_short_000",
+            "routing_sha256": "9c677b6e6a74dafc16e7fef6b8f625df3f03836dce6503304f825b1421412545"
+          },
+          {
+            "id": "test_programming_medium_007",
+            "routing_sha256": "8d97458d24ae85d397530d5fca44bf6f3b6a7c79e3712a9885ddc367b8a7f3ba"
+          },
+          {
+            "id": "test_summarization_long_014",
+            "routing_sha256": "e7e2e545bcc2e4c20cb5bed8ad945b61ac3e901ee1048a7dcbbf0d823431b839"
+          },
+          {
+            "id": "test_translation_long_014",
+            "routing_sha256": "3027138b416c89feaa7aa0821f5ef0a9cdd2e49b795e749d29ff279635db813b"
+          },
+          {
+            "id": "test_long_context_medium_004",
+            "routing_sha256": "34d7d2997e890bbd52bc6ff3ef6a7b4fa52c9a6c2befde3521248e9b3f749001"
+          },
+          {
+            "id": "test_mathematics_long_002",
+            "routing_sha256": "2cfcc2dca0b57d0d1f410152e84632e4555c0b9be5f24119580f1892a750874f"
+          },
+          {
+            "id": "test_programming_long_005",
+            "routing_sha256": "aba5cca60a63f13f6ad72ed408532612781ef91825ee4bf289d6d9af9e05b7ec"
+          },
+          {
+            "id": "test_summarization_short_003",
+            "routing_sha256": "44a7681b8df7efadd64e0223ff1a04f703c5ad092ec84de79aa90b7d8df0d0bc"
+          },
+          {
+            "id": "test_translation_long_011",
+            "routing_sha256": "da707e1fba4949aa8d7713c2b384bf169f569afc7ccb1c824bc5bdf52b4f4155"
+          },
+          {
+            "id": "test_programming_short_003",
+            "routing_sha256": "83338dbd3ad4bf1b0c199ff1425d99f38b89aee84dc651fe26aa3d0c9711b60c"
+          },
+          {
+            "id": "test_mathematics_medium_004",
+            "routing_sha256": "03efad230256c01f6cc711b98935410f676a5a4d872a874acf5a78a1a69539bd"
+          },
+          {
+            "id": "test_mathematics_long_014",
+            "routing_sha256": "e0bf7fe7f21a630d9e80682ff2e166d6d8a8a66395fd940719d916f342d8f15f"
+          },
+          {
+            "id": "test_qa_long_014",
+            "routing_sha256": "da0b5238114107aac38d60db2b7ea9fb710693c6fdbf60572cedf05c1daa065e"
+          },
+          {
+            "id": "test_mathematics_short_015",
+            "routing_sha256": "e439ee7b28f7d676242534b5f9ac2c9c107c3e79fc2bf44a2308505bece6ea8b"
+          },
+          {
+            "id": "test_summarization_short_000",
+            "routing_sha256": "b88dadc61f975a867d39d0cfb3f3dcbe1cd33d50297ebf6fec4f1d4e0e5e7059"
+          },
+          {
+            "id": "test_mathematics_short_006",
+            "routing_sha256": "e857a202563477c850124d7430326f8042e01f747ced67f1d65cc232435a2a71"
+          },
+          {
+            "id": "test_mathematics_short_000",
+            "routing_sha256": "4ddb93797fa8501dbeb84c48afe19dfd3b01944399a5bb44bfcf4f982ddcbaaf"
+          },
+          {
+            "id": "test_translation_medium_010",
+            "routing_sha256": "f43b80eaeef6a661b20b129b9f0e104f36ca0081541ee1e382d1447b748dfd7c"
+          },
+          {
+            "id": "test_mathematics_medium_001",
+            "routing_sha256": "add076091e09a9714680c18911832f96111cf71c0757d0929c0fad9f2df9c399"
+          },
+          {
+            "id": "test_programming_long_002",
+            "routing_sha256": "17df9329873712bf3cc9348f918c55eebec7ab12baef28f14320955736d30b78"
+          },
+          {
+            "id": "test_qa_long_002",
+            "routing_sha256": "c36664d161e4c8b0de5ccc109fd75f85536af7dea38359c6bd1fe8f8fd2ebbb2"
+          },
+          {
+            "id": "test_translation_short_006",
+            "routing_sha256": "4fa3f73993cf431a1e30da9e191fafe4bd2040c52e6a162966f7ce9e08ae6c77"
+          },
+          {
+            "id": "test_programming_short_006",
+            "routing_sha256": "aef429e1b009afc17c986a75dc5028fac7e1eeb0cd8fe49c0e26a10015b4feb6"
+          },
+          {
+            "id": "test_translation_short_000",
+            "routing_sha256": "7433773b2d8baee6cfa99183b575cd09f2b63725a1a236f35cd9e64144ceb7db"
+          },
+          {
+            "id": "test_summarization_short_009",
+            "routing_sha256": "e57605afabbce743ba9aa9a53baba02d567715fbe29731fdd5dad6604c0cb547"
+          },
+          {
+            "id": "test_summarization_medium_001",
+            "routing_sha256": "18dcb9f6f5546aa8771717a46688177098a2db1bf8d411eafe2e7413590f0570"
+          },
+          {
+            "id": "test_mathematics_short_012",
+            "routing_sha256": "720baa24e7932b20b8b36323b2078c5510fee1e7cbc1f23dcd501573d4a0963d"
+          },
+          {
+            "id": "test_programming_long_014",
+            "routing_sha256": "b2656914d0d506b75bbc553933578412dcc10a2bcadef837d8f4f6e26b37c55f"
+          },
+          {
+            "id": "test_translation_long_005",
+            "routing_sha256": "5703142601798809f9c9f4f7e4aea8e12556bf120d704adbb83095a9304ccc1a"
+          },
+          {
+            "id": "test_mathematics_medium_016",
+            "routing_sha256": "5896c6a2d802c901f95d19c795bd95710008d963f5574b049cec947d4b0c6893"
+          },
+          {
+            "id": "test_summarization_medium_004",
+            "routing_sha256": "fdf41e01f0d05f78eb81e0b42e32d10dcfae2e87bee79a96f81a4c52d3dc5b7f"
+          },
+          {
+            "id": "test_summarization_medium_016",
+            "routing_sha256": "3ed03a2fbd9e5ccd46ee990a5de25195bfd3ad7fec407628d05e72c519deaa81"
+          },
+          {
+            "id": "test_qa_long_008",
+            "routing_sha256": "aa1c81749a38fedf0a8c850e0994b052f639e64b596273f50edba4cdd11c6273"
+          },
+          {
+            "id": "test_mathematics_long_005",
+            "routing_sha256": "062f137e0311c26e56f459c72fd31cee50cf0be5f71658c4715cf856bcff90bb"
+          },
+          {
+            "id": "test_long_context_short_012",
+            "routing_sha256": "96a2724a3f059a1e624bbc15ac224c4f214f43d5e5509fc528fc8364af17023e"
+          },
+          {
+            "id": "test_mathematics_short_003",
+            "routing_sha256": "0bb832a7239122aa9aac31bbf604f648c6b2c0849e09ea03bb28c49d81044b01"
+          },
+          {
+            "id": "test_qa_medium_010",
+            "routing_sha256": "3ed3de3c6278c5712a39e9f3cf78774686f229133689deab2f5620bc8604f9ba"
+          },
+          {
+            "id": "test_summarization_long_005",
+            "routing_sha256": "6a5215b9ca17461c98c8efa3e8dc3e6685cf4178ce206f8b587e5474bec12aa7"
+          },
+          {
+            "id": "test_long_context_long_014",
+            "routing_sha256": "8f0cba1fa826df6d0d690007a95b216fb9cb75e49b32aa6f977440a53b8d1555"
+          },
+          {
+            "id": "test_translation_short_015",
+            "routing_sha256": "a4fb9b89ff0fc052da9b95f95bcac486a32d4600d25ed5f3c31ed0c8e7bcf126"
+          },
+          {
+            "id": "test_programming_medium_004",
+            "routing_sha256": "d8524b2204b9d03745b4bdf983e332a8b372b3488143fd69b40deb0781fcd2b7"
+          },
+          {
+            "id": "test_summarization_medium_013",
+            "routing_sha256": "f168df2b6dcf58f8c5eeed3099fa099c7813982b5c4654d9b76f7a485287ad63"
+          },
+          {
+            "id": "test_qa_short_006",
+            "routing_sha256": "ce430abd1ef02a3aea9f0f4a714ea2893294b78ca1cabfebce2c3fa40920ef42"
+          },
+          {
+            "id": "test_long_context_short_000",
+            "routing_sha256": "d27d988b83e46e2d61a04c56671cb999f104ee633a18110e285a293ab62cacd3"
+          },
+          {
+            "id": "test_long_context_long_005",
+            "routing_sha256": "44423f0d402c7d84c4278126cad7358676a77ab32955c4af5ff861ec3d385872"
+          },
+          {
+            "id": "test_programming_short_012",
+            "routing_sha256": "73d903f038bed6ba176d7e26fd92ba0c95d0ad45331f4313f0166aad4727c831"
+          },
+          {
+            "id": "test_programming_medium_013",
+            "routing_sha256": "dd15b08e3f5f0ba4a7201a056b6e8dd35fdcb60c9c284b0f1be965035ec72499"
+          }
+        ]
+      }
+    }
+  },
+  "all_1500_traced_greedy_controls_pass": true,
+  "all_nvmevirt_replays_verified": true,
+  "code_checks": {
+    "unix": 1793052905.0395248,
+    "results": [
+      {
+        "command": [
+          "/home/ericyu/miniconda3/bin/python3",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "exit_code": 0
+      },
+      {
+        "command": [
+          "/home/ericyu/miniconda3/bin/python3",
+          "-m",
+          "compileall",
+          "-q",
+          "scripts",
+          "tests"
+        ],
+        "exit_code": 0
+      },
+      {
+        "command": [
+          "bash",
+          "-n",
+          "scripts/run_corpus_replays.sh",
+          "scripts/build_llama_trace.sh"
+        ],
+        "exit_code": 0
+      },
+      {
+        "command": [
+          "c++",
+          "-std=c++17",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-fsyntax-only",
+          "-I/home/nfs_client/ericyu/expert_flash_experiment/sources/llama.cpp-927dada6c/include",
+          "-I/home/nfs_client/ericyu/expert_flash_experiment/sources/llama.cpp-927dada6c/ggml/include",
+          "scripts/llama_corpus_trace.cpp"
+        ],
+        "exit_code": 0
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "all_passed": true
+  },
+  "graph_script_sha256": "1334b8a65330978e0b9007197a5433e1808849c0710e4f27cc50d68e6cf11d5d",
+  "legacy_summary_sha256": "215e6f4b88353d8e8239cc1c54710842608d33dcab6a2a5e55983942dec1de36"
+}

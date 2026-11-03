@@ -1,0 +1,43 @@
+{
+  "status": "approved",
+  "phase": "SCORE",
+  "reviewer": "/root/critic_sol",
+  "reviewed_at_utc": "2026-11-03T02:06:56Z",
+  "decision_scope": "Release only the existing frozen rev003 SCORE evaluation in the same experimental round; this is not a scientific success or failure determination.",
+  "protocol_sha256": "9254e7fdf71f965b8a8716a35838522fb378ca2421c6779d9650e385aad62dc8",
+  "source_revision": 3,
+  "source_freeze_sha256": "e2f6818ed3669ca09d6b898ad5d32e4f69fa4fa058137a5d79a5594963950977",
+  "FITVAL_complete_sha256": "836b4a1ab2f9eb7f0fb719654491b069d7c8c433b79a46b3e06c69a60516a2a6",
+  "comparisons_sha256": "dfc69821226ae02fa77e19afd3a1cc185bc9d20829a6857e426ca508c8417c38",
+  "blocking_findings": [],
+  "verified_closure": {
+    "FITVAL_files": 1961,
+    "FITVAL_bytes": 5716605717,
+    "all_FITVAL_file_hashes_match": true,
+    "source_receipt_files_matching": 33,
+    "FIT_VALID_split_reconstruction": "Exact 120 FIT and 40 VALID prompt IDs; actual job sets match the frozen hash ordering.",
+    "capture": "Both models, both selected layers, every retained prefill token and exactly eight decode steps per job; row indices, extents, top-K IDs and alpha metadata close.",
+    "first_FIT_no_callback_controls": "Both models pass identical retained tokens, eight generated tokens and nine full-vocabulary logit-array hashes.",
+    "operator_selection": "All eight expert selections exactly reconstruct from FIT-only route counts and frozen tie rules.",
+    "points": 6664,
+    "plain_comparisons_reconstructed": 6136,
+    "composite_comparisons_reconstructed": 4576,
+    "total_comparisons": 10712,
+    "comparison_reconstruction": "Every VALID-only cost-eligible control choice and comparison ID matches the frozen list; no finite-local candidate lacks an eligible control.",
+    "inconclusive_configurations": 16,
+    "inconclusive_closure": "C1 selected lambda-infinity endpoints explain incomplete composites; best-finite points remain preserved.",
+    "primary_C32_FIT_leaf_occupancy_range": [484, 501],
+    "primary_VALID_unsupported_rows": 0
+  },
+  "required_interpretation": [
+    "Keep the complete frozen comparison family unchanged, including undefined or inconclusive bootstrap results.",
+    "Recheck the same VALID-frozen matched control against actual SCORE costs; do not select replacement controls from SCORE.",
+    "All primary 80-to-120 FIT learning curves still improve; a negative SCORE result cannot automatically count as a family failure.",
+    "Nominal leaf occupancy does not prove full numerical rank, good conditioning or statistical power.",
+    "Local operator MSE is not whole-model quality or latency; C1-only improvement does not establish conditional-bank necessity."
+  ],
+  "reviewer_SCORE_data_opened": false,
+  "reviewer_TEST_data_opened": false,
+  "reviewer_candidate_implementation_executed": false,
+  "SCORE_started_marker_present_at_review": false
+}

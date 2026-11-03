@@ -1,0 +1,42 @@
+{
+  "alias_arithmetic": [
+    {
+      "phase": "gate_up",
+      "columns": 2560,
+      "page_aligned_row_step": 32,
+      "four_plane_wl_aligned_row_step": 128,
+      "nominal_high_minus_low_rows": 26,
+      "delta_native_waves": 2
+    },
+    {
+      "phase": "down",
+      "columns": 640,
+      "page_aligned_row_step": 128,
+      "four_plane_wl_aligned_row_step": 512,
+      "nominal_high_minus_low_rows": 102,
+      "delta_native_waves": 1
+    }
+  ],
+  "quantization": {
+    "status": "NO-GO for early exact down A8 generation under the existing numerical reference",
+    "reference_protocol": "results/research-2026-11-02/round2/full-ffn-integer-reference/frozen_protocol.json",
+    "reference_sha256": "3163341827c25b210c42126ae7465c1fe8be9827aab93d314a89ef8a54975f40",
+    "reference_cpp": "scripts/research_20261102_full_ffn_integer_reference.cpp:52",
+    "contract": "The full original activation vector uses one dynamic maxabs/127 A8 scale before any full-C dot.",
+    "counterexample": {
+      "same_ready_chunk": [
+        1.0
+      ],
+      "unseen_tail_case_A": [
+        1.0
+      ],
+      "unseen_tail_case_B": [
+        127.0
+      ],
+      "early_byte_case_A": 127,
+      "early_byte_case_B": 1
+    },
+    "consequence": "Same ready chunk can require different A8 bytes after the unseen tail arrives. Block quantization/static scale is a numerical-format change. Native output summation support alone does not remove this input-scale dependency.",
+    "qualification": "This is a reference-format barrier, not a claim that all possible AiF input formats have a global quantizer. It also does not establish numerical equivalence to the original NVFP4 routing checkpoint."
+  }
+}

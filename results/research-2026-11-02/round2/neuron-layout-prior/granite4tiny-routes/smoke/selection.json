@@ -1,0 +1,24 @@
+{
+  "mode": "smoke",
+  "split": "original train only",
+  "original_corpus_path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts.jsonl",
+  "original_corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+  "sample_policy": "First N train rows in immutable original corpus order.",
+  "ids": [
+    "train_summarization_short_027",
+    "train_programming_short_015"
+  ],
+  "steps": 16,
+  "batch_size": 2,
+  "threads": 8,
+  "collector_script_sha256": "a2faff199c1343bcdc231006161a7a75c70590d009628ee56cbd5d212b2442fe",
+  "trace_source_sha256": "37e7e3744189a9da753d9b2f2cc00ee7b443f9e17d901c3d0a8f26edc14e0655",
+  "binary_path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/research-2026-11-02/granite4tiny/smoke/llama-corpus-trace-ff34272c06fe7eb222665262b870516bd290579fd0ff6f606babb98d4b2aacb7",
+  "binary_sha256": "ff34272c06fe7eb222665262b870516bd290579fd0ff6f606babb98d4b2aacb7",
+  "prompt_composition": {
+    "('summarization', 'short')": 1,
+    "('programming', 'short')": 1
+  },
+  "baseline": "Independent full untraced prefill and decode; no prefill cache reuse.",
+  "routed_selection": "Actual ffn_moe_topk callback; no synthetic routes or masks."
+}

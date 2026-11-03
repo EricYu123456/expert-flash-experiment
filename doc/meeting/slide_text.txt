@@ -1,0 +1,358 @@
+--- SLIDE 1 ---
+AiF §4.1–4.4 、Table 2 ；docs/aif_model_notes.md ；scripts/materialize_plan.py
+01 / 08
+Host
+輸入 x ／結果 y
+SSD controller
+命令與向量分送
+x
+y
+AiFChip 內部的數位 GEMV 資料路徑
+NAND
+Page buffer
+ECCLITE
+INT8 PE
+x
+y
+權重留在 chip 內讀取、修正錯誤與計算；主機主要交換向量。
+AiF SSD
+8 channels × 2 chips = 16 chips
+Channel 0
+C0
+C8
+Channel 1
+C1
+C9
+Channel 2
+C2
+C10
+Channel 3
+C3
+C11
+Channel 4
+C4
+C12
+Channel 5
+C5
+C13
+Channel 6
+C6
+C14
+Channel 7
+C7
+C15
+chip 內頻寬：6.4 GB/s × 16 = 102.4 GB/s
+Chip 0 放大：4 planes / chip
+Plane 0
+Block A
+WL 0  →  LSB page
+WL 1  →  LSB page
+WL 2  →  LSB page
+Block B …
+Plane 1
+Block
+Block
+Block
+Plane 2
+Block
+Block
+Block
+Plane 3
+Block
+Block
+Block
+LSB page ：16 KiB ；4-plane wave 最多讀 64 KiB
+本專案採 192 WL/block （由論文量測資料推得）；die 未獨立建模。
+
+
+--- SLIDE 2 ---
+01 / AiF FLASH 架構與讀取條件
+cr-read ：同一 block 內，不中斷地連續讀取
+AiF §4.2 、Table 2 ；scripts/aif_model.py:Demand ；docs/aif_model_notes.md
+02 / 08
+權重放在 LSB pages ；第一頁付普通讀取成本，後續頁才能使用 cr-read 。
+同一 plane ／ Block A ／ 連續 LSB pages
+Page 0
+28 μs
+Page 1
+9.7 μs
+Page 2
+9.7 μs
+Page 3
+9.7 μs
+Block B
+Page 0
+28 μs
+跨 block
+跨 block 或開始新 stream ，就要重新付一次 28 μs 。
+T_run(P) = 28 + (P − 1) × 9.7 μs
+P ：同一 plane ／block 中連續讀取的頁數（P ≥ 1 ）
+普通讀 4 頁
+112 μs
+連續讀 4 頁
+57.1 μs
+解析示例；28 μs 已包含整段的開始與結束成本。四 planes 可並行，chip 另受 6.4 GB/s 上限限制。
+
+
+--- SLIDE 3 ---
+02 / 模型大小與分組延遲
+要看單個 expert 的 projection 大小，才能判斷切分是否太細
+GGUF metadata ；results/experiment_manifest.json ；docs/aif_model_notes.md
+03 / 08
+INT8 ：1 projection = H × I bytes ；1 expert = 3 × H × I bytes
+模型／總參數
+H × I
+Experts
+E / top-k
+Routed
+層數
+單 projection
+單 expert
+全部 routed
+INT8 權重
+Granite 3.1 A400M
+1.335 B
+1024 × 512
+32 / 8
+24
+0.5 MiB
+1.5 MiB
+1.125 GiB
+OLMoE 1B 7B
+6.919 B
+2048 × 1024
+64 / 8
+16
+2 MiB
+6 MiB
+6 GiB
+DeepSeek V2 Lite
+15.706 B
+2048 × 1408
+64 / 6
+26
+2.75 MiB
+8.25 MiB
+13.406 GiB
+Granite 的 0.5 MiB projection 切到 16 chips ：每 chip 只有 32 KiB 。
+Routing 用 GGUF ：Granite Q4 0.765 GiB ｜ OLMoE Q4 3.924 GiB ｜ DeepSeek Q8 15.555 GiB
+總參數由 GGUF tensors 加總。INT8 欄只含 routed experts ；DeepSeek 排除首層 dense 與 shared experts 。
+
+
+--- SLIDE 4 ---
+02 / 模型大小與分組延遲
+分組可以讓單條 stream 變長，也讓不同 experts 並行
+scripts/aif_model.py:phase_demand 、Demand ；Granite 尺寸的解析示例
+04 / 08
+g = 每個 expert 使用的 chip 數；總共固定 16 chips ，因此 groups = 16 / g 。
+T_stream = 28 + (w − 1) × 9.7 μs
+w = 向上取整［每 chip bytes / 64 KiB ］
+T_phase ≈ n_max × T_stream
+n_max ：同時選中 experts 在最忙 group 的數量
+同樣 8 個 experts ：g = 16
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+E0
+E1
+E2
+E3
+E4
+E5
+E6
+E7
+1 個 group ，8 個 experts 依序處理 → 224 μs
+改為 g = 4 ：4 個 groups 可同時工作
+0
+1
+2
+3
+E0
+E4
+4
+5
+6
+7
+E1
+E5
+8
+9
+10
+11
+E2
+E6
+12
+13
+14
+15
+E3
+E7
+每組 2 個 experts → 2 × 37.7 = 75.4 μs
+Granite ：512 KiB / 
+projection
+g = 16
+g = 8
+g = 4
+每 chip 權重
+32 KiB
+64 KiB
+128 KiB
+四-plane waves ：w
+1
+1
+2
+單條 stream （μs ）
+28
+28
+37.7
+groups
+1
+2
+4
+最忙 group ：n_max
+8
+4
+2
+整個 phase （μs ）
+224
+112
+75.4
+單 expert 較慢，整批仍可能更快。
+示意假設：8 experts 理想均衡、單一 projection phase ；未串接 gate/up ，不含控制／向量成本。真實 routing 可能碰撞。
+
+
+--- SLIDE 5 ---
+02 / 模型大小與分組延遲
+gate/up 串接延長連續讀取；固定排列減少 group 排隊
+scripts/aif_model.py:stack_gate_up ；scripts/optimize_placement.py ；docs/placement_permutation_findings.md
+05 / 08
+Granite 、g = 16 的簡單例子：gate/up 共用同一份輸入 x 。
+分開存放
+gate ：32 KiB
+up ：32 KiB
++
+28 + 28 = 56 μs
+實體串接成連續 2I × H 矩陣
+[ gate ; up ] ：64 KiB
+一次 28 μs
+x → [gate ; up] → 拆回輸出 → activation(gate) ⊙ up → down
+固定排列：把常一起啟用的 experts 放到不同 groups
+原排列
+Group 0
+4 experts
+Group 1
+2 experts
+Group 2
+1 expert
+Group 3
+1 expert
+最忙 group ：4 個 experts 排隊
+調整固定 slots 後
+Group 0
+2 experts
+Group 1
+2 experts
+Group 2
+2 experts
+Group 3
+2 experts
+最忙 group ：2 個 experts 排隊
+下半部為示意；選中的 experts 不變，僅交換固定位置，保留各組容量。權重與 router 都不重新訓練。
+
+
+--- SLIDE 6 ---
+03 / 實驗方法與結果
+固定真實 routing ，比較配置，再以 NVMeVirt 重播核對
+README.md ；scripts/evaluate_learned_overhead.py ；results/nvmevirt_validation.json ；results/experiment_manifest.json
+06 / 08
+真實 llama.cpp
+3 模型、3 prompts
+每組 32 次 decode
+掃描配置
+g = 1 / 2 / 4 / 8 / 16
+串接與固定排列
+保留 prompt 驗證
+2 組訓練、1 組保留
+輪流做 3 折
+NVMeVirt 重播
+實際送入 NVMe queue
+核對 kernel counters
+三折：只用訓練 prompts 選配置
+說明
+程式
+數學
+Fold 1
+保留驗證
+訓練
+訓練
+Fold 2
+訓練
+保留驗證
+訓練
+Fold 3
+訓練
+訓練
+保留驗證
+v3 ：controller 複製輸入向量
+每份 logical input 只經 PCIe 傳一次
+Chip command
+0.25 μs
+Host phase
+2 μs
+PCIe / channel
+8 / 2 GB/s
+輸入 / 輸出元素
+1 / 4 bytes
+命令延遲與向量精度為展示假設，待硬體校準。
+v3 驗證：48 workloads ／ 183,744 NVMe commands ／ counters 全部相符
+以下為建模的 routed FFN 服務時間；非實體 AiF 硬體或完整模型推論速度。
+
+
+--- SLIDE 7 ---
+03 / 實驗方法與結果
+Granite 改善最明顯；相同方法對三個模型的收益不同
+results/summary.csv 、summary.json ；v3 controller-fanout ；保存結果日期 2026-10-19
+07 / 08
+16 chips ・gate/up 分開
+16 chips ・gate/up 串接
+選 g ＋串接・原排列
+選 g ＋串接・學習排列
+Granite  ·  g = 4
+−41.34%
+12.703 → 7.452 ms
+OLMoE  ·  g = 8
+−6.04%
+13.648 → 12.824 ms
+DeepSeek  ·  g = 8
+−1.49%
+21.333 → 21.015 ms
+降低幅度皆相對
+16-chip 已串接基準
+三折保留 prompt 平均。DeepSeek 原排列選 g=16 ，學習排列選 g=8 。
+
+
+--- SLIDE 8 ---
+03 / 實驗方法與結果
+g 沒有通用答案：expert 尺寸、碰撞與控制成本要一起看
+doc/assets/figure_data.json ；NFS runs/*-aif/overhead_fanout/ ；learned_overhead_fanout/
+08 / 08
+固定原排列、gate/up 已串接；三組 prompts 合併平均（各圖 y 軸依模型縮放）。
+DeepSeek ：原排列 g=16 → 學習排列 g=8 ，總時間仍可從 21.333 降至 21.015 ms 。
+Flash  +0.417 ms
+控制  −0.624 ms
+輸入  −0.110 ms
+合計  −0.318 ms
+配置選擇需同時看 flash 、命令與傳輸；本輪只有三個短 prompts ，控制成本仍待硬體校準。

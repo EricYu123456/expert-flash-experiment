@@ -1,0 +1,119 @@
+{
+  "audit_kind": "independent prior-implementation comparison and exact combinatorial oracles",
+  "source_sha256": {
+    "plane_wave_model.py": "3a315947c668bd7aaa44acb23658510e901147bc48596a3f9ea6aef202741862",
+    "materialize_plan.py": "2917cc202fdf80e06b96aa0ffd91f582af22bbfb0ee74eddecb21c6d8a829062",
+    "aif_model.py": "baa452445e953fb3d096a840facd1801ee3870726c6667d38180b9526e06751b",
+    "static_wave_bundle_study.py": "9f7fee2428676303de5c70094d7a36de3c995e19687ff54a0eadff96f36a8996"
+  },
+  "legacy_address_comparison": [
+    {
+      "block_pages": 4,
+      "streams": 33,
+      "checked_pages": 475,
+      "selected_subsets": 50,
+      "all_addresses_and_selected_service_equal": true
+    },
+    {
+      "block_pages": 7,
+      "streams": 33,
+      "checked_pages": 867,
+      "selected_subsets": 50,
+      "all_addresses_and_selected_service_equal": true
+    },
+    {
+      "block_pages": 192,
+      "streams": 33,
+      "checked_pages": 26197,
+      "selected_subsets": 50,
+      "all_addresses_and_selected_service_equal": true
+    }
+  ],
+  "exact_fixed_bins": [
+    {
+      "experts": 8,
+      "selected": 4,
+      "width": 2,
+      "exact_subsets": 70,
+      "mean_service_ns": 70400.0,
+      "latency_histogram": {
+        "112000": 2,
+        "84000": 32,
+        "56000": 36
+      },
+      "fixed_addresses_preserved": true,
+      "conservative_ordinary_reads_and_buffer_safety": true
+    },
+    {
+      "experts": 8,
+      "selected": 4,
+      "width": 1,
+      "exact_subsets": 70,
+      "mean_service_ns": 49600.0,
+      "latency_histogram": {
+        "56000": 54,
+        "28000": 16
+      },
+      "fixed_addresses_preserved": true,
+      "conservative_ordinary_reads_and_buffer_safety": true
+    }
+  ],
+  "uniform_granite_bundle_reference": [
+    {
+      "experts": 32,
+      "selected": 8,
+      "bundle_size": 1,
+      "expected_touched": 8.0,
+      "read_amplification": 1.0,
+      "gate_up_us_per_layer": 224.0,
+      "speedup_vs_unbundled": 1.0
+    },
+    {
+      "experts": 32,
+      "selected": 8,
+      "bundle_size": 2,
+      "expected_touched": 7.096774193548388,
+      "read_amplification": 1.774193548387097,
+      "gate_up_us_per_layer": 267.54838709677426,
+      "speedup_vs_unbundled": 0.8372317337834577
+    },
+    {
+      "experts": 32,
+      "selected": 8,
+      "bundle_size": 4,
+      "expected_touched": 5.636040044493882,
+      "read_amplification": 2.818020022246941,
+      "gate_up_us_per_layer": 321.8178865406006,
+      "speedup_vs_unbundled": 0.6960458363824974
+    }
+  ],
+  "static_bundle_exact_overfetch_audit": [
+    {
+      "experts": 8,
+      "active": 4,
+      "exact_subsets": 70,
+      "bundle": 1,
+      "flash_ns_mean": 224000.0,
+      "all_inactive_weights_and_outputs_charged": true,
+      "conservative_all_waves_cold": true
+    },
+    {
+      "experts": 8,
+      "active": 4,
+      "exact_subsets": 70,
+      "bundle": 2,
+      "flash_ns_mean": 230485.7142857143,
+      "all_inactive_weights_and_outputs_charged": true,
+      "conservative_all_waves_cold": true
+    },
+    {
+      "experts": 8,
+      "active": 4,
+      "exact_subsets": 70,
+      "bundle": 4,
+      "flash_ns_mean": 224568.57142857142,
+      "all_inactive_weights_and_outputs_charged": true,
+      "conservative_all_waves_cold": true
+    }
+  ]
+}

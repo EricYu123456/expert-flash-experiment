@@ -1,0 +1,64 @@
+{
+  "created_utc": "2026-11-01T17:54:37.154595+00:00",
+  "source_sha256": "3484ce3652203cab19bb1cb3c465b2f77a9cc1b721bebf1e66cfbe8eb013d00e",
+  "use_cr": false,
+  "chips": 16,
+  "planes": 4,
+  "page_bytes": 16384,
+  "ordinary_read_ns": 28000,
+  "scope": "synthetic architecture sensitivity, not hardware or full-model end-to-end measurement",
+  "nuisance": "one uniformly chosen chip unavailable at phase start for specified residual stall; other chips start idle; iid occurrence per phase only in token oracle experiment",
+  "probabilities": [
+    0,
+    0.0001,
+    0.001,
+    0.01
+  ],
+  "stall_ns": [
+    0,
+    28000,
+    56000,
+    112000,
+    3000000,
+    5000000
+  ],
+  "primary_fit_stall_ns": 3000000,
+  "budget_fractions": [
+    0.0,
+    0.1,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "negative_control": "homogeneous read-only p=0, and every stall_ns=0 case",
+  "read_only_gc": "read-only model weights do not generate GC; nonzero nuisance presumes shared-device writes/GC/maintenance and is not calibrated",
+  "physical_family": "g16 equal whole-row base; canonical wave-aligned row tiles; one alternate per tile; cyclic source->destination shifts keep capacity equal",
+  "online_selector": "exact minmax redirection; all baselines have identical selector",
+  "fit": "first 100 existing training prompts only; deterministic sample of decode events",
+  "validation": "last 100 existing training prompts, 128 steps; evaluated after fit per case; the same loaded training cache contains both halves, but no validation routes are passed to fitting; original corpus test_routes never opened",
+  "anchor_layers": "first/middle/last before reading routing",
+  "excluded": "FTL state, write/GC simulation, interference correlation, multiple blocked chips, host activation/combine, full-model timing, physical energy, extra tile command costs",
+  "overhead_note": "additional addressing/setup must be charged in deployment; NAND-only policy gains are optimistic. Existing per-phase fixed costs enter only the full-token oracle bound, not conditional phase policy tables.",
+  "literature": [
+    {
+      "title": "S34MS16G2 NAND datasheet, Rev F, 2018",
+      "url": "https://community.infineon.com/gfawx74859/attachments/gfawx74859/USBHostsHubsTransceivers/3668/1/cypress%20semiconductor_cypr-s-a0004514289-1.pdf",
+      "evidence": "manufacturer p1: erase 3.5ms typical, program300us; old embedded SLC supports order of magnitude only, not AiF calibration"
+    },
+    {
+      "title": "HotR, DATE 2019",
+      "url": "https://past.date-conference.com/proceedings-archive/2019/pdf/0111.pdf",
+      "evidence": "read/write interference and hot read page replication; baseline family threat"
+    },
+    {
+      "title": "RAIL, ACM TOS 2022",
+      "url": "https://doi.org/10.1145/3465406",
+      "evidence": "redundancy for avoiding NAND reads blocked behind writes; mechanism threat"
+    },
+    {
+      "title": "ReadGuard, ACM TOS 2024",
+      "url": "https://doi.org/10.1145/3676884",
+      "evidence": "block quality, read-retry and priority-aware allocation; distinct from synthetic write/erase stalls modeled here"
+    }
+  ]
+}

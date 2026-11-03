@@ -1,0 +1,1186 @@
+{
+  "status": "PASS exact free-position work bound and one-route physical witness",
+  "protocol_sha256": "c30eb3a01cec43bb40f0fde7ac81e7036e78d90b8bbde7165e070b601d26bdc8",
+  "results": [
+    {
+      "input_copies": 1,
+      "routed_GU_job_ns": 29102,
+      "routed_Down_job_ns": 28762,
+      "O_delta_ns": -340,
+      "shared_wave_histogram": {
+        "1": 3,
+        "2": 17,
+        "3": 12
+      },
+      "shared_work_histogram_ns": {
+        "29102": 3,
+        "57188": 5,
+        "57992": 12,
+        "86078": 12
+      },
+      "query_readwaves": 295,
+      "at_least_one_chip_readwaves": 10,
+      "enumerated_10plus_wave_work_floor_ns": 287752,
+      "minimum_10plus_state": {
+        "chip": 0,
+        "x": 1,
+        "o": 5,
+        "readwaves": 10
+      },
+      "exact_free_position_owned_work_optimum_ns": 287752,
+      "initial_host_ns": 2000,
+      "native_necessary_LB_ns": 289752,
+      "DP": {
+        "binary_search_trials": [
+          {
+            "T": 288432,
+            "feasible": true
+          },
+          {
+            "T": 258650,
+            "feasible": false
+          },
+          {
+            "T": 260346,
+            "feasible": false
+          },
+          {
+            "T": 261026,
+            "feasible": false
+          },
+          {
+            "T": 287964,
+            "feasible": true
+          },
+          {
+            "T": 261366,
+            "feasible": false
+          },
+          {
+            "T": 287752,
+            "feasible": true
+          }
+        ],
+        "candidate_costs": 112,
+        "T_feasible": true,
+        "Tminus1_infeasible": true,
+        "independent_set_DP_all_final_states_equal": true,
+        "final_T_bitsets_hex": [
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffe0",
+          "0x7fffffffc00",
+          "0x7ffffff8000",
+          "0x7fffff00000",
+          "0x7fffe000000",
+          "0x7ffc0000000",
+          "0x7f800000000"
+        ],
+        "final_Tminus1_bitsets_hex": [
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "witness_histogram": [
+          {
+            "x": 0,
+            "o": 0,
+            "chips": 4
+          },
+          {
+            "x": 0,
+            "o": 2,
+            "chips": 1
+          },
+          {
+            "x": 1,
+            "o": 0,
+            "chips": 16
+          },
+          {
+            "x": 1,
+            "o": 5,
+            "chips": 8
+          },
+          {
+            "x": 2,
+            "o": 0,
+            "chips": 3
+          }
+        ]
+      },
+      "schedule_independent_command_rank_LB": {
+        "query_readwaves": 295,
+        "owners": 32,
+        "minimum_10wave_owners_if_max10": 7,
+        "global_command_duration_ns": 250,
+        "latest_first_acquire_among7heavy_relative_to_initial_host_ns": 1500,
+        "max10_case_native_LB_ns": 291252,
+        "any11plus_case_readalone_native_LB_ns": 310000,
+        "unconditional_native_LB_ns": 291252,
+        "proof": "Ifmaxwaves<=10,295waves forcesatleast7ownerswith10waves. Each owns>=enumeratedfloor service. Their7distinctfirst-acquire commands serialize, so one starts>=host+6commands. Singlechipowner serializes all itschargedjoboperations, hencefinish>=firststart+work. Ifanyownerhas>=11waves,readalone+host>=310000. Take minimumofthetwocases.",
+        "structural_Graph_checks": "Oneglobalcommand resource, eachjobacquiresoncefor250ns and releasesafteroutput. No fixedchip order, freeplanes or selector latency assumed.",
+        "scope": "Any legal scheduler of this fixedowner/resource/Service model andfixed295wave geometry, not allhardware/executors or native attainability."
+      },
+      "manual_column_witness": [
+        {
+          "chip": 0,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 287752
+        },
+        {
+          "chip": 1,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 287752
+        },
+        {
+          "chip": 2,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 287752
+        },
+        {
+          "chip": 3,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 287752
+        },
+        {
+          "chip": 4,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 287752
+        },
+        {
+          "chip": 5,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 287752
+        },
+        {
+          "chip": 6,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 287752
+        },
+        {
+          "chip": 7,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 0,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 0,
+          "readwaves": 9,
+          "owned_ns": 260690
+        },
+        {
+          "chip": 8,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 0,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 0,
+          "readwaves": 9,
+          "owned_ns": 260690
+        },
+        {
+          "chip": 9,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 0,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 0,
+          "readwaves": 9,
+          "owned_ns": 260690
+        },
+        {
+          "chip": 10,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 0,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 0,
+          "readwaves": 9,
+          "owned_ns": 260690
+        },
+        {
+          "chip": 11,
+          "sharedwaves": 3,
+          "shared_ns": 86078,
+          "x": 0,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 0,
+          "readwaves": 9,
+          "owned_ns": 260690
+        },
+        {
+          "chip": 12,
+          "sharedwaves": 2,
+          "shared_ns": 57188,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 9,
+          "owned_ns": 258862
+        },
+        {
+          "chip": 13,
+          "sharedwaves": 2,
+          "shared_ns": 57188,
+          "x": 1,
+          "o": 2,
+          "GU_jobs": 4,
+          "Down_jobs": 3,
+          "readwaves": 9,
+          "owned_ns": 259882
+        },
+        {
+          "chip": 14,
+          "sharedwaves": 2,
+          "shared_ns": 57188,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 260562
+        },
+        {
+          "chip": 15,
+          "sharedwaves": 2,
+          "shared_ns": 57188,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 260562
+        },
+        {
+          "chip": 16,
+          "sharedwaves": 2,
+          "shared_ns": 57188,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 260562
+        },
+        {
+          "chip": 17,
+          "sharedwaves": 1,
+          "shared_ns": 29102,
+          "x": 2,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 2,
+          "readwaves": 9,
+          "owned_ns": 261238
+        },
+        {
+          "chip": 18,
+          "sharedwaves": 1,
+          "shared_ns": 29102,
+          "x": 2,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 2,
+          "readwaves": 9,
+          "owned_ns": 261238
+        },
+        {
+          "chip": 19,
+          "sharedwaves": 1,
+          "shared_ns": 29102,
+          "x": 2,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 2,
+          "readwaves": 9,
+          "owned_ns": 261238
+        },
+        {
+          "chip": 20,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 21,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 22,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 23,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 24,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 25,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 26,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 27,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 28,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 29,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 30,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        },
+        {
+          "chip": 31,
+          "sharedwaves": 2,
+          "shared_ns": 57992,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 261366
+        }
+      ],
+      "edge_coloring": {
+        "left_X_vertices": 5,
+        "left_O_vertices": 7,
+        "dummy_vertices": 20,
+        "edges": 192,
+        "degree": 6,
+        "perfect_matchings": 6,
+        "exact_X5_O7_per_color": true
+      },
+      "q0_physical_image": {
+        "inventory": {
+          "jobs": 2424,
+          "rows": 167424,
+          "useful_bytes": 155713536,
+          "pages": 9764,
+          "waves": 2441,
+          "emitted_complete_rows": 169115,
+          "discard_complete_fringe_rows": 1691,
+          "partial_row_bytes": 1662464
+        },
+        "resident_waves_per_chip": [
+          78,
+          78,
+          78,
+          78,
+          80,
+          79,
+          80,
+          79,
+          79,
+          77,
+          77,
+          76,
+          76,
+          76,
+          76,
+          76,
+          75,
+          74,
+          73,
+          74,
+          73,
+          74,
+          75,
+          76,
+          76,
+          77,
+          77,
+          75,
+          75,
+          75,
+          75,
+          74
+        ],
+        "allocated_blocks": 32,
+        "allocated_bytes": 402653184,
+        "copies": 0,
+        "all_rows_and_scales_keep_logical_IDs": true,
+        "shared_geometry_unchanged": true,
+        "backend_occupancy_table_exact": true,
+        "original_Graph_node_work_exact": true,
+        "graph_nodes_inspected_not_scheduled": 1421
+      },
+      "limit": "Exact for freeperquerypositions and fixedshared/R2geometry ownedwork only; host+work is a necessary native bound, not native attainability or a fixedstaticmapping guarantee."
+    },
+    {
+      "input_copies": 4,
+      "routed_GU_job_ns": 31406,
+      "routed_Down_job_ns": 29530,
+      "O_delta_ns": -1876,
+      "shared_wave_histogram": {
+        "1": 3,
+        "2": 17,
+        "3": 12
+      },
+      "shared_work_histogram_ns": {
+        "31406": 3,
+        "59492": 5,
+        "61832": 12,
+        "89918": 12
+      },
+      "query_readwaves": 295,
+      "at_least_one_chip_readwaves": 10,
+      "enumerated_10plus_wave_work_floor_ns": 298504,
+      "minimum_10plus_state": {
+        "chip": 0,
+        "x": 1,
+        "o": 5,
+        "readwaves": 10
+      },
+      "exact_free_position_owned_work_optimum_ns": 298504,
+      "initial_host_ns": 2000,
+      "native_necessary_LB_ns": 300504,
+      "DP": {
+        "binary_search_trials": [
+          {
+            "T": 301824,
+            "feasible": true
+          },
+          {
+            "T": 267098,
+            "feasible": false
+          },
+          {
+            "T": 275150,
+            "feasible": false
+          },
+          {
+            "T": 278354,
+            "feasible": false
+          },
+          {
+            "T": 299484,
+            "feasible": true
+          },
+          {
+            "T": 279798,
+            "feasible": false
+          },
+          {
+            "T": 298504,
+            "feasible": true
+          }
+        ],
+        "candidate_costs": 112,
+        "T_feasible": true,
+        "Tminus1_infeasible": true,
+        "independent_set_DP_all_final_states_equal": true,
+        "final_T_bitsets_hex": [
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffe0",
+          "0x7fffffffc00",
+          "0x7ffffff8000",
+          "0x7fffff00000",
+          "0x7fffe000000",
+          "0x7ffc0000000",
+          "0x7f800000000"
+        ],
+        "final_Tminus1_bitsets_hex": [
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x7ffffffffff",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "witness_histogram": [
+          {
+            "x": 0,
+            "o": 0,
+            "chips": 4
+          },
+          {
+            "x": 0,
+            "o": 2,
+            "chips": 1
+          },
+          {
+            "x": 1,
+            "o": 0,
+            "chips": 16
+          },
+          {
+            "x": 1,
+            "o": 5,
+            "chips": 8
+          },
+          {
+            "x": 2,
+            "o": 0,
+            "chips": 3
+          }
+        ]
+      },
+      "schedule_independent_command_rank_LB": {
+        "query_readwaves": 295,
+        "owners": 32,
+        "minimum_10wave_owners_if_max10": 7,
+        "global_command_duration_ns": 250,
+        "latest_first_acquire_among7heavy_relative_to_initial_host_ns": 1500,
+        "max10_case_native_LB_ns": 302004,
+        "any11plus_case_readalone_native_LB_ns": 310000,
+        "unconditional_native_LB_ns": 302004,
+        "proof": "Ifmaxwaves<=10,295waves forcesatleast7ownerswith10waves. Each owns>=enumeratedfloor service. Their7distinctfirst-acquire commands serialize, so one starts>=host+6commands. Singlechipowner serializes all itschargedjoboperations, hencefinish>=firststart+work. Ifanyownerhas>=11waves,readalone+host>=310000. Take minimumofthetwocases.",
+        "structural_Graph_checks": "Oneglobalcommand resource, eachjobacquiresoncefor250ns and releasesafteroutput. No fixedchip order, freeplanes or selector latency assumed.",
+        "scope": "Any legal scheduler of this fixedowner/resource/Service model andfixed295wave geometry, not allhardware/executors or native attainability."
+      },
+      "manual_column_witness": [
+        {
+          "chip": 0,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 298504
+        },
+        {
+          "chip": 1,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 298504
+        },
+        {
+          "chip": 2,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 298504
+        },
+        {
+          "chip": 3,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 298504
+        },
+        {
+          "chip": 4,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 298504
+        },
+        {
+          "chip": 5,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 298504
+        },
+        {
+          "chip": 6,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 10,
+          "owned_ns": 298504
+        },
+        {
+          "chip": 7,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 0,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 0,
+          "readwaves": 9,
+          "owned_ns": 278354
+        },
+        {
+          "chip": 8,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 0,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 0,
+          "readwaves": 9,
+          "owned_ns": 278354
+        },
+        {
+          "chip": 9,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 0,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 0,
+          "readwaves": 9,
+          "owned_ns": 278354
+        },
+        {
+          "chip": 10,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 0,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 0,
+          "readwaves": 9,
+          "owned_ns": 278354
+        },
+        {
+          "chip": 11,
+          "sharedwaves": 3,
+          "shared_ns": 89918,
+          "x": 0,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 0,
+          "readwaves": 9,
+          "owned_ns": 278354
+        },
+        {
+          "chip": 12,
+          "sharedwaves": 2,
+          "shared_ns": 59492,
+          "x": 1,
+          "o": 5,
+          "GU_jobs": 1,
+          "Down_jobs": 6,
+          "readwaves": 9,
+          "owned_ns": 268078
+        },
+        {
+          "chip": 13,
+          "sharedwaves": 2,
+          "shared_ns": 59492,
+          "x": 1,
+          "o": 2,
+          "GU_jobs": 4,
+          "Down_jobs": 3,
+          "readwaves": 9,
+          "owned_ns": 273706
+        },
+        {
+          "chip": 14,
+          "sharedwaves": 2,
+          "shared_ns": 59492,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 277458
+        },
+        {
+          "chip": 15,
+          "sharedwaves": 2,
+          "shared_ns": 59492,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 277458
+        },
+        {
+          "chip": 16,
+          "sharedwaves": 2,
+          "shared_ns": 59492,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 277458
+        },
+        {
+          "chip": 17,
+          "sharedwaves": 1,
+          "shared_ns": 31406,
+          "x": 2,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 2,
+          "readwaves": 9,
+          "owned_ns": 278902
+        },
+        {
+          "chip": 18,
+          "sharedwaves": 1,
+          "shared_ns": 31406,
+          "x": 2,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 2,
+          "readwaves": 9,
+          "owned_ns": 278902
+        },
+        {
+          "chip": 19,
+          "sharedwaves": 1,
+          "shared_ns": 31406,
+          "x": 2,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 2,
+          "readwaves": 9,
+          "owned_ns": 278902
+        },
+        {
+          "chip": 20,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 21,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 22,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 23,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 24,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 25,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 26,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 27,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 28,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 29,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 30,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        },
+        {
+          "chip": 31,
+          "sharedwaves": 2,
+          "shared_ns": 61832,
+          "x": 1,
+          "o": 0,
+          "GU_jobs": 6,
+          "Down_jobs": 1,
+          "readwaves": 9,
+          "owned_ns": 279798
+        }
+      ],
+      "edge_coloring": {
+        "left_X_vertices": 5,
+        "left_O_vertices": 7,
+        "dummy_vertices": 20,
+        "edges": 192,
+        "degree": 6,
+        "perfect_matchings": 6,
+        "exact_X5_O7_per_color": true
+      },
+      "q0_physical_image": {
+        "inventory": {
+          "jobs": 2424,
+          "rows": 167424,
+          "useful_bytes": 155713536,
+          "pages": 9764,
+          "waves": 2441,
+          "emitted_complete_rows": 169115,
+          "discard_complete_fringe_rows": 1691,
+          "partial_row_bytes": 1662464
+        },
+        "resident_waves_per_chip": [
+          78,
+          78,
+          78,
+          78,
+          80,
+          79,
+          80,
+          79,
+          79,
+          77,
+          77,
+          76,
+          76,
+          76,
+          76,
+          76,
+          75,
+          74,
+          73,
+          74,
+          73,
+          74,
+          75,
+          76,
+          76,
+          77,
+          77,
+          75,
+          75,
+          75,
+          75,
+          74
+        ],
+        "allocated_blocks": 32,
+        "allocated_bytes": 402653184,
+        "copies": 0,
+        "all_rows_and_scales_keep_logical_IDs": true,
+        "shared_geometry_unchanged": true,
+        "backend_occupancy_table_exact": true,
+        "original_Graph_node_work_exact": true,
+        "graph_nodes_inspected_not_scheduled": 1421
+      },
+      "limit": "Exact for freeperquerypositions and fixedshared/R2geometry ownedwork only; host+work is a necessary native bound, not native attainability or a fixedstaticmapping guarantee."
+    }
+  ],
+  "correction": "Frozen shared has12threewave/17twowave/3onewave chips, not9threewave/23twowave. The corrected witness attains the same bound.",
+  "standard_math": "Bipartite multigraph edge-colouring/perfect-matching decomposition, a classical Hall/Koenig consequence, not a new theorem or deployable algorithm."
+}

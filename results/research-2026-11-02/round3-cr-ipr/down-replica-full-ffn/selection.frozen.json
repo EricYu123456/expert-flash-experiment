@@ -1,0 +1,30 @@
+{
+  "frozen_utc": "2026-11-02T14:18:14.974262+00:00",
+  "source_sha256": "1e46ebb6a53d4ea86e2dc498a41f568f86a1566c622b8e0faf8ce88468b62375",
+  "screen_report_sha256": "083ab3885953ca0a6b200d2e518dc827f1ebc73fa538e7860d7a91d353d63e32",
+  "screen_arrays_sha256": "b779974b459df11079fafd62ab350cd4783b776019fcec6b77dbb9b880236374",
+  "gate_passed": true,
+  "checks": {
+    "candidate": {
+      "all192_PB_FIFO128_valid": true,
+      "mean_gain_vs_onecopyshared4": 0.1244349165412949,
+      "passes": true
+    },
+    "RR": {
+      "all192_PB_FIFO128_valid": true,
+      "mean_gain_vs_onecopyshared4": 0.12389142367782036,
+      "passes": true
+    },
+    "g8_fixed": {
+      "all192_PB_FIFO128_valid": true,
+      "mean_gain_vs_onecopyshared4": 0.10048323426933903,
+      "passes": true
+    }
+  },
+  "selected_plans_unchanged": [
+    "original_g4_shared16",
+    "onecopy_shared4",
+    "triple_private_shared4"
+  ],
+  "rule": "Freeze all plans before screen. Run full512 iff at least one GU family tripleplan is PBvalid and128BFIFOvalid on all192events AND mean fullFFN improvement exceeds5% relative to samefamily onecopyshared4. No layout/assignment change after screen. Full results are descriptive TRAIN reuse."
+}

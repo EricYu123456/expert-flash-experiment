@@ -1,0 +1,16 @@
+{
+  "created_utc": "2026-11-02T00:53:46.012698+00:00",
+  "source_sha256": "8364eddf398ab16dac49b665360c22bd0ba89eb0373366097c71fce8d4cdce92",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v4-deduplicated/qwen38.L0.cmd250/whole_rows.plan.json": "3e4df497fcbf192d5eb2a281a5cac5c13a0b0f607482f25496437de57427e770",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v4-deduplicated/qwen38.L1.cmd250/whole_rows.plan.json": "72b0c7c79ac8c41e89e4c64126d14f8b94db307e67d96492154c1243a1b07aa9",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v4-deduplicated/qwen38.L2.cmd250/whole_rows.plan.json": "0c05e07e261d9285456df2341457252485b9e66ff47c59800930f056a723457d",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v4-deduplicated/granite4tiny.L0.cmd250/whole_rows.plan.json": "3d2719ef24e0a1373ca2aa94d7b731f99f4d45d93e949400d61b484d56aa7291",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v4-deduplicated/granite4tiny.L1.cmd250/whole_rows.plan.json": "11b0b6da282771a5108eedcdac17693b741c7f4e870783868dbd97871eeab7b3",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v4-deduplicated/granite4tiny.L2.cmd250/whole_rows.plan.json": "c9dcc531e76b91acd22cb1af5c3b2fa4e755d394985319fbfeac23e404b0bbdd",
+    "/home/ericyu/expert_flash_experiment/paper/aif.txt": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7"
+  },
+  "main_variant": "One source s with A[s]>A[s xor8] and differing wave counts. B exchanges only those two rowcounts;other14chips unchanged. No routes or heldout inputs are read.",
+  "secondary_control": "Whole-vector xor8 is separately labeled and never conflated with the single-edge variant.",
+  "tests": "Exhaust all nonnegative equal-sum A/B vectors,R0..7,M1..4;construct symbolic logical row IDs and verify both complete prefixes. Inspect actual three-layer frozen v4 geometry ledgers,not numerical W8v5winner claims."
+}

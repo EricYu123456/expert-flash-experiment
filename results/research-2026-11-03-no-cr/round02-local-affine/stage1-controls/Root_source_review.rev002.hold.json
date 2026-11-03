@@ -1,0 +1,19 @@
+{
+  "status": "hold",
+  "phase": "FITVAL",
+  "at_utc": "2026-11-03T02:55:35.450619+00:00",
+  "protocol_sha256": "42483d1490187fba7500a23bd9944c394a9e437ff00df365d13e32aa08e3269a",
+  "source_revision": 2,
+  "source_freeze_sha256": "b56c4a31013dadd8b7445f1c041e1c1a39f625fe6b66188265368e9aee4e8ed8",
+  "verified_dependencies": 58,
+  "Root_scope": "Read full immutable rev001 runner, rev002 narrow diff; verified source/dependency hashes, FITVAL/evaluation gates, selection/freeze and target closure. Critic reviewed numeric core/FMA/synthetic.",
+  "blocking_finding": "FMA environment guard checks x87 rounding and MXCSR FTZ/DAZ but omits MXCSR SSE/AVX rounding control bits0x6000. Contract requires RN for actual FMA. Add explicit MXCSR RN check and targeted rejected-mode synthetic case in new Stage1 revision.",
+  "nonblocking_scope_corrections": [
+    "Truncated numerical SVD span residual is not automatically a full actual-span lower bound if discarded directions are real nonzero. Rounded FMA predictions can leave exact real span.",
+    "Baseline rebuild mismatch remains a diagnostic to quantify and explain before identical-estimator claims.",
+    "Structural storage and operator-error comparisons are not whole-model latency/quality conclusions."
+  ],
+  "actual_data_authorized": false,
+  "scientific_failure_increment": 0,
+  "evidence_of_wrong_actual_data_computation": false
+}

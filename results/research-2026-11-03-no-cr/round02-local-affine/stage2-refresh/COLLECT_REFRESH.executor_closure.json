@@ -1,0 +1,998 @@
+{
+  "status": "complete_TRAIN16_statecollection_no_FIT",
+  "at_utc": "2026-11-03T04:55:03.519982+00:00",
+  "COLLECT_REFRESH_complete_sha256": "08ee7ae6e4cd352e5a4b95e6b05185b054c66826dc9f1c460bb8b68341ccda50",
+  "outer_process": {
+    "started_at_utc": "2026-11-03T04:38:32.865366+00:00",
+    "PID": 2679101,
+    "wrapper_PID": 2679100,
+    "argv": [
+      "/home/ericyu/miniconda3/bin/python3",
+      "scripts/research_20261103_local_affine_stage2_refresh_run.py",
+      "collect",
+      "--source-review",
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/Root_source_review.rev002.COLLECT_REFRESH.approved.json"
+    ],
+    "cwd": "/home/ericyu/expert_flash_experiment",
+    "log": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/COLLECT_REFRESH.executor_wrapper.log",
+    "source_review_sha256": "bc7cb6a36458033aa4b0446d59b83fc8dae1b6935937b8932405eb1e7d6965f8",
+    "source_revision": 2,
+    "source_freeze_sha256": "8f89fc18a3583e28e22ff0129c5ac09eb3d23a06fdcf09ec6aaddcf333e9206b",
+    "phase": "COLLECT_REFRESH_only",
+    "BIND_complete_sha256": "dfab36246e31d6fec44360a6b0ea079545ef8affbb97f919e65b9177f19e93f4",
+    "noFIT_newteacher_PGvalidation_TEST": true,
+    "completed_at_utc": "2026-11-03T04:54:31.273074+00:00",
+    "returncode": 0,
+    "wall_seconds": 958.4077177406289
+  },
+  "models": [
+    {
+      "model": "deepseek",
+      "process": {
+        "started_at_utc": "2026-11-03T04:39:13.459097+00:00",
+        "PID": 2679181,
+        "argv": [
+          "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/freezes/rev002/refresh-harness",
+          "collect",
+          "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collection.deepseek/plan.json"
+        ],
+        "log": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collection.deepseek/stderr.log",
+        "CPU_affinity": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "model_identity_reused": {
+          "path": "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-v2-lite-chat-q8_0.gguf",
+          "size": 16702520416,
+          "mtime_ns": 1792392261418259452,
+          "dev": 85,
+          "inode": 83165626,
+          "sha256": "09d9abe9170d14386b0a54fe3969035f6a770956cfefa7d2fbaa12e0900a2ba4",
+          "reused_unchanged_round1_hash": true
+        },
+        "completed_at_utc": "2026-11-03T04:49:39.373489+00:00",
+        "returncode": 0,
+        "wall_seconds": 625.914422899019
+      },
+      "closure": {
+        "status": "complete",
+        "model": "deepseek",
+        "frames": 3264,
+        "layers": {
+          "1": {
+            "rows": 13824,
+            "groups": 16,
+            "multiplicity_retained": true,
+            "contributions": {
+              "3:prefix": 12288,
+              "3:decode": 512,
+              "5:decode": 512,
+              "6:decode": 512
+            },
+            "files": {
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/deepseek/layer1/ids.npy": "d732b71251ae76279d6869f4125903b6b55732b0407b839145866edc9ae37cf3",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/deepseek/layer1/alpha.npy": "03e564c8def47ff6025eb7c0061163230852bcd031b0f1b6870a76a559d38a40",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/deepseek/layer1/inputs.npy": "62458fe51e6bc26dc28618eecb6e807e956aed8e17fcedc7be9acc65c12ba600",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/deepseek/layer1/provenance.jsonl": "c82001f7d101141e0950c01dd36186e30435393b3e52c97df99660b4a817481f"
+            }
+          },
+          "13": {
+            "rows": 13824,
+            "groups": 16,
+            "multiplicity_retained": true,
+            "contributions": {
+              "3:prefix": 12288,
+              "3:decode": 512,
+              "5:decode": 512,
+              "6:decode": 512
+            },
+            "files": {
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/deepseek/layer13/ids.npy": "287bda44baf3d073391a556d3f87c75e47c0f3f8c21128859f2cf73e6ffa1a56",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/deepseek/layer13/alpha.npy": "8062ffc016509e44fb9487261b311de3c88ae9daa54edf4eea9c0d80eb8a3a5f",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/deepseek/layer13/inputs.npy": "30de9798cebb2381a9059a38c1cc6c3f975091088c9d2893f943110bf11f0357",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/deepseek/layer13/provenance.jsonl": "ee9331cbc902f1c8b0718e1f98f917a468bdfb6fbd830fdcdc2156fcd614973d"
+            }
+          }
+        },
+        "all_alpha_ownedinput_epochs_joined": true,
+        "offroute_teacher_targets_queried": false
+      },
+      "worker_record_receipt": {
+        "status": "complete",
+        "counts": {
+          "1:3:0": 12288,
+          "13:3:0": 12288,
+          "1:3:1": 512,
+          "13:3:1": 512,
+          "1:5:1": 512,
+          "13:5:1": 512,
+          "1:6:1": 512,
+          "13:6:1": 512
+        },
+        "frames": 3264,
+        "sha256": "d7d693d96f9acef9e8fe4b32b74b04f9ef6f051ecbb38633913332305bdba713",
+        "owned_input_only": true,
+        "canonical_offroute_targets_queried": false,
+        "live_forward_canonical_expert_rows_by_arm_layer_expert": {
+          "3:1:14": 1716,
+          "3:1:40": 1813,
+          "3:13:10": 1364,
+          "3:13:56": 1181
+        },
+        "live_forward_activation_calls": 614,
+        "live_forward_activation_IPC_bytes": 102633672,
+        "live_forward_activation_seconds": 6.1632483610883355
+      },
+      "books": 16,
+      "fresh_contexts": 48,
+      "decode_stopping": [
+        {
+          "book_id": 53831,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 36585,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 41759,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 55463,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 42790,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 891,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 24660,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 1551,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 11704,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 54057,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 35042,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 34220,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 32442,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 3393,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 25088,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 30486,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model": "olmoe",
+      "process": {
+        "started_at_utc": "2026-11-03T04:49:40.629385+00:00",
+        "PID": 2680156,
+        "argv": [
+          "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/freezes/rev002/refresh-harness",
+          "collect",
+          "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collection.olmoe/plan.json"
+        ],
+        "log": "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collection.olmoe/stderr.log",
+        "CPU_affinity": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "model_identity_reused": {
+          "path": "/home/nfs_client/ericyu/expert_flash_experiment/models/olmoe-1b-7b-0924-q4_k_m.gguf",
+          "size": 4213511776,
+          "mtime_ns": 1792391240836458902,
+          "dev": 85,
+          "inode": 83165572,
+          "sha256": "f3ae25f6c7e83efb0e3632ef068b321f4d4a644bcfb6c0e01dd8c00e94e53f14",
+          "reused_unchanged_round1_hash": true
+        },
+        "completed_at_utc": "2026-11-03T04:54:29.484041+00:00",
+        "returncode": 0,
+        "wall_seconds": 288.8546890798025
+      },
+      "closure": {
+        "status": "complete",
+        "model": "olmoe",
+        "frames": 3264,
+        "layers": {
+          "0": {
+            "rows": 13824,
+            "groups": 16,
+            "multiplicity_retained": true,
+            "contributions": {
+              "3:prefix": 12288,
+              "3:decode": 512,
+              "5:decode": 512,
+              "6:decode": 512
+            },
+            "files": {
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/olmoe/layer0/ids.npy": "08a6d6fdb77d062bb249ec7d2d4364e84d677968d0d8e480a1f6654f4e56d97b",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/olmoe/layer0/alpha.npy": "49b6f127e902c8acec94ae089ffaea15462c6e01eb3f1c5da8177c44fc5fde6d",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/olmoe/layer0/inputs.npy": "7e0214108b711839114cd9317020ac496f628ea269b6b6c113a6f9dd238654e7",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/olmoe/layer0/provenance.jsonl": "0090ed19e492e67ed88abc520ec84363c15cb5eff32daa84650de38a555b6563"
+            }
+          },
+          "8": {
+            "rows": 13824,
+            "groups": 16,
+            "multiplicity_retained": true,
+            "contributions": {
+              "3:prefix": 12288,
+              "3:decode": 512,
+              "5:decode": 512,
+              "6:decode": 512
+            },
+            "files": {
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/olmoe/layer8/ids.npy": "94697493d8da9e7b2321f7c00c22adf7118823f099c8058eaae3f187ec97a5fa",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/olmoe/layer8/alpha.npy": "c9e5d22b00d978e264edccced905613636d09192b68bd4020eefc67631abdd6a",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/olmoe/layer8/inputs.npy": "20705138fed16367933edc28bfdf710c558e2604c64f673bf419ac36a9586e67",
+              "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/collected/olmoe/layer8/provenance.jsonl": "baf3ff48f378ae75c39c3934347fda0444279c914600a3b871221df77f533953"
+            }
+          }
+        },
+        "all_alpha_ownedinput_epochs_joined": true,
+        "offroute_teacher_targets_queried": false
+      },
+      "worker_record_receipt": {
+        "status": "complete",
+        "counts": {
+          "0:3:0": 12288,
+          "8:3:0": 12288,
+          "0:3:1": 512,
+          "8:3:1": 512,
+          "0:5:1": 512,
+          "8:5:1": 512,
+          "0:6:1": 512,
+          "8:6:1": 512
+        },
+        "frames": 3264,
+        "sha256": "7dcc76a309578c47e669c82274c1b39266d5067a97e2856a307f1e0b9eb55abb",
+        "owned_input_only": true,
+        "canonical_offroute_targets_queried": false,
+        "live_forward_canonical_expert_rows_by_arm_layer_expert": {
+          "3:0:6": 2771,
+          "3:0:17": 2033,
+          "3:8:3": 41,
+          "3:8:9": 1603
+        },
+        "live_forward_activation_calls": 475,
+        "live_forward_activation_IPC_bytes": 79238724,
+        "live_forward_activation_seconds": 4.7584442920051515
+      },
+      "books": 16,
+      "fresh_contexts": 48,
+      "decode_stopping": [
+        {
+          "book_id": 53831,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 36585,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 41759,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 55463,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 42790,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 891,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 24660,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 1551,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 11704,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 54057,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 35042,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 34220,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 32442,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 3393,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 25088,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        },
+        {
+          "book_id": 30486,
+          "arms": [
+            {
+              "arm": 3,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 5,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            },
+            {
+              "arm": 6,
+              "fed_decode_rows": 32,
+              "stop": "max32",
+              "EOG_not_fed": -1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "bound_files": 72,
+  "bound_bytes": 947401343,
+  "canonical_offroute_targets_queried": false,
+  "FIT_started": false,
+  "PGvalidation_TEST_opened": false,
+  "source_changed_since_launch": false,
+  "all_metadata_hashes": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/COLLECT_REFRESH.executor_launch.json": "3154b122b417f3673a9cd40d03f7ae545c69db4757a2c12b3d448ad43c5550c5",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/COLLECT_REFRESH.executor_wrapper.log": "a324ef4638713a351f50bee39729f37c4f500ccf24e1212043cc42a5a798b1be",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/COLLECT_REFRESH.resource_observation.json": "8225469936c14bc9f2d8460077d0c32e229a2b90aace872390fccf1c4f78a04a",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/COLLECT_REFRESH.started.json": "cacc7dea494dbdc0553131eb4fe035bd7b12b48187ab5ccd3ed18248d4516cac",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/COLLECT_REFRESH.complete.json": "08ee7ae6e4cd352e5a4b95e6b05185b054c66826dc9f1c460bb8b68341ccda50",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-03-no-cr/round02-local-affine/stage2-refresh/COLLECT_REFRESH.executor_exit.json": "8bd41bd56edec15ffb6c313fcda10a731a818003e5d6ffe7dbeff1da732b4fa7"
+  },
+  "source_protocol_sha256": "78045b99f1e4647475bc7a35ef27110856ed081dc8b2faace7ddd332b5b5d167",
+  "scope": "ordered unitweight multiset retained, ownedX/IDs+actualalpha matched everyepoch; originalGGUF/Down duplicatedharness offline costs only"
+}

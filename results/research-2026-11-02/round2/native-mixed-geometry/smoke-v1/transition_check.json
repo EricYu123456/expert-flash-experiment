@@ -1,0 +1,52 @@
+{
+  "status": "passed_forced_geometry_to_permutation_and_restore",
+  "source_sha256": "28e32a70f570d9a9f32898643946d918bb57e42eebeee447d6d83a25ab947205",
+  "fitter_sha256": "32aa3fdda1fb9bab54ce2bd8fd24299aa8a3dd632ed300d477c81281ed6c5942",
+  "checks": [
+    {
+      "model": "granite4tiny",
+      "case": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input1/result.json",
+      "case_sha256": "acef06dd8781453bbac3f0078172a3576859d7d987d06ab2f25304bf12f55269",
+      "transitions": [
+        {
+          "tag": "geometry_accepted",
+          "expert": 1,
+          "affected_unique": 80,
+          "jobs": 1798,
+          "python_first_query_cost_ns": 1503742
+        },
+        {
+          "tag": "geometry_then_permutation",
+          "expert": 1,
+          "affected_unique": 80,
+          "jobs": 1798,
+          "python_first_query_cost_ns": 1503066
+        }
+      ],
+      "all512_restored_exact": true
+    },
+    {
+      "model": "deepseek",
+      "case": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input4/result.json",
+      "case_sha256": "85fbaeebb6ffc533e82700a36bdeb25466d7dcea2bc38500d15bd468a91e57c5",
+      "transitions": [
+        {
+          "tag": "geometry_accepted",
+          "expert": 31,
+          "affected_unique": 42,
+          "jobs": 2050,
+          "python_first_query_cost_ns": 5418604
+        },
+        {
+          "tag": "geometry_then_permutation",
+          "expert": 31,
+          "affected_unique": 42,
+          "jobs": 2050,
+          "python_first_query_cost_ns": 5390490
+        }
+      ],
+      "all512_restored_exact": true
+    }
+  ],
+  "scope": "Deterministic correctness probes, no parameter choice or output-driven selection."
+}

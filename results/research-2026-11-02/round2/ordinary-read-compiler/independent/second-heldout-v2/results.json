@@ -1,0 +1,921 @@
+{
+  "status": "PASS",
+  "completed_utc": "2026-11-02T00:37:40.050428+00:00",
+  "elapsed_seconds": 42.29856097092852,
+  "costs_checked": 202752,
+  "layer_cases": 792,
+  "full_first_traces_checked": 792,
+  "first_trace_nodes_checked": 675372,
+  "full_dependency_resource_owner_GU_barrier_audits": 792,
+  "independent_python_heap_trace_replays": 28,
+  "all_plan_jobs_checked": 1143424,
+  "root_protocol_input_hashes_checked": 1609,
+  "independent_native_binary_sha256": "5565d22af00da419387417a6193c33cc4f6b8b9c418bc36b73d2ead4d3202165",
+  "prefix_checks": [
+    {
+      "copies": 1,
+      "command_ns": 250,
+      "cost_ns": 1852224,
+      "useful_bytes": 67239936,
+      "nodes": 167,
+      "jobs": 32,
+      "resource_intervals_checked": 167,
+      "owner_intervals_checked": 32,
+      "full_GU_barriers_checked": 1
+    },
+    {
+      "copies": 1,
+      "command_ns": 5000,
+      "cost_ns": 1994236,
+      "useful_bytes": 67239936,
+      "nodes": 167,
+      "jobs": 32,
+      "resource_intervals_checked": 167,
+      "owner_intervals_checked": 32,
+      "full_GU_barriers_checked": 1
+    },
+    {
+      "copies": 4,
+      "command_ns": 250,
+      "cost_ns": 1888128,
+      "useful_bytes": 67239936,
+      "nodes": 167,
+      "jobs": 32,
+      "resource_intervals_checked": 167,
+      "owner_intervals_checked": 32,
+      "full_GU_barriers_checked": 1
+    },
+    {
+      "copies": 4,
+      "command_ns": 5000,
+      "cost_ns": 2013724,
+      "useful_bytes": 67239936,
+      "nodes": 167,
+      "jobs": 32,
+      "resource_intervals_checked": 167,
+      "owner_intervals_checked": 32,
+      "full_GU_barriers_checked": 1
+    }
+  ],
+  "totals": [
+    {
+      "model": "deepseek",
+      "input_channel_copies": 1,
+      "command_ns": 250,
+      "family": "cyclic",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 52357222.2890625,
+        "p50_ns": 52357199.0,
+        "p95_ns": 52360234.0,
+        "p99_ns": 52361931.8,
+        "min_ns": 52352186,
+        "max_ns": 52362926
+      },
+      "fixed_dense_prefix_ns": 1852224,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 54209446.2890625,
+        "p50_ns": 54209423.0,
+        "p95_ns": 54212458.0,
+        "p99_ns": 54214155.8,
+        "min_ns": 54204410,
+        "max_ns": 54215150
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 1,
+      "command_ns": 250,
+      "family": "disjoint",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 52357656.0,
+        "p50_ns": 52357656.0,
+        "p95_ns": 52357656.0,
+        "p99_ns": 52357656.0,
+        "min_ns": 52357656,
+        "max_ns": 52357656
+      },
+      "fixed_dense_prefix_ns": 1852224,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 54209880.0,
+        "p50_ns": 54209880.0,
+        "p95_ns": 54209880.0,
+        "p99_ns": 54209880.0,
+        "min_ns": 54209880,
+        "max_ns": 54209880
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 1,
+      "command_ns": 250,
+      "family": "whole_rows",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 50603891.125,
+        "p50_ns": 50637868.0,
+        "p95_ns": 50859975.75,
+        "p99_ns": 50961111.0,
+        "min_ns": 49995903,
+        "max_ns": 51021237
+      },
+      "fixed_dense_prefix_ns": 1852224,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 52456115.125,
+        "p50_ns": 52490092.0,
+        "p95_ns": 52712199.75,
+        "p99_ns": 52813335.0,
+        "min_ns": 51848127,
+        "max_ns": 52873461
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 1,
+      "command_ns": 5000,
+      "family": "cyclic",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 55196109.6484375,
+        "p50_ns": 55194480.0,
+        "p95_ns": 55251914.5,
+        "p99_ns": 55284365.0,
+        "min_ns": 55054754,
+        "max_ns": 55295670
+      },
+      "fixed_dense_prefix_ns": 1994236,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 57190345.6484375,
+        "p50_ns": 57188716.0,
+        "p95_ns": 57246150.5,
+        "p99_ns": 57278601.0,
+        "min_ns": 57048990,
+        "max_ns": 57289906
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 1,
+      "command_ns": 5000,
+      "family": "disjoint",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 55564319.28125,
+        "p50_ns": 55617808.0,
+        "p95_ns": 55952384.0,
+        "p99_ns": 55992384.0,
+        "min_ns": 55342928,
+        "max_ns": 56267112
+      },
+      "fixed_dense_prefix_ns": 1994236,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 57558555.28125,
+        "p50_ns": 57612044.0,
+        "p95_ns": 57946620.0,
+        "p99_ns": 57986620.0,
+        "min_ns": 57337164,
+        "max_ns": 58261348
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 1,
+      "command_ns": 5000,
+      "family": "whole_rows",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 54122152.625,
+        "p50_ns": 54129537.5,
+        "p95_ns": 54305863.25,
+        "p99_ns": 54347650.65,
+        "min_ns": 53831171,
+        "max_ns": 54395243
+      },
+      "fixed_dense_prefix_ns": 1994236,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 56116388.625,
+        "p50_ns": 56123773.5,
+        "p95_ns": 56300099.25,
+        "p99_ns": 56341886.65,
+        "min_ns": 55825407,
+        "max_ns": 56389479
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 4,
+      "command_ns": 250,
+      "family": "cyclic",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 53458011.1171875,
+        "p50_ns": 53458026.0,
+        "p95_ns": 53480275.5,
+        "p99_ns": 53487378.4,
+        "min_ns": 53419876,
+        "max_ns": 53490556
+      },
+      "fixed_dense_prefix_ns": 1888128,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 55346139.1171875,
+        "p50_ns": 55346154.0,
+        "p95_ns": 55368403.5,
+        "p99_ns": 55375506.4,
+        "min_ns": 55308004,
+        "max_ns": 55378684
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 4,
+      "command_ns": 250,
+      "family": "disjoint",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 53463644.0,
+        "p50_ns": 53463644.0,
+        "p95_ns": 53463644.0,
+        "p99_ns": 53463644.0,
+        "min_ns": 53463644,
+        "max_ns": 53463644
+      },
+      "fixed_dense_prefix_ns": 1888128,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 55351772.0,
+        "p50_ns": 55351772.0,
+        "p95_ns": 55351772.0,
+        "p99_ns": 55351772.0,
+        "min_ns": 55351772,
+        "max_ns": 55351772
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 4,
+      "command_ns": 250,
+      "family": "whole_rows",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 51655092.91015625,
+        "p50_ns": 51689647.0,
+        "p95_ns": 51905766.5,
+        "p99_ns": 52004224.4,
+        "min_ns": 51073463,
+        "max_ns": 52053784
+      },
+      "fixed_dense_prefix_ns": 1888128,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 53543220.91015625,
+        "p50_ns": 53577775.0,
+        "p95_ns": 53793894.5,
+        "p99_ns": 53892352.4,
+        "min_ns": 52961591,
+        "max_ns": 53941912
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 4,
+      "command_ns": 5000,
+      "family": "cyclic",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 56214575.91015625,
+        "p50_ns": 56213336.0,
+        "p95_ns": 56275074.5,
+        "p99_ns": 56310889.9,
+        "min_ns": 56070181,
+        "max_ns": 56328544
+      },
+      "fixed_dense_prefix_ns": 2013724,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 58228299.91015625,
+        "p50_ns": 58227060.0,
+        "p95_ns": 58288798.5,
+        "p99_ns": 58324613.9,
+        "min_ns": 58083905,
+        "max_ns": 58342268
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 4,
+      "command_ns": 5000,
+      "family": "disjoint",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 56758559.4375,
+        "p50_ns": 56727532.0,
+        "p95_ns": 57322288.0,
+        "p99_ns": 57616625.2,
+        "min_ns": 56106088,
+        "max_ns": 57771416
+      },
+      "fixed_dense_prefix_ns": 2013724,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 58772283.4375,
+        "p50_ns": 58741256.0,
+        "p95_ns": 59336012.0,
+        "p99_ns": 59630349.2,
+        "min_ns": 58119812,
+        "max_ns": 59785140
+      }
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 4,
+      "command_ns": 5000,
+      "family": "whole_rows",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 55127054.8984375,
+        "p50_ns": 55124410.5,
+        "p95_ns": 55327862.0,
+        "p99_ns": 55389519.8,
+        "min_ns": 54831546,
+        "max_ns": 55400061
+      },
+      "fixed_dense_prefix_ns": 2013724,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 57140778.8984375,
+        "p50_ns": 57138134.5,
+        "p95_ns": 57341586.0,
+        "p99_ns": 57403243.8,
+        "min_ns": 56845270,
+        "max_ns": 57413785
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 1,
+      "command_ns": 250,
+      "family": "cyclic",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 24510604.265625,
+        "p50_ns": 24496821.0,
+        "p95_ns": 25206801.5,
+        "p99_ns": 25424289.099999998,
+        "min_ns": 23286206,
+        "max_ns": 25492214
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 24510604.265625,
+        "p50_ns": 24496821.0,
+        "p95_ns": 25206801.5,
+        "p99_ns": 25424289.099999998,
+        "min_ns": 23286206,
+        "max_ns": 25492214
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 1,
+      "command_ns": 250,
+      "family": "disjoint",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 25360190.515625,
+        "p50_ns": 25334177.0,
+        "p95_ns": 26063107.0,
+        "p99_ns": 26267090.1,
+        "min_ns": 24207670,
+        "max_ns": 26301772
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 25360190.515625,
+        "p50_ns": 25334177.0,
+        "p95_ns": 26063107.0,
+        "p99_ns": 26267090.1,
+        "min_ns": 24207670,
+        "max_ns": 26301772
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 1,
+      "command_ns": 250,
+      "family": "whole_rows",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 23863416.6953125,
+        "p50_ns": 23844978.0,
+        "p95_ns": 24323582.0,
+        "p99_ns": 24440426.4,
+        "min_ns": 23229766,
+        "max_ns": 24497388
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 23863416.6953125,
+        "p50_ns": 23844978.0,
+        "p95_ns": 24323582.0,
+        "p99_ns": 24440426.4,
+        "min_ns": 23229766,
+        "max_ns": 24497388
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 1,
+      "command_ns": 5000,
+      "family": "cyclic",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 28796653.40625,
+        "p50_ns": 28789640.0,
+        "p95_ns": 29579418.0,
+        "p99_ns": 29922648.4,
+        "min_ns": 27670576,
+        "max_ns": 30187816
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 28796653.40625,
+        "p50_ns": 28789640.0,
+        "p95_ns": 29579418.0,
+        "p99_ns": 29922648.4,
+        "min_ns": 27670576,
+        "max_ns": 30187816
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 1,
+      "command_ns": 5000,
+      "family": "disjoint",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 28796653.40625,
+        "p50_ns": 28789640.0,
+        "p95_ns": 29579418.0,
+        "p99_ns": 29922648.4,
+        "min_ns": 27670576,
+        "max_ns": 30187816
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 28796653.40625,
+        "p50_ns": 28789640.0,
+        "p95_ns": 29579418.0,
+        "p99_ns": 29922648.4,
+        "min_ns": 27670576,
+        "max_ns": 30187816
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 1,
+      "command_ns": 5000,
+      "family": "whole_rows",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 28796653.40625,
+        "p50_ns": 28789640.0,
+        "p95_ns": 29579418.0,
+        "p99_ns": 29922648.4,
+        "min_ns": 27670576,
+        "max_ns": 30187816
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 28796653.40625,
+        "p50_ns": 28789640.0,
+        "p95_ns": 29579418.0,
+        "p99_ns": 29922648.4,
+        "min_ns": 27670576,
+        "max_ns": 30187816
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 4,
+      "command_ns": 250,
+      "family": "cyclic",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 25136775.453125,
+        "p50_ns": 25126131.0,
+        "p95_ns": 25865387.5,
+        "p99_ns": 26168387.8,
+        "min_ns": 24135396,
+        "max_ns": 26381506
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 25136775.453125,
+        "p50_ns": 25126131.0,
+        "p95_ns": 25865387.5,
+        "p99_ns": 26168387.8,
+        "min_ns": 24135396,
+        "max_ns": 26381506
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 4,
+      "command_ns": 250,
+      "family": "disjoint",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 25998000.4296875,
+        "p50_ns": 26014121.0,
+        "p95_ns": 26741179.0,
+        "p99_ns": 27071504.2,
+        "min_ns": 24566628,
+        "max_ns": 27350092
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 25998000.4296875,
+        "p50_ns": 26014121.0,
+        "p95_ns": 26741179.0,
+        "p99_ns": 27071504.2,
+        "min_ns": 24566628,
+        "max_ns": 27350092
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 4,
+      "command_ns": 250,
+      "family": "whole_rows",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 24991045.78125,
+        "p50_ns": 24982176.0,
+        "p95_ns": 25626898.5,
+        "p99_ns": 25839119.9,
+        "min_ns": 23918302,
+        "max_ns": 26225514
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 24991045.78125,
+        "p50_ns": 24982176.0,
+        "p95_ns": 25626898.5,
+        "p99_ns": 25839119.9,
+        "min_ns": 23918302,
+        "max_ns": 26225514
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 4,
+      "command_ns": 5000,
+      "family": "cyclic",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 29364461.0625,
+        "p50_ns": 29358276.0,
+        "p95_ns": 30170406.0,
+        "p99_ns": 30576386.0,
+        "min_ns": 28245104,
+        "max_ns": 30744848
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 29364461.0625,
+        "p50_ns": 29358276.0,
+        "p95_ns": 30170406.0,
+        "p99_ns": 30576386.0,
+        "min_ns": 28245104,
+        "max_ns": 30744848
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 4,
+      "command_ns": 5000,
+      "family": "disjoint",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 29350021.625,
+        "p50_ns": 29349504.0,
+        "p95_ns": 30140778.0,
+        "p99_ns": 30508937.2,
+        "min_ns": 28324944,
+        "max_ns": 30746432
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 29350021.625,
+        "p50_ns": 29349504.0,
+        "p95_ns": 30140778.0,
+        "p99_ns": 30508937.2,
+        "min_ns": 28324944,
+        "max_ns": 30746432
+      }
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 4,
+      "command_ns": 5000,
+      "family": "whole_rows",
+      "moe_shared": {
+        "samples": 256,
+        "mean_ns": 29364461.0625,
+        "p50_ns": 29358276.0,
+        "p95_ns": 30170406.0,
+        "p99_ns": 30576386.0,
+        "min_ns": 28245104,
+        "max_ns": 30744848
+      },
+      "fixed_dense_prefix_ns": 0,
+      "complete_ffn_service": {
+        "samples": 256,
+        "mean_ns": 29364461.0625,
+        "p50_ns": 29358276.0,
+        "p95_ns": 30170406.0,
+        "p99_ns": 30576386.0,
+        "min_ns": 28245104,
+        "max_ns": 30744848
+      }
+    }
+  ],
+  "paired": [
+    {
+      "model": "deepseek",
+      "input_channel_copies": 1,
+      "command_ns": 250,
+      "baseline": "disjoint",
+      "moe_mean_reduction_fraction": 0.03349586305009533,
+      "complete_ffn_mean_reduction_fraction": 0.03235138825247352,
+      "paired_mean_delta_ns": 1753764.875,
+      "faster_tokens": 256,
+      "tied_tokens": 0,
+      "slower_tokens": 0,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 1,
+      "command_ns": 250,
+      "baseline": "cyclic",
+      "moe_mean_reduction_fraction": 0.03348785683057087,
+      "complete_ffn_mean_reduction_fraction": 0.032343646432268724,
+      "paired_mean_delta_ns": 1753331.1640625,
+      "faster_tokens": 256,
+      "tied_tokens": 0,
+      "slower_tokens": 0,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 1,
+      "command_ns": 5000,
+      "baseline": "disjoint",
+      "moe_mean_reduction_fraction": 0.02595490550239954,
+      "complete_ffn_mean_reduction_fraction": 0.025055643756225265,
+      "paired_mean_delta_ns": 1442166.65625,
+      "faster_tokens": 256,
+      "tied_tokens": 0,
+      "slower_tokens": 0,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 1,
+      "command_ns": 5000,
+      "baseline": "cyclic",
+      "moe_mean_reduction_fraction": 0.019457114464731196,
+      "complete_ffn_mean_reduction_fraction": 0.018778641941410323,
+      "paired_mean_delta_ns": 1073957.0234375,
+      "faster_tokens": 256,
+      "tied_tokens": 0,
+      "slower_tokens": 0,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 4,
+      "command_ns": 250,
+      "baseline": "disjoint",
+      "moe_mean_reduction_fraction": 0.033827680916096003,
+      "complete_ffn_mean_reduction_fraction": 0.03267377040510555,
+      "paired_mean_delta_ns": 1808551.08984375,
+      "faster_tokens": 256,
+      "tied_tokens": 0,
+      "slower_tokens": 0,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 4,
+      "command_ns": 250,
+      "baseline": "cyclic",
+      "moe_mean_reduction_fraction": 0.03372587511867953,
+      "complete_ffn_mean_reduction_fraction": 0.03257532026242749,
+      "paired_mean_delta_ns": 1802918.20703125,
+      "faster_tokens": 256,
+      "tied_tokens": 0,
+      "slower_tokens": 0,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 4,
+      "command_ns": 5000,
+      "baseline": "disjoint",
+      "moe_mean_reduction_fraction": 0.028744643190936503,
+      "complete_ffn_mean_reduction_fraction": 0.027759760955986756,
+      "paired_mean_delta_ns": 1631504.5390625,
+      "faster_tokens": 256,
+      "tied_tokens": 0,
+      "slower_tokens": 0,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "deepseek",
+      "input_channel_copies": 4,
+      "command_ns": 5000,
+      "baseline": "cyclic",
+      "moe_mean_reduction_fraction": 0.01934589017369548,
+      "complete_ffn_mean_reduction_fraction": 0.018676846368462563,
+      "paired_mean_delta_ns": 1087521.01171875,
+      "faster_tokens": 256,
+      "tied_tokens": 0,
+      "slower_tokens": 0,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 1,
+      "command_ns": 250,
+      "baseline": "disjoint",
+      "moe_mean_reduction_fraction": 0.05902060630776029,
+      "complete_ffn_mean_reduction_fraction": 0.05902060630776029,
+      "paired_mean_delta_ns": 1496773.8203125,
+      "faster_tokens": 256,
+      "tied_tokens": 0,
+      "slower_tokens": 0,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 1,
+      "command_ns": 250,
+      "baseline": "cyclic",
+      "moe_mean_reduction_fraction": 0.026404390658787302,
+      "complete_ffn_mean_reduction_fraction": 0.026404390658787302,
+      "paired_mean_delta_ns": 647187.5703125,
+      "faster_tokens": 253,
+      "tied_tokens": 0,
+      "slower_tokens": 3,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 1,
+      "command_ns": 5000,
+      "baseline": "disjoint",
+      "moe_mean_reduction_fraction": 0.0,
+      "complete_ffn_mean_reduction_fraction": 0.0,
+      "paired_mean_delta_ns": 0.0,
+      "faster_tokens": 0,
+      "tied_tokens": 256,
+      "slower_tokens": 0,
+      "faster_prompt_means": 0,
+      "tied_prompt_means": 16,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 1,
+      "command_ns": 5000,
+      "baseline": "cyclic",
+      "moe_mean_reduction_fraction": 0.0,
+      "complete_ffn_mean_reduction_fraction": 0.0,
+      "paired_mean_delta_ns": 0.0,
+      "faster_tokens": 0,
+      "tied_tokens": 256,
+      "slower_tokens": 0,
+      "faster_prompt_means": 0,
+      "tied_prompt_means": 16,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 4,
+      "command_ns": 250,
+      "baseline": "disjoint",
+      "moe_mean_reduction_fraction": 0.03873200368470042,
+      "complete_ffn_mean_reduction_fraction": 0.03873200368470042,
+      "paired_mean_delta_ns": 1006954.6484375,
+      "faster_tokens": 255,
+      "tied_tokens": 0,
+      "slower_tokens": 1,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 4,
+      "command_ns": 250,
+      "baseline": "cyclic",
+      "moe_mean_reduction_fraction": 0.005797468818017459,
+      "complete_ffn_mean_reduction_fraction": 0.005797468818017459,
+      "paired_mean_delta_ns": 145729.671875,
+      "faster_tokens": 190,
+      "tied_tokens": 0,
+      "slower_tokens": 66,
+      "faster_prompt_means": 16,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 0
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 4,
+      "command_ns": 5000,
+      "baseline": "disjoint",
+      "moe_mean_reduction_fraction": -0.0004919736579580558,
+      "complete_ffn_mean_reduction_fraction": -0.0004919736579580558,
+      "paired_mean_delta_ns": -14439.4375,
+      "faster_tokens": 88,
+      "tied_tokens": 0,
+      "slower_tokens": 168,
+      "faster_prompt_means": 3,
+      "tied_prompt_means": 0,
+      "slower_prompt_means": 13
+    },
+    {
+      "model": "granite4tiny",
+      "input_channel_copies": 4,
+      "command_ns": 5000,
+      "baseline": "cyclic",
+      "moe_mean_reduction_fraction": 0.0,
+      "complete_ffn_mean_reduction_fraction": 0.0,
+      "paired_mean_delta_ns": 0.0,
+      "faster_tokens": 0,
+      "tied_tokens": 256,
+      "slower_tokens": 0,
+      "faster_prompt_means": 0,
+      "tied_prompt_means": 16,
+      "slower_prompt_means": 0
+    }
+  ],
+  "per_prompt_stat_records": 256,
+  "dataset_stat_records": 32,
+  "all_root_statistics_equal": true,
+  "all_root_saved_total_vectors_equal": true,
+  "shared_and_prefix": "Exactly six distinct routed experts plus shared expert64 once per layer. GU common PCIe input once; private Down input once per selected/shared expert. Every MoE layer included once; Deep raw0 dense fixed prefix added exactly once only after layer summation, identical across families. G4 prefix zero.",
+  "rounding": "Independent fanout*ceil(inputbytes/rate) verified equal to root ceil(fanout*inputbytes/rate) for every actual job. No general equivalence asserted for odd/artificial sizes.",
+  "limitations": [
+    "Uncalibrated software service and virtual addresses, not measured device, PE or full-model wall time.",
+    "Fixed W8 full-row/dynamicA8 CPU reference; source attention/router unchanged. No task accuracy or original-checkpoint equivalence claim.",
+    "Direct numeric selected-rowmap validation is four whole_rows lowcommand maps, not every counterfactual baseline map.",
+    "FFN attention/router/SSM, activation/combine time(default0), row-scale/gather CPU costs and device overprovisioning are not covered by modeled FFN service.",
+    "Native full-vector, complete-row and output-drain contract remains explicit; AiF output ABI, controller cost and per-plane broadcast are not calibrated.",
+    "Finite fitted-pool TRAIN mean certificates do not prove globally optimal placement or heldout/tail performance.",
+    "Reproduces the same declared postcompute/owner and scheduling policy, not device truth or optimal scheduling. Root and independent scheduler share a historical native scheduler ancestor; independent Python heap construction plus interval/dependency/owner checks reduce but cannot eliminate shared specification assumptions.",
+    "Sixteen prompts (eight per dataset), sixteen correlated decode positions each; descriptive performance statistics do not prove task accuracy, independent-token confidence intervals or future-workload generalization.",
+    "The separate route-blind swap8 capacity audit remains relevant: G4 low-command whole_rows uses6.0GiB versus improved cyclic5.8125GiB in that restricted symmetry family. Reproducing heldout costs does not establish equal-capacity superiority."
+  ]
+}

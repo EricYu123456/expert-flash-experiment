@@ -1,0 +1,40 @@
+{
+  "checked_utc": "2026-11-01T23:55:56.005707+00:00",
+  "verdict": "NO actionable public location-latency/safe-tR dataset found in bounded primary-evidence search. Do not create a measured-heterogeneity experiment from synthetic noise or raw-cell error-only data.",
+  "scope": "Physical chip/block/WL/page-ID mapped ordinary single-sense LSB read-service latency or safely shortened tR; public original measured data and existing controller capability only. No device commands or destructive tests performed.",
+  "existing_repo_not_repeated": {
+    "sources": "../sources.json",
+    "notes": "../notes.json",
+    "disturb_oracle": "../../disturb-oracle/summary.json",
+    "reason": "Prior ReadGuard/RHS/STRAW/SWEEP/Flash-Gen/process-variation sources already assessed; previous read-count-derived disturbance sensitivity is not a measured tR profile and is not rerun."
+  },
+  "confirmed_evidence": [
+    "AR2 is genuine measured evidence of programmable sensing timing on its tested chips, including retention/wear/temperature/ECC safeguards. It is the strongest located mechanism evidence but lacks a verified public per-location lookup table.",
+    "AiF already selects single-sensing LSB pages using its prioritized encoding. TLC/QLC page-type latency differences therefore do not automatically supply a remaining within-LSB placement opportunity.",
+    "QCFlash has a real open physical-WL voltage/bit artifact, while official NANDFlashSim/MQSim expose real runnable simulators. Neither category is the requested original location-latency/timing-margin dataset."
+  ],
+  "inference_and_boundaries": [
+    "Raw cell Vth/RBER variation does not imply location-dependent externally visible ready/busy service. Fixed internal timing can yield different error margins but the same read duration. One must measure completion timing or prove device-local timing selection, not infer it from error heatmaps.",
+    "Conversely, the paper does not prove every AiF WL has identical real latency. Equality is the current homogeneous service assumption, while a quantified alternative remains uncalibrated.",
+    "ONFI SET FEATURES existing on a chip does not alone prove arbitrary read timing is standardized/exposed: timing-register meaning, granularity, controller access and safe feature settings are device-specific. AR2 explicitly demonstrates its custom controller access; AiF exposure remains unverified.",
+    "Shorter tR must be assessed jointly with ECC-corrected outcome and retry count. AR2 final-retry-step near-optimal Vref margins cannot be applied wholesale to an ordinary first read with a different encoding, ECCLite or sense count.",
+    "Safe timing may depend on neighboring state history, data pattern/randomization, P/E, retention age and temperature. Static fast-page labels without that evidence can create fictitious gains or silently change reliability."
+  ],
+  "minimum_actionable_data_contract": [
+    "Stable physical chip/die/plane/block/WL/page-type IDs, NAND model/geometry/encoding and programmed-data/randomizer provenance.",
+    "Commanded read timing and feature-register semantics plus repeated ready/busy service measurements, separated from channel transfer/ECC/host/LBA queueing.",
+    "Per-codeword raw errors and actual ECC success/retry outcomes at candidate timing settings across wear, retention and operating/programming temperature.",
+    "Evidence current IFP controller can select those existing settings at the required granularity, including multi-plane timing sharing and reconfiguration cost."
+  ],
+  "next_step": "No new physical-position latency experiment is warranted from the currently available evidence. If an author releases the table, start with strongest fast-first/global-hotness/rate-aware row-sharding controls and multi-plane max-tR grouping; do not claim generic hot-cold placement novel.",
+  "search_limits": "Bounded initial search rather than exhaustive nonexistence proof. Exact ALPS/FastFlash labels did not resolve to a verified relevant primary NAND timing artifact in this window; no invented citation or inferred dataset. Public GitHub repository search, official author/publisher/archive pages inspected. No device access and no new route/model data.",
+  "source_ids": [
+    "ar2_2021",
+    "aif_2025",
+    "qcflash_2026",
+    "dlv_2018",
+    "nandflashsim",
+    "mqsim",
+    "rhs_2020"
+  ]
+}

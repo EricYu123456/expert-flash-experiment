@@ -1,0 +1,82 @@
+[
+  {
+    "id": "AiF",
+    "url": "https://doi.org/10.1145/3695053.3731073",
+    "version": "ISCA 2025",
+    "read_depth": "Existing local paper text, targeted reread lines around720–745 and section4.4; prior Fig14 audit retained.",
+    "evidence": "be-enc uses fastest LSB pages. Idle latches after single sensing enable its input arrangement; CSB/MSB retain conventional data. Ordinary data-page read latency does not establish GEMV capability on those pages.",
+    "page_class_gemv_status": "No native two-class GEMV contract established. Do not assign28/46us as two compute tiers.",
+    "maturity": "Paper architecture and emulator, not commercial compute NAND evidence."
+  },
+  {
+    "id": "Cambricon-LLM",
+    "url": "https://arxiv.org/html/2409.15654v1",
+    "version": "MICRO 2024; arXiv v1 2024-09-24",
+    "read_depth": "IV-A/B/C and V reread; VI ECC and VII-A/C configuration checked in complete legal preprint.",
+    "evidence": "Weights flow array→data register→cache register→shared Compute Core; input has dedicated buffer. One plane occupies the die core; another plane may serve sliced ordinary reads to NPU. TableII has16KB pages and one30us tR.",
+    "page_class_gemv_status": "Unlike AiF, no borrowed-latch LSB requirement is stated. No explicit LSB/CSB/MSB or mixed-mode command/timing/ECC contract was found; register-level compatibility is an inference, not a demonstrated tier.",
+    "artifact": "Original SSDsim/NPU extensions not obtained; previously smoke-tested dengls24/IFC-cambricon-llm is explicitly third-party, not original numeric implementation.",
+    "maturity": "Simulated architecture and synthesized compute logic; manufactured device not claimed."
+  },
+  {
+    "id": "SLIM",
+    "url": "https://arxiv.org/html/2507.09201v1",
+    "journal_url": "https://doi.org/10.1145/3750727",
+    "version": "arXiv v1 2025-07-12; accepted2025-07-16/onlineAM2025-07-24; TECS25(3) article46 final2026-05-13",
+    "read_depth": "Sections5.4,6.1–6.3,7.1,7.4,7.6; original PDF Table2 and extracted lines890–917/1029–1058 independently checked. Official indexed journal text cross-checked.",
+    "evidence": "Section5.4 describes batched GEMM, input/output SRAM, output-stationary read-once weights, and reduce commands. Table2 die PE:16MAC,64KB SRAM,1GHz. SLC4KB/3us and TLC16KB/40us are two distinct SSD configurations. Section7.6 multi-plane support is prospective.",
+    "page_class_gemv_status": "Same PE design evaluated with SLC or TLC devices, but not an established mixed-mode fast/slow pool within one fixed device.",
+    "artifact": "Author wh-xu/sparse-ffn-llm Torch software previously inspected; no public SLIM FTL/PE simulator or RTL verified.",
+    "maturity": "Modified MQSim/TransPIM plus synthesized HDL; not deployed compute NAND."
+  },
+  {
+    "id": "KVNAND",
+    "url": "https://arxiv.org/html/2512.03608v1",
+    "version": "v1 2025-12-03",
+    "read_depth": "Prior IV-A–D/V methodology and TableI, now targeted reread SLC cost/reliability paragraphs.",
+    "evidence": "TableI uses SLC4KB pages,4us tR. Cost analysis explicitly converts TLC density to SLC-mode NAND. Discrete weight/KV die grouping and compact shared-die mapping are already explored.",
+    "page_class_gemv_status": "No two-class compute pool in the published configuration.",
+    "artifact": "No original public executable integrated implementation verified.",
+    "maturity": "Early-design system-level model; paper explicitly distinguishes this from RTL simulation."
+  },
+  {
+    "id": "NVLLM",
+    "url": "https://arxiv.org/html/2604.25699v2",
+    "version": "DAC 2026; author-prepared v2 2026-08-04",
+    "read_depth": "Previously3.1–3.5/Algorithms1–2/4.1–4.3/Fig5; now reread3.1 raw-read buffering and4.1 timing.",
+    "evidence": "Section3.1 explicitly covers MLC/TLC multiple read-voltage cycles using PBs, cluster FIFOs and segment buffers. Same raw-read dot engine supports BF16/INT8. Evaluation exposes one5.12us plane read time.",
+    "page_class_gemv_status": "Positive architectural MLC/TLC support; not LSB-only. No per-class visible latency/address dataset or safe-tR table. Buffering is designed to hide variation, so physical fast-page benefit remains unquantified.",
+    "artifact": "Prior bounded author/official repository search found no integrated source; third-party collectors are not author artifacts.",
+    "maturity": "Synthesized/simulated architecture, not manufactured NAND."
+  },
+  {
+    "id": "NASiC",
+    "url": "https://arxiv.org/html/2605.23294v1",
+    "version": "v1 2026-05-22",
+    "read_depth": "Already present in2026_backend_audit.json, previously sections3–4 and PDF Fig4–6. Targeted reread3.1–3.3/4.1 now; not a newly discovered unreviewed source.",
+    "evidence": "CAM-selected interleaved experts, shared query broadcast, block-wise SSL activation, multilevel SL inputs and multivoltage multibit CIM are explicit. These are analog current/ADC mechanisms, not ordinary digital TLC page GEMV.",
+    "page_class_gemv_status": "Multibit CIM does not prove interchangeable LSB/CSB/MSB digital compute pages. Expert-private Down inputs across interleaved experts remain unverified.",
+    "artifact": "No author code verified in prior bounded search.",
+    "maturity": "SPICE/Verilog-A/software study; no fabricated NASiC claimed."
+  },
+  {
+    "id": "Lincoln",
+    "url": "https://doi.org/10.1109/HPCA61900.2025.00128",
+    "author_publications": "https://people.iiis.tsinghua.edu.cn/~gaomy/publications.html",
+    "author_bib": "https://people.iiis.tsinghua.edu.cn/~gaomy/files/my_publications/publications.bib",
+    "version": "HPCA 2025",
+    "read_depth": "Author publication HTML and Lincoln bib entry only in this followup. Official IEEE endpoint returns robot-check text; legal guessed author PDF path404. No fulltext conclusion.",
+    "evidence": "Author publication entry links IEEE10946816; no local PDF/artifact link in that entry.",
+    "page_class_gemv_status": "Unknown. Do not infer a mixed SLC/TLC contract from KVNAND citations.",
+    "access_attempts": [
+      {
+        "url": "https://ieeexplore.ieee.org/document/10946816",
+        "result": "robot-check page"
+      },
+      {
+        "url": "https://people.iiis.tsinghua.edu.cn/~gaomy/pubs/lincoln.hpca25.pdf",
+        "result": "HTTP404"
+      }
+    ]
+  }
+]

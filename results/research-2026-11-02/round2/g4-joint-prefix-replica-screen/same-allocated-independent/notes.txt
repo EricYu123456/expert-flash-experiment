@@ -1,0 +1,76 @@
+PASS: independent same-allocated A1/A1+A2 witness review
+======================================================
+
+Independent protocol5d409b4d2a121a4b5d62aa6361157f0f8b6951bebf053de2991ca968ef7ad9f7.
+Witness protocolcc4871fd4a9c8aeb5deef7da50d0a4b20197b80d41cc9022f833233185c53adb.
+Source scripts/research_20261103_g4_same_allocated_independent.py.
+No native replay, fitting, selector benchmark, weights, heldout or old-seal edits.
+
+All A1/A1+A2 image row identities, coefficient dimensions, programmed pages,
+reserved waves and physical intervals were independently checked. Every image
+is wave-aligned, inside one192WL block and disjoint from other images. Shared
+expert64 includes2048GU rows with full1536columns and1536Down rows with full
+1024columns exactly once. Both shared projections remain in block0.
+
+Block0 contains original B GU/shared and the Down14 maximal core|append image:
+every source128 remains, each dest128core is stored once followed by source128
+copy. This is a static repack replacing the original dest band, not an extra
+copy of a full merged Down matrix beside untouched B. Therefore additional
+Down coefficients are24MiB. If B destinations also remained separately stored
+and full merged destinations were copied elsewhere, extra Down would be48MiB;
+that is a different inventory. Block0 uses at most189waves/chip.
+
+Block1 stores each expert's full A1 GU copy in its eight source128row bands,
+with the same original core|append order as the prefix candidate. A1 has each
+original1024GU row once. Long u_i reads its A1 band; short u_i reads original
+B core in block0; dependent low/high prefix jobs also use original B block0.
+This keeps all48independent GU bits and6AND dependencies, not merely a single
+whole-expert A/B bit. Down14bits and private input/wholeGU barrier stay identical.
+Block1 A1 uses at most117waves/chip. A2 adds another complete GU copy on the
+complementary eight chips. Every expert then contributes one128row band on
+every chip, making block1 exactly64x3=192waves/chip.
+
+Independent checks cover all512queries,75594ordered job descriptors and9742575
+computed prefix row identities. Every descriptor's chip/rowcount/fullC/pages/
+waves, phase/expert order and immutable useful original row IDs equal the joint
+policy's descriptors; all per-phase billing counters and chip-work vectors
+also match. q0/255/511 match the producer's saved descriptor arrays and complete
+input dimensions. Every original logical GU/Down row remains covered. GU
+duplicate/fringe outputs are still charged and host consumes one owner only.
+
+Short source fringe can differ: original B page padding replaces the joint
+source's real appended copies beyond the requested core. We only compare the
+requested useful prefix and charged output count. Those differing extra full
+outputs and partial tails are drained/dropped. No bitwise equality for every
+emitted fringe output, accumulator/reset ABI or native PE scaling is claimed.
+
+The ordinary native model accepts descriptors/dependencies/service but not
+physical block/WL values. Identical descriptors and original job order therefore
+produce identical modeled service when relabeled to these addresses. Both
+controls retain the joint policy as an available unmodified policy; no native
+rerun or new selection fit is needed for this equality. This is conditional on
+the same address-invariant ordinary read and row-separable/reset contract as
+the candidate, not a manufactured-device result. More A2 choices might help
+but no strict measured performance advantage is asserted without fitting them.
+
+                           Joint prefix       A1+Down14       A1+A2+Down14
+Useful coeff MiB           206.4873046875      268.5           364.5
+Programmed pages           13344               17440           23584
+Reserved waves             3336                4360            5896
+Programmed/wave MiB        208.5               272.5           368.5
+Allocated LSB blocks       32                  32              32
+Allocated LSB MiB          384                 384             384
+Per-chip block budget      2                   2               2
+
+Thus A1 exactly matches the existing joint policy's service at the same single-
+layer allocated LSB budget. It consumes more useful/page/wave resources, so it
+is not an explicit-resource-vector matched control. Prefix sharing still saves
+62.0126953125MiB useful coefficients and64MiB programmed/wave bytes versus A1.
+It does not establish an allocated-capacity saving at this L0 block step.
+Global all-layer packing, actual flash write/load effects and a capacity Pareto
+are separate questions; these single-layer witnesses do not prove their outcome.
+
+All original scales follow original expert/projection/logicalrow IDs. Complete
+input dimensions and one chip context remain unchanged. No partialdot, new MAC,
+input reuse, extra context, validR or uncharged output omission is introduced.
+No new selector/replication theorem or publication-level contribution follows.

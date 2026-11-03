@@ -1,0 +1,374 @@
+{
+  "audit": "Independent novelty and existing-hardware boundary audit for Granite4Htiny complementary g12 row striping",
+  "auditor": "/root/flash_architecture_literature",
+  "checked_utc": "2026-11-01T19:06:20.797616+00:00",
+  "scope": "Read-only audit of frozen training-selected virtual layouts and primary literature. No author source or plan edited. No heldout route or heldout summary opened by this auditor.",
+  "verdict": {
+    "breakthrough_established": false,
+    "exact_full_system_prior_found": false,
+    "structural_mask_prior_found": true,
+    "general_objective_prior_found": true,
+    "summary_zh": "g12 的完整 row 與地址配置在本模型內通過獨立核對；但是 overlapping/complement mask 結構已有 staggered striping 先例，query-coactivation/step-cost/minmax 已有 declustering 先例。尚無證據支持論文新穎性已成立。可繼續檢驗的是合法 NAND whole-row 分片與輸入/輸出/command 成本下，相對同樣幾何與同樣查詢資訊的強基線，是否還有穩健可泛化的增益。",
+    "unresolved_close_prior": [
+      "cambricon_flexllm_2026_unresolved",
+      "diamond_2026_unresolved"
+    ],
+    "do_not_infer": "No exact identical full algorithm was verified; absence of a found exact paper is not novelty clearance."
+  },
+  "frozen_evidence": {
+    "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/geometry-study/granite4tiny.frozen.json",
+    "sha256": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+    "author_status": "exploratory training screen, not a paper novelty or hardware result",
+    "author_scope": "routed FFN service only; shared FFN, SSM/attention and full-model quality excluded",
+    "train_prompt_count": 32,
+    "train_ids_all_prefixed_train": true,
+    "source_sha256_verified": true,
+    "source_sha256": {
+      "research_20261102_geometry_study.py": "47fc42184e047dd117a8a1b577da15b264586ed893a64f16449b0bc71dfe4ce0",
+      "research_20261102_geometry_solver.cpp": "2a71caeeff499afbc041b4b1187dededcfb0e7602eccb7f01adbbbcc7f5c4727"
+    },
+    "physical_checks": {
+      "granite4tiny.physical.json.gz": {
+        "sha256": "2f2aa978d876b5be9101e2ec8a723d0c4a6492cee806ee471c2d6b80630426cd",
+        "passed": true,
+        "complete_matrices": 5120,
+        "unique_occupied_pages": 368640,
+        "checks": [
+          "every matrix row interval covered exactly once",
+          "every complete row retains every input column",
+          "no byte padding inside physical pages",
+          "sum segments and plane page counts agree",
+          "all plane addresses within 192-WL block",
+          "no occupied page address reused",
+          "native run count equals segment count",
+          "one shard per participating chip per matrix"
+        ]
+      },
+      "granite4tiny.group_physical.json.gz": {
+        "sha256": "421e6a1725ae7c8d53840d37bc61adcc33cf335ad901ef464e7e01b28d1b3646",
+        "passed": true,
+        "complete_matrices": 5120,
+        "unique_occupied_pages": 368640,
+        "checks": [
+          "every matrix row interval covered exactly once",
+          "every complete row retains every input column",
+          "no byte padding inside physical pages",
+          "sum segments and plane page counts agree",
+          "all plane addresses within 192-WL block",
+          "no occupied page address reused",
+          "native run count equals segment count",
+          "one shard per participating chip per matrix"
+        ]
+      }
+    },
+    "phase_choice_counts": [
+      {
+        "phase": "down",
+        "chosen": "complement_g12",
+        "strong_group": "group_g16",
+        "layers": 35
+      },
+      {
+        "phase": "down",
+        "chosen": "complement_g12",
+        "strong_group": "group_g4",
+        "layers": 5
+      },
+      {
+        "phase": "gate_up",
+        "chosen": "complement_g8",
+        "strong_group": "complement_g8",
+        "layers": 19
+      },
+      {
+        "phase": "gate_up",
+        "chosen": "group_g8",
+        "strong_group": "group_g8",
+        "layers": 21
+      }
+    ],
+    "critical_baseline_correction": "Strong group down layout is 35 layers group_g16 and 5 layers group_g4, not all forty layers g16. GU has 21 group_g8 and 19 complement_g8, the latter being equivalent disjoint halves.",
+    "chosen_down_checks": {
+      "layers": 40,
+      "experts_per_layer": 64,
+      "rows_per_expert": 1536,
+      "input_columns": 512,
+      "participating_chips": 12,
+      "whole_rows_per_participating_chip": 128,
+      "pages_per_shard": 4,
+      "ordinary_read_waves_per_shard": 1,
+      "native_runs_per_shard": 1,
+      "masks_per_layer": 4,
+      "experts_per_mask": 16,
+      "all_layers_pass": true
+    },
+    "training_means_ms": {
+      "baseline": 22.73152,
+      "group": 20.6145679375,
+      "chosen": 19.46317415625
+    },
+    "training_reduction_vs_strong_group_percent": 5.585340351254697,
+    "timing_evidence_limit": "Training routed-projection service model only; neither real-device timing nor full-model inference latency. Published AiF internal ECC bandwidth does not itself calibrate MAC throughput."
+  },
+  "mathematical_prior_reductions": [
+    {
+      "name": "cyclic overlap masks",
+      "construction": "Arrange chips 0..15 on a ring. Four length-12 windows starting at 0,4,8,12 omit exactly the four length-4 aligned groups, up to a cyclic relabeling.",
+      "source": "staggered_striping_1994",
+      "conclusion": "The mask family is not new; training the assignment of experts to these masks is a distinct detail that still needs comparison against query-aware declustering."
+    },
+    {
+      "name": "fixed geometry-matched atoms",
+      "construction": "Before placement, represent each 1536×512 INT8 down matrix as twelve 128×512 whole-row atoms. Each atom occupies 64KiB = four 16KiB pages = one four-plane wave. A top6 query requests 72 atoms.",
+      "source": "hypergraph_declustering_2001",
+      "conclusion": "Its expected maximum device-sum objective already describes this cost after restricting one expert to at most one atom per chip. Merely changing from sixteen 96-row items to twelve 128-row items does not evade this prior; atoms can be defined at the new geometry from the start."
+    },
+    {
+      "name": "selected-set occupancy",
+      "construction": "Let n_g be how many of the six selected experts omit group g. Each chip in group g executes 6−n_g waves, hence makespan is 6−min_g n_g. Since sum n_g=6 over four groups, min n_g is 0 or 1 and down has five or six waves.",
+      "conclusion": "This is a useful exact characterization for the restricted four-mask family, not by itself a new general scheduling result."
+    }
+  ],
+  "capacity_and_command_audit": {
+    "chosen": {
+      "streams": 51200,
+      "block_stripes": 480,
+      "useful_int8_bytes": 6039797760,
+      "physical_page_bytes": 6039797760,
+      "allocated_read_wave_bytes": 6039797760,
+      "idle_plane_slot_bytes": 0,
+      "intra_page_padding_bytes": 0,
+      "boundary_padding_waves": 0,
+      "final_block_tail_waves": 0,
+      "nonzero_wordline_stream_starts": 50720,
+      "reserved_lsb_bytes": 6039797760,
+      "reserved_tlc_raw_bytes": 18119393280,
+      "physical_pages": 368640,
+      "read_rounds": 92160,
+      "cold_runs": 51200
+    },
+    "strong_group": {
+      "streams": 57600,
+      "block_stripes": 544,
+      "useful_int8_bytes": 6039797760,
+      "physical_page_bytes": 6039797760,
+      "allocated_read_wave_bytes": 6627000320,
+      "idle_plane_slot_bytes": 587202560,
+      "intra_page_padding_bytes": 0,
+      "boundary_padding_waves": 592,
+      "final_block_tail_waves": 2736,
+      "nonzero_wordline_stream_starts": 57056,
+      "reserved_lsb_bytes": 6845104128,
+      "reserved_tlc_raw_bytes": 20535312384,
+      "physical_pages": 368640,
+      "read_rounds": 101120,
+      "cold_runs": 57600
+    },
+    "payload_formula": "40 layers ×64 experts ×(1024×1536 +1536×512) INT8 bytes",
+    "weight_payload_bytes_each": 6039797760,
+    "same_physical_page_count": 368640,
+    "chosen_payload_equals_reserved_lsb": true,
+    "reserved_lsb_reduction_bytes": 805306368,
+    "reserved_lsb_reduction_percent": 11.764705882352944,
+    "all_inventory_read_wave_reduction_percent": 8.860759493670889,
+    "decomposition_bytes": {
+      "idle_plane_slots_eliminated": 587202560,
+      "block_boundary_and_final_tail_slots_eliminated": 218103808
+    },
+    "what_it_means": "The existing WaveAllocator reserves complete four-plane waves and protects short streams from additional block crossings. New row geometry fills every wave and happens to fill every 192-WL block. Reported reservation differences are allocator policy plus shape occupancy, not fewer weight bytes.",
+    "capacity_claim_boundary": "6.039797760 GB versus 6.845104128 GB is a comparison of these virtual wave-reserving layouts. It is not evidence of better weight compression or a capacity gain over the best legal FTL/dense allocator. Raw TLC covered bytes are three times reserved LSB bytes and are not the stored INT8 model size.",
+    "unused_plane_boundary": "The unused fourth-plane slot of a g16 three-page stream can hold other physical pages under a denser mapping. Whether they can be consumed at the same latency depends on legal command/address/input contexts. The published native operands do not establish independently chosen per-plane row offsets and simultaneous different expert input vectors. No free extra GEMV may be assumed.",
+    "strong_baseline_requirement": "Construct a legal page/row-dense g16 or 128-row-tile layout with explicit per-run addresses and charge any extra ordinary reads, native commands and input transfers. Compare capacity–commands–critical-path frontiers. A dense allocator may reach the same payload lower bound while trading service costs; that conditional possibility must not be declared either impossible or free."
+  },
+  "existing_hardware_boundary": {
+    "compatible_at_primitive_level": [
+      "Native INT8 GEMV on complete 128-row by512-column down shards",
+      "One existing full input vector per selected chip command",
+      "One-copy immutable weights; unchanged routing and nonlinear operations",
+      "Controller static shard map, targeted chip dispatch and full-row output concatenation"
+    ],
+    "software_work_needed": "Published automatic aif_post is equal full-chip row mapping. A controller mapping/dispatcher must expose these proper subsets and concatenate row ranges. The repository currently materializes metadata, not programmed NAND or executable AiF physical commands.",
+    "not_supported_by_evidence": [
+      "Free reuse of idle plane slots with unrelated vectors in one chip GEMV",
+      "Independent arbitrary per-plane block/WL command operands",
+      "More concurrent input contexts than disclosed",
+      "A measured 6.4GB/s INT8 MAC implementation",
+      "New raw-I32 output or codec modes"
+    ],
+    "no_precision_extension_required_by_rows": "Whole-row partitioning does not require cross-chip partial dot-product sums; numeric identity still assumes the existing native GEMV executes the same rows and input accurately. This audit does not certify unimplemented quantization/PE details."
+  },
+  "minimum_novelty_tests": [
+    {
+      "test": "Geometry before learned coloring",
+      "baseline": "Same g12, same balanced four masks, same allocator and exact service model, but uniform/random balanced expert assignment; include many seeds and frequency-only assignment.",
+      "falsifies": "If most gain remains with arbitrary balanced colors, attribute it to geometry/striping. Do not describe the full benefit as learned coactivation."
+    },
+    {
+      "test": "Query-aware standard declustering",
+      "baseline": "Fixed 128-row atoms optimized using established weighted minmax declustering objective, same train queries/capacities and one-chip-per-expert constraints; restricted four-mask solver and a less restricted legal atom-placement solver.",
+      "falsifies": "If an ordinary existing declustering implementation or straightforward adaptation matches the result, the solver/assignment is not a new method. A NAND-specific cost correction still needs separate validation."
+    },
+    {
+      "test": "Width and shape controls",
+      "baseline": "All legal integer complete-row widths, phase-specific geometry, disjoint and cyclic overlapping masks, equal information budget. Compare against g4 down as well as g16 because the frozen strong baseline already chooses g4 for five layers.",
+      "falsifies": "If benefit comes only from selecting a previously omitted legal width, position it as baseline correction or model-specific geometry result rather than a novel placement principle."
+    },
+    {
+      "test": "Legal dense-capacity frontier",
+      "baseline": "Existing whole-row native GEMV/offset primitives, explicit nonoverlap map, current software dispatcher, charge extra commands/input/onfi/output/ordinary waves.",
+      "falsifies": "If dense baseline erases reservation or latency difference, retire the corresponding capacity/throughput claim. Do not compare against only the old WaveAllocator padding."
+    },
+    {
+      "test": "Generalization and causal accounting",
+      "baseline": "Parent-managed frozen new holdouts, uniform without-replacement routing, marginal-preserving shuffled routing, additional compatible tensor shapes/models, unchanged scheduler and precision.",
+      "falsifies": "If effects disappear outside one shape/routing set or under calibrated command/input costs, no broad flash-MoE paper claim follows."
+    }
+  ],
+  "related_independent_agent_receipts": {
+    "prior_agent": "/root/moe_placement_prior_art",
+    "uniform_control_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/geometry-study/audit_uniform_routing.json",
+    "communicated_not_recomputed_here": {
+      "uniform_top6_all_four_omission_colors_probability_fraction": "977920/2342949",
+      "probability": 0.417388513365,
+      "meaning": "Every balanced assignment is equivalent under uniform expert sampling. This is a necessary null control, not evidence of learned generalization."
+    },
+    "holdout_access": "This literature auditor did not load heldout route files or heldout summary."
+  },
+  "permitted_current_claims_zh": [
+    "在指定 ordinary-read／四-plane／完整-row 模型中，Granite 此 down shape 的 g12 配置可以消除 g16 每波一個 idle plane，且不增加權重 page 數。",
+    "凍結虛擬地址計畫通過 one-copy、row coverage、page overlap、block 邊界與 run-count 的獨立核對。",
+    "目前訓練模擬相對 phasewise 強 group baseline 有可量化收益；其一般性、真實硬體收益與論文新穎性仍需相應證據。"
+  ],
+  "claims_not_supported_zh": [
+    "首次 overlapping／complement-group striping；首次以 coactivation／stepwise cost／minmax 作 placement。",
+    "6.04GB vs6.85GB 是相對 SOTA 的模型容量改善，或等同權重壓縮。",
+    "因 2001 item 是 atomic，而本法會 re-shard，所以本法自然落在既有 declustering 之外。",
+    "FlexLLM／DIAMoND 未使用相同 masks、whole-row partition 或 coactivation；其全文尚未取得，不能作此否定。",
+    "已達投稿突破，或已證明實際端到端 LLM speedup。"
+  ],
+  "sources": [
+    {
+      "id": "staggered_striping_1994",
+      "title": "Staggered striping in multimedia information systems",
+      "authors": [
+        "Steven Berson",
+        "Shahram Ghandeharizadeh",
+        "Richard Muntz",
+        "Xiangyu Ju"
+      ],
+      "year": 1994,
+      "venue": "ACM SIGMOD, pp.79–90",
+      "version": "Author-institution technical report dated 1993-12-09; conference publication 1994-05-24, verified publisher-registered Crossref metadata",
+      "url": "https://doi.org/10.1145/191839.191852",
+      "fulltext_url": "https://ftp.cs.ucla.edu/tech-report/1993-reports/930042.pdf",
+      "metadata_url": "https://api.crossref.org/works/10.1145/191839.191852",
+      "read_depth": "Legal institutional scanned 26-page report downloaded; rendered and read printed pp.2–5 and 7–10, especially §3.2 and Fig.4. Not all evaluation pages read. Web screenshot timed out; local rendered pp.9–10 inspected.",
+      "primary_evidence": "§3.2 replaces disjoint physical disk clusters with overlapping logical clusters; successive subobjects shift by stride k around D disks. Degree M varies with object bandwidth. k=M recovers simple striping when D is divisible by M.",
+      "our_inference": "D=16, M=12, k=4 generates exactly the same four participating-chip subset masks as omitting one of four consecutive 4-chip groups. This is a structural mask-family equivalence, not evidence of the same learned expert assignment.",
+      "limits": "Multimedia subobjects and periodic streaming, not fixed MoE matrix shards, page-buffer GEMV, or learned selected-expert sets. Do not call the full g12 implementation identical.",
+      "code": "No author code verified."
+    },
+    {
+      "id": "hypergraph_declustering_2001",
+      "title": "A Hypergraph Based Approach to Declustering Problems",
+      "authors": [
+        "Duen-Ren Liu",
+        "Mei-Yu Wu"
+      ],
+      "year": 2001,
+      "venue": "Distributed and Parallel Databases 10(3):269–288",
+      "url": "https://doi.org/10.1023/A:1019269409432",
+      "fulltext_url": "https://ir.lib.nycu.edu.tw/bitstream/11536/30045/1/000172367000003.pdf",
+      "read_depth": "Original 20-page full text available; read introduction, §2 Definitions1–6 and §3 formulation/greedy method through complexity discussion. Results not comprehensively audited.",
+      "primary_evidence": "Atomic items cannot be split across disks (p.270). Definitions model item sizes, device capacities, query frequencies and expected query response equal to the largest per-disk sum of item retrieval times. Definition4 explicitly permits retrieval time to be a step function of item size.",
+      "our_inference": "Fix each down expert as twelve 128-row, 64KiB atoms before optimization. A top6 query requests 72 atoms; minimizing largest chip atom count is directly a constrained instance of the existing objective. A distinct-chip-per-expert constraint and GEMV input/output costs are extra constraints, not automatic evidence of a new optimization principle.",
+      "limits": "Does not itself choose matrix row granularity or implement legal NAND GEMV addresses. Original model treats disk operations as independent and abstracts transfer/compute.",
+      "code": "No original implementation artifact verified."
+    },
+    {
+      "id": "aif_2025",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "year": 2025,
+      "venue": "ISCA",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "local_primary_fulltext": "/home/ericyu/expert_flash_experiment/AiF - Accelerating On-Device LLM Inference Using In-Flash Processing.pdf",
+      "read_depth": "Original selected architecture, mapping, command-interface and evaluation sections checked in prior rounds; this round rechecked project evidence notes and native-command boundaries. §4.4 p.536; §5.2 pp.537–538 incl. footnotes8–9.",
+      "primary_evidence": "Chip GEMV operands include vector dimension, block ID, block offset and page count. Published host mapping equal-row partitions matrices across AiF chips. A submatrix crossing IFP blocks becomes multiple GEMVs. Simulator issues dummy computation results.",
+      "our_inference": "Static complete-row shards on 12 selected chips need controller mapping/dispatch/concat software, but no new multiply datatype or partial-dot reduction. The published automatic aif_post mapping is not itself an exposed arbitrary chip-mask API.",
+      "limits": "Per-plane independent row lists, independent concurrent input vectors, free hole coalescing and a measured MAC rate are not established by these interfaces. This is a legal-primitives argument, not an implemented-device validation.",
+      "code": "No AiF-specific public artifact verified; upstream NVMeVirt is not the full AiF implementation."
+    },
+    {
+      "id": "cambricon_llm_2024",
+      "title": "Cambricon-LLM: A Chiplet-Based Hybrid Architecture for On-Device Inference of 70B LLM",
+      "year": 2024,
+      "venue": "MICRO 2024; author preprint arXiv:2409.15654v1, 2024-09-24",
+      "url": "https://arxiv.org/html/2409.15654v1",
+      "author_page": "https://www.chaselab.wiki/publication/2024-flashllm",
+      "read_depth": "Original §V-A/B reread this round; §IV–VII selectively read in previous rounds.",
+      "primary_evidence": "Hardware-aware tiling matches NAND page size and channel/core counts, optimizing input/result traffic. A tile is evenly distributed across all compute cores; channels split input width and within-channel cores split output rows. NPU/flash workload shares are chosen to balance execution.",
+      "our_inference": "Matrix tiling, row/column asymmetry, complete hardware geometry and transfer-aware partitioning are already prior. The inspected mapping is not evidence of learned proper-subset complement masks.",
+      "limits": "Custom compute cores, shared compute between two planes, on-die ECC, 2KiB buffers and hybrid NPU computation; not the same AiF primitive/plane context. Author-page FlashLLM naming here refers to this architecture, not the unrelated GPU Flash-LLM family.",
+      "code": "No author implementation verified."
+    },
+    {
+      "id": "cambricon_flexllm_2026_unresolved",
+      "title": "Cambricon-FlexLLM: A Flexible Chiplet-Based Hybrid Architecture for On-Device 70B LLM Inference",
+      "year": 2026,
+      "venue": "ACM TACO 23(4), pp.1–25",
+      "version": "Published online 2026-10-13. Publisher-registered print date 2026-12-31 is future relative to this audit.",
+      "url": "https://doi.org/10.1145/3844618",
+      "metadata_url": "https://api.crossref.org/works/10.1145/3844618",
+      "read_depth": "Publisher-registered title/date/abstract fetched directly from Crossref. Official full/PDF/epdf inaccessible in earlier bounded access checks; no legal author preprint located. Full algorithm NOT read.",
+      "primary_evidence": "Registered abstract states hardware tiling plus co-activation-neuron-inspired weight reordering and sparsity-aware dynamic partitioning, to reduce transfers of ineffective weights.",
+      "our_inference": "Broad claims of first coactivation-based flash weight arrangement or first dynamic partitioning are unsafe. Exact overlap-mask equivalence cannot be confirmed or excluded from abstract.",
+      "limits": "Cannot infer complete-row sharding, chip masks, replicas, CR dependency, plane independence or precise execution costs. Treat as unresolved close prior, not a cleared comparison.",
+      "code": "No author implementation verified."
+    },
+    {
+      "id": "dash_beyond_capacity_2026",
+      "title": "Beyond Capacity: Scalable MoE LLM Inference via High-Bandwidth Flash with Direct GPU and HBM Paths",
+      "authors": [
+        "Seeyeon Kim",
+        "Juhyeong Jin",
+        "Joo-Young Kim"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint; no peer-reviewed venue verified",
+      "version": "arXiv:2608.14333v1, 2026-08-14",
+      "url": "https://arxiv.org/html/2608.14333v1",
+      "read_depth": "Original §V-A/B, §VI-A and §VI-E read; related architecture/placement portions inspected in earlier round. DASH and Beyond Capacity are the same source.",
+      "primary_evidence": "§V-A2 chunks experts over multiple HBF dies/planes. §VI-E assigns each whole active expert to Direct or Relay and minimizes their concurrent completion bottleneck. §VI-A assumes four independently accessible subarrays per plane because exact HBF parallelism is undisclosed.",
+      "our_inference": "Expert striping across dies/planes and bottleneck-aware route distribution are existing ideas. No exact g12 omitted-group width rule or learned whole-row subset was established in inspected sections.",
+      "limits": "GPU weight delivery, not NAND GEMV. Assumed 16 dies×32 planes×4 subarrays, 4KiB pages and 3us read differ from AiF. Cannot import subarray independence or its timings.",
+      "code": "Uses an extension of LLMSimulator; no DASH-specific public artifact verified."
+    },
+    {
+      "id": "flashaccel_2026",
+      "title": "FlashAccel: Leveraging High-Bandwidth Flash (HBF) for High-Throughput LLM Inference",
+      "year": 2026,
+      "venue": "arXiv preprint; no peer-reviewed venue verified",
+      "version": "arXiv:2607.10186v2, 2026-08-22",
+      "url": "https://arxiv.org/html/2607.10186v2",
+      "read_depth": "Original §III-B, §IV and §V-A/B read in earlier round; not comprehensively reread during this audit.",
+      "primary_evidence": "Coupled megaplanes share command control and block/page offsets. Model weights form megapages striped in execution order and packed across operator boundaries. Group granularity trades load balance against buffering.",
+      "our_inference": "Coupled hardware group granularity, geometry-aware packing and cross-operator compaction cannot be claimed as new general concepts.",
+      "limits": "GPU/HBM/HBF architecture with different plane count, buffering and transfer model; does not establish arbitrary independent 4-plane AiF input contexts or the exact expert complement rule.",
+      "code": "No author artifact verified; HBFSim is a separate project."
+    },
+    {
+      "id": "diamond_2026_unresolved",
+      "title": "DIAMoND: Dynamic Inference for Adaptive Edge MOE with Heterogeneous In-NAND and Near-DRAM Compute Architecture",
+      "year": 2026,
+      "venue": "ISCA",
+      "url": "https://doi.org/10.1109/ISCA66397.2026.00078",
+      "official_abstract_url": "https://ieeexplore.ieee.org/abstract/document/11617910",
+      "read_depth": "Official abstract and metadata only, checked earlier; no legal author full text found in bounded prior searches. Full mapping algorithm NOT read.",
+      "primary_evidence": "Abstract describes mask-based mapping and heterogeneous in-NAND/near-DRAM inference.",
+      "our_inference": "Mask-based adaptive MoE mapping remains an unresolved direct prior. No claim that its masks are, or are not, the current 12-chip complement masks.",
+      "limits": "Exact physical row layout, replicas, plane contexts, CR usage and datatype not verified.",
+      "code": "No author implementation verified."
+    }
+  ],
+  "file_integrity_policy": "Only this new audit JSON written. Frozen plans, source code, fitted choices and test artifacts remain unchanged."
+}

@@ -1,0 +1,37 @@
+{
+  "status": "PASS all27 sealed-v3 global physical maps",
+  "maps": 27,
+  "native_array_jobs_independently_matched_to_global_logical_and_addresses": 5248128,
+  "findings": [
+    "No mismatch, overlapping reserved waves, programmed-page escape, missing/duplicated row interval, input-dimension discrepancy, cross-layer expert-ID collision or byte-ledger error found in the27 generated maps.",
+    "The audit never imports the root compiler or backend allocator. For each layer it derives full-row job semantics from native arrays offsets/jobs/input_columns/total_rows and known model shape, then compares that derivation with both local and merged global logical records.",
+    "For each expert/projection, offsets form nonempty consecutive slices covering every job once. C equals the full input dimension; row_start is independently reconstructed by cumulative native job rows. Every matrix covers its exact full output range once, and every full-row command fits one block-index bundle.",
+    "All global physical jobs match their array-derived chip, pages and ordinary-read waves. Start plane is0; page order is wordline-major and plane=page_index%planes. Reserved half-open wordline intervals are sorted per chip/block and checked disjoint. Both all padded programmed pages and useful coefficient bytes lie within the native block boundary.",
+    "Global block IDs are contiguous on each chip. Independently count block-index bundles and compute payload/pages/reserved-wave/allocated-block bytes. These four byte ledgers exactly match both physical document and model_totals.json for all27 cases.",
+    "Expected coefficient payload equals layers*3*D*(E*I+shared_I) for every family/command. This includes the single merged shared expert per MoE layer; no extra model component is silently counted.",
+    "Training selection identities are identical across all layers of each model/command/family. The64 selection routes are checked against original already-existing route arrays using both saved subsampling index lists and real physical-layer indices. Summing saved per-layer costs gives exactly the saved global selection-cost vector, mean and P99. These are aggregate FFN service sums rather than full-model time."
+  ],
+  "source": {
+    "campaign": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3",
+    "root_compile_sha256": "6f340b9239f9ef9d0e15a954b43b0d3406c2642cbca7ac75375e3ed45e337fe3",
+    "root_backend_sha256": "add43117c1a1e59a199a462dc6694b486b602277c7d85c4c6af0effb80afaa43",
+    "root_native_sha256": "c1036d53dc5e841f0f3349da672c21c6a075ec29763bbb348ddd72b61e3c753a",
+    "audit_source": "audit_global_addresses_v3.py",
+    "hashes": "protocol.frozen.json"
+  },
+  "limits": [
+    "The unit chip_blocks counts one same-address bundle of planes native blocks, not a single native plane block. Allocated bytes use block_wordlines*planes*page_bytes per bundle.",
+    "There is no supplied physical-device budget; these are legal virtual simultaneous-resident coefficient address maps and ledgers, not verified fit on a particular device. SLC/LSB naming is a modeled accessible-capacity convention, not a new flash-mode capability.",
+    "Best-fit decreasing is one legal packing heuristic. This audit does not prove minimum block count or infeasibility for tighter capacity.",
+    "Actual coefficient byte payload/programming, activation/scale ABI and PE numerical output are not tested. Row-scale metadata stays in host DRAM under the declared contract and is excluded from coefficient-page ledgers. Attention/router/SSM, non-MoE initial dense layers, allocator/FTL overprovisioning and other model weights are also excluded.",
+    "The known imported-plan physical metadata validation bug can accept inconsistent hand-edited logical metadata in the audited old backend. The generated v3 arrays and logical records are consistent, as independently checked here; root will fix the general import guard separately.",
+    "V3 search attribution contains family aliases with separate fitting budgets. Correct address maps and service sums do not validate the claimed geometric source of a family improvement. Root is separately deduplicating complete variant-array geometries; no novel-geometry or heldout-speed claim is made here.",
+    "The initial independent audit script had a list/dict lookup mistake for selection metadata after the first map geometry checks. That own-script failure and original frozen protocol are retained under audit-attempt-v1; the corrected source received a fresh protocol before the full successful run."
+  ],
+  "artifacts": {
+    "results": "results.json",
+    "ledger": "ledger.csv",
+    "all_input_hashes": "protocol.frozen.json",
+    "completion": "completion.json"
+  }
+}

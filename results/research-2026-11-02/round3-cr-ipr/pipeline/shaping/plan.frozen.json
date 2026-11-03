@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "objective": "Test CR-preserving overfetch/drop shaping using existing unselected resident expert pages, without changing sealed v1 or stream-burst outputs.",
+  "sealed_v1_sha256": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+  "priority": "13 physical waves, copy500ns",
+  "geometry": {"page_bytes": 16384, "resident_experts": 64, "selected_experts": 6, "useful_pages": 48, "candidate_waves": 12},
+  "operation": "Replace a selected full useful wave by two waves containing its first k and remaining4-k useful pages in original consume order; physically read each missing plane from a unique unselected expert page in the same resident block, and conditionally drop before ECC.",
+  "dummy_address_rule": {"plane0": "e.p0 at WL2e", "plane1": "e.p1 at WL2e", "plane2": "e.p2 at WLe", "plane3": "e.p5 at WLe", "block": 0, "expert": "one of the58 unselected resident experts; no duplicate physical address"},
+  "storage_capability": "One read plus one cache weight latch per plane; other two latches remain inputs. No new weight copies, FIFO, cache/read mux, or retained CR bias over an idle interval.",
+  "conditional_controls": ["programmable plane source order", "read-to-cache copy overlaps recycling", "evaluation-start read-latch overwrite", "drop unselected pages before ECC with zero extra control gap"],
+  "timing": {"cold_ns": 28000, "CR_ns": 9700, "recycle_ns": 6040, "shared_ECC_bytes_per_second": 6400000000, "issue_policy": "strict_no_interval"},
+  "one_split_sweep": {"original_wave_indices": [0,1,2,3,4,5,6,7,8,9,10,11], "prefix_page_counts": [1,2,3], "copy_ns": [0,100,320,321,500,1000,2000,3000,4000,5000]},
+  "two_split_sweep": {"distinct_original_wave_pairs": "all66", "prefix_page_counts_each": [1,2,3], "copy_ns": [500,1000,2000,3000,4000,5000]},
+  "controls": ["original candidate strict", "original candidate reactive cold_reset", "packed adjacent and spaced ordinary same-WL keep-hot/drop using the same capability set"],
+  "selection": "Among feasible schedules choose lowest makespan, then fewest added physical waves, then lexicographic original split indices/prefix counts. API selector must not claim unmodeled hardware support.",
+  "certificates": ["identical useful page ID and consume-order sequence", "dummy addresses correspond to unselected resident weights", "all physical planes read in every wave", "physical/useful/ECC page conservation", "strict finite-PB trace", "sealed source hash unchanged"],
+  "interpretation": "If any13wave candidate is feasible at copy500ns, the12wave full-useful model lower bound makes13 wavecount-optimal only within this contract; no general queue theorem or unconditional native support claim."
+}

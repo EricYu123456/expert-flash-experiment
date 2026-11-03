@@ -1,0 +1,36 @@
+{
+  "status": "frozen_before_route_free_shape_sweep",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_down_shape_envelope.py": "0582a492d1ae8c9c7a3eb18449eced90032c06852928d5e034c6c98dc628d52b",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_pipeline.py": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905"
+  },
+  "models": {
+    "granite4tiny": {
+      "H": 1536,
+      "I": 512,
+      "shared_I": 1024
+    },
+    "deepseek": {
+      "H": 2048,
+      "I": 1408,
+      "shared_I": 2816
+    }
+  },
+  "group_widths": [
+    2,
+    4,
+    8,
+    16
+  ],
+  "array_modes": [
+    "cr",
+    "ordinary"
+  ],
+  "policies": [
+    "strict_no_interval",
+    "cold_reset"
+  ],
+  "copy_ns": 500,
+  "work": "One complete routed Down shard R=H/group,C=I, and one half-sharedDown shard R=H/(2group),C=shared_I, each full input. Equal weight bytes where shared_I=2I. No routes or fitting.",
+  "limits": "Microkernels only, no fullFFN/GU/input/output calendar, taskquality or hardwaremeasurement. Coldreset must be implementable while preserving the same native GEMV input/row accumulator context. No global geometry optimality claim."
+}

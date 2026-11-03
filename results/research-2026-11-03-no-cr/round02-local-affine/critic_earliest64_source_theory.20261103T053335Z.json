@@ -1,0 +1,51 @@
+{
+  "reviewer": "/root/critic_sol",
+  "at_utc": "2026-11-03 05:33:35 UTC",
+  "status": "source_theory_supported_with_limits",
+  "scope": "Prospective earliest-MoE-layer all64 expansion: Deep layer1 with dense0 unchanged, OLMoE layer0; all other functions source GGUF.",
+  "implementation_data_or_experiment_approval": false,
+  "source_proof": {
+    "statement": "For the same complete token history, absolute positions, fresh initial state, batch/ubatch plan, backend/numerics and unchanged upstream functions, replacing only this layer's routed expert output cannot change that layer's Up input, selected expert IDs or final alpha.",
+    "induction": "Embedding and all lower-layer outputs/caches are unchanged. The earliest modified layer's attention keys/values derive from its upstream input, are written before its FFN and are private to that layer. By token-history induction, its attention/residual/FFN-normalized input remains identical. Its fixed deterministic router then yields identical IDs/alpha. Expert outputs and all later-layer states may differ.",
+    "Deep_source": "models/deepseek2.cpp:264,313,317,327/364 derive/store attention K/V before ffn_inp373, norm376 and MoE388; dense branch379 is unchanged at layer0. Shared FFN403 consumes the same pre-MoE cur, and next-layer input changes only at423.",
+    "OLM_source": "models/olmoe.cpp:74,82,85,88 compute attention Q/K/V from current upstream input; attention119 precedes residual127, FFN norm131 and MoE136.",
+    "KV_source": "llama-graph.cpp:2217-2218 stores k_cur/v_cur by layer; MLA2309 stores k_cur, whose V view derives from compressed attention state, not FFN output.",
+    "no_crosslayer_recurrence": "llama-model.cpp:2002 initializes layer reuse null; only Gemma3n/Gemma4 receive a reuse callback at2004. Deep/OLM KV construction does not reuse later-layer caches. llama-kv-cache.cpp:224 assigns separate layer storage.",
+    "router_source": "llama-graph.cpp:1383-1499 derives fixed top-k/normalized/scaled weights only from the same pre-FFN cur. Deep/OLM use post-FFN weighting,1668-1670, not Llama4 weight-before branch.",
+    "source_sha256": {
+      "deepseek2_cpp": "0e4a5d3245b5b7e18b6f643bda73aa46b47d3001dc86aebf2e86a1dab2b08993",
+      "olmoe_cpp": "e1fc415e418e08ceea87e9b0a8dc5ac4c2a783f0cc7deb50fc970dd0b01709e4",
+      "llama_graph_cpp": "99e6bb8304883ebacdd7ad47da5beb29ef343a3900f54f84e6f745234ae6e7a1"
+    }
+  },
+  "exact_reuse_limits": [
+    "Existing TRAIN inputs are exact counterfactual replay inputs for their recorded full token histories and original chunking, not an on-policy distribution for new first64 free generation.",
+    "Old B/C/D generated token strings can differ because their downstream logits differ. If each string is replayed as fixed groundtruth with identical positions and batching, earliest-layer invariance holds for that string.",
+    "Previously proved B1/batch equality concerns canonical f_e(x) with fixed x. It does not certify native attention X remains bit-identical after rechunking an old trajectory.",
+    "New GT512 four-batch evaluation can prospectively check the three new arms against one another; it cannot call old128+8 or768+32 captures the same unseen validation states.",
+    "Free generation changes token histories and requires separate evaluation. Later-layer hidden states, routes, caches and logits are expected to differ even under shared GT.",
+    "Bit equality in a concrete runtime remains a prospective check: same X/IDs/alpha before/after first-layer expert replacement, fixed positions/batching/ISA, fresh independent contexts and no writes/aliases into attention or KV."
+  ],
+  "scope_and_provenance": [
+    "A new explicitly versioned, prospectively frozen configuration with a fresh unopened held-out set need not violate the ban on retuning the old passed8 configuration.",
+    "Keep the old8 artifacts, geometry, maps, result and threshold immutable. Reuse earliest-layer old maps/geometry as declared; disabling late-layer interventions is a new version, not a reinterpretation of the old screen.",
+    "New124 operator targets, per-expert penalty/control roles, common data/query budget and stopping rules must be frozen before new held-out outcomes. No reuse of PG16 to select or tune the new maps.",
+    "The unchanged earliest-layer common input geometry makes reuse principled and avoids same-layer covariate feedback; it does not prove statistical representativeness or sample convergence."
+  ],
+  "value_and_strong_controls": {
+    "role": "A cheaper and cleaner whole-layer quality expansion, substantially broader than eight selected operators, but still not all-routed/full-model compression.",
+    "single_layer_weight_bytes": {
+      "local_C32_r128_W8_maps": 536870912,
+      "local_bias_F32": 16777216,
+      "local_row_scales_F32": 16777216,
+      "shared_P128_F32": 1048576,
+      "Deep_original_canonical_GUD_weights": 553648128,
+      "OLM_original_canonical_GUD_weights": 402653184
+    },
+    "host_control": "Both the local bank and original canonical single-layer coefficients are individually below1GiB before full runtime accounting. Give all-host/cache controls with the same total host/stack/KV budget; this isolated stage does not establish NAND necessity.",
+    "coefficient_fraction": "For equal-sized routed projections and fixed K, replacing one layer addresses1/26 of Deep routed-layer coefficient work or1/16 of OLM. This is not a strict end-to-end latency bound; command/DAG/cache effects and shared/dense/attention costs still matter.",
+    "publication_limit": "Passing first64 does not establish all-depth quality, capacity necessity, meaningful whole-model speed or new mechanism value. Matched global/nonlinear controls and the earlier system cost-window requirement remain."
+  },
+  "disposition": "No theoretical obstruction to the fixed-GT invariance argument under the stated conditions. No approval of a new experiment, target query, model run, source implementation or scientific round outcome.",
+  "reviewer_actions": "Read pinned source and hashed only source files. No candidate data, model weights, activations, book payload or new outputs read; no code/probe execution."
+}

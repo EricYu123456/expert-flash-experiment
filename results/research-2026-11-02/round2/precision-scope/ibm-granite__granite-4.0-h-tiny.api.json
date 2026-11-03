@@ -1,0 +1,181 @@
+{
+  "request_url": "https://huggingface.co/api/models/ibm-granite/granite-4.0-h-tiny?blobs=true",
+  "response": {
+    "_id": "68c9bfb45f6dca45c103b900",
+    "id": "ibm-granite/granite-4.0-h-tiny",
+    "private": false,
+    "pipeline_tag": "text-generation",
+    "library_name": "transformers",
+    "tags": [
+      "transformers",
+      "safetensors",
+      "granitemoehybrid",
+      "text-generation",
+      "language",
+      "granite-4.0",
+      "conversational",
+      "arxiv:0000.00000",
+      "license:apache-2.0",
+      "eval-results",
+      "endpoints_compatible",
+      "deploy:azure",
+      "region:us"
+    ],
+    "downloads": 23553,
+    "likes": 216,
+    "modelId": "ibm-granite/granite-4.0-h-tiny",
+    "author": "ibm-granite",
+    "sha": "791e0d3d28c86e106c9b6e0b4cecdee0375b6124",
+    "lastModified": "2025-11-03T19:42:57.000Z",
+    "gated": false,
+    "disabled": false,
+    "widgetData": [
+      {
+        "text": "Hi, what can you help me with?"
+      },
+      {
+        "text": "What is 84 * 3 / 2?"
+      },
+      {
+        "text": "Tell me an interesting fact about the universe!"
+      },
+      {
+        "text": "Explain quantum computing in simple terms."
+      }
+    ],
+    "model-index": null,
+    "config": {
+      "architectures": [
+        "GraniteMoeHybridForCausalLM"
+      ],
+      "model_type": "granitemoehybrid",
+      "num_experts_per_tok": 6,
+      "tokenizer_config": {
+        "bos_token": "<|end_of_text|>",
+        "eos_token": "<|end_of_text|>",
+        "unk_token": "<|unk|>",
+        "pad_token": "<|pad|>"
+      },
+      "chat_template_jinja": "{%- set tools_system_message_prefix = 'You are a helpful assistant with access to the following tools. You may call one or more tools to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>'  %}\n{%- set tools_system_message_suffix = '\\n</tools>\\n\\nFor each tool call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call>. If a tool does not exist in the provided list of tools, notify the user that you do not have the ability to fulfill the request.' %}\n{%- set documents_system_message_prefix = 'You are a helpful assistant with access to the following documents. You may use one or more documents to assist with the user query.\\n\\nYou are given a list of documents within <documents></documents> XML tags:\\n<documents>' %}\n{%- set documents_system_message_suffix = '\\n</documents>\\n\\nWrite the response to the user\\'s input by strictly aligning with the facts in the provided documents. If the information needed to answer the question is not available in the documents, inform the user that the question cannot be answered based on the available data.' %}\n{%- set g4_default_system_message = 'You are a helpful assistant. Please ensure responses are professional, accurate, and safe.' %}\n{%- if available_tools is defined and available_tools %}\n    {%- set tools = available_tools %}\n{%- endif %}\n{%- set ns = namespace(tools_system_message=tools_system_message_prefix,\n                       documents_system_message=documents_system_message_prefix,\n                       default_system_message=g4_default_system_message,\n                       system_message=''\n                       ) %}\n{%- if tools %}\n    {%- for tool in tools %}\n        {%- set ns.tools_system_message = ns.tools_system_message + '\\n' + (tool | tojson) %}\n    {%- endfor %}\n    {%- set ns.tools_system_message = ns.tools_system_message + tools_system_message_suffix %}\n{%- else %}\n    {%- set ns.tools_system_message = '' %}\n{%- endif %}\n{%- if documents %}\n    {%- for document in documents %}\n        {%- set ns.documents_system_message = ns.documents_system_message + '\\n' + (document | tojson) %}\n    {%- endfor %}\n    {%- set ns.documents_system_message = ns.documents_system_message + documents_system_message_suffix %}\n{%- else %}\n    {%- set ns.documents_system_message = '' %}\n{%- endif %}\n{%- if messages[0].role == 'system' %}\n    {%- if messages[0].content is string %}\n        {%- set ns.system_message = messages[0].content %}\n    {%- elif messages[0].content is iterable %}\n        {%- for entry in messages[0].content %}\n            {%- if entry.type== 'text' %}\n                {%- if ns.system_message != '' %}\n                    {%- set ns.system_message = ns.system_message + '\\n' %}\n                {%- endif %}\n                {%- set ns.system_message = ns.system_message + entry.text %}\n            {%- endif %}\n        {%- endfor %}\n    {%- endif %}\n    {%- if tools and documents %}\n        {%- set ns.system_message = ns.system_message + '\\n\\n' +  ns.tools_system_message + '\\n\\n' + ns.documents_system_message %}\n    {%- elif tools %}\n        {%- set ns.system_message = ns.system_message + '\\n\\n' + ns.tools_system_message %}\n    {%- elif documents %}\n        {%- set ns.system_message = ns.system_message + '\\n\\n' + ns.documents_system_message %}\n    {%- endif %}\n{%- else %}\n    {%- if tools and documents %}\n        {%- set ns.system_message = ns.tools_system_message + '\\n\\n' + ns.documents_system_message  %}\n    {%- elif tools %}\n        {%- set ns.system_message = ns.tools_system_message %}\n    {%- elif documents %}\n        {%- set ns.system_message = ns.documents_system_message %}\n    {%- endif %}\n{%- endif %}\n{%- if ns.system_message %}\n    {{- '<|start_of_role|>system<|end_of_role|>' + ns.system_message + '<|end_of_text|>\\n' }}\n{%- else %}\n    {{- '<|start_of_role|>system<|end_of_role|>' + ns.default_system_message + '<|end_of_text|>\\n' }}\n{%- endif %}\n{%- for message in messages %}\n    {%- set content = namespace(val='') %}\n    {%- if message.content is string %}\n        {%- set content.val = message.content %}\n    {%- else %}\n        {%- if message.content is iterable %}\n            {%- for entry in message.content %}\n                {%- if entry.type== 'text' %}\n                    {%- if content.val != '' %}\n                        {%- set content.val = content.val + '\\n' %}\n                    {%- endif %}\n                    {%- set content.val = content.val + entry.text %}\n                {%- endif %}\n            {%- endfor %}\n        {%- endif %}\n    {%- endif %}\n    {%- if (message.role == 'user') or (message.role == 'system' and not loop.first) %}\n        {{- '<|start_of_role|>' + message.role + '<|end_of_role|>' + content.val + '<|end_of_text|>\\n' }}\n    {%- elif message.role == 'assistant' %}\n        {{- '<|start_of_role|>' + message.role + '<|end_of_role|>' + content.val }}\n        {%- if message.tool_calls %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if (loop.first and content.val) or (not loop.first) %}\n                    {{- '\\n' }}\n                {%- endif %}\n                {%- if tool_call.function %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {{- '<tool_call>\\n{\"name\": \"' }}\n                {{- tool_call.name }}\n                {{- '\", \"arguments\": ' }}\n                {%- if tool_call.arguments is string %}\n                    {{- tool_call.arguments }}\n                {%- else %}\n                    {{- tool_call.arguments | tojson }}\n                {%- endif %}\n                {{- '}\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|end_of_text|>\\n' }}\n    {%- elif message.role == 'tool' %}\n        {%- if loop.first or (messages[loop.index0 - 1].role != 'tool') %}\n            {{- '<|start_of_role|>user<|end_of_role|>' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content.val }}\n        {{- '\\n</tool_response>' }}\n        {%- if loop.last or (messages[loop.index0 + 1].role != 'tool') %}\n            {{- '<|end_of_text|>\\n' }}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|start_of_role|>assistant<|end_of_role|>' }}\n{%- endif %}"
+    },
+    "cardData": {
+      "license": "apache-2.0",
+      "library_name": "transformers",
+      "tags": [
+        "language",
+        "granite-4.0"
+      ]
+    },
+    "transformersInfo": {
+      "auto_model": "AutoModelForCausalLM",
+      "pipeline_tag": "text-generation",
+      "processor": "AutoTokenizer"
+    },
+    "siblings": [
+      {
+        "rfilename": ".gitattributes",
+        "blobId": "a6344aac8c09253b3b630fb776ae94478aa0275b",
+        "size": 1519
+      },
+      {
+        "rfilename": "README.md",
+        "blobId": "afd2a759ed61c5d3ea5c89a84f344484b18e73a5",
+        "size": 34467
+      },
+      {
+        "rfilename": "chat_template.jinja",
+        "blobId": "82e3ebf57b6de47c0c4e722dde0e33915f73bfe8",
+        "size": 6418
+      },
+      {
+        "rfilename": "config.json",
+        "blobId": "8c88003f7058ba98f4fd51912870b701e622e512",
+        "size": 1796
+      },
+      {
+        "rfilename": "generation_config.json",
+        "blobId": "2eed7ca2d26ec1a753b8800e0bae20c824e8b015",
+        "size": 147
+      },
+      {
+        "rfilename": "merges.txt",
+        "blobId": "354558edcdbd64ca7abd407b8be3d5d09d39d781",
+        "size": 916646
+      },
+      {
+        "rfilename": "model-00001-of-00003.safetensors",
+        "blobId": "d41301ffdf64faae226a4e4c7ae04d3fc6a10549",
+        "size": 4924822608,
+        "lfs": {
+          "sha256": "d79109218e59c850b26146a40d5c2dd7084ac8e569e53a59e2dcb78a16529f73",
+          "size": 4924822608,
+          "pointerSize": 135
+        }
+      },
+      {
+        "rfilename": "model-00002-of-00003.safetensors",
+        "blobId": "cc5d0baa19a2d526980bdee7ca500a9e8229a100",
+        "size": 4879018632,
+        "lfs": {
+          "sha256": "f15b2625114d52bbe658050732687683a3596e14fab4a817d3147549ac609ef3",
+          "size": 4879018632,
+          "pointerSize": 135
+        }
+      },
+      {
+        "rfilename": "model-00003-of-00003.safetensors",
+        "blobId": "33ec3f3a362a8552641c7258f641b94eec8e7d26",
+        "size": 4074301016,
+        "lfs": {
+          "sha256": "825bf48c51808ce93042dc9ff65e6b8b76131fac76b8bda4183cff32abf39c83",
+          "size": 4074301016,
+          "pointerSize": 135
+        }
+      },
+      {
+        "rfilename": "model.safetensors.index.json",
+        "blobId": "f7926ed90bd16db563554b4ae0f2b84da40f33c3",
+        "size": 48924
+      },
+      {
+        "rfilename": "model.sig",
+        "blobId": "b667dc6a1d5c41dd22d6d5fb9a4366f5861684fd",
+        "size": 10740
+      },
+      {
+        "rfilename": "special_tokens_map.json",
+        "blobId": "3f67e7c50d57b16925f4f15469a774e7bf439047",
+        "size": 579
+      },
+      {
+        "rfilename": "tokenizer.json",
+        "blobId": "d7e1714703eb97dcef3435aa50eb1de1cf241d62",
+        "size": 7153421
+      },
+      {
+        "rfilename": "tokenizer_config.json",
+        "blobId": "7a6b382740c0c6587ae8af40aeb4b40f8fb8c431",
+        "size": 17659
+      },
+      {
+        "rfilename": "vocab.json",
+        "blobId": "8db038edfaa23127de4dbf4aee931fbba92183cb",
+        "size": 2014114
+      }
+    ],
+    "spaces": [
+      "EuroEval/euroeval_leaderboard",
+      "TobDeBer/Granite4Family",
+      "Featherplayz/Temo-cpu",
+      "fastgpu/fine-tuning-cost-calculator"
+    ],
+    "createdAt": "2025-09-16T19:51:16.000Z",
+    "safetensors": {
+      "parameters": {
+        "BF16": 6939037248
+      },
+      "total": 6939037248
+    },
+    "usedStorage": 13878142256
+  }
+}

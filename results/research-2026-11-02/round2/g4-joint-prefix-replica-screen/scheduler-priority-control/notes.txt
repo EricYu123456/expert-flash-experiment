@@ -1,0 +1,49 @@
+PASS: five frozen families x two static priorities scheduler sensitivity
+=======================================================================
+
+All5120costs completed in6.23s. GU-first(down_first0) is better than Down-first
+(1) in both mean andP99 for all five families. Every family was offered the
+same two priorities. No querywise priority oracle or re-fit was used. Selecting
+one static priority per family by TRAINmean leaves all families atpriority0.
+
+                         GU-first mean ns      Down-first mean ns    Slower%
+B                        561099.01953125        583831.3125           4.05138704
+GU allA                  650493.359375          668945.140625         2.83658257
+GU frozen greedy         551417.34765625        577849.306640625      4.79345800
+Down14 restored unitflow 550165.61328125        576347.8203125        4.75896828
+Joint frozen greedy      549021.7734375         575219.19921875       4.77165516
+
+P99ns (priority0 -> priority1):
+B580695.14 ->614479;
+allA743888 ->773668.18;
+GUgreedy577208 ->605951.49;
+Down14 576531.66 ->585292.19;
+joint578797.5 ->601192.28.
+
+Thus the existing allA deficit is not rescued by swapping these two fixed
+phase priorities. Joint's2.152426875%mean/.326787650%P99 against best-priority
+B is unchanged. This diagnoses only the declared fixed-priority menu under
+the same service model, not all possible schedulers or hardware performance.
+
+Protocol70f8f68dcd5eac607ce8c64969ea1fc0aff96ffa6cc7793f8823664dbb4ca2d0
+Source scripts/research_20261103_g4_scheduler_priority_control.py.
+The ONLY changed Service field isdown_first. All image/geometry, input fanout,
+command/read/channel/PCIe/host/activation values remain equal. Runtime GUu and
+Downv bits are the exact frozen family choices. GUallA uses the original fixed
+layout3 endpoint; Down14 uses pure restored unitflow bits from its sealed native
+result, not the506ns-waived objective or a new greedy/mixed selector. Shared
+projections remain original B. Fixed native core SHA256ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821.
+
+Every priority0family's512costs AND512lowerbounds match its own frozen previous
+native result:5120exact values total, including CP0107B. All2560priority-
+independent lower bounds are unchanged when priority flips. Every family/
+priority has a fullq0Python ReferenceGraph trace check:10traces/9120nodes exact.
+Full input reload, one-context ownership, resource dependencies and wholeGU
+hostactivation/fullA8/privateDown barriers were explicitly retained/checked.
+15360routed expert views per projection pass complete logical-row coverage;
+computedGU duplicates/fringe are still paid and consumedGU remains1024unique,
+Down1536unique. All readviews fit the frozen jointresident prefix capacities.
+
+No placement, bit, selector or nativeCP fitting, new weights, heldout, all-layer
+campaign or old-seal edits occurred. This is a baseline scheduler-sensitivity
+control, not a new algorithm, selectorbenchmark or device output-ABI proof.

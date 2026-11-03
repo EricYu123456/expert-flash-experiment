@@ -1,0 +1,1163 @@
+{
+  "status": "passed_v2_with_explicit_prefit_G4_fix",
+  "utc": "2026-11-02T01:33:42.678707+00:00",
+  "v1_completion_sha256": "4e997fe24f97ec0224894f88951281be5993fc8321e2fe1d904bec28179cb4a5",
+  "validation": {
+    "unique_artifacts": 432,
+    "independent_query_work": 184320,
+    "physical_jobs": 828672,
+    "python_cpp_checks": 72,
+    "cases": 12
+  },
+  "totals": {
+    "granite4tiny.input1.joint_simple_menu": {
+      "mean_ns": 1714969.3046875,
+      "p99_ns": 1788076.26,
+      "queries": 512,
+      "layers": 3
+    },
+    "granite4tiny.input1.independent_paired": {
+      "mean_ns": 1690821.95703125,
+      "p99_ns": 1755738.5399999998,
+      "queries": 512,
+      "layers": 3
+    },
+    "granite4tiny.input4.joint_simple_menu": {
+      "mean_ns": 1783104.55859375,
+      "p99_ns": 1856384.24,
+      "queries": 512,
+      "layers": 3
+    },
+    "granite4tiny.input4.independent_paired": {
+      "mean_ns": 1761181.96875,
+      "p99_ns": 1811065.54,
+      "queries": 512,
+      "layers": 3
+    },
+    "deepseek.input1.joint_simple_menu": {
+      "mean_ns": 5771214.890625,
+      "p99_ns": 5843619.77,
+      "queries": 512,
+      "layers": 3
+    },
+    "deepseek.input1.independent_paired": {
+      "mean_ns": 5752081.775390625,
+      "p99_ns": 5816397.93,
+      "queries": 512,
+      "layers": 3
+    },
+    "deepseek.input4.joint_simple_menu": {
+      "mean_ns": 5895378.3828125,
+      "p99_ns": 5967643.12,
+      "queries": 512,
+      "layers": 3
+    },
+    "deepseek.input4.independent_paired": {
+      "mean_ns": 5877861.314453125,
+      "p99_ns": 5937905.14,
+      "queries": 512,
+      "layers": 3
+    }
+  },
+  "comparisons": [
+    {
+      "model": "granite4tiny",
+      "copies": 1,
+      "generic_mean_gain_vs_simple_pct": 1.4080338108821144,
+      "generic_p99_gain_vs_simple_pct": 1.8085201802299111,
+      "generic_incremental_mean_gain_vs_retained_v1coupled_pct": 0.0014947203416437738,
+      "generic_incremental_p99_gain_vs_retained_v1coupled_pct": 0.0005012110683155768
+    },
+    {
+      "model": "granite4tiny",
+      "copies": 4,
+      "generic_mean_gain_vs_simple_pct": 1.229461824775957,
+      "generic_p99_gain_vs_simple_pct": 2.4412349029638403,
+      "generic_incremental_mean_gain_vs_retained_v1coupled_pct": 0.0042563263950912145,
+      "generic_incremental_p99_gain_vs_retained_v1coupled_pct": 0.09291298674629633
+    },
+    {
+      "model": "deepseek",
+      "copies": 1,
+      "generic_mean_gain_vs_simple_pct": 0.33152664728280934,
+      "generic_p99_gain_vs_simple_pct": 0.465838659451312,
+      "generic_incremental_mean_gain_vs_retained_v1coupled_pct": 0.0010092032357356118,
+      "generic_incremental_p99_gain_vs_retained_v1coupled_pct": 0.012524740501129727
+    },
+    {
+      "model": "deepseek",
+      "copies": 4,
+      "generic_mean_gain_vs_simple_pct": 0.2971322147946376,
+      "generic_p99_gain_vs_simple_pct": 0.49832034862031804,
+      "generic_incremental_mean_gain_vs_retained_v1coupled_pct": 0.0010982894653843722,
+      "generic_incremental_p99_gain_vs_retained_v1coupled_pct": 0.042950738764857554
+    }
+  ],
+  "cases": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input1/result.json",
+      "sha256": "acef06dd8781453bbac3f0078172a3576859d7d987d06ab2f25304bf12f55269",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input1/source.seed1.joint_simple_menu.pool1.final.npz",
+          "mean_ns": 572464.0390625,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "initial",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input1/source.seed1.independent_paired.pool0.initial.npz",
+          "mean_ns": 562670.5703125,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 4,
+      "menu_pool_records": 8,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 1630,
+        "joint_simple_menu.paired_global": 1555,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 22338,
+        "joint_simple_menu.paired_label": 22669,
+        "independent_paired.single_global": 1587,
+        "independent_paired.paired_global": 1567,
+        "independent_paired.single_local": 22447,
+        "independent_paired.paired_local": 22591,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input4/result.json",
+      "sha256": "aa0f3ff4308f884ca4ba88f78b990f51912b0fb135c1ab59a3baf5c0ffa57e34",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input4/source.seed0.joint_simple_menu.pool1.final.npz",
+          "mean_ns": 592292.54296875,
+          "shared": "source",
+          "seed": 20261103,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L0.input4/source.seed1.independent_paired.pool0.final.npz",
+          "mean_ns": 585984.328125,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 4,
+      "menu_pool_records": 8,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 1653,
+        "joint_simple_menu.paired_global": 1524,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 22316,
+        "joint_simple_menu.paired_label": 22699,
+        "independent_paired.single_global": 1559,
+        "independent_paired.paired_global": 1541,
+        "independent_paired.single_local": 22654,
+        "independent_paired.paired_local": 22438,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L1.input1/result.json",
+      "sha256": "3450cf15da760ca9f23a726fd180a5777e656ecb2186339ddaa67cb2dac50de6",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L1.input1/source.seed1.joint_simple_menu.pool0.final.npz",
+          "mean_ns": 569798.765625,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L1.input1/source.seed1.independent_paired.pool0.final.npz",
+          "mean_ns": 564045.7421875,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 4,
+      "menu_pool_records": 8,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 1650,
+        "joint_simple_menu.paired_global": 1582,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 22135,
+        "joint_simple_menu.paired_label": 22825,
+        "independent_paired.single_global": 1584,
+        "independent_paired.paired_global": 1526,
+        "independent_paired.single_local": 22654,
+        "independent_paired.paired_local": 22428,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L1.input4/result.json",
+      "sha256": "66dbf8db06c8e77430093e84df9f557eec726db16655dcbd79ce28cf918f971c",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L1.input4/source.seed0.joint_simple_menu.pool1.final.npz",
+          "mean_ns": 593538.4765625,
+          "shared": "source",
+          "seed": 20261103,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L1.input4/source.seed1.independent_paired.pool0.final.npz",
+          "mean_ns": 586704.25390625,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 4,
+      "menu_pool_records": 8,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 1609,
+        "joint_simple_menu.paired_global": 1501,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 22392,
+        "joint_simple_menu.paired_label": 22690,
+        "independent_paired.single_global": 1556,
+        "independent_paired.paired_global": 1592,
+        "independent_paired.single_local": 22349,
+        "independent_paired.paired_local": 22695,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L2.input1/result.json",
+      "sha256": "72275a5add3d3d9dfecbe4514b87b089554c28d9c6c6cb635c9338d11fd1e5cd",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L2.input1/source.seed0.joint_simple_menu.pool0.final.npz",
+          "mean_ns": 572706.5,
+          "shared": "source",
+          "seed": 20261103,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "inherited",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/granite4tiny.L2.input1/source.seed0.counterbalanced.pool0.final.npz",
+          "mean_ns": 564105.64453125,
+          "shared": "source",
+          "seed": 20261103,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 4,
+      "menu_pool_records": 8,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 1592,
+        "joint_simple_menu.paired_global": 1487,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 22484,
+        "joint_simple_menu.paired_label": 22629,
+        "independent_paired.single_global": 1583,
+        "independent_paired.paired_global": 1610,
+        "independent_paired.single_local": 22454,
+        "independent_paired.paired_local": 22545,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L2.input4/result.json",
+      "sha256": "4ce87de1f4c013c5d8e60ed0a097a7a56feb6dc402716516eca05d41355e2225",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L2.input4/source.seed1.joint_simple_menu.pool0.final.npz",
+          "mean_ns": 597273.5390625,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "inherited",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/granite4tiny.L2.input4/source.seed0.counterbalanced.pool0.final.npz",
+          "mean_ns": 588493.38671875,
+          "shared": "source",
+          "seed": 20261103,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 4,
+      "menu_pool_records": 8,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 1654,
+        "joint_simple_menu.paired_global": 1480,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 22486,
+        "joint_simple_menu.paired_label": 22572,
+        "independent_paired.single_global": 1546,
+        "independent_paired.paired_global": 1576,
+        "independent_paired.single_local": 22584,
+        "independent_paired.paired_local": 22486,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input1/result.json",
+      "sha256": "4e0d40f0115726428ab0e101e3fced701c0e077c595d78c561de4757a2c50594",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input1/source.seed1.joint_simple_menu.pool0.final.npz",
+          "mean_ns": 1924838.57421875,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input1/balanced89.seed1.independent_paired.pool0.final.npz",
+          "mean_ns": 1918061.953125,
+          "shared": "balanced89",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 8,
+      "menu_pool_records": 16,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 3272,
+        "joint_simple_menu.paired_global": 3081,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 44952,
+        "joint_simple_menu.paired_label": 45079,
+        "independent_paired.single_global": 3105,
+        "independent_paired.paired_global": 3254,
+        "independent_paired.single_local": 44942,
+        "independent_paired.paired_local": 45083,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input4/result.json",
+      "sha256": "85fbaeebb6ffc533e82700a36bdeb25466d7dcea2bc38500d15bd468a91e57c5",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input4/balanced89.seed1.joint_simple_menu.pool0.final.npz",
+          "mean_ns": 1966475.625,
+          "shared": "balanced89",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "initial",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L0.input4/balanced89.seed1.independent_paired.pool0.initial.npz",
+          "mean_ns": 1959959.66015625,
+          "shared": "balanced89",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 8,
+      "menu_pool_records": 16,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 3272,
+        "joint_simple_menu.paired_global": 3081,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 44952,
+        "joint_simple_menu.paired_label": 45079,
+        "independent_paired.single_global": 3105,
+        "independent_paired.paired_global": 3254,
+        "independent_paired.single_local": 44942,
+        "independent_paired.paired_local": 45083,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L1.input1/result.json",
+      "sha256": "f741a605ffbd9bb0350e6914ccb2416ce8b4e0c63c73012237d472f8aad2cfce",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L1.input1/balanced89.seed0.joint_simple_menu.pool0.final.npz",
+          "mean_ns": 1923600.4609375,
+          "shared": "balanced89",
+          "seed": 20261103,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "initial",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L1.input1/source.seed1.independent_paired.pool0.initial.npz",
+          "mean_ns": 1917864.017578125,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 8,
+      "menu_pool_records": 16,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 3237,
+        "joint_simple_menu.paired_global": 3145,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 44824,
+        "joint_simple_menu.paired_label": 45178,
+        "independent_paired.single_global": 3110,
+        "independent_paired.paired_global": 3215,
+        "independent_paired.single_local": 45211,
+        "independent_paired.paired_local": 44848,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L1.input4/result.json",
+      "sha256": "0ec591cabf1eaf3abd360e75f21a6639e4ed88f385b19911c8783d9e1d94fc5b",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L1.input4/balanced89.seed0.joint_simple_menu.pool0.final.npz",
+          "mean_ns": 1965386.26171875,
+          "shared": "balanced89",
+          "seed": 20261103,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L1.input4/source.seed1.independent_paired.pool0.final.npz",
+          "mean_ns": 1959872.052734375,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 8,
+      "menu_pool_records": 16,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 3237,
+        "joint_simple_menu.paired_global": 3145,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 44824,
+        "joint_simple_menu.paired_label": 45178,
+        "independent_paired.single_global": 3110,
+        "independent_paired.paired_global": 3215,
+        "independent_paired.single_local": 45211,
+        "independent_paired.paired_local": 44848,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L2.input1/result.json",
+      "sha256": "135eb4d50f4c18e2435e5afe85d88437029c4884c334f5a7ec7e5f7e0a91758d",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L2.input1/source.seed1.joint_simple_menu.pool0.final.npz",
+          "mean_ns": 1922775.85546875,
+          "shared": "source",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L2.input1/balanced89.seed1.independent_paired.pool0.final.npz",
+          "mean_ns": 1916155.8046875,
+          "shared": "balanced89",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 8,
+      "menu_pool_records": 16,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 3381,
+        "joint_simple_menu.paired_global": 3055,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 44641,
+        "joint_simple_menu.paired_label": 45307,
+        "independent_paired.single_global": 3170,
+        "independent_paired.paired_global": 3140,
+        "independent_paired.single_local": 44971,
+        "independent_paired.paired_local": 45103,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L2.input4/result.json",
+      "sha256": "9a208fdfd9ea1f7bb7e3c6a0f1e6d4be5d72dd29cc307a8e31f8c017d6fb2340",
+      "families": {
+        "joint_simple_menu": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L2.input4/source.seed0.joint_simple_menu.pool0.final.npz",
+          "mean_ns": 1963516.49609375,
+          "shared": "source",
+          "seed": 20261103,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        },
+        "independent_paired": {
+          "selected": "final",
+          "arrays": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2/deepseek.L2.input4/balanced89.seed1.independent_paired.pool0.final.npz",
+          "mean_ns": 1958029.6015625,
+          "shared": "balanced89",
+          "seed": 20261104,
+          "proposal_budget": 20000,
+          "greedy_budget": 4096
+        }
+      },
+      "budget_checks": 8,
+      "menu_pool_records": 16,
+      "move_attempts": {
+        "joint_simple_menu.single_global": 3326,
+        "joint_simple_menu.paired_global": 3082,
+        "joint_simple_menu.single_local": 0,
+        "joint_simple_menu.paired_local": 0,
+        "joint_simple_menu.single_label": 44625,
+        "joint_simple_menu.paired_label": 45351,
+        "independent_paired.single_global": 3170,
+        "independent_paired.paired_global": 3140,
+        "independent_paired.single_local": 44971,
+        "independent_paired.paired_local": 45103,
+        "independent_paired.single_label": 0,
+        "independent_paired.paired_label": 0
+      }
+    }
+  ],
+  "checks": [
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 577404
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 606810
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 606666
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 551318
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 577724
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 579164
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 627156
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 597126
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 595488
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 598480
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 601874
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 0,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 601806
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 577798
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 551708
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 579372
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 575696
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 575872
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 574622
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 600794
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 577442
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 602066
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 600940
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 596552
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 1,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 594738
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 551484
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 551388
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 576638
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 551332
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 579530
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 579788
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 626462
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 597876
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 575232
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 596682
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 597376
+    },
+    {
+      "model": "granite4tiny",
+      "layer": 2,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 576030
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 1903285
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 1902349
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 1927366
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 1903086
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 1902790
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 1929104
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 1945142
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 1943926
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 1947480
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 1947986
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 1945480
+    },
+    {
+      "model": "deepseek",
+      "layer": 0,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 1969606
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 1903152
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 1902574
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 1903152
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 1902871
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 1903371
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 1903343
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 1947638
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 1943710
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 1947888
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 1945350
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 1945791
+    },
+    {
+      "model": "deepseek",
+      "layer": 1,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 1947959
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 1931383
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 1902796
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 1,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 1903325
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 1902336
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 1902540
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 1,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 1931232
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 0,
+      "cost_ns": 1944350
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 255,
+      "cost_ns": 1948515
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 4,
+      "family": "joint_simple_menu",
+      "query": 511,
+      "cost_ns": 1971567
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 0,
+      "cost_ns": 1944636
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 255,
+      "cost_ns": 1944670
+    },
+    {
+      "model": "deepseek",
+      "layer": 2,
+      "copies": 4,
+      "family": "independent_paired",
+      "query": 511,
+      "cost_ns": 1975600
+    }
+  ],
+  "limits": [
+    "TRAIN only, no heldout opened",
+    "Simple menu is a finite geometry/heuristic pool; no claim of all-permutation optimum",
+    "Generic retains prior coupled incumbent; inherited search effort is explicitly additional and not a fresh equal-total-compute comparison",
+    "Native values are synthetic timing replay, not measured full-model or hardware speed",
+    "V1 coupled and generic v2 are almost identical; no performance claim for constrained-guide algorithm over generic"
+  ]
+}

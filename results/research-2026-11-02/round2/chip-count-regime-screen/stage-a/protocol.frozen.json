@@ -1,0 +1,103 @@
+{
+  "status": "frozen_before_regime_geometry_and_TRAIN_ledger",
+  "utc": "2026-11-02T04:32:58.157604+00:00",
+  "source_sha256": "b868050ca692a32e2f632c8daa3074bc46adc2baf3e836253dcd5b063c372ee0",
+  "inputs": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_chip_count_regime_screen.py",
+      "sha256": "b868050ca692a32e2f632c8daa3074bc46adc2baf3e836253dcd5b063c372ee0",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/stage-a/source-snapshot/b868050ca692a32e-research_20261103_chip_count_regime_screen.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_whole_row_compiler.py",
+      "sha256": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/stage-a/source-snapshot/23cfb0c655567802-research_20261102_whole_row_compiler.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/protocol.frozen.json",
+      "sha256": "f003fdbc1c8bd02c47dca0ef4afa90affc0d1b160a2b0cb2e8c4993c99bfdde0"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/selection_protocol.frozen.json",
+      "sha256": "ffe96565460fe747e57a41687f1488f087b708f49911a6a056222ddcb0d6aa7b"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/full-ffn-integer-reference/frozen_protocol.json",
+      "sha256": "3163341827c25b210c42126ae7465c1fe8be9827aab93d314a89ef8a54975f40"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/deepseek-full-ffn-integer-reference/protocol.frozen.json",
+      "sha256": "84e100600d882eb809d85fa1bdc3e469b0fb9a885e5627c60479339078a84a7a"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/continuation/native/0107.npz",
+      "sha256": "7fb2789d65f9b59f73a516c5761161ca679fd2d0765c4ed7431a80d93c355abb"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/native-joint-refinement/pilot-v1/deepseek.L0.input4.independent_paired.seed20261105/arrays.npz",
+      "sha256": "85cee14f16865913d3d3e4c90e0a7144062a3653571698ea58c37084d5907d69"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz",
+      "sha256": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/deepseek/decode.routes.npz",
+      "sha256": "11168c1e899c8ce0bf23e719e908f243fa09d30980a65488a3f92aa448344fed"
+    }
+  ],
+  "models": {
+    "granite4tiny": {
+      "H": 1536,
+      "I": 512,
+      "SI": 1024,
+      "E": 64,
+      "K": 6
+    },
+    "deepseek": {
+      "H": 2048,
+      "I": 1408,
+      "SI": 2816,
+      "E": 64,
+      "K": 6
+    }
+  },
+  "chips": [
+    8,
+    16,
+    32,
+    64
+  ],
+  "hardware": {
+    "channels": "min(8,chips)",
+    "planes": 4,
+    "page_bytes": 16384,
+    "block_wordlines": 192,
+    "read_wave_ns": 28000,
+    "command_ns": 250,
+    "host_submit_ns": 2000,
+    "input_bytes": 1,
+    "output_bytes": 4,
+    "input_copies": [
+      1,
+      4
+    ],
+    "output_fringe": "allcomplete rows in programmed pages; floor(pages*16KiB/C)",
+    "contexts": "single perchip through channel drain; fullGU/A8 before privateDown"
+  },
+  "interpretation": "8/32/64chip scalevariants, not measuredAiF16chip implementation or evidence for64independentPEs. Never compareperformanceacrossdifferenthardware asplacementgain.",
+  "stage": "A:exactwhole-row work-depth frontiers plus bounded deterministic profile resource ledgers. No nativeGF/DFcosts, label fits, replicas or inference.",
+  "menu": "For eachrouted/sharedprojection:allwidth1..M equalrows plus everyminimum-work-at-depth witness fromminimumdepth throughexact-workdepth. Canonical rowmultisets; allsingleblock.",
+  "mappings": "Cyclic shifts withfixedsteps1/3/5/7 andM/2,M/4,M/8; disjointwidths dividingM withwithin-groupceilrowrotation. Deduplicate full64expert rowarrays. No learnedexpertlabels.",
+  "shared": "Samefair2geometries (minimumwork/tieslowestdepth, minimumdepth/tieslowestwork) andshifts0/Mhalf for allroutedcontrols.",
+  "finite_selection": "Rankphasecontrols bymeanownedchipwork onTRAIN512; keep4each. Combine4x4 withallglobalDownrotations,rankmeanjointownedwork. This finiteproxysearch isnotnativeruntimeoptimization orallprofile/globaloptimality.",
+  "bounds": "Universallowermax(initialhost+ceil(totalminimumwaves/M)*readwave,minimumwholeexpertchain,minimumcontroller/channel/PCIevolume). Exactfullrow aggregatefloors,notattainableschedule. Allwidth/fullinput/commands/fringecharged incontrolledgers.",
+  "budget": {
+    "max_DP_calls": 120,
+    "target_wall_seconds": 90,
+    "native_queries": 0,
+    "label_fit_proposals": 0,
+    "possible_next_stage": "Onlyafterreport:max4(profile,inputcopy) pairs/physicalM-modelcase,includinginput1/4and16chiplegacyanchors x2prioritiesGF/DF x512 x8hardwarecases=32768nativequeries; notrunbythisscript."
+  },
+  "exclusions": "NoQ38yet,noheldout/newroutes/models/quantization/PE/FIFO/context/MSB/partials orcapacityclaim. L0coefficientinventory canfitmoreimagesinthesameblock;replicaclaimsneedexplicitstrongcapacitycontrol."
+}

@@ -1,0 +1,34 @@
+{
+  "frozen_utc": "2026-11-01T22:43:08.608158+00:00",
+  "argv": [
+    "/home/nfs_client/ericyu/expert_flash_experiment/build/llama-route-trace/llama-corpus-trace",
+    "/home/nfs_client/ericyu/expert_flash_experiment/models/granite4tiny-q4_k_m.gguf",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/full-ffn-integer-reference/source-gguf-control/jobs.tsv",
+    "16",
+    "8",
+    "1",
+    "trace"
+  ],
+  "existing_binary_sha256": "ff34272c06fe7eb222665262b870516bd290579fd0ff6f606babb98d4b2aacb7",
+  "existing_source_sha256": "37e7e3744189a9da753d9b2f2cc00ee7b443f9e17d901c3d0a8f26edc14e0655",
+  "control_driver_sha256": "2429bd0fde3d970af3f69cd1e77d8af8bf551b66f1ca0601fd8c482d5481160e",
+  "main_frozen_protocol_sha256": "3163341827c25b210c42126ae7465c1fe8be9827aab93d314a89ef8a54975f40",
+  "prompts": [
+    {
+      "id": "train_programming_short_015",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_programming_short_015.txt",
+      "sha256": "0dd7b878949c94f668414c1e6a8f902b2f6adc8f21e115e47f26d6aeac3b15a4"
+    },
+    {
+      "id": "train_summarization_short_027",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_summarization_short_027.txt",
+      "sha256": "b9a86ad9ccfe72948f7035418dfd71b2632aa07d0205e4e3e2788d71893b0b81"
+    }
+  ],
+  "purpose": "Disclose source-GGUF vs fixed full-FFN W8A8 greedy-token changes; not a quality benchmark or placement-equivalence requirement",
+  "prefill_logits_requested": "Existing source-GGUF trace default: final token only; W8 reference requests all for coverage",
+  "reference_format": "Source GGUF for every operator, no W8A8 callback replacements",
+  "batch_sequences": 1,
+  "steps": 16,
+  "threads": 8
+}

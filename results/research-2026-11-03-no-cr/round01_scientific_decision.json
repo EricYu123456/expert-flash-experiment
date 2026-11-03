@@ -1,0 +1,32 @@
+{
+  "at_utc": "2026-11-02T20:21:28.184598+00:00",
+  "experimental_round": 1,
+  "candidate": "gate-first-certified-activation-quantizer-zero",
+  "disposition": "scientific_failure_bounded_performance_regime",
+  "reviewers": [
+    "root",
+    "/root/critic_sol"
+  ],
+  "protocol": "gate_zero_stage0_protocol.frozen.json",
+  "evidence": [
+    "round01-stage0/result.md",
+    "round01-stage0/summary.json",
+    "round01-stage0/independent_audit.json",
+    "round01-stage0/critic_independent_audit.json"
+  ],
+  "primary_extra_up_percent": {
+    "deepseek-v2-lite": 0.1012049551,
+    "olmoe-1b-7b": 0.0899553299
+  },
+  "secondary_last4_extra_up_percent": {
+    "deepseek-v2-lite": 0.1145666013,
+    "olmoe-1b-7b": 0.0953435898
+  },
+  "added_complete16KiB_both_models": 0,
+  "reason": "Both independent model classes satisfy the prespecified <=1% free-witness pooled Up-byte and zero16KiB opportunity negative, including prespecified secondary bounds. Metadata/witness/host/phase costs cannot rescue this negligible optimistic work saving.",
+  "correctness": "Complete canonical prefill/decode allFFN, finite and full-I product checks, ownq/amax/scale and independent aggregation audits passed. Failure is performance value, not correctness.",
+  "scope": "Only frozen bounds/reference/models/TRAIN8 shortprefix decode8; not a theorem against all certificates, clamped models, sparsity or all MoE. A4 shadow is retained but is not end-to-end W8A4 evidence.",
+  "engineering_gt10pct_no_publication_flag": false,
+  "measured_device_or_whole_latency_gain": null,
+  "tooling_attempts_do_not_consume_extra_rounds": true
+}

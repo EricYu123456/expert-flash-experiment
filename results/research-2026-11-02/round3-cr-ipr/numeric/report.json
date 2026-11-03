@@ -1,0 +1,392 @@
+{
+  "status": "pass",
+  "utc": "2026-11-02T12:46:46.434132+00:00",
+  "source_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_stencil_numeric.py": "3ffeeca12d3d521c284980aa05abd9acd4d2eac09bed41751bc5a379b14661c0",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_stencil_numeric.cpp": "7ccbb981fda9cca9d5a7470c79a940ca03d428c62b8f15b53be90372be98dba4"
+  },
+  "numpy_version": "2.3.5",
+  "python_version": "3.13.9",
+  "geometry": {
+    "H": 1536,
+    "I": 512,
+    "E": 64,
+    "K": 6,
+    "shared_I": 1024,
+    "W": 8,
+    "q": 4,
+    "g": 16,
+    "page_bytes": 16384,
+    "wordlines_per_block": 192
+  },
+  "assumptions": [
+    "User-premised skip-WL CR plus independent-plane read.",
+    "Per-wave PB source permutation remains conditional.",
+    "Existing single row accumulation may carry its state across page and wave boundaries; no new accumulator is introduced.",
+    "Common full A8 input1536 is loaded once and cycled in its original order.",
+    "Row scales and positional FIFO scatter are host metadata; their capacity/time is separately disclosed, not a native AiF ABI claim."
+  ],
+  "prohibitions": {
+    "input_fragments": false,
+    "host_column_partials": false,
+    "new_accumulator": false,
+    "weight_replicas": false
+  },
+  "schedule": {
+    "macros": [
+      "A1",
+      "D",
+      "A2",
+      "B1",
+      "B2",
+      "C",
+      "A3",
+      "B3"
+    ],
+    "consume_orders": [
+      "0123",
+      "2301",
+      "2013",
+      "0132",
+      "3201",
+      "2013"
+    ],
+    "groups": 2,
+    "waves_per_chip": 12,
+    "pages_per_chip": 48,
+    "emitted_rows_per_chip": 512,
+    "macro_rows": 32
+  },
+  "accumulation": {
+    "cpu_reference": "I64 exact whole-row sum",
+    "worst_case_abs_sum": 24774144,
+    "fits_signed_I32": true,
+    "new_hardware_I64_accumulator_assumed": false,
+    "page_stream_state": "One current input column and one current row sum, carried continuously across pages/waves."
+  },
+  "modes": {
+    "synthetic": {
+      "storage": {
+        "resident_pages": 6336,
+        "resident_weight_bytes": 103809024,
+        "verified_owner_bytes": 103809024,
+        "logical_byte_coverage_exactly_once": true,
+        "physical_page_ownership_unique": true,
+        "replicas": 0,
+        "padding_bytes": 0,
+        "resident_pages_per_chip": 396,
+        "plane_pages_per_chip": [
+          128,
+          128,
+          70,
+          70
+        ],
+        "reserved_bytes": 201326592,
+        "host_row_scales_bytes": 270336,
+        "banks": [
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip00.bin",
+            "sha256": "28083b9f1f83cf5174d1daec03ffbed7610232e39e659749161bfab165496598"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip01.bin",
+            "sha256": "8f482e8497fe92ff01ca1932a62c0b4ab130828c65ebeaf5e60a9f0fd89708e2"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip02.bin",
+            "sha256": "af2892b40a6704c0a20536c5ae63c659b55d05b9c9af6671aa9bd1dc1aedebc0"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip03.bin",
+            "sha256": "303c4a6343616e3fe744905162d8806a9fb4aa01e0bb6d7270b7a93658f6fddc"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip04.bin",
+            "sha256": "5d4e1c7fda190b0e3df821c11957b32bb2dee0a5d03790bdcbc5e3dd7eeef327"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip05.bin",
+            "sha256": "20d62d38aa4fbf0b3c35f0b3f50a700ad1018c38c69727fe3a944c9e76987945"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip06.bin",
+            "sha256": "6a220391b9a9570a399a503b2c98de7cf1f0f0539c972c2503c530220cc42083"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip07.bin",
+            "sha256": "c1fc201433254aa4df7deb1fe34f9d3bcddc61f4896c56f6fc8bf32d13d1e4de"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip08.bin",
+            "sha256": "53e27876af41e1ce0981a88cdcf102cb2c20cd178e0a628d22649ee29245a341"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip09.bin",
+            "sha256": "b2fda7b2c2dc0d9b3e2061ddad817b3a7171f577ac2d56ed56055e74e75cba23"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip10.bin",
+            "sha256": "17e19720bcc559e3a7e2ef70d982b77e3a0ed12d6eef817f9f45d0c728658d5e"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip11.bin",
+            "sha256": "223e26e413630dd53664dc094687441c430c093b12ca1dd5fb2d75952adb2312"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip12.bin",
+            "sha256": "5a3f722bf4d39634ced9faa9429e595b25fceabe4938876c19f15cf8144b7979"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip13.bin",
+            "sha256": "e0cabbe19eb569cb90e86797a6495b1eb7aacc31d1f2e5e24efb279517a88d17"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip14.bin",
+            "sha256": "53a08420f3be32344ef553e6d5d4235d675a1f8036bc1361fd1dae0386a30c8e"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/chip15.bin",
+            "sha256": "28e52ca2dd7c805e78a4e701e93ea679e4426118732c5ab48477f49c37a24841"
+          }
+        ]
+      },
+      "numeric": {
+        "status": "pass",
+        "cases": 1029,
+        "chips": 16,
+        "row_comparisons": 8429568,
+        "scaled_f32_comparisons": 8429568,
+        "weight_bytes_consumed": 12947816448,
+        "physical_pages_read": 790272,
+        "cross_page_rows": 526848,
+        "page_start_phase_counts": [
+          263424,
+          263424,
+          263424
+        ],
+        "max_abs_integer": 24774144,
+        "mismatches": 0
+      },
+      "independent_numpy": {
+        "cases": 29,
+        "integer_rows": 237568,
+        "scaled_f32_rows": 237568,
+        "mismatches": 0,
+        "implementation": "Independent NumPy I64 logical-row matvec; no page schedule imported"
+      },
+      "fixed_operand_sha256": {
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/canonical.w8": "27ee9f86f23614a24af053de17630c391d011f4cb4f05264b2f401ac29147b95",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/canonical.scales.f32": "e086dd5386bdc5528bc5438b9603430b17f3ba75e11408a0eff70926ab6c6a0f",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/routes.i32": "1eaadd8b9802f5e5475689bb83497d2962f38e02b8ba320aeab16b9a33f10172",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/inputs.a8": "dcc981283a302311743ec177e1107e13126560cd4759746897e8f0ac867dc822",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/inputs.scales.f32": "c8af127162c161b8e4d288c021404a84e7e7dcd891469383c6b7bd6780e585a1"
+      },
+      "output_sha256": "6d925f0c9b2daeacd00fa03c2e211fc22388b8d2a1852a12d3df02acdedc43f9",
+      "provenance": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic/provenance.json"
+    },
+    "checkpoint": {
+      "storage": {
+        "resident_pages": 6336,
+        "resident_weight_bytes": 103809024,
+        "verified_owner_bytes": 103809024,
+        "logical_byte_coverage_exactly_once": true,
+        "physical_page_ownership_unique": true,
+        "replicas": 0,
+        "padding_bytes": 0,
+        "resident_pages_per_chip": 396,
+        "plane_pages_per_chip": [
+          128,
+          128,
+          70,
+          70
+        ],
+        "reserved_bytes": 201326592,
+        "host_row_scales_bytes": 270336,
+        "banks": [
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip00.bin",
+            "sha256": "35391dcd29084fff2d78cd657a3805087745c62f10ecd08c6764b6e6d859e026"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip01.bin",
+            "sha256": "4b8a649de89d409914d91295c80ebcee81b01141917334333f8bb28acab23e49"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip02.bin",
+            "sha256": "f68f29e64ef64aa8e57622b508fb7a1bc61ad501ba1797506c7dffe9bbaa42fc"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip03.bin",
+            "sha256": "e16390889e95b7ef65ed6fb48b32186438f3eb9b51d3c129773199eeaa03a74e"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip04.bin",
+            "sha256": "fc5a6f28d632eac48b2aaf4e59879ddd8ec1cab751e0c434298719b360503d50"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip05.bin",
+            "sha256": "16225688b740a2eee62a86ec05a1b053822d68bc56f273220fecf5afc1a9bfc3"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip06.bin",
+            "sha256": "8381ee048de326c04ecd09dfdd45c68ec140f39f72effea04cbdddc3139409ba"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip07.bin",
+            "sha256": "a32dc8fdd5e4d2ccac4d492956af37b4a0b85d047230e64daf66425d82f095c5"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip08.bin",
+            "sha256": "950d507740e712db6f6089bfdd39026f9dd25368dfa582a8c24b684847372388"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip09.bin",
+            "sha256": "590cc1a5b5124889d83cd472b3e68ce42289e792da26f515520bf60f67d7f01a"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip10.bin",
+            "sha256": "1843228543ad8259a36521d738b635fe14706d095d1c11fe94134b8d3ec8ec23"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip11.bin",
+            "sha256": "af14f524f0e3dfc03a2fa822b9bde948d65e53d0ff094d30bf12d6d5c36ccd83"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip12.bin",
+            "sha256": "e6a70b5481ce6da0fbe7a1576bc448bb52e64bbc365f6e400d353a185886580a"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip13.bin",
+            "sha256": "ac37d5bbe1232dc2bb04a0c5270e03c2fd8585983a80acf0c67f94c8b98d8c33"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip14.bin",
+            "sha256": "d71662abf8049bc6eb4f74f341c055da7f01685eda3e13ec49c6c1b7f7f72f66"
+          },
+          {
+            "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/chip15.bin",
+            "sha256": "1ee948f441ab65f3a5f2e53151677e49ed836652d78febb941da9219be81bc73"
+          }
+        ]
+      },
+      "numeric": {
+        "status": "pass",
+        "cases": 7,
+        "chips": 16,
+        "row_comparisons": 57344,
+        "scaled_f32_comparisons": 57344,
+        "weight_bytes_consumed": 88080384,
+        "physical_pages_read": 5376,
+        "cross_page_rows": 3584,
+        "page_start_phase_counts": [
+          1792,
+          1792,
+          1792
+        ],
+        "max_abs_integer": 264645,
+        "mismatches": 0
+      },
+      "independent_numpy": {
+        "cases": 7,
+        "integer_rows": 57344,
+        "scaled_f32_rows": 57344,
+        "mismatches": 0,
+        "implementation": "Independent NumPy I64 logical-row matvec; no page schedule imported"
+      },
+      "fixed_operand_sha256": {
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/canonical.w8": "b440114db13ae6b85847d062cea224da12bb8ac2e2f6b51cbccea8a82d7a8b37",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/canonical.scales.f32": "bd0277a3154cce11752afa7aa10cac7394007374ffef5eca308256a5c3860a19",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/routes.i32": "580e6c5a36ea4453329d3f4bc4219de9cbf86a197247fc78a684e55612a5badd",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/inputs.a8": "dd9cd9e8018151ebf65dacd56b25f267b3a914e0b3f4d228df80c46124677e28",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/inputs.scales.f32": "f6551d1186d382ad60dd7f9ee7aa2014585358f83d16d45560b751d28d726214"
+      },
+      "output_sha256": "26111fe80f0b0c96c69f13f9398513e7fa6dd1a5ba069c356a8b277e62187183",
+      "provenance": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/checkpoint/provenance.json"
+    }
+  },
+  "mutation_controls": [
+    {
+      "fault": "weight",
+      "argv": [
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/stencil-interpreter",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic",
+        "1029",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/mutation-weight",
+        "weight"
+      ],
+      "exit_code": 1,
+      "diagnostic": "FAIL: integer result differs from canonical row"
+    },
+    {
+      "fault": "phase",
+      "argv": [
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/stencil-interpreter",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic",
+        "1029",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/mutation-phase",
+        "phase"
+      ],
+      "exit_code": 1,
+      "diagnostic": "FAIL: input phase at page boundary"
+    },
+    {
+      "fault": "permutation",
+      "argv": [
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/stencil-interpreter",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic",
+        "1029",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/mutation-permutation",
+        "permutation"
+      ],
+      "exit_code": 1,
+      "diagnostic": "FAIL: plane consumption order"
+    },
+    {
+      "fault": "unselected",
+      "argv": [
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/stencil-interpreter",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic",
+        "1029",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/mutation-unselected",
+        "unselected"
+      ],
+      "exit_code": 1,
+      "diagnostic": "FAIL: unselected expert read"
+    },
+    {
+      "fault": "scatter",
+      "argv": [
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/stencil-interpreter",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic",
+        "1029",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/mutation-scatter",
+        "scatter"
+      ],
+      "exit_code": 1,
+      "diagnostic": "FAIL: scatter logical row identity"
+    },
+    {
+      "fault": "scale",
+      "argv": [
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/stencil-interpreter",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/synthetic",
+        "1029",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/numeric/mutation-scale",
+        "scale"
+      ],
+      "exit_code": 1,
+      "diagnostic": "FAIL: scaled F32 bits differ"
+    }
+  ],
+  "failures": 0,
+  "elapsed_seconds": 8.07067093392834,
+  "claims": {
+    "cpu_address_and_fixed_format_numerical_equivalence": true,
+    "flash_execution": false,
+    "flash_timing": false,
+    "task_quality": false,
+    "original_GGUF_numerical_equivalence": false,
+    "native_AiF_ABI": false,
+    "publication_ready_hardware_validation": false
+  }
+}

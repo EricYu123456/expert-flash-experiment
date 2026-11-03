@@ -1,0 +1,74 @@
+{
+  "status": "PASS conditional placement combinatorics only",
+  "not_proven": [
+    "3D-FPIM can start an independent MVM at nonzero absolute depth",
+    "isLast or another existing control resets the physical accumulator",
+    "public weight programming ABI accepts multiple matrices per core",
+    "numerical QA-ADC precision/scale for nonzero-depth groups",
+    "GGUF or pretrained model quantization compatibility",
+    "full model fits including non-expert parameters, buffers and code",
+    "latency, throughput, energy or physical area"
+  ],
+  "assumption": "Single-token DNN layers execute sequentially; GU/down core pools are disjoint, so intra-layer overlap causes no new alias.",
+  "native_geometry": {
+    "rows": 128,
+    "columns_per_depth": 128,
+    "depths_per_core": 64,
+    "cores_per_tile": 24,
+    "max_tiles": 224
+  },
+  "granite3_expert_geometry": {
+    "layers": 24,
+    "experts": 32,
+    "GU": {
+      "rows": 1024,
+      "columns": 1024,
+      "report": {
+        "matrix_tiles": 6144,
+        "cores": 768,
+        "used_depth_slots": 49152,
+        "min_depth_slots_per_core": 64,
+        "max_depth_slots_per_core": 64,
+        "max_same_layer_tiles_per_core": 1,
+        "any_route_same_phase_core_collision": false
+      }
+    },
+    "down": {
+      "rows": 1024,
+      "columns": 512,
+      "report": {
+        "matrix_tiles": 6144,
+        "cores": 384,
+        "used_depth_slots": 24576,
+        "min_depth_slots_per_core": 64,
+        "max_depth_slots_per_core": 64,
+        "max_same_layer_tiles_per_core": 1,
+        "any_route_same_phase_core_collision": false
+      }
+    },
+    "one_matrix_tile_per_core": 12288,
+    "depth_capacity_lower_bound_cores": 1152,
+    "construction_cores": 1152,
+    "construction_reaches_depth_capacity_lower_bound": true,
+    "compute_tiles": 48,
+    "max_core_capacity": 5376,
+    "fits_expert_weight_geometry": true,
+    "mapping_sha256": "a13f4442bcf8ea67301b7a20f11927127c6de52fef22dd3a6c9307a74c967540",
+    "construction": "For each projection order all matrix tiles by item=(expert,rowtile), then DNN layer. Put each consecutive 64/depth items in one core at disjoint depth offsets. Since 64/depth <= 24, no core contains two tiles from the same layer. GU and down use disjoint core ranges."
+  },
+  "granite4tiny_expert_geometry": {
+    "layers": 40,
+    "experts": 64,
+    "GU_core_tiles_per_expert": 8,
+    "GU_depth_per_tile": 12,
+    "down_core_tiles_per_expert": 12,
+    "down_depth_per_tile": 4,
+    "one_matrix_tile_per_core": 51200,
+    "used_depth_slots": 368640,
+    "depth_capacity_lower_bound_cores": 5760,
+    "max_core_capacity": 5376,
+    "does_not_fit_even_relaxed_expert_geometry": true
+  },
+  "novelty_implication": "Granite3 expert-weight capacity and same-phase collision elimination can already be optimal through route-oblivious cross-DNN-layer packing. An anti-coactivation placement must improve a separate measured resource or workload regime beyond this strong baseline; capacity fit alone is insufficient.",
+  "script_sha256": "11e3f5513c9685147dd3abe4c03a703697ebf60d7e5d39b7c7a2f836007909d7"
+}

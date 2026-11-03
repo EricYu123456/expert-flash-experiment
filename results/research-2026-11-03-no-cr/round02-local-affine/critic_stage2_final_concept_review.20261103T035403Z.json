@@ -1,0 +1,41 @@
+{
+  "status": "approved_for_scientific_design_freeze",
+  "reviewer": "/root/critic_sol",
+  "reviewed_at_utc": "2026-11-03T03:54:03Z",
+  "same_round": 2,
+  "reviewed_drafts": {
+    "stage2_refresh.protocol.draft.json": {
+      "revision": "draft002",
+      "sha256": "b7d35ada9b08639b56e4677f7311eb2a6d722d18aeb3c55bacec064a4f288ed6"
+    },
+    "stage2_pg19_quality.protocol.draft.json": {
+      "revision": "draft004",
+      "sha256": "0522e0460f25f559e2547eb019d87958c861c4e3da8229222d16dec14d1ddd6c"
+    }
+  },
+  "blocking_concept_findings": [],
+  "decision": "Approve the single finite refresh and prospective refreshed-configuration quality design for formal freeze. No additional grid or calibration iteration is required by this review. This is not source, acquisition, collection, fitting or evaluation approval.",
+  "closure_findings": [
+    "Train, validation and reserved tests have distinct roles. Only old FIT120 and the sixteen pinned TRAIN books supply refresh inputs/targets; no PG validation or test fitting/selection is allowed.",
+    "The old B/C/D seeds are fixed before collection. B contributes768 prefix states, each arm contributes only actual non-EOG-fed decode inputs up to32, student prefixes only establish their own KV, and typed provenance prevents trajectory or context reuse.",
+    "Unit-weight multiset ordering, shared all-expert targets, old target identity checks and the explicit union mask close row-budget and hidden-family-budget risks. The upper bounds13824 new rows/layer,110592 expert-row queries and905969664 target bytes are consistent with eight H2048 operators.",
+    "TRAIN-only C32 tree/P128/centers are rebuilt once for all families. New models bind the new preprocessing hash and cannot silently use old Stage0 geometry or a prompts<120 row filter.",
+    "Eight operators, penalty-transfer policy with newly computed trace scales, PE6/G2 roles, q512 host path and identity gauge are fixed. Covariances, slopes, bases, row quantizers and actual-deployment biases are refitted; old numerical beta/bias values are not transferred.",
+    "All source/tooling/numerical gates and collection/FIT/model-freeze/quality releases remain separate. Missing/short data or incomplete fits are not fabricated into quality failures.",
+    "The old synthetic-only configuration remains development evidence and does not consume a method round. The prospective primary is refreshed C minus unchanged B; D and source comparisons are secondary and do not select a winner on PG outcomes.",
+    "The deterministic book window and joint-tokenization target/logit alignment are coherent. The shared paired-book bootstrap includes exactly both primary model endpoints, preserves zero-SD/missing-data inconclusive rules, and keeps its explicit small-sample approximation limits.",
+    "The preset log1.02 margin can yield a bounded failure of the adopted finite-calibration configuration after valid tooling and complete fresh scoring, without needing an asymptotic convergence claim. It does not establish universal context-bank failure or alter Stage0/1 inconclusive results.",
+    "Guard coverage is not a latency failure. An optional guard cannot rescue or trigger the primary unguarded stopping rule. A partial quality pass is not full-model success or a speed/publication result."
+  ],
+  "reporting_limits_to_preserve": [
+    "Report real book/prompt groups, phase/trajectory counts, leaf rank/conditioning and fallback/substitution exposure; generated arms and correlated token rows are not independent books or a convergence certificate.",
+    "Name which model and B-reference budget fail. B-minus-source and C-minus-source remain visible; exceeding the B budget need not mean degradation relative to source GGUF.",
+    "Do not silently refit or choose another geometry/gauge/guard after validation. Tooling repairs preserve the hypothesis, evidence and refreeze history.",
+    "Formal freeze may update revision/status/time and reference paths/hashes to the new immutable files; any scientific change needs its own narrow review."
+  ],
+  "payload_read_by_reviewer": false,
+  "candidate_code_or_probe_executed_by_reviewer": false,
+  "candidate_source_modified_by_reviewer": false,
+  "data_or_execution_authorized": false,
+  "scientific_failure_assigned_now": false
+}

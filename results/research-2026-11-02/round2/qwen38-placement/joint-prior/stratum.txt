@@ -1,0 +1,3416 @@
+Stratum: System-Hardware Co-Design with Tiered Monolithic 3D-Stackable DRAM for Efficient MoE Serving
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract.
+1
+Introduction
+2
+Background
+2.1
+Monolithic 3D-Stackable DRAM
+2.2
+Mixture of Expert LLMs
+3
+Stratum Overview
+3.1
+System Overview
+3.2
+Stratum Near Memory Processing
+4
+Stratum Operator Mapping and Execution
+4.1
+Expert Processing
+4.2
+Attention Processing
+4.3
+Design with Physical Constraints
+5
+Stratum Algorithm-System Co-Optimizations
+5.1
+Expert Usage Prediction
+5.2
+Data Placement Strategy
+6
+Evaluation
+6.1
+Experimental Setup
+6.1.1
+Monolithic 3D-Stackable DRAM Configuration
+6.1.2
+Logic Die Processor Modeling
+6.1.3
+System modeling
+6.2
+Hardware Evaluation
+6.2.1
+Tiering in 3D-DRAM
+6.2.2
+Power and area budget.
+6.2.3
+logic die processor.
+6.3
+System Evaluation
+6.3.1
+Algorithm Evaluation
+6.3.2
+System Performance
+6.3.3
+Expert Placement Optimizations
+6.3.4
+Performance scaling with batch size
+6.3.5
+Performance scaling with Mono3D DRAM layers
+6.3.6
+Tiering mechanism on Mono3D DRAM with less layers.
+7
+Related Works
+8
+Conclusion
+Acknowledgements
+References
+License: CC BY 4.0
+arXiv:2510.05245v1 [cs.AR] 06 Oct 2025
+Stratum: System-Hardware Co-Design with Tiered Monolithic 3D-Stackable DRAM for Efficient MoE Serving
+Conference:
+58th IEEE/ACM International Symposium on Microarchitecture; October 18–22, 2025; Seoul, Republic of Korea
+58th IEEE/ACM International Symposium on Microarchitecture (MICRO ’25), October 18–22, 2025, Seoul, Republic of Korea
+DOI:
+10.1145/3725843.3756043
+ISBN:
+979-8-4007-1573-0/2025/10
+CCS:
+Hardware Emerging architectures
+CCS:
+Computer systems organization Distributed architectures
+CCS:
+Hardware Memory and dense storage
+Yue Pan
+Note:
+Equal contribution
+Affiliation:
+University of California, San Diego
+,
+La Jolla
+,
+United States
+email:
+yup014@ucsd.edu
+,
+Zihan Xia
+Affiliation:
+University of California, San Diego
+,
+La Jolla
+,
+United States
+email:
+z5xia@ucsd.edu
+,
+Po-Kai Hsu
+Affiliation:
+Georgia Tech
+,
+Atlanta
+,
+United States
+email:
+pokai.hsu@gatech.edu
+,
+Lanxiang Hu
+Affiliation:
+University of California, San Diego
+,
+La Jolla
+,
+United States
+email:
+lah003@ucsd.edu
+,
+Hyungyo Kim
+Affiliation:
+University of Illinois, Urbana-Champaign
+,
+Urbana
+,
+United States
+email:
+hyungyo2@illinois.edu
+,
+Janak Sharda
+Affiliation:
+Georgia Tech
+,
+Atlanta
+,
+United States
+email:
+jsharda3@gatech.edu
+,
+Minxuan Zhou
+Affiliation:
+Illinois Institute of Technology
+,
+Chicago
+,
+United States
+email:
+mzhou26@illinoistech.edu
+,
+Nam Sung Kim
+Affiliation:
+University of Illinois, Urbana-Champaign
+,
+Urbana
+,
+United States
+email:
+nskim@illinois.edu
+,
+Shimeng Yu
+Affiliation:
+Georgia Tech
+,
+Atlanta
+,
+United States
+email:
+shimeng.yu@ece.gatech.edu
+,
+Tajana Rosing
+Affiliation:
+University of California, San Diego
+,
+La Jolla
+,
+United States
+email:
+tajana@ucsd.edu
+and
+Mingu Kang
+Affiliation:
+University of California, San Diego
+,
+La Jolla
+,
+United States
+email:
+mingu@ucsd.edu
+© cc
+Abstract.
+As Large Language Models (LLMs) continue to evolve, Mixture of Experts (MoE) architecture has emerged as a prevailing design for achieving state-of-the-art performance across a wide range of tasks. MoE models use sparse gating to activate only a handful of expert sub-networks per input, achieving billion-parameter capacity with inference costs akin to much smaller models. However, such models often pose challenges for hardware deployment due to the massive data volume introduced by the MoE layers.
+To address the challenges of serving MoE models, we propose Stratum, a system–hardware co-design approach that combines the novel memory technology Monolithic 3D-Stackable DRAM (Mono3D DRAM), near-memory processing (NMP), and GPU acceleration. The logic and Mono3D DRAM dies are connected through hybrid bonding, whereas the Mono3D DRAM stack and GPU are interconnected via silicon interposer.
+Mono3D DRAM offers higher internal bandwidth than HBM thanks to the dense vertical interconnect pitch enabled by its monolithic structure, which supports implementations of higher-performance near-memory processing. Furthermore, we tackle the latency differences introduced by aggressive vertical scaling of Mono3D DRAM along the
+z
+z
+-dimension by constructing internal memory tiers and assigning data across layers based on access likelihood, guided by topic-based expert usage prediction to boost NMP throughput.
+The Stratum system achieves up to 8.29
+×
+\times
+improvement in decoding throughput and 7.66
+×
+\times
+better energy efficiency across various benchmarks compared to GPU baselines.
+Keywords:
+Processing Near Memory, Mixture-of-Experts, Monolithic 3D DRAM, System-Hardware Co-Design
+†
+†
+cc-license:
+by
+1.
+Introduction
+Transformer-based Large Language Models (LLMs) have become central to a wide range of applications, delivering state-of-the-art performances across diverse domains
+(
+Vaswani et al., 2017
+;
+Grattafiori et al., 2024
+;
+Dosovitskiy et al., 2020
+;
+Zhang et al., 2022
+;
+xAI, [n. d.]
+;
+Jiang et al., 2024
+;
+OpenAI et al., 2024
+;
+Yang et al., 2024
+;
+Ho et al., 2020
+;
+DeepSeek-AI et al., 2025
+;
+DeepSeek-AI, 2025
+)
+.
+To improve various task performances, LLMs are reaching unprecedented scales, with models such as LLaMA 3.1 (405B)
+(
+Grattafiori et al., 2024
+)
+, DeepSeek-V3 (671B)
+(
+DeepSeek-AI et al., 2025
+)
+, and Kimi-K2 (1T)
+(
+Team et al., 2025
+)
+pushing the boundaries of model size and performance.
+Training and deploying these large models present significant challenges to the underlying infrastructure, particularly in terms of memory capacity and compute capability.
+Among various efforts to reduce the inference cost, exploiting activation sparsity offers a promising solution by directly reducing the computational and data movement demands. One of the most widely adopted approaches is the Mixture of Experts (MoE) architecture
+(
+DeepSeek-AI et al., 2025
+;
+OpenAI et al., 2024
+;
+Muennighoff et al., 2024
+;
+Jiang et al., 2024
+;
+Du et al., 2022
+;
+Databricks, 2024
+;
+xAI, [n. d.]
+;
+Fedus et al., 2022
+;
+AI, 2025
+)
+, which replaces conventional dense Multi-Layer Perceptron (MLP) blocks with a pool of expert MLPs that are sparsely selected during inference, as illustrated in Figure
+1
+. MoE models utilize a routing mechanism to activate only a small subset of experts per token during inference. Since MLP dominates the overall model size, this selective activation leads to substantial savings in both inference and training costs
+(
+Krajewski et al., 2024
+)
+.
+As a result, the MoE architecture has become a preferred choice in many state-of-the-art LLMs.
+Figure 1.
+Architectures of dense transformer-based LLM (left) and Mixture of Experts (MoE) LLM (right).
+While MoE models reduce practical memory access and computation requirements, they do not address the overall size of the model. The rapid growth in model size necessitates high-bandwidth and high-density memory technologies. Along this line, die-stacked High Bandwidth Memory (HBM) has emerged as the dominant solution in high-performance GPUs such as the NVIDIA A100 and H100
+(
+Choquette et al., 2021
+;
+Choquette, 2023
+)
+, achieving high density per footprint with six stacked DRAM dies and 1024-bit I/O interfaces, delivering up to 800 GB/s of memory bandwidth per stack to the GPU compute die via silicon interposers.
+Although HBM offers increased bandwidth compared to conventional 2D DRAMs, the bandwidth available through the interposer remains insufficient. This limitation often leads to underutilization of GPU computing resources, particularly for memory-bound operations such as LLM decoding
+(
+Park et al., 2024
+)
+. To mitigate the memory wall between HBM and the GPU, recent approaches have adopted near-memory processing (NMP) for LLM inference
+(
+He et al., 2020
+;
+Zhou et al., 2022
+;
+Lee et al., 2021
+;
+Park et al., 2024
+;
+Yun et al., 2024
+;
+Heo et al., 2024
+;
+Park et al., 2021
+)
+. Prior studies
+(
+Heo et al., 2024
+;
+Park et al., 2024
+;
+Zhou et al., 2022
+;
+Yun et al., 2024
+)
+have utilized NMP units to compute attention during the decoding stage by placing the computing logic on the HBM base die. However, the NMP on the base die still suffers from limited bandwidth due to vertical data traversal through a constrained number of TSV I/O connections. To mitigate this limitation, prior work has integrated compute units directly into the memory dies to exploit extensive internal memory bandwidth
+(
+Lee et al., 2021
+;
+Zhou et al., 2022
+;
+Li et al., 2017
+;
+Park et al., 2024
+;
+Park et al., 2021
+;
+Pan et al., 2024
+)
+, commonly known as processing in memory (PIM). However, compute logic embedded in DRAM dies suffers from expensive intra-memory data transmission and large performance-area-power (PPA) overhead of implementing logic using the DRAM technology, as DRAM dies are inherently optimized for storage rather than computation
+(
+Li et al., 2017
+)
+. Moreover, integrating logic and memory on the same die introduces additional thermal concerns and manufacturing overheads.
+As a strong alternative to HBM, Monolithic 3D-Stackable DRAM, referred to as Mono3D DRAM throughout this paper, has recently emerged as a promising solution for continued DRAM scaling beyond sub-10-nanometer technologies. It offers improved vertical integration through a cost-effective fabrication process that eliminates costly TSV and bonding processes, gaining growing attention in both industry and academia
+(
+Han et al., 2023
+;
+Choi et al., 2024c
+;
+Wu et al., 2025
+;
+Hsu et al., 2025b
+)
+. By fabricating multiple additional DRAM layers sequentially on the same wafer, Mono3D DRAM achieves higher density without a proportional increase in cost per bit, making it an attractive candidate for future high-capacity memory systems.
+Compared to HBM-based NMP, Mono3D DRAM-based NMP introduces key architectural benefits. Mono3D DRAM offers significantly greater internal bandwidth due to its monolithic construction within DRAM and direct face-to-face hybrid bonding between DRAM and logic dies, leveraging the full chip area. On the other hand, TSVs in HBM require a certain area on both the logic base die and DRAM dies as vertical interconnects. The TSV area cannot be unbounded, thus limiting the HBM internal bandwidth. Moreover, hybrid bonding pitch of 1
+μ
+​
+m
+\mu m
+(
+Chen et al., 2020
+)
+has around 5
+×
+\times
+finer pitch for vertical interconnects than HBM
+(
+Yue et al., 2024
+)
+, offering denser internal connectivity. The higher internal bandwidth of Mono3D DRAM can enable stronger NMP capability with the logic-die implementation than prior HBM-based memory-die NMP architectures.
+In addition, thinner dies and improved vertical thermal conduction enabled by monolithic integration enhance heat dissipation, supporting higher power density and allowing a larger power budget for NMP.
+Despite the numerous potential benefits offered by Mono3D DRAM, fully leveraging its advantages presents several critical challenges. Recent studies have demonstrated the feasibility of integrating several hundred vertically stacked layers through sequential layer fabrication
+(
+Wu et al., 2025
+;
+Hsu et al., 2025b
+)
+. However, such aggressive vertical scaling inherently leads to substantial variability in access latencies across different layers. Adopting a simplistic design based on the worst-case latency significantly undermines the available internal bandwidth. Additionally, the drastically increased density of vertical interconnects, enabled by the fine-pitch monolithic 3D integration, facilitates simultaneous access to large volumes of data. Consequently, a carefully tailored data mapping strategy is essential to effectively harness local Mono3D DRAM bank bandwidth while minimizing inter-bank and inter-channel data access. Furthermore, given the extremely high local DRAM data access bandwidth, the overhead of on-chip communication between processing units can become comparable to the computation latency if data is mapped inefficiently. Therefore, achieving a balanced overlap between computation and communication is crucial for minimizing the overall execution time.
+To address the challenges in serving large MoE models, we propose the Stratum system that integrates Mono3D DRAM, NMP, and GPU. This work makes the following key contributions:
+∙
+\bullet
+For the first time, we propose a system-hardware co-design solution Stratum for MoE serving that leverages Monolithic 3D-Stackable DRAM. Our approach heterogeneously integrates high-density Mono3D DRAM dies with high-performance logic dies via 3D hybrid bonding, and further integrates this Mono3D DRAM stack with GPUs using a 2.5D silicon interposer. This architecture serves as a high-throughput and cost-effective alternative to conventional GPU-HBM-based MoE serving systems.
+∙
+\bullet
+At the hardware level, we introduce an in-memory tiering mechanism that exploits the inherent access latency variations across Mono3D DRAM layers resulting from vertical scaling. Additionally, we propose an NMP processor tailored for hybrid-bonding-based Mono3D DRAM, incorporating optimized data mapping and communication strategies for both expert and attention execution.
+∙
+\bullet
+At the system level, we observe the nonuniform activation frequency of experts depending on user request topics. Based on this, we classify experts into hot and cold categories and assign them to fast and slow tiers of Mono3D DRAM, respectively. The proposed topic-aware serving system queues and dispatches requests according to their topics, predicted by our and lightweight topic classifier, while adhering to defined service-level objectives (SLOs).
+∙
+\bullet
+Cross-layer evaluations (device, circuit, algorithm, and system) demonstrate that Stratum achieves up to 8.29
+×
+\times
+better decoding throughput and 7.66
+×
+\times
+better energy efficiency in practical MoE serving scenarios, compared to state-of-the-art GPU-baselines.
+2.
+Background
+2.1.
+Monolithic 3D-Stackable DRAM
+Mono3D DRAM is a promising technology for continued DRAM scaling, drawing significant attention from both academia and industry
+(
+Lee et al., 2021
+;
+Zhou et al., 2022
+;
+Li et al., 2017
+;
+Park et al., 2024
+;
+Park et al., 2021
+)
+.
+Compared to conventional 2D DRAM technologies, it offers significantly higher memory density by leveraging vertical scaling—enabled by advanced techniques such as nanosheet field-effect transistors (FETs), which provide tighter gate control and support stacked channel architectures, and fabrication techniques inspired by 3D NAND Flash processes, including layer-by-layer deposition, high-aspect-ratio etching for ultra-thin dielectric isolation, and dense vertical integration
+(
+Han et al., 2023
+;
+Wu et al., 2025
+;
+Choi et al., 2024c
+;
+Hsu et al., 2025b
+)
+.
+Mono3D DRAM employs monolithic 3D stackable horizontal 1T1C DRAM cells, incorporating wordline (WL) staircases and vertically connected bitlines (BL) to interconnect memory cells across multiple layers, as seen in Figure
+2
+. While HBM incurs high costs due to low manufacturing yield from TSV fabrication and the sophisticated packaging required for die stacking, Mono3D DRAM offers cost advantages through improved scalability by avoiding TSVs and leveraging monolithic 3D integration, which sequentially constructs additional DRAM layers on the same wafer. Mono3D DRAM also achieves thermal benefit using thinner dies and improved vertical thermal conduction enabled by monolithic integration.
+On top of its cost and thermal benefits, Mono3D DRAM also delivers enhanced memory bandwidth to the logic layer. It leverages heterogeneous integration
+(
+Choi et al., 2024c
+;
+Hsu et al., 2025b
+)
+and employs Cu–Cu hybrid bonding for high-speed data transfer between memory cells and logic peripherals. Figure
+3
+compares Mono3D DRAM with HBM on the same 2.5D integration platform. HBM’s internal bandwidth is constrained by TSVs, which have a coarse pitch of 10
+μ
+\mu
+m
+(
+Van Huylenbroeck et al., 2016
+)
+, resulting in limited bandwidth and significant area overhead that reduces memory density.
+In contrast, Mono3D DRAM utilizes Cu–Cu hybrid bonding between DRAM and logic base dies with a much finer pitch of 1
+μ
+\mu
+m
+(
+Chen et al., 2020
+)
+, connected via back-end-of-line (BEOL) metal routing, to achieve exceptionally high internal bandwidth.
+Despite its higher internal bandwidth, Mono3D DRAM, as shown in Figure
+3
+, still has external bandwidth limitations similar to HBM due to the limited bandwidth of the interposer I/O interface. Additionally, prior work
+(
+O’Connor et al., 2017
+)
+highlights the significant energy consumption incurred during data transfers to the external processor, including routing across the logic base die and through the interposer I/O interface. These inefficiencies underscore the necessity of NMP integration on the logic die alongside Mono3D DRAM to utilize internal bandwidth and improve energy efficiency.
+Despite the potential for exceptional memory capacity in Mono3D DRAM, its vertical scalability is limited by substantial variation in access latency across layers. As shown in Figure
+2
+, WLs at the bottom of the staircase structure experience increased parasitic capacitance and resistance, resulting from the linearly extended WL routing. This latency imbalance becomes significant when Mono3D DRAM is scaled to hundreds of layers. Rather than designing around the worst-case access latency, system-level performance can be improved by embracing this latency heterogeneity. This challenge naturally motivates an architectural approach dubbed
+in-memory tiering
+, discussed in detail in §
+3
+.
+Note that the scaling trend of Mono3D DRAM aligns with that of 3D NAND Flash, as Mono3D DRAM leverages similar fabrication processes that have already been scaled beyond 400 layers
+(
+Park et al., 2025
+)
+. Furthermore, recent white papers suggest the feasibility of extending this scaling to 500 to even 1000 layers
+(
+Hsu et al., 2025a
+;
+Counterpoint Research and Lam Research, 2024
+)
+. Given these advancements and the projected trajectory of vertical scaling, we assume up to 1024 wordline (WL) stacks to reflect the near-future feasibility.
+Figure 2.
+Monolithic 3D-Stackable DRAM with vertically stacked horizontal 1T1C DRAM cells. Bitlines are vertically routed to avoid sense margin variations, and wordlines are routed through staircases. The activation latency varies by layers due to wordline staircases.
+Figure 3.
+HBM versus Mono3D DRAM on 2.5D integration platform with a xPU die. The HBM and Mono3D DRAM are attached to the logic base die through TSVs and Cu-Cu hybrid bonding, respectively.
+2.2.
+Mixture of Expert LLMs
+As indicated by LLM scaling laws
+(
+Kaplan et al., 2020
+)
+, the accuracy of dense transformer models improves with size, but so do their training and serving costs. Recent MoE models, such as OLMoE
+(
+Muennighoff et al., 2024
+)
+, Mixtral
+(
+Jiang et al., 2024
+)
+, Deepseek V3
+(
+DeepSeek-AI et al., 2025
+)
+, Time MoE
+(
+Shi et al., 2024
+)
+, DBRX
+(
+Databricks, 2024
+)
+, LLaMA-4
+(
+AI, 2025
+)
+, and Kimi-K2
+(
+Team et al., 2025
+)
+, offer a compelling alternative by activating only a small subset of experts per token. This sparse activation improves training scalability and enables large parameter counts without proportional increases in pre-training cost
+(
+Krajewski et al., 2024
+)
+, while keeping inference costs comparable to smaller dense models
+(
+Fedus et al., 2022
+)
+. On the other hand, MoE models require a routing mechanism, where a gating network computes expert assignment scores from token representations (FFN input or intermediate activations) using learned router parameters that determine sparse expert selection patterns
+(
+Fedus et al., 2022
+)
+. Each token is then dispatched to its selected expert(s) for independent processing, and when multiple experts are used per token, their outputs are combined—typically via weighted aggregation using the routing scores—to produce the final output of the layer
+(
+Jiang et al., 2024
+;
+DeepSeek-AI et al., 2025
+;
+Fedus et al., 2022
+)
+.
+The switching nature of MLP modules in MoE models introduces unique hardware deployment challenges. First, MoE models are large, with expert weights dominating the total size, e.g., over 95% of the model in Mixtral 8
+×
+\times
+7B
+(
+Jiang et al., 2024
+)
+, placing substantial pressure on GPU memory. Second, expert usage varies dynamically for each token and is unknown beforehand, leading to load imbalance when experts are distributed across different computing units
+(
+DeepSeek-AI et al., 2025
+)
+. Recent efforts aim to reduce communication overhead by predicting expert usage in advance. ExpertFlow
+(
+He et al., 2024
+)
+employs a lightweight surrogate model to forecast routing paths, while MoE Infinity
+(
+Xue et al., 2025
+)
+uses cross-layer activation profiling to statistically predict expert selection. In hybrid GPU and near-memory processing systems, Duplex
+(
+Yun et al., 2024
+)
+dynamically dispatches expert computation to either GPU or NMP units based on the latency models and batch size.
+During training, MoE models typically include an expert imbalance loss to prevent starvation, where one or more experts are selected far less frequently, thereby encouraging more uniform expert utilization
+(
+Fedus et al., 2022
+;
+Jiang et al., 2024
+)
+. However, as training progresses, domain specialization tends to emerge naturally among experts
+(
+Li et al., 2023
+;
+Child et al., 2019
+;
+Yao et al., 2024
+)
+. This specialization becomes increasingly pronounced as the number of experts increases and shared experts are introduced, consolidating common knowledge and enhancing the domain specificity of the routed experts
+(
+Muennighoff et al., 2024
+;
+DeepSeek-AI et al., 2025
+;
+Dai et al., 2024
+;
+AI, 2025
+)
+. Building on this observation, recent work has explored leveraging expert affinity to specific domains to accelerate inference in GPU-only environments
+(
+Yao et al., 2024
+;
+Wei et al., 2024
+;
+Go and Mahajan, 2025
+)
+.
+Figure 4.
+Expert hit profiling from LLaMA-4 Scout (16 Experts).
+We profile and observe that the expert usage has a distinct relationship with the topic of the query: a particular topic activates certain experts significantly more frequently. An example is shown in Figure
+4
+, where LLaMA-4 Scout exhibits over 90% domain-specific expert affinity on math- and logic-related topics within MMLU subsets. In our serving system, we exploit topic-specific expert affinity by first conducting offline profiling to collect statistics on expert hit rates (i.e., usage probabilities) across various topics. During online serving, a lightweight topic classifier in the scheduler assigns topic labels to all incoming queries in a batch. Based on this classification, the system maps frequently used experts to faster Mono3D DRAM layers to optimize access latency, as discussed in §
+5
+.
+3.
+Stratum Overview
+3.1.
+System Overview
+Figure 5.
+Example Stratum configurations.
+Figure 6.
+Serving system based on Stratum.
+Figure 7.
+Stratum NMP architecture. (a) Overview of the processor at the chip level. Microarchitectures of (b) the processing unit (PU) at the channel level, and (c) the processing element (PE) at the bank level.
+The Stratum processing system consists of an xPU die and a configurable number of Monolithic 3D-Stackable DRAM chips, interfaced through silicon interposers, with near-memory computing capabilities.
+We demonstrate three different example configurations (Figure
+5
+) to accommodate models of varying sizes, using different numbers of Mono3D DRAM chips.
+Stratum-L
+uses an NVIDIA H100 compute die as the xPU die with six Mono3D DRAM chips interconnected through interposers.
+Stratum-S
+uses a NVIDIA RTX A6000 die as the xPU die with a single Mono3D DRAM chip providing 32GB memory.
+Stratum-XL
+consists of two
+Stratum-L
+modules, providing a total of 384 GB of memory for serving larger models. These configurations suit diverse compute and memory requirements, and can scale up using cross-chip interconnects like NVLink
+(
+Ishii and Wells, 2022
+)
+.
+Each Mono3D DRAM chip consists of a memory die on top and a logic die at the bottom, which are interconnected by Cu-Cu hybrid bonding to provide high internal bandwidth. Additionally, to exploit access latency differences across the vertical layers of Mono3D DRAM, we introduce internal memory tiering within the memory die. The bottom logic die implements a powerful near-memory processor (NMP) to support LLM inference without always fetching data to the host processor, as detailed in §
+3.2
+.
+Figure
+6
+describes the flow of a serving system based on Stratum. In a realistic serving scenario, queries submitted by users are of varying topics.
+When users send inference requests, the host processor uses a lightweight topic classifier to determine the topic of the query.
+These requests are then enqueued in the serving queue with a topic tag.
+Periodically, the scheduler groups inference requests from the serving queue and later dispatches them to the Stratum processing system. To enhance user experience, a key Service-Level Objective (SLO) is Time to First Token (TTFT), which ensures that a request does not wait too long before processing begins. When SLO permits, the scheduler prioritizes batching requests of the same topic to maximize the benefits of expert placements. The memory mapper constructs the aggregated expert hit prediction for the batch by consulting the pre-profiled expert usage table and produces a target placement as a mapping between experts to Mono3D DRAM layers. Expert swaps are executed before every new batch with different topic tags to meet the target layout.
+Considering the arithmetic intensity of each stage, the Computation Mapper assigns the prefill phase to xPU and the decode phase to the Stratum NMP, following a similar strategy as in
+(
+Park et al., 2024
+)
+. Additionally, the lightweight topic classification is executed by the host processor.
+3.2.
+Stratum Near Memory Processing
+Figure
+7
+illustrates the architecture of Stratum NMP, which organizes processing components across multiple levels of the memory hierarchy—including chip, channel, and bank levels—to exploit the benefits of 3D integration. This architectural decision targets the acceleration of attention and expert computations, which are fundamental bottlenecks in MoE models.
+Figure
+7
+(a) illustrates the integration of the logic die processor with the Mono3D DRAM die. The logic die consists of multiple processing units (PUs), each coupled with a dedicated Mono3D DRAM channel. These PUs interconnect via a bidirectional ring-based on-chip network designed to optimize data communication patterns in LLM workloads, such as reduce-scatter and all-gather. Note that the ring network is only utilized in NMP mode. In regular memory operation mode, the logic die NMP remains inactive, ensuring minimal interference with traditional memory access patterns. In NMP mode, the xPU streams inputs (e.g., queries, hidden token vectors, etc.) to reserved rows in Mono3D DRAM banks with a standard DRAM interface. Upon computation completion, the xPU retrieves processed results by accessing the dedicated address space.
+Each PU aims to handle data assigned to its respective DRAM channel to avoid cross-channel DRAM access—a critical consideration given the massive volume of vertical routing between Mono3D DRAM and the logic die. Figure
+7
+(b) presents the PU microarchitecture, consisting of a near-bank processing element (PE) cluster, a shared memory, a special function engine, a ring router, and a reducer. The near-bank PE cluster integrates multiple PEs optimized for both GeMM and GeMV operations. The intra-channel reducer implemented with parallel reduction trees aggregates partial sums (psums) across multiple PEs within the channel as required. The ring router incorporates a local switch for efficient data routing during inter-PU communication and an aggregator for in-situ data reduction. Incoming data streams can be immediately accumulated in the router without going through the shared memory. The accumulated results can be stored locally in the PU or forwarded to neighboring PUs as needed. The special function engine performs special operations such as
+Softmax
+for attention mechanisms and other common activation functions (e.g.,
+SiLU
+,
+GeLU
+) in expert layers. It includes a vector register file, a scalar register file, and multiple arithmetic units. Operating in a single-instruction-multiple-data (SIMD) manner, the special function engine maximizes data reuse by decomposing complex functions into simple primitives and sourcing and storing operands or intermediate results within the vector and scalar register files.
+At the bank level, detailed in Figure
+7
+(c), each PE is designed to execute GeMM and GeMV operations. The bank-level PE consists of a tensor core integrated with specialized memory components: a matrix register file, a psum memory, and a simple local memory controller. The memory controller, directly interfacing with its corresponding DRAM bank, dynamically translates row addresses to specific memory tier identifiers through a programmable tiering table, enabling adaptive DRAM latency control (
+tRCD
+) for performance optimization. The row swap buffer stores temporary row data to support tier-to-tier data movement without requiring explicit external data fetching. The tensor core incorporates
+n
+n
+parallel
+k
+k
+-tap dot-product engines and
+n
+n
+local accumulators. The double-buffered psum memory structure concurrently supports intermediate result accumulation and output transfers. The processed outputs can be delivered to the special function engine for element-wise function evaluation or returned to the channel-level shared memory for subsequent computational steps.
+Stratum’s architecture, specifically optimized for hybrid bonding-based Mono3D DRAM integration, differs from HBM-centric NMP approaches such as AttAcc
+(
+Park et al., 2024
+)
+, Neupims
+(
+Heo et al., 2024
+)
+, and Duplex
+(
+Yun et al., 2024
+)
+. The on-chip ring network is designed to support MoE inference communication patterns (e.g., all-gather, reduce-scatter), eliminating the centralized global buffer and crossbar used in Duplex
+(
+Yun et al., 2024
+)
+, which improves scalability and simplifies physical design. Unlike Duplex
+(
+Yun et al., 2024
+)
+and AttAcc
+(
+Park et al., 2024
+)
+, which rely on dedicated
+Softmax
+units, our SIMD-based engine executes general non-linear operators with programming instructions. In addition, the processor is fully implemented on the logic die and hybrid-bonded to the Mono3D DRAM die, avoiding the DRAM fabrication process constraints and TSV bandwidth limitations observed in AttAcc
+(
+Park et al., 2024
+)
+and Neupims
+(
+Heo et al., 2024
+)
+. At the circuit level, Stratum introduces Mono3D DRAM-specific primitives—including tiering tables and row swap buffers—to exploit tiered memory latency and accelerate expert migration for MoE model serving.
+4.
+Stratum Operator Mapping and Execution
+4.1.
+Expert Processing
+The execution flow of an MoE layer consists of three main stages: token routing, expert computation, and result aggregation. As illustrated in Figure
+8
+(a), tokens from a batch may be routed to different experts based on routing decisions computed on the xPU. This is feasible due to the negligible computational cost of the routing step, which typically involves a lightweight linear layer (e.g., 4096 input and 8 output dimensions). Subsequently, only the activated experts—i.e., those assigned at least one token—are executed. Finally, the outputs from all experts are merged using a weighted sum to produce the final output tokens. Both the expert computation and result aggregation are executed by Stratum NMP processor.
+Figure 8.
+(a) Example of MoE’s token-to-expert mapping. (b) The computation stages of an expert with
+M
+M
+routed tokens and matrix partition, assuming four PUs for simplicity. (c) The step-by-step execution of the MoE layer in Stratum.
+The computation of a single expert in MoE models typically consists of three cascaded GeMM operations
+(
+Jiang et al., 2024
+;
+AI, 2025
+)
+, as shown in Figure
+8
+(b). Let
+M
+M
+denote the number of tokens routed to one expert in the current batch,
+K
+K
+the hidden dimension, and
+N
+N
+the intermediate dimension. First, the input hidden matrix
+𝐗
+𝟏
+\mathbf{X_{1}}
+of size
+M
+×
+K
+M\times K
+is multiplied by two weight matrices of size
+K
+×
+N
+K\times N
+to produce intermediate matrices
+𝐙
+𝟏
+\mathbf{Z_{1}}
+and
+𝐙
+𝟐
+\mathbf{Z_{2}}
+(both of size
+M
+×
+N
+M\times N
+). A non-linear, element-wise activation is applied to
+𝐙
+𝟏
+\mathbf{Z_{1}}
+, and the result is combined with
+𝐙
+𝟐
+\mathbf{Z_{2}}
+via a Hadamard product to form
+𝐗
+𝟐
+\mathbf{X_{2}}
+. Finally,
+𝐗
+𝟐
+\mathbf{X_{2}}
+is multiplied by a projection-down weight matrix of size
+N
+×
+K
+N\times K
+, producing the output
+𝐙
+𝟑
+\mathbf{Z_{3}}
+of size
+M
+×
+K
+M\times K
+.
+Partitioning Strategy.
+In practice, different experts may receive different numbers of tokens. Furthermore, experts may be mapped to different tiers within the Mono3D DRAM hierarchy, each with varying memory access latency, further exacerbating load imbalance. Thus, distributing multiple experts across PUs could cause serious workload imbalance issues between PUs.
+To address this, the execution of multiple chosen experts is scheduled sequentially, e.g., one expert at a time. All PUs collaborate to process one expert at a time using tensor parallelism. This requires each matrix involved in all three GeMM operations to be partitioned into tiles, each assigned to a PU for parallel execution. Figure
+8
+(b) illustrates the matrix partitioning scheme used in Stratum, where only four PUs are assumed for simplicity. Partitioning along different dimensions introduces trade-offs among input duplication, weight duplication, and partial sum aggregation. We avoid splitting along the
+M
+M
+dimension to prevent duplication of expert weights, which dominate memory usage. Instead, we split the weight matrix of the GeMM1 and GeMM2 vertically, while horizontally for GeMM3. Such a method eliminates data communication between projection-up and projection-down stages at the cost of duplicating
+𝐗
+t
+{\bf{X}}_{t}
+to multiple PUs initially and then gathering partial results from multiple PUs for
+𝐙
+3
+{\bf{Z}}_{3}
+. Note that the cost of duplicating
+𝐗
+t
+{\bf{X}}_{t}
+is well amortized, as the input matrix
+𝐗
+1
+{\bf{X}}_{1}
+for all active experts is derived from
+𝐗
+t
+{\bf{X}}_{t}
+(i.e., the collection of tokens in the batch). In addition, the gathering from multiple PUs and reduction for
+𝐙
+3
+{\bf{Z}}_{3}
+can be computed in parallel with the next expert processing, effectively hiding the latency.
+Execution Stages.
+Figure
+8
+(c) illustrates the step-by-step execution flow of the MoE layer. The xPU begins by sending the batch of input tokens, along with the corresponding expert IDs and scaling weights, to the Mono3D DRAM and switches the Mono3D DRAM to NMP mode (step
+1
+). Due to the adopted matrix partitioning strategy, each Mono3D DRAM channel must receive the entire input token matrix. Next, the Stratum NMP processor executes the activated experts sequentially through steps
+2
+–
+7
+. In steps
+2
+and
+3
+, the tensor cores in all PEs execute the two projection-up GeMM operations to compute the intermediate results
+𝐙
+1
+\mathbf{Z}_{1}
+and
+𝐙
+2
+\mathbf{Z}_{2}
+. Steps
+4
+and
+5
+involve applying the activation function and performing the Hadamard product using the special function engines. Thanks to the matrix splitting strategy, no inter-PU communication is needed for each PU to obtain its required input slice for the third GeMM. The third GeMM is executed in step
+6
+, followed by a reduce-scatter operation to accumulate the final output matrix
+𝐙
+3
+\mathbf{Z}_{3}
+across PUs. Steps
+2
+–
+7
+are then repeated for each of the remaining activated experts. In step
+9
+, the special function engines perform a weighted sum across expert outputs to produce the final output tokens, which are written back to the designated DRAM memory space. Finally, in step
+10
+, the Mono3D DRAM exits NMP mode, and the xPU retrieves the computed tokens by accessing the designated address space.
+Figure 9.
+Optimized timing diagram of the expert processing.
+Execution Optimization.
+Figure
+9
+presents an optimized execution pipeline designed to maximize utilization of compute and communication resources. First, to mitigate the latency of xPU-to-Mono3D DRAM data transfer, the input token matrix is partitioned into multiple slices, with each slice sent to a distinct Mono3D DRAM channel. This reduces input preparation overhead, and a subsequent all-gather operation, enabled by the high-speed logic die ring network, reconstructs the full input matrix for all PUs. Second, the computation of GeMM2 is overlapped with the activation function evaluation, as there are no data dependencies between them, enabling better pipeline utilization. Third, the reduce-scatter communication associated with GeMM3 is parallelized with the GeMM1 execution of the next expert, thereby hiding communication latency behind computation. Finally, the weighted-sum operation is performed immediately by the special function engines as soon as each expert’s output becomes available, minimizing idle cycles and improving overall throughput.
+Within each PU, communication overhead among PEs is negligible due to the high-bandwidth shared memory. As a result, intra-PU matrix partitioning is primarily focused on maximizing tensor core mapping utilization. To this end, the longer dimension of the weight matrix is partitioned, and the resulting sub-tiles are distributed across PEs for parallel processing. Therefore, the projection-up weight slices
+𝐖
+1
+,
+2
+​
+[
+i
+]
+{\mathbf{W}}_{1,2}[i]
+are typically partitioned horizontally, while the projection-down weight slice
+𝐖
+3
+​
+[
+i
+]
+{\mathbf{W}}_{3}[i]
+is partitioned vertically across PEs to optimize compute efficiency.
+4.2.
+Attention Processing
+The generation task in Large Language Models (LLMs) is often bottlenecked by data access to the key–value (KV) cache. Stratum addresses this issue efficiently by leveraging the high bandwidth between Mono3D DRAM and the NMP logic on the base die. However, to fully exploit this bandwidth, it is critical to effectively process the data fetched vertically from the DRAM layers on time. Otherwise, the available bandwidth may be underutilized due to computational or communication bottlenecks within the logic die.
+Figure 10.
+Execution of attention layer. (a) Heads (e.g., eight) assignment across PU groups (e.g., four). Intra-PU group: (b) Attention operator mapping. (c) Concurrent processing of multiple heads (e.g., two).
+Stratum leverages head-level parallelism to efficiently execute attention operations due to the absence of data dependencies across attention heads. Figure
+10
+(a) illustrates the assignment of attention head tasks on the logic die. Multiple attention heads from a group of requests can be assigned across Mono3D DRAM devices. The number of assigned heads can change depending on the network models, such as the common grouped query attention in MoE models
+(
+AI, 2025
+;
+Jiang et al., 2024
+)
+and the concurrency of requests under a service latency requirement.
+To provide a processing architecture for diverse head-level parallelism, the PUs on the logic die can be flexibly partitioned into multiple PU groups of variable sizes, provided that the PUs within a group are neighbors connected through the on-chip ring topology as shown in Figure
+10
+(a), where PUs connected with arrows indicate the PUS on the ring. This arrangement also allows efficient intra-group communication via high-speed bi-directional links. We assign at least two heads per group to enable interleaved processing across different computation stages for the enhanced throughput and hardware utilization—for example, one head may perform a linear operation while another executes the
+Softmax
+.
+Figure
+10
+(b) depicts how key and value matrices of a single head are partitioned across PUs within a PU group. Typically, the sequence length dimension (e.g., 512–32k tokens) is significantly larger than the attention head dimension (e.g., 64–128), motivating us to partition along the sequence length dimension. However, the
+Softmax
+operation inherently requires global information across all tokens, i.e., the global maximum (i.e.,
+row
+​
+_
+​
+max
+​
+(
+S
+​
+c
+​
+o
+​
+r
+​
+e
+​
+s
+)
+{\rm row\_max}(Scores)
+) and the global sum of exponentials (i.e.,
+∑
+exp
+⁡
+(
+S
+​
+c
+​
+o
+​
+r
+​
+e
+​
+s
+−
+row
+​
+_
+​
+max
+​
+(
+S
+​
+c
+​
+o
+​
+r
+​
+e
+​
+s
+)
+)
+\sum\exp(Scores-{\rm row\_max}(Scores))
+) for normalization
+(
+Ham et al., 2020
+)
+. Fortunately, each PU can independently compute local maxima and sums using its dedicated special function engine, requiring only scalar exchanges between PUs to derive global values. To balance the workloads of PUs in the decoding stage, the newly generated key-value pairs are distributed across different PUs within a PU group in a round-robin manner.
+Figure
+10
+(c) presents the optimized execution flow of multiple attention heads within a PU group. Initially, the xPU writes computed key-value pairs into the corresponding DRAM channels. Queries (which may be grouped query matrices) are partitioned into slices, each allocated to a distinct DRAM channel within a PU group.
+Subsequently, all PUs in the group obtain the complete query matrix via a sub-ring all-gather operation, analogous to the MoE layer. When multiple heads are assigned to the same PU group, the
+Softmax
+operation can be interleaved with the
+q
+​
+u
+​
+e
+​
+r
+​
+y
+×
+k
+​
+e
+​
+y
+query\times key
+and
+a
+t
+t
+n
+.
+×
+v
+a
+l
+u
+e
+attn.\times value
+operators to minimize the overall latency. Note that the
+Softmax
+operator is split into three steps with two rounds of inter-PU communications as shown in Figure
+10
+. Finally, the latency of the reduce-scatter of the first head can be hidden in the
+a
+t
+t
+n
+.
+×
+v
+a
+l
+u
+e
+attn.\times value
+operation of the second head.
+In summary, Stratum best utilizes the vertical bandwidth enabled by hybrid bonding through optimized data placement, operator mapping, and scheduling. The system applies tensor parallelism across all PU for expert computation and uses grouped-PU head parallelism for attention. Both strategies direct most memory accesses to local Mono3D DRAM banks through hybrid bonding I/Os.
+The remaining inter-PU communication, such as all-gather, reduce-scatter, or scalar exchange, is efficiently supported by the on-chip ring network. Additionally, the scheduler overlaps matrix operations (e.g., GeMM and GeMV) with special-function computations (e.g.,
+SiLU
+and
+Softmax
+), coordinating on-chip communication and compute to improve overall parallelism.
+4.3.
+Design with Physical Constraints
+The integration of Mono3D DRAM and the logic die processor via hybrid bonding must satisfy both thermal and area constraints. In the NMP mode, the system could be limited by a peak power budget,
+P
+p
+​
+e
+​
+a
+​
+k
+P_{peak}
+, determined by thermal analysis (see §
+6.2.2
+), leading to the power constraint as follows:
+(1)
+P
+d
+​
+r
+​
+a
+​
+m
++
+P
+c
+​
+o
+​
+m
+​
+p
+​
+u
+​
+t
+​
+e
++
+P
+m
+​
+i
+​
+s
+​
+c
+≤
+P
+p
+​
+e
+​
+a
+​
+k
+,
+P
+d
+​
+r
+​
+a
+​
+m
+=
+B
+W
+f
+​
+a
+​
+s
+​
+t
+​
+_
+​
+t
+​
+i
+​
+e
+​
+r
+⋅
+E
+b
+,
+P
+c
+​
+o
+​
+m
+​
+p
+​
+u
+​
+t
+​
+e
+=
+N
+m
+​
+a
+​
+c
+⋅
+f
+l
+​
+o
+​
+g
+​
+i
+​
+c
+⋅
+E
+m
+​
+a
+​
+c
+.
+\begin{array}[]{l}{P_{dram}}+{P_{compute}}+{P_{misc}}\leq{P_{peak}},\\
+{P_{dram}}=B{W_{fast\_tier}}\cdot{E_{b}},\;\;\,{P_{compute}}={N_{mac}}\cdot{f_{logic}}\cdot{E_{mac}}.\end{array}
+Here,
+B
+​
+W
+f
+​
+a
+​
+s
+​
+t
+​
+_
+​
+t
+​
+i
+​
+e
+​
+r
+BW_{fast\_tier}
+is the peak bandwidth of the fastest tier in Mono3D DRAM tier,
+E
+b
+E_{b}
+represents the energy per bit for the data transfer from the DRAM layer to the logic die via hybrid bonding,
+N
+m
+​
+a
+​
+c
+N_{mac}
+is the total number of multiply-accumulate (MAC) units in tensor cores,
+f
+l
+​
+o
+​
+g
+​
+i
+​
+c
+f_{logic}
+is the logic die operating frequency, and
+E
+m
+​
+a
+​
+c
+E_{mac}
+is the energy per MAC operation. The miscellaneous power,
+P
+m
+​
+i
+​
+s
+​
+c
+P_{misc}
+, includes logic die SRAMs, register files, routers, special function engines, intra-PU reducers, and local memory controllers, varying according to the operator type and dataflow.
+While hybrid bonding-based data I/O does not consume an active area in the logic die, TSVs remain necessary for power delivery to both DRAM and logic dies
+(
+Yue et al., 2024
+)
+. Consequently, the following area constraint must hold:
+(2)
+A
+P
+​
+D
++
+N
+m
+​
+a
+​
+c
+⋅
+A
+m
+​
+a
+​
+c
++
+A
+P
+​
+H
+​
+Y
++
+A
+p
+​
+e
+​
+r
+​
+i
++
+A
+m
+​
+i
+​
+s
+​
+c
+≤
+α
+​
+A
+c
+​
+h
+​
+i
+​
+p
+,
+A_{PD}+N_{mac}\cdot A_{mac}+A_{PHY}+A_{peri}+A_{misc}\leq\alpha A_{chip},
+where
+A
+P
+​
+D
+A_{PD}
+is the total TSV for power delivery,
+A
+m
+​
+a
+​
+c
+A_{mac}
+is the area per MAC unit operating at
+f
+l
+​
+o
+​
+g
+​
+i
+​
+c
+f_{logic}
+,
+A
+P
+​
+H
+​
+Y
+A_{PHY}
+represents the area of the physical communication layer of xPU-DRAM interface,
+A
+p
+​
+e
+​
+r
+​
+i
+A_{peri}
+is the area of low-voltage Mono3D DRAM peripherals on the logic die such as D/Q buffer, level shifters and others, and
+A
+m
+​
+i
+​
+s
+​
+c
+A_{misc}
+captures miscellaneous logic area components similar to those outlined for
+P
+m
+​
+i
+​
+s
+​
+c
+P_{misc}
+, and
+α
+\alpha
+is the target utilization. Assuming a single TSV with area
+A
+T
+​
+S
+​
+V
+A_{TSV}
+can deliver
+I
+T
+​
+S
+​
+V
+I_{TSV}
+current, the total TSV area is given by:
+(3)
+A
+P
+​
+D
+=
+(
+P
+d
+​
+r
+​
+a
+​
+m
+​
+_
+​
+c
+V
+d
+​
+r
+​
+a
+​
+m
+​
+_
+​
+c
++
+P
+d
+​
+r
+​
+a
+​
+m
+​
+_
+​
+p
+V
+d
+​
+r
+​
+a
+​
+m
+​
+_
+​
+p
++
+P
+c
+​
+o
+​
+m
+​
+p
+​
+u
+​
+t
+​
+e
++
+P
+m
+​
+i
+​
+s
+​
+c
+V
+l
+​
+o
+​
+g
+​
+i
+​
+c
+)
+​
+A
+T
+​
+S
+​
+V
+I
+T
+​
+S
+​
+V
+,
+P
+d
+​
+r
+​
+a
+​
+m
+​
+_
+​
+c
++
+P
+d
+​
+r
+​
+a
+​
+m
+​
+_
+​
+p
+=
+P
+d
+​
+r
+​
+a
+​
+m
+\begin{array}[]{l}{A_{PD}}=(\frac{{{P_{dram\_c}}}}{{{V_{dram\_c}}}}+\frac{{{P_{dram\_p}}}}{{{V_{dram\_p}}}}+\frac{{{P_{compute}}+{P_{misc}}}}{{{V_{logic}}}})\frac{{{A_{TSV}}}}{{{I_{TSV}}}},\\
+{P_{dram\_c}}+{P_{dram\_p}}={P_{dram}}\end{array}
+where
+V
+d
+​
+r
+​
+a
+​
+m
+​
+_
+​
+c
+V_{dram\_c}
+,
+V
+d
+​
+r
+​
+a
+​
+m
+​
+_
+​
+p
+V_{dram\_p}
+, and
+V
+l
+​
+o
+​
+g
+​
+i
+​
+c
+V_{logic}
+denotes the supply voltage of Mono3D DRAM core, high-voltage peripherals, and low-voltage logic die. Equations (
+1
+)(
+2
+)(
+3
+) will be used to guide the design configuration of the logic die processor (see §
+6.2.3
+).
+5.
+Stratum Algorithm-System Co-Optimizations
+5.1.
+Expert Usage Prediction
+As discussed in §
+2.2
+, pre-trained MoE models often exhibit domain-specific expert specialization at inference time
+(
+Yao et al., 2024
+)
+, as shown in Figure
+4
+. Given that one of the main challenges in MoE inference is handling the large total parameter size across all experts, this specialization presents a valuable opportunity for efficient inference and serving.
+When expert specialization aligns with specific query topics, it becomes possible to optimize the placement of MoE experts. For a given topic, experts with higher usage probabilities (hit rates) can be mapped to faster Mono3D DRAM tiers, reducing the latency for the data transfer from DRAM to the base logic dies.
+To enable MoE expert mapping, a key component of Stratum is a topic classifier that tags incoming queries. This allows the Stratum scheduler to estimate the topic distribution of each query. Combined with a per-topic expert usage table (as shown in Figure
+6
+), the scheduler assigns experts’ weight matrices to the appropriate expert tiers. Our implementation trains a DistillBERT-based
+(
+Devlin et al., 2019
+;
+Sanh et al., 2019
+)
+topic classifier with 67M parameters on 6 topics as part of our online serving system built on Stratum.
+To account for distribution shifts from standard NLP datasets to the diverse prompting styles observed in real serving queries,
+we employ a data synthesis pipeline that uses GPT-4o-based rewriting to augment the training data.
+Due to their compact size, our topic classifiers introduce less than 2% latency overhead per decoding step at moderate request rates (fewer than four queries per second) on our experimental setup, while achieving 85.0% and 81.0% classification accuracy on real-world serving datasets (Chatbot Arena conversations
+(
+chi, 2024
+)
+) for the 6-topic model, respectively. Further details on data augmentation, training, and evaluation are provided in §
+6.3.1
+.
+5.2.
+Data Placement Strategy
+Figure 11.
+Example expert placement optimization for Mono3D DRAM-NMP system with tiered memory.
+Algorithm 1
+Expert Weight Placement
+0:
+#Layers
+L
+L
+; #experts per layer
+K
+K
+; #active experts
+k
+k
+;
+usage frequencies
+ℱ
+=
+{
+f
+p
+l
+∣
+p
+∈
+[
+1
+,
+K
+]
+,
+l
+∈
+[
+1
+,
+L
+]
+}
+\mathcal{F}=\{f_{p}^{l}\mid p\!\in\![1,K],\,l\!\in\![1,L]\}
+;
+one expert weight size
+S
+E
+S_{E}
+(bytes); DRAM banks
+N
+bank
+N_{\text{bank}}
+; DRAM row-buffer size
+S
+rb
+S_{\text{rb}}
+(bytes); #rows DRAM reserved for NMP data
+Φ
+\Phi
+.
+0:
+DRAM row address intervals for all expert weights
+{
+[
+a
+p
+l
+,
+b
+p
+l
+]
+∣
+p
+∈
+[
+1
+,
+K
+]
+,
+l
+∈
+[
+1
+,
+L
+]
+}
+\{[a_{p}^{l},b_{p}^{l}]\mid p\!\in\![1,K],\,l\!\in\![1,L]\}
+.
+1:
+Δ
+←
+⌈
+S
+E
+N
+bank
+​
+S
+rb
+⌉
+\Delta\leftarrow\left\lceil\dfrac{S_{E}}{N_{\text{bank}}\,S_{\text{rb}}}\right\rceil
+//
+#rows occupied by one expert
+2:
+τ
+←
+k
+​
+L
+\tau\leftarrow kL
+//
+threshold of #specified fast experts
+3:
+Sort
+ℱ
+\mathcal{F}
+in descending order to obtain
+⟨
+f
+p
+1
+l
+1
+,
+…
+,
+f
+p
+K
+​
+L
+l
+K
+​
+L
+⟩
+\langle f_{p_{1}}^{l_{1}},\dots,f_{p_{KL}}^{l_{KL}}\rangle
+4:
+for
+i
+=
+1
+i=1
+to
+K
+​
+L
+KL
+do
+5:
+if
+i
+≤
+τ
+i\leq\tau
+then
+6:
+a
+p
+i
+l
+i
+←
+(
+i
+−
+1
+)
+​
+Δ
+a_{p_{i}}^{l_{i}}\leftarrow(i-1)\Delta
+7:
+else
+8:
+a
+p
+i
+l
+i
+←
+Φ
+−
+(
+K
+​
+L
+−
+i
++
+1
+)
+​
+Δ
+a_{p_{i}}^{l_{i}}\leftarrow\Phi-(KL-i+1)\Delta
+9:
+end
+if
+10:
+b
+p
+i
+l
+i
+←
+a
+p
+i
+l
+i
++
+Δ
+−
+1
+b_{p_{i}}^{l_{i}}\leftarrow a_{p_{i}}^{l_{i}}+\Delta-1
+11:
+end
+for
+12:
+return
+{
+[
+a
+p
+l
+,
+b
+p
+l
+]
+∣
+p
+∈
+[
+1
+,
+K
+]
+,
+l
+∈
+[
+1
+,
+L
+]
+}
+\{[a_{p}^{l},b_{p}^{l}]\mid p\!\in\![1,K],\,l\!\in\![1,L]\}
+Stratum categorizes the data within the MoE model into four types: hot expert weights, cold expert weights, KV cache, and non-NMP data. Hot experts include shared experts and other experts exhibiting high routing-hit probabilities for a given topic. Non-NMP data primarily consists of miscellaneous parameters such as positional embedding parameters, layer norm shift and scale parameters, and others. These are generally used for computation in the external processor rather than the NMP. By leveraging heterogeneous access latencies across different memory tiers, a data placement strategy can be optimized to enhance the serving performance.
+As shown in Figure
+11
+, Stratum assigns non-NMP data, which is processed by the xPU, to the slowest memory tier, as accessing it requires traversing the interposer bottleneck, which is an order of magnitude slower than the internal DRAM bandwidth of the slowest tier. This helps preserve the faster memory tiers exclusively for NMP-related workloads. Stratum classifies experts into hot and cold categories based on offline profiling of topic-specific requests, assigning hot experts to faster memory tiers and cold experts to slower ones. This placement ensures that hot experts benefit from low-latency access provided by faster Mono3D DRAM memory tiers. The expert weight placement is detailed in Algorithm
+1
+. Each expert weight is partitioned into shards and distributed across Mono3D DRAM banks according to the tensor parallelism strategy (see §
+4.1
+). The mapping from physical row addresses obtained from Algorithm
+1
+to logical memory tiers functions as a quantization process, configurable via the tiering table (see §
+3.2
+). In our evaluation, we adopt a uniform mapping strategy that assigns an equal number of rows to each memory tier (see §
+6.2.1
+). KV cache data, whose capacity dynamically changes as request generation progresses, is stored in intermediate-speed memory. Upon completing the processing of one topic (e.g., topic A), the Stratum scheduler transitions to a new topic (e.g., topic B) and initiates expert swapping based on the expert activation frequencies of the new topic. To avoid costly host-processor transfers, this swapping is executed using near-memory operations, as detailed in §
+3.2
+. Specifically, the local memory controller performs the swap between two DRAM rows by temporarily buffering them in a dedicated row-swap buffer (see Figure
+7
+(c)) before writing them back to their new row addresses.
+6.
+Evaluation
+6.1.
+Experimental Setup
+6.1.1.
+Monolithic 3D-Stackable DRAM Configuration
+Figure 12.
+Mono3D DRAM bank configuration. The performance is simulated from NeuroSim
+(
+Lee et al., 2024
+)
+and Coventor process simulator
+(
+Coventor, [n. d.]
+)
+.
+For Mono3D DRAM technology, we adopt the vertical bitline connections for 3D stackable horizontal 1T1C. We design the Mono3D DRAM scaled to 1024 layers and define the bank structure as in Figure
+12
+, where 1024 BLs
+×
+\times
+1024 WLs form a MAT and 1024 MATs form a bank.
+To illustrate the impact of heterogeneous integration, Figure
+13
+presents a 3D view of the proposed Mono3D DRAM bank.
+The high-voltage circuits are implemented beneath the memory array using a mature CMOS-under-array process, while the low-voltage circuits are fabricated on an advanced CMOS die and later hybrid-bonded to the memory tiers through Cu–Cu bonding pads. In this work, we leverage the 32 nm technology node for the CUA process and the 7 nm technology node for the bonded CMOS tier.
+To obtain the bank-level results, we utilize the Coventor process model
+(
+Coventor, [n. d.]
+)
+for RC parameter extraction of the 3D DRAM array, and combine it with the peripheral circuit results extracted from NeuroSim
+(
+Lee et al., 2024
+)
+merging with the timing of DDR5 Standards
+(
+jed, 2020
+)
+, as shown in Figure
+12
+. The 1T1C model of Mono3D DRAM is built by the Coventor SEMulator3D process simulator
+(
+Coventor, [n. d.]
+)
+based on a 3D DRAM structure specification in
+(
+Han et al., 2023
+)
+. The detailed parameters are listed in Table
+1
+. The overall Mono3D DRAM achieves a memory density of 2.156 Gb/mm
+2
+, which is
+5.2
+×
+5.2\times
+higher than that of the latest 32Gb DDR5 die (0.417 Gb/mm
+2
+(
+Choi et al., 2024a
+)
+). It provides an internal bandwidth ranging from 19.01 TB/s to 30.34 TB/s, depending on the memory tier.
+Figure 13.
+Mono3D DRAM array with heterogeneous integration, hybrid-bonding and CMOS-under-array (CUA).
+Table 1.
+Monolithic 3D-Stackable DRAM Parameters
+Mono3D DRAM Device Parameters
+#layers
+1024
+Feature Size
+35 nm
+BL/WL Pitch
+70 nm/1 um
+Staircase Pitch
+500 nm
+MAT Size
+1k
+×
+\times
+1k
+#MATs/Bank
+32
+×
+\times
+32
+Bank Capacity
+1 Gb
+Bank Area
+0.439 mm
+2
+Row Buffer
+32 Kb
+Energy/bit
+0.429 pJ
+Chip Area
+121 mm
+2
+Chip Capacity
+32GB
+Mono3D DRAM System Parameters
+Tier Design
+8 tiers; 4GB capacity per tier.
+Organization
+16 channels per chip (64b data I/O per channel);
+16 banks per channel.
+DRAM Timing
+tRCD=[2.29,3.92,5.99,8.50,11.44,14.82,18.63,22.88] ns;
+tRP=4.77ns; tRAS=tRCD+27.50ns; tRC=tRP+tRAS.
+xPU-DRAM I/F
+1024b data I/Os; 6.4 Gbps per pin (same as HBM3)
+6.1.2.
+Logic Die Processor Modeling
+The components of the Stratum logic die processor are implemented using SystemVerilog and synthesized using Cadence Genus
+(
+Cadence, 2024
+)
+with the 7nm predictive process design kit ASAP7
+(
+Clark et al., 2016
+)
+. The hardware employs the IEEE754 FP-16 arithmetic data format
+(
+IEE, 2019
+)
+, widely adopted for LLM inference serving. The local psum memory and shared memory on the logic die are implemented with SRAMs modeled by FinCACTI
+(
+Shafaei et al., 2014
+)
+, calibrated with publicly available SRAM specifications
+(
+Hu et al., 2024
+;
+Chang et al., 2017
+)
+.
+The area measurements for the Stratum NMP processor components are obtained from synthesis reports. Energy consumption is determined through the simulations with post-synthesis netlists, which include annotated switching activity derived from random stimulus inputs. Execution cycles, on-chip communication cycles, and associated energy metrics are derived from an in-house simulator. The simulator takes as input tensor size information, parameter tier assignments (e.g., expert parameters or KV cache), attention head mappings, and routed expert IDs, along with the delay and energy parameters for each component. It outputs the overall execution time as well as detailed energy breakdowns at the component level.
+6.1.3.
+System modeling
+Table 2.
+Evaluation Workload Setup
+Model
+Size
+Experts
+GPU Baseline
+Stratum
+OLMoE-1B-7B
+(
+Muennighoff et al., 2024
+)
+7B
+64 choose 8
+RTX A6000
+Stratum-S
+Mixtral 8
+×
+\times
+7B
+(
+Jiang et al., 2024
+)
+47B
+8 choose 2
+2
+×
+\times
+H100
+Stratum-L
+Qwen2.5-32B
+(
+Yang et al., 2024
+)
+32B
+Non-MoE
+2
+×
+\times
+H100
+Stratum-L
+Llama-4-Scout
+(
+AI, 2025
+)
+109B
+1 shared
++ 16 choose 1
+4
+×
+\times
+H100
+Stratum-XL
+We evaluate with models (both MoE and regular LLMs) and system configurations shown in Table
+2
+. Each GPU baseline and Stratum configuration is chosen to support the maximum evaluated context length without degrading performance. The GPU baselines are evaluated using vLLM 0.8.1
+(
+Kwon et al., 2023
+)
+under benchmark throughput mode using NVIDIA RTX A6000 or H100 SXM5 HBM3 GPUs for different Stratum configurations. The GPU energy is derived from the NVIDIA-SMI tool.
+The system-level simulator contains a Request Generator, SLO-Aware Scheduler, Memory and Computation Mapper, and interfaces to Stratum NMP simulator, in accordance with Figure
+6
+. The Request Generator models a Poisson process in which the incoming queries of certain topics arrive at defined rates. Taking into consideration serving SLO, the scheduler dynamically batches input queries to the Stratum processor for inference and prioritizes dispatching input queries of the same topic to maximize hot expert hits. Using the prior knowledge of the expert usage table, the memory mapper aggregates the topics in the batch and calculates expert placements for Mono3D DRAM that maximize hot expert hit, as shown in Algorithm
+1
+. A memory reconfiguration is executed between dispatches to relocate experts. Energy and latency consumed by xPU and NMP are accumulated during simulated serving.
+6.2.
+Hardware Evaluation
+6.2.1.
+Tiering in 3D-DRAM
+Figure 14.
+Mono3D DRAM latency across WL layers. The inset illustrates various access latencies according to the increasing WL RC delay when scaling the staircase for increasing WL layers.
+As illustrated in Figure
+14
+, Mono3D DRAM exhibits the almost linearly scaled access latency associated with the extending WL staircase structure for accessing various WL layers. As Mono3D DRAM vertically scaled with increasing WL layers, WL parasitics corresponding to the area of the staircase are also scaled, leading to a longer RC delay. Although the critical path for the bottommost WL suffers from long latency, the topmost WL has a shorter access latency, facilitating further optimization at the system level. In this work, we introduce the memory tiering technique for Mono3D DRAM. We define 8 timing tiers in Mono3D DRAM corresponding to different layers as shown in Figure
+14
+. The fast tier achieves 1.6
+×
+\times
+faster access than the slowest tier.
+6.2.2.
+Power and area budget.
+Power.
+The vertically integrated memory and logic dies require precise thermal modeling to determine the logic die’s power budget. We performed thermal simulations using the HotSpot
+(
+Skadron et al., 2003
+;
+Stan et al., 2003
+)
+simulator for 3D IC. We consider high-end liquid cooling solutions with vapor chamber heat sinks. The heat sink is characterized by the following parameters: a convection capacitance of 75 J/K, a convection resistance of 0.01 W/K, and a thickness of 1 mm. The material properties include a thermal conductivity of 5000 J/(m
+⋅
+\cdot
+K) and a specific heat capacity of
+10
+6
+10^{6}
+J/(m
+3
+⋅
+{}^{3}\cdot
+K). The thermal conductivity values are adopted from previous studies on vapor chamber thermal modeling
+(
+Muneeshwaran et al., 2022
+;
+Inc., 2025
+)
+. Additionally, advanced cooling fluids, such as phase change materials, achieve significantly reduced convection resistance of approximately
+0.01
+​
+W
+/
+K
+\mathrm{0.01\,W/K}
+(
+Egbo, 2022
+;
+Murrieta-Cortes et al., 2024
+)
+. Furthermore, we derived convection capacitance, heat sink thickness, and vapor specific heat parameters, explicitly considering the differences between conventional and vapor chamber heat sinks. Prior research demonstrates that state-of-the-art cooling methods for 3D ICs effectively manage power densities ranging up to
+200
+​
+W
+/
+cm
+2
+\mathrm{200\,W/cm^{2}}
+(
+Kim et al., 2010
+)
+. Assuming full utilization of Mono3D DRAM internal bandwidth at 30.34 TB/s, each Mono3D DRAM die consumes approximately 104 W. Given the safe temperature for memory and data
+(
+Han et al., 2021
+)
+, we conclude the logic die power caps at around 45W per chip.
+Area.
+The Mono3D DRAM maintains compatibility with the xPU-DRAM interposer interface utilized by HBM3
+(
+Park et al., 2022
+)
+, thereby requiring an HBM3 PHY module. The PHY module’s area overhead, computed for 16 physical channels each supporting 64-bit data I/O at 6.4 Gbps, totals 23.94 mm
+2
+(
+Choi et al., 2024b
+;
+Stillmaker and Baas, 2017
+)
+. The logic die also has low-voltage Mono3D DRAM peripherals such as DQ buffer, level shifter, and address decoder, occupying 14.80 mm
+2
+. Power delivery to both Mono3D DRAM and the logic dies involves TSVs extending through the logic die from the interposer. Each TSV with an area of 25
+μ
+\mu
+m
+2
+can deliver up to 36 mA
+(
+Yue et al., 2024
+)
+. To accommodate peak power of 104 W for the Mono3D DRAM and 45W for the logic processor, the TSVs introduce an area overhead of 0.21 mm
+2
+when considering a 2:1 redundancy scheme. The logic die matches the Mono3D DRAM die area of 121 mm
+2
+(i.e., the base die dimensions of HBM3
+(
+Park et al., 2022
+)
+). Thus, the available area budget for the logic die processor is 82 mm
+2
+.
+6.2.3.
+logic die processor.
+Table 3.
+Stratum Logic Die Processor Specification
+Processing Element (PE)
+Tensor Core
+16
+×
+\times
+16MACs
+Tiering Table
+16
+×
+\times
+16b Registers
+Psum SRAM
+64 KB
+Row Swap Buffer
+8KB RF
+Processing Unit (PU)
+#PEs
+16
+Shared Memory
+1.25 MB
+Special Func. Engine
+256-way SIMD
+Ring Router
+128 GB/s/link
+Stratum NMP Processor
+Basic
+7 nm process; 0.7 V supply; 121 mm
+2
+die area; FP16 format.
+#PUs
+16
+SRAM Capacity
+36 MB
+Peak Performance
+128 TFLOPS
+Peak Power
+43 W
+Aggregated On-chip
+Ring Bandwidth
+2.048 TB/s
+Aggregated Mono3D
+DRAM Bandwidth
+19.01-34.34 TB/s
+Figure 15.
+(a) Area breakdown of logic die processor; (b) Power breakdown of Mono3D DRAM-Logic Die at peak performance.
+Table
+3
+summarizes the specifications of the Stratum logic die processor at the PE, PU, and chip hierarchy levels. We calculated the maximum number of MAC units using Equation (
+1
+), employing a simulated per-MAC-operation energy of
+E
+m
+​
+a
+​
+c
+=
+0.604
+E_{mac}=0.604
+pJ. The processor achieves a peak performance of 128 TFLOPS with 64k MAC units operating at 1 GHz. The PE tensor core is arranged into a 16
+×
+\times
+16 array, providing a balanced matrix tile size to optimize utilization across diverse GeMM sizes. Additionally, a programmable tiering table stores row addresses of the last Mono3D DRAM layer and the tRCD for each tier. The incoming row addresses are compared with eight stored addresses to expedite tRCD lookup. The communication-computation optimizations adopted enable the on-chip ring to require only 128 GB/s bandwidth per link without performance degradation based on the system-level simulation. Figure
+15
+presents the area and power breakdown of the Stratum NMP stack. The total area occupied by the active logic is 76.63 mm
+2
+, which falls within the 121 mm
+2
+area budget, yielding a utilization of 63%. The area is predominantly consumed by the PEs, which dominate the PU-level area. The tiering table introduces only a minimal overhead of 0.1% of the PE area within each PE. The Stratum NMP stack reaches a peak power of 144.53 W when the fastest Mono3D DRAM tier is accessed concurrently with full tensor core utilization. The total power of the logic die is 42.67 W, including compute, on-chip communication, and logic-die memory access, under the 45W power budget.
+6.3.
+System Evaluation
+6.3.1.
+Algorithm Evaluation
+Figure 16.
+Evaluation and comparison of system decoding throughput and energy efficiency.
+Model.
+Our model is based on DistilBERT
+(
+Sanh et al., 2019
+)
+with 67M parameters and designed for multi-topic text classification, supporting sequences of up to 1024 tokens. It features a compact architecture with 6 transformer layers and 12 attention heads, with a hidden dimension of 3072.
+Data.
+Our model training involves a customized data mix across 6 topics. The datasets include a 2% split of Pile of Law for legal topic
+(
+Henderson et al., 2022
+)
+, 1 out of 3 splits from atlas converse and INCLUDE for humanity topic
+(
+AtlasUnified, 2023
+;
+Romanou et al., 2024
+)
+, 5% split of Programming books for CS topic
+(
+OpenPhi, 2025
+)
+, SciQ and ARC-easy for science topic
+(
+Welbl et al., 2017
+;
+Clark et al., 2018
+)
+, GSM8K and MATH for math topic
+(
+Cobbe et al., 2021
+;
+Hendrycks et al., 2021b
+)
+, Atlas reasoning for logic topic
+(
+AtlasUnified, 2025
+)
+. For the above-mentioned 6-topic configuration, the data encompasses approximately 70 million tokens.
+Training and Evaluation.
+To address distribution shifts from standard NLP datasets to diverse real-world prompts, we use a GPT-4o-based data synthesis pipeline. We sample 500 prompts from the Chatbot Arena dataset
+(
+chi, 2024
+)
+to reflect natural user styles, then use GPT-4o with a fixed system prompt to rewrite 50% of our training data into a QA format. We use a mix of rewritten and original data to train our topic classifier on a single A100 GPU for 3 epochs of 3 hours each. For evaluation, we use the MMLU test sets
+(
+Hendrycks et al., 2021a
+)
+and hand-curated 180-example subsets of Chatbot arena conversations dataset
+(
+chi, 2024
+)
+with the 6 topics. Our trained classifier achieves 94.5% and 85.0% accuracy on MMLU and Chatbot arena test sets, close to the performance of OpenAI O3-mini-high (96.2%, 91.1%). The inference overhead of the model is less than 10ms with ONNX runtime on a regular laptop CPU.
+We use OpenAI-O3 LLM-as-a-judge to classify 33,000 real-world queries from LMArena
+(
+Chiang et al., 2024
+)
+, which shows that our six coarse-grained topics cover 93% of queries, confirming the robustness and generality of TopicBERT’s taxonomy.
+6.3.2.
+System Performance
+Figure
+16
+shows the normalized decoding throughput and energy efficiency when serving requests with equal input and output length. For Mono3D DRAM designs, we evaluate
+no-tiering
+and
+tiering
+approaches. In
+no-tiering
+design of Mono3D DRAM, Mono3D DRAM is treated as a single tier, therefore, the logic die is limited to operating under the worst memory access latency of the memory die. In
+tiering
+, Mono3D DRAM is divided into 8 tiers with fine-grained memory latency and data mapping optimizations given tiering. Stratum
+tiering
+consistently outperforms GPU baselines across all cases, averaging 8.29
+×
+\times
+, 5.39
+×
+\times
+, 6.13
+×
+\times
+, 4.48
+×
+\times
+better decoding throughput for OLMoE, Mixtral, Qwen2.5, and Llama-4, respectively. Specifically, as decoding length grows, decoding on conventional GPUs with limited memory bandwidth becomes increasingly memory-bound, due to the quadratic complexity of the attention mechanism, explaining the growing gap of Stratum over GPU baselines. Stratum
+no-tiering
+as well outperforms GPU due to its higher internal bandwidth compared to HBM, even considering the worst-case latency. The internal memory tiering (§
+3.2
+) and MoE-specific data mapping optimizations (§
+5.2
+) further improve decoding throughput by averages of 1.45
+×
+\times
+, 1.39
+×
+\times
+, 1.32
+×
+\times
+, 1.34
+×
+\times
+over
+no-tiering
+for the 4 models, respectively. Energy-wise, Stratum achieves up to 7.66
+×
+\times
+, 2.74
+×
+\times
+, 3.51
+×
+\times
+, 4.87
+×
+\times
+better energy efficiency for the same decoding tasks across OLMoE, Mixtral, Qwen2.5, and Llama-4, respectively, due to cheaper memory access. We also extracted data from the previous work Duplex
+(
+Yun et al., 2024
+)
+and made conservative
+scaling to compare with Stratum. Stratum achieves up to 2.9
+×
+\times
+, 2.5
+×
+\times
+, 3.0
+×
+\times
+, 2.2
+×
+\times
+better throughput and 2.7
+×
+\times
+, 1.9
+×
+\times
+, 2.9
+×
+\times
+, 2.1
+×
+\times
+energy over Duplex
+(
+Yun et al., 2024
+)
+for OLMoE, Mixtral, Qwen2.5, and Llama-4.
+6.3.3.
+Expert Placement Optimizations
+Effectiveness.
+To study the effectiveness of expert placement in the tiered Mono3D DRAM, we scan the hot expert hit rate for Mixtral 8
+×
+\times
+7B on Stratum-L as shown in Figure
+17
+. The hot expert hit rate is defined as the ratio of aggregated hot expert to total expert accesses at the token level. Across decoding lengths, accurate hot expert usage prediction brings 1.32
+×
+\times
+to 1.51
+×
+\times
+better throughput over a uniformly distributed expert usage, or equivalently a naively managed tiered memory. The benefit is more noticeable on smaller decoding lengths, as the MLP dominates the decoding latency more. Using our topic prediction model, we achieve 31.6%, 48.5%, and 68.9% aggregated hot expert hit rates when serving Mixtral, OLMoE, and Llama-4.
+Figure 17.
+Impact of hot expert hit rates on (a) MLP (MoE layer) latency and (b) overall system throughput for Stratum-L.
+Table 4.
+Overhead of Expert Swap across Mono3D DRAM Tiers
+OLMoE
+(
+Muennighoff et al., 2024
+)
+Mixtral
+(
+Jiang et al., 2024
+)
+Llama-4
+(
+AI, 2025
+)
+#Expert swaps/sec
+5.91
+2.59
+4.02
+Time Overhead (ms)
+0.64 (0.37%)
+0.90 (0.23%)
+0.45 (0.18%)
+Energy Overhead (mJ)
+0.25 (<0.02%)
+0.35 (<0.03‰)
+0.34 (<0.02‰)
+Costs.
+The scheduler (§
+3.1
+) may trigger expert swaps
+between batches
+. To evaluate the worst-case scenario, we consider 1) short sequences,
+L
+i
+​
+n
+=
+L
+o
+​
+u
+​
+t
+=
+256
+{L_{in}}={L_{out}}=256
+with batch size one, and 2) consecutive batches assigned to different topics. Table
+4
+reports the time and energy overheads of expert swaps, which remain well below 1% across all benchmarks.
+This negligible cost stems from two factors: expert swaps occur within the same bank, avoiding cross-bank movement, and NMP logic includes dedicated row-swap buffers that enables swapping at the high internal Mono3D DRAM tier bandwidth without traversing the DRAM–xPU interface.
+6.3.4.
+Performance scaling with batch size
+Figure 18.
+Impacts of (a) batch size and (b) Mono3D DRAM layers on system-level metrics, evaluated with Llama-4-Scout on Stratum-XL
+.
+Figure
+18
+(a) evaluates Stratum’s performance scaling across different query batch sizes using the large-scale Llama-4-Scout
+(
+AI, 2025
+)
+benchmark. Batch sizes are chosen to ensure the full model fits within the Mono3D DRAM of Stratum or the HBM of the GPU baseline. Stratum consistently outperforms the GPU baseline across all settings by 4.7–9.8
+×
+\times
+. However, the relative performance advantage reduces with larger batches, particularly at shorter sequence lengths (e.g., 1024 tokens), due to the GPU die’s higher compute-to-bandwidth ratio and the increased dominance of MoE layers in the overall runtime.
+6.3.5.
+Performance scaling with Mono3D DRAM layers
+Figure
+18
+(b) reports Stratum’s performance scaling across different Mono3D DRAM layer configurations. All variants have the same DRAM capacity and use the same NMP logic die processor, and throughput is normalized to the die area of each Mono3D DRAM to ensure a fair, cost-aware comparison. On average, the 1024-layer design achieves 1.21
+×
+\times
+and 2.96
+×
+\times
+higher throughput per area than the 256-layer and 64-layer Mono3D DRAM, respectively, demonstrating the cost-efficiency benefits of adopting >1k-layer Mono3D DRAM.
+6.3.6.
+Tiering mechanism on Mono3D DRAM with less layers.
+The proposed tiering mechanism exploits wordline latency variation resulting from vertical stacking in monolithic 3D DRAM. Mono3D DRAM employs the similar fabrication process as 3D NAND Flash, which has already scaled beyond 400 layers
+(
+Park et al., 2025
+)
+. Thus, we consider a 512-layer configuration by partitioning the original 1024-layer mat into two horizontally connected 512-layer segments while preserving the NMP logic design. Device-level simulations reveal a 1.3
+×
+\times
+access latency difference between the fastest and slowest tiers. System-level evaluations demonstrate overall (including both MoE and attention layers) performance improvements of 17.7%, 18.3%, and 18.3% under our topic-aware tiering placement at a sequence length of
+L
+i
+​
+n
+=
+L
+o
+​
+u
+​
+t
+=
+1024
+{L_{in}}={L_{out}}=1024
+on LLama-4-Scout
+(
+AI, 2025
+)
+, Mixtral 8
+×
+\times
+7B
+(
+Jiang et al., 2024
+)
+, and OLMoE-1B-7B
+(
+Muennighoff et al., 2024
+)
+benchmarks, respectively. These results validate the efficacy of the proposed tiering strategy across a wide number of Mono3D DRAM layers.
+7.
+Related Works
+3D Stackable DRAM.
+Monolithic 3D-Stackable DRAM has emerged as a promising alternative to HBM by sequentially fabricating multiple DRAM layers on the same wafer.
+Unlike HBM, which depends on TSVs and costly die-stacking, Mono3D DRAM employs fine-pitch hybrid bonding for higher internal bandwidth and integration density
+(
+Han et al., 2023
+;
+Huang et al., 2023
+;
+Chen et al., 2022
+;
+Chen et al., 2023
+;
+Wu et al., 2025
+;
+Hsu et al., 2025b
+)
+.
+Leading Mono3D DRAM technologies include Horizontal 1T1C
+(
+Han et al., 2023
+;
+Huang et al., 2023
+)
+, which reorients and stacks 1T1C DRAM cells, and Gate-Control Thyristors
+(
+Chen et al., 2022
+;
+Chen et al., 2023
+)
+, which leverage avalanche mechanisms.
+Recent work further shows that Mono3D DRAM ’s
+∼
+\sim
+1
+μ
+\mu
+m bonding pitch
+(
+Chen et al., 2020
+)
+enables up to 5
+×
+\times
+denser vertical interconnects than HBM
+(
+Yue et al., 2024
+)
+.
+Processing In/Near Memory Acceleration for Transformers.
+While Processing In/Near Memory (PIM/PNM) has been a long-standing concept, MAT
+(
+Zhou et al., 2021
+)
+first applied PIM to Transformer models, targeting a single encoder block with a memory-efficient pipelined sub-sequence flow.
+TransPIM
+(
+Zhou et al., 2022
+)
+extends this with a hybrid PIM-PNM architecture for full-model execution. Neupims
+(
+Heo et al., 2024
+)
+and AttAcc
+(
+Park et al., 2024
+)
+focus on Decoder-only Transformer models, offloading attention layers in the decoding stage to the PNM on a xPU-PNM hybrid-processing system. Duplex
+(
+Yun et al., 2024
+)
+further expanded support to MoE, GQA, and continuous batching with dynamic compute partitioning. However, all these designs rely on 2D DRAM or die-stacked HBM, limiting their effectiveness when applied to Mono3D DRAM-based systems.
+8.
+Conclusion
+We present Stratum, a novel system–hardware co-design for efficient MoE serving that, for the first time, leverages high-density Mono3D DRAM dies integrated with logic through 3D hybrid bonding, and further connected to GPUs via a 2.5D silicon interposer. This architecture offers a cost-effective and high-throughput alternative to conventional GPU–HBM-based systems. At the hardware level, Stratum introduces in-memory tiering to exploit vertical access latency variations in Mono3D DRAM, and a near-memory processor (NMP) optimized for expert and attention execution. At the system level, we exploit topic-dependent expert activation patterns to classify and map experts across memory tiers and design a topic-aware scheduler guided by a lightweight classifier to meet service-level objectives. Cross-layer evaluations spanning device, circuit, algorithm, and system levels show that Stratum achieves up to 8.29
+×
+\times
+better decoding throughput and up to 7.66
+×
+\times
+less energy consumption compared to GPU baselines.
+Acknowledgements.
+This work was supported in part by PRISM and CoCoSys, centers in JUMP 2.0, an SRC program sponsored by DARPA. This research is also supported by National Science Foundation (NSF) grants 2112665, 2112167, 2003279, 2120019, and 2211386.
+References
+IEE (2019)
+2019.
+IEEE Standard for Floating-Point Arithmetic.
+IEEE Std 754-2019 (Revision of IEEE 754-2008)
+(2019), 1–84.
+https://doi.org/10.1109/IEEESTD.2019.8766229
+jed (2020)
+2020.
+DDR5 SDRAM Standard
+.
+JEDEC Standard JESD79-5. JEDEC Solid State Technology Association.
+https://www.jedec.org/standards-documents/docs/jesd79-5
+.
+chi (2024)
+2024.
+Chatbot arena: An open platform for evaluating llms by human preference
+.
+AI (2025)
+Meta AI. 2025.
+The llama 4 herd: The beginning of a new era of natively multimodal AI Innovation.
+https://ai.meta.com/blog/llama-4-multimodal-intelligence/
+AtlasUnified (2023)
+AtlasUnified. 2023.
+Atlas-Converse Dataset.
+https://huggingface.co/datasets/AtlasUnified/atlas-converse
+.
+AtlasUnified (2025)
+AtlasUnified. 2025.
+Atlas-Reasoning Dataset.
+https://huggingface.co/datasets/AtlasUnified/Atlas-Reasoning
+.
+Accessed: 2025-04-10.
+Cadence (2024)
+Cadence. 2024.
+Genus Synthesis Solution.
+https://www.cadence.com/en_US/home/tools/digital-design-and-signoff/synthesis/genus-synthesis-solution.html
+Accessed: 2024-12-18.
+Chang et al
+.
+(2017)
+Jonathan Chang, Yen-Huei Chen, Wei-Min Chan, Sahil Preet Singh, Hank Cheng, Hidehiro Fujiwara, Jih-Yu Lin, Kao-Cheng Lin, John Hung, Robin Lee, Hung-Jen Liao, Jhon-Jhy Liaw, Quincy Li, Chih-Yung Lin, Mu-Chi Chiang, and Shien-Yang Wu. 2017.
+12.1 A 7nm 256Mb SRAM in high-k metal-gate FinFET technology with write-assist circuitry for low-VMIN applications. In
+2017 IEEE International Solid-State Circuits Conference (ISSCC)
+. 206–207.
+https://doi.org/10.1109/ISSCC.2017.7870333
+Chen et al
+.
+(2020)
+R. Chen, P. Weckx, S. M. Salahuddin, S.-W. Kim, G. Sisto, G. Van der Plas, M. Stucchi, R. Baert, P. Debacker, M.H. Na, J. Ryckaert, D. Milojevic, and E. Beyne. 2020.
+3D-optimized SRAM Macro Design and Application to Memory-on-Logic 3D-IC at Advanced Nodes. In
+2020 IEEE International Electron Devices Meeting (IEDM)
+. 15.2.1–15.2.4.
+https://doi.org/10.1109/IEDM13553.2020.9371905
+Chen et al
+.
+(2023)
+Wei-Chen Chen, Hang-Ting Lue, Ming-Hung Wu, Yu-Tang Lin, Keh-Chung Wang, and Chih-Yuan Lu. 2023.
+A highly pitch-scalable capacitor-less 3D DRAM using cross-bar selection with gate-controlled thyristor (GCT) featuring high endurance and free read-disturb. In
+2023 International Electron Devices Meeting (IEDM)
+. IEEE, 1–4.
+Chen et al
+.
+(2022)
+Wei-Chen Chen, Hang-Ting Lue, Meng-Yan Wu, Teng-Hao Yeh, Pei-Ying Du, Tzu-Hsuan Hsu, Chih-Chang Hsieh, Keh-Chung Wang, and Chih-Yuan Lu. 2022.
+A 3D stackable DRAM: Capacitor-less three-wordline gate-controlled thyristor (GCT) RAM with> 40
+μ
+\mu
+a current sensing window,> 10 10 Endurance, and 3-second retention at room temperature. In
+2022 International Electron Devices Meeting (IEDM)
+. IEEE, 26–3.
+Chiang et al
+.
+(2024)
+Wei-Lin Chiang, Lianmin Zheng, Ying Sheng, Anastasios Nikolas Angelopoulos, Tianle Li, Dacheng Li, Hao Zhang, Banghua Zhu, Michael Jordan, Joseph E. Gonzalez, and Ion Stoica. 2024.
+Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference.
+arXiv:2403.04132 [cs.AI]
+https://arxiv.org/abs/2403.04132
+Child et al
+.
+(2019)
+Rewon Child, Scott Gray, Alec Radford, and Ilya Sutskever. 2019.
+Generating long sequences with sparse transformers.
+arXiv preprint arXiv:1904.10509
+(2019).
+Choi et al
+.
+(2024a)
+Ikjoon Choi, Seunghwan Hong, Kihyun Kim, Jeong-Sik Hwang, Seunghan Woo, Young-Sang Kim, Cheong-Ryong Cho, Eun-Young Lee, Hun-Jae Lee, Min-Su Jung, Hee-Yun Jung, Ju-Seong Hwang, Junsub Yoon, Wonmook Lim, Hyeong-Jin Yoo, Won-Ki Lee, Jung-Kyun Oh, Dong-Su Lee, Jong-Eun Lee, Jun-Hyung Kim, Young-Kwan Kim, Su-Jin Park, Byung-Kyu Ho, Byong-Wook Na, Hye-In Choi, Chung-Ki Lee, Soo-Jung Lee, Hyunsung Shin, Young-Kyu Lee, Jang-Woo Ryu, Sangwoong Shin,
+Sungchul Park, Daihyun Lim, Seung-Jun Bae, Young-Soo Sohn, Tae-Young Oh, and SangJoon Hwang. 2024a.
+13.2 A 32Gb 8.0Gb/s/pin DDR5 SDRAM with a Symmetric-Mosaic Architecture in a 5th-Generation 10nm DRAM Process. In
+2024 IEEE International Solid-State Circuits Conference (ISSCC)
+, Vol. 67. 234–236.
+https://doi.org/10.1109/ISSCC49657.2024.10454327
+Choi et al
+.
+(2024b)
+Jaewoong Choi, Yi-Gyeong Kim, Juyeob Kim, Jaehoon Chung, Young-Deuk Jeon, Min-Hyung Cho, Sujin Park, and Jinho Han. 2024b.
+A 6.4 Gb/s/pin HBM3 Digital PHY with Low-Power, Area-Efficient Techniques for Chiplet-Based AI processors in 12-nm CMOS. In
+2024 IEEE Asian Solid-State Circuits Conference (A-SSCC)
+. IEEE, 1–3.
+Choi et al
+.
+(2024c)
+K.S. Choi, S.H. Kim, J.W. Seo, H.S. Kang, S.W. Chu, S.W. Bae, J.H. Kwon, G.S. Kim, Y.T. Park, J.H. Kwak, D.I. Song, S.M. Park, Y.T. Kim, K.C. Jang, J.S. Cho, H.S. Lee, B.H. Lee, J.W. Park, J.H. Lee, H. H. Kwon, D.S. You, C.S. Hyun, J.J. Lee, S.C. Lee, I.D. Kim, J.H. Myung, H.S. Won, J.H. Chun, K.H. Kim, J.H. Kang, S.B. Kim, K.H. Lee, S.O. Chung, S.S. Kim, I.S. Jin,
+B.K. Lee, C.W. Kim, J. Park, and S.Y. Cha. 2024c.
+A Three Dimensional DRAM (3D DRAM) Technology for the Next Decades. In
+2024 IEEE Symposium on VLSI Technology and Circuits (VLSI Technology and Circuits)
+. 1–2.
+https://doi.org/10.1109/VLSITechnologyandCir46783.2024.10631471
+Choquette (2023)
+Jack Choquette. 2023.
+NVIDIA Hopper H100 GPU: Scaling Performance.
+IEEE Micro
+43, 3 (2023), 9–17.
+https://doi.org/10.1109/MM.2023.3256796
+Choquette et al
+.
+(2021)
+Jack Choquette, Wishwesh Gandhi, Olivier Giroux, Nick Stam, and Ronny Krashinsky. 2021.
+NVIDIA A100 Tensor Core GPU: Performance and Innovation.
+IEEE Micro
+41, 2 (2021), 29–35.
+https://doi.org/10.1109/MM.2021.3061394
+Clark et al
+.
+(2016)
+Lawrence T Clark, Vinay Vashishtha, Lucian Shifren, Aditya Gujja, Saurabh Sinha, Brian Cline, Chandarasekaran Ramamurthy, and Greg Yeric. 2016.
+ASAP7: A 7-nm finFET predictive process design kit.
+Microelectronics Journal
+53 (2016), 105–115.
+Clark et al
+.
+(2018)
+Peter Clark, Isaac Cowhey, Oren Etzioni, Tushar Khot, Ashish Sabharwal, Carissa Schoenick, and Oyvind Tafjord. 2018.
+Think you have Solved Question Answering? Try ARC, the AI2 Reasoning Challenge.
+arXiv preprint arXiv:1803.05457
+(2018).
+https://arxiv.org/abs/1803.05457
+Cobbe et al
+.
+(2021)
+Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser, Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, Christopher Hesse, and John Schulman. 2021.
+Training Verifiers to Solve Math Word Problems.
+arXiv preprint arXiv:2110.14168
+(2021).
+Counterpoint Research and Lam Research (2024)
+Counterpoint Research and Lam Research. 2024.
+Scaling to 1,000
+-
+Layer 3D NAND in the AI Era
+.
+White paper. Counterpoint Research (in partnership with Lam Research).
+https://filecache.mediaroom.com/mr5mr_lamresearch/182770/Counterpoint_Research_Paper_Scaling_to_1000-Layer_3D_NAND_in_the_AI_Era.pdf
+17 pp..
+Coventor ([n. d.])
+Coventor. [n. d.].
+Coventor Semulator3D.
+https://www.coventor.com/products/semulator3d/
+.
+Accessed: 2024-07-24.
+Dai et al
+.
+(2024)
+Damai Dai, Chengqi Deng, Chenggang Zhao, RX Xu, Huazuo Gao, Deli Chen, Jiashi Li, Wangding Zeng, Xingkai Yu, Yu Wu, et al
+.
+2024.
+Deepseekmoe: Towards ultimate expert specialization in mixture-of-experts language models.
+arXiv preprint arXiv:2401.06066
+(2024).
+Databricks (2024)
+Databricks. 2024.
+DBRX: A New State-of-the-Art Open LLM.
+Databricks Blog
+(2024).
+https://www.databricks.com/blog/introducing-dbrx-new-state-art-open-llm
+DeepSeek-AI (2025)
+DeepSeek-AI. 2025.
+DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning.
+arXiv:2501.12948 [cs.CL]
+https://arxiv.org/abs/2501.12948
+DeepSeek-AI et al
+.
+(2025)
+DeepSeek-AI, Aixin Liu, Bei Feng, Bing Xue, Bingxuan Wang, Bochao Wu, Chengda Lu, Chenggang Zhao, Chengqi Deng, Chenyu Zhang, Chong Ruan, Damai Dai, Daya Guo, Dejian Yang, Deli Chen, Dongjie Ji, Erhang Li, Fangyun Lin, Fucong Dai, Fuli Luo, Guangbo Hao, Guanting Chen, Guowei Li, H. Zhang, Han Bao, Hanwei Xu, Haocheng Wang, Haowei Zhang, Honghui Ding, Huajian Xin, Huazuo Gao, Hui Li, Hui Qu,
+J. L. Cai, Jian Liang, Jianzhong Guo, Jiaqi Ni, Jiashi Li, Jiawei Wang, Jin Chen, Jingchang Chen, Jingyang Yuan, Junjie Qiu, Junlong Li, Junxiao Song, Kai Dong, Kai Hu, Kaige Gao, Kang Guan, Kexin Huang, Kuai Yu, Lean Wang, Lecong Zhang, Lei Xu, Leyi Xia, Liang Zhao, Litong Wang, Liyue Zhang, Meng Li, Miaojun Wang, Mingchuan Zhang, Minghua Zhang, Minghui Tang, Mingming Li, Ning Tian, Panpan Huang, Peiyi
+Wang, Peng Zhang, Qiancheng Wang, Qihao Zhu, Qinyu Chen, Qiushi Du, R. J. Chen, R. L. Jin, Ruiqi Ge, Ruisong Zhang, Ruizhe Pan, Runji Wang, Runxin Xu, Ruoyu Zhang, Ruyi Chen, S. S. Li, Shanghao Lu, Shangyan Zhou, Shanhuang Chen, Shaoqing Wu, Shengfeng Ye, Shengfeng Ye, Shirong Ma, Shiyu Wang, Shuang Zhou, Shuiping Yu, Shunfeng Zhou, Shuting Pan, T. Wang, Tao Yun, Tian Pei, Tianyu Sun, W. L. Xiao, Wangding Zeng,
+Wanjia Zhao, Wei An, Wen Liu, Wenfeng Liang, Wenjun Gao, Wenqin Yu, Wentao Zhang, X. Q. Li, Xiangyue Jin, Xianzu Wang, Xiao Bi, Xiaodong Liu, Xiaohan Wang, Xiaojin Shen, Xiaokang Chen, Xiaokang Zhang, Xiaosha Chen, Xiaotao Nie, Xiaowen Sun, Xiaoxiang Wang, Xin Cheng, Xin Liu, Xin Xie, Xingchao Liu, Xingkai Yu, Xinnan Song, Xinxia Shan, Xinyi Zhou, Xinyu Yang, Xinyuan Li, Xuecheng Su, Xuheng Lin, Y. K. Li,
+Y. Q. Wang, Y. X. Wei, Y. X. Zhu, Yang Zhang, Yanhong Xu, Yanhong Xu, Yanping Huang, Yao Li, Yao Zhao, Yaofeng Sun, Yaohui Li, Yaohui Wang, Yi Yu, Yi Zheng, Yichao Zhang, Yifan Shi, Yiliang Xiong, Ying He, Ying Tang, Yishi Piao, Yisong Wang, Yixuan Tan, Yiyang Ma, Yiyuan Liu, Yongqiang Guo, Yu Wu, Yuan Ou, Yuchen Zhu, Yuduan Wang, Yue Gong, Yuheng Zou, Yujia He, Yukun Zha, Yunfan Xiong,
+Yunxian Ma, Yuting Yan, Yuxiang Luo, Yuxiang You, Yuxuan Liu, Yuyang Zhou, Z. F. Wu, Z. Z. Ren, Zehui Ren, Zhangli Sha, Zhe Fu, Zhean Xu, Zhen Huang, Zhen Zhang, Zhenda Xie, Zhengyan Zhang, Zhewen Hao, Zhibin Gou, Zhicheng Ma, Zhigang Yan, Zhihong Shao, Zhipeng Xu, Zhiyu Wu, Zhongyu Zhang, Zhuoshu Li, Zihui Gu, Zijia Zhu, Zijun Liu, Zilin Li, Ziwei Xie, Ziyang Song, Ziyi Gao, and Zizheng Pan.
+2025.
+DeepSeek-V3 Technical Report.
+arXiv:2412.19437 [cs.CL]
+https://arxiv.org/abs/2412.19437
+Devlin et al
+.
+(2019)
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2019.
+Bert: Pre-training of deep bidirectional transformers for language understanding. In
+Proceedings of the 2019 conference of the North American chapter of the association for computational linguistics: human language technologies, volume 1 (long and short papers)
+. 4171–4186.
+Dosovitskiy et al
+.
+(2020)
+Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, Jakob Uszkoreit, and Neil Houlsby. 2020.
+An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale.
+CoRR
+abs/2010.11929 (2020).
+arXiv:2010.11929
+https://arxiv.org/abs/2010.11929
+Du et al
+.
+(2022)
+Nan Du, Yanping Huang, Andrew M. Dai, Simon Tong, Dmitry Lepikhin, Yuanzhong Xu, Maxim Krikun, Yanqi Zhou, Adams Wei Yu, Orhan Firat, Barret Zoph, Liam Fedus, Maarten Bosma, Zongwei Zhou, Tao Wang, Yu Emma Wang, Kellie Webster, Marie Pellat, Kevin Robinson, Kathleen Meier-Hellstern, Toju Duke, Lucas Dixon, Kun Zhang, Quoc V Le, Yonghui Wu, Zhifeng Chen, and Claire Cui. 2022.
+GLaM: Efficient Scaling of Language Models with Mixture-of-Experts.
+arXiv:2112.06905 [cs.CL]
+https://arxiv.org/abs/2112.06905
+Egbo (2022)
+Munonyedi Egbo. 2022.
+A review of the thermal performance of vapor chambers and heat sinks: Critical heat flux, thermal resistances, and surface temperatures.
+International Journal of Heat and Mass Transfer
+183 (2022), 122108.
+Fedus et al
+.
+(2022)
+William Fedus, Barret Zoph, and Noam Shazeer. 2022.
+Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity.
+arXiv:2101.03961 [cs.LG]
+https://arxiv.org/abs/2101.03961
+Go and Mahajan (2025)
+Seokjin Go and Divya Mahajan. 2025.
+MoETuner: Optimized Mixture of Expert Serving with Balanced Expert Placement and Token Routing.
+arXiv preprint arXiv:2502.06643
+(2025).
+Grattafiori et al
+.
+(2024)
+Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad Al-Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Alex Vaughan, Amy Yang, Angela Fan, Anirudh Goyal, Anthony Hartshorn, Aobo Yang, Archi Mitra, Archie Sravankumar, Artem Korenev, Arthur Hinsvark, Arun Rao, Aston Zhang, Aurelien Rodriguez, Austen Gregerson, Ava Spataru, Baptiste Roziere, Bethany Biron, Binh Tang, Bobbie Chern, Charlotte Caucheteux, Chaya Nayak,
+Chloe Bi, Chris Marra, Chris McConnell, Christian Keller, Christophe Touret, Chunyang Wu, Corinne Wong, Cristian Canton Ferrer, Cyrus Nikolaidis, Damien Allonsius, Daniel Song, Danielle Pintz, Danny Livshits, Danny Wyatt, David Esiobu, Dhruv Choudhary, Dhruv Mahajan, Diego Garcia-Olano, Diego Perino, Dieuwke Hupkes, Egor Lakomkin, Ehab AlBadawy, Elina Lobanova, Emily Dinan, Eric Michael Smith, Filip Radenovic, Francisco Guzmán, Frank Zhang, Gabriel Synnaeve, Gabrielle Lee,
+Georgia Lewis Anderson, Govind Thattai, Graeme Nail, Gregoire Mialon, Guan Pang, Guillem Cucurell, Hailey Nguyen, Hannah Korevaar, Hu Xu, Hugo Touvron, Iliyan Zarov, Imanol Arrieta Ibarra, Isabel Kloumann, Ishan Misra, Ivan Evtimov, Jack Zhang, Jade Copet, Jaewon Lee, Jan Geffert, Jana Vranes, Jason Park, Jay Mahadeokar, Jeet Shah, Jelmer van der Linde, Jennifer Billock, Jenny Hong, Jenya Lee, Jeremy Fu, Jianfeng Chi, Jianyu Huang, Jiawen Liu,
+Jie Wang, Jiecao Yu, Joanna Bitton, Joe Spisak, Jongsoo Park, Joseph Rocca, Joshua Johnstun, Joshua Saxe, Junteng Jia, Kalyan Vasuden Alwala, Karthik Prasad, Kartikeya Upasani, Kate Plawiak, Ke Li, Kenneth Heafield, Kevin Stone, Khalid El-Arini, Krithika Iyer, Kshitiz Malik, Kuenley Chiu, Kunal Bhalla, Kushal Lakhotia, Lauren Rantala-Yeary, Laurens van der Maaten, Lawrence Chen, Liang Tan, Liz Jenkins, Louis Martin, Lovish Madaan, Lubo Malo, Lukas Blecher,
+Lukas Landzaat, Luke de Oliveira, Madeline Muzzi, Mahesh Pasupuleti, Mannat Singh, Manohar Paluri, Marcin Kardas, Maria Tsimpoukelli, Mathew Oldham, Mathieu Rita, Maya Pavlova, Melanie Kambadur, Mike Lewis, Min Si, Mitesh Kumar Singh, Mona Hassan, Naman Goyal, Narjes Torabi, Nikolay Bashlykov, Nikolay Bogoychev, Niladri Chatterji, Ning Zhang, Olivier Duchenne, Onur Çelebi, Patrick Alrassy, Pengchuan Zhang, Pengwei Li, Petar Vasic, Peter Weng, Prajjwal Bhargava,
+Pratik Dubal, Praveen Krishnan, Punit Singh Koura, Puxin Xu, Qing He, Qingxiao Dong, Ragavan Srinivasan, Raj Ganapathy, Ramon Calderer, Ricardo Silveira Cabral, Robert Stojnic, Roberta Raileanu, Rohan Maheswari, Rohit Girdhar, Rohit Patel, Romain Sauvestre, Ronnie Polidoro, Roshan Sumbaly, Ross Taylor, Ruan Silva, Rui Hou, Rui Wang, Saghar Hosseini, Sahana Chennabasappa, Sanjay Singh, Sean Bell, Seohyun Sonia Kim, Sergey Edunov, Shaoliang Nie, Sharan Narang,
+Sharath Raparthy, Sheng Shen, Shengye Wan, Shruti Bhosale, Shun Zhang, Simon Vandenhende, Soumya Batra, Spencer Whitman, Sten Sootla, Stephane Collot, Suchin Gururangan, Sydney Borodinsky, Tamar Herman, Tara Fowler, Tarek Sheasha, Thomas Georgiou, Thomas Scialom, Tobias Speckbacher, Todor Mihaylov, Tong Xiao, Ujjwal Karn, Vedanuj Goswami, Vibhor Gupta, Vignesh Ramanathan, Viktor Kerkez, Vincent Gonguet, Virginie Do, Vish Vogeti, Vítor Albiero, Vladan Petrovic,
+Weiwei Chu, Wenhan Xiong, Wenyin Fu, Whitney Meers, Xavier Martinet, Xiaodong Wang, Xiaofang Wang, Xiaoqing Ellen Tan, Xide Xia, Xinfeng Xie, Xuchao Jia, Xuewei Wang, Yaelle Goldschlag, Yashesh Gaur, Yasmine Babaei, Yi Wen, Yiwen Song, Yuchen Zhang, Yue Li, Yuning Mao, Zacharie Delpierre Coudert, Zheng Yan, Zhengxing Chen, Zoe Papakipos, Aaditya Singh, Aayushi Srivastava, Abha Jain, Adam Kelsey, Adam Shajnfeld, Adithya Gangidi, Adolfo Victoria,
+Ahuva Goldstand, Ajay Menon, Ajay Sharma, Alex Boesenberg, Alexei Baevski, Allie Feinstein, Amanda Kallet, Amit Sangani, Amos Teo, Anam Yunus, Andrei Lupu, Andres Alvarado, Andrew Caples, Andrew Gu, Andrew Ho, Andrew Poulton, Andrew Ryan, Ankit Ramchandani, Annie Dong, Annie Franco, Anuj Goyal, Aparajita Saraf, Arkabandhu Chowdhury, Ashley Gabriel, Ashwin Bharambe, Assaf Eisenman, Azadeh Yazdan, Beau James, Ben Maurer, Benjamin Leonhardi, Bernie Huang,
+Beth Loyd, Beto De Paola, Bhargavi Paranjape, Bing Liu, Bo Wu, Boyu Ni, Braden Hancock, Bram Wasti, Brandon Spence, Brani Stojkovic, Brian Gamido, Britt Montalvo, Carl Parker, Carly Burton, Catalina Mejia, Ce Liu, Changhan Wang, Changkyu Kim, Chao Zhou, Chester Hu, Ching-Hsiang Chu, Chris Cai, Chris Tindal, Christoph Feichtenhofer, Cynthia Gao, Damon Civin, Dana Beaty, Daniel Kreymer, Daniel Li, David Adkins, David Xu, Davide Testuggine,
+Delia David, Devi Parikh, Diana Liskovich, Didem Foss, Dingkang Wang, Duc Le, Dustin Holland, Edward Dowling, Eissa Jamil, Elaine Montgomery, Eleonora Presani, Emily Hahn, Emily Wood, Eric-Tuan Le, Erik Brinkman, Esteban Arcaute, Evan Dunbar, Evan Smothers, Fei Sun, Felix Kreuk, Feng Tian, Filippos Kokkinos, Firat Ozgenel, Francesco Caggioni, Frank Kanayet, Frank Seide, Gabriela Medina Florez, Gabriella Schwarz, Gada Badeer, Georgia Swee, Gil Halpern,
+Grant Herman, Grigory Sizov, Guangyi, Zhang, Guna Lakshminarayanan, Hakan Inan, Hamid Shojanazeri, Han Zou, Hannah Wang, Hanwen Zha, Haroun Habeeb, Harrison Rudolph, Helen Suk, Henry Aspegren, Hunter Goldman, Hongyuan Zhan, Ibrahim Damlaj, Igor Molybog, Igor Tufanov, Ilias Leontiadis, Irina-Elena Veliche, Itai Gat, Jake Weissman, James Geboski, James Kohli, Janice Lam, Japhet Asher, Jean-Baptiste Gaya, Jeff Marcus, Jeff Tang, Jennifer Chan,
+Jenny Zhen, Jeremy Reizenstein, Jeremy Teboul, Jessica Zhong, Jian Jin, Jingyi Yang, Joe Cummings, Jon Carvill, Jon Shepard, Jonathan McPhie, Jonathan Torres, Josh Ginsburg, Junjie Wang, Kai Wu, Kam Hou U, Karan Saxena, Kartikay Khandelwal, Katayoun Zand, Kathy Matosich, Kaushik Veeraraghavan, Kelly Michelena, Keqian Li, Kiran Jagadeesh, Kun Huang, Kunal Chawla, Kyle Huang, Lailin Chen, Lakshya Garg, Lavender A, Leandro Silva, Lee Bell, Lei
+Zhang, Liangpeng Guo, Licheng Yu, Liron Moshkovich, Luca Wehrstedt, Madian Khabsa, Manav Avalani, Manish Bhatt, Martynas Mankus, Matan Hasson, Matthew Lennie, Matthias Reso, Maxim Groshev, Maxim Naumov, Maya Lathi, Meghan Keneally, Miao Liu, Michael L. Seltzer, Michal Valko, Michelle Restrepo, Mihir Patel, Mik Vyatskov, Mikayel Samvelyan, Mike Clark, Mike Macey, Mike Wang, Miquel Jubert Hermoso, Mo Metanat, Mohammad Rastegari, Munish Bansal, Nandhini Santhanam,
+Natascha Parks, Natasha White, Navyata Bawa, Nayan Singhal, Nick Egebo, Nicolas Usunier, Nikhil Mehta, Nikolay Pavlovich Laptev, Ning Dong, Norman Cheng, Oleg Chernoguz, Olivia Hart, Omkar Salpekar, Ozlem Kalinli, Parkin Kent, Parth Parekh, Paul Saab, Pavan Balaji, Pedro Rittner, Philip Bontrager, Pierre Roux, Piotr Dollar, Polina Zvyagina, Prashant Ratanchandani, Pritish Yuvraj, Qian Liang, Rachad Alao, Rachel Rodriguez, Rafi Ayub, Raghotham Murthy, Raghu
+Nayani, Rahul Mitra, Rangaprabhu Parthasarathy, Raymond Li, Rebekkah Hogan, Robin Battey, Rocky Wang, Russ Howes, Ruty Rinott, Sachin Mehta, Sachin Siby, Sai Jayesh Bondu, Samyak Datta, Sara Chugh, Sara Hunt, Sargun Dhillon, Sasha Sidorov, Satadru Pan, Saurabh Mahajan, Saurabh Verma, Seiji Yamamoto, Sharadh Ramaswamy, Shaun Lindsay, Shaun Lindsay, Sheng Feng, Shenghao Lin, Shengxin Cindy Zha, Shishir Patil, Shiva Shankar, Shuqiang Zhang, Shuqiang Zhang, Sinong
+Wang, Sneha Agarwal, Soji Sajuyigbe, Soumith Chintala, Stephanie Max, Stephen Chen, Steve Kehoe, Steve Satterfield, Sudarshan Govindaprasad, Sumit Gupta, Summer Deng, Sungmin Cho, Sunny Virk, Suraj Subramanian, Sy Choudhury, Sydney Goldman, Tal Remez, Tamar Glaser, Tamara Best, Thilo Koehler, Thomas Robinson, Tianhe Li, Tianjun Zhang, Tim Matthews, Timothy Chou, Tzook Shaked, Varun Vontimitta, Victoria Ajayi, Victoria Montanez, Vijai Mohan, Vinay Satish Kumar,
+Vishal Mangla, Vlad Ionescu, Vlad Poenaru, Vlad Tiberiu Mihailescu, Vladimir Ivanov, Wei Li, Wenchen Wang, Wenwen Jiang, Wes Bouaziz, Will Constable, Xiaocheng Tang, Xiaojian Wu, Xiaolan Wang, Xilun Wu, Xinbo Gao, Yaniv Kleinman, Yanjun Chen, Ye Hu, Ye Jia, Ye Qi, Yenda Li, Yilin Zhang, Ying Zhang, Yossi Adi, Youngjin Nam, Yu, Wang, Yu Zhao, Yuchen Hao, Yundi Qian, Yunlu Li, Yuzi He, Zach Rait, Zachary
+DeVito, Zef Rosnbrick, Zhaoduo Wen, Zhenyu Yang, Zhiwei Zhao, and Zhiyu Ma. 2024.
+The Llama 3 Herd of Models.
+arXiv:2407.21783 [cs.AI]
+https://arxiv.org/abs/2407.21783
+Ham et al
+.
+(2020)
+Tae Jun Ham, Sung Jun Jung, Seonghak Kim, Young H Oh, Yeonhong Park, Yoonho Song, Jung-Hun Park, Sanghee Lee, Kyoung Park, Jae W Lee, et al
+.
+2020.
+Aˆ 3: Accelerating attention mechanisms in neural networks with approximation. In
+2020 IEEE International Symposium on High Performance Computer Architecture (HPCA)
+. IEEE, 328–341.
+Han et al
+.
+(2023)
+J.W. Han, S.H. Park, M.Y. Jeong, K.S. Lee, K.N. Kim, H.J. Kim, J.C. Shin, S.M. Park, S.H. Shin, S.W. Park, K.S. Lee, J.H. Lee, S.H. Kim, B.C Kim, M.H. Jung, I.Y. Yoon, H. Kim, S.U. Jang, K.J. Park, Y.K. Kim, I.G. Kim, J.H Oh, S.Y. Han, B.S. Kim, B.J. Kuh, and J.M. Park. 2023.
+Ongoing Evolution of DRAM Scaling via Third Dimension -Vertically Stacked DRAM -. In
+2023 IEEE Symposium on VLSI Technology and Circuits (VLSI Technology and Circuits)
+. 1–2.
+https://doi.org/10.23919/VLSITechnologyandCir57934.2023.10185290
+Han et al
+.
+(2021)
+Jun-Han Han, Robert E West, Karina Torres-Castro, Nathan Swami, Samira Khan, and Mircea Stan. 2021.
+Power and thermal modeling of in-3D-memory computing. In
+2021 International Symposium on Devices, Circuits and Systems (ISDCS)
+. IEEE, 1–4.
+He et al
+.
+(2020)
+Mingxuan He, Choungki Song, Ilkon Kim, Chunseok Jeong, Seho Kim, Il Park, Mithuna Thottethodi, and TN Vijaykumar. 2020.
+Newton: A DRAM-maker’s accelerator-in-memory (AiM) architecture for machine learning. In
+2020 53rd Annual IEEE/ACM International Symposium on Microarchitecture (MICRO)
+. IEEE, 372–385.
+He et al
+.
+(2024)
+Xin He, Shunkang Zhang, Yuxin Wang, Haiyan Yin, Zihao Zeng, Shaohuai Shi, Zhenheng Tang, Xiaowen Chu, Ivor Tsang, and Ong Yew Soon. 2024.
+Expertflow: Optimized expert activation and token allocation for efficient mixture-of-experts inference.
+arXiv preprint arXiv:2410.17954
+(2024).
+Henderson et al
+.
+(2022)
+Peter Henderson, Andy Hu, David Romero, Mark Roberts, Daniel Chen, Emily Zhang, He He, Dan Jurafsky, Percy Liang, Nisan Stiennon, et al
+.
+2022.
+Pile of Law: Learning Responsible Data Filtering from the Law and a 256GB Open-Source Legal Dataset. In
+Proceedings of the 2022 ACM Conference on Fairness, Accountability, and Transparency
+. ACM, 1727–1742.
+Hendrycks et al
+.
+(2021a)
+Dan Hendrycks, Collin Burns, Steven Basart, Andy Zou, Mantas Mazeika, Dawn Song, and Jacob Steinhardt. 2021a.
+Measuring Massive Multitask Language Understanding.
+Proceedings of the International Conference on Learning Representations (ICLR)
+(2021).
+Hendrycks et al
+.
+(2021b)
+Dan Hendrycks, Collin Burns, Saurav Kadavath, Akul Arora, Steven Basart, Eric Tang, Dawn Song, and Jacob Steinhardt. 2021b.
+Measuring Mathematical Problem Solving With the MATH Dataset.
+NeurIPS
+(2021).
+Heo et al
+.
+(2024)
+Guseul Heo, Sangyeop Lee, Jaehong Cho, Hyunmin Choi, Sanghyeon Lee, Hyungkyu Ham, Gwangsun Kim, Divya Mahajan, and Jongse Park. 2024.
+Neupims: Npu-pim heterogeneous acceleration for batched llm inferencing. In
+Proceedings of the 29th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 3
+. 722–737.
+Ho et al
+.
+(2020)
+Jonathan Ho, Ajay Jain, and Pieter Abbeel. 2020.
+Denoising diffusion probabilistic models.
+Advances in neural information processing systems
+33 (2020), 6840–6851.
+Hsu et al
+.
+(2025a)
+Fu
+-
+Chang Hsu, Richard J. Huang, Chia
+-
+Haur Chang, Re
+-
+Peng Tsay, Jui
+-
+Hsin Chang, and I
+-
+Wei Huang. 2025a.
+New 1T1C and 3T0C Cells in the 3D X
+-
+DRAM Family: Advancing 3D NAND
+-
+like DRAM Technology Using IGZO
+.
+White paper. NEO Semiconductor.
+https://neosemic.com/wp-content/uploads/2025/05/NEO-White-Paper-for-ITIC-and-3T0C_V18_clean.pdf
+Version 1.1.
+Hsu et al
+.
+(2025b)
+Po-Kai Hsu, Janak Sharda, Xiangjin Wu, H.-S. Philip Wong, and Shimeng Yu. 2025b.
+Monolithic 3D Stackable DRAM.
+IEEE Nanotechnology Magazine
+19, 2 (2025), 7–16.
+https://doi.org/10.1109/MNANO.2025.3533815
+Hu et al
+.
+(2024)
+John R. Hu, Louis Liu, Shuhan Liu, Boonkhim Liew, David Guan, James Chen, Steven Jones, and William J. Dally. 2024.
+Co-Optimization of GPU AI Chip from Technology, Design, System and Algorithms. In
+2024 IEEE International Electron Devices Meeting (IEDM)
+. 1–4.
+https://doi.org/10.1109/IEDM50854.2024.10873439
+Huang et al
+.
+(2023)
+Meng Huang, Shufang Si, Zheng He, Ying Zhou, Sijia Li, Hong Wang, Jinying Liu, Dongsheng Xie, Mengmeng Yang, Kang You, Chris Choi, Yi Tang, Xiaojie Li, Shibing Qian, Xiaodong Yang, Long Hou, Weiping Bai, Zhongming Liu, Yanzhe Tang, Qiong Wu, Yanqin Wang, Tao Dou, Jake Kim, Gui-Lei Wang, Jie Bai, Adachi Takao, Chao Zhao, and Abraham Yoo. 2023.
+A 3D stackable 1T1C DRAM: Architecture, process integration and circuit simulation. In
+2023 IEEE International Memory Workshop (IMW)
+. IEEE, 1–4.
+Inc. (2025)
+Celsia Inc. 2025.
+Heat Sink Design.
+https://celsiainc.com/technology/heat-sink-design/
+Accessed: 2025-02-24.
+Ishii and Wells (2022)
+Alexander Ishii and Ryan Wells. 2022.
+The Nvlink-Network Switch: Nvidia’s Switch Chip for High Communication-Bandwidth Superpods. In
+2022 IEEE Hot Chips 34 Symposium (HCS)
+. 1–23.
+https://doi.org/10.1109/HCS55958.2022.9895480
+Jiang et al
+.
+(2024)
+Albert Q. Jiang, Alexandre Sablayrolles, Antoine Roux, Arthur Mensch, Blanche Savary, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Emma Bou Hanna, Florian Bressand, Gianna Lengyel, Guillaume Bour, Guillaume Lample, Lélio Renard Lavaud, Lucile Saulnier, Marie-Anne Lachaux, Pierre Stock, Sandeep Subramanian, Sophia Yang, Szymon Antoniak, Teven Le Scao, Théophile Gervet, Thibaut Lavril, Thomas Wang, Timothée Lacroix, and William El Sayed. 2024.
+Mixtral of Experts.
+arXiv:2401.04088 [cs.LG]
+https://arxiv.org/abs/2401.04088
+Kaplan et al
+.
+(2020)
+Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. 2020.
+Scaling Laws for Neural Language Models.
+arXiv:2001.08361 [cs.LG]
+https://arxiv.org/abs/2001.08361
+Kim et al
+.
+(2010)
+Yoon Jo Kim, Yogendra K Joshi, Andrei G Fedorov, Young-Joon Lee, and Sung-Kyu Lim. 2010.
+Thermal characterization of interlayer microfluidic cooling of three-dimensional integrated circuits with nonuniform heat flux.
+(2010).
+Krajewski et al
+.
+(2024)
+Jakub Krajewski, Jan Ludziejewski, Kamil Adamczewski, Maciej Pióro, Michał Krutul, Szymon Antoniak, Kamil Ciebiera, Krystian Król, Tomasz Odrzygóźdź, Piotr Sankowski, Marek Cygan, and Sebastian Jaszczur. 2024.
+Scaling Laws for Fine-Grained Mixture of Experts.
+arXiv:2402.07871 [cs.LG]
+https://arxiv.org/abs/2402.07871
+Kwon et al
+.
+(2023)
+Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, Cody Hao Yu, Joseph E. Gonzalez, Hao Zhang, and Ion Stoica. 2023.
+Efficient Memory Management for Large Language Model Serving with PagedAttention. In
+Proceedings of the ACM SIGOPS 29th Symposium on Operating Systems Principles
+.
+Lee et al
+.
+(2024)
+Junmo Lee, Anni Lu, Wantong Li, and Shimeng Yu. 2024.
+NeuroSim V1.4: Extending Technology Support for Digital Compute-in-Memory Toward 1nm Node.
+IEEE Transactions on Circuits and Systems I: Regular Papers
+71, 4 (2024), 1733–1744.
+https://doi.org/10.1109/TCSI.2024.3362822
+Lee et al
+.
+(2021)
+Sukhan Lee, Shin-haeng Kang, Jaehoon Lee, Hyeonsu Kim, Eojin Lee, Seungwoo Seo, Hosang Yoon, Seungwon Lee, Kyounghwan Lim, Hyunsung Shin, et al
+.
+2021.
+Hardware architecture and software stack for PIM based on commercial DRAM technology: Industrial product. In
+2021 ACM/IEEE 48th Annual International Symposium on Computer Architecture (ISCA)
+. IEEE, 43–56.
+Li et al
+.
+(2023)
+Jiamin Li, Yimin Jiang, Yibo Zhu, Cong Wang, and Hong Xu. 2023.
+Accelerating distributed
+{
+\{
+MoE
+}
+\}
+training and inference with lina. In
+2023 USENIX Annual Technical Conference (USENIX ATC 23)
+. 945–959.
+Li et al
+.
+(2017)
+Shuangchen Li, Dimin Niu, Krishna T. Malladi, Hongzhong Zheng, Bob Brennan, and Yuan Xie. 2017.
+DRISA: a DRAM-based Reconfigurable In-Situ Accelerator. In
+Proceedings of the 50th Annual IEEE/ACM International Symposium on Microarchitecture
+(Cambridge, Massachusetts)
+(MICRO-50 ’17)
+. Association for Computing Machinery, New York, NY, USA, 288–301.
+https://doi.org/10.1145/3123939.3123977
+Muennighoff et al
+.
+(2024)
+Niklas Muennighoff, Luca Soldaini, Dirk Groeneveld, Kyle Lo, Jacob Morrison, Sewon Min, Weijia Shi, Pete Walsh, Oyvind Tafjord, Nathan Lambert, Yuling Gu, Shane Arora, Akshita Bhagia, Dustin Schwenk, David Wadden, Alexander Wettig, Binyuan Hui, Tim Dettmers, Douwe Kiela, Ali Farhadi, Noah A. Smith, Pang Wei Koh, Amanpreet Singh, and Hannaneh Hajishirzi. 2024.
+OLMoE: Open Mixture-of-Experts Language Models.
+arXiv:2409.02060 [cs.CL]
+https://arxiv.org/abs/2409.02060
+Muneeshwaran et al
+.
+(2022)
+M Muneeshwaran, Yun-Jin Lee, and Chi-Chuan Wang. 2022.
+Performance improvement of heat sink with vapor chamber base and heat pipe.
+Applied Thermal Engineering
+215 (2022), 118932.
+Murrieta-Cortes et al
+.
+(2024)
+Juan P Murrieta-Cortes, Luis E Paniagua-Guerra, C Ulises Gonzalez-Valle, Alexander S Rattner, and Bladimir Ramos-Alvarado. 2024.
+Liquid-cooled heat sink design methodology with technical and commercial viability considerations: Case study of a partially 3-D printed prototype.
+Applied Thermal Engineering
+247 (2024), 122933.
+O’Connor et al
+.
+(2017)
+Mike O’Connor, Niladrish Chatterjee, Donghyuk Lee, John Wilson, Aditya Agrawal, Stephen W. Keckler, and William J. Dally. 2017.
+Fine-grained DRAM: energy-efficient DRAM for extreme bandwidth systems. In
+Proceedings of the 50th Annual IEEE/ACM International Symposium on Microarchitecture
+(Cambridge, Massachusetts)
+(MICRO-50 ’17)
+. Association for Computing Machinery, New York, NY, USA, 41–54.
+https://doi.org/10.1145/3123939.3124545
+OpenAI et al
+.
+(2024)
+OpenAI, Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya, Florencia Leoni Aleman, Diogo Almeida, Janko Altenschmidt, Sam Altman, Shyamal Anadkat, Red Avila, Igor Babuschkin, Suchir Balaji, Valerie Balcom, Paul Baltescu, Haiming Bao, Mohammad Bavarian, Jeff Belgum, Irwan Bello, Jake Berdine, Gabriel Bernadett-Shapiro, Christopher Berner, Lenny Bogdonoff, Oleg Boiko, Madelaine Boyd, Anna-Luisa Brakman, Greg Brockman, Tim Brooks, Miles Brundage,
+Kevin Button, Trevor Cai, Rosie Campbell, Andrew Cann, Brittany Carey, Chelsea Carlson, Rory Carmichael, Brooke Chan, Che Chang, Fotis Chantzis, Derek Chen, Sully Chen, Ruby Chen, Jason Chen, Mark Chen, Ben Chess, Chester Cho, Casey Chu, Hyung Won Chung, Dave Cummings, Jeremiah Currier, Yunxing Dai, Cory Decareaux, Thomas Degry, Noah Deutsch, Damien Deville, Arka Dhar, David Dohan, Steve Dowling, Sheila Dunning, Adrien Ecoffet, Atty Eleti,
+Tyna Eloundou, David Farhi, Liam Fedus, Niko Felix, Simón Posada Fishman, Juston Forte, Isabella Fulford, Leo Gao, Elie Georges, Christian Gibson, Vik Goel, Tarun Gogineni, Gabriel Goh, Rapha Gontijo-Lopes, Jonathan Gordon, Morgan Grafstein, Scott Gray, Ryan Greene, Joshua Gross, Shixiang Shane Gu, Yufei Guo, Chris Hallacy, Jesse Han, Jeff Harris, Yuchen He, Mike Heaton, Johannes Heidecke, Chris Hesse, Alan Hickey, Wade Hickey, Peter Hoeschele,
+Brandon Houghton, Kenny Hsu, Shengli Hu, Xin Hu, Joost Huizinga, Shantanu Jain, Shawn Jain, Joanne Jang, Angela Jiang, Roger Jiang, Haozhun Jin, Denny Jin, Shino Jomoto, Billie Jonn, Heewoo Jun, Tomer Kaftan, Łukasz Kaiser, Ali Kamali, Ingmar Kanitscheider, Nitish Shirish Keskar, Tabarak Khan, Logan Kilpatrick, Jong Wook Kim, Christina Kim, Yongjik Kim, Jan Hendrik Kirchner, Jamie Kiros, Matt Knight, Daniel Kokotajlo, Łukasz Kondraciuk, Andrew Kondrich,
+Aris Konstantinidis, Kyle Kosic, Gretchen Krueger, Vishal Kuo, Michael Lampe, Ikai Lan, Teddy Lee, Jan Leike, Jade Leung, Daniel Levy, Chak Ming Li, Rachel Lim, Molly Lin, Stephanie Lin, Mateusz Litwin, Theresa Lopez, Ryan Lowe, Patricia Lue, Anna Makanju, Kim Malfacini, Sam Manning, Todor Markov, Yaniv Markovski, Bianca Martin, Katie Mayer, Andrew Mayne, Bob McGrew, Scott Mayer McKinney, Christine McLeavey, Paul McMillan, Jake McNeil, David
+Medina, Aalok Mehta, Jacob Menick, Luke Metz, Andrey Mishchenko, Pamela Mishkin, Vinnie Monaco, Evan Morikawa, Daniel Mossing, Tong Mu, Mira Murati, Oleg Murk, David Mély, Ashvin Nair, Reiichiro Nakano, Rajeev Nayak, Arvind Neelakantan, Richard Ngo, Hyeonwoo Noh, Long Ouyang, Cullen O’Keefe, Jakub Pachocki, Alex Paino, Joe Palermo, Ashley Pantuliano, Giambattista Parascandolo, Joel Parish, Emy Parparita, Alex Passos, Mikhail Pavlov, Andrew Peng, Adam
+Perelman, Filipe de Avila Belbute Peres, Michael Petrov, Henrique Ponde de Oliveira Pinto, Michael, Pokorny, Michelle Pokrass, Vitchyr H. Pong, Tolly Powell, Alethea Power, Boris Power, Elizabeth Proehl, Raul Puri, Alec Radford, Jack Rae, Aditya Ramesh, Cameron Raymond, Francis Real, Kendra Rimbach, Carl Ross, Bob Rotsted, Henri Roussez, Nick Ryder, Mario Saltarelli, Ted Sanders, Shibani Santurkar, Girish Sastry, Heather Schmidt, David Schnurr, John Schulman, Daniel Selsam,
+Kyla Sheppard, Toki Sherbakov, Jessica Shieh, Sarah Shoker, Pranav Shyam, Szymon Sidor, Eric Sigler, Maddie Simens, Jordan Sitkin, Katarina Slama, Ian Sohl, Benjamin Sokolowsky, Yang Song, Natalie Staudacher, Felipe Petroski Such, Natalie Summers, Ilya Sutskever, Jie Tang, Nikolas Tezak, Madeleine B. Thompson, Phil Tillet, Amin Tootoonchian, Elizabeth Tseng, Preston Tuggle, Nick Turley, Jerry Tworek, Juan Felipe Cerón Uribe, Andrea Vallone, Arun Vijayvergiya, Chelsea Voss,
+Carroll Wainwright, Justin Jay Wang, Alvin Wang, Ben Wang, Jonathan Ward, Jason Wei, CJ Weinmann, Akila Welihinda, Peter Welinder, Jiayi Weng, Lilian Weng, Matt Wiethoff, Dave Willner, Clemens Winter, Samuel Wolrich, Hannah Wong, Lauren Workman, Sherwin Wu, Jeff Wu, Michael Wu, Kai Xiao, Tao Xu, Sarah Yoo, Kevin Yu, Qiming Yuan, Wojciech Zaremba, Rowan Zellers, Chong Zhang, Marvin Zhang, Shengjia Zhao, Tianhao Zheng, Juntang Zhuang,
+William Zhuk, and Barret Zoph. 2024.
+GPT-4 Technical Report.
+arXiv:2303.08774 [cs.CL]
+https://arxiv.org/abs/2303.08774
+OpenPhi (2025)
+OpenPhi. 2025.
+Programming Books LLaMA Dataset.
+https://huggingface.co/datasets/open-phi/programming_books_llama
+.
+Accessed: 2025-04-10.
+Pan et al
+.
+(2024)
+Yue Pan, Minxuan Zhou, Chonghan Lee, Zheyu Li, Rishika Kushwah, Vijaykrishnan Narayanan, and Tajana Rosing. 2024.
+Primate: Processing in memory acceleration for dynamic token-pruning transformers. In
+2024 29th Asia and South Pacific Design Automation Conference (ASP-DAC)
+. IEEE, 557–563.
+Park et al
+.
+(2024)
+Jaehyun Park, Jaewan Choi, Kwanhee Kyung, Michael Jaemin Kim, Yongsuk Kwon, Nam Sung Kim, and Jung Ho Ahn. 2024.
+AttAcc! Unleashing the Power of PIM for Batched Transformer-based Generative Model Inference. In
+Proceedings of the 29th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2
+(La Jolla, CA, USA)
+(ASPLOS ’24)
+. Association for Computing Machinery, New York, NY, USA, 103–119.
+https://doi.org/10.1145/3620665.3640422
+Park et al
+.
+(2022)
+Myeong-Jae Park, Ho Sung Cho, Tae-Sik Yun, Sangjin Byeon, Young Jun Koo, Sangsic Yoon, Dong Uk Lee, Seokwoo Choi, Jihwan Park, Jinhyung Lee, Kyungjun Cho, Junil Moon, Byung-Kuk Yoon, Young-Jun Park, Sang-muk Oh, Chang Kwon Lee, Tae-Kyun Kim, Seong-Hee Lee, Hyun-Woo Kim, Yucheon Ju, Seung-Kyun Lim, Seung Geun Baek, Kyo Yun Lee, Sang Hun Lee, Woo Sung We, Seungchan Kim, Yongseok Choi, Seong-Hak Lee, Seung Min Yang, Gunho Lee, In-Keun Kim,
+Younghyun Jeon, Jae-Hyung Park, Jong Chan Yun, Chanhee Park, Sun-Yeol Kim, Sungjin Kim, Dong-Yeol Lee, Su-Hyun Oh, Taejin Hwang, Junghyun Shin, Yunho Lee, Hyunsik Kim, Jaeseung Lee, Youngdo Hur, Sangkwon Lee, Jieun Jang, Junhyun Chun, and Joohwan Cho. 2022.
+A 192-Gb 12-High 896-GB/s HBM3 DRAM with a TSV Auto-Calibration Scheme and Machine-Learning-Based Layout Optimization. In
+2022 IEEE International Solid-State Circuits Conference (ISSCC)
+, Vol. 65. 444–446.
+https://doi.org/10.1109/ISSCC42614.2022.9731562
+Park et al
+.
+(2021)
+Naebeom Park, Sungju Ryu, Jaeha Kung, and Jae-Joon Kim. 2021.
+High-throughput Near-Memory Processing on CNNs with 3D HBM-like Memory.
+ACM Trans. Des. Autom. Electron. Syst.
+26, 6, Article 48 (June 2021), 20 pages.
+https://doi.org/10.1145/3460971
+Park et al
+.
+(2025)
+Sang-Soo Park, Jae-Doeg Lyu, Myungjun Kim, Jaeyun Lee, Younsun Song, Chung-Ho Yu, Hirano Makoto, Yongseok Kwon, Jong-Hoon Park, Ho-Joon Kim, Daein Lee, Donghyun Seo, Byungrok Go, Seoyoon Jeon, Yoonjee Kim, Doo-Hyun Kim, Youngmin Jo, Hyunjun Yoon, Junehong Park, Inmo Kim, Sunghoon Kim, Hokil Lee, Je-Hyeon Yu, Sang-Lok Kim, Hwan-Seok Ku, Jungmin Seo, Jindo Byun, Seung-Hyeon Yun, Kyoungtae Kang, Seung-Beom Kim, Yohan Lee, Yongkyu
+Lee, Kyunghwa Kang, Han-Jun Lee, Younghwan Ryu, Hyundo Kim, Wontae Kim, Hyeongdo Choi, Juho Jeon, Ansoo Park, Raehyun Song, Jae-Hwan Kim, Jung-Soo Kim, Hwa-Seok Lee, Moo-Kyung Lee, Jae-Ick Son, Jiho Cho, Moosung Kim, Jae-Woo Im, Jongmin Park, Hyuckjoon Kwon, Youngdon Choi, Chiweon Yoon, Seungjae Lee, Kiwhan Song, and Sung-Hoi Hur. 2025.
+30.1 A 28Gb/mm24XX-Layer 1Tb 3b/Cell WF-Bonding 3D-NAND Flash with 5.6Gb/s/Pin IOs. In
+2025 IEEE International Solid-State Circuits Conference (ISSCC)
+, Vol. 68. 1–3.
+https://doi.org/10.1109/ISSCC49661.2025.10904543
+Romanou et al
+.
+(2024)
+Angelika Romanou, Negar Foroutan, Anna Sotnikova, Zeming Chen, Sree Harsha Nelaturu, Shivalika Singh, Rishabh Maheshwary, Micol Altomare, Mohamed A Haggag, Alfonso Amayuelas, et al
+.
+2024.
+INCLUDE: Evaluating Multilingual Language Understanding with Regional Knowledge.
+arXiv preprint arXiv:2411.19799
+(2024).
+Sanh et al
+.
+(2019)
+Victor Sanh, Lysandre Debut, Julien Chaumond, and Thomas Wolf. 2019.
+DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter.
+Shafaei et al
+.
+(2014)
+Alireza Shafaei, Yanzhi Wang, Xue Lin, and Massoud Pedram. 2014.
+FinCACTI: Architectural Analysis and Modeling of Caches with Deeply-Scaled FinFET Devices. In
+2014 IEEE Computer Society Annual Symposium on VLSI
+. 290–295.
+https://doi.org/10.1109/ISVLSI.2014.94
+Shi et al
+.
+(2024)
+Xiaoming Shi, Shiyu Wang, Yuqi Nie, Dianqi Li, Zhou Ye, Qingsong Wen, and Ming Jin. 2024.
+Time-MoE: Billion-Scale Time Series Foundation Models with Mixture of Experts.
+arXiv:2409.16040 [cs.LG]
+https://arxiv.org/abs/2409.16040
+Skadron et al
+.
+(2003)
+Kevin Skadron, Mircea R Stan, Wei Huang, Sivakumar Velusamy, Karthik Sankaranarayanan, and David Tarjan. 2003.
+Temperature-aware microarchitecture.
+ACM SIGARCH Computer Architecture News
+31, 2 (2003), 2–13.
+Stan et al
+.
+(2003)
+Mircea R Stan, Kevin Skadron, Marco Barcella, Wei Huang, Karthik Sankaranarayanan, and Sivakumar Velusamy. 2003.
+Hotspot: A dynamic compact thermal model at the processor-architecture level.
+Microelectronics Journal
+34, 12 (2003), 1153–1165.
+Stillmaker and Baas (2017)
+Aaron Stillmaker and Bevan Baas. 2017.
+Scaling equations for the accurate prediction of CMOS device performance from 180 nm to 7 nm.
+Integration
+58 (2017), 74–81.
+Team et al
+.
+(2025)
+Kimi Team, Yifan Bai, Yiping Bao, Guanduo Chen, Jiahao Chen, Ningxin Chen, Ruijue Chen, Yanru Chen, Yuankun Chen, Yutian Chen, Zhuofu Chen, Jialei Cui, Hao Ding, Mengnan Dong, Angang Du, Chenzhuang Du, Dikang Du, Yulun Du, Yu Fan, Yichen Feng, Kelin Fu, Bofei Gao, Hongcheng Gao, Peizhong Gao, Tong Gao, Xinran Gu, Longyu Guan, Haiqing Guo, Jianhang Guo, Hao Hu, Xiaoru Hao, Tianhong He, Weiran He,
+Wenyang He, Chao Hong, Yangyang Hu, Zhenxing Hu, Weixiao Huang, Zhiqi Huang, Zihao Huang, Tao Jiang, Zhejun Jiang, Xinyi Jin, Yongsheng Kang, Guokun Lai, Cheng Li, Fang Li, Haoyang Li, Ming Li, Wentao Li, Yanhao Li, Yiwei Li, Zhaowei Li, Zheming Li, Hongzhan Lin, Xiaohan Lin, Zongyu Lin, Chengyin Liu, Chenyu Liu, Hongzhang Liu, Jingyuan Liu, Junqi Liu, Liang Liu, Shaowei Liu, T. Y. Liu, Tianwei Liu, Weizhou
+Liu, Yangyang Liu, Yibo Liu, Yiping Liu, Yue Liu, Zhengying Liu, Enzhe Lu, Lijun Lu, Shengling Ma, Xinyu Ma, Yingwei Ma, Shaoguang Mao, Jie Mei, Xin Men, Yibo Miao, Siyuan Pan, Yebo Peng, Ruoyu Qin, Bowen Qu, Zeyu Shang, Lidong Shi, Shengyuan Shi, Feifan Song, Jianlin Su, Zhengyuan Su, Xinjie Sun, Flood Sung, Heyi Tang, Jiawen Tao, Qifeng Teng, Chensi Wang, Dinglu Wang, Feng Wang, Haiming Wang, Jianzhou
+Wang, Jiaxing Wang, Jinhong Wang, Shengjie Wang, Shuyi Wang, Yao Wang, Yejie Wang, Yiqin Wang, Yuxin Wang, Yuzhi Wang, Zhaoji Wang, Zhengtao Wang, Zhexu Wang, Chu Wei, Qianqian Wei, Wenhao Wu, Xingzhe Wu, Yuxin Wu, Chenjun Xiao, Xiaotong Xie, Weimin Xiong, Boyu Xu, Jing Xu, Jinjing Xu, L. H. Xu, Lin Xu, Suting Xu, Weixin Xu, Xinran Xu, Yangchuan Xu, Ziyao Xu, Junjie Yan, Yuzi Yan, Xiaofei Yang, Ying Yang,
+Zhen Yang, Zhilin Yang, Zonghan Yang, Haotian Yao, Xingcheng Yao, Wenjie Ye, Zhuorui Ye, Bohong Yin, Longhui Yu, Enming Yuan, Hongbang Yuan, Mengjie Yuan, Haobing Zhan, Dehao Zhang, Hao Zhang, Wanlu Zhang, Xiaobin Zhang, Yangkun Zhang, Yizhi Zhang, Yongting Zhang, Yu Zhang, Yutao Zhang, Yutong Zhang, Zheng Zhang, Haotian Zhao, Yikai Zhao, Huabin Zheng, Shaojie Zheng, Jianren Zhou, Xinyu Zhou, Zaida Zhou, Zhen Zhu, Weiyu
+Zhuang, and Xinxing Zu. 2025.
+Kimi K2: Open Agentic Intelligence.
+arXiv:2507.20534 [cs.LG]
+https://arxiv.org/abs/2507.20534
+Van Huylenbroeck et al
+.
+(2016)
+Stefaan Van Huylenbroeck, Michele Stucchi, Yunlong Li, John Slabbekoorn, Nina Tutunjyan, Stefano Sardo, Nicolas Jourdan, Lieve Bogaerts, Filip Beirnaert, Gerald Beyer, and Eric Beyne. 2016.
+Small Pitch, High Aspect Ratio Via-Last TSV Module. In
+2016 IEEE 66th Electronic Components and Technology Conference (ECTC)
+. 43–49.
+https://doi.org/10.1109/ECTC.2016.155
+Vaswani et al
+.
+(2017)
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. 2017.
+Attention Is All You Need.
+CoRR
+abs/1706.03762 (2017).
+arXiv:1706.03762
+http://arxiv.org/abs/1706.03762
+Wei et al
+.
+(2024)
+Yuanxin Wei, Jiangsu Du, Jiazhi Jiang, Xiao Shi, Xianwei Zhang, Dan Huang, Nong Xiao, and Yutong Lu. 2024.
+APTMoE: Affinity-Aware Pipeline Tuning for MoE Models on Bandwidth-Constrained GPU Nodes. In
+SC24: International Conference for High Performance Computing, Networking, Storage and Analysis
+. IEEE, 1–14.
+Welbl et al
+.
+(2017)
+Johannes Welbl, Nelson F. Liu, and Matt Gardner. 2017.
+Crowdsourcing Multiple Choice Science Questions. In
+Proceedings of the 3rd Workshop on Noisy User-generated Text
+. Association for Computational Linguistics, Copenhagen, Denmark, 94–106.
+https://doi.org/10.18653/v1/W17-4413
+Wu et al
+.
+(2025)
+Xiangjin Wu, Luke R. Upton, Jian Chen, Po-Kai Hsu, Shimeng Yu, and H.-S. Philip Wong. 2025.
+Signal Margin, Density, and Scalability of 3-D DRAM: A Comparative Study of Two Bitline Architectures.
+IEEE Transactions on Electron Devices
+72, 2 (2025), 671–677.
+https://doi.org/10.1109/TED.2024.3520074
+xAI ([n. d.])
+xAI. [n. d.].
+Grok 3.
+https://grok.com/
+.
+Accessed: 2025-03-02.
+Xue et al
+.
+(2025)
+Leyang Xue, Yao Fu, Zhan Lu, Luo Mai, and Mahesh Marina. 2025.
+MoE-Infinity: Efficient MoE Inference on Personal Machines with Sparsity-Aware Expert Cache.
+arXiv:2401.14361 [cs.LG]
+https://arxiv.org/abs/2401.14361
+Yang et al
+.
+(2024)
+An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chengyuan Li, Dayiheng Liu, Fei Huang, Haoran Wei, et al
+.
+2024.
+Qwen2. 5 technical report.
+arXiv preprint arXiv:2412.15115
+(2024).
+Yao et al
+.
+(2024)
+Jinghan Yao, Quentin Anthony, Aamir Shafi, Hari Subramoni, Dhabaleswar K., and Panda. 2024.
+Exploiting Inter-Layer Expert Affinity for Accelerating Mixture-of-Experts Model Inference.
+arXiv:2401.08383 [cs.LG]
+https://arxiv.org/abs/2401.08383
+Yue et al
+.
+(2024)
+Zhiheng Yue, Huizheng Wang, Jiahao Fang, Jinyi Deng, Guangyang Lu, Fengbin Tu, Ruiqi Guo, Yuxuan Li, Yubin Qin, Yang Wang, et al
+.
+2024.
+Exploiting Similarity Opportunities of Emerging Vision AI Models on Hybrid Bonding Architecture. In
+2024 ACM/IEEE 51st Annual International Symposium on Computer Architecture (ISCA)
+. IEEE, 396–409.
+Yun et al
+.
+(2024)
+Sungmin Yun, Kwanhee Kyung, Juhwan Cho, Jaewan Choi, Jongmin Kim, Byeongho Kim, Sukhan Lee, Kyomin Sohn, and Jung Ho Ahn. 2024.
+Duplex: A Device for Large Language Models with Mixture of Experts, Grouped Query Attention, and Continuous Batching.
+arXiv:2409.01141 [cs.AR]
+https://arxiv.org/abs/2409.01141
+Zhang et al
+.
+(2022)
+Susan Zhang, Stephen Roller, Naman Goyal, Mikel Artetxe, Moya Chen, Shuohui Chen, Christopher Dewan, Mona Diab, Xian Li, Xi Victoria Lin, et al
+.
+2022.
+Opt: Open pre-trained transformer language models.
+arXiv preprint arXiv:2205.01068
+(2022).
+Zhou et al
+.
+(2021)
+Minxuan Zhou, Yunhui Guo, Weihong Xu, Bin Li, Kevin W Eliceiri, and Tajana Rosing. 2021.
+MAT: Processing in-memory acceleration for long-sequence attention. In
+2021 58th ACM/IEEE Design Automation Conference (DAC)
+. IEEE, 25–30.
+Zhou et al
+.
+(2022)
+Minxuan Zhou, Weihong Xu, Jaeyoung Kang, and Tajana Rosing. 2022.
+TransPIM: A memory-based acceleration via software-hardware co-design for transformer. In
+2022 IEEE International Symposium on High-Performance Computer Architecture (HPCA)
+. IEEE, 1071–1085.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+Click the "Report Issue"
+(
+)
+button, located in the page header.
+Tip:
+You can select the relevant text first, to include it in your report.
+Our team has already identified
+the following issues
+. We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a
+list of packages that need conversion
+, and welcome
+developer contributions
+.
+We gratefully acknowledge support from
+our
+major funders
+,
+member institutions
+,
+,
+and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status
+(opens in new tab)
+Major funding support from

@@ -1,0 +1,10 @@
+{
+  "objective": "Falsification control: a conditional slower legal read phase may remove the finite-PB failure without dummy overfetch or idle CR bias retention.",
+  "sealed_v1_sha256": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+  "cr_ns": [9700,10000,10240,10500,11000],
+  "cache_copy_ns": [100,500,1000,2000],
+  "modes": {"fixed_recycle": "recycle_ns=6040; added duration is assigned to evaluation", "fixed_evaluation": "evaluation_ns=3660; recycle_ns=cr_ns-3660"},
+  "layouts": ["candidate12", "ordinary_packed_adjacent12", "ordinary_packed_spaced15_keep_hot_drop"],
+  "capabilities": "Same two weight latches/cache-only full-page ECC, evaluation-start overwrite and per-plane cache copy as v1; strict_no_interval issue. Packed-spaced includes explicit conditional drop-before-ECC for unselected physical reads.",
+  "interpretation": "Source timing parameter sensitivity, not hardware measurement. Consecutive waves issue exactly at prior array completion; no issue_idle retained-bias hold is inserted. Existence and legality of programmable longer read phases is unresolved. Do not present strict9.7 impossibility as a novelty source without this control."
+}

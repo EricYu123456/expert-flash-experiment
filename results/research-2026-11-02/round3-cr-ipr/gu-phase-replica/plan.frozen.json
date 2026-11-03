@@ -1,0 +1,11 @@
+{
+  "status": "frozen_before_builder_experiment",
+  "format": {"weight_bits": 8, "activation_bits": 8, "planes": 4, "page_bytes": 16384, "single_GU_output_row_bytes": 1536},
+  "placement": "phase0only experts0,1,2; phase2only experts3,4,5; other58experts have both complete6page copies. Phasep copy pagej maps plane(p+j)%4. PerplaneWL allocated in expertID/phase/page order; shared12nativeRR pages allocated last. No outputvalue or quantization change.",
+  "routing": "For any six distinctselectedexperts, assignall exclusivecopies first. Sorted dualexperts fill phase0 until exactly3; othersphase2. Sort eachphasegroup; interleave phase0,phase2 expert, eachfull6pages, then shared12pages. No new PEselector or inputcontext is introduced.",
+  "primary": "Sealed-compatible fixed0123 lowering: plain12fullyusefulwaves plus fixedsplit of originalwave10 afterfirstusefulpage. Both resultingwaves read4planes using4unique realunselectedresidentpages total and dropbeforeECC. Same logicalweightstream, ownerboundary and roworder.",
+  "timing": "Use unchanged sealedpipeline sourcefixed, strictnointerval,2weightlatches, copy500ns,CR9700ns,cold28000ns,ECC6.4GB/s,recycle6040ns,evaloverwrite. Checkcopy100plain12withoutdrop separately. Whole-all-dummywave optionalexplicitcontrol only, never silently passedto sealedpipeline which rejectsemptyusefulwaves.",
+  "capacity": "58dual contribute174pages/plane;3+3single contribute9pages/plane;shared3pages/plane =>186WL. Extra58completeGUcopies×1.5MiB=87MiB/layer. GU186MiB +tripleprivateDown144MiB +sharedDown1.5MiB=331.5MiB/layer <=common384MiB. SharedDowng4 has6WL at186..191;privateDowntriples uses192WL/block1.",
+  "checks": "Hall/count proof for allpossibleavailabilitycount triples and explicit routefamilies; exhaustiveall64choose6 route count can be checked arithmetically without enumerating75millionqueries. Fullresidentphysicaladdress/weightsourceidentity ledger, zerocopyexceptdeclared58GUreplicas, sourcepageidentity and complete-row/owner conservation, actualselected/dummyaddresses, sealedpipelinefinitePB/copy100/split500. NoTRAIN,heldoutorfullFFN.",
+  "attribution": "Known two-server capacity3 CBC availability applied to physicalphasealignment, not newCBC or newplacementalgorithm. Native preECCdrop and sameblockIPR remain conditional; source permutation is not used."
+}

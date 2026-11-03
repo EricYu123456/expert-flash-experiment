@@ -1,0 +1,57 @@
+{
+  "status": "descriptive_summary_of_sealed_results",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-replica-full-ffn/TRAIN512/report.json": "029f8c6324e94d6cb7a50645666f8edd4b70ea492d43065f7b872a9019bef013",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_round3_overview.py": "62c6b84a49492b0bb82a20025638f5fdef21d9124004e234beae320203efe6a3"
+  },
+  "rows": [
+    {
+      "name": "candidate.original_g4_shared16.input1.GF",
+      "mean_us": 338.59621875,
+      "event_p99_us": 385.962,
+      "three_layer_sum_p99_us": 1154.776,
+      "useful_payload_MiB_per_layer": 148.5,
+      "scope": "existing TRAIN, 32 prompts, 512 aligned inputs, three MoE layers; conditional service model"
+    },
+    {
+      "name": "candidate.onecopy_shared4.input1.GF",
+      "mean_us": 318.71990625,
+      "event_p99_us": 400.106,
+      "three_layer_sum_p99_us": 1129.5010999999993,
+      "useful_payload_MiB_per_layer": 148.5,
+      "scope": "existing TRAIN, 32 prompts, 512 aligned inputs, three MoE layers; conditional service model"
+    },
+    {
+      "name": "candidate.triple_private_shared4.input1.GF",
+      "mean_us": 280.526,
+      "event_p99_us": 280.526,
+      "three_layer_sum_p99_us": 841.578,
+      "useful_payload_MiB_per_layer": 244.5,
+      "scope": "existing TRAIN, 32 prompts, 512 aligned inputs, three MoE layers; conditional service model"
+    },
+    {
+      "name": "RR.triple_private_shared4.input1.GF",
+      "mean_us": 281.89118229166667,
+      "event_p99_us": 296.966,
+      "three_layer_sum_p99_us": 865.6597999999999,
+      "useful_payload_MiB_per_layer": 244.5,
+      "scope": "existing TRAIN, 32 prompts, 512 aligned inputs, three MoE layers; conditional service model"
+    },
+    {
+      "name": "g8_fixed.triple_private_shared4.input1.GF",
+      "mean_us": 293.4315208333333,
+      "event_p99_us": 340.966,
+      "three_layer_sum_p99_us": 962.348,
+      "useful_payload_MiB_per_layer": 244.5,
+      "scope": "existing TRAIN, 32 prompts, 512 aligned inputs, three MoE layers; conditional service model"
+    }
+  ],
+  "candidate_vs_same_triples_RR_mean_reduction_pct": 0.4842940742481705,
+  "candidate_triples_vs_onecopy_partition_mean_reduction_pct": 11.983533347315046,
+  "candidate_triples_vs_onecopy_partition_event_p99_reduction_pct": 29.88707992382018,
+  "outputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/overview.png": "087e0ef0f53e7a1c40c9c3d14dc06034ed5ef9346e454aa3668e1286200af9c1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/overview.pdf": "20cd29920f4babd74800dd8ed0751cfc712093c78d67e54fd949b5f0576d1b89"
+  },
+  "analysis_scope": "Posthoc descriptive summary only; no new layouts, test data, hyperparameters or statistical independence claims."
+}

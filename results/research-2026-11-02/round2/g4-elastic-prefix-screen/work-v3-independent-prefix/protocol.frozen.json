@@ -1,0 +1,111 @@
+{
+  "status": "frozen_before_contract_and_TRAIN_work",
+  "utc": "2026-11-02T03:45:06.357617+00:00",
+  "source_sha256": "6f2acaeb3471e8482e10b932834cf5907a4271d107ffce5925e54e63c0b8b1be",
+  "inputs": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_g4_independent_prefix_screen.py",
+      "sha256": "6f2acaeb3471e8482e10b932834cf5907a4271d107ffce5925e54e63c0b8b1be",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-elastic-prefix-screen/work-v3-independent-prefix/source-snapshot/6f2acaeb3471e848-research_20261103_g4_independent_prefix_screen.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/continuation/native/0107.npz",
+      "sha256": "7fb2789d65f9b59f73a516c5761161ca679fd2d0765c4ed7431a80d93c355abb"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/protocol.frozen.json",
+      "sha256": "a59c3b33bc507d5bf21c8cedac8341c21140913cdb5ed2c27849b4ed763f46d8"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz",
+      "sha256": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-elastic-prefix-screen/work-v1/work_arrays.npz",
+      "sha256": "5ed9089b12b9446d206377e5022a23d00a2314e60e4a4ada432d4c2b1ee01f94"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-elastic-prefix-screen/work-v1/protocol.frozen.json",
+      "sha256": "aef40f6cb3d9952d9b1365bddab92f292f799915e39485135395aef572a9137b"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-elastic-prefix-screen/work-v1/independent/completion.json",
+      "sha256": "5c12ac93bae61843cc3287637aade59f7c60e4b6dc343046db9f487ec35d33f6"
+    }
+  ],
+  "scipy_version": "1.16.3",
+  "service": {
+    "chips": 16,
+    "channels": 8,
+    "planes": 4,
+    "page_bytes": 16384,
+    "block_wordlines": 192,
+    "input_bytes": 1,
+    "output_bytes": 4,
+    "ordinary_read_ns": 28000,
+    "command_ns": 250,
+    "host_submit_ns": 2000,
+    "pcie_bytes_per_second": 8000000000,
+    "channel_bytes_per_second": 2000000000,
+    "activation_ns": 0,
+    "combine_ns": 0,
+    "output_fringe": 1,
+    "down_first": 0,
+    "input_buffer_bytes": 32768,
+    "input_channel_copies": 1
+  },
+  "scope": "G4 L0 actualW8 TRAIN512; same fixed v1 A8 positions; unchanged Down/shared; no native/heldout/alllayer.",
+  "layouts": [
+    {
+      "index": 0,
+      "special": "last source chip",
+      "low_pairing": "ascending source/low chips"
+    },
+    {
+      "index": 1,
+      "special": "first source chip",
+      "low_pairing": "ascending others, low chips rotated1"
+    },
+    {
+      "index": 2,
+      "seed": 2026111101,
+      "special": "uniform source",
+      "low_pairing": "uniform permutation"
+    },
+    {
+      "index": 3,
+      "seed": 2026111102,
+      "special": "uniform source",
+      "low_pairing": "uniform permutation"
+    }
+  ],
+  "storage": "For 7 sources: original Bcore | one low40 original row range | 5/6-row highprefix piece. Special eighth source: Bcore | 45/46-row highsuffix. Original low/high destinations remain resident. Everyexpert33waves; same v1 copied bytes/512 extra waves perlayer.",
+  "contract": "u_i independently chooses long128 or shortBcore. Low_i job executes iff notu_i. Original highdestination fullh if notu_special; prefix36..38 ifu_special and notalllong; absentifalllong. Every read/computed duplicate/fringe output ischarged; logical ownership consumes each original GU row exactlyonce. FullGU->A8 barrier remains.",
+  "delta": "For i0..6: +28086 source,-29102 low. i7special:+28086 source,-28086 highdest. z=AND8u gives additional-29102 highdest. Baseincludes B GU+privateDown+shared.",
+  "LP": {
+    "queries_per_layout": 512,
+    "layouts": 4,
+    "variables": "48u+6z+T",
+    "constraints": "16chip+48 z<=u+6 sumu-z<=7",
+    "bounds": "u,z in[0,1]; T>=0; continuous necessary relaxation",
+    "solver": "scipy.linprog HiGHS",
+    "certificate": "Recompute box-dual bound with nonpositive dual multipliers, sumchip lambda<=1-1e-10. Residuals over[0,1] contribute min(residual,0); T residual nonnegative. Convert to ns and floor after1e-4ns safety. No primal LP value used as certified LB."
+  },
+  "gate": {
+    "mean_pct": 2,
+    "p99_pct": 5,
+    "action": "Stop this finite fixedpairing family if all LPceilings belowboth thresholds. Otherwise run bounded feasible greedy and report; no automaticnative."
+  },
+  "greedy": {
+    "starts": [
+      "allB",
+      "allA"
+    ],
+    "passes": 2,
+    "bit_order": "selectedexpert ordinal, source bits0..7",
+    "objective": "lexicographic (maxchipwork,sumSquaredChipwork,descendingChiploads)",
+    "pairing_choice": "One offline fixedpairing selected by mean feasible work acrossTRAIN. Runtime cannot mixpairings.",
+    "scope": "Atmost4x512x2startsx2passesx48flips; workonly. No selector/native costs waived in performance claims."
+  },
+  "limitations": "Published prefixreplication/orientation principles; no novelalgorithm claim. LP/greedy work is not achieved latency. Outputfringe, ordinaryview/nativeABI remain modeled not measured. Complete image rows are W8 ordinary fullrows, not partialdots or new inputformat."
+}

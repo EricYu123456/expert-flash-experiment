@@ -1,0 +1,240 @@
+{
+  "status": "independent arithmetic, direct-row-enumeration and generated-certificate audit complete",
+  "created_utc": "2026-11-01T22:48:09.828749+00:00",
+  "executed_source_sha256": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+  "certificate_sha256": "27b3cb11d1868d7f5b739022d425684f5a7b90ac75b50aa3ce7fddf3b12e9576",
+  "audit_file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/whole-row-compiler/independent/direct_partition_audit_23cfb0c65556.json",
+  "audit_script": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/whole-row-compiler/independent/audit_direct_row_partitions.py",
+  "validation": {
+    "DP_and_Dmin_pass": true,
+    "counts": {
+      "shapes": 3456,
+      "partition_cost_classes": 15360,
+      "depth_comparisons": 39060,
+      "exact_fill_lemma_cases": 1664
+    },
+    "generated_shapes": 14,
+    "all_generated_profiles_pass": true,
+    "source_certificate_match": true,
+    "oracle_independence": "Exhaustive nondecreasing positive integer partitions of R into <=M jobs; direct ceil(r_i*C/B) per partition. No wave interval/capacity DP used in oracle."
+  },
+  "lemma_verdict": "Correct under explicit ideal complete-row job assumptions. It is elementary integer packing, not a new theorem claim.",
+  "proof": [
+    "Let B,C,M be positive integers, R a nonnegative integer, and RC=WB with integer W. There are at most M positive integer complete-row jobs (normally one job per chip), sum r_i=R, and independent cost w_i=ceil(r_i C/B).",
+    "The sum of nonnegative excesses sum_i(w_i-r_i C/B) equals sum_i w_i-W. Thus total W occurs iff every excess is zero, equivalently B divides r_i C for every job.",
+    "Write g=gcd(B,C), p=B/g and q=C/g, with gcd(p,q)=1. Then exact fill requires r_i=p t_i and w_i=q t_i for integer t_i>=0. RC=WB also implies R=pN and W=qN for an integer N.",
+    "For at most M jobs, max t_i is at least ceil(N/M). Balanced integer t_i attain it, proving D_exact=q ceil((W/q)/M). Exactly M nonempty jobs additionally require N>=M.",
+    "Without the exact-total-work restriction, max r_i>=ceil(R/M); monotonicity gives D_min=ceil(ceil(R/M) C/B). Distributing rows as evenly as possible attains it, including R<M and C>B.",
+    "For depth cap D alone, feasibility is exactly R<=M floor(DB/C). Every job can hold at most floor(DB/C) rows, and assigning rows up to that capacity is sufficient in this ideal job model.",
+    "The capacity-DP minimal-work witness is sound despite tracking upper endpoints only: if a minimum-work parent had sum of lower endpoints >R, delete rows from its maximum-capacity assignment until R remain. At least one job then falls to a cheaper wave interval, yielding a feasible smaller-work assignment and contradicting minimality. The code also materializes and checks the parent."
+  ],
+  "edge_cases": [
+    {
+      "case": "R<M and C>B",
+      "values": {
+        "R": 1,
+        "C": 3,
+        "B": 2,
+        "M": 4
+      },
+      "conclusion": "D_min=D_exact=2 with one positive job; globally balanced waves [1,1,0,0] are not realizable. Original certificate() assert was a genuine optional-control bug, fixed by nullable balanced_wave_profile. Archived v1 and current execution reproduced in api_edge_regression.json."
+    },
+    {
+      "case": "exactly M nonempty jobs",
+      "values": {
+        "R": 2,
+        "C": 3,
+        "B": 2,
+        "M": 2
+      },
+      "conclusion": "W=3,q=3,N=1: one 2-row job achieves exact work at depth3; forcing both chips nonempty requires [1,1] rows, 4 waves total. The lemma assumes <=M positive jobs."
+    },
+    {
+      "case": "pooled ceiling is not exact pooled fill",
+      "values": {
+        "R": 2,
+        "C": 2,
+        "B": 3,
+        "M": 2
+      },
+      "conclusion": "ceil(RC/B)=2 but RC/B=4/3. Two 1-row jobs cost one wave each, depth1; q=2 does not force individual wave costs to multiples of2. Do not use the exact-fill formula when RC%B!=0."
+    },
+    {
+      "case": "zero rows",
+      "conclusion": "R=0 gives W=D_min=D_exact=0 arithmetically; the current positive-row compiler API deliberately excludes it."
+    },
+    {
+      "case": "number of jobs versus number of chips",
+      "conclusion": "At most M jobs is the stated max-job-depth problem. If many serial jobs per chip are allowed, max-job-depth is a different metric; the same balancing expression can bound total waves per chip, not the depth of each tiny job."
+    }
+  ],
+  "physical_scope": [
+    "A job starts at a legal wave-aligned full-row stream boundary, uses one original full input vector/dimension, and all coefficient bytes are counted. No wave can be jointly shared with another independent job in this cost model.",
+    "B is usable coefficient payload bytes in an ordinary full-plane read wave, not raw page+spare bytes. C must include any in-band row packing/alignment/scale bytes that consume NAND payload, or metadata must be separately costed. Input bytes, command bytes, output/FIFO bytes and controller time are separate costs.",
+    "All emitted 14-shape witnesses independently fit within one 192-wave block per job (largest112 waves). Fresh wave-aligned blocks establish this limited single-block feasibility; the module emits logical row bands, not dense multi-job physical addresses or a minimal-capacity FTL allocation.",
+    "For multi-block jobs, ceil(total coefficient bytes/B) is only an ideal lower bound unless legal whole-row splits preserve it. Example B2,C3,R2,M1 with block2waves: ideal3waves, but two full-row native calls each need2waves, total4. Footnote9 alone does not expose partial-row accumulator continuation.",
+    "The generic certificate capability object omits native input-buffer capacity, field widths and output behavior; each backend must additionally validate those limits. Independent LUNs, plane masks, contexts and page-buffer replay are not assumed."
+  ],
+  "opaque_row_numeric_contract": {
+    "statement": "For each desired output row j, native kernel computes F(original full row bytes, original full input bytes, original column order/dimension, original row/expert metadata, original arithmetic mode). F must be row-separable and independent of physical address/job row count except row selection. Moving intact rows and scattering outputs then calls the identical F for each j.",
+    "proof": "Each desired row is present exactly once and receives identical F arguments. Its opaque result therefore matches before/after placement. This is substitution of the same row function, not reassociation of a dot product; no raw-I32 return, output conversion, column partials or host reduction is needed.",
+    "must_preserve": [
+      "Row scales/quantization groups/bias/original row index and padding/valid-length semantics",
+      "Native accumulator reset and full-row column sequence",
+      "Output quantization not dependent on all other rows in the current job, unless equivalent original global metadata is supplied",
+      "Padded or unwanted fringe outputs cannot affect desired row results, and must be drained/discarded under the native interface"
+    ],
+    "not_established_by_proof": "Whether an actual unpublished AiF numeric implementation meets all these assumptions. It also does not preserve uncorrected location-dependent bit faults; the logical coefficient bytes must be the same."
+  },
+  "fringe_output_contract": {
+    "status": "conditional inference from publicly described dimension/block/offset/page-count command, not a confirmed AiF PE behavior",
+    "issue": "If PE emits a full output for every C-byte row in all consumed padded pages, host must drain/discard surplus complete outputs. If a native valid-row cutoff exists, that cost can be avoided; the inspected paper does not expose it.",
+    "qwen38_balanced_GU": {
+      "useful_rows": 1280,
+      "complete_rows_in_requested_pages": 1294,
+      "extra_complete_outputs": 14
+    },
+    "qwen38_balanced_down": {
+      "useful_rows": 2560,
+      "complete_rows_in_requested_pages": 2652,
+      "extra_complete_outputs": 92
+    },
+    "cost_rule": "Use sum floor(pages_i*page_bytes/C) for a page-count stream, or sum floor(waves_i*B/C) if all full-plane pages enter PE. Include extra output bytes/drain commands in matched layouts; no asserted output dtype."
+  },
+  "model_examples": [
+    {
+      "model": "granite3",
+      "phase": "gate_up",
+      "W": 16,
+      "q": 1,
+      "row_unit_p": 64,
+      "D_min": 1,
+      "D_exact": 1
+    },
+    {
+      "model": "granite3",
+      "phase": "down",
+      "W": 8,
+      "q": 1,
+      "row_unit_p": 128,
+      "D_min": 1,
+      "D_exact": 1
+    },
+    {
+      "model": "olmoe",
+      "phase": "gate_up",
+      "W": 64,
+      "q": 1,
+      "row_unit_p": 32,
+      "D_min": 4,
+      "D_exact": 4
+    },
+    {
+      "model": "olmoe",
+      "phase": "down",
+      "W": 32,
+      "q": 1,
+      "row_unit_p": 64,
+      "D_min": 2,
+      "D_exact": 2
+    },
+    {
+      "model": "deepseek",
+      "phase": "gate_up",
+      "W": 88,
+      "q": 1,
+      "row_unit_p": 32,
+      "D_min": 6,
+      "D_exact": 6
+    },
+    {
+      "model": "deepseek",
+      "phase": "down",
+      "W": 44,
+      "q": 11,
+      "row_unit_p": 512,
+      "D_min": 3,
+      "D_exact": 11
+    },
+    {
+      "model": "qwen3",
+      "phase": "gate_up",
+      "W": 48,
+      "q": 1,
+      "row_unit_p": 32,
+      "D_min": 3,
+      "D_exact": 3
+    },
+    {
+      "model": "qwen3",
+      "phase": "down",
+      "W": 24,
+      "q": 3,
+      "row_unit_p": 256,
+      "D_min": 2,
+      "D_exact": 3
+    },
+    {
+      "model": "mixtral",
+      "phase": "gate_up",
+      "W": 1792,
+      "q": 1,
+      "row_unit_p": 16,
+      "D_min": 112,
+      "D_exact": 112
+    },
+    {
+      "model": "mixtral",
+      "phase": "down",
+      "W": 896,
+      "q": 7,
+      "row_unit_p": 32,
+      "D_min": 56,
+      "D_exact": 56
+    },
+    {
+      "model": "granite4tiny",
+      "phase": "gate_up",
+      "W": 24,
+      "q": 3,
+      "row_unit_p": 128,
+      "D_min": 2,
+      "D_exact": 3
+    },
+    {
+      "model": "granite4tiny",
+      "phase": "down",
+      "W": 12,
+      "q": 1,
+      "row_unit_p": 128,
+      "D_min": 1,
+      "D_exact": 1
+    },
+    {
+      "model": "qwen38",
+      "phase": "gate_up",
+      "W": 50,
+      "q": 5,
+      "row_unit_p": 128,
+      "D_min": 4,
+      "D_exact": 5
+    },
+    {
+      "model": "qwen38",
+      "phase": "down",
+      "W": 25,
+      "q": 5,
+      "row_unit_p": 512,
+      "D_min": 2,
+      "D_exact": 5
+    }
+  ],
+  "interpretation": [
+    "Qwen38 GU exactwork50 requires q5 jobs and least exactwork depth5, while minimum jobdepth4 needs at least51 totalwaves. Down exactwork25 requires depth5, while depth2 needs26.",
+    "G4 GU exactwork24 requires depth3 versus least depth2 requiring25waves; Deep down44 requires depth11 versus least depth3 requiring45waves. This explains why minimum total work and minimum per-job depth differ.",
+    "No depth gap does not mean no placement opportunity: Granite3 down exactwork8 versus equal16 has capacity undersaturation at unchanged depth1; subgroup/query scheduling remains a separate tradeoff. Mixtral down q7 but D_min56 is already a multiple of7.",
+    "Whole-row numeric compatibility and physical certificates may be useful system contributions when paired with a nontrivial lowering/runtime and gains against all-width unequal-row/standard integer-packing matched controls; the lemma/DP, hardware-aware tiling or complement assignment alone are not novelty claims."
+  ],
+  "targeted_prior_verdict": "No inspected primary directly duplicates the precise ordinary-NAND whole-row work/depth frontier plus opaque-row numeric and physical lowering certificate. Cambricon is a direct strong flash-tiling prior; NVIDIA/Felix establish generic quantization/divisibility/compiler principles. This is a bounded negative finding, not publication novelty certification.",
+  "sources_file": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/whole-row-compiler/independent/sources.json"
+}

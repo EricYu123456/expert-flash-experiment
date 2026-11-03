@@ -1,0 +1,56 @@
+{
+  "client_date": "2026-11-02",
+  "purpose": "Evaluate the proposed existing-capability one-copy GU placement and whole-row sparse CR/IPR stream; reject unsupported performance attribution.",
+  "authorization": "User resumed experiments and authorized up to three gpt-6.1-sol xhigh subagents.",
+  "freeze_stage": "Experimental design before root full-FFN replay and before any new evaluation-data selection. Child geometry, numeric and TRAIN-only baseline work can proceed independently.",
+  "hardware_status": {
+    "user_assumed": ["same-block skipped-WL charge-recycling read", "synchronized independent page addresses across four planes"],
+    "documented_reference_parameters": {"cold_read_ns": 28000, "cr_read_ns": 9700, "recycle_ns": 6040, "page_bytes": 16384, "planes": 4, "ecc_bytes_per_second": 6400000000, "chips": 16, "channels": 8, "channel_bytes_per_second": 2000000000, "pcie_bytes_per_second": 8000000000},
+    "inferred_geometry": {"lsb_wordlines_per_block": 192},
+    "unverified_modes_to_separate": ["programmable PB-to-ECC plane order", "cache-to-read-latch transfer and overwrite deadlines", "sparse GEMV address sequencing and continuation", "output FIFO capacity", "bias retention across idle or paced reads"],
+    "prohibited_silent_assumptions": ["new arithmetic datapath", "extra accumulators", "large weight FIFO", "arbitrary bias hold", "asynchronous plane execution", "different experts' Down operands treated as common input"]
+  },
+  "primary_geometry": {"model": "granite4tiny", "H": 1536, "I": 512, "experts": 64, "selected": 6, "shared_I": 1024, "gu_chip_shards": 16, "coefficient_bytes": 1, "routed_gu_pages_per_chip": 6, "shared_gu_pages_per_chip": 12},
+  "candidate": {
+    "routed_page_planes": [0, 1, 2, 0, 1, 3],
+    "shared_page_planes": [3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2],
+    "group_macro_order": ["A1", "D", "A2", "B1", "B2", "C", "A3", "B3"],
+    "group_size": 3,
+    "groups_per_query": 2,
+    "resident_pages_per_plane": [128, 128, 70, 70],
+    "selected_pages_per_plane": [12, 12, 12, 12],
+    "copies": 1,
+    "wave_count": 12,
+    "claim_scope": "Page-count and native row-stream construction, conditional on supported source selection; not measured hardware latency."
+  },
+  "comparators": [
+    "separate expert GU runs with the same CR and ECC parameters",
+    "packed same-WL skip-CR, identity ordering",
+    "packed same-WL skip-CR, TRAIN-only maximum-weight matching ordering",
+    "IPR conventional global round-robin packing with the same selected bytes",
+    "IPR phase-aligned routed pages and balanced shared pages",
+    "generic sparse common-operand compiler allowed the same candidate layout and schedule"
+  ],
+  "data": {
+    "training_manifest": "results/research-2026-11-02/round2/w8-format-training/compiler_inputs.frozen.json",
+    "granite_training_sha256": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "deepseek_training_sha256": "11168c1e899c8ce0bf23e719e908f243fa09d30980a65488a3f92aa448344fed",
+    "initial_replay": "TRAIN L0 through L2, then all layers only if meaningful unresolved concerns or improvement justify expansion.",
+    "evaluation_policy": "Freeze layouts and source/config hashes before evaluation routes. Previously inspected heldout archives are reused evaluation, not fresh prospective evidence. Do not fit to evaluation routes."
+  },
+  "full_ffn_contract": {
+    "dependencies": "Full GU outputs at host before whole-vector activation/A8 and private Down upload; weighted combine waits all routed and shared Down outputs.",
+    "resources": ["per-chip array/ECC service", "one command engine", "host submissions", "eight channels shared by two chips each", "PCIe", "finite weight-page latches", "output backlog measured against explicit capacity"],
+    "matched_down": ["equal 16-chip whole-row Down", "route-blind cyclic 12-chip whole-row Down", "available frozen strong whole-row Down maps for the same layer"],
+    "sensitivity": {"input_channel_copies": [1, 4], "source_order": ["fixed", "programmable_conditional"], "cr_stall": ["strict_no_interval", "cold_reset", "paced_retention_conditional"]},
+    "numerics": "Fixed existing W8/A8 full-row reference, same bytes/scales and row accumulation order; no partial-column reduction."
+  },
+  "required_evidence": ["actual byte/address conservation", "independent exact integer and scaled-output checks", "row-fragment and source-order validation", "finite-latch pipeline traces", "matched-capability strong baselines", "full-FFN resource and dependency audits", "source/input hash receipts"],
+  "decision_rules": [
+    "A wave-count gain is not an achievable latency result.",
+    "A generic compiler reproducing the same layout is a tie, not a novel optimizer win.",
+    "An infeasible strict timing mode is reported as infeasible; a conditional hold or new source selector cannot silently repair it.",
+    "Do not claim publication readiness without distinct contribution, executable resource contract, and complete-FFN benefit.",
+    "Preserve negative results and adapt subsequent methods in separately frozen follow-up artifacts."
+  ]
+}

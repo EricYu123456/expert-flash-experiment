@@ -1,0 +1,37 @@
+{
+  "utc": "2026-11-02T15:19:26.191817+00:00",
+  "status": "frozen_before_native_feature_ablation",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_native_group_control.py": "73311b612489fea9ea7269aedf9be5ee8db35729ad9464ca79914a5604c72b5a",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_g2_availability_ffn.py": "9c99dcf4d9e58cf4a2a6747fa4e0771ef902b89c7053adadb289479b151dc9e3",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-replica-full-ffn/replica_full_ffn.py": "1e46ebb6a53d4ea86e2dc498a41f568f86a1566c622b8e0faf8ce88468b62375",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/g2-availability-headroom/capacity-kernel/kernel_builder.py": "c8a5b060131f956919846aaf875fc380d13934dcf100de136778495e97eaa1ee",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_pipeline.py": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.cpp": "2ac76a9f17662727c7df8cb4c3b372daec1050c4d7dcd0c5e7dc65479fa10ad8",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/g2-availability-full-ffn/resident_layouts.frozen.json": "17d9cec1f976dbaa5f15b33c31769af94fa5427aaf50328f259dd2791006bbed",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/g2-availability-full-ffn/support_maps.frozen.npz": "a5412c4aed77ab101dbc12e4fc56fc8b7ec78d71e0736711580be592070393d1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-replica-full-ffn/Down_job_maps.frozen.json": "fa9a6a7b780c11a15df52d85e19cf8a6830afb39f1adc20a957faf6a59cf1fd2",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/g8-addendum/group_maps.frozen.npz": "222ba23fd7eff9a6fc8ad2c70c1b2469bc6ee76797d675bffcc3fcd16e85d3a5"
+  },
+  "GU": "Unchanged TRAIN balanced32expert/group g8 whole-rowGU, fixed0123 complete4plane sameWL waves. No shaping/fill/dummy/discard/permutation/IPR. Strict500 first; if PB fails, explicit coldreset with charged28us and finite-PB recurrence. One common input perchip unchanged.",
+  "Down": "Unchanged frozen g4triples or g2 sparse252instances plus deterministic cap1/cap2 matching; all selected full waves fixed0123, sameWL, strict500, private complete inputs. No private fusion or input sharing.",
+  "axes": {
+    "array_mode": [
+      "cr",
+      "ordinary"
+    ],
+    "Down": [
+      "g4triples",
+      "g2availability"
+    ],
+    "input_copies": [
+      1,
+      4
+    ],
+    "priority": "GF"
+  },
+  "data": "All existing TRAIN first3layers x512 inputs; no new prompts or heldout inspected by this driver, no fitting.",
+  "capacity": "g8GU99WL perplane, g2Down<=252WL allocated below128and inblock1, no overlaps. g4payload244.5MiB, g2payload289.5MiB; same2blocks/chip upperbudget. g2 maximum allocatedWL380 includes conservativeGUreserved128; actualGU+Down351.",
+  "limits": "Conditional timing model still requires correct PB copy/overwrite/ECC/PE/output and runrestart ABI. Removes source/drop/IPR dependencies for these controls only, not all previous candidate results. Ordinary28us page-sensing model is a feature ablation, not every in-flasharchitecture or actualdevice. Known grouping/replication, no newmethod claim."
+}

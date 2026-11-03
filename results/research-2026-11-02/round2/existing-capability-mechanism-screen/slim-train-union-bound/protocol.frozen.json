@@ -1,0 +1,30 @@
+{
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_slim_train_union_bound.py": "43790a6fbe25c18727539251cf609f69a7c4538d08848a23eadea357391605d3",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/multi-request-onecopy-screen/protocol.frozen.json": "3e091afdd53255230d9b9a981e924d1ebaee16daf59d4c354e052cc605f7eb08",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/existing-capability-mechanism-screen/sources.json": "cf4d4991bb931833c4238e62ad5f79a9bea19f755f4469f74f769e12eee8293a",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/existing-capability-mechanism-screen/primary/slim.v1.pdf": "978fe6240e01fbf8e551496b78d0f9bfcad4539977517f01b9b6b79a127d4b14",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/existing-capability-mechanism-screen/primary/slim.v1.txt": "0fff6f8ce3248142c411145442de40c3f49d6a63781d35ca5e4318fb3123839c",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/deepseek/decode.routes.npz": "11168c1e899c8ce0bf23e719e908f243fa09d30980a65488a3f92aa448344fed"
+  },
+  "cases_H_I_sharedI": {
+    "granite4tiny": [
+      1536,
+      512,
+      1024
+    ],
+    "deepseek": [
+      2048,
+      1408,
+      2816
+    ]
+  },
+  "scope": "Layer0 only, TRAIN32prompts*16decode steps, fixed cohortsB4/B8. No native simulator, inference, placement/selector fit, arrivals or SLO.",
+  "cohort_rule": "Same as frozen multi-request-onecopy-screen: adjacent distinct promptIDs in groupsB, same decode index; allready synthetic schedule.",
+  "counting": "Each unique selected expert whole GU/Down fetched once per cohort; each request retains all6experts, complete GU, private activation/A8 and private Down. Shared weights fetched once but multipliedBtimes. This is an optimistic batched-projection work relaxation, not proof the fused SLIM command supports the numerical ABI.",
+  "strong_control": "Exactly16die equal g16 whole rows for routed/shared projections; native4KiB SLC or16KiB TLC page accounting, not AiF64KiB/fourplane quanta. Every local rowband is exact page multiple, no duplicates/fringe. It attains both global perprojection page and MAC work/D minima for allcohorts.",
+  "SRAM": "Table2 64KiB is totalPE SRAM. Input/output split and scratch are unknown. Report explicit A8input+32bitoutput lower footprint; no claim all64KiB is input or fullABI fits.",
+  "extra_DSE": "32/64die legal page-exact chunk-balanced row multisets only, no optimized placement or timing; no64die SLIM result inferred from16die construction.",
+  "forbidden": "No AiF batch reuse capability, sparsity/thresholding, fused earlypartialA8, newcontexts, newMAC, modelnumeric/ECC changes, freePB reuse, heldout, native latency or totalbatch gain presented as placementgain."
+}

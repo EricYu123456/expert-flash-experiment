@@ -1,0 +1,21 @@
+{
+  "model": "DeepSeekLite,one layer,one selectedtop6+shared GU batch",
+  "routed_experts": 6,
+  "routed_GU_rows_per_expert": 2816,
+  "shared_GU_rows": 5632,
+  "bytes_per_output": 4,
+  "routed_vector_bytes": 11264,
+  "routed_vector_KiB": 11,
+  "shared_vector_bytes": 22528,
+  "shared_vector_KiB": 22,
+  "full_batch_valid_output_rows": 22528,
+  "full_batch_valid_output_payload_bytes": 90112,
+  "full_batch_valid_output_payload_KiB": 88,
+  "meaning": "Sufficient payloadcapacity toholdallvalidGUoutputsfromthisonebatchbeforeanyhostDMA,under4-byteelementassumption. Full-vectorDMAs canfreeeachcompletedexpertbuffer. NotapublishedAiFbuffersizeorameasuredliveoccupancy.",
+  "exclusions": [
+    "Ingress/FIFO/DMA burststaging,alignment,metadata/rowmaps/completionstate,inputsandothercontrollerusers areadditional.",
+    "Auxiliaryfringerowsmustbedrainedanddiscarded;88KiBdoesnotassertthemaximumtotalFIFOtrafficorstaging.",
+    "Multipleconcurrenttokens/layers orsimultaneousDownoutputs requireadditionalreservedspace;notboundedbythissinglebatchledger.",
+    "AiFnativeoutputdtype remainsunpublished;4B/F32isthestudycontract,notverifiednativewireformat."
+  ]
+}

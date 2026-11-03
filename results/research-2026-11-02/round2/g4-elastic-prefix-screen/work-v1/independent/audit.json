@@ -1,0 +1,177 @@
+{
+  "status": "PASS_bounded_no_go",
+  "source_sha256": "c606e202f0efd1e34d82c7b6b34966dad5b3a86aec19e570f46cb02676c50bfa",
+  "producer_protocol_sha256": "aef40f6cb3d9952d9b1365bddab92f292f799915e39485135395aef572a9137b",
+  "metrics": {
+    "baseline_native": {
+      "mean_ns": 561099.01953125,
+      "p99_ns": 580695.14
+    },
+    "baseline_maxchip_work": {
+      "mean_ns": 555559.67578125,
+      "p99_ns": 573734.0
+    },
+    "selected_maxchip_work": {
+      "mean_ns": 554446.3671875,
+      "p99_ns": 573058.0
+    },
+    "host_plus_work_LB": {
+      "mean_ns": 556446.3671875,
+      "p99_ns": 575058.0
+    },
+    "optimal_first_start_LB": {
+      "mean_ns": 557032.4765625,
+      "p99_ns": 575558.0
+    }
+  },
+  "ceilings": {
+    "host_plus_work": {
+      "mean_improvement_upper_pct": 0.829203435008119,
+      "p99_improvement_upper_pct": 0.97075722038934
+    },
+    "optimal_first_start": {
+      "mean_improvement_upper_pct": 0.7247460478806866,
+      "p99_improvement_upper_pct": 0.8846535206063599
+    }
+  },
+  "all_masks_checked": 32768,
+  "delta_regression": {
+    "per_expert_aggregate_ns": -36214,
+    "pooled_B_ns": 527059.25,
+    "pooled_all_A_ns": 513479.0
+  },
+  "runtime_choices": "Exactly two views per expert, one offline chosen A plus B; not all nine As.",
+  "copied_rows": 23202,
+  "copied_coefficient_bytes": 35638272,
+  "extra_pages": 2048,
+  "extra_waves": 512,
+  "extra_programmed_bytes": 33554432,
+  "perchip_resident": [
+    {
+      "chip": 0,
+      "useful_bytes": 12670464,
+      "pages": 780,
+      "resident_waves": 195,
+      "blocks": 2
+    },
+    {
+      "chip": 1,
+      "useful_bytes": 12260864,
+      "pages": 756,
+      "resident_waves": 189,
+      "blocks": 1
+    },
+    {
+      "chip": 2,
+      "useful_bytes": 10978816,
+      "pages": 680,
+      "resident_waves": 170,
+      "blocks": 1
+    },
+    {
+      "chip": 3,
+      "useful_bytes": 11520512,
+      "pages": 712,
+      "resident_waves": 178,
+      "blocks": 1
+    },
+    {
+      "chip": 4,
+      "useful_bytes": 11733504,
+      "pages": 724,
+      "resident_waves": 181,
+      "blocks": 1
+    },
+    {
+      "chip": 5,
+      "useful_bytes": 11455488,
+      "pages": 708,
+      "resident_waves": 177,
+      "blocks": 1
+    },
+    {
+      "chip": 6,
+      "useful_bytes": 11988992,
+      "pages": 740,
+      "resident_waves": 185,
+      "blocks": 1
+    },
+    {
+      "chip": 7,
+      "useful_bytes": 11731456,
+      "pages": 724,
+      "resident_waves": 181,
+      "blocks": 1
+    },
+    {
+      "chip": 8,
+      "useful_bytes": 11120640,
+      "pages": 688,
+      "resident_waves": 172,
+      "blocks": 1
+    },
+    {
+      "chip": 9,
+      "useful_bytes": 13002240,
+      "pages": 800,
+      "resident_waves": 200,
+      "blocks": 2
+    },
+    {
+      "chip": 10,
+      "useful_bytes": 11729920,
+      "pages": 724,
+      "resident_waves": 181,
+      "blocks": 1
+    },
+    {
+      "chip": 11,
+      "useful_bytes": 12519936,
+      "pages": 772,
+      "resident_waves": 193,
+      "blocks": 2
+    },
+    {
+      "chip": 12,
+      "useful_bytes": 12256768,
+      "pages": 756,
+      "resident_waves": 189,
+      "blocks": 1
+    },
+    {
+      "chip": 13,
+      "useful_bytes": 11913216,
+      "pages": 736,
+      "resident_waves": 184,
+      "blocks": 1
+    },
+    {
+      "chip": 14,
+      "useful_bytes": 11799552,
+      "pages": 728,
+      "resident_waves": 182,
+      "blocks": 1
+    },
+    {
+      "chip": 15,
+      "useful_bytes": 12669440,
+      "pages": 780,
+      "resident_waves": 195,
+      "blocks": 2
+    }
+  ],
+  "physical_capacity_scope": "These are per-layer GU copies; full-layer ledgers also include unchanged Down/shared. No full-model extrapolation or average-chip capacity constraint.",
+  "full_backup_service_equivalence": "A full separate A image plus a full separate B image has the identical selected row/column/page/wave/native-job descriptors for each mask. The current timing model is address-invariant within a block; hence the same selector/scatter gives the same work and native DAG. Prefix sharing changes residency, not service. This is structural equivalence, not an executed device test.",
+  "limits": [
+    "Only finite layouts/coordinate search were screened; no optimum over all offline copy choices is claimed.",
+    "Chip ownership work omits queue/dependency gaps, PCIe conflicts and selector costs; the report is a necessary lower bound, never achieved latency.",
+    "Neither native replay nor big whole-GU replica controls are warranted by the failed necessary-work gate.",
+    "Synthetic ordinary-read model and page-fringe output contract; real AiF output/scatter/numeric ABI is not newly validated.",
+    "P99 inequality follows pointwise T>=LB using the same empirical quantile definition. No tail generalization beyond TRAIN512."
+  ],
+  "gate": {
+    "mean_threshold_pct": 2,
+    "p99_threshold_pct": 5,
+    "passed": false
+  }
+}

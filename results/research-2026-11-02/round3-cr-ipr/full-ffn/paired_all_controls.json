@@ -1,0 +1,2760 @@
+{
+  "status": "complete_paired_TRAIN_summary",
+  "analysis_source_sha256": "6ff770704463a694c0692907ae2ee4e5b84fdd9106e112d5f5ab652b3ac5ce54",
+  "input_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/TRAIN512/report.json": "1542d6dd6de43267f04864acfac70da2e7caf5360d4f08ffab166bbe47635255",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/TRAIN512/service_arrays.npz": "5020a135f6bd23dd4a0522428750ad70e73c6685c4b5430fa55dfcca7a44ab98",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/g8-addendum/TRAIN512/report.json": "4484ca99dfec19256e6db364c04f49fc4a8a12febf3c02bc5cc0c508d40c6608",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/g8-addendum/TRAIN512/service_arrays.npz": "22b5b6aa9c591d47add4b5b8ee744568a49430ae013a2f80b7ce68389091bf6b",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/shaping-addendum/TRAIN512/report.json": "06c6e0675fe1f13013fc5623f7b47cdf62d381766b1780399a350c8fad46ffd3",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/shaping-addendum/TRAIN512/service_arrays.npz": "859117b39658243c9c5c4e7e5eb43527d443c912d06ce8c8b7213d8977f90662"
+  },
+  "scope": "1536layer-events from the same512aligned TRAIN inputs. Three-layer sums use512inputs, not1536independentprompts; only32TRAIN prompts. No heldout.",
+  "comparisons": [
+    {
+      "candidate": "strict100.g16_equal.input1.GF.a0.candidate",
+      "baseline": "strict100.g16_equal.input1.GF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 1003,
+      "jointly_feasible_event_queries": 533,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 533,
+        "256": 533,
+        "2048": 533
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 420132.0,
+        "baseline_mean_ns": 420132.0,
+        "candidate_p99_ns": 420132.0,
+        "baseline_p99_ns": 420132.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 20,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 1260396.0,
+        "baseline_mean_ns": 1260396.0,
+        "candidate_p99_ns": 1260396.0,
+        "baseline_p99_ns": 1260396.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict100.g16_equal.input1.GF.a0.candidate",
+      "baseline": "strict100.g16_equal.input1.GF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 604,
+      "jointly_feasible_event_queries": 932,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 932,
+        "256": 932,
+        "2048": 932
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 420132.0,
+        "baseline_mean_ns": 420132.0,
+        "candidate_p99_ns": 420132.0,
+        "baseline_p99_ns": 420132.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 932
+      },
+      "jointly_feasible_three_layer_inputs": 123,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 1260396.0,
+        "baseline_mean_ns": 1260396.0,
+        "candidate_p99_ns": 1260396.0,
+        "baseline_p99_ns": 1260396.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 123
+      }
+    },
+    {
+      "candidate": "strict100.g16_equal.input1.DF.a0.candidate",
+      "baseline": "strict100.g16_equal.input1.DF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 1003,
+      "jointly_feasible_event_queries": 533,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 533,
+        "256": 533,
+        "2048": 533
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 420132.0,
+        "baseline_mean_ns": 420132.0,
+        "candidate_p99_ns": 420132.0,
+        "baseline_p99_ns": 420132.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 20,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 1260396.0,
+        "baseline_mean_ns": 1260396.0,
+        "candidate_p99_ns": 1260396.0,
+        "baseline_p99_ns": 1260396.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict100.g16_equal.input1.DF.a0.candidate",
+      "baseline": "strict100.g16_equal.input1.DF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 604,
+      "jointly_feasible_event_queries": 932,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 932,
+        "256": 932,
+        "2048": 932
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 420132.0,
+        "baseline_mean_ns": 420132.0,
+        "candidate_p99_ns": 420132.0,
+        "baseline_p99_ns": 420132.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 932
+      },
+      "jointly_feasible_three_layer_inputs": 123,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 1260396.0,
+        "baseline_mean_ns": 1260396.0,
+        "candidate_p99_ns": 1260396.0,
+        "baseline_p99_ns": 1260396.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 123
+      }
+    },
+    {
+      "candidate": "strict100.g16_equal.input4.GF.a0.candidate",
+      "baseline": "strict100.g16_equal.input4.GF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 1003,
+      "jointly_feasible_event_queries": 533,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 533,
+        "256": 533,
+        "2048": 533
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 429652.0,
+        "baseline_mean_ns": 429652.0,
+        "candidate_p99_ns": 429652.0,
+        "baseline_p99_ns": 429652.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 20,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 1288956.0,
+        "baseline_mean_ns": 1288956.0,
+        "candidate_p99_ns": 1288956.0,
+        "baseline_p99_ns": 1288956.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict100.g16_equal.input4.GF.a0.candidate",
+      "baseline": "strict100.g16_equal.input4.GF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 604,
+      "jointly_feasible_event_queries": 932,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 932,
+        "256": 932,
+        "2048": 932
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 429652.0,
+        "baseline_mean_ns": 429652.0,
+        "candidate_p99_ns": 429652.0,
+        "baseline_p99_ns": 429652.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 932
+      },
+      "jointly_feasible_three_layer_inputs": 123,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 1288956.0,
+        "baseline_mean_ns": 1288956.0,
+        "candidate_p99_ns": 1288956.0,
+        "baseline_p99_ns": 1288956.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 123
+      }
+    },
+    {
+      "candidate": "strict100.g16_equal.input4.DF.a0.candidate",
+      "baseline": "strict100.g16_equal.input4.DF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 1003,
+      "jointly_feasible_event_queries": 533,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 533,
+        "256": 533,
+        "2048": 533
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 429652.0,
+        "baseline_mean_ns": 429652.0,
+        "candidate_p99_ns": 429652.0,
+        "baseline_p99_ns": 429652.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 20,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 1288956.0,
+        "baseline_mean_ns": 1288956.0,
+        "candidate_p99_ns": 1288956.0,
+        "baseline_p99_ns": 1288956.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict100.g16_equal.input4.DF.a0.candidate",
+      "baseline": "strict100.g16_equal.input4.DF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 604,
+      "jointly_feasible_event_queries": 932,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 932,
+        "256": 932,
+        "2048": 932
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 429652.0,
+        "baseline_mean_ns": 429652.0,
+        "candidate_p99_ns": 429652.0,
+        "baseline_p99_ns": 429652.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 932
+      },
+      "jointly_feasible_three_layer_inputs": 123,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.0,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 1288956.0,
+        "baseline_mean_ns": 1288956.0,
+        "candidate_p99_ns": 1288956.0,
+        "baseline_p99_ns": 1288956.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 123
+      }
+    },
+    {
+      "candidate": "strict100.g12_cyclic.input1.GF.a0.candidate",
+      "baseline": "strict100.g12_cyclic.input1.GF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 1003,
+      "jointly_feasible_event_queries": 533,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 533,
+        "256": 533,
+        "2048": 533
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.006213540524835359,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 430250.64915572235,
+        "baseline_mean_ns": 430277.3846153846,
+        "candidate_p99_ns": 435492.0,
+        "baseline_p99_ns": 435492.0,
+        "slower_fraction": 0.18761726078799248,
+        "slower_queries": 100,
+        "equal_queries": 299
+      },
+      "jointly_feasible_three_layer_inputs": 20,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.020247567977838,
+        "p99_gain_pct": -0.019162506486503084,
+        "candidate_mean_ns": 1296189.5,
+        "baseline_mean_ns": 1296452.0,
+        "candidate_p99_ns": 1304881.0,
+        "baseline_p99_ns": 1304631.0,
+        "slower_fraction": 0.35,
+        "slower_queries": 7,
+        "equal_queries": 2
+      }
+    },
+    {
+      "candidate": "strict100.g12_cyclic.input1.GF.a0.candidate",
+      "baseline": "strict100.g12_cyclic.input1.GF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 604,
+      "jointly_feasible_event_queries": 932,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 932,
+        "256": 932,
+        "2048": 932
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.01282792331732674,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 430704.339055794,
+        "baseline_mean_ns": 430759.5965665236,
+        "candidate_p99_ns": 435492.0,
+        "baseline_p99_ns": 435492.0,
+        "slower_fraction": 0.10300429184549356,
+        "slower_queries": 96,
+        "equal_queries": 686
+      },
+      "jointly_feasible_three_layer_inputs": 123,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.026675251620433826,
+        "p99_gain_pct": 0.008424786948624252,
+        "candidate_mean_ns": 1294969.1707317072,
+        "baseline_mean_ns": 1295314.699186992,
+        "candidate_p99_ns": 1305561.0,
+        "baseline_p99_ns": 1305671.0,
+        "slower_fraction": 0.15447154471544716,
+        "slower_queries": 19,
+        "equal_queries": 57
+      }
+    },
+    {
+      "candidate": "strict100.g12_cyclic.input1.DF.a0.candidate",
+      "baseline": "strict100.g12_cyclic.input1.DF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 1003,
+      "jointly_feasible_event_queries": 533,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 533,
+        "256": 533,
+        "2048": 533
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.006213540524835359,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 430250.64915572235,
+        "baseline_mean_ns": 430277.3846153846,
+        "candidate_p99_ns": 435492.0,
+        "baseline_p99_ns": 435492.0,
+        "slower_fraction": 0.18761726078799248,
+        "slower_queries": 100,
+        "equal_queries": 299
+      },
+      "jointly_feasible_three_layer_inputs": 20,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.020247567977838,
+        "p99_gain_pct": -0.019162506486503084,
+        "candidate_mean_ns": 1296189.5,
+        "baseline_mean_ns": 1296452.0,
+        "candidate_p99_ns": 1304881.0,
+        "baseline_p99_ns": 1304631.0,
+        "slower_fraction": 0.35,
+        "slower_queries": 7,
+        "equal_queries": 2
+      }
+    },
+    {
+      "candidate": "strict100.g12_cyclic.input1.DF.a0.candidate",
+      "baseline": "strict100.g12_cyclic.input1.DF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 604,
+      "jointly_feasible_event_queries": 932,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 932,
+        "256": 932,
+        "2048": 932
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.01282792331732674,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 430704.339055794,
+        "baseline_mean_ns": 430759.5965665236,
+        "candidate_p99_ns": 435492.0,
+        "baseline_p99_ns": 435492.0,
+        "slower_fraction": 0.10300429184549356,
+        "slower_queries": 96,
+        "equal_queries": 686
+      },
+      "jointly_feasible_three_layer_inputs": 123,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.026675251620433826,
+        "p99_gain_pct": 0.008424786948624252,
+        "candidate_mean_ns": 1294969.1707317072,
+        "baseline_mean_ns": 1295314.699186992,
+        "candidate_p99_ns": 1305561.0,
+        "baseline_p99_ns": 1305671.0,
+        "slower_fraction": 0.15447154471544716,
+        "slower_queries": 19,
+        "equal_queries": 57
+      }
+    },
+    {
+      "candidate": "strict100.g12_cyclic.input4.GF.a0.candidate",
+      "baseline": "strict100.g12_cyclic.input4.GF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 1003,
+      "jointly_feasible_event_queries": 533,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 533,
+        "256": 533,
+        "2048": 533
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.005626452068041576,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 439403.2195121951,
+        "baseline_mean_ns": 439427.94371482177,
+        "candidate_p99_ns": 445012.0,
+        "baseline_p99_ns": 445012.0,
+        "slower_fraction": 0.18761726078799248,
+        "slower_queries": 100,
+        "equal_queries": 299
+      },
+      "jointly_feasible_three_layer_inputs": 20,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.02792552548632754,
+        "p99_gain_pct": -0.018752001776189964,
+        "candidate_mean_ns": 1323508.7,
+        "baseline_mean_ns": 1323878.4,
+        "candidate_p99_ns": 1333441.0,
+        "baseline_p99_ns": 1333191.0,
+        "slower_fraction": 0.35,
+        "slower_queries": 7,
+        "equal_queries": 2
+      }
+    },
+    {
+      "candidate": "strict100.g12_cyclic.input4.GF.a0.candidate",
+      "baseline": "strict100.g12_cyclic.input4.GF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 604,
+      "jointly_feasible_event_queries": 932,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 932,
+        "256": 932,
+        "2048": 932
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.012560587640775278,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 439872.4935622318,
+        "baseline_mean_ns": 439927.7510729614,
+        "candidate_p99_ns": 445012.0,
+        "baseline_p99_ns": 445012.0,
+        "slower_fraction": 0.10300429184549356,
+        "slower_queries": 96,
+        "equal_queries": 686
+      },
+      "jointly_feasible_three_layer_inputs": 123,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.028754717198209434,
+        "p99_gain_pct": 0.008244449424421596,
+        "candidate_mean_ns": 1322499.056910569,
+        "baseline_mean_ns": 1322879.4471544717,
+        "candidate_p99_ns": 1334121.0,
+        "baseline_p99_ns": 1334231.0,
+        "slower_fraction": 0.15447154471544716,
+        "slower_queries": 19,
+        "equal_queries": 57
+      }
+    },
+    {
+      "candidate": "strict100.g12_cyclic.input4.DF.a0.candidate",
+      "baseline": "strict100.g12_cyclic.input4.DF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 1003,
+      "jointly_feasible_event_queries": 533,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 533,
+        "256": 533,
+        "2048": 533
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.005626452068041576,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 439403.2195121951,
+        "baseline_mean_ns": 439427.94371482177,
+        "candidate_p99_ns": 445012.0,
+        "baseline_p99_ns": 445012.0,
+        "slower_fraction": 0.18761726078799248,
+        "slower_queries": 100,
+        "equal_queries": 299
+      },
+      "jointly_feasible_three_layer_inputs": 20,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.02792552548632754,
+        "p99_gain_pct": -0.018752001776189964,
+        "candidate_mean_ns": 1323508.7,
+        "baseline_mean_ns": 1323878.4,
+        "candidate_p99_ns": 1333441.0,
+        "baseline_p99_ns": 1333191.0,
+        "slower_fraction": 0.35,
+        "slower_queries": 7,
+        "equal_queries": 2
+      }
+    },
+    {
+      "candidate": "strict100.g12_cyclic.input4.DF.a0.candidate",
+      "baseline": "strict100.g12_cyclic.input4.DF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 604,
+      "jointly_feasible_event_queries": 932,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 932,
+        "256": 932,
+        "2048": 932
+      },
+      "event_metrics": {
+        "mean_gain_pct": 0.012560587640775278,
+        "p99_gain_pct": 0.0,
+        "candidate_mean_ns": 439872.4935622318,
+        "baseline_mean_ns": 439927.7510729614,
+        "candidate_p99_ns": 445012.0,
+        "baseline_p99_ns": 445012.0,
+        "slower_fraction": 0.10300429184549356,
+        "slower_queries": 96,
+        "equal_queries": 686
+      },
+      "jointly_feasible_three_layer_inputs": 123,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 0.028754717198209434,
+        "p99_gain_pct": 0.008244449424421596,
+        "candidate_mean_ns": 1322499.056910569,
+        "baseline_mean_ns": 1322879.4471544717,
+        "candidate_p99_ns": 1334121.0,
+        "baseline_p99_ns": 1334231.0,
+        "slower_fraction": 0.15447154471544716,
+        "slower_queries": 19,
+        "equal_queries": 57
+      }
+    },
+    {
+      "candidate": "cold_reset500.g16_equal.input1.GF.a0.candidate",
+      "baseline": "cold_reset500.g16_equal.input1.GF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 5.428222263475869,
+        "p99_gain_pct": 16.939344521016363,
+        "candidate_mean_ns": 442092.0,
+        "baseline_mean_ns": 467467.15625,
+        "candidate_p99_ns": 442092.0,
+        "baseline_p99_ns": 532252.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 5.428222263475869,
+        "p99_gain_pct": 10.244603615455826,
+        "candidate_mean_ns": 1326276.0,
+        "baseline_mean_ns": 1402401.46875,
+        "candidate_p99_ns": 1326276.0,
+        "baseline_p99_ns": 1477656.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "cold_reset500.g16_equal.input1.GF.a0.candidate",
+      "baseline": "cold_reset500.g16_equal.input1.GF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.7559687566826807,
+        "p99_gain_pct": 11.851686432769991,
+        "candidate_mean_ns": 442092.0,
+        "baseline_mean_ns": 454621.21875,
+        "candidate_p99_ns": 442092.0,
+        "baseline_p99_ns": 501532.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 932
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.7559687566826807,
+        "p99_gain_pct": 8.226101541978858,
+        "candidate_mean_ns": 1326276.0,
+        "baseline_mean_ns": 1363863.65625,
+        "candidate_p99_ns": 1326276.0,
+        "baseline_p99_ns": 1445156.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 123
+      }
+    },
+    {
+      "candidate": "cold_reset500.g16_equal.input1.DF.a0.candidate",
+      "baseline": "cold_reset500.g16_equal.input1.DF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 5.428222263475869,
+        "p99_gain_pct": 16.939344521016363,
+        "candidate_mean_ns": 442092.0,
+        "baseline_mean_ns": 467467.15625,
+        "candidate_p99_ns": 442092.0,
+        "baseline_p99_ns": 532252.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 5.428222263475869,
+        "p99_gain_pct": 10.244603615455826,
+        "candidate_mean_ns": 1326276.0,
+        "baseline_mean_ns": 1402401.46875,
+        "candidate_p99_ns": 1326276.0,
+        "baseline_p99_ns": 1477656.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "cold_reset500.g16_equal.input1.DF.a0.candidate",
+      "baseline": "cold_reset500.g16_equal.input1.DF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.7559687566826807,
+        "p99_gain_pct": 11.851686432769991,
+        "candidate_mean_ns": 442092.0,
+        "baseline_mean_ns": 454621.21875,
+        "candidate_p99_ns": 442092.0,
+        "baseline_p99_ns": 501532.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 932
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.7559687566826807,
+        "p99_gain_pct": 8.226101541978858,
+        "candidate_mean_ns": 1326276.0,
+        "baseline_mean_ns": 1363863.65625,
+        "candidate_p99_ns": 1326276.0,
+        "baseline_p99_ns": 1445156.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 123
+      }
+    },
+    {
+      "candidate": "cold_reset500.g16_equal.input4.GF.a0.candidate",
+      "baseline": "cold_reset500.g16_equal.input4.GF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 5.234353486544774,
+        "p99_gain_pct": 16.476419456260405,
+        "candidate_mean_ns": 451612.0,
+        "baseline_mean_ns": 476556.66015625,
+        "candidate_p99_ns": 451612.0,
+        "baseline_p99_ns": 540700.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 5.234353486544774,
+        "p99_gain_pct": 9.981010803466706,
+        "candidate_mean_ns": 1354836.0,
+        "baseline_mean_ns": 1429669.98046875,
+        "candidate_p99_ns": 1354836.0,
+        "baseline_p99_ns": 1505055.78,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "cold_reset500.g16_equal.input4.GF.a0.candidate",
+      "baseline": "cold_reset500.g16_equal.input4.GF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.6516796773536466,
+        "p99_gain_pct": 11.44515471194949,
+        "candidate_mean_ns": 451612.0,
+        "baseline_mean_ns": 463913.5,
+        "candidate_p99_ns": 451612.0,
+        "baseline_p99_ns": 509980.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 932
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.6516796773536466,
+        "p99_gain_pct": 7.964656595626485,
+        "candidate_mean_ns": 1354836.0,
+        "baseline_mean_ns": 1391740.5,
+        "candidate_p99_ns": 1354836.0,
+        "baseline_p99_ns": 1472082.3,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 123
+      }
+    },
+    {
+      "candidate": "cold_reset500.g16_equal.input4.DF.a0.candidate",
+      "baseline": "cold_reset500.g16_equal.input4.DF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 5.234353486544774,
+        "p99_gain_pct": 16.476419456260405,
+        "candidate_mean_ns": 451612.0,
+        "baseline_mean_ns": 476556.66015625,
+        "candidate_p99_ns": 451612.0,
+        "baseline_p99_ns": 540700.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 5.234353486544774,
+        "p99_gain_pct": 9.981010803466706,
+        "candidate_mean_ns": 1354836.0,
+        "baseline_mean_ns": 1429669.98046875,
+        "candidate_p99_ns": 1354836.0,
+        "baseline_p99_ns": 1505055.78,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "cold_reset500.g16_equal.input4.DF.a0.candidate",
+      "baseline": "cold_reset500.g16_equal.input4.DF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.6516796773536466,
+        "p99_gain_pct": 11.44515471194949,
+        "candidate_mean_ns": 451612.0,
+        "baseline_mean_ns": 463913.5,
+        "candidate_p99_ns": 451612.0,
+        "baseline_p99_ns": 509980.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 932
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.6516796773536466,
+        "p99_gain_pct": 7.964656595626485,
+        "candidate_mean_ns": 1354836.0,
+        "baseline_mean_ns": 1391740.5,
+        "candidate_p99_ns": 1354836.0,
+        "baseline_p99_ns": 1472082.3,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 123
+      }
+    },
+    {
+      "candidate": "cold_reset500.g12_cyclic.input1.GF.a0.candidate",
+      "baseline": "cold_reset500.g12_cyclic.input1.GF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.6436837687878088,
+        "p99_gain_pct": 11.627727270971056,
+        "candidate_mean_ns": 452417.44921875,
+        "baseline_mean_ns": 469525.47265625,
+        "candidate_p99_ns": 457452.0,
+        "baseline_p99_ns": 517642.0,
+        "slower_fraction": 0.20703125,
+        "slower_queries": 318,
+        "equal_queries": 299
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.6436837687878088,
+        "p99_gain_pct": 9.17890901939673,
+        "candidate_mean_ns": 1357252.34765625,
+        "baseline_mean_ns": 1408576.41796875,
+        "candidate_p99_ns": 1371606.0,
+        "baseline_p99_ns": 1510228.5,
+        "slower_fraction": 0.087890625,
+        "slower_queries": 45,
+        "equal_queries": 2
+      }
+    },
+    {
+      "candidate": "cold_reset500.g12_cyclic.input1.GF.a0.candidate",
+      "baseline": "cold_reset500.g12_cyclic.input1.GF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.965673497502174,
+        "p99_gain_pct": 11.441677499663639,
+        "candidate_mean_ns": 452417.44921875,
+        "baseline_mean_ns": 461488.8125,
+        "candidate_p99_ns": 457452.0,
+        "baseline_p99_ns": 516554.5,
+        "slower_fraction": 0.14973958333333334,
+        "slower_queries": 230,
+        "equal_queries": 686
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.965673497502174,
+        "p99_gain_pct": 6.023802677158841,
+        "candidate_mean_ns": 1357252.34765625,
+        "baseline_mean_ns": 1384466.4375,
+        "candidate_p99_ns": 1371606.0,
+        "baseline_p99_ns": 1459524.9,
+        "slower_fraction": 0.130859375,
+        "slower_queries": 67,
+        "equal_queries": 57
+      }
+    },
+    {
+      "candidate": "cold_reset500.g12_cyclic.input1.DF.a0.candidate",
+      "baseline": "cold_reset500.g12_cyclic.input1.DF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.6436837687878088,
+        "p99_gain_pct": 11.627727270971056,
+        "candidate_mean_ns": 452417.44921875,
+        "baseline_mean_ns": 469525.47265625,
+        "candidate_p99_ns": 457452.0,
+        "baseline_p99_ns": 517642.0,
+        "slower_fraction": 0.20703125,
+        "slower_queries": 318,
+        "equal_queries": 299
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.6436837687878088,
+        "p99_gain_pct": 9.17890901939673,
+        "candidate_mean_ns": 1357252.34765625,
+        "baseline_mean_ns": 1408576.41796875,
+        "candidate_p99_ns": 1371606.0,
+        "baseline_p99_ns": 1510228.5,
+        "slower_fraction": 0.087890625,
+        "slower_queries": 45,
+        "equal_queries": 2
+      }
+    },
+    {
+      "candidate": "cold_reset500.g12_cyclic.input1.DF.a0.candidate",
+      "baseline": "cold_reset500.g12_cyclic.input1.DF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.965673497502174,
+        "p99_gain_pct": 11.441677499663639,
+        "candidate_mean_ns": 452417.44921875,
+        "baseline_mean_ns": 461488.8125,
+        "candidate_p99_ns": 457452.0,
+        "baseline_p99_ns": 516554.5,
+        "slower_fraction": 0.14973958333333334,
+        "slower_queries": 230,
+        "equal_queries": 686
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.965673497502174,
+        "p99_gain_pct": 6.023802677158841,
+        "candidate_mean_ns": 1357252.34765625,
+        "baseline_mean_ns": 1384466.4375,
+        "candidate_p99_ns": 1371606.0,
+        "baseline_p99_ns": 1459524.9,
+        "slower_fraction": 0.130859375,
+        "slower_queries": 67,
+        "equal_queries": 57
+      }
+    },
+    {
+      "candidate": "cold_reset500.g12_cyclic.input4.GF.a0.candidate",
+      "baseline": "cold_reset500.g12_cyclic.input4.GF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.476338474502816,
+        "p99_gain_pct": 11.417742553522448,
+        "candidate_mean_ns": 461561.7513020833,
+        "baseline_mean_ns": 478185.0833333333,
+        "candidate_p99_ns": 466972.0,
+        "baseline_p99_ns": 527162.0,
+        "slower_fraction": 0.20703125,
+        "slower_queries": 318,
+        "equal_queries": 299
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.476338474502816,
+        "p99_gain_pct": 8.772355045870661,
+        "candidate_mean_ns": 1384685.25390625,
+        "baseline_mean_ns": 1434555.25,
+        "candidate_p99_ns": 1400166.0,
+        "baseline_p99_ns": 1534804.5,
+        "slower_fraction": 0.08984375,
+        "slower_queries": 46,
+        "equal_queries": 2
+      }
+    },
+    {
+      "candidate": "cold_reset500.g12_cyclic.input4.GF.a0.candidate",
+      "baseline": "cold_reset500.g12_cyclic.input4.GF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.8776623335993836,
+        "p99_gain_pct": 11.053375936305066,
+        "candidate_mean_ns": 461561.7513020833,
+        "baseline_mean_ns": 470394.1653645833,
+        "candidate_p99_ns": 466972.0,
+        "baseline_p99_ns": 525002.5,
+        "slower_fraction": 0.14973958333333334,
+        "slower_queries": 230,
+        "equal_queries": 686
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.8776623335993836,
+        "p99_gain_pct": 5.785973127289257,
+        "candidate_mean_ns": 1384685.25390625,
+        "baseline_mean_ns": 1411182.49609375,
+        "candidate_p99_ns": 1400166.0,
+        "baseline_p99_ns": 1486154.5,
+        "slower_fraction": 0.130859375,
+        "slower_queries": 67,
+        "equal_queries": 57
+      }
+    },
+    {
+      "candidate": "cold_reset500.g12_cyclic.input4.DF.a0.candidate",
+      "baseline": "cold_reset500.g12_cyclic.input4.DF.a0.g8_identity",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.476338474502816,
+        "p99_gain_pct": 11.417742553522448,
+        "candidate_mean_ns": 461561.7513020833,
+        "baseline_mean_ns": 478185.0833333333,
+        "candidate_p99_ns": 466972.0,
+        "baseline_p99_ns": 527162.0,
+        "slower_fraction": 0.20703125,
+        "slower_queries": 318,
+        "equal_queries": 299
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.476338474502816,
+        "p99_gain_pct": 8.772355045870661,
+        "candidate_mean_ns": 1384685.25390625,
+        "baseline_mean_ns": 1434555.25,
+        "candidate_p99_ns": 1400166.0,
+        "baseline_p99_ns": 1534804.5,
+        "slower_fraction": 0.08984375,
+        "slower_queries": 46,
+        "equal_queries": 2
+      }
+    },
+    {
+      "candidate": "cold_reset500.g12_cyclic.input4.DF.a0.candidate",
+      "baseline": "cold_reset500.g12_cyclic.input4.DF.a0.g8_learned",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.8776623335993836,
+        "p99_gain_pct": 11.053375936305066,
+        "candidate_mean_ns": 461561.7513020833,
+        "baseline_mean_ns": 470394.1653645833,
+        "candidate_p99_ns": 466972.0,
+        "baseline_p99_ns": 525002.5,
+        "slower_fraction": 0.14973958333333334,
+        "slower_queries": 230,
+        "equal_queries": 686
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.8776623335993836,
+        "p99_gain_pct": 5.785973127289257,
+        "candidate_mean_ns": 1384685.25390625,
+        "baseline_mean_ns": 1411182.49609375,
+        "candidate_p99_ns": 1400166.0,
+        "baseline_p99_ns": 1486154.5,
+        "slower_fraction": 0.130859375,
+        "slower_queries": 67,
+        "equal_queries": 57
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input1.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input1.GF.a0.matching_layout_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.868654234130875,
+        "p99_gain_pct": 6.710177976986187,
+        "candidate_mean_ns": 427092.0,
+        "baseline_mean_ns": 444279.6432291667,
+        "candidate_p99_ns": 427092.0,
+        "baseline_p99_ns": 457812.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 71
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.868654234130864,
+        "p99_gain_pct": 5.972160251743652,
+        "candidate_mean_ns": 1281276.0,
+        "baseline_mean_ns": 1332838.9296875,
+        "candidate_p99_ns": 1281276.0,
+        "baseline_p99_ns": 1362656.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input1.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input1.GF.a0.matching_layout_IPR_fill_only",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 71,
+      "jointly_feasible_event_queries": 1465,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1465,
+        "256": 1465,
+        "2048": 1465
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.1321861167459932,
+        "p99_gain_pct": 4.690791587817333,
+        "candidate_mean_ns": 427092.0,
+        "baseline_mean_ns": 436396.7918088737,
+        "candidate_p99_ns": 427092.0,
+        "baseline_p99_ns": 448112.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 456,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.1439494811009596,
+        "p99_gain_pct": 3.9767255547503266,
+        "candidate_mean_ns": 1281276.0,
+        "baseline_mean_ns": 1309347.754385965,
+        "candidate_p99_ns": 1281276.0,
+        "baseline_p99_ns": 1334339.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input1.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input1.GF.a0.RR_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.6347817583701074,
+        "p99_gain_pct": 5.655059068859181,
+        "candidate_mean_ns": 427092.0,
+        "baseline_mean_ns": 434190.0598958333,
+        "candidate_p99_ns": 427092.0,
+        "baseline_p99_ns": 452692.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.6347817583701074,
+        "p99_gain_pct": 3.7670863000008548,
+        "candidate_mean_ns": 1281276.0,
+        "baseline_mean_ns": 1302570.1796875,
+        "candidate_p99_ns": 1281276.0,
+        "baseline_p99_ns": 1331432.2,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input1.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g16_equal.input1.GF.a0.candidate",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.3929589316250897,
+        "p99_gain_pct": 3.3929589316250897,
+        "candidate_mean_ns": 427092.0,
+        "baseline_mean_ns": 442092.0,
+        "candidate_p99_ns": 427092.0,
+        "baseline_p99_ns": 442092.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.3929589316250897,
+        "p99_gain_pct": 3.3929589316250897,
+        "candidate_mean_ns": 1281276.0,
+        "baseline_mean_ns": 1326276.0,
+        "candidate_p99_ns": 1281276.0,
+        "baseline_p99_ns": 1326276.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input1.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g16_equal.input1.GF.a0.sameWL_matching_keep_hot",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.191188990949522,
+        "p99_gain_pct": 4.690791587817333,
+        "candidate_mean_ns": 427092.0,
+        "baseline_mean_ns": 436660.046875,
+        "candidate_p99_ns": 427092.0,
+        "baseline_p99_ns": 448112.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.191188990949522,
+        "p99_gain_pct": 4.032651530210929,
+        "candidate_mean_ns": 1281276.0,
+        "baseline_mean_ns": 1309980.140625,
+        "candidate_p99_ns": 1281276.0,
+        "baseline_p99_ns": 1335116.6,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input1.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input1.DF.a0.matching_layout_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.868654234130875,
+        "p99_gain_pct": 6.710177976986187,
+        "candidate_mean_ns": 427092.0,
+        "baseline_mean_ns": 444279.6432291667,
+        "candidate_p99_ns": 427092.0,
+        "baseline_p99_ns": 457812.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 71
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.868654234130864,
+        "p99_gain_pct": 5.972160251743652,
+        "candidate_mean_ns": 1281276.0,
+        "baseline_mean_ns": 1332838.9296875,
+        "candidate_p99_ns": 1281276.0,
+        "baseline_p99_ns": 1362656.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input1.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input1.DF.a0.matching_layout_IPR_fill_only",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 71,
+      "jointly_feasible_event_queries": 1465,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1465,
+        "256": 1465,
+        "2048": 1465
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.1321861167459932,
+        "p99_gain_pct": 4.690791587817333,
+        "candidate_mean_ns": 427092.0,
+        "baseline_mean_ns": 436396.7918088737,
+        "candidate_p99_ns": 427092.0,
+        "baseline_p99_ns": 448112.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 456,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.1439494811009596,
+        "p99_gain_pct": 3.9767255547503266,
+        "candidate_mean_ns": 1281276.0,
+        "baseline_mean_ns": 1309347.754385965,
+        "candidate_p99_ns": 1281276.0,
+        "baseline_p99_ns": 1334339.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input1.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input1.DF.a0.RR_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.6347817583701074,
+        "p99_gain_pct": 5.655059068859181,
+        "candidate_mean_ns": 427092.0,
+        "baseline_mean_ns": 434190.0598958333,
+        "candidate_p99_ns": 427092.0,
+        "baseline_p99_ns": 452692.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.6347817583701074,
+        "p99_gain_pct": 3.7670863000008548,
+        "candidate_mean_ns": 1281276.0,
+        "baseline_mean_ns": 1302570.1796875,
+        "candidate_p99_ns": 1281276.0,
+        "baseline_p99_ns": 1331432.2,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input1.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g16_equal.input1.DF.a0.candidate",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.3929589316250897,
+        "p99_gain_pct": 3.3929589316250897,
+        "candidate_mean_ns": 427092.0,
+        "baseline_mean_ns": 442092.0,
+        "candidate_p99_ns": 427092.0,
+        "baseline_p99_ns": 442092.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.3929589316250897,
+        "p99_gain_pct": 3.3929589316250897,
+        "candidate_mean_ns": 1281276.0,
+        "baseline_mean_ns": 1326276.0,
+        "candidate_p99_ns": 1281276.0,
+        "baseline_p99_ns": 1326276.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input1.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g16_equal.input1.DF.a0.sameWL_matching_keep_hot",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.191188990949522,
+        "p99_gain_pct": 4.690791587817333,
+        "candidate_mean_ns": 427092.0,
+        "baseline_mean_ns": 436660.046875,
+        "candidate_p99_ns": 427092.0,
+        "baseline_p99_ns": 448112.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.191188990949522,
+        "p99_gain_pct": 4.032651530210929,
+        "candidate_mean_ns": 1281276.0,
+        "baseline_mean_ns": 1309980.140625,
+        "candidate_p99_ns": 1281276.0,
+        "baseline_p99_ns": 1335116.6,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input4.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input4.GF.a0.matching_layout_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.787495976608124,
+        "p99_gain_pct": 6.5734852310562975,
+        "candidate_mean_ns": 436612.0,
+        "baseline_mean_ns": 453799.6432291667,
+        "candidate_p99_ns": 436612.0,
+        "baseline_p99_ns": 467332.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 71
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.787495976608113,
+        "p99_gain_pct": 5.849558946993138,
+        "candidate_mean_ns": 1309836.0,
+        "baseline_mean_ns": 1361398.9296875,
+        "candidate_p99_ns": 1309836.0,
+        "baseline_p99_ns": 1391216.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input4.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input4.GF.a0.matching_layout_IPR_fill_only",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 71,
+      "jointly_feasible_event_queries": 1465,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1465,
+        "256": 1465,
+        "2048": 1465
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.086665490018569,
+        "p99_gain_pct": 4.593210265016435,
+        "candidate_mean_ns": 436612.0,
+        "baseline_mean_ns": 445916.7918088737,
+        "candidate_p99_ns": 436612.0,
+        "baseline_p99_ns": 457632.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 456,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.098183099241291,
+        "p99_gain_pct": 3.8933919534756445,
+        "candidate_mean_ns": 1309836.0,
+        "baseline_mean_ns": 1337907.754385965,
+        "candidate_p99_ns": 1309836.0,
+        "baseline_p99_ns": 1362899.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input4.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input4.GF.a0.RR_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.5997067764250583,
+        "p99_gain_pct": 5.538584026377502,
+        "candidate_mean_ns": 436612.0,
+        "baseline_mean_ns": 443710.0598958333,
+        "candidate_p99_ns": 436612.0,
+        "baseline_p99_ns": 462212.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.5997067764250583,
+        "p99_gain_pct": 3.687977033985923,
+        "candidate_mean_ns": 1309836.0,
+        "baseline_mean_ns": 1331130.1796875,
+        "candidate_p99_ns": 1309836.0,
+        "baseline_p99_ns": 1359992.2,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input4.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g16_equal.input4.GF.a0.candidate",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.3214352142989956,
+        "p99_gain_pct": 3.3214352142989956,
+        "candidate_mean_ns": 436612.0,
+        "baseline_mean_ns": 451612.0,
+        "candidate_p99_ns": 436612.0,
+        "baseline_p99_ns": 451612.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.3214352142989956,
+        "p99_gain_pct": 3.3214352142989956,
+        "candidate_mean_ns": 1309836.0,
+        "baseline_mean_ns": 1354836.0,
+        "candidate_p99_ns": 1309836.0,
+        "baseline_p99_ns": 1354836.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input4.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g16_equal.input4.GF.a0.sameWL_matching_keep_hot",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.144436296964336,
+        "p99_gain_pct": 4.593210265016435,
+        "candidate_mean_ns": 436612.0,
+        "baseline_mean_ns": 446180.046875,
+        "candidate_p99_ns": 436612.0,
+        "baseline_p99_ns": 457632.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.144436296964336,
+        "p99_gain_pct": 3.9481941686174027,
+        "candidate_mean_ns": 1309836.0,
+        "baseline_mean_ns": 1338540.140625,
+        "candidate_p99_ns": 1309836.0,
+        "baseline_p99_ns": 1363676.6,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input4.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input4.DF.a0.matching_layout_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.787495976608124,
+        "p99_gain_pct": 6.5734852310562975,
+        "candidate_mean_ns": 436612.0,
+        "baseline_mean_ns": 453799.6432291667,
+        "candidate_p99_ns": 436612.0,
+        "baseline_p99_ns": 467332.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 71
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.787495976608113,
+        "p99_gain_pct": 5.849558946993138,
+        "candidate_mean_ns": 1309836.0,
+        "baseline_mean_ns": 1361398.9296875,
+        "candidate_p99_ns": 1309836.0,
+        "baseline_p99_ns": 1391216.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input4.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input4.DF.a0.matching_layout_IPR_fill_only",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 71,
+      "jointly_feasible_event_queries": 1465,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1465,
+        "256": 1465,
+        "2048": 1465
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.086665490018569,
+        "p99_gain_pct": 4.593210265016435,
+        "candidate_mean_ns": 436612.0,
+        "baseline_mean_ns": 445916.7918088737,
+        "candidate_p99_ns": 436612.0,
+        "baseline_p99_ns": 457632.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 456,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.098183099241291,
+        "p99_gain_pct": 3.8933919534756445,
+        "candidate_mean_ns": 1309836.0,
+        "baseline_mean_ns": 1337907.754385965,
+        "candidate_p99_ns": 1309836.0,
+        "baseline_p99_ns": 1362899.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input4.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g16_equal.input4.DF.a0.RR_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.5997067764250583,
+        "p99_gain_pct": 5.538584026377502,
+        "candidate_mean_ns": 436612.0,
+        "baseline_mean_ns": 443710.0598958333,
+        "candidate_p99_ns": 436612.0,
+        "baseline_p99_ns": 462212.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.5997067764250583,
+        "p99_gain_pct": 3.687977033985923,
+        "candidate_mean_ns": 1309836.0,
+        "baseline_mean_ns": 1331130.1796875,
+        "candidate_p99_ns": 1309836.0,
+        "baseline_p99_ns": 1359992.2,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input4.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g16_equal.input4.DF.a0.candidate",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.3214352142989956,
+        "p99_gain_pct": 3.3214352142989956,
+        "candidate_mean_ns": 436612.0,
+        "baseline_mean_ns": 451612.0,
+        "candidate_p99_ns": 436612.0,
+        "baseline_p99_ns": 451612.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.3214352142989956,
+        "p99_gain_pct": 3.3214352142989956,
+        "candidate_mean_ns": 1309836.0,
+        "baseline_mean_ns": 1354836.0,
+        "candidate_p99_ns": 1309836.0,
+        "baseline_p99_ns": 1354836.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g16_equal.input4.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g16_equal.input4.DF.a0.sameWL_matching_keep_hot",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.144436296964336,
+        "p99_gain_pct": 4.593210265016435,
+        "candidate_mean_ns": 436612.0,
+        "baseline_mean_ns": 446180.046875,
+        "candidate_p99_ns": 436612.0,
+        "baseline_p99_ns": 457632.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.144436296964336,
+        "p99_gain_pct": 3.9481941686174027,
+        "candidate_mean_ns": 1309836.0,
+        "baseline_mean_ns": 1338540.140625,
+        "candidate_p99_ns": 1309836.0,
+        "baseline_p99_ns": 1363676.6,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input1.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input1.GF.a0.matching_layout_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.7807854585649725,
+        "p99_gain_pct": 6.442922934437389,
+        "candidate_mean_ns": 437417.44921875,
+        "baseline_mean_ns": 454605.0924479167,
+        "candidate_p99_ns": 442452.0,
+        "baseline_p99_ns": 472922.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 71
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.7807854585649725,
+        "p99_gain_pct": 5.548411239759421,
+        "candidate_mean_ns": 1312252.34765625,
+        "baseline_mean_ns": 1363815.27734375,
+        "candidate_p99_ns": 1326606.0,
+        "baseline_p99_ns": 1404535.4,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input1.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input1.GF.a0.matching_layout_IPR_fill_only",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 71,
+      "jointly_feasible_event_queries": 1465,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1465,
+        "256": 1465,
+        "2048": 1465
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.082609956610304,
+        "p99_gain_pct": 4.483811217947331,
+        "candidate_mean_ns": 437480.3481228669,
+        "baseline_mean_ns": 446785.1399317406,
+        "candidate_p99_ns": 442452.0,
+        "baseline_p99_ns": 463222.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 456,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.0939434610074192,
+        "p99_gain_pct": 3.5620446869146782,
+        "candidate_mean_ns": 1312544.8815789474,
+        "baseline_mean_ns": 1340616.6359649124,
+        "candidate_p99_ns": 1326831.0,
+        "baseline_p99_ns": 1375839.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input1.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input1.GF.a0.RR_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.5968081541118173,
+        "p99_gain_pct": 5.079087888064848,
+        "candidate_mean_ns": 437417.44921875,
+        "baseline_mean_ns": 444515.5091145833,
+        "candidate_p99_ns": 442452.0,
+        "baseline_p99_ns": 466127.00000000006,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.5968081541118173,
+        "p99_gain_pct": 3.090235760826965,
+        "candidate_mean_ns": 1312252.34765625,
+        "baseline_mean_ns": 1333546.52734375,
+        "candidate_p99_ns": 1326606.0,
+        "baseline_p99_ns": 1368908.5,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input1.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g12_cyclic.input1.GF.a0.candidate",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.3155219865861785,
+        "p99_gain_pct": 3.279032554235195,
+        "candidate_mean_ns": 437417.44921875,
+        "baseline_mean_ns": 452417.44921875,
+        "candidate_p99_ns": 442452.0,
+        "baseline_p99_ns": 457452.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.3155219865861785,
+        "p99_gain_pct": 3.2808255431953537,
+        "candidate_mean_ns": 1312252.34765625,
+        "baseline_mean_ns": 1357252.34765625,
+        "candidate_p99_ns": 1326606.0,
+        "baseline_p99_ns": 1371606.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input1.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g12_cyclic.input1.GF.a0.sameWL_matching_keep_hot",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.140572112208583,
+        "p99_gain_pct": 4.483811217947331,
+        "candidate_mean_ns": 437417.44921875,
+        "baseline_mean_ns": 446985.49609375,
+        "candidate_p99_ns": 442452.0,
+        "baseline_p99_ns": 463222.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.140572112208583,
+        "p99_gain_pct": 3.59504696177525,
+        "candidate_mean_ns": 1312252.34765625,
+        "baseline_mean_ns": 1340956.48828125,
+        "candidate_p99_ns": 1326606.0,
+        "baseline_p99_ns": 1376076.6,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input1.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input1.DF.a0.matching_layout_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.7807854585649725,
+        "p99_gain_pct": 6.442922934437389,
+        "candidate_mean_ns": 437417.44921875,
+        "baseline_mean_ns": 454605.0924479167,
+        "candidate_p99_ns": 442452.0,
+        "baseline_p99_ns": 472922.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 71
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.7807854585649725,
+        "p99_gain_pct": 5.548411239759421,
+        "candidate_mean_ns": 1312252.34765625,
+        "baseline_mean_ns": 1363815.27734375,
+        "candidate_p99_ns": 1326606.0,
+        "baseline_p99_ns": 1404535.4,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input1.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input1.DF.a0.matching_layout_IPR_fill_only",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 71,
+      "jointly_feasible_event_queries": 1465,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1465,
+        "256": 1465,
+        "2048": 1465
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.082609956610304,
+        "p99_gain_pct": 4.483811217947331,
+        "candidate_mean_ns": 437480.3481228669,
+        "baseline_mean_ns": 446785.1399317406,
+        "candidate_p99_ns": 442452.0,
+        "baseline_p99_ns": 463222.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 456,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.0939434610074192,
+        "p99_gain_pct": 3.5620446869146782,
+        "candidate_mean_ns": 1312544.8815789474,
+        "baseline_mean_ns": 1340616.6359649124,
+        "candidate_p99_ns": 1326831.0,
+        "baseline_p99_ns": 1375839.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input1.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input1.DF.a0.RR_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.5968081541118173,
+        "p99_gain_pct": 5.079087888064848,
+        "candidate_mean_ns": 437417.44921875,
+        "baseline_mean_ns": 444515.5091145833,
+        "candidate_p99_ns": 442452.0,
+        "baseline_p99_ns": 466127.00000000006,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.5968081541118173,
+        "p99_gain_pct": 3.090235760826965,
+        "candidate_mean_ns": 1312252.34765625,
+        "baseline_mean_ns": 1333546.52734375,
+        "candidate_p99_ns": 1326606.0,
+        "baseline_p99_ns": 1368908.5,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input1.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g12_cyclic.input1.DF.a0.candidate",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.3155219865861785,
+        "p99_gain_pct": 3.279032554235195,
+        "candidate_mean_ns": 437417.44921875,
+        "baseline_mean_ns": 452417.44921875,
+        "candidate_p99_ns": 442452.0,
+        "baseline_p99_ns": 457452.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.3155219865861785,
+        "p99_gain_pct": 3.2808255431953537,
+        "candidate_mean_ns": 1312252.34765625,
+        "baseline_mean_ns": 1357252.34765625,
+        "candidate_p99_ns": 1326606.0,
+        "baseline_p99_ns": 1371606.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input1.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g12_cyclic.input1.DF.a0.sameWL_matching_keep_hot",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.140572112208583,
+        "p99_gain_pct": 4.483811217947331,
+        "candidate_mean_ns": 437417.44921875,
+        "baseline_mean_ns": 446985.49609375,
+        "candidate_p99_ns": 442452.0,
+        "baseline_p99_ns": 463222.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.140572112208583,
+        "p99_gain_pct": 3.59504696177525,
+        "candidate_mean_ns": 1312252.34765625,
+        "baseline_mean_ns": 1340956.48828125,
+        "candidate_p99_ns": 1326606.0,
+        "baseline_p99_ns": 1376076.6,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input4.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input4.GF.a0.matching_layout_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.7062351847466424,
+        "p99_gain_pct": 6.315785109919947,
+        "candidate_mean_ns": 446561.7513020833,
+        "baseline_mean_ns": 463749.39453125,
+        "candidate_p99_ns": 451972.0,
+        "baseline_p99_ns": 482442.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 71
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.7062351847466313,
+        "p99_gain_pct": 5.367049169727245,
+        "candidate_mean_ns": 1339685.25390625,
+        "baseline_mean_ns": 1391248.18359375,
+        "candidate_p99_ns": 1355166.0,
+        "baseline_p99_ns": 1432023.4,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input4.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input4.GF.a0.matching_layout_IPR_fill_only",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 71,
+      "jointly_feasible_event_queries": 1465,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1465,
+        "256": 1465,
+        "2048": 1465
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.04086886188386,
+        "p99_gain_pct": 4.393516971202049,
+        "candidate_mean_ns": 446618.27030716726,
+        "baseline_mean_ns": 455923.06211604096,
+        "candidate_p99_ns": 451972.0,
+        "baseline_p99_ns": 472742.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 456,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.051942351549807,
+        "p99_gain_pct": 3.418360039419599,
+        "candidate_mean_ns": 1339985.899122807,
+        "baseline_mean_ns": 1368057.653508772,
+        "candidate_p99_ns": 1355391.0,
+        "baseline_p99_ns": 1403363.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input4.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input4.GF.a0.RR_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.5646217100629856,
+        "p99_gain_pct": 4.9024158386843375,
+        "candidate_mean_ns": 446561.7513020833,
+        "baseline_mean_ns": 453659.8111979167,
+        "candidate_p99_ns": 451972.0,
+        "baseline_p99_ns": 475271.80000000016,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.5646217100629856,
+        "p99_gain_pct": 3.0053617937094823,
+        "candidate_mean_ns": 1339685.25390625,
+        "baseline_mean_ns": 1360979.43359375,
+        "candidate_p99_ns": 1355166.0,
+        "baseline_p99_ns": 1397155.58,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input4.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g12_cyclic.input4.GF.a0.candidate",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.2498360095229772,
+        "p99_gain_pct": 3.212184028164433,
+        "candidate_mean_ns": 446561.7513020833,
+        "baseline_mean_ns": 461561.7513020833,
+        "candidate_p99_ns": 451972.0,
+        "baseline_p99_ns": 466972.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.2498360095229772,
+        "p99_gain_pct": 3.213904637021614,
+        "candidate_mean_ns": 1339685.25390625,
+        "baseline_mean_ns": 1384685.25390625,
+        "candidate_p99_ns": 1355166.0,
+        "baseline_p99_ns": 1400166.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input4.GF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g12_cyclic.input4.GF.a0.sameWL_matching_keep_hot",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.097658805287128,
+        "p99_gain_pct": 4.393516971202049,
+        "candidate_mean_ns": 446561.7513020833,
+        "baseline_mean_ns": 456129.7981770833,
+        "candidate_p99_ns": 451972.0,
+        "baseline_p99_ns": 472742.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.097658805287128,
+        "p99_gain_pct": 3.4531607130567687,
+        "candidate_mean_ns": 1339685.25390625,
+        "baseline_mean_ns": 1368389.39453125,
+        "candidate_p99_ns": 1355166.0,
+        "baseline_p99_ns": 1403635.8,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input4.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input4.DF.a0.matching_layout_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.7062351847466424,
+        "p99_gain_pct": 6.315785109919947,
+        "candidate_mean_ns": 446561.7513020833,
+        "baseline_mean_ns": 463749.39453125,
+        "candidate_p99_ns": 451972.0,
+        "baseline_p99_ns": 482442.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 71
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.7062351847466313,
+        "p99_gain_pct": 5.367049169727245,
+        "candidate_mean_ns": 1339685.25390625,
+        "baseline_mean_ns": 1391248.18359375,
+        "candidate_p99_ns": 1355166.0,
+        "baseline_p99_ns": 1432023.4,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input4.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input4.DF.a0.matching_layout_IPR_fill_only",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 71,
+      "jointly_feasible_event_queries": 1465,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1465,
+        "256": 1465,
+        "2048": 1465
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.04086886188386,
+        "p99_gain_pct": 4.393516971202049,
+        "candidate_mean_ns": 446618.27030716726,
+        "baseline_mean_ns": 455923.06211604096,
+        "candidate_p99_ns": 451972.0,
+        "baseline_p99_ns": 472742.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 456,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.051942351549807,
+        "p99_gain_pct": 3.418360039419599,
+        "candidate_mean_ns": 1339985.899122807,
+        "baseline_mean_ns": 1368057.653508772,
+        "candidate_p99_ns": 1355391.0,
+        "baseline_p99_ns": 1403363.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input4.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "strict500.g12_cyclic.input4.DF.a0.RR_IPR_uniform_split10",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 1.5646217100629856,
+        "p99_gain_pct": 4.9024158386843375,
+        "candidate_mean_ns": 446561.7513020833,
+        "baseline_mean_ns": 453659.8111979167,
+        "candidate_p99_ns": 451972.0,
+        "baseline_p99_ns": 475271.80000000016,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 533
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 1.5646217100629856,
+        "p99_gain_pct": 3.0053617937094823,
+        "candidate_mean_ns": 1339685.25390625,
+        "baseline_mean_ns": 1360979.43359375,
+        "candidate_p99_ns": 1355166.0,
+        "baseline_p99_ns": 1397155.58,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 20
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input4.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g12_cyclic.input4.DF.a0.candidate",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 3.2498360095229772,
+        "p99_gain_pct": 3.212184028164433,
+        "candidate_mean_ns": 446561.7513020833,
+        "baseline_mean_ns": 461561.7513020833,
+        "candidate_p99_ns": 451972.0,
+        "baseline_p99_ns": 466972.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 3.2498360095229772,
+        "p99_gain_pct": 3.213904637021614,
+        "candidate_mean_ns": 1339685.25390625,
+        "baseline_mean_ns": 1384685.25390625,
+        "candidate_p99_ns": 1355166.0,
+        "baseline_p99_ns": 1400166.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    },
+    {
+      "candidate": "strict500.g12_cyclic.input4.DF.a0.candidate_IPR_uniform_split10",
+      "baseline": "cold_reset500.g12_cyclic.input4.DF.a0.sameWL_matching_keep_hot",
+      "requested_event_queries": 1536,
+      "candidate_infeasible_queries": 0,
+      "baseline_infeasible_queries": 0,
+      "jointly_feasible_event_queries": 1536,
+      "validity_notice": "Subset-only statistics are not all-query performance when either operand is infeasible.",
+      "jointly_valid_FIFO_event_queries": {
+        "64": 0,
+        "128": 1536,
+        "256": 1536,
+        "2048": 1536
+      },
+      "event_metrics": {
+        "mean_gain_pct": 2.097658805287128,
+        "p99_gain_pct": 4.393516971202049,
+        "candidate_mean_ns": 446561.7513020833,
+        "baseline_mean_ns": 456129.7981770833,
+        "candidate_p99_ns": 451972.0,
+        "baseline_p99_ns": 472742.0,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      },
+      "jointly_feasible_three_layer_inputs": 512,
+      "three_layer_sum_metrics": {
+        "mean_gain_pct": 2.097658805287128,
+        "p99_gain_pct": 3.4531607130567687,
+        "candidate_mean_ns": 1339685.25390625,
+        "baseline_mean_ns": 1368389.39453125,
+        "candidate_p99_ns": 1355166.0,
+        "baseline_p99_ns": 1403635.8,
+        "slower_fraction": 0.0,
+        "slower_queries": 0,
+        "equal_queries": 0
+      }
+    }
+  ],
+  "generic_compiler": "Exact candidate alias:0%gain in everyprofile; no newoptimizer attribution.",
+  "limits": [
+    "Strict100 andcopy500 are unmeasured conditionalcopyparameters, selected after pipeline sensitivity.",
+    "Every128B peak page-output burst violates64BFIFO; no backpressure rescue.",
+    "All virtual full-model controls have equal2blocks/chip reservation; oldwhole-rowpadding is explicit.",
+    "Fixed9.7us producer sensitivity is not the only possiblehardwaremodel: a controllably extended10us phase may outperformshaping; timer/analog feasibility remainsunverified.",
+    "Readshaping is sameuniform structuralrule for allkernels; forcedone-split is not a globallyoptimal baselinepolicy. RRfill-only/coldreset may be a strongerfollowup control.",
+    "Frozenmain Recipes key excludesblock, so it is not a genericcrossblockcache. Everyactualprimaryrecipe staysblock0; static Down relocation is a whole freshcold job and does not reusecrossblocktiming. Newshapingcache includescompleteaddresses/readpages/configuration."
+  ]
+}

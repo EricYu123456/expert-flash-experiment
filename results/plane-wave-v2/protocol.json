@@ -1,0 +1,90 @@
+{
+  "date": "2026-11-01",
+  "timezone": "Asia/Taipei",
+  "baseline": {
+    "group_chips": 16,
+    "plane_width": 4,
+    "gate_up_stacked": true,
+    "expert_mapping": "identity",
+    "learned_positions": false
+  },
+  "experiments": [
+    "joint_group_plane_with_cr",
+    "no_cr_same_baseline_and_candidates"
+  ],
+  "read_modes": {
+    "cr_on": "9.7us*waves+18.3us*block_runs",
+    "cr_off": "28us*waves"
+  },
+  "overlap": "Both modes retain max(NAND completion, shared ECC bytes/BW); no serialized-drain substitution.",
+  "geometry": {
+    "chips": 16,
+    "planes_per_chip": 4,
+    "page_bytes": 16384,
+    "lsb_wl_per_block": 192,
+    "ecc_pe_bytes_per_s": 6400000000
+  },
+  "overheads": {
+    "matrix_block_command_ns": 250,
+    "host_phase_ns": 2000,
+    "input_bytes_per_element": 1,
+    "output_bytes_per_element": 4,
+    "pcie_bytes_per_ns": 8,
+    "channel_bytes_per_ns": 2
+  },
+  "search": {
+    "groups": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "widths": [
+      4,
+      2,
+      1
+    ],
+    "joint_moves": "Swap expert slots across or within group/plane cells while preserving cell capacity.",
+    "starts": [
+      "identity",
+      "previous training-only staged group+plane map"
+    ],
+    "proposals_per_start": 1024,
+    "equal_budget_staged": "512 group(w4) then512 fixed-group plane; all1024 to available dimension for w4 or g16.",
+    "objective": "Mean training full routed FFN latency including NAND/ECC, input/output, host and block commands; deterministic secondary imbalance tie-break.",
+    "inference_placement": "Static after training, no per-token migration or replication."
+  },
+  "dataset": {
+    "models": [
+      "granite",
+      "olmoe",
+      "deepseek",
+      "qwen3",
+      "mixtral"
+    ],
+    "train_prompts": 200,
+    "test_prompts": 100,
+    "decode_steps": 128,
+    "additional_window": 32,
+    "cache_root": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1"
+  },
+  "evaluation": {
+    "freeze_before_test": true,
+    "select_from_training_only": true,
+    "bootstrap_unit": "whole prompt paired",
+    "bootstrap_resamples": 2000,
+    "include_failed_candidates": true
+  },
+  "bundle_supplement": "Retain training-only fixed gate_up bundle maps B=1/2/4; reevaluate/reselect g/B using noCR training costs before test; full inactive read/output costs.",
+  "source_sha256": {
+    "scripts/aif_model.py": "baa452445e953fb3d096a840facd1801ee3870726c6667d38180b9526e06751b",
+    "scripts/corpus_analysis.py": "d1686973505bf331a37d91e8cd9a2cf9b401742d69a47ea254db072491d3b3c9",
+    "scripts/run_plane_wave_study.py": "395cc93371964a0d8f201c6581eeb18334b9ecc65f05dd628c667c9da51c86b2",
+    "scripts/plane_wave_model.py": "3a315947c668bd7aaa44acb23658510e901147bc48596a3f9ea6aef202741862",
+    "scripts/static_wave_bundle_study.py": "9f7fee2428676303de5c70094d7a36de3c995e19687ff54a0eadff96f36a8996",
+    "results/plane-wave-v1/manifest.json": "9af691897e3257b1de80ffa2cca8727292e874786cb2691e5bf6fb8ff195f710",
+    "results/plane-wave-v1/static-bundles/manifest.json": "8ca81ff3e152c11e3b7925e4fd088208f6b1aacef332655f8110e8fbcc315bbb"
+  },
+  "model_claim": "Architectural service model; no physical NAND/PE or new NVMe kernel implementation."
+}

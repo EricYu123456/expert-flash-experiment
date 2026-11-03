@@ -1,0 +1,111 @@
+{
+  "status": "zero_software_joint_native_model_sensitivity",
+  "protocol_sha256": "3e0444b41dd66d5030a7518d1ed417676369aa46851a5ff2948f342ce030c17e",
+  "source_sha256": "6d208b77b13909121970fe8fae2e465b0208ca62d649a7f5525c47e7a88f5d66",
+  "cpp_sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+  "binary_sha256": "20eae1ad4d749c2f2bda21cf49e9fc497cb10a4cac0e259aab81b96a88aa5a85",
+  "baseline": {
+    "mean_ns": 561099.01953125,
+    "p99_ns": 580695.14
+  },
+  "GU_single": {
+    "mean_ns": 551417.34765625,
+    "p99_ns": 577208.0
+  },
+  "Down_single": {
+    "mean_ns": 550165.61328125,
+    "p99_ns": 576531.66
+  },
+  "joint": {
+    "mean_ns": 549021.7734375,
+    "p99_ns": 578797.5
+  },
+  "improvement": {
+    "mean_pct": 2.1524268753560616,
+    "p99_pct": 0.32678764971237895
+  },
+  "gate_passed": true,
+  "paired": {
+    "improved": 476,
+    "equal": 0,
+    "worsened": 36,
+    "max_saving_ns": 57450,
+    "max_regression_ns": 29118
+  },
+  "checks": {
+    "B_costs_exact": 512,
+    "B_bounds_exact": 512,
+    "GU_ownership_checks": 3072,
+    "Down_ownership_checks": 3072,
+    "actual_work_checks": 512,
+    "representative_traces": [
+      {
+        "query": 0,
+        "case": "baseline",
+        "nodes": 1031,
+        "cost_ns": 551140
+      },
+      {
+        "query": 0,
+        "case": "joint",
+        "nodes": 781,
+        "cost_ns": 549470
+      },
+      {
+        "query": 255,
+        "case": "baseline",
+        "nodes": 1031,
+        "cost_ns": 577316
+      },
+      {
+        "query": 255,
+        "case": "joint",
+        "nodes": 916,
+        "cost_ns": 548124
+      },
+      {
+        "query": 511,
+        "case": "baseline",
+        "nodes": 1031,
+        "cost_ns": 578662
+      },
+      {
+        "query": 511,
+        "case": "joint",
+        "nodes": 706,
+        "cost_ns": 578040
+      }
+    ]
+  },
+  "counter_columns": [
+    "jobs",
+    "computed_coefficient_bytes",
+    "pages",
+    "waves",
+    "fullinputbytes",
+    "emittedoutputbytes",
+    "channel_ns"
+  ],
+  "mean_counters_by_phase": [
+    [
+      79.1953125,
+      12712653.0,
+      783.6015625,
+      195.900390625,
+      121644.0,
+      33378.0859375,
+      77511.04296875
+    ],
+    [
+      68.44921875,
+      6291456.0,
+      384.0,
+      96.0,
+      43238.0,
+      43008.0,
+      43123.0
+    ]
+  ],
+  "seconds": 4.428533006925136,
+  "limits": "OnlyfixedGU3+Down14 jointgreedy TRAIN512. Zero selector/scatter/mappingsoftware is optimistic. Not sumofsinglebranch gains; no newcontext/MAC/FIFO/inputformat. RowIDsymbolic notnumericABI proof. Strongstatic/samebudgetcopies andproductionselector pending ifgatepasses; no heldout/alllayer."
+}

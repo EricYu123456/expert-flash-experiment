@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+"""Read-only contract audit: no new timing, inference,device I/O or simulator run."""
+import hashlib,json,subprocess
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+D=ROOT/'results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit'
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def write(p,z):assert not p.exists();p.write_text(json.dumps(z,indent=2)+'\n')
+def main():
+    snap=D/'snapshots';snap.mkdir(exist_ok=False)
+    paths=[ROOT/'paper/aif.txt',ROOT/'kernel/aif.h',ROOT/'kernel/aif.c',ROOT/'scripts/aif_replay.c',
+      ROOT/'patches/nvmevirt-aif.patch',ROOT/'patches/nvmevirt-source.json',
+      ROOT/'scripts/research_20261103_ordinary_read_backend.py',ROOT/'scripts/research_20261103_ordinary_read_native.cpp',
+      Path('/home/ericyu/nvmevirt/io.c'),Path('/home/ericyu/nvmevirt/nvmev.h')]
+    sources={}
+    for i,p in enumerate(paths):
+        target=snap/(f'{i:02d}.'+p.name);target.write_bytes(p.read_bytes());sources[str(p)]=dict(sha256=sha(p),snapshot=str(target))
+    commit=subprocess.check_output(['git','-C','/home/ericyu/nvmevirt','rev-parse','HEAD'],text=True).strip()
+    matrix=[
+      dict(capability='ChipFIFO can be drained while the matrix continues computing',classification='Explicit paperdesign',evidence='AiF4.4,p537,local819–823:sequential outputelements,FIFOstatusinSREG,round-robincontrollerpollingduringcomputation.',boundary='DoesnotdiscloseFIFOcapacity/fullflag/productionstall,drainburstsizeorquantitativeproductionrate.'),
+      dict(capability='Host starts independent downstream work from an earlier vector portion',classification='Explicit algorithmicintent;requestgranularity unresolved',evidence='AiF5.1/Fig15,p537,local827–832:head-level QKV/MHA overlap when anindividualvector setisgenerated.',boundary='Couldbeindependenthead-sizedaif_gemv requests;doesnotproveper-prefixDMA/CQEofonesinglecommand.'),
+      dict(capability='Controllercountsreceivedrowelementsandmapscontiguousranges tologicalexperts',classification='Softwarecomposition conditionalonexistingoutputcontract',evidence='SequentialFIFO +knownfullinputdimension +softwarephysicalrowtable permitscounter-baseddemultiplexing.',boundary='No newPEprogressport isneededforthisalgorithm;outputelementwidth,roworder/reset/scaleanderrorvalidityarenotfullypublished.'),
+      dict(capability='Multiplehostlogicalrequests can complete independently while sharing oneinternal nativecommand',classification='Protocol-compatible controllerfirmwarecandidate,notAiFimplementationevidence',evidence='NVMeBase2.1§3.1.3 permitscompletionreordering;§4.2CQEidentifiesSQID+CID. SPDKNVMeoverviewdescribesper-commandcallbacks.',boundary='RetainoneoriginalCIDperexpert;ordinaryCQEformatcanstayunchanged. ControllerinternalcoalescingisnotNVMeFUSEandisnotmandatedbyNVMe.'),
+      dict(capability='OnehostCID produces anearlysuccessfulCQEforaprefixandlaterfinishesitsremainingdata',classification='Not the conservative protocolcontract',evidence='NVMecommandcompletionretires thatlogicalrequest;CQEidentifiesthecompletedCID.',boundary='Usemultipleoriginallogicalrequests/CIDsinstead. Anewprogressmemoryflag/eventAPIwouldbeasoftwareABIextensionandmustbeexplicit.'),
+      dict(capability='Repo kernelABI hasrealrows/DMA/progress/expertcompletion',classification='Absentininspectedmetadata-onlyimplementation',evidence='kernel/aif.h:11;v1/v2/v3onlyaggregatebytes/pages/waves/costcounts. aif.c:48–198returnsone nsecs_target. aif_replay.c:62–70synchronousoneioctlperpayload.',boundary='ThisisnotproofAiFhardwarecannotstream;itmeanscurrentlocalemulationcannotvalidatetheproposedcontract.'),
+      dict(capability='Earlyexpertcompletion releases chipinputPB/context',classification='Excluded',evidence='SinglefusednativeGEMVstillusesoriginalinputandproduceslaterrows. Existingordinary-readengineholdsownerfromcommandthroughfinalchanneldrain.',boundary='Ownerrelease remainsnativejobfinaldrain/end;Downonthat chipmustwait,nosecondcontext/newinputisinserted.'),
+      dict(capability='Asexpertprefixarrives,complete logicalGUcantrigger activation',classification='Conditional,perexpertonly',evidence='CurrentReferenceGraph.buildready[ei]alreadyjoinsonlythatexpertGUoutputs,notallselectedexperts.',boundary='Waitforallchips/bands ofthatexpert,bothgate+up,hostDMAvisibilityandrequiredscatter/rescale;thenfullactivation/A8vectorbarrierbeforeanyDownjob.'),
+      dict(capability='FIFOavailability grants per-wavepause/backpressureorfreebuffering',classification='Notestablished;excludedfromaudit',evidence='AiFdescribescontinuousmatrixflowandpolling,notanexplicitpauseopcodeorFIFOcapacity.',boundary='Do not inferarbitraryproducerstall,PBresidency,unboundedFIFOorfreecontrollerstaging. Finiteflowcontrolmustbeexplicitlyjustifiedseparately.')]
+    write(D/'capability_matrix.json',dict(matrix=matrix))
+    contract=dict(classification='Conditional controller/host software extension usingthe describednativecommand;not demonstratedexistingfirmwareandnot proven toneednewhardware',
+      logical_request='Hostsubmitsoneordinarylogicalaif_gemvperexpertwithitsownCID/outputbuffer;multiplependingrequestsarenecessaryforcontrollercoalescing. Fixedsamefullinputandrow/scalemapareknown.',
+      native_lifetime='Controllerissuesonewithinsingle-block sameinput denseGEMVforacontiguousmixedrowview. Acquirechipcontextonce;loadinputonceperdeclaredfanout;retainowner/PBuntilallrowsincludingauxiliaryrowsareproducedanddrained.',
+      receive='OnlyactualavailableFIFOelements arecounted. Rowrange/offsetdemultiplexingresidesincontrollerfirmware. No newPEprogresssignal,tag orcontext;nochangeintheproducerreadsequenceisassumed.',
+      dma='Controllerusesexistingdatareturn/DMAcapabilitytostorecompletedselectedrowsatthecorrectoffsetoftheoriginallogicalrequestoutputbuffer. Auxiliaryrowsaredrainedanddiscarded;neverwritealaterauxiliaryresultintoaCIDoutputbufferafteritscompletion.',
+      completion='Forlogicalexpert e,postexactlyoneCQEonlyafterallitsGUrowsacrossallchipsaredeliveredandvisibleanditseffectiveerrorstatusisfinal. OtherCIDsmayremainpending;theinternalnativecommandrefcount/lifetimeisindependent.',
+      host='OnCQE,hostfinishesanyscatter/scaleoperations,thencomputesfullSwiGLUandquantizestheentireDowninputvector. Noper-neuronpartialactivationorcrossnonlinearfusionisintroduced.',
+      ownership='EarlyreadyonlychangesDAGdependencies. Itdoesnotfreeanychipheldbythefusedcommand. SubsequentDowncommandsuseidlechipsorwaitforownerrelease;controller,channels,PCIe,hostCPUandCQprocessingremainsharedresources.',
+      errorcondition='FIFO-prefixoutputs mustalreadybevalid/committedfortheirlogicalrows,orcontroller mustotherwiseestablishfinalsuccessforcompletedCID. Acommand-wideerrorreportedonlyatendcouldblockearlysuccessfulCQE. PaperdoesnotpublishtheECC/errorcommitgranularity,abortorlateerrorsemantics.',
+      inputcondition='Commonhostinput/DMAandnativePBmustremainvalidfortheremainingCID/nativejoblifetime. Do not reread/freethecompletedCIDhostbufferafterCQE;grouprefcountinputbuffersorfinishallneededinputDMAfirst.',
+      fallback='Withoutprefixerror/DMA/rowcontractconfirmation,keepcurrentfullnative-viewdraincompletionforlogicalrequests;chip->controllerstreamingalone doesnotcertifyearlyhostcompletion.',
+      costs='No timingsrunhere. Futureconditionaloptimisticsensitivitymustseparatelymodel/labelprefixavailability,PEdelay,FIFOservice,smallDMAs,perCIDsubmission/completionandhostpoll/activation. Do not givezero-costnewcallbacksorapplythepolicyonlytocandidate;allcontrolsreceiveidenticalcapability.')
+    write(D/'conditional_contract.json',contract)
+    blocking=[
+      dict(item='Outputword/rowcontract',needed='Deterministiccomplete-roworder,elementwidth,resetbetweenrows,andscaleassociation;C2048wordlineboundariesaligncompleterows,butpaperdoesnotfullydefinewireoutputABI.',new_hardware_required='Notestablished;mayalreadybeintrinsictoexistingGEMVreturnpath.'),
+      dict(item='Prefixvalidity anderrorcommit',needed='Canalaternativecommandfailureinvalidatealreadydeliveredprefixrows? WhenisuncorrectableECCvisibleandwhichrows/CIDsareaffected?',new_hardware_required='Unverified. Do not demandanewerrorportasassumption;withoutexistingguaranteeearlysuccessfulCQEisnotproven.'),
+      dict(item='ControllerincrementalDMA',needed='DMAalreadyneededbyAiFmustbeprogrammableforpartialrowranges/multiplependinglogicalPRPswhileotherrowsstream. Actualdescriptors/alignment/buffering/softwarecostarenotpublished.',new_hardware_required='PlausiblefirmwareontypicalcontrollerDMA;notverifiedforthisAiFimplementation.'),
+      dict(item='FiniteFIFOflowcontrol',needed='Existingcapacity,fullhandlingorprovenservicebudgetwhilechannelsarecontended. Polling alone isnotaproofofnoloss.',new_hardware_required='Unknown;cannot assumeextraFIFO,backpressureorpausetoimprovefeasibility.'),
+      dict(item='Request/commandlifetime',needed='RetainmultipleCIDsandbuffers,emitonceafterlogicalGUcompletion,handletimeout/abort/resetwithoutstoppingotherlogicalrequestsunsafely.',new_hardware_required='Primarilycontroller/driver/runtimebookkeeping;currentrepometadataABIdoesnotimplementit.')]
+    write(D/'blocking_unknowns.json',dict(blocking=blocking))
+    prior=[
+      dict(id='aif',url='https://doi.org/10.1145/3695053.3731073',version='ISCA2025',read_depth='Reread4.1overview,4.4completecomputationflow/FIFOparagraph,5.1/Fig15surroundingtext,5.2host/controllerAPIand6.1dummysimulation;paper/aif.txtnotRTL.',evidence='FIFOdataaresequentialandcontrollerreadswhilecomputationcontinues. Head-wisehostoverlapisdescribed. APIexposesinputdimension/inputaddress/matrixLBA/outputaddress;implementationevaluationreturnsdummyvectors.',limit='No explicitper-prefixhostDMA/CQEorFIFOcapacity/backpressure/errorcommitcontract.'),
+      dict(id='nvme_base',url='https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-Revision-2.1-2024.08.05-Ratified.pdf',version='Revision2.1,5Aug2024',read_depth='OfficialPDFdownloadedandpdftotext;readcommandcompletiondefinition,3.1.3completionordering,3.4.1/3.4.2/3.4.4and4.2.1/Figs96–98;notfullspec.',evidence='CompletionsidentifySQID+CIDandneednotfollowsubmissionorder. AcompletedcommandhasposteditsCQE. StandardFUSEisaseparateoptionalatomicoperationmechanism.',limit='NVMedoesnotguaranteeorimplementinternalGEMVcoalescingorpartialnativeoutputs. Per-expertCQEproposalusesmultipleordinaryCIDs,notmultiplefinalCQEsforoneCID.'),
+      dict(id='spdk',url='https://spdk.io/doc/nvme_spec.html',version='Officialdocumentationretrieved2026-11-03',read_depth='ReadentireSubmittingI/O/NVMeDriverI/OPathpage;noSPDKexecution.',evidence='Asynchronousrequestobjects/trackersassociateCIDwithcallback;completionpollingcallsappropriatecallback;PRPlistsdescribehostDMAbuffers.',limit='HostAPIpossibilityonly;doesnotproveAiFcontrollerincrementalDMAorstreamingimplementation.'),
+      dict(id='repo_abi',url=None,version='Actualsourcehashesinmanifest',read_depth='Readkernel/aif.hfull,aif.cprocessfull,replayclientsubmissionloop,patchhook,localNVMeVirtcompletionworkerandordinary-readGraphbuild/ownerlogic.',evidence='Metadata-onlyrequestsaggregatecostandreturnonescheduledcompletion;ordinaryreadGraphalreadymakesexpert-localGUreadyandretainschipownerthroughoutputchanneldrain.',limit='Local/home/ericyu/nvmevirtisastandardsourceworktree,notassumedtobethepatchedrunningmodule;commit '+commit)]
+    write(D/'sources.json',dict(primary_only=True,sources=prior))
+    notes=dict(status='complete_readonly_contract_audit_no_new_timings',conclusion='Independentlogicalexpertcompletioncanbeimplementedasconditionalcontroller/hostsoftwareoverexistingdescribedFIFO+denseGEMV+NVMeCQEprimitives. No newMAC/context/PEreportportisinherentlyrequiredbyrowcountdemultiplexing. ThepublicAiFmaterialdoesnotverifythecompleteprefixvalidity/DMA/flowcontrolcontract,andthelocalmetadata-onlyABIdoesnotimplementit.',
+      most_conservative_use='PermitconditionaloptimisticDAGsensitivitywithallassumptionsnamed;do notlabelalreadyverifiednativefirmwareorhardwareevidence. Keepfull-viewcompletionasbaseline/fallback.',
+      per_expert_barrier='Currentbarrierisperexpert,notalltopK:each expertjoinsallitsGUjobs,thenactivation/fullDownvector. Streamingcanremoveartificialdependenceonotherexpertslaterrowsinsideamixednativeview,nottherequiredwholeGUbarrier.',
+      resource_counterexample='Ifall16chipscontinuetheirfusedGUviewafterexpertArowspass,AreadydoesnotallowA-Downtostartonthosechips. Onlyhostactivation/preparationorworkonchipsalreadyfreecanoverlap. Earlylogicalreadydoesnotimplyearlychiprelease.',
+      missing_interface_not_new_hardware='Unpublisheddriver/firmwareinterfacesarenotproofhardwarecannotperformthis. ConverselyFIFOexistencedoesnotprovepartialhostcompletion,FIFOspaceorlosslessflowcontrol.',
+      source_manifest=sources,local_nvmevirt_commit=commit,unchanged_sources_verified=True,
+      activity_limits=dict(new_timing_runs=0,native_schedule_runs=0,inference_runs=0,device_operations=0,root_source_changes=0))
+    for p,r in sources.items():assert sha(p)==r['sha256']
+    write(D/'notes.json',notes)
+    write(D/'completion.json',dict(status='complete',audit_source_sha256=sha(__file__),files_sha256={str(p):sha(p) for p in sorted(D.rglob('*')) if p.is_file() and p.name!='completion.json'}))
+    print(json.dumps(dict(status='complete',notes_sha256=sha(D/'notes.json'),contract_sha256=sha(D/'conditional_contract.json'),source_count=len(prior)),indent=2))
+if __name__=='__main__':main()

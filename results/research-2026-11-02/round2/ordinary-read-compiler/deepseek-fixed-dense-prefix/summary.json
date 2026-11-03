@@ -1,0 +1,99 @@
+{
+  "status": "complete fixed dense prefix reference service",
+  "created_utc": "2026-11-01T23:59:31.690138+00:00",
+  "source_sha256": "5a12ce2852a6ca50d9a8a4aa13f509507d4bf6948f453b5a7f9e1bd8a9c839bd",
+  "source_inventory": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/deepseek-full-ffn-integer-reference/frozen_equal_projection_rows.json",
+  "source_inventory_sha256": "0d3d79bf015957115c1643cb79c011f767078a5c45773a77df4b1e2f4ae0a30e",
+  "backend_sha256": "a28c32e0baa1419ee3e6183f0f98dfb28627d4da71078c6dd877d11af7a81166",
+  "native_build": {
+    "source": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp",
+    "source_sha256": "c1036d53dc5e841f0f3349da672c21c6a075ec29763bbb348ddd72b61e3c753a",
+    "binary": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/deepseek-fixed-dense-prefix/build/ordinary-read-c1036d53dc5e841f.so",
+    "binary_sha256": "903ba1b05da5595a924cc170ed90283fbf412523caf0d1a7abff801934802645",
+    "command": "c++ -std=c++17 -O3 -shared -fPIC SOURCE -o BINARY"
+  },
+  "records": [
+    {
+      "command_ns": 250,
+      "cost_ns": 1852224,
+      "lower_bound_ns": 1835860,
+      "useful_bytes": 67239936,
+      "programmed_page_bytes": 67371008,
+      "reserved_wave_bytes": 68157440,
+      "standalone_allocated_lsb_block_bytes": 201326592,
+      "chip_blocks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "command_ns": 5000,
+      "cost_ns": 1994236,
+      "lower_bound_ns": 1844236,
+      "useful_bytes": 67239936,
+      "programmed_page_bytes": 67371008,
+      "reserved_wave_bytes": 68157440,
+      "standalone_allocated_lsb_block_bytes": 201326592,
+      "chip_blocks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "command_ns": 10000,
+      "cost_ns": 2154236,
+      "lower_bound_ns": 1854236,
+      "useful_bytes": 67239936,
+      "programmed_page_bytes": 67371008,
+      "reserved_wave_bytes": 68157440,
+      "standalone_allocated_lsb_block_bytes": 201326592,
+      "chip_blocks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "scope": "Same fixed16-chip equal complete rows in both layout families. Add exactly once per token, before26MoE layers. Not measured full model; attention/router still excluded. Standalone allocated blocks may merge with existing holes in a later joint physical pack."
+}

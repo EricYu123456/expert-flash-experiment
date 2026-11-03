@@ -1,0 +1,33 @@
+graph():
+    %x_seq_0 : [num_users=1] = placeholder[target=x]
+    %split_seq_0 : [num_users=4] = call_function[target=torch.functional.split](args = (%x_seq_0, 512), kwargs = {dim: 0})
+    %getitem_seq_0 : [num_users=2] = call_function[target=operator.getitem](args = (%split_seq_0, 0), kwargs = {})
+    %numel_seq_0 : [num_users=1] = call_method[target=numel](args = (%getitem_seq_0,), kwargs = {})
+    %sub_seq_0 : [num_users=1] = call_function[target=operator.sub](args = (512, %numel_seq_0), kwargs = {})
+    %pad_seq_0 : [num_users=1] = call_function[target=torch.nn.functional.pad](args = (%getitem_seq_0, (0, %sub_seq_0)), kwargs = {mode: constant, value: None})
+    %_tensor_constant0_seq_0 : [num_users=1] = get_attr[target=_tensor_constant0]
+    %tier_linear_seq_0 : [num_users=1] = call_function[target=threedsim.accelerator.tier_linear](args = (%pad_seq_0, %_tensor_constant0_seq_0), kwargs = {op_info: {tile_idx: 0, tier_idx: 0, utilization: 1.0, n_rows: 512, n_cols: 512, token_id: 0, seq_len: 1, decoding_id: 0, layer_name: linear}})
+    %getitem_1_seq_0 : [num_users=2] = call_function[target=operator.getitem](args = (%split_seq_0, 0), kwargs = {})
+    %numel_1_seq_0 : [num_users=1] = call_method[target=numel](args = (%getitem_1_seq_0,), kwargs = {})
+    %sub_1_seq_0 : [num_users=1] = call_function[target=operator.sub](args = (512, %numel_1_seq_0), kwargs = {})
+    %pad_1_seq_0 : [num_users=1] = call_function[target=torch.nn.functional.pad](args = (%getitem_1_seq_0, (0, %sub_1_seq_0)), kwargs = {mode: constant, value: None})
+    %_tensor_constant1_seq_0 : [num_users=1] = get_attr[target=_tensor_constant1]
+    %tier_linear_1_seq_0 : [num_users=1] = call_function[target=threedsim.accelerator.tier_linear](args = (%pad_1_seq_0, %_tensor_constant1_seq_0), kwargs = {op_info: {tile_idx: 1, tier_idx: 0, utilization: 0.3671875, n_rows: 512, n_cols: 188, token_id: 0, seq_len: 1, decoding_id: 0, layer_name: linear}})
+    %getitem_2_seq_0 : [num_users=2] = call_function[target=operator.getitem](args = (%split_seq_0, 1), kwargs = {})
+    %numel_2_seq_0 : [num_users=1] = call_method[target=numel](args = (%getitem_2_seq_0,), kwargs = {})
+    %sub_2_seq_0 : [num_users=1] = call_function[target=operator.sub](args = (512, %numel_2_seq_0), kwargs = {})
+    %pad_2_seq_0 : [num_users=1] = call_function[target=torch.nn.functional.pad](args = (%getitem_2_seq_0, (0, %sub_2_seq_0)), kwargs = {mode: constant, value: None})
+    %_tensor_constant2_seq_0 : [num_users=1] = get_attr[target=_tensor_constant2]
+    %tier_linear_2_seq_0 : [num_users=1] = call_function[target=threedsim.accelerator.tier_linear](args = (%pad_2_seq_0, %_tensor_constant2_seq_0), kwargs = {op_info: {tile_idx: 2, tier_idx: 0, utilization: 0.171875, n_rows: 88, n_cols: 512, token_id: 0, seq_len: 1, decoding_id: 0, layer_name: linear}})
+    %getitem_3_seq_0 : [num_users=2] = call_function[target=operator.getitem](args = (%split_seq_0, 1), kwargs = {})
+    %numel_3_seq_0 : [num_users=1] = call_method[target=numel](args = (%getitem_3_seq_0,), kwargs = {})
+    %sub_3_seq_0 : [num_users=1] = call_function[target=operator.sub](args = (512, %numel_3_seq_0), kwargs = {})
+    %pad_3_seq_0 : [num_users=1] = call_function[target=torch.nn.functional.pad](args = (%getitem_3_seq_0, (0, %sub_3_seq_0)), kwargs = {mode: constant, value: None})
+    %_tensor_constant3_seq_0 : [num_users=1] = get_attr[target=_tensor_constant3]
+    %tier_linear_3_seq_0 : [num_users=1] = call_function[target=threedsim.accelerator.tier_linear](args = (%pad_3_seq_0, %_tensor_constant3_seq_0), kwargs = {op_info: {tile_idx: 3, tier_idx: 0, utilization: 0.0631103515625, n_rows: 88, n_cols: 188, token_id: 0, seq_len: 1, decoding_id: 0, layer_name: linear}})
+    %digital_add_seq_0 : [num_users=1] = call_function[target=threedsim.utils.digital_add](args = (%tier_linear_seq_0, %tier_linear_2_seq_0), kwargs = {op_info: {size: 512, token_id: 0, seq_len: 1, decoding_id: 0, layer_name: linear}})
+    %digital_add_1_seq_0 : [num_users=1] = call_function[target=threedsim.utils.digital_add](args = (%tier_linear_1_seq_0, %tier_linear_3_seq_0), kwargs = {op_info: {size: 512, token_id: 0, seq_len: 1, decoding_id: 0, layer_name: linear}})
+    %cat_seq_0 : [num_users=1] = call_function[target=torch.cat](args = ([%digital_add_seq_0, %digital_add_1_seq_0],), kwargs = {})
+    %flatten_seq_0 : [num_users=1] = call_method[target=flatten](args = (%cat_seq_0,), kwargs = {})
+    %getitem_4_seq_0 : [num_users=1] = call_function[target=operator.getitem](args = (%flatten_seq_0, slice(None, 700, None)), kwargs = {})
+    return getitem_4_seq_0

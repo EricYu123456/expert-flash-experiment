@@ -1,0 +1,69 @@
+{
+  "accepted_user_premises": [
+    "skip-WL CR within one block",
+    "synchronized IPR selecting one WL per active plane"
+  ],
+  "paper_facts": [
+    {
+      "claim": "CR requires successive same-block reads without any interval",
+      "source": "paper/aif.txt:529"
+    },
+    {
+      "claim": "cold single-sensing read 28us, CR 9.7us, recycling6.04us",
+      "source": "paper/aif.txt:538-550 and924"
+    },
+    {
+      "claim": "four page latches/plane: cache + one inference read + two input latches",
+      "source": "paper/aif.txt:733-743"
+    },
+    {
+      "claim": "on-chip ECC throughput6.4GB/s; output FIFO is after computation",
+      "source": "paper/aif.txt:815-821"
+    }
+  ],
+  "finite_storage": [
+    "only one read latch and one cache latch per plane hold weights",
+    "two other latches remain input vector storage",
+    "no ECC-input FIFO, no arbitrary read/cache source mux, no partial-row output accumulator contexts"
+  ],
+  "unresolved_capabilities": [
+    "read latch overwritten at sense start or only at evaluation start",
+    "read-to-cache copy latency and per-plane copy concurrency",
+    "copy overlapping WL recycling",
+    "programmable plane-source order and complete-row owner tagging",
+    "page availability phase relative to reported9.7us",
+    "array pacing retaining CR bias is conditional, never granted by default"
+  ],
+  "per_plane_CR_continuity": [
+    "a selected plane is CR-eligible only if it was read in the immediately preceding synchronous wave in the same block",
+    "if any selected plane was idle, the whole synchronized wave uses cold28us; no asynchronous plane finish or AIPR",
+    "keep-hot physical reads include unselected pages; before-ECC drop and after-ECC discard are separate conditional controls",
+    "physical read pages/bytes, useful pages/bytes and ECC pages/bytes are conserved separately"
+  ],
+  "conservative_service": [
+    "cache latch remains occupied until whole-page ECC completion",
+    "read latch remains occupied until whole-page copy completion",
+    "all pages of a synchronous IPR wave become available together",
+    "first read is cold28us, final ECC drain is included",
+    "one shared ECC serializes all plane pages at2.56us/page"
+  ],
+  "cold_phase_accounting": [
+    "default first availability28us/final discharge0 is a conservative service convention; measured28us is tPRE+tEVAL+tDISCH",
+    "cold_discharge_ns=d changes each cold start sense duration to28us-d and charges discharge d at each run end; a no-stall chain retains total28us+(n-1)*9.7us",
+    "numeric tPRE and tDISCH split is not disclosed; d values and common availability_phase_ns offsets are conditional sensitivities",
+    "copy/ECC independence from discharge is assumed in the optional phase split"
+  ],
+  "ordinary_controls": [
+    "balanced matrix-aligned4+2 pages/expert +12sharedpages =15waves",
+    "fixed packed one-copy placement can be12waves on adjacent co-selection,15on spaced selection",
+    "IPR balanced15 keeps useful pages/row stream identical",
+    "12wave compensator fills empty planes but fails complete-row shared stream without extra state"
+  ],
+  "model_boundary": [
+    "explicit model charges array and ECC on separate overlapping resources",
+    "effective6.4GB/s-only model has unspecified startup and does not prove finite-PB feasibility",
+    "no AIPR: every plane in a wave shares one array start and end",
+    "cold_reset waits and restarts a28us operation; no undocumented hold-bias rescue",
+    "feasible means feasible within named timing/control assumptions, not measured existing-hardware support"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "status": "approved",
+  "phase": "FITVAL",
+  "reviewer": "/root/critic_sol",
+  "reviewed_at_utc": "2026-11-03T02:57:34Z",
+  "source_revision": 3,
+  "protocol_sha256": "42483d1490187fba7500a23bd9944c394a9e437ff00df365d13e32aa08e3269a",
+  "source_freeze_sha256": "84299da2b3c973e5c620d36fecb942867797078ed529270ca95c46a81fad550e",
+  "synthetic_receipt_sha256": "d5b7d12192bec28ff496735095d5f481f4dfd485f08b6941eccf2e3dd70f59ee",
+  "review_scope": "Full rev001 core/FMA/synthetic review, rev002 narrow review and rev003 closure diff. Root independently handles runner, data gates, selection, costs and all 58 dependencies.",
+  "verified_current_snapshot_receipt_source_hashes": {
+    "core": "07931855d431cbee916690f1db82a41fb2d6de7233c77319253a7e9734098f62",
+    "FMA": "e869b999096f1afe97de78fd0908785b2bae935b4312214ec656eb2471bc0732",
+    "synthetic": "146e3fc342ce7ee1fe5b62a4a77fd452216a22eefa0d6e1ba4b0b8ee2ed5d2bf"
+  },
+  "blocking_findings": [],
+  "rev002_hold_closed": {
+    "MXCSR_RN_guard": "New FMA environment explicitly includes MXCSR 0x6000 rounding bits alongside x87 RN and FTZ/DAZ checks.",
+    "focused_synthetic": "All three MXCSR-only non-RN modes with x87 still RN are rejected by both environment and actual FMA entrypoint; original state is restored before prior tests. Passed immutable receipt inspected; reviewer did not execute it.",
+    "oracle_wording": "Source output scope and manifest now explicitly call the relative-SVD result a truncated-span diagnostic, not necessarily a full stored-U-span lower bound; finite FMA rounding is separately outside the ideal real-span guarantee."
+  },
+  "unchanged_scientific_scope": "Fit equations, same-N supervised isolation, actual decoded-A8 centering, fixed-estimator Mtarget, ranks, formats, paths, gauges, bias calibration and comparison design are unchanged. No additional grid requested.",
+  "preserved_limits": [
+    "This is a FITVAL-only source approval; Root issues the actual data release separately. No SCORE_DEVELOPMENT or TEST approval is included.",
+    "A rebuilt baseline hash is diagnostic; material discrepancies need explanation before claiming the frozen estimator was reproduced.",
+    "Mtarget optimizes projections of a fixed float ridge estimator, not arbitrary or deployed-quantized RRR.",
+    "Representation counterexamples, operator error, whole-model quality and complete host/native system costs remain distinct; no automatic scientific success or failure."
+  ],
+  "reviewer_data_or_TEST_read": false,
+  "reviewer_candidate_implementation_executed": false,
+  "reviewer_candidate_source_modified": false
+}

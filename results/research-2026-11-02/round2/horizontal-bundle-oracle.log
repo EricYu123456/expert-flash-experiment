@@ -1,0 +1,25 @@
+granite 0 mean-pairs 2.572265625 baseline NAND/full 119451.171875 143595.171875 best pair NAND 151976.5625 zero-overhead headroom -8381.390625 optional-pair NAND 151976.5625 optional headroom -8381.390625
+granite 1 mean-pairs 2.755859375 baseline NAND/full 118220.703125 142364.703125 best pair NAND 146835.9375 zero-overhead headroom -4471.234375 optional-pair NAND 146835.9375 optional headroom -4471.234375
+qwen3 0 mean-pairs 2.03564453125 baseline NAND/full 372052.734375 401316.734375 best pair NAND 501005.859375 zero-overhead headroom -99689.125 optional-pair NAND 440781.25 optional headroom -39464.515625
+qwen3 1 mean-pairs 1.66357421875 baseline NAND/full 381281.25 410545.25 best pair NAND 532259.765625 zero-overhead headroom -121714.515625 optional-pair NAND 445839.84375 optional headroom -35294.59375
+{
+  "status": "complete",
+  "artifacts": {
+    "research_20261102_horizontal_bundle_oracle.py": "770b6831c4f4ec09e06b30e5021291e5e1ef76585284b1d49331fd9ed9c6235e",
+    "oracle.json": "5a027e5a78fbfed342804b0f6537e1009c4205ad621e9bcef5214c5cb0966bca"
+  },
+  "decisions": {
+    "granite": {
+      "decision": "No-go for this mean-latency family: even exact optimal pairs with all candidate non-NAND costs removed lose.",
+      "favorable_whole_ffn_mean_gain_pct": -1.603843696797247,
+      "optional_pair_decision": "No-go even allowing optional pairs/singletons with all candidate non-NAND costs free.",
+      "optional_pair_favorable_whole_ffn_mean_gain_pct": -1.603843696797247
+    },
+    "qwen3": {
+      "decision": "No-go for this mean-latency family: even exact optimal pairs with all candidate non-NAND costs removed lose.",
+      "favorable_whole_ffn_mean_gain_pct": -9.883005802452939,
+      "optional_pair_decision": "No-go even allowing optional pairs/singletons with all candidate non-NAND costs free.",
+      "optional_pair_favorable_whole_ffn_mean_gain_pct": -3.337093778827005
+    }
+  }
+}

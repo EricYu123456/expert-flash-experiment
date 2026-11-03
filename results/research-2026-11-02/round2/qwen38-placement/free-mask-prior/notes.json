@@ -1,0 +1,88 @@
+{
+  "date": "2026-11-02",
+  "scope": "Literature and mathematical audit only. No optimizer implementation, routes, heldout data or root sealed artifacts were opened or modified in this round.",
+  "decision": "Free high-wave masks are a larger useful implementation search space, but balanced subset assignment, discrepancy guarantees and mask-family diversity already have direct precedents. No new algorithm or theorem is established. Parent reports simple free-mask fitting did not beat cyclic whole-profile swaps; that result is not independently replayed here.",
+  "formalization": {
+    "parameters": {
+      "experts": 512,
+      "chips": 16,
+      "selected_distinct_experts": 10,
+      "GU_high_count_per_expert": 3,
+      "down_high_count_per_expert": 10
+    },
+    "variables": "Binary X[e,c] for GU-high, Y[e,c] for down-high. Row sums are 3 and 10. Globally balanced column sums are 96 and 320. Optional complement constraint X+Y<=1.",
+    "phase_loads": "For a fixed selected set Q of size K: GU load[c]=3K+sum_Q X[e,c]; down load[c]=K+sum_Q Y[e,c]. Phase-barrier mean latency ignoring transfers is a frequency-weighted sum of these phase maxima. Joined pooled chip work is max_c(4K+sum_Q(X+Y)).",
+    "prior_reduction": "After geometry is frozen, residual-unit dispersion is capacitated hypergraph multicoloring/vector allocation with a per-expert distinct-chip constraint. Weighted expected query maximum is the old declustering objective; hard row/column cardinalities admit standard bipartite b-matching/dependent rounding.",
+    "important_boundary": "The exact native causal objective also contains GU completion, host activation, input/output and channel queues. It is not identical to pooled discrepancy. Conversely, in a full-host-intermediate whole-row scheme, GU output-row ownership and down output-row ownership do not provide local intermediate reuse: down rows consume the full intermediate vector. Do not claim producer-consumer locality from coincident chip labels alone."
+  },
+  "standard_capacity_completion": {
+    "claim_status": "Own application of standard bipartite integral-flow/dependent-rounding facts; not a novel theorem.",
+    "assumptions": [
+      "Exactly 512 same-shape experts, 16 chips, one shard per expert per chip, whole-row GU1280x2560 and down2560x640.",
+      "No replication, column partition, new operation or numerical transformation. Only high masks and native complete-row heights vary.",
+      "Balanced high-count ledgers hold exactly. The existing physical allocator must still check legal addresses, blocks and command splits. The proof is for row payload and wave ledgers, not a claim of globally optimal block reservation."
+    ],
+    "GU": {
+      "base_heights": "101 on 3 high chips, 75 on the other 13; two low chips must receive one additional row.",
+      "row_total_before_completion": 1278,
+      "row_total_after_completion": 1280,
+      "allowed_completion_graph": "Expert--chip edges only where X=0. Each expert has degree13; each chip has degree416.",
+      "fractional_flow": "2/13 on every allowed edge yields expert degree2 and chip degree64. Integer bipartite b-matching gives exactly two 76-row lows per expert and exactly64 such extras per chip.",
+      "chip_rows": "96*101+416*75+64=40960",
+      "chip_waves": "96*4+416*3=1632"
+    },
+    "down": {
+      "base_heights": "198 on 10 high chips, 96 on the other6; four high chips must receive one additional row.",
+      "row_total_before_completion": 2556,
+      "row_total_after_completion": 2560,
+      "allowed_completion_graph": "Edges only where Y=1. Each expert degree10; each chip degree320.",
+      "fractional_flow": "4/10 on every allowed edge yields expert degree4 and chip degree128. Integral b-matching gives four199-row highs per expert and exactly128 such extras per chip.",
+      "chip_rows": "320*198+192*96+128=81920",
+      "chip_waves": "320*2+192=832"
+    },
+    "balanced_complement_exists": "Given any balanced GU3 mask, choose down10 only on its complement. Fraction10/13 on the allowed graph gives row degree10 and chip degree416*10/13=320, hence an exact integral down mask exists with X+Y<=1. This guarantees feasibility, not optimal native timing or joint negative-correlation bounds."
+  },
+  "robust_all_queries_no_go": {
+    "scope": "Worst case over every size10 subset of the512 experts, with frozen 3/4-wave GU and1/2-wave down geometry. This is a pooled chip-work result, not a native DAG makespan theorem.",
+    "single_phase": "Some chip has at least96 GU-high experts and some chip at least320 down-high experts, so a size10 query can saturate that chip. Worst GU maximum is40 and worst down maximum20 under any balanced layout. The two adversarial queries need not be the same.",
+    "joined_lower_bound": "Across both masks there are512*(3+10)=6656 high incidences. Some chip sees at least416. Each expert contributes at most2, so that chip has at least208 distinct experts with positive residual. Choose10 of them: its total work is at least4*10+10=50waves.",
+    "joined_upper_bound": "Any per-expert complementary masks X+Y<=1 give each expert at most5waves on any chip, hence every size10 query has maximum chip work<=50. Therefore the all-query pooled optimum is exactly50, already attained by any feasible complementary cyclic construction.",
+    "consequence": "Arbitrary masks cannot improve this all-top10 pooled worst-case theorem. Potential benefit must be distributional/finite-query/causal rather than a stronger guarantee over arbitrary top10 sets."
+  },
+  "route_blind_mask_family_control": {
+    "construction": "GU has C(16,3)=560 possible masks. Remove the three full translation orbits modulo16 of {0,1,2}, {0,1,3}, {0,1,4}. Each orbit has16 masks and they are disjoint; each removes3 incidences/chip. Remaining512 masks are distinct and each chip appears105-9=96 times.",
+    "status": "Small exact combinatorial construction, not an implemented competitor or novel block-design principle. No performance asserted. Exact balanced complement and row-height completion can then use the standard flows above.",
+    "why_needed": "A16-mask cyclic family repeats each mask32 times. A diverse route-blind control can reveal whether any gain is merely removal of this family restriction rather than learning coactivation."
+  },
+  "candidate_differentiator": {
+    "not_new": [
+      "Free r-of16 subsets.",
+      "Global balance with query-load concentration.",
+      "Complete/incomplete block-design diversity versus cyclic layouts.",
+      "Expected max-load hypergraph objectives and FM-style swaps.",
+      "Generic causal layout-schedule feedback."
+    ],
+    "conditional_system_gap": "A native compiler could still contribute if legal dense partitions and physical address constraints yield a real repeated geometry pathology, and a causal resource-aware placement method improves true native timing beyond matched block-design, exact-balanced randomized, weighted-hypergraph, complement and joint-readiness controls. This round has not established that gap.",
+    "algorithm_baseline": "Standard balanced b-matching/dependent-rounding initialization plus degree-preserving2x2 switches or augmenting-cycle local refinement using the same exact objective. Merely renaming this a residue-dispersion algorithm is insufficient.",
+    "novel_theorem_status": "No meaningful new approximation/robust theorem identified. A useful application certificate exists for row/capacity completion, but follows standard integral flow."
+  },
+  "different_physical_axes_not_yet_established": [
+    {
+      "axis": "Input-identity and native broadcast domains, including batched requests.",
+      "documented_capability": "Cambricon-LLM V-A has per-core input buffers and same-channel input broadcast. Distinct request inputs are not the same vector. Ordinary GEMV alone does not prove read-once weights for multiple inputs.",
+      "placement_hypothesis": "Place selected GU atoms that consume the identical input slice in a documented broadcast domain, jointly with down ownership/input-private traffic. This changes a communication sharing opportunity rather than the fixed coefficient read-work bound.",
+      "mandatory_controls": "Same broadcast/coalescing scheduler for every layout; charge actual input/output traffic and any inactive weights. Separate input-sharing benefit from conventional expert-centric batching. Bound gain by critical-path input-transfer fraction before fitting.",
+      "falsifier": "Existing strong mapping already uses each broadcast domain optimally, or input-transfer elimination cannot materially change native critical path. AiF PB replay and different-plane input contexts remain unverified; do not import them.",
+      "maturity": "Capability-specific check, not a new demonstrated opportunity. It may overlap earlier reuse studies; do not restart a falsified read-once oracle under a new name."
+    },
+    {
+      "axis": "Separate independent LUNs/dies from jointly constrained planes and a shared output bus.",
+      "documented_capability": "ONFI3.1 sections3.1.2-3.1.3 describe independent LUN command progress, shared data output selection, required Read Status Enhanced/Change Read Column sequences. Cambricon-LLM VII-A specifies2dies/chip and one compute core/die. These facts do not establish an AiF multi-context PE.",
+      "placement_hypothesis": "A published backend with real independent per-die compute may expose more scheduling domains than a single chip queue. Fixed matrix layout could distribute ready work across those existing domains while maintaining legal within-LUN multipane addresses.",
+      "mandatory_controls": "First reproduce native die/core/bus contracts. Compare ordinary-read die-interleaving, out-of-order resource scheduling, all legal page-allocation orders and transaction coalescing. MQSim/Sprinkler already provide strong conventional scheduling priors.",
+      "falsifier": "Correct baseline already exploits all independent dies, compute is shared at chip level, or the common channel/host port dominates. Exposing a forgotten LUN is a model/baseline correction, not a novel placement mechanism.",
+      "maturity": "No new simulator/backend built here. MQSim is an ordinary SSD simulator and is not evidence for a NAND GEMV ABI."
+    }
+  ],
+  "final_recommendation": "Do not claim a free-mask breakthrough from the current pilot. Finish the diverse route-blind control; only pursue a new hardware axis after its existing native capability and an above-baseline cost bound are demonstrated."
+}

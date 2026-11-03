@@ -1,0 +1,192 @@
+{
+  "status": "frozen_before_formal_fit",
+  "utc": "2026-11-02T01:19:49.968453+00:00",
+  "source_sha256": "b684522a894ba31acd6d076caff4454ee37bbd56ed7e3579f349b2bc7372a0fd",
+  "sources": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_shared_counterbalanced.py",
+      "sha256": "b684522a894ba31acd6d076caff4454ee37bbd56ed7e3579f349b2bc7372a0fd",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/b684522a894ba31a-research_20261103_shared_counterbalanced.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_topology_placement.py",
+      "sha256": "0bd52c70fdc380398bad0df1f99b8eaa2f2f7a81a135cc369311887dc729bc79",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/0bd52c70fdc38039-research_20261103_topology_placement.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_topology_placement_replay.py",
+      "sha256": "0d4fc512b639f0e551f6365a6e92797e3222792821db8b5dd1d4b9d3653f9464",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/0d4fc512b639f0e5-research_20261103_topology_placement_replay.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_whole_row_compiler.py",
+      "sha256": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/23cfb0c655567802-research_20261102_whole_row_compiler.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/source-snapshot/7c61f09756e24f11-research_20261103_ordinary_read_backend.py",
+      "sha256": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/7c61f09756e24f11-7c61f09756e24f11-research_20261103_ordinary_read_backend.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/source-snapshot/ef7994fa2ba37a4b-research_20261103_ordinary_read_native.cpp",
+      "sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/ef7994fa2ba37a4b-ef7994fa2ba37a4b-research_20261103_ordinary_read_native.cpp"
+    }
+  ],
+  "cases": [
+    [
+      "granite4tiny",
+      0,
+      1
+    ],
+    [
+      "granite4tiny",
+      0,
+      4
+    ],
+    [
+      "granite4tiny",
+      1,
+      1
+    ],
+    [
+      "granite4tiny",
+      1,
+      4
+    ],
+    [
+      "granite4tiny",
+      2,
+      1
+    ],
+    [
+      "granite4tiny",
+      2,
+      4
+    ],
+    [
+      "deepseek",
+      0,
+      1
+    ],
+    [
+      "deepseek",
+      0,
+      4
+    ],
+    [
+      "deepseek",
+      1,
+      1
+    ],
+    [
+      "deepseek",
+      1,
+      4
+    ],
+    [
+      "deepseek",
+      2,
+      1
+    ],
+    [
+      "deepseek",
+      2,
+      4
+    ]
+  ],
+  "train_only": true,
+  "no_heldout": true,
+  "anchor": {
+    "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/W8_selected_plans.frozen.json",
+    "sha256": "00507ff56f9197fb18511ad58303919214c03cba6f0c1440f6733ffc42944d00"
+  },
+  "source_campaigns": [
+    "full-campaign-v5-W8-training",
+    "full-campaign-v6-W8-input4"
+  ],
+  "queries_per_case": 512,
+  "fit_seeds": [
+    20261103,
+    20261104
+  ],
+  "budget_per_family_per_sharedgeometry_per_seed": {
+    "stochastic_proposals": 20000,
+    "bounded_greedy_attempts": 4096
+  },
+  "cyclic_pool": {
+    "size": 4,
+    "includes_actual_frozen_cyclic": true,
+    "rank": "TRAIN joined native chipwork from existing phasefits with16Downrotations; top3distinctwidthpairs plus frozen cyclic",
+    "family_budget_divided_equally_across_pool": true,
+    "extra_seeds": false,
+    "free_expert_histogram": true,
+    "phase_global_chip_permutations": true,
+    "limits": "Finite fitted pool and heuristic; not all cyclic permutations global optimum"
+  },
+  "families": [
+    "joint_cyclic",
+    "independent_permutation",
+    "counterbalanced"
+  ],
+  "independent_initialization": [
+    "same_routeblind_coupled_rows_as_counterbalanced",
+    "independently_phasefitted_matched_waveprofiles"
+  ],
+  "guide": "Standard3category coupled coloring; no newalgorithm claim",
+  "shared_pool": {
+    "granite4tiny": [
+      "source"
+    ],
+    "deepseek": [
+      "source",
+      "balanced89"
+    ],
+    "masks": [
+      "identity",
+      "fixed_routeblind_permutation seed20261276"
+    ],
+    "same_exact_pool_for_all_families": true,
+    "no_family_exclusive_shared_fit": true,
+    "balanced89_rows": [
+      138,
+      138,
+      138,
+      138,
+      138,
+      138,
+      138,
+      138,
+      138,
+      115,
+      115,
+      115,
+      115,
+      115,
+      115,
+      116
+    ],
+    "balanced89_waves": [
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ]
+  },
+  "native_selection": "Replay initial and best-work-final for everycandidate on all512TRAIN routes; mean-native selected familywinner across same sharedpool; keep frozen cyclic/whole incumbents.3layer pairedsum mean/P99, no wholemodel claim.",
+  "numerics": "Complete original rows, onecopy, fullinput dimensions and global full-vectorA8 readiness barriers; no columns/newquantization/context/cache",
+  "preflight": "Short200proposal/64greedy G4input1 and Deepinput4 campaigns are nonformal smoke; excluded from results."
+}

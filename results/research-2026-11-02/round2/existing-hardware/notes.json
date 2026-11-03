@@ -1,0 +1,246 @@
+{
+  "status": "completed_existing_hardware_capability_and_capacity_audit",
+  "scope": {
+    "user_constraint": "Only physical placement using existing AiF NAND/PE capabilities; no new codec, quantization, MAC datatype, activation hardware or vector-cache interface.",
+    "artifacts": "Offline virtual-address certificates. No routes, model weights, test data, VM or actual hardware were opened or changed in this task.",
+    "previous_compression_branch": "Archived/excluded by the user hardware constraint; no compression result is used here."
+  },
+  "conclusions": [
+    "Whole-output-row partition is a software choice, not a fundamental GEMV hardware requirement. Dense rectangular tiles can be posted as independent matrices and evaluated with the existing GEMV operation.",
+    "The absence of a chip-mask in the published host API does NOT prove a new die capability is required. A controller can choose per-chip block/offset/page-count GEMV operations from an internal placement map. Arbitrary unequal placement needs such controller mapping/allocation support; current v3 timing metadata is not its implementation.",
+    "Column partitions require host sums of complete partial outputs. That introduces output traffic, commands and a numerical reduction requirement; the paper does not publish the output accumulator format/width. Exact native raw-I32 output must not be invented. Whole-row runs avoid this issue by preserving each dot product and only concatenating outputs.",
+    "Under dense single-copy I8 normal reads, OLMoE/Mixtral already meet the selected-weight NAND work bound. Column/2D tiling alone cannot reduce it. Neuron colocation cannot eliminate the host activation round trip because the documented PE only performs GEMV.",
+    "The current allocator reserves holes to preserve the minimum number of block commands. Mixtral has a real capacity/commands tradeoff: 60.1875 GiB original reservation; 48 GiB with immutable whole streams and identical commands; 42 GiB with row-safe native GEMV runs, identical pages/waves and additional commands/input reloads. This is allocator capacity evidence, not new bin-packing theory or a latency gain."
+  ],
+  "capability_layers": {
+    "published_host_API": {
+      "aif_post": [
+        "matrix dimensions",
+        "host matrix address",
+        "sequential matrix LBA range"
+      ],
+      "aif_gemv": [
+        "input dimension",
+        "host input address",
+        "matrix LBA range",
+        "host output address"
+      ],
+      "default_layout": "aif_post partitions into equal submatrices across chips; no documented chip-mask/row-owner/tile-list operand.",
+      "existing_legal_host_operations": "Post each standalone dense rectangular tile; stage its input slice; call GEMV; concatenate disjoint output rows or sum column-partition outputs at host. Each tile is itself equally sharded by the default controller.",
+      "requires_controller_software_not_new_die": "Replace the automatic allocation/mapping policy; map one matrix LBA range to row-safe per-chip run lists; gather returned disjoint complete output rows into the original tensor order. A fixed internal policy can preserve the existing host ABI. A host-supplied arbitrary layout would need a software configuration transport or host/driver extension.",
+      "not_guaranteed_by_host_API": "Physical free-block/hole selection, cross-command vector residency, arbitrary chip subset supplied by host, raw integer accumulators."
+    },
+    "published_chip_GEMV": {
+      "parameters": [
+        "input dimension",
+        "matrix block ID",
+        "block offset",
+        "pages to read"
+      ],
+      "compute": "INT8 multipliers and adder tree after ECCLITE; sequential output FIFO; controller retrieves outputs.",
+      "existing_support_used_by_row_safe_plan": "Multiple existing GEMV operations on dense whole-row segments, potentially in different block holes; unchanged column order and input dimension. Controller follows the physical map and concatenates rows.",
+      "not_documented": [
+        "general strided column gather",
+        "per-element or bit-plane page selection",
+        "arbitrary input mask on a page",
+        "SiLU or elementwise gate/up multiply",
+        "resident GU-to-down activation forwarding",
+        "new raw-I32/I64 arithmetic ABI"
+      ],
+      "PB": "Paper reuses existing page latches for the input vector. This is not a documented general vector/activation cache across GEMV calls."
+    },
+    "repository_kernel_v3": {
+      "implementation": "kernel/aif.c/h is explicitly metadata-only and does not calculate products or access model weights.",
+      "can_express": "Per-chip useful bytes/pages/rounds/cold rounds, input/output bytes, matrix-command counts, host/channel transfer sizes and assumed control times. Zero demand on arbitrary chips is accepted by the timing model.",
+      "cannot_establish": "Valid matrix addresses, physical allocation, row/column coverage, actual chip operand support, GEMV result precision, numerical quality or hardware vector retention.",
+      "normal_read_without_ABI_change": "Set cold_reads = read_rounds so every NAND wave costs 9700+18300=28000 ns; matrix_command_count separately tracks native block operations.",
+      "dependency": "A v3 descriptor is one additive input/control/flash/output cost stage. Do not put dependent GU/down stages into one max-over-chips descriptor. GU -> host reassembly/activation -> down remains mandatory.",
+      "latency_formula": "max_chip(max(28000*waves,2560*pages)) + 250*sum(native_commands) + 2000 + max(PCIe_in/8,max_channel_in/2) + max(PCIe_out/8,max_channel_out/2), rounded as ABI. These constants are model assumptions, not calibrated hardware."
+    }
+  },
+  "tile_no_go_bound": {
+    "dense_weight_work": "For chip c and a stream with R_c rows and C columns, bytes=R_c*C, page=16KiB, wave=64KiB. Column partition C=sum C_t implies sum ceil(R_c*C_t/64KiB) >= ceil(R_c*C/64KiB). Row partitions have the same rounding inequality. Changing the ownership can balance chip work but cannot beat total dense selected-weight work/16.",
+    "column_costs": "At least one full-output partial vector per column partition; T partitions produce T*R output elements and require R*(T-1) host additions. Input slices total C bytes per vector before any repeated staging. Commands/host calls and padding cannot decrease for an independent-column-tile implementation. Partial sums must finish before nonlinear activation.",
+    "whole_neuron_colocation": "Placing matching GU neurons and down columns on one chip does not add a local activation operator or command forwarding path. Existing behavior still returns GU, performs host activation, and stages down inputs.",
+    "bit_or_neuron_permutation": "Normal NAND read/ECC still reads a whole page. Dense exact I8 operands need all bits; there is no published selective bit-plane or activation-conditioned page mask. Permutation alone does not reduce mandatory bytes. Floating-point/scale reduction ordering must not be assumed exact after column permutations.",
+    "pure_latency_verdict": "No-go for a universal normal-read dense tiling latency claim, especially OLMoE/Mixtral with zero NAND-work gap. Separate software dataflow/precision evidence would be needed for any traffic or numerical claim."
+  },
+  "allocator_capacity_audit": {
+    "current_policy": "192 four-plane waves/block stripe. Short streams share blocks, but a non-fitting stream pads the remaining block suffix. Long streams start at a block boundary. This preserves minimum block-command count; it does not read the holes.",
+    "counts_are_I8_only": "Capacity is the current planner INT8 matrix payload plus page/wave/block padding. GGUF/Q8 scale arrays, non-expert tensors and FTL metadata are excluded. It must not be reported as total model device capacity.",
+    "IFP_capacity": "LSB reservation; CSB/MSB remain usable for general data. A 3x TLC address footprint is not 3x additional occupied model bytes.",
+    "other_models": "Granite 1.125 GiB, OLMoE 6 GiB, DeepSeek 13.6875 GiB and Qwen3 27 GiB already attain the whole-block wave-volume lower bound. Both expert-first and first-fit-decreasing repacks save zero reservation.",
+    "mixtral_whole_stream_point": {
+      "construction": "Each chip has 256 GU streams of 112 waves and 256 down streams of 56 waves. Post/allocate by layer,expert,GU,down; pair 112+56=168 in each 192-wave block.",
+      "lower_bound": "Each 112-wave GU exceeds half a block and needs a distinct block if kept whole; 256 blocks is a certificate of optimum within that constraint.",
+      "blocks_per_chip": [
+        321,
+        256
+      ],
+      "reserved_lsb_gib": [
+        60.1875,
+        48
+      ],
+      "saving_percent": 20.24922118380062,
+      "inventory_native_commands": [
+        8192,
+        8192
+      ],
+      "pages_and_waves_unchanged": true,
+      "vector_traffic_and_service_model_unchanged_for_any_route": true
+    },
+    "mixtral_row_safe_point": {
+      "construction": "Keep all down streams complete: 85 blocks contain three down streams each (168 waves) and one block contains one down (56 waves). Fill every remaining wave slot in 224 blocks using GU pieces, each wave exactly 16 complete output rows at 4096 columns. GU row order and all dot-product columns remain unchanged.",
+      "why_down_not_cut_arbitrarily": "14336 bytes/down row = 7/32 waves. An arbitrary block crossing can bisect a dot product. Such a byte-stream cut is not legal host-concat GEMV. The final certificate never cuts down, and every GU cut is a full row boundary.",
+      "lower_bound": "43008 waves/chip / 192 = 224 blocks exactly; all reserved slots are read weight pages, so this attains the wave-volume capacity bound.",
+      "blocks_per_chip": [
+        321,
+        224
+      ],
+      "reserved_lsb_gib": [
+        60.1875,
+        42
+      ],
+      "saving_percent": 30.218068535825545,
+      "whole_model_pages": 2752512,
+      "whole_model_waves": 688128,
+      "inventory_native_commands": [
+        8192,
+        11360
+      ],
+      "additional_native_commands": 3168,
+      "additional_ONFI_input_bytes_inventory_conservative": 12976128,
+      "additional_PCIe_input_bytes": 0,
+      "additional_output_bytes": 0,
+      "row_reassembly": "All extra native runs output distinct complete rows. Host/controller concatenate only. No cross-run partial sum, no changed accumulation order, no extra weight copy, no resident accumulator.",
+      "input_conservatism": "Reload full 4096-byte GU input on every additional native run; do not assume vector retention in PB. Additional transfer is ONFI from the controller-held input; original PCIe input need not be resent.",
+      "route_free_cost_bounds": {
+        "active_experts": 2,
+        "layers": 32,
+        "observed_routes_opened": false,
+        "combinations_per_layer": 28,
+        "original_ffn_nand_ns_per_token": 301056000,
+        "extra_control_plus_conservative_input_ns_per_token_minimum": 129536,
+        "extra_control_plus_conservative_input_ns_per_token_maximum": 704352,
+        "uniform_top2_mean_extra_ns_per_token": 400752.0,
+        "maximum_extra_fraction_of_original_nand": 0.002339604591836735,
+        "note": "Bounds concern the current additive service model, not hardware or end-to-end inference. Uniform top-2 is a synthetic expectation, not an empirical model route distribution. Host activation is excluded."
+      },
+      "additional_unmodeled_costs": [
+        "controller run-table lookups and scatter/reassembly implementation",
+        "real dispatch/DMA latency",
+        "GC/free-space behavior",
+        "native hardware verification"
+      ],
+      "accuracy_scope": "The proof preserves the complete input columns and arithmetic of each original row GEMV; only output-row grouping changes. No numerical quality run was needed for a virtual-address identity, and no real hardware numerical execution was performed."
+    }
+  },
+  "minimal_executable_software_plan": [
+    "Use the original matrix input/output types and aif_post/aif_gemv host calls. For Mixtral equal g16, no chip subset operand is needed.",
+    "Implement a controller allocator row-run map indexed by matrix LBA and chip. Consume the supplied native_run_rows/segments certificate; each run uses the existing input dimension/block/offset/page-count operands.",
+    "For row-safe fill, dispatch each run with the original vector (conservatively reload it); append its complete row outputs at its recorded tensor offset. Preserve GU -> host activation -> down and the normal output path.",
+    "Before claiming real hardware feasibility, validate the unpublished concrete controller/PE interface and output format. The current metadata-only kernel can audit the above cost counters but cannot run this GEMV implementation."
+  ],
+  "primary_local_source_refs": [
+    {
+      "path": "paper/aif.txt",
+      "lines": [
+        449,
+        454
+      ],
+      "supports": "Equal submatrices, all-chip execution and controller output assembly."
+    },
+    {
+      "path": "paper/aif.txt",
+      "lines": [
+        724,
+        749
+      ],
+      "supports": "Sequential dense submatrix, PB input reuse, chip command input dimension/block/offset/page-count."
+    },
+    {
+      "path": "paper/aif.txt",
+      "lines": [
+        772,
+        782,
+        816,
+        823
+      ],
+      "supports": "INT8 multiplier/adder PE, ECCLITE, output FIFO/status and round-robin collection; accumulator/result datatype is not specified."
+    },
+    {
+      "path": "paper/aif.txt",
+      "lines": [
+        830,
+        839,
+        846,
+        877
+      ],
+      "supports": "Software FFN splitting; host aif_post/aif_gemv operands and automatic equal-chip placement."
+    },
+    {
+      "path": "paper/aif.txt",
+      "lines": [
+        874,
+        882
+      ],
+      "supports": "Published virtual system supplies dummy GEMV output; paper performance evaluation cannot establish exact numeric output ABI."
+    },
+    {
+      "path": "paper/aif.txt",
+      "lines": [
+        922,
+        928
+      ],
+      "supports": "Preserve LSB page order under GC; footnote9 splits a matrix spanning IFP blocks into multiple GEMV operations."
+    },
+    {
+      "path": "kernel/aif.h",
+      "lines": [
+        10,
+        70
+      ],
+      "supports": "Metadata-only v1/v2/v3 records, no matrix addresses/shapes/data/results."
+    },
+    {
+      "path": "kernel/aif.c",
+      "lines": [
+        2,
+        43,
+        159,
+        178
+      ],
+      "supports": "No products; additive service model and byte counters."
+    },
+    {
+      "path": "scripts/materialize_plan.py",
+      "lines": [
+        25,
+        105
+      ],
+      "supports": "Whole-wave allocator, block suffix padding and minimal original block runs."
+    },
+    {
+      "path": "docs/vm-aif-abi.md",
+      "lines": [
+        3,
+        9,
+        59,
+        89
+      ],
+      "supports": "Timing only, normal-read metadata, channel transfer model and dependency/reuse limitations."
+    }
+  ],
+  "source_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_existing_hardware.py": "f641c07153fecefc440fa782387a0ca0ea1878f1f8fd8b23e9415ee749507ac6",
+    "/home/ericyu/expert_flash_experiment/kernel/aif.c": "573a89513fb7fa0846ce1142888252b1453755e3eabe3c6455ea8f8b86808c0e",
+    "/home/ericyu/expert_flash_experiment/kernel/aif.h": "25b3437f2f847554b3c31704ccef815fe85100b1ca01218d13f19b79d8f4d705",
+    "/home/ericyu/expert_flash_experiment/paper/aif.txt": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7",
+    "/home/ericyu/expert_flash_experiment/docs/vm-aif-abi.md": "4bf9a8da880fda836e0874fe0d1ccf2b67adc58fdf49e4d78b02efc0fd0b7dd5",
+    "/home/ericyu/expert_flash_experiment/scripts/materialize_plan.py": "2917cc202fdf80e06b96aa0ffd91f582af22bbfb0ee74eddecb21c6d8a829062",
+    "/home/ericyu/expert_flash_experiment/scripts/aif_model.py": "baa452445e953fb3d096a840facd1801ee3870726c6667d38180b9526e06751b",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_projection_study.py": "35f12b723e18f2156b5b5edb03182618bc5458bb00e8990f1cb59cd46d18832f"
+  },
+  "result_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/existing-hardware/packing.json",
+  "final_verdict": "Feasible existing-hardware capacity Pareto construction with controller software changes. No universal latency breakthrough, no new bin-packing novelty claim, and no evidence that column/neuron layout alone bypasses the already-tight dense normal-read NAND bound."
+}

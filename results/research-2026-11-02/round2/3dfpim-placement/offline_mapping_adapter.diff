@@ -1,0 +1,35 @@
+--- upstream/src/partitioner.cpp
++++ adapter/src/partitioner.cpp
+@@ -7,6 +7,7 @@
+ *******************************************************************************/
+ 
+ #include <assert.h>
++#include <cstdlib>
+ #include <algorithm>
+ #include <fstream>
+ #include <sstream>
+@@ -44,6 +45,24 @@
+             break;
+         default: assert(0 && "Unrecognized graph partitioning scheme!");
+     }
++    // Offline software mapping adapter: no ISA or hardware changes.
++    // Full fixed matrix inventory is retained, including unselected experts.
++    if (const char* path = std::getenv("FPIM_TILE_MAP")) {
++        assert(gp_ == CompilerOptions::GP_ROW_MAJOR);
++        assert(N_CONSTANT_MVMUS_PER_CORE == 1);
++        std::ifstream mapping(path);
++        assert(mapping.good());
++        unsigned maxTile = 0;
++        for (unsigned c = 2; c < nVCores_; ++c) {
++            unsigned tile;
++            mapping >> tile;
++            assert(mapping.good());
++            vcore2vtile_[c] = tile + 2;
++            maxTile = std::max(maxTile, tile);
++        }
++        nVTiles_ = maxTile + 3;
++        assert(nVTiles_ <= N_MAX_TILE);
++    }
+     insertLoadsAndStores();
+     insertSendsAndRecives();
+     insertInputAndOutput();

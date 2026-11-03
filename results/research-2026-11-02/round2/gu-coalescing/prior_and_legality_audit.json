@@ -1,0 +1,134 @@
+{
+  "schema": "expert_flash.gu_coalescing_priors_and_legality.v1",
+  "as_of": "2026-11-02",
+  "prior_sources": [
+    {
+      "id": "trt_same_input",
+      "title": "TensorRT-LLM AutoDeploy FuseGemms",
+      "kind": "Official implementation",
+      "url": "https://github.com/NVIDIA/TensorRT-LLM/blob/c295dd9fca143a3fdd2769617699fdd4d4a93eb5/tensorrt_llm/_torch/auto_deploy/transform/library/fusion.py#L45",
+      "repo": "https://github.com/NVIDIA/TensorRT-LLM",
+      "tag": "v1.3.0rc26",
+      "commit": "c295dd9fca143a3fdd2769617699fdd4d4a93eb5",
+      "blob": "8ee2910d7725729c3d4ad9d05c23aaafe3afc91d",
+      "read_depth": "Read _insert_fused_gemm and FuseGemms/FuseGemmsMixedChildren; full source snapshot retained.",
+      "evidence": "Shared-input linear weights are concatenated along output rows; one linear call computes the outputs, then torch.narrow separates them. Bias/dtype compatibility is checked.",
+      "novelty_implication": "Ordinary same-input vertical concatenation and output demultiplexing are established compiler operations; NAND legality/cost is a separate systems question."
+    },
+    {
+      "id": "trt_dense_moe",
+      "title": "MoE as Dense GEMM: Optimizing Low-Latency MoE Inference on NVIDIA Blackwell",
+      "kind": "Official NVIDIA technical documentation",
+      "url": "https://nvidia.github.io/TensorRT-LLM/1.3.0rc26/blogs/tech_blog/blog24_MoE_as_Dense_GEMM.html",
+      "read_depth": "Read design, kernel table, scope and limitations. Publication date not separately verified; versioned page fetched at audit time.",
+      "evidence": "FC1 concatenates experts along output N and computes all routed experts; inactive arithmetic is explicitly charged. Shared experts remain separate in the current implementation. The batch1 case loses to grouped GEMM.",
+      "transfer_limit": "GPU FP4 dense kernels/alpha fusion do not establish existing AiF operations or numerics. Only the same-input FC1 concatenation principle transfers."
+    },
+    {
+      "id": "neuralink",
+      "title": "Neuralink: Fast LLM Inference on Smartphones with Neuron Co-Activation Linking",
+      "kind": "Primary paper",
+      "url": "https://arxiv.org/html/2410.19274v3#S5.SS1",
+      "doi": "https://doi.org/10.1145/3676642.3736114",
+      "version": "2410.19274v3,2025-10-12;ASPLOS2025",
+      "read_depth": "Sections4/5 read, especially5.1; earlier project audit separately covers metadata.",
+      "evidence": "Coactivation-based path ordering plus online access collapse reads intervening neurons to merge nearby logical reads. It trades bytes against IOPS and disables collapse when bandwidth-bound.",
+      "transfer_limit": "UFS retrieval/cache method; no native IFP matrix row-reset/plane-address contract. The coactivation path heuristic here is a generic prior control, not a new algorithm."
+    },
+    {
+      "id": "slim",
+      "title": "SLIM: A Heterogeneous Accelerator for Edge Inference of Sparse Large Language Model via Adaptive Thresholding",
+      "kind": "Primary paper",
+      "url": "https://arxiv.org/html/2507.09201v1#S6.SS1",
+      "doi": "https://doi.org/10.1145/3750727",
+      "version": "2507.09201v1,2025-07-12",
+      "read_depth": "Sections5.4,6.1,6.3,7.6 inspected.",
+      "evidence": "Packs consecutive fused neuron vectors into pages and distributes aligned vectors across dies; discussion suggests same-wordline multipane placement.",
+      "transfer_limit": "Its fused gate/up/down sparse FFN datapath and SRAM are architecture changes relative to AiF; not added here."
+    },
+    {
+      "id": "aif",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "kind": "Primary paper supplied locally",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "version": "ISCA2025",
+      "local_text": "/home/ericyu/expert_flash_experiment/paper/aif.txt",
+      "local_text_sha256": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7",
+      "read_depth": "Section4.4/Figure14,printed536–537, rechecked from local supplied paper.",
+      "evidence": "Command supplies input dimension, block ID/offset/pagecount; sequential matrix stream, INT8 PEs, FIFO/SREG results. Matrix-boundary skip/reset within one command and arbitrary plane starts are not disclosed.",
+      "transfer_limit": "Row concatenation is algebraically ordinary GEMV if every row is a complete same-C vector and the command begins at column0. Full valid-R/output/scaling/fringe semantics remain unverified."
+    }
+  ],
+  "legality": {
+    "columns": 2560,
+    "page_bytes": 16384,
+    "wave_bytes": 65536,
+    "block_WL": 192,
+    "page_joint_boundary": {
+      "bytes": 81920,
+      "rows": 32,
+      "pages": 5
+    },
+    "WL_joint_boundary": {
+      "bytes": 327680,
+      "rows": 128,
+      "waves": 5
+    },
+    "existing_addresses": "Sealed per-matrix jobs reserve whole waves. Their padding bytes need not be a multiple of C, so adjacent physical job reservations are not automatically one legal dense row stream.",
+    "required_static_lowering": [
+      "Repack actual full rows into one C-wide stream with an explicit expert/logical-row map.",
+      "Start each conservative command at row128 multiple and matching5WL offset; split at physical blocks.",
+      "Read/compute/return every intervening inactive or padding row, including prefixes required for legal starts.",
+      "Retain one chip context through the merged stream's channel drain. Down gets its own private input and is not merged.",
+      "Do not credit per-expert GU host-submit savings: current baseline already has one2us GU submission and one common320ns upload."
+    ],
+    "incomplete_ABI": [
+      "Valid-R result stop and width/scales",
+      "Partial final row flushing",
+      "Unused-plane read/output behavior",
+      "Whether row results can release an expert before the merged command drains"
+    ],
+    "address_relaxation_erratum": "The32row screen additionally ignores starting plane/page's intra-WL offset in wave counts. Thus it is an ideal sliding-window relaxation, not an executable ordinary-multiplane result. Strict128row cases do not have this issue."
+  },
+  "earlier_experiments": {
+    "static_bundles": "Old static bundle B2/B4 reads the entire bundle whenever any member is selected; differs from optional prefix/gap range coalescing.",
+    "selected_WL_union": "Earlier G4/Deep screen gave favorable read-only bounds0.1284%/0.3881% of routedFFN and found G4 C1536 row-phase trouble. Does not certify the later Qwen38 workload.",
+    "horizontal_down_bundles": "Earlier downhorizontalconcat changes the operation to a weighted output sum; unrelated to ordinary same-input GU vertical row concatenation. Down remains separate here."
+  },
+  "current_screen": {
+    "train": "Existing16requests×steps0,4,...796,3200queries/layer,first3Qwen38layers.",
+    "families": [
+      "group_g16",
+      "group_best",
+      "overlap_best",
+      "whole_row"
+    ],
+    "controls": [
+      "identity",
+      "frequency",
+      "generic coactivation path"
+    ],
+    "layouts": [
+      "dense fullrow stream with required prefix",
+      "aligned padded stride"
+    ],
+    "checked_cases": 144,
+    "external_or_heldout_opened": false,
+    "objective": "Exact per-chip additive native GU context work under all-ready relaxation; not full resource-DAG scheduling or measured latency.",
+    "result": "For strict128row alignment, best among tested layouts/orders is unmerged singleton work in every family/layer. Dense packing increases work. Even the extra-favorable32row relaxation does not beat existing whole-row GU.",
+    "novelty_decision": "Retain GU coalescing as a mandatory generic compiler control; no new fusion algorithm or positive system result established. Fixed-row bound and three orderings do not exclude all joint reshards/cluster layouts."
+  },
+  "whole_row_certificate": {
+    "active_objects_max": 11,
+    "rows_per_nonempty_job": [
+      75,
+      76,
+      101
+    ],
+    "slack_per_job_max": 0.0703125,
+    "total_slack_max": 0.7734375,
+    "formula": "sum_i ceil(R_i*C/65536)-ceil(sum_i R_i*C/65536)=floor(sum_i(ceil(x_i)-x_i))=0",
+    "scope": "Fixed whole-row geometry only, for any subset of at most11 objects on one chip, even perfect query-adaptive adjacency/no gaps. It is not a general placement or scheduler impossibility theorem.",
+    "residual_cost_opportunity": "At most10*(250+1280)=15300ns native command/input work per chip; channel-input demand at most25600ns less per channel; aggregate controller work at most40000ns less (176 to16 commands). These overlapping resource budgets are not additive or guaranteed FFN latency savings."
+  }
+}

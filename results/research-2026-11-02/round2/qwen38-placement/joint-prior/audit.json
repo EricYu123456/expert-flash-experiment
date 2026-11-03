@@ -1,0 +1,122 @@
+{
+  "audit_date": "2026-11-02",
+  "scope": "Primary-source audit of multi-stage causal weight placement and integer-wave compilation; no hardware changes, no performance experiment, no sealed artifacts modified.",
+  "conclusion": {
+    "direct_precedent": "Joint causal mapping, layout-schedule feedback, paired MLP projection partitions, and MoE expert pipelines have direct prior art. Complementary load placement is not claimed novel.",
+    "remaining_candidate": "A compiler contribution remains conditional on legally lowering exact matrix partitions to unchanged NAND dense commands, modeling native integer-wave work plus channel/host/partial-output dependencies, and beating matched geometry/readiness-aware joint controls with fixed routes and capacity.",
+    "novelty_not_established": true,
+    "negative_search_is_not_exclusion": "No examined section explicitly implements fixed-route MoE GU/Down NAND integer-wave high-set complement; this does not prove absence from the literature, especially the unavailable FlexLLM and DIAMoND full texts."
+  },
+  "sources": [
+    {
+      "id": "pimcomp_tcad",
+      "title": "PIMCOMP: An End-to-End DNN Compiler for Processing-In-Memory Accelerators",
+      "year": "2024 online/preprint; TCAD 44(5), May 2025, pp.1745-1759",
+      "venue": "IEEE TCAD; extended work following DAC 2023 PIMCOMP",
+      "doi": "10.1109/TCAD.2024.3496847",
+      "primary_urls": ["https://arxiv.org/html/2411.09159v1", "https://github.com/sunxt99/PIMCOMP-NN", "https://xplorestaging.ieee.org/document/10750525"],
+      "read_depth": "Read abstract and sections III-C, IV, VI-A/B, VII-A/B, Figure 7 explanation; author repository README inspected. Not a claim to have executed its compiler or read the original DAC paper in this round.",
+      "observed": [
+        "Section IV-B closes the loop between layout-computation mapping and dataflow scheduling using the profiler.",
+        "Section VI-A jointly optimizes weight replication and array-group placement. Fitness runs simplified native pseudo-instruction scheduling and profiles compute, memory access, and communication.",
+        "Figure 7(d) low-latency placement puts producer and consumer array groups in the same core to avoid communication.",
+        "Section VII-B tracks pixel forward/backward and pixel-array-group dependencies and manages local memory for ready work."
+      ],
+      "inference_for_current_work": "An end-to-end causal layout-plus-schedule compiler is not a new category. Compare an equally budgeted readiness-aware layout search with replication disabled and the same legal geometry, rather than only per-phase fitting.",
+      "hardware_boundary": "Crossbar PIM template with local memory/vector functional units and backend pseudo-ISA; not evidence of AiF hardware capabilities or timings.",
+      "code_evidence": "Paper links author GitHub. README describes ONNX frontend, core mapping, dataflow scheduling, high-throughput/low-latency modes. Source execution was outside this audit."
+    },
+    {
+      "id": "fast_overlapim",
+      "title": "Fast-OverlaPIM: A Fast Overlap-driven Mapping Framework for Processing In-Memory Neural Network Acceleration",
+      "year": "2024 preprint and author-listed TCAD publication; final issue year not independently resolved from an accessible primary publisher record in this round",
+      "venue": "IEEE TCAD (author homepage); preceding OverlaPIM DATE 2023",
+      "primary_urls": ["https://arxiv.org/html/2407.00604v1", "https://zhouminxuan.github.io/"],
+      "read_depth": "Read sections II-III, IV-B through IV-D, IV-I through IV-K, and V-A implementation, baselines, architecture configuration. Not a full-paper exhaustive review.",
+      "observed": [
+        "Section IV-I sorts data spaces by input readiness and maps ready data spaces to resources using round robin, acknowledging altered partial-sum reduction movements.",
+        "Section IV-J evaluates consecutive-layer overlap during mapping search, rather than optimizing sequential layer execution then merely enabling overlap.",
+        "Section IV-K explicitly notes that a locally suboptimal predecessor mapping can produce better total performance and searches forward, backward, or from a middle layer.",
+        "Section V-A distinguishes sequentially optimized mapping evaluated with overlap, overlap-optimized mapping, and overlap-driven transformed mapping."
+      ],
+      "inference_for_current_work": "This is the closest direct prior against claiming joint GU/Down causal placement itself. Its baseline ladder is a useful template: same layout with improved scheduler, then joint layout under the same scheduler, then transformation.",
+      "hardware_boundary": "Main evaluation uses modified HBM2 majority-based bit-serial row-parallel PIM with fixed per-layer memory allocation; it is not an existing NAND command implementation.",
+      "code_evidence": "Section V-A says extensively customized Timeloop. No author project repository link found in the examined paper HTML or author homepage; this is not a claim that no code exists."
+    },
+    {
+      "id": "stratum",
+      "title": "Stratum: System-Hardware Co-Design with Tiered Monolithic 3D-Stackable DRAM for Efficient MoE Serving",
+      "year": 2025,
+      "venue": "MICRO 2025",
+      "doi": "10.1145/3725843.3756043",
+      "primary_urls": ["https://arxiv.org/html/2510.05245v1", "https://doi.org/10.1145/3725843.3756043"],
+      "read_depth": "Read sections 3.2, 4.1/Figures 8-9, 5.2, and 6.1 modeling details. No simulator execution.",
+      "observed": [
+        "Section 4.1 jointly partitions the two up projections vertically and down horizontally across PUs to preserve intermediate ownership and remove inter-PU up-to-down communication.",
+        "Selected experts execute sequentially with tensor parallelism across PUs; shared input duplication is amortized across active experts.",
+        "Figure 9 overlaps the second up GEMM with activation, down reduce-scatter with the next expert's first up GEMM, and immediately aggregates expert outputs.",
+        "Within each PU, it partitions along the longer matrix dimension to improve tensor-core utilization."
+      ],
+      "inference_for_current_work": "A particularly close MoE prior for paired GU/Down geometry and causal expert pipelining. It does not establish that ordinary NAND wave complement is already implemented.",
+      "hardware_boundary": "Proposed Mono3D DRAM plus logic-die NMP includes a local special-function engine, ring network, reducers and partial-sum memory. None may be imported into AiF without independent evidence. Evaluated with device/circuit models and an in-house simulator, not a manufactured Stratum system.",
+      "code_evidence": "Section 6.1.2 describes an in-house simulator receiving tensor shapes, expert IDs and mappings; no public simulator link found in examined primary sections."
+    },
+    {
+      "id": "megatron",
+      "title": "Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism",
+      "year": "2019 preprint, inspected v4 dated 2020-03-13",
+      "venue": "arXiv:1909.08053v4",
+      "primary_urls": ["https://arxiv.org/html/1909.08053v4", "https://github.com/NVIDIA/Megatron-LM"],
+      "read_depth": "Read section 3 MLP derivation, equations 1-3, Figure 3 and associated all-reduce discussion; not an audit of current repository code.",
+      "observed": [
+        "Column-partitions the first GEMM so nonlinearity is independently applicable, then row-partitions the second GEMM so it consumes local activation outputs without intermediate communication.",
+        "Reduces second-GEMM partial outputs across GPUs; explicitly contrasts the alternative requiring a synchronization before the nonlinearity."
+      ],
+      "inference_for_current_work": "Paired projection partitioning across a nonlinearity and ownership-aware TP are established. The remaining NAND question is exact native grain and causal resource cost, rather than algebraic composition.",
+      "hardware_boundary": "GPU dense-transformer training; no NAND page/wave model and no evidence for quantized flash return ABI.",
+      "code_evidence": "Official NVIDIA repository exists; current code not fetched or run in this audit."
+    },
+    {
+      "id": "cambricon_llm",
+      "title": "Cambricon-LLM: A Chiplet-Based Hybrid Architecture for On-Device Inference of 70B LLM",
+      "year": 2024,
+      "venue": "MICRO 2024; arXiv:2409.15654v1",
+      "primary_urls": ["https://arxiv.org/html/2409.15654v1", "https://arxiv.org/abs/2409.15654"],
+      "read_depth": "Read sections V-A and V-B, Figure 7 and associated equations; additionally examined source sections IV scheduling and VII-A simulator description. This is the original Cambricon-LLM, not the unavailable Cambricon-FlexLLM full text.",
+      "observed": [
+        "Splits each request tile into two-dimensional page-sized atomic tiles across flash channels and compute cores.",
+        "Derives input/result movement as a function of tile aspect ratio and same-channel input broadcast, then chooses the shape minimizing movement.",
+        "Balances NPU/flash workload to consume idle channel intervals; uses a modified SSDsim and a separate NPU simulator."
+      ],
+      "inference_for_current_work": "Strong NAND-specific baseline for hardware-granular 2D tiling and transfer accounting. Examined sections do not give fixed-route MoE joint GU/Down wave-high placement.",
+      "hardware_boundary": "Dedicated flash compute/ECC and channel broadcast are that architecture's own capabilities. Shape or latency conclusions do not automatically transfer to AiF.",
+      "code_evidence": "Paper states modified SSDsim; no author runnable artifact verified in this round."
+    }
+  ],
+  "unavailable_full_text": [
+    {"title": "Cambricon-FlexLLM: A Flexible Chiplet-Based Hybrid Architecture for On-Device 70B LLM Inference", "doi": "10.1145/3844618", "primary_or_author_summary_urls": ["https://doi.org/10.1145/3844618", "https://www.growkudos.com/publications/10.1145%25252F3844618/reader"], "status": "No legal full text newly obtained. Author-attributed Kudos summary mentions grouping often-used model data and adaptive work partition, but cannot resolve projection-level causal mapping novelty."},
+    {"title": "DIAMoND: Dynamic Inference for Adaptive Edge MOE with Heterogeneous In-NAND and Near-DRAM Compute Architecture", "doi": "10.1109/ISCA66397.2026.00078", "primary_urls": ["https://ieeexplore.ieee.org/abstract/document/11617910/authors"], "status": "No legal author full text newly obtained. Previously read primary abstract only; no claims about detailed mapping or scheduler are made."}
+  ],
+  "own_analysis": {
+    "complement_does_not_reduce_work": "With fixed shard sizes, permuting GU and down high sets changes queues/readiness but not total wave work. The reduction from 77 to 75 waves/expert belongs to geometry, not complement.",
+    "causal_counterexample": {"chips": 2, "experts": 1, "GU_waves": [2, 1], "down_waves": [1, 2], "perfect_complement_chip_sum": [3, 3], "native_makespan_excluding_transfers": "4*tR + host_activation", "reason": "Down waits for the complete GU result, so the pooled three-wave lower bound is unattainable despite perfect complement."},
+    "qwen_bound_boundary": "For whole-row 3/4-wave GU and 1/2-wave down, a single expert has a six-wave GU->host->down path even if its chipwise combined load never exceeds five. Multiple expert overlap can fill gaps, so native DAG replay, not load sum alone, decides the achievable gain.",
+    "minimum_strong_controls": [
+      "Use identical legal geometry candidates, single-copy weights, chip capacity, balanced labels, input reload, output transfers, host activation/reduction, shared expert geometry and native scheduler across layouts.",
+      "Include route-oblivious cyclic and complement initializations, independently phase-fitted mapping, and equally budgeted readiness-aware causal joint mapping; report seed and search-budget controls.",
+      "Separate scheduler-only improvement on a fixed mapping, geometry-only improvement on matched mappings, and additional joint placement improvement under the identical scheduler.",
+      "Report pooled useful work, per-expert critical path, chip load and channel/host-port lower bounds; do not interpret any one as achievable latency.",
+      "Test ordinary-read without CR. Keep output ABI and numerical lowering unresolved where the target architecture has not disclosed the needed contract."
+    ],
+    "potential_system_contribution_conditions": [
+      "A legal native command lowering plus resource-accurate scheduler jointly selects exact wave-granular matrix geometry and fixed physical assignments across causally dependent projections.",
+      "A concise witness shows why balanced phase-local and ready-time controls fail on a real geometry, and the improvement survives their matched native replay.",
+      "The useful improvement generalizes across held-out routes/shapes or a second published backend under that backend's own native granularity, rather than importing NAND wave costs."
+    ],
+    "no_go_conditions": [
+      "The new result is reproduced by a simple deterministic cyclic/complement mapping or a readiness-aware joint control with the same geometry and search budget.",
+      "Only the pooled work bound improves, while exact causal command/transfer/host replay does not.",
+      "The gain depends on free partial sums, channel broadcast, cross-plane input contexts or unpublished output formats not established on the selected backend."
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "operator_vectors": 28,
+  "A8_components": 29696,
+  "I64_to_F32_rescaled_rows": 37888,
+  "bit_mismatches": 0,
+  "reference_source": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_full_ffn_integer_reference.cpp",
+  "reference_source_sha256": "e27826aeb2c9dbfda48bccd492f02890eea77f84106a9239b19d248fa7744798",
+  "helper_body_sha256": "679d8c40ff10dab97f75370ea222e415315b5e3fdda05ce155f210149ef8ead0",
+  "helper_extraction_byte_exact": true,
+  "build_argv": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-fopenmp",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/routed-boundary-view-numeric/cpp-helper-audit/frozen_helper_check.cpp",
+    "-o",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/routed-boundary-view-numeric/cpp-helper-audit/frozen_helper_check"
+  ],
+  "source_sha256": "af3b934108511a79e4cf9a126516899de6c79c33f73fd13777e37e3f07e117d6",
+  "binary_sha256": "1a68fcda038d517853e5c8b1665acd97b300edc3f7abe83cdfda7b31301bc5ee",
+  "fixture_sha256": "efc52a11b37d529365fd8cbc83a5c1b6c6ffd720a208f07023cd103d3240b875",
+  "scope": "Fixture A8 and I64-to-F32 scaling checked with verbatim frozen C++ quantize/scale_output/equal_bits; exact integer dots are independently checked by page-pread replay. No weight conversion, inference or activation implementation claim."
+}

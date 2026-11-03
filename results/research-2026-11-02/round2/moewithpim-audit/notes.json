@@ -1,0 +1,595 @@
+{
+  "status": "PASS executable second published software backend and strong-control null; no research breakthrough established",
+  "read_only_upstreams": {
+    "moe": {
+      "commit": "77044e8efe8dfccb09b2ecaca2f4bf55db8cb334",
+      "git_diff": ""
+    },
+    "ibm": {
+      "commit": "4e88294a84d153f72b6b0a90d038d95e0bd79044",
+      "git_diff": ""
+    }
+  },
+  "reproduce": [
+    "python3 probe_native_backend.py --backend moe --exhaustive",
+    "python3 probe_native_backend.py --backend ibm --exhaustive",
+    "python3 probe_phase_cyclic.py moe",
+    "python3 probe_phase_cyclic.py ibm"
+  ],
+  "numeric_contract": {
+    "proven": "Native ideal CPU float32 x@W, persistent tile/tier addresses, per-input-partition digital_add, output concat and multiple sequential projections. Eager and unpruned FX graphs agree with independent dense references.",
+    "tier_isolation": "A->B->A at two tiers of one tile returns separate correct outputs. This validates the software model, not a physical capacitor reset signal.",
+    "scheduler": "Unmodified native schedule_execution, model_ott=True, default native timing functions. No timing stubs or replacement cycle model.",
+    "plotting": "Native imports pass; all plotting files are tracked. No lazy import or stub was needed.",
+    "programmer_fringe_bug": "Original set_weight shadows tier n_cols/n_rows with each mapping entry.600x700/512x512 fails on the second input partition. Outside probe explicitly programs the same rectangular slices to existing public Tier.weight addresses; Tier,Linear,graph and scheduler remain original.",
+    "route_replay": "Original MoELayer deliberately samples indices. Outside RouteReplay gathers coefficients for exactly supplied expert IDs, preserves fixed weights and uses existing cross_dependency for gate readiness; no new hardware branch or native instruction.",
+    "numeric_coefficients": "Preserves source full-softmax probabilities gathered at selected IDs, without selected-set renormalization. Actual pretrained routing coefficients were not loaded.",
+    "unsupported_accuracy_claims": [
+      "No calibratedADC noise/quantization or silicon precision",
+      "No AiF outputdtype inference",
+      "Native Expert is two-layer ReLU/GELU, not fullSwiGLU",
+      "Softmax/topk/alpha multiplication are not independently timed in original scheduler",
+      "Cleaned scheduling graphs are not numerically executed; only original/unprunedFX graphs are"
+    ]
+  },
+  "native_results": {
+    "moe": {
+      "shared_vs_spread_pair_ns": [
+        229,
+        129
+      ],
+      "rectangular600x700_exact": true,
+      "rectangular_native_operations": 4,
+      "original_fringe_programmer_failed": true,
+      "toy_true_router_topk": [
+        0,
+        3
+      ],
+      "toy_all_eager_and_FX_pass": true,
+      "frozen_mapping_and_weights": true,
+      "native_mapper_weighted_time_ns": {
+        "in-order": 422.0,
+        "util": 402.0,
+        "top2": 422.0
+      },
+      "all24_order_best": {
+        "best_order": [
+          0,
+          1,
+          3,
+          2
+        ],
+        "best_weighted_native_time_ns": 402.0,
+        "trials": [
+          {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "time_ns": 422.0
+          },
+          {
+            "order": [
+              0,
+              1,
+              3,
+              2
+            ],
+            "time_ns": 402.0
+          },
+          {
+            "order": [
+              0,
+              2,
+              1,
+              3
+            ],
+            "time_ns": 482.0
+          },
+          {
+            "order": [
+              0,
+              2,
+              3,
+              1
+            ],
+            "time_ns": 402.0
+          },
+          {
+            "order": [
+              0,
+              3,
+              1,
+              2
+            ],
+            "time_ns": 482.0
+          },
+          {
+            "order": [
+              0,
+              3,
+              2,
+              1
+            ],
+            "time_ns": 422.0
+          },
+          {
+            "order": [
+              1,
+              0,
+              2,
+              3
+            ],
+            "time_ns": 402.0
+          },
+          {
+            "order": [
+              1,
+              0,
+              3,
+              2
+            ],
+            "time_ns": 422.0
+          },
+          {
+            "order": [
+              1,
+              2,
+              0,
+              3
+            ],
+            "time_ns": 482.0
+          },
+          {
+            "order": [
+              1,
+              2,
+              3,
+              0
+            ],
+            "time_ns": 422.0
+          },
+          {
+            "order": [
+              1,
+              3,
+              0,
+              2
+            ],
+            "time_ns": 482.0
+          },
+          {
+            "order": [
+              1,
+              3,
+              2,
+              0
+            ],
+            "time_ns": 402.0
+          },
+          {
+            "order": [
+              2,
+              0,
+              1,
+              3
+            ],
+            "time_ns": 402.0
+          },
+          {
+            "order": [
+              2,
+              0,
+              3,
+              1
+            ],
+            "time_ns": 482.0
+          },
+          {
+            "order": [
+              2,
+              1,
+              0,
+              3
+            ],
+            "time_ns": 422.0
+          },
+          {
+            "order": [
+              2,
+              1,
+              3,
+              0
+            ],
+            "time_ns": 482.0
+          },
+          {
+            "order": [
+              2,
+              3,
+              0,
+              1
+            ],
+            "time_ns": 422.0
+          },
+          {
+            "order": [
+              2,
+              3,
+              1,
+              0
+            ],
+            "time_ns": 402.0
+          },
+          {
+            "order": [
+              3,
+              0,
+              1,
+              2
+            ],
+            "time_ns": 422.0
+          },
+          {
+            "order": [
+              3,
+              0,
+              2,
+              1
+            ],
+            "time_ns": 482.0
+          },
+          {
+            "order": [
+              3,
+              1,
+              0,
+              2
+            ],
+            "time_ns": 402.0
+          },
+          {
+            "order": [
+              3,
+              1,
+              2,
+              0
+            ],
+            "time_ns": 482.0
+          },
+          {
+            "order": [
+              3,
+              2,
+              0,
+              1
+            ],
+            "time_ns": 402.0
+          },
+          {
+            "order": [
+              3,
+              2,
+              1,
+              0
+            ],
+            "time_ns": 422.0
+          }
+        ],
+        "scope": "All24 expert-order permutations through original shape allocator, not all possible atom mappings; same query weights and scheduler for every layout."
+      }
+    },
+    "ibm": {
+      "shared_vs_spread_pair_ns": [
+        220.0,
+        120.0
+      ],
+      "rectangular600x700_exact": true,
+      "rectangular_native_operations": 4,
+      "original_fringe_programmer_failed": true,
+      "toy_true_router_topk": [
+        0,
+        3
+      ],
+      "toy_all_eager_and_FX_pass": true,
+      "frozen_mapping_and_weights": true,
+      "native_mapper_weighted_time_ns": {
+        "in-order": 371.0,
+        "util": 351.0,
+        "top2": 371.0
+      },
+      "all24_order_best": {
+        "best_order": [
+          0,
+          1,
+          3,
+          2
+        ],
+        "best_weighted_native_time_ns": 351.0,
+        "trials": [
+          {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "time_ns": 371.0
+          },
+          {
+            "order": [
+              0,
+              1,
+              3,
+              2
+            ],
+            "time_ns": 351.0
+          },
+          {
+            "order": [
+              0,
+              2,
+              1,
+              3
+            ],
+            "time_ns": 431.0
+          },
+          {
+            "order": [
+              0,
+              2,
+              3,
+              1
+            ],
+            "time_ns": 351.0
+          },
+          {
+            "order": [
+              0,
+              3,
+              1,
+              2
+            ],
+            "time_ns": 431.0
+          },
+          {
+            "order": [
+              0,
+              3,
+              2,
+              1
+            ],
+            "time_ns": 371.0
+          },
+          {
+            "order": [
+              1,
+              0,
+              2,
+              3
+            ],
+            "time_ns": 351.0
+          },
+          {
+            "order": [
+              1,
+              0,
+              3,
+              2
+            ],
+            "time_ns": 371.0
+          },
+          {
+            "order": [
+              1,
+              2,
+              0,
+              3
+            ],
+            "time_ns": 431.0
+          },
+          {
+            "order": [
+              1,
+              2,
+              3,
+              0
+            ],
+            "time_ns": 371.0
+          },
+          {
+            "order": [
+              1,
+              3,
+              0,
+              2
+            ],
+            "time_ns": 431.0
+          },
+          {
+            "order": [
+              1,
+              3,
+              2,
+              0
+            ],
+            "time_ns": 351.0
+          },
+          {
+            "order": [
+              2,
+              0,
+              1,
+              3
+            ],
+            "time_ns": 351.0
+          },
+          {
+            "order": [
+              2,
+              0,
+              3,
+              1
+            ],
+            "time_ns": 431.0
+          },
+          {
+            "order": [
+              2,
+              1,
+              0,
+              3
+            ],
+            "time_ns": 371.0
+          },
+          {
+            "order": [
+              2,
+              1,
+              3,
+              0
+            ],
+            "time_ns": 431.0
+          },
+          {
+            "order": [
+              2,
+              3,
+              0,
+              1
+            ],
+            "time_ns": 371.0
+          },
+          {
+            "order": [
+              2,
+              3,
+              1,
+              0
+            ],
+            "time_ns": 351.0
+          },
+          {
+            "order": [
+              3,
+              0,
+              1,
+              2
+            ],
+            "time_ns": 371.0
+          },
+          {
+            "order": [
+              3,
+              0,
+              2,
+              1
+            ],
+            "time_ns": 431.0
+          },
+          {
+            "order": [
+              3,
+              1,
+              0,
+              2
+            ],
+            "time_ns": 351.0
+          },
+          {
+            "order": [
+              3,
+              1,
+              2,
+              0
+            ],
+            "time_ns": 431.0
+          },
+          {
+            "order": [
+              3,
+              2,
+              0,
+              1
+            ],
+            "time_ns": 351.0
+          },
+          {
+            "order": [
+              3,
+              2,
+              1,
+              0
+            ],
+            "time_ns": 371.0
+          }
+        ],
+        "scope": "All24 expert-order permutations through original shape allocator, not all possible atom mappings; same query weights and scheduler for every layout."
+      }
+    }
+  },
+  "real_train_selected_set_replay": {
+    "source": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/screen/routes.npz",
+    "sha256": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+    "selection": "train[0,0:2,layer0]",
+    "routes": [
+      [
+        1,
+        33,
+        4,
+        10,
+        51,
+        49
+      ],
+      [
+        1,
+        3,
+        45,
+        33,
+        20,
+        51
+      ]
+    ],
+    "MVMs_per_route": [
+      13,
+      13
+    ],
+    "scope": "Actual G4 train selected IDs,64E fixed mapping, known toy weights/activations and toy coefficients; neither fullG4 numeric accuracy nor fullG4 latency. No heldout routes or model downloads."
+  },
+  "phase_cyclic_null": {
+    "same_capacity": "4tiles*6tiers,18resident weight tiers,2DNNlayers,4experts/layer,top2. Original512x512tier and native timings unchanged.",
+    "construction": "One expert atom per bank for every projection; cross-layer weights occupy separate tiers of the same existing bank. Any selected set has no same-phase conflict. GU/down pools are not added.",
+    "native_result": {
+      "moe": {
+        "all36_routes_hit_same_native_DAG_floor": true,
+        "native_times_ns": [
+          828.0
+        ],
+        "all24_down_phase_permutations_hit_floor": true,
+        "original_baseline_means_ns": {
+          "GREEDY_IN_ORDER": 894.6666666666666,
+          "GREEDY_UTIL": 861.3333333333334,
+          "GREEDY_TOP2": 894.6666666666666
+        }
+      },
+      "ibm": {
+        "all36_routes_hit_same_native_DAG_floor": true,
+        "native_times_ns": [
+          712.0
+        ],
+        "all24_down_phase_permutations_hit_floor": true,
+        "original_baseline_means_ns": {
+          "GREEDY_IN_ORDER": 778.6666666666666,
+          "GREEDY_UTIL": 745.3333333333334,
+          "GREEDY_TOP2": 778.6666666666666
+        }
+      }
+    },
+    "conclusion": "No-go for a new phase-aware placement claim in this occupancy regime. Route-oblivious cyclic placement already attains the native dependency critical path. Gains versus originalexpert-order mapper are a standard placement improvement, not evidence of new physical capability.",
+    "not_generalized": "A full G4 phase can contain more MVM atoms than available peripherals; this tiny no-go does not prove the full-size regime has no scheduling headroom."
+  },
+  "strong_prior": "The native GREEDY_TOP2 joint-density mapper is byte-identical in originalIBM and MoEwithPIM. Generic coactivation avoidance or dense2D composition is not new.",
+  "next_experiment_boundary": "Only investigate a full-size shape/bank ratio where atoms exceed bank count and phase-cyclic does not attain the same nativeDAG/workload lower bound. Compare identical fixed capacity, nativecoalescing, communication and hostactivation costs. Current simulator lacks a timedSwiGLU/alphamul contract; do not present toyReLU timing as fullG4."
+}

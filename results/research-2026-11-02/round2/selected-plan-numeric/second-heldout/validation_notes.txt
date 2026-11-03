@@ -1,0 +1,39 @@
+Selected compiler complete-row layout numeric validation
+
+Both smoke and second-heldout campaigns are complete. All4model/profile cases exited0.
+Each model has4numeric views: input1.canonical, input1.placed, input4.canonical, input4.placed.
+Each profile independently reruns canonical andplaced, including independent fullprefill. No state orcanonical snapshots are reused acrossprofiles.
+Secondheldout is exactly the16 acquisition-manifest prompts (8OpenBookQA+8BoolQ), complete text,16decode each. No answers sidecar read andno prompt filtering/truncation/reselection.
+
+Use scripts/research_20261103_selected_plan_campaign.py for freeze/run and scripts/research_20261103_selected_plan_independent_campaign_v2.py for independent audit. The earlier base freeze-smoke action and campaign audit(v1) adapter were development interfaces; the executed primary campaign uses explicit compilerindex->raw mapping andv2audit.
+The smoke preflight compiler/raw index mismatch andv1audit directory-adapter failure are preserved in smoke-primary.prepare-failed-layer-index and smoke-primary/independent-v1-path-failure.json. Both occurred before any corresponding numeric-invalid run; all executed numeric cases succeeded. No quantizer ornumeric-helper correction was made.
+
+Fixed numerics: originalGGUF complete-row to_float -> fixed perrow symmetric W8[-127,127]; one dynamicA8 quantization per whole operatorinput vector; exact fullrowI64dot; fixedF32 rowScale*inputScale rescale. No columnpartials.
+All240G4 FFN weightnames at raw0..39 and159Deep weightnames (raw0dense3+26MoE*6) are replaced on allprefill/decode tokens. Attention/router/SSM keep sourceGGUF execution.
+Canonical uses direct fullrowW8 for all FFNs, includingshared/dense; placed computesactualper-chip packed bytes then scatters logicalrows.
+Eight spans/model are compared to oldreference source; quantizer, dot, rescale, target, GGUFrowconversion prefix, packing suffix andrun are byte-identical. Operator hasonly thedeclared canonical predicate expansion fromrouted-only toallFFN.
+
+Native GUlogical rows are [0,I)gate+[I,2I)up. I is routed512/shared1024 forG4 androuted1408/shared2816 forDeep. Shared logicalexpert64 maps toordinary sourceweightexpert0.
+Compilerplan layer is MoEindex; frozen map givesG4index0..39->raw0..39, Deepindex0..25->raw1..26. Deepraw0dense stays fixed equal16 perprojection (including C10944 down).
+Every nativeband intersection is mapped back to the gate/up projection; zerochip rows andbands crossingGU boundary are valid.
+The CPU physical buffers pack eachprojection/chip inreverse logicalrow order; theirownership andactualroworder hashes are audited. Nativejob GUconcat ordering/address maps are a separate definition. No physicalflash programming/nativeABI claim.
+
+Countdefinitions: numbers below are unique F32 FFN scalaroutputs inONEview, not summed comparisons or4views. Threeexact pairwise links establish4view equality: canonical1==placed1, canonical4==placed4 by fullF32 streaming comparisons, then canonical1==canonical4 by fullfilebyte comparison.
+Logits cover finalprefill plus16decode vocabulary vectors perprompt, not allintermediateprefill vocabulary vectors. AllFFN outputscalars onALLprefill tokens are checkedfinite.
+Bothprefill anddecode routes are exactacrossprofiles andmodes; archivesstore orderedtop6, not justsets.
+
+granite4tiny: prefill1870tokens +decode256tokens perview; decode shape[16, 16, 40, 6].
+  Unique FFN scalaroutputs/view: 1610997760. Continuationlogit scalars/view: 27295744.
+
+deepseek: prefill1982tokens +decode256tokens perview; decode shape[16, 16, 26, 6].
+  Unique FFN scalaroutputs/view: 2198611200. Continuationlogit scalars/view: 27852800.
+
+Allnative rowmaps independently reconstructed: G47800 weight/expert keys, Deep5073. Allusedcache bytes/scales hashes match theprior fixedformat TRAIN caches androwconversion code isunchanged.
+GU_input_identity.json is an extra consistency check ofstored serializedA8+scale FNV hashes for gate/up; it isnot a direct rawA8-byte equality comparison. Core FFN/logits comparisons are exactfullF32 bytes.
+
+Inference orchestrationwall: 496.044471s, max4workers x8threads,1800sbound, no timeout.
+This is CPUfunctional-harness time withcold caches/weight conversion/originalGGUF ops+callbacks; it isnot nativehardware orplacementperformance.
+The testednumericlayouts are thecmd250 selectedwhole_rows primaryplans forinput1/input4 profiles. Costreplay ofotherfamilies/commands is aseparate root experiment.
+No originalGGUF/BF16 numerical equivalence, nativeAiF outputABI, quantizationgain, heldoutaccuracy orlarge-sample statistical claim.
+
+Frozen inputs, completedsummary androuteNPZ are unchanged after root replay binding. New independentreports/notes are separate files.

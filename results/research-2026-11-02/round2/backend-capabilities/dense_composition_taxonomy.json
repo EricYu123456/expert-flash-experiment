@@ -1,0 +1,83 @@
+{
+  "date": "2026-11-02",
+  "scope": "Existing dense linear-operator compositions under physical placement. Algebraic validity is distinct from native shape/address/numerical support. No new plane context, sparse decoder, PE or quantization feature is assumed.",
+  "notation": "Column-vector convention. W_e is R_e by C_e. D_e is a down matrix with common output coordinates; z_e is the already-computed nonlinear intermediate. alpha_e is the unchanged router weight. A fixed stored bundle may contain inactive experts.",
+  "taxonomy": [
+    {
+      "name": "GU vertical concatenation with shared input",
+      "identity": "vertical_concat(W_a,W_b,...) * x = concat(W_a*x,W_b*x,...)",
+      "when_valid": "All concatenated matrices use the same input vector and column order. Outputs remain private and are split/scattered by expert and projection before their original nonlinear operations.",
+      "layout": "Stack complete ordinary dense rows. Store each original coefficient once when bundles/row slices form a partition. Native dimensions, starting addresses, block splits and plane/wordline alignment must be legal.",
+      "inactive_experts": "Their weight rows are still read/ECC-checked/computed if covered by the dense command; outputs are discarded. A shared x cannot selectively zero only an expert's rows.",
+      "benefit_and_cost": "Potential command/input reuse and elimination of row-end padding; private outputs remain. Arbitrary selected-WL byte unions are not automatically legal row-aligned GEMVs.",
+      "context_requirement": "One ordinary shared input context. Different logical experts do not by themselves require multiple hardware contexts."
+    },
+    {
+      "name": "Down horizontal concatenation with common output sum",
+      "identity": "[D_a D_b ...] * concat(alpha_a*z_a,alpha_b*z_b,...) = sum_e alpha_e*D_e*z_e",
+      "when_valid": "The row range represents the same output coordinates for every bundled expert, only the weighted sum is required, and there is no per-expert nonlinear operation after down that must precede aggregation. Intermediate z_e values must already exist.",
+      "layout": "For each output row, store that row's D_a columns, then D_b columns, and so on. This row-wise interleaving is not equivalent to appending complete expert matrices. A fixed disjoint bundle can retain one copy of every coefficient.",
+      "inactive_experts": "Fill their input segments with the encoding of real zero. Read, ECC, MAC and channel work for their stored columns remain charged. No sparse skip or dynamic gathering of arbitrary expert weights is assumed.",
+      "benefit_and_cost": "One aggregate output row replaces B private outputs; commands may merge and row/wave geometry changes. Input width becomes sum_e C_e and all concatenated segments must fit the existing operand path. Multiple bundle or column-partition results still need host reduction.",
+      "context_requirement": "One concatenated input is a single ordinary GEMV context even though its segments came from different experts. Per-plane different vectors are unnecessary for this composition.",
+      "numerical_status": "Exact over real arithmetic. Valid floating GEMV composition with possible reduction-order differences. Native W8A8 correctness is conditional; see quantization section. Biases, if present, require their unchanged weighted sum separately."
+    },
+    {
+      "name": "Private-output block diagonal embedding",
+      "identity": "blockdiag(W_a,W_b,...) * concat(x_a,x_b,...) = concat(W_a*x_a,W_b*x_b,...)",
+      "when_valid": "Inputs may differ and outputs must remain private. Shapes can vary if the larger dense rectangular matrix and its operand fit the native interface.",
+      "layout": "Explicit dense off-diagonal zeros are stored and processed. With B equal R-by-C matrices, the dense block diagonal has B^2*R*C entries versus B*R*C useful entries.",
+      "inactive_experts": "Zero their input segments or discard their private outputs, while charging all dense matrix reads and zero multiplications.",
+      "benefit_and_cost": "Only fine fringe/wave utilization or command/output effects can compensate for structural zeros. Whole full-wave matrices normally cannot gain useful NAND work from the embedding.",
+      "context_requirement": "One larger ordinary input context. This is a dense representation cost, not proof that existing hardware exposes independent plane contexts."
+    }
+  ],
+  "quantization": {
+    "desired_W8A8_expression": "For row r, desired y_r = sum_e alpha_e*sx_e*sw_e,r*dot(QW_e[r,:],Qx_e), assuming these are the backend's existing separable row/input scales.",
+    "simple_raw_I8_concat_condition": "If the native fused kernel exposes only one INT8 input and one output-scale vector, absorbing scales solely into expert input segments requires alpha_e*sx_e*sw_e,r = t_r*b_e for all relevant e,r. General expert-specific per-row scales do not have this separability. Even when separable, b_e*Qx_e usually is not exactly representable as INT8 without rounding or saturation.",
+    "groupwise_boundary": "For column-group-dependent weight scales, the row-scale formula is already insufficient. Existing scale metadata/kernel behavior must be preserved; neither flattening GGUF Q8_0 bytes nor an INT8 timing label proves this.",
+    "inactive_zero_boundary": "For asymmetric activation quantization, use the zero-point encoding rather than assuming byte zero represents real zero.",
+    "contrast_with_same_expert_column_splits": "Quantize a native expert input once and slice that same integer vector. With common per-row scale and raw nonsaturating integer partials, host integer sums can precede applying the original row/input scales. Horizontal cross-expert weighting generally lacks this shared-scale property. Actual AiF raw partial output remains unverified.",
+    "user_scope": "The user does not require bitwise equality. Quality-controlled floating/algebraic composition may be a candidate if already supported by the target backend; it is not an established lossless AiF W8A8 execution result. No new quantizer or scale hardware is introduced here."
+  },
+  "physical_compatibility": {
+    "AiF_evidence": "Paper section4.4 describes input-dimension/block/offset/page-count GEMV over a sequential submatrix and an INT8 multiplier/adder-tree path. Inputs are described as typically8-32KiB, not as a complete published dimension/ABI specification.",
+    "AiF_not_proved": "Accepted dimension set, output datatype/scales, overflow/rounding and input-buffer boundary semantics are not disclosed. Missing host bundle APIs alone do not prove die impossibility.",
+    "row_alignment": "A horizontal bundle changes row width. For I=512 INT8 columns, B=2 gives1024-byte rows and B=4 gives2048-byte rows, both dividing16KiB pages/64KiB waves. B=3 gives1536-byte rows and inherits row-phase/fringe alignment issues. Whole rows and legal block-contained native runs must be checked explicitly.",
+    "single_copy_boundary": "Fixed bundles may be physically interleaved once. Arbitrary route-dependent reassembly of a dense matrix is not free; without duplicate copies or a supported gather operation, inactive bundle columns are overfetched.",
+    "costs": "Count all stored/read bytes, ECC, dense MACs, native commands, input reloads, output transfers, host weighting/quantization/scatter/reduction, dependency waits and storage reservations. Input segments from distinct experts do not imply a multi-context PE if supplied as one vector."
+  },
+  "work_bound_scope": {
+    "remains_valid": "For ordinary full dense evaluation of selected experts, all useful selected coefficients still contribute and must be accessed by the modeled dense path. Concatenation does not erase useful coefficient/page work; inactive columns and structural zeros add work.",
+    "does_not_remain_valid": "A sum of separately rounded per-expert waves is not a universal lower bound once legal cross-expert dense compositions alter row width and wave sharing. Prior lower bounds restricted to private-expert waves/canonical tiles retain only their stated scope.",
+    "no_nonlinear_fusion": "These identities do not merge two GEMVs across SiLU/GELU, gate-times-up or another nonlinear dependency. Complete the original GU/nonlinear work before down aggregation. SLIM's separately described fused FFN datapath is not a free capability of AiF."
+  },
+  "primary_priors": [
+    {
+      "title": "Occult: Optimizing Collaborative Communication across Experts for Accelerated Parallel MoE Training and Inference",
+      "version": "arXiv2505.13345v1,2025-05-19",
+      "url": "https://arxiv.org/html/2505.13345v1",
+      "code": "https://github.com/UNITES-Lab/Occult",
+      "read_depth": "Personally read section3.1 and AppendixA.2 Weight Modulation/Algorithms7-8; repository README inspected. No GPU execution performed.",
+      "evidence": "Routing weights multiply intermediate tokens before the second linear layer. Local expert outputs merge before all-to-all; second-linear SMM writes via atomic_add or serial aggregation. GPU output accumulation is Float32 before conversion.",
+      "boundary": "Direct prior for moving alpha and aggregating local linear expert outputs; GPU sparse kernels, not proof of NAND horizontal dense layout, INT8 scale compatibility or native hardware ABI."
+    },
+    {
+      "title": "SLIM: A Heterogeneous Accelerator for Edge Inference of Sparse Large Language Model via Adaptive Thresholding",
+      "version": "arXiv2507.09201v1,2025-07-12",
+      "url": "https://arxiv.org/html/2507.09201v1",
+      "read_depth": "Sections5.4,6.1 and earlier implementation audit.",
+      "evidence": "PE output SRAM stores partial sums; reduce commands collect and accumulate across PEs. Fused FFN processes per-neuron gate/up and corresponding down contributions.",
+      "boundary": "Relevant existing linear partial-output aggregation. The read text does not explicitly describe arbitrary cross-expert horizontal bundles with routing-weighted A8 inputs."
+    },
+    {
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "version": "ISCA2025",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "read_depth": "Original Fig14 and section4.4 pp536-537; section5.2 and footnote9.",
+      "evidence": "Sequential dense submatrix GEMV with specified input dimension; host supplies input/output addresses. Cross-block submatrices split into commands.",
+      "boundary": "Supports the structural native-GEMV reasoning, not an undisclosed scale/output contract."
+    }
+  ],
+  "decision": "Keep horizontal down aggregation in the existing-operator candidate taxonomy; withdraw the blanket claim that different down inputs always require new hardware contexts. Do not claim a new operator or quantified speedup. Matching/cofetch screening should first bound full-cost benefit against the same best baseline, then require native numerical/shape evidence and quality checks."
+}

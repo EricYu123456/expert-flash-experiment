@@ -1,0 +1,13 @@
+{
+  "status": "conditional_kernel_and_capacity_witness",
+  "assumptions": [
+    {"capability": "format", "status": "fixed", "description": "W8_A8, fourplanes,16384-bytepage;privatecomplete row512bytes/shared1024bytes. No numeric format change."},
+    {"capability": "sameWL_skipWL_CR", "status": "user_premise", "description": "All fourplanes read oneWL eachwave, sameblock, no idle gap. No IPR or source permutation is needed."},
+    {"capability": "finite_PB", "status": "inherited_service_envelope", "description": "One read plusone cache weightpage/plane; twootherlatches input. Wholepage perplanecopy500ns overlaps6040ns recycle; overwriteat evaluationstart; cacheheldthroughECCend."},
+    {"capability": "firstpage_and_ECC", "status": "parameter_model", "description": "Firstready28us/finaldischarge0 is conservativeaccounting, not measuredavailability. CR9.7us andsharedECC6.4GB/s are modeled separately; the89.94uskernel is demonstrated byevents, not maxoftworesourcebounds."},
+    {"capability": "private_inputs", "status": "unchanged", "description": "One completeprivate input anddot/job. Twojobs/group undercapacity2 are sequential, eachwithowncoldstart/command/input; no multiple inputcontexts or cross-expert hotchain."},
+    {"capability": "capacity", "status": "verified", "description": "GU<=128WL reservation plusDown252WL/privatechip. Wholejobsblock0/1; common2blocks/chip. GUphase/groupreplica186WL failslocally and is not silently granted."},
+    {"capability": "matching", "status": "bounded_claim", "description": "252copies cannotguarantee capacity1 for alltop6. Minimumdegree3 guarantees capacity2. TRAINperfectmatchingfrequency andnative fullFFN improvement are separate work."},
+    {"capability": "attribution", "status": "standard_baseline", "description": "Ordinary complete-row sharding, expert replication and bipartite matching/CBC availability; no new solver, theorem or hardware claim."}
+  ]
+}

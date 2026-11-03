@@ -1,0 +1,55 @@
+{
+  "created_utc": "2026-11-02T00:07:42.204691+00:00",
+  "sources_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_compile.py": "e05253b3d96ca4e9deef451a276f0f2a8e5049a69583a372a402637ccf8e6e1a",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_backend.py": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_whole_row_compiler.py": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_fit.py": "1f437a51b917bb5c251bb4e8dc031e6638da475adfcab1db8ef5232b545a936c",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_native_labels.cpp": "4039a59b94be9d05ad029f251044622c5d71ac48193fa255989ed9ebaa8f2280",
+    "results/research-2026-11-02/round2/w8-format-training/compiler_inputs.frozen.json": "49563291e385e5c58ee23a21c8c8714aa0a6f007066206030916d1b7fe42c4c1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/deepseek/decode.routes.npz": "11168c1e899c8ce0bf23e719e908f243fa09d30980a65488a3f92aa448344fed"
+  },
+  "arguments": {
+    "models": [
+      "granite4tiny",
+      "deepseek"
+    ],
+    "layers": null,
+    "all_layers": true,
+    "command_ns": [
+      250,
+      5000
+    ],
+    "fit_queries": 1024,
+    "select_queries": 64,
+    "iterations": 4000,
+    "replay_budget": 256,
+    "workers": 8,
+    "reuse_fitting": null,
+    "training_manifest": "results/research-2026-11-02/round2/w8-format-training/compiler_inputs.frozen.json",
+    "input_copies": 4,
+    "output": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4"
+  },
+  "build": {
+    "source": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp",
+    "source_sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+    "binary": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/build/ordinary-read-ef7994fa2ba37a4b.so",
+    "binary_sha256": "7c5464643956a1f9c7ca9d69c9a3e58d40e61e32d25759e0c66211bfbaa3563d",
+    "command": "c++ -std=c++17 -O3 -shared -fPIC SOURCE -o BINARY"
+  },
+  "reused_fitting_inputs_sha256": null,
+  "label_fitter": {
+    "binary": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/build/native_labels.so",
+    "binary_sha256": "816257e67f27a45198be0ca366b5238533c1cf1ea69c0e2d383c21e136af8b0a",
+    "source_sha256": "4039a59b94be9d05ad029f251044622c5d71ac48193fa255989ed9ebaa8f2280",
+    "command": "c++ -std=c++17 -O3 -shared -fPIC SOURCE -o BINARY"
+  },
+  "controls": "Same label-swap iterations and temperatures pergeometry; same complete-row native lowering, controller, channels, PCIe, output-fringe and single chip context. Disjoint, every cyclic width and whole-row work/depth alternatives. All16relative down rotations offered to each family.",
+  "selection": "Training-only finite candidate pairs, valid resource/ownership lowerbounds ordered exact event replay with explicit optional budget. Earlier control is an incumbent for larger pools.",
+  "geometry_deduplication": "Within unrestricted expert-pair label swaps, the initial assigned physical-rowvector histogram defines the exact reachable assignment set. Fit its canonical first candidate once and retain aliases; unused or duplicate ordinal variants add no extra seeded search.",
+  "input_buffer": "32768B is the described AiF two16KiB input read latches perplane, inferred from paper Section4.4/Table2; not an exposed ISA maximum or cross-plane input-capacity aggregation. All seven A8 shapes fit.",
+  "input_fanout": "input_copies counts explicit full-vector ONFI loads perjob, while controller/common PCIe upload staysonce. Actual AiF input-broadcast implementation is unverified; four copies remove the free-broadcast cost assumption without adding independent contexts.",
+  "limits": "Development data reused. No external validation, priority/new-algorithm claim, calibration, native PE arithmetic or full-model speedup. A label fitted for a phase bound need not be a global best label for full FFN service."
+}

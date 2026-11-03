@@ -1,0 +1,87 @@
+SEALED NO-GO for this bounded TRAIN necessary-work screen.
+
+Scope: Granite4 Tiny layer0, inputcopy1, command250ns, ordinary28us/wave,
+all512 existing W8 TRAIN decode routes. Baseline is compact-coupled-solver/
+continuation/native/0107.npz, native mean561099.01953125ns. GU/shared row
+geometry and physical addresses are fixed. No weights, heldout, inference,
+quantization, router scaling, partial dots or new native capabilities were used.
+
+Each routed expert stores exactly one extra complete Down tile:128rows×512B
+=65536B=4pages=1wave. A uses the original Down; B omits its source128-row job
+and puts those original logical rows after the destination's original0/128rows.
+Destination B is one128/256-row contiguous prefix and uses the full original
+private512-element input. Host scatter/scale metadata retain original logical
+row IDs, including the two noncontiguous logical ranges in a256-row job. Every
+Down row and every page/wave boundary is complete: no partial-dot, valid-R or
+fringe-output extension. Whole GU and full-vector dynamic A8 barriers remain.
+
+At128rows the native chip ownership cost is28762ns. Replacing an existing
+128-row destination with256rows adds28256ns while removing the source subtracts
+28762ns: a506ns command250+inputreload256 saving. Destination0 instead preserves
+the job count. This is generic replicated-job allocation, not a new algorithm.
+
+Frozen bounded search:
+ 32 deterministic routeblind layouts, one edge/expert, seed202611071.
+ For each layout/query, exhaust all64 A/B masks for the six selected experts.
+ Start from best finite routeblind layout; at most2TRAIN marginal coordinate
+ passes over all64experts×180 legal source/destination edges,23040 edge proposals.
+ Same fixed A/B edge menu zero-copy static repack control: global perexpert bit,
+ two coordinate passes each fromallA/allB. The initial image is retained.
+ Frozen source/protocol precedes every screen, bound and address stage.
+
+Results (ns, exact mean over512 TRAIN queries):
+ baseline chip-owned work                      555559.67578125
+ best32 routeblind copy oracle                  553866.86718750 (0.3047033%)
+ after firstTRAIN coordinate pass               548921.17578125
+ after secondTRAIN coordinate pass              547829.77343750 (1.3913721%)
+ same-edge zero-copy static repack               555559.67578125
+ routeblind-best same-edge static repack         555559.67578125
+ 292/512 selected-layout oracle queries still chooseallA.
+
+This work improvement is below the frozen2% resource-allocation gate. An initial
+very loose comparison of native baseline with host_submit+min maxchipwork gave
+2.0084238%, because it also removes nearly the entire preexisting native DAG
+gap. work_report.json retains that initial gate flag for provenance; it is not
+an observed speedup and the tighter fixed-executor bound below supersedes it.
+
+Fixed-executor bound (not an arbitrary-scheduler bound):
+ Every selected GU has16positive chip jobs. The current priority scheduler
+ dispatches the first logical expert's GU commands in chip0..15 order. They
+ finish by2000+16×250=6000ns, before any28us GU compute can complete. Therefore
+ chipc's first ownership acquisition is exactly host_submit+c×250ns, unaffected
+ by Down A/B. All its ownership durations are sequential, yielding
+   T >= 2000 + max_c(W_c + c×250).
+ Exhausting all512×64 masks gives minimum bound mean552652.20703125ns.
+ Against the baseline native mean, remaining possible improvement is at most
+ 1.505404965% for this chosen fixed layout/current executor. Three representative
+ full native traces (0/2/5 B choices), independently matched by ReferenceGraph,
+ confirm all first-command offsets2000,2250,...5750ns. No selector overhead or
+ arbitrary delay was added. These three traces are validation, not a full512
+ native speed measurement. The result does not prove global copy-layout or
+ arbitrary-scheduler impossibility.
+
+Independent validation:
+ NumPy independently recomputes the baseline work and every one of32768 masks,
+ verifies the C++ oracle values/chosen masks, routeblind-best values, static
+ controls and all64 logical-row inventories. Each A/B view uses all original
+ 1536 Down rows once; only each designated128-row packet is stored twice.
+ GU/shared remain unchanged; original logical row scale indices are retained.
+
+Resident/address accounting:
+ Extra stored coefficients=8192rows×512B=4194304B=4MiB=256pages=64waves.
+ All64copies count even if never selected. A virtual address checker preserves
+ every baseline GU/shared address and all other Down allocations;51original
+ destination cores are statically relocated into contiguouscore+copy prefixes.
+ Their old slots become free, not a second copy. Each prefix fits oneblock;
+ all reserved intervals are disjoint and both A/B views are complete prefixes.
+ Useful bytes, programmed page bytes and reserved wave bytes each increase by
+ exactly4MiB. Baseline holes fit this image in the same16 LSB blocks (192MiB),
+ but unchanged allocated blocks never turns the resident copy cost into0bytes.
+ These are virtual addresses/row labels, not programmed weights or native ABI.
+
+Decision: stop this finite candidate at the screen. No heavy full-native
+campaign, wholeDown5copies, GU2+Down1/hybrid or generic128-row RDA comparison
+was launched after the gate failed. Those stronger same64wave controls would
+be mandatory before crediting a positive copy contribution. This no-go applies
+only to the frozen32-layout/two-pass finite screen and current fixed executor;
+no heldout result, significance, universal theorem or novelty is claimed.

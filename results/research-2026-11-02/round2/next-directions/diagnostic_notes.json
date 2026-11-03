@@ -1,0 +1,191 @@
+{
+  "date": "2026-11-02",
+  "selected_direction": "Exact independently decodable I8 payload compression",
+  "disposition": "No-go for a large new placement claim on sampled existing Q8 streams; not a theorem about every codec or quantization format.",
+  "measured": {
+    "source": "2a866377bafc973a330297f589a31ed0cb49f196a571412e0dfb3a905e947d41",
+    "summary": [
+      {
+        "model": "deepseek",
+        "tile_bytes": 16384,
+        "sampled_shards": 36,
+        "payload_bytes": 9689856,
+        "weighted_entropy_bits": 7.687063963649587,
+        "best_payload_bytes_fraction": 0.9697383531808935,
+        "summed_sampled_shard_nand_gain": 0.0,
+        "shards_with_fewer_waves": 0
+      },
+      {
+        "model": "deepseek",
+        "tile_bytes": 65536,
+        "sampled_shards": 36,
+        "payload_bytes": 9689856,
+        "weighted_entropy_bits": 7.687063963649587,
+        "best_payload_bytes_fraction": 0.965715589581517,
+        "summed_sampled_shard_nand_gain": 0.0,
+        "shards_with_fewer_waves": 0
+      },
+      {
+        "model": "qwen3",
+        "tile_bytes": 16384,
+        "sampled_shards": 27,
+        "payload_bytes": 5308416,
+        "weighted_entropy_bits": 7.321136553905147,
+        "best_payload_bytes_fraction": 0.9236058364679784,
+        "summed_sampled_shard_nand_gain": 0.0,
+        "shards_with_fewer_waves": 0
+      },
+      {
+        "model": "qwen3",
+        "tile_bytes": 65536,
+        "sampled_shards": 27,
+        "payload_bytes": 5308416,
+        "weighted_entropy_bits": 7.321136553905147,
+        "best_payload_bytes_fraction": 0.9193929036458334,
+        "summed_sampled_shard_nand_gain": 0.0,
+        "shards_with_fewer_waves": 0
+      },
+      {
+        "model": "mixtral",
+        "tile_bytes": 16384,
+        "sampled_shards": 36,
+        "payload_bytes": 198180864,
+        "weighted_entropy_bits": 7.677367841687152,
+        "best_payload_bytes_fraction": 0.9682093827182023,
+        "summed_sampled_shard_nand_gain": 0.023809523809523836,
+        "shards_with_fewer_waves": 36
+      },
+      {
+        "model": "mixtral",
+        "tile_bytes": 65536,
+        "sampled_shards": 36,
+        "payload_bytes": 198180864,
+        "weighted_entropy_bits": 7.677367841687152,
+        "best_payload_bytes_fraction": 0.9641925165892908,
+        "summed_sampled_shard_nand_gain": 0.029761904761904767,
+        "shards_with_fewer_waves": 36
+      }
+    ],
+    "tile_roundtrip_checks": 48810,
+    "bytes_read": 213179136
+  },
+  "mechanisms": [
+    {
+      "name": "Compressed row-shard lengths and physical page placement",
+      "necessary_work_change": "Exact codec reduces physically fetched bytes before ECC and native-I8 MAC. This can invalidate a dense one-byte-per-weight NAND work lower bound.",
+      "model": "T_chip >= max(28000*ceil(ceil(compressed_shard_bytes/16384)/4), physical_pages*2560, decoded_weight_bytes/R_decoder, useful_weights/R_MAC); metadata and independent-stream boundaries included.",
+      "actual_evidence": "99 complete frozen-placement row shards from three layers/three experts/chips0,8; independent16/64KiB raw/bitshuffle/zigzag Zstd3 frames. Deep/Qwen never reduce a single sampled ordinary wave; Mixtral summed sampled waves improve2.38/2.98%.",
+      "generic_vs_placement": "Compare compressed g16 and compressed strongest projection using identical codec, metadata, decoder and capacity. Only further chip/page assignment or row splitting gains count as placement. Byte compression against uncompressed placement is generic prior benefit.",
+      "fastest_remaining_test": "None justified without a new codec or representation showing substantially more redundancy. Shared-layer ANS could approach the measured symbol entropy but that alone is only about4/8.5/4% payload headroom, before page rounding. Zero-order entropy is not a universal conditional-entropy bound.",
+      "go_gate": "Demonstrate >10% physical waves reduction across all selected chips/layers and >10% placement gain over equally compressed strong baseline, then synthesize/measure adequate decoder throughput and area."
+    },
+    {
+      "name": "Exact shared tile/base representation",
+      "necessary_work_change": "Identical gate/up weight rows with the same x can be computed once; a shared exact base plus genuinely compressible residual could amortize work. Down inputs differ per expert, so weight sharing alone does not grant shared GEMV results.",
+      "actual_evidence": "First-layer first64rows expert0 vsE/2 across gate/up/down: zero identical aligned Q8 blocks among65792. XOR delta entropy rises to7.93-7.95bits and Zstd residual grows3.66/8.96/3.67% relative to direct payload.",
+      "bound": "For native-I8 arithmetic, an exact additive residual may require9bits. If residual coding is not smaller than direct coding, storing/reading the base adds work. Generic low-rank approximation is lossy and heavily covered by prior work.",
+      "fastest_remaining_test": "Arbitrary permutation/deduplication not searched. Full-row exact repeats are unlikely given the negative aligned-block sample, but only a complete hash scan could prove absence. No large scan justified yet.",
+      "go_gate": "Find substantial exact common submatrices under a scale-preserving permutation and include base/residual reads, extra GEMVs, activation dependencies and result combine costs."
+    },
+    {
+      "name": "Neuron/column permutation with selective precision or zero-column pages",
+      "necessary_work_change": "Pack correlated optional residual bitplanes or co-zero input columns into actual NAND pages, allowing those pages to be skipped while a quality target is maintained.",
+      "bound": "For down-only zero skipping the absolute whole-expert weight-work saving cannot exceed z/3 before page effects. With independent zero columns probability z and m columns/page, expected page-skip rate is z^m. For H2048 and a16KiB full-output column tile m=8; z=.5 yields only0.390625% down-page skips absent correlations.",
+      "prior_risk": "SLIM/Apple-style neuron/page bundling, Atom/OA-LAMA reordering, Any-Precision/AnyBCQ bitplanes and PagedWeight expert precision paging already cover generic mechanisms. Mere migration to NAND is not sufficient novelty.",
+      "fastest_experiment": "Capture actual post-SwiGLU expert activations on a bounded prompt subset; calculate page-all-zero or thresholded-page skip rates before writing a selector. Existing corpus stores routes, not activations, so routing cannot establish this headroom.",
+      "quality": "Exact-F32 SiLU outputs rarely vanish; nativeA8 exact zeros or thresholding needs a fresh numerical baseline. For lossy precision/thresholds run a fixed public QA/math/code quality suite and perplexity; token agreement alone is not quality.",
+      "go_gate": "Show a material gap over same-quality SLIM/Any-Precision/PagedWeight-like baseline caused specifically by NAND page/WL constraints and coupled gate/up/down permutation."
+    }
+  ],
+  "quantization_boundary": {
+    "path": "row_quantization_boundary.json",
+    "interpretation": "Per-row INT8 requantization of dequantized Q8 changes weights by about0.8-1.0% relativeL2 in the sampled rows, improves entropy to7.0-7.2bits, but is not lossless and model quality is untested. Existing Q8 no-go must not be extrapolated to all future nativeINT8 quantization schemes."
+  },
+  "priors": [
+    {
+      "name": "APack",
+      "url": "https://arxiv.org/abs/2201.08830",
+      "scope": "Lossless fixed-point quantized weights, distribution-adaptive arithmetic coding, parallel Verilog encoder/decoder at memory controller; direct generic-compression baseline."
+    },
+    {
+      "name": "Huff-LLM",
+      "url": "https://arxiv.org/html/2502.00922v1",
+      "scope": "End-to-end compressed weights with near-PE Huffman decoding; published GF12 synthesis and area overhead. Its FP weight codecs and throughput cannot be assigned unchanged to this INT8 AiF datapath."
+    },
+    {
+      "name": "Approaching Shannon Bound with Lossless LLM Weight Compression",
+      "url": "https://arxiv.org/html/2606.15789v1",
+      "scope": "Independent tile-addressable ANS substreams, layer-wide codebook and offset table, decode fused with GEMM, includes INT8/group-quantized formats. Independent expert tiles are not novelty."
+    },
+    {
+      "name": "Near-memory NMT Huffman decompression",
+      "url": "https://munir.iscaaslab.com/wp-content/uploads/2024/07/Munir_NMT_IEEEAccess_2023.pdf",
+      "scope": "Author-hosted IEEE Access 2023 paper describes quantized/Huffman weights decoded in near-HBM logic; confirms near-memory decoder placement predates this study. Second university mirror timed out."
+    },
+    {
+      "name": "Any-Precision LLM",
+      "url": "https://proceedings.mlr.press/v235/park24e.html",
+      "scope": "ICML2024 bit-plane representation for multiple quantization widths in one stored model."
+    },
+    {
+      "name": "AnyBCQ",
+      "url": "https://arxiv.org/abs/2510.10467",
+      "scope": "ICLR2026 hardware-friendly direct bit-plane operations and request-level precision selection."
+    },
+    {
+      "name": "PagedWeight",
+      "url": "https://arxiv.org/abs/2607.16184",
+      "scope": "July2026 runtime quality-aware MoE expert-weight quantization and page management. Direct strong prior to optional precision pages."
+    },
+    {
+      "name": "Atom",
+      "url": "https://proceedings.mlsys.org/paper_files/paper/2024/file/5edb57c05c81d04beb716ef1d542fe9e-Paper-Conference.pdf",
+      "scope": "MLSys2024 activation/weight reordering for efficient mixed-precision execution; permutation and outlier separation are established."
+    },
+    {
+      "name": "LorExperts and BTExperts",
+      "url": "https://arxiv.org/abs/2608.07814",
+      "scope": "2026 local dominant experts plus low-rank corrections and shared-computation trees. Generic shared low-rank corrections are not an unexplored mechanism."
+    },
+    {
+      "name": "PARSER residual sparsification",
+      "url": "https://arxiv.org/abs/2609.00575",
+      "scope": "2026 expert output-aware sparse residual compression; generic shared-base/residual mechanisms are established."
+    }
+  ],
+  "sources": [
+    {
+      "model": "deepseek",
+      "metadata_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-metadata.json",
+      "metadata_sha256": "76bc65fa3f07436199f1f6b2688f01a0c7ccdb97a29b6c7d67c2eba11327e27c",
+      "gguf_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-v2-lite-chat-q8_0.gguf",
+      "gguf_sha256_from_existing_metadata": "09d9abe9170d14386b0a54fe3969035f6a770956cfefa7d2fbaa12e0900a2ba4",
+      "gguf_not_rehashed": true,
+      "frozen_projection_sha256": "0ae1d30a49efeeb799061d9116889f0c0f1da642d624767c28ea2a1667e7cf5f"
+    },
+    {
+      "model": "qwen3",
+      "metadata_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/qwen3-metadata.json",
+      "metadata_sha256": "b4964a4ec9f5787f6783662d00f2a2595af515317132c9fabffb9dfecaa84be6",
+      "gguf_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/qwen3-30b-a3b-instruct-2507-q8_0.gguf",
+      "gguf_sha256_from_existing_metadata": "e94f6d77ac50d82a849d9a1b4eced5a4a0ba91b4537c58630971340308bb1d33",
+      "gguf_not_rehashed": true,
+      "frozen_projection_sha256": "fa63798a1a7cf473fc6ecd9bf5b3546836baab39b783fea25181d8111ecb3242"
+    },
+    {
+      "model": "mixtral",
+      "metadata_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/mixtral-metadata.json",
+      "metadata_sha256": "925e117ba7d0ad721afafa20b413aa9baa89cb700e52aa946a52b43268884f26",
+      "gguf_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/mixtral-8x7b-instruct-v0.1-q8_0.gguf",
+      "gguf_sha256_from_existing_metadata": "72120c812f3e2406fa94bf4f7f5421ecc287ff3e875d0772836f300342d44162",
+      "gguf_not_rehashed": true,
+      "frozen_projection_sha256": "691154aaffc6620d42115b0c239691ac618898e6fd241e0ffdebc887ab84d3f2"
+    }
+  ],
+  "artifacts": {
+    "exact_shared_probe.json": "cadc949fd9fd86dc89f73d4157987fc35d6b35aa584e787698e17d2b9b3e598c",
+    "weight_probe.json": "2a080c83d839e376124e0761d46ed7c45622237361a025c12405568ac98e43c3",
+    "weight_probe.py": "2a866377bafc973a330297f589a31ed0cb49f196a571412e0dfb3a905e947d41",
+    "row_quantization_boundary.json": "c849fe548ad949434b788b7566d25a61f31ea9e7028eb1b263bb132e6498b28e"
+  }
+}

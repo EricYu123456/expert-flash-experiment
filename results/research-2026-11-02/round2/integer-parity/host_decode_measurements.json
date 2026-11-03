@@ -1,0 +1,257 @@
+{
+  "source_sha256": "145cea594c6a64b047c1ca93eff81044fc557776c55731f8fb81c37245e1746c",
+  "binary_sha256": "f690716de38e358bd3f8602584afce0d2277322c84c6a32e97cf8a9cc138d863",
+  "library_sha256": "603bca4738bf7a1add04307f9d1ec354068ce9b36b452023fa32b4d9e50b9f36",
+  "cross_language_checks": 24,
+  "measurements": [
+    {
+      "rows": 64,
+      "experts": 8,
+      "known_shards": 7,
+      "median_ns": 1474.62,
+      "p95_ns": 1505.96,
+      "checksum": 22161
+    },
+    {
+      "rows": 64,
+      "experts": 8,
+      "known_shards": 15,
+      "median_ns": 3081.49,
+      "p95_ns": 3145.14,
+      "checksum": 11761
+    },
+    {
+      "rows": 96,
+      "experts": 8,
+      "known_shards": 7,
+      "median_ns": 2329.23,
+      "p95_ns": 2436.08,
+      "checksum": 14832
+    },
+    {
+      "rows": 96,
+      "experts": 8,
+      "known_shards": 15,
+      "median_ns": 4591.65,
+      "p95_ns": 4623.51,
+      "checksum": -20795
+    },
+    {
+      "rows": 128,
+      "experts": 8,
+      "known_shards": 7,
+      "median_ns": 2992.34,
+      "p95_ns": 3015.54,
+      "checksum": 7502
+    },
+    {
+      "rows": 128,
+      "experts": 8,
+      "known_shards": 15,
+      "median_ns": 6121.82,
+      "p95_ns": 6161.77,
+      "checksum": -53332
+    },
+    {
+      "rows": 137,
+      "experts": 6,
+      "known_shards": 7,
+      "median_ns": 2408.98,
+      "p95_ns": 2439.63,
+      "checksum": 12929
+    },
+    {
+      "rows": 137,
+      "experts": 6,
+      "known_shards": 15,
+      "median_ns": 4920.31,
+      "p95_ns": 4935.81,
+      "checksum": -30892
+    },
+    {
+      "rows": 192,
+      "experts": 6,
+      "known_shards": 7,
+      "median_ns": 3354.74,
+      "p95_ns": 3427.09,
+      "checksum": 2834
+    },
+    {
+      "rows": 192,
+      "experts": 6,
+      "known_shards": 15,
+      "median_ns": 6792.73,
+      "p95_ns": 6840.59,
+      "checksum": -4600
+    },
+    {
+      "rows": 256,
+      "experts": 2,
+      "known_shards": 7,
+      "median_ns": 1476.57,
+      "p95_ns": 1516.32,
+      "checksum": 18128
+    },
+    {
+      "rows": 256,
+      "experts": 2,
+      "known_shards": 15,
+      "median_ns": 3083.99,
+      "p95_ns": 3101.49,
+      "checksum": -8399
+    },
+    {
+      "rows": 256,
+      "experts": 8,
+      "known_shards": 7,
+      "median_ns": 5929.57,
+      "p95_ns": 5969.38,
+      "checksum": -19492
+    },
+    {
+      "rows": 256,
+      "experts": 8,
+      "known_shards": 15,
+      "median_ns": 12088.1,
+      "p95_ns": 12157.2,
+      "checksum": -31094
+    },
+    {
+      "rows": 1792,
+      "experts": 2,
+      "known_shards": 7,
+      "median_ns": 10335.4,
+      "p95_ns": 10419.8,
+      "checksum": 1705
+    },
+    {
+      "rows": 1792,
+      "experts": 2,
+      "known_shards": 15,
+      "median_ns": 20799.3,
+      "p95_ns": 20971.4,
+      "checksum": 6110
+    }
+  ],
+  "commands": [
+    [
+      "g++",
+      "-O3",
+      "-march=native",
+      "-std=c++17",
+      "/home/ericyu/expert_flash_experiment/scripts/research_20261102_parity_decode_bench.cpp",
+      "-o",
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench"
+    ],
+    [
+      "g++",
+      "-O3",
+      "-march=native",
+      "-std=c++17",
+      "-shared",
+      "-fPIC",
+      "/home/ericyu/expert_flash_experiment/scripts/research_20261102_parity_decode_bench.cpp",
+      "-o",
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode.so"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "64",
+      "8",
+      "7"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "64",
+      "8",
+      "15"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "96",
+      "8",
+      "7"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "96",
+      "8",
+      "15"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "128",
+      "8",
+      "7"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "128",
+      "8",
+      "15"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "137",
+      "6",
+      "7"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "137",
+      "6",
+      "15"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "192",
+      "6",
+      "7"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "192",
+      "6",
+      "15"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "256",
+      "2",
+      "7"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "256",
+      "2",
+      "15"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "256",
+      "8",
+      "7"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "256",
+      "8",
+      "15"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "1792",
+      "2",
+      "7"
+    ],
+    [
+      "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/integer-parity/parity-decode-bench",
+      "1792",
+      "2",
+      "15"
+    ]
+  ],
+  "platform": "Linux-6.8.0-101-generic-x86_64-with-glibc2.35",
+  "compiler": "g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+  "scope": "Warm host-memory native I64 decode kernel only. Does not include DMA, interrupts, dispatch, accelerator compute, or cold-memory cache effects."
+}

@@ -1,0 +1,74 @@
+{
+  "created_utc": "2026-11-02T04:26:56.379455+00:00",
+  "sources": [
+    {
+      "id": "AiF",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "year": 2025,
+      "venue": "ISCA2025",
+      "actually_read": "Local paper/aif.txt §4.4,§6.1/Table2,and§4.4Table1 area/power reread;not a new full paper reading.",
+      "evidence": "Evaluated8channels×2chips/channel,4planes/chip,16KiBpage,2.0GB/s perchannel. Architecture adds per-chipECCLite/PEs/inputPB use;Table1 reports perchiplogic.",
+      "inference": "8/16/32/64independent AiFcompute owners on8fixedchannels can be labeled1/2/4/8ways in a scale model,provided eachowner retains its own full AiFchip resources. CommodityNAND topology doesnot establish fabricatedAiFchips."
+    },
+    {
+      "id": "SMI",
+      "url": "https://www.siliconmotion.com/download/3bn/a/SM2264_PB_EN.pdf",
+      "alternate_url": "https://ir.siliconmotion.com/news-releases/news-release-details/silicon-motion-launches-pcie-40-nvme-14-controller-solutions",
+      "year": "2022brief;2020release",
+      "actually_read": "Officialrelease fullpage and productbrief indexedspecification. Seeweb_primary_reading.json;requestsDNSfailure explicitly retained.",
+      "evidence": "8NANDchannels and8CE/channel,64CEtotal advertised.",
+      "inference": "An8channelcontroller with4or8addressable targets/channel is a supported existing storagetopology. CEcount is not packagecount,diecount,or computecontextcount."
+    },
+    {
+      "id": "Cosmos",
+      "url": "https://github.com/Cosmos-OpenSSD/Cosmos-plus-OpenSSD/tree/78601486bb5581e40628ec7e841dea8e97eff034",
+      "commit": "78601486bb5581e40628ec7e841dea8e97eff034",
+      "actually_read": "ftl_config.h macros,driver read-trigger/read-transfer/status functions,FMCTop.v parameter andreadybusy ports;recursive tree includesPrebuild/8Ch8Way-3.0.0. No firmware/FPGA build or device execution.",
+      "evidence": "NSC_MAX_WAYS8,USER_WAYS8,up to8mappedchannels;driver selectsway percommand and separates asynchronousarray-readtrigger from transfer. RTLNumberOfWays8 andperwayReadyBusy. FirmwareUSER_DIES=channels×ways butalsoLUNS_PER_DIE2.",
+      "inference": "Official publiccontroller artifact supports8-way topology/interleaving. Its DIE/way/LUN naming is not a physicaldie identity proof:do not multiplyUSER_DIES byLUNS_PER_DIE to claim free independentcomputeunits."
+    },
+    {
+      "id": "ONFI",
+      "url": "https://onfi.org/files/ONFI_6_0_Final.pdf",
+      "actually_read": "Onlyofficialindexeddefinitionsexcerpts,p3§1.3.1.15/18/20;fullspec accesses rejected.",
+      "evidence": "Target/HostTarget/LUN hierarchy distinct,includingCEpinreduction.",
+      "inference": "A packagedchip maycontainmultipleCEtargets;atargetmaycontainmultipleLUNs;physicaldie-to-LUN mapping is part-specific. Independentstandardcommand/status doesnot proveindependentIFPinput,PE,accumulator or FIFO."
+    },
+    {
+      "id": "CRAFT-paper",
+      "url": "https://arxiv.org/html/2603.28768v2",
+      "version": "v2,2026-05-29;MLSys2026",
+      "title": "CRAFT: Fine-Grained Cost-Aware Expert Replication For Efficient Mixture-of-Experts Serving",
+      "actually_read": "v1§4/AppendixAfirstread,thenlatestv2§4.1–4.3,§5.1/5.4/5.5excerpts,AppendixAalgorithmsandEartifact. Notallplots/evaluationread.",
+      "evidence": "Replayperlayerreplicationbenefit;MCKP/DPallocatesglobalreplicabudget;capacity-awareinterleavingbalancesreplicasacrossdevices;workloadshiftperiodicrebalancing.",
+      "inference": "Directprioragainstfirstcost-awarebudgetedreplication/perlayerglobalcapacityallocation/scalingclaims. AppropriateadaptedcontrolfitscopybudgetsacrosslayerswithcorrectNANDcosts;notwhole-rowwave/addressorprefixABIprior."
+    },
+    {
+      "id": "CRAFT-code",
+      "url": "https://github.com/Accelsnow/CRAFT_core/tree/968ecd9882d020e7c36471ff51368a9862aab2c0",
+      "commit": "968ecd9882d020e7c36471ff51368a9862aab2c0",
+      "archive": "https://doi.org/10.5281/zenodo.19022696",
+      "actually_read": "README/environment;craft_core.py functionscreate_balanced_tensor_interleaved,run_bal_trials,compute_replicate_benefits,round_final_alloc,craft_expert_replica_allocation; eplb_craft.py packing/replication interfaces. No execution or trace download.",
+      "evidence": "CPU-onlycorepublicartifact;providedtraces areexpertload tensors. CurrentmainallocationCLI usesreplicamenu[0,4,8,16,32],benefitthresholdsandrounding;noexactbudgetedDPentryfoundinthiscorefunction. Replaydividesloadbycopycountusingfloor//.",
+      "inference": "Canreuseplacement/profilecontrolideas,butcannotcallthisCLIanexactMCKPimplementation. Aone-tokenload1withcopies>1wouldfloor0:anativeadaptermustconservediscreteworkandchooselegalreplicas,notreusefractional/floorbalancednessaslatency. Thisdoesnotre-evaluatepaperGPUbatchresults."
+    },
+    {
+      "id": "BALANCE",
+      "url": "https://www.aspdac.com/aspdac2026/archive/pdf/4B-2.pdf",
+      "doi": "10.1109/ASP-DAC66049.2026.11420589",
+      "year": 2026,
+      "venue": "ASP-DAC2026",
+      "actually_read": "Official19-slidepresentationtext,especiallypp6–12methodsandp16ECCthroughput. Published7-pagepaperfulltextnotobtained;diagramsnotfullyreverseengineered. Slidefooter2026-01-15isdeckdate,notassertedconferencedate.",
+      "evidence": "Bits/layersensitivityranksSEUs;greedyECCassignment;slide12distributesSEUsacrossdies/planesandmapsimportantSEUstoreliablelowerpages. Slide16 6.4Gb/sisECCthroughput,notvalidatedGEMVMAClaneperformance.",
+      "inference": "Importance-awareflashpageplacementplusreliabilityprotectionisexplicitprior. Proposinggenericcriticalweights-on-reliablepagescannotbeclaimednew. Inspectedslidesdonotestablishthecomplete-rowintegergeometrymechanism;unknownpublishedbodydetailsarenotexcluded."
+    },
+    {
+      "id": "KVNAND",
+      "url": "https://arxiv.org/html/2512.03608v1",
+      "version": "v1,2025-12-03;venue not verified",
+      "actually_read": "§III-D,full§IV-A–D,§V-A/TableIandV-Bscalability/DSE;notallenergy/reliabilityexperiments. Noverifiedauthorartifactlinkfoundininspectedpaper.",
+      "evidence": "Compute-enabledIFCdies,explicitweight/KVdiegroupDSEandcompactco-location,headgrouppipelining,pagelevelhead/layerKVmapping,access-awareblockallocationandrefresh. DSEcompares8/16dieconfigurations;32planes/4KiBpage/SLC/4usread/16FMACperplaneareitsproposedmodel.",
+      "inference": "Diegroupallocation,headparallelism,page-localityandaccess-awarewearplacementareprior. Itisaproposed/synthesizedlogic+systemsimulationarchitecture,notcommercialordinaryNANDnorAiFtiming. Do nottransferitsplaneinput/computeindependenceor4usreadtoourmodel;itsnewlogic/buffersareexplicitresources."
+    }
+  ]
+}

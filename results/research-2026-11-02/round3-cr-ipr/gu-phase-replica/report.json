@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "verification_protocol_sha256": "5ee2a1aee5fd1065d2eb54c9e63fedb25c5bebab9d0c168d5ec2cb322689324b",
+  "availability_classes": 16,
+  "all_top6_routes": 74974368,
+  "sealed_reference_bridges": 432,
+  "capacity": {
+    "status": "PASS",
+    "total_pages": 21216,
+    "total_MiB": 331.5,
+    "GU_MiB": 186.0,
+    "extra_GU_MiB": 87.0,
+    "triple_private_Down_MiB": 144.0,
+    "shared_Down_MiB": 1.5,
+    "capacity_budget_MiB": 384.0,
+    "nonempty_blocks": 28,
+    "assumption": "GU rowbyte1536 andsourceW8 unchanged; replicated fullGU tensors differonlyphysicalplacement. G8templatesexpertshard128rowschip%8;phaseexpertshard64rowschip. Shared128rowschip inbothschemes. AllDownwhole384rows."
+  },
+  "kernel_results": {
+    "phase_fixed0123_split500_ns": 155140,
+    "group_fixed0123_IPRsplit500_ns": 155140,
+    "group_fixed0123_sameWLwholeDummy500_ns": 155680,
+    "phase_or_group_plain100_noDrop_ns": 150980,
+    "plain500": "strictfinitePBfails"
+  },
+  "interpretation": "Two-servercapacity3 CBC/grouploadbalancingprior; standardg8wholeGUreplicasareequal87MiBstrongcontrolandmatchphaseIPRsplitkerneltiming. Phase-specificnoveltynotestablished. SameWLg8whole-dummy needsnoIPR,onlyskipWLCRandconditionalpreECCdrop.",
+  "limits": [
+    "NoTRAIN,heldout,fullFFNreplayormodelvaluechange.",
+    "NativepreECCdropunverified; fixedPBsource0123usedthroughout.",
+    "IPRsplitmodeandtrueSAME-WLwhole-dummymodeareseparatecontrols.",
+    "All-dummyemptyusefulwavecannotbe passedtosealedv1;restrictedreferenceexplicitlyextendsthisinputdomainandbridges432nonemptycases.",
+    "NewPEselector,inputcontext,FIFO,idleholdorpartialdotreductionnotintroduced.",
+    "Firstavailabilityconservative28us,notmeasured;ECC6.4GB/sandCR9.7uskeptseparate."
+  ]
+}

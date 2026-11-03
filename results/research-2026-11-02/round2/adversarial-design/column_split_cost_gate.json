@@ -1,0 +1,213 @@
+{
+  "status": "algebraic cost gate only; not a native-legality or novelty certificate",
+  "items": [
+    {
+      "model": "granite4tiny",
+      "phase": "gate_up",
+      "source_plan": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/unbalanced-group/granite4tiny.screen.strong.frozen.json",
+      "source_plan_sha256": "87a6893f76a3381877ca8952542d08ca65edf224fc47846a32ae004e3ae944cd",
+      "training_routes_sha256": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+      "records": [
+        {
+          "layer": 0,
+          "K": 6,
+          "R": 1024,
+          "C": 1536,
+          "mean_m": 3.4697265625,
+          "original_peak_waves": "3*m",
+          "candidate_peak_waves": "K+m",
+          "original_mean_ns": 310064.28125,
+          "candidate_excluding_host_sum_ns": 301904.34375,
+          "original_p99_ns": 438608.0,
+          "candidate_excluding_host_sum_p99_ns": 344752.0,
+          "nonflash_penalty_mean_ns": 18144.75,
+          "break_even_mean_host_sum_ns": 8159.9375,
+          "break_even_mean_m": 3.3240133928571427,
+          "scalar_adds_per_query": 6144,
+          "minimum_three_array_pass_bytes_for_host_sum": 73728,
+          "profile": {
+            "row_blocks": 8,
+            "rows_per_block": 128,
+            "big_columns": 1024,
+            "small_columns": 512,
+            "big_waves": 2,
+            "small_waves": 1,
+            "native_commands_per_query": 96
+          },
+          "costs_before_host_sum": {
+            "flash_ns": 265152.34375,
+            "control_ns": 24000.0,
+            "host_ns": 2000.0,
+            "input_ns": 4608.0,
+            "output_ns": 6144.0
+          }
+        },
+        {
+          "layer": 1,
+          "K": 6,
+          "R": 1024,
+          "C": 1536,
+          "mean_m": 3.49072265625,
+          "original_peak_waves": "3*m",
+          "candidate_peak_waves": "K+m",
+          "original_mean_ns": 311828.328125,
+          "candidate_excluding_host_sum_ns": 302492.234375,
+          "original_p99_ns": 438608.0,
+          "candidate_excluding_host_sum_p99_ns": 344752.0,
+          "nonflash_penalty_mean_ns": 18144.375,
+          "break_even_mean_host_sum_ns": 9336.09375,
+          "break_even_mean_m": 3.3240066964285715,
+          "scalar_adds_per_query": 6144,
+          "minimum_three_array_pass_bytes_for_host_sum": 73728,
+          "profile": {
+            "row_blocks": 8,
+            "rows_per_block": 128,
+            "big_columns": 1024,
+            "small_columns": 512,
+            "big_waves": 2,
+            "small_waves": 1,
+            "native_commands_per_query": 96
+          },
+          "costs_before_host_sum": {
+            "flash_ns": 265740.234375,
+            "control_ns": 24000.0,
+            "host_ns": 2000.0,
+            "input_ns": 4608.0,
+            "output_ns": 6144.0
+          }
+        },
+        {
+          "layer": 2,
+          "K": 6,
+          "R": 1024,
+          "C": 1536,
+          "mean_m": 3.49609375,
+          "original_peak_waves": "3*m",
+          "candidate_peak_waves": "K+m",
+          "original_mean_ns": 312279.125,
+          "candidate_excluding_host_sum_ns": 302642.625,
+          "original_p99_ns": 438608.0,
+          "candidate_excluding_host_sum_p99_ns": 344752.0,
+          "nonflash_penalty_mean_ns": 18144.75,
+          "break_even_mean_host_sum_ns": 9636.5,
+          "break_even_mean_m": 3.3240133928571427,
+          "scalar_adds_per_query": 6144,
+          "minimum_three_array_pass_bytes_for_host_sum": 73728,
+          "profile": {
+            "row_blocks": 8,
+            "rows_per_block": 128,
+            "big_columns": 1024,
+            "small_columns": 512,
+            "big_waves": 2,
+            "small_waves": 1,
+            "native_commands_per_query": 96
+          },
+          "costs_before_host_sum": {
+            "flash_ns": 265890.625,
+            "control_ns": 24000.0,
+            "host_ns": 2000.0,
+            "input_ns": 4608.0,
+            "output_ns": 6144.0
+          }
+        }
+      ],
+      "aggregate_mean_host_sum_budget_ns": 27132.53125
+    },
+    {
+      "model": "qwen3",
+      "phase": "down",
+      "source_plan": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/unbalanced-group/qwen3.screen.strong.frozen.json",
+      "source_plan_sha256": "bd676d49084bc6e86b5d36ed91e2d40f216df243d7dd3718df6af49098c19921",
+      "training_routes_sha256": "4bed198ec0532aaa393fa338aad61763c019b496bd2c78063405113063571db0",
+      "records": [
+        {
+          "layer": 0,
+          "K": 8,
+          "R": 2048,
+          "C": 768,
+          "mean_m": 4.44873046875,
+          "original_peak_waves": "3*m",
+          "candidate_peak_waves": "K+m",
+          "original_mean_ns": 402957.359375,
+          "candidate_excluding_host_sum_ns": 402020.453125,
+          "original_p99_ns": 533264.0,
+          "candidate_excluding_host_sum_p99_ns": 445456.0,
+          "nonflash_penalty_mean_ns": 24192.0,
+          "break_even_mean_host_sum_ns": 936.90625,
+          "break_even_mean_m": 4.432,
+          "scalar_adds_per_query": 16384,
+          "minimum_three_array_pass_bytes_for_host_sum": 196608,
+          "profile": {
+            "row_blocks": 8,
+            "rows_per_block": 256,
+            "big_columns": 512,
+            "small_columns": 256,
+            "big_waves": 2,
+            "small_waves": 1,
+            "native_commands_per_query": 128
+          },
+          "costs_before_host_sum": {
+            "flash_ns": 348564.453125,
+            "control_ns": 32000.0,
+            "host_ns": 2000.0,
+            "input_ns": 3072.0,
+            "output_ns": 16384.0
+          }
+        },
+        {
+          "layer": 1,
+          "K": 8,
+          "R": 2048,
+          "C": 768,
+          "mean_m": 4.552734375,
+          "original_peak_waves": "3*m",
+          "candidate_peak_waves": "K+m",
+          "original_mean_ns": 411693.6875,
+          "candidate_excluding_host_sum_ns": 404932.5625,
+          "original_p99_ns": 533264.0,
+          "candidate_excluding_host_sum_p99_ns": 445456.0,
+          "nonflash_penalty_mean_ns": 24192.0,
+          "break_even_mean_host_sum_ns": 6761.125,
+          "break_even_mean_m": 4.432,
+          "scalar_adds_per_query": 16384,
+          "minimum_three_array_pass_bytes_for_host_sum": 196608,
+          "profile": {
+            "row_blocks": 8,
+            "rows_per_block": 256,
+            "big_columns": 512,
+            "small_columns": 256,
+            "big_waves": 2,
+            "small_waves": 1,
+            "native_commands_per_query": 128
+          },
+          "costs_before_host_sum": {
+            "flash_ns": 351476.5625,
+            "control_ns": 32000.0,
+            "host_ns": 2000.0,
+            "input_ns": 3072.0,
+            "output_ns": 16384.0
+          }
+        }
+      ],
+      "aggregate_mean_host_sum_budget_ns": 7698.03125
+    }
+  ],
+  "formulas": {
+    "flash_saving_ns": "28000*(2*m-K)",
+    "cost_gate": "mean host_sum_ns <56000*(E[m]-K/2)-E[extra command/input/output ns]",
+    "color_learning": "Both old3*m and newK+m objectives are monotonic affine functions of m. Reusing the same learned binary colors is not a new orientation-learning algorithm."
+  },
+  "critical_controls": [
+    "Cambricon-LLM hardware-aware2D page tiling, mapped onto existing AiF commands without importing its extra hardware features.",
+    "Uniform64KiB512-column atoms with generic static coactivation declustering and exact native-command/partial-output costs.",
+    "The same atom baseline with legal rectangular fusion/repacking into128x1024 or256x512 matrices; this feasible family contains the proposed2:1layout, so no universal gap over its optimum can be claimed.",
+    "Equal-column halves; all whole-row strong baselines; random/frequency/learned orientation under identical rows and storage.",
+    "Measured host sum, per-command input reload, partial output dtype/dequantization and shape-dependent PE throughput."
+  ],
+  "qualifications": [
+    "No new routing fit, test read, quantization, replica, or hardware implementation.",
+    "The predicted margins can disappear after host reduction, native ABI, column-dependent arithmetic throughput or a stronger2D rectangle-coalescing baseline.",
+    "Previous no-go results apply to whole-output-row layouts, not to all compositions of existing denseGEMV."
+  ],
+  "source_sha256": "1f828e1427fbd807fc9cf4ebf35f4bd07578a51fb9355f72fdef2e947e855f8d"
+}

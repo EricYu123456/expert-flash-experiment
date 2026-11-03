@@ -1,0 +1,34 @@
+{
+  "status": "PASS independent text-source membership/selection audit",
+  "created_utc": "2026-11-01T23:09:30.051563+00:00",
+  "manifest_sha256": "a7b28fb43eda7cf35f0add73aaab9d79c6536905aec6d057be5e113dbecdbedf",
+  "protocol_sha256": "b9286837ae30920efe9da96eccd12ec4e6ef51e7453b2de6f0fd56ffa3dfe8e2",
+  "target_payload_reads_strictly_after_frozen_protocol": true,
+  "source_script_unchanged": true,
+  "checks": [
+    {
+      "source": "wikitext2_raw_test",
+      "rows": 4358,
+      "eligible": 504,
+      "selected8hash_ranks_exact": true,
+      "raw_source_and_all_prompt_hashes_exact": true,
+      "rendering_exact": true
+    },
+    {
+      "source": "arc_challenge_validation",
+      "rows": 299,
+      "eligible": 289,
+      "selected8hash_ranks_exact": true,
+      "raw_source_and_all_prompt_hashes_exact": true,
+      "rendering_exact": true
+    }
+  ],
+  "answer_labels_only_in_separate_sidecar": true,
+  "wikitext_selected_article_count": 7,
+  "note": "The source Parquet necessarily includes ARC answers. Selection uses only id/question/choices; prompt rendering has no appended correct label. Correct option text remains among four choices, as required.",
+  "limitations": [
+    "No tokenizer/model output was used for eligibility or ranking.",
+    "Eight WikiText chunks include seven articles, so chunks are not eight independent source documents.",
+    "These datasets are new project workloads, not demonstrated model-pretraining holdouts."
+  ]
+}

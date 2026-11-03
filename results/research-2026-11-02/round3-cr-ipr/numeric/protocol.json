@@ -1,0 +1,67 @@
+{
+  "status": "running",
+  "utc": "2026-11-02T12:46:46.434132+00:00",
+  "source_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_stencil_numeric.py": "3ffeeca12d3d521c284980aa05abd9acd4d2eac09bed41751bc5a379b14661c0",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_stencil_numeric.cpp": "7ccbb981fda9cca9d5a7470c79a940ca03d428c62b8f15b53be90372be98dba4"
+  },
+  "numpy_version": "2.3.5",
+  "python_version": "3.13.9",
+  "geometry": {
+    "H": 1536,
+    "I": 512,
+    "E": 64,
+    "K": 6,
+    "shared_I": 1024,
+    "W": 8,
+    "q": 4,
+    "g": 16,
+    "page_bytes": 16384,
+    "wordlines_per_block": 192
+  },
+  "assumptions": [
+    "User-premised skip-WL CR plus independent-plane read.",
+    "Per-wave PB source permutation remains conditional.",
+    "Existing single row accumulation may carry its state across page and wave boundaries; no new accumulator is introduced.",
+    "Common full A8 input1536 is loaded once and cycled in its original order.",
+    "Row scales and positional FIFO scatter are host metadata; their capacity/time is separately disclosed, not a native AiF ABI claim."
+  ],
+  "prohibitions": {
+    "input_fragments": false,
+    "host_column_partials": false,
+    "new_accumulator": false,
+    "weight_replicas": false
+  },
+  "schedule": {
+    "macros": [
+      "A1",
+      "D",
+      "A2",
+      "B1",
+      "B2",
+      "C",
+      "A3",
+      "B3"
+    ],
+    "consume_orders": [
+      "0123",
+      "2301",
+      "2013",
+      "0132",
+      "3201",
+      "2013"
+    ],
+    "groups": 2,
+    "waves_per_chip": 12,
+    "pages_per_chip": 48,
+    "emitted_rows_per_chip": 512,
+    "macro_rows": 32
+  },
+  "accumulation": {
+    "cpu_reference": "I64 exact whole-row sum",
+    "worst_case_abs_sum": 24774144,
+    "fits_signed_I32": true,
+    "new_hardware_I64_accumulator_assumed": false,
+    "page_stream_state": "One current input column and one current row sum, carried continuously across pages/waves."
+  }
+}

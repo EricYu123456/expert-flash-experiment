@@ -1,0 +1,47 @@
+{
+  "status": "PASS route-blind symmetry strong control;no counterexample",
+  "verdict": "G4 whole low-command maps cannot reach even the original cyclic capacity through any whole-layer identity/swap8 choices. Applying the same control to cyclic lowers its capacity further. This preserves G4 same-capacity concern rather than resolving it.",
+  "maps": 24,
+  "jobs": 1143424,
+  "native_trace_comparisons": 121,
+  "two_query_cost_LB_pairs": 242,
+  "isomorphism_proof": [
+    "Let pi(c)=c xor8 for16chips/8channels. pi preserves channel c mod8. Apply it jointly to every routed/shared GU/Down native job in a layer,with all job array positions and descriptors except chip unchanged.",
+    "Rename only chip array resources and chip-owner slots by pi. Host,serialized controller,channel resources,PCIe,GU barriers,Down privateinput,activation and combine are unchanged. Every operation keeps its duration,deps,phase,expert ordinal and nodeID.",
+    "The ready key is phase/expert/nodeID;command selection is the minimum eligible key across free chip owners. Unique nodeID prevents a chip-index tie-break from altering choice. Array resource starts in one loop pass do not enqueue successors until the subsequent completion batch,so permutation inside the array-resource range does not change same-time eligibility.",
+    "By induction over completion batches,start/end times remain equal after resource/chip renaming for any selected expert route. Chip-resource workloads and ownership sums permute;all other resource work and DAG critical paths are unchanged,so the reported lower bound is invariant too.",
+    "This is a proof about the declared homogeneous ordinary-read graph,not a measured native-hardware guarantee. Address-dependenttR,CR,unequal chips,other background queues or topology/priority costs would require a different proof."
+  ],
+  "route_blind_capacity_choice": [
+    "Only static per-layer chip x wave-size histograms are read for selection. No routing frequencies,service costs,TRAIN/test records or heldout statistics select flips. The plans were already TRAIN fitted;this postfreeze transformation is independently route blind.",
+    "All layers in each map have the same swap-delta histogram,checked exactly. Therefore every binary choice with k flipped layers has identical aggregate histograms H_total+k*delta. Enumerating k=0..L covers all2^L swap assignments for BFD block counts.",
+    "For each k,compute BFD blocks from the size multiset. Select minimum total blocks,then maximum per-chip blocks,then wave imbalance,then k. First k layers are flipped as a deterministic index tie rule. Minimum-wave-load balance alone can increase capacity due to block rounding.",
+    "The fast bucket allocator reproduces the original root BFD full address array exactly before transformation. All transformed native job array positions remain intact;sorting is used only inside offline address packing. Full transformed arrays,logical rows,and physical interval maps are saved.",
+    "Each packing interval/page containment and full matrix row coverage are independently rechecked. Useful bytes,programmed pages,reserved waves,commands and coefficient one-copy identities remain identical to the original. No physical device operations are performed."
+  ],
+  "lower_bounds": [
+    "For any k,at least sum_chip ceil(chip_total_waves(k)/192) block-index bundles are necessary. Minimum of this bound over k lower-bounds every binary swap layout even with an arbitrary bin packer.",
+    "23of24 maps attain that valid bound,certifying minimum total bundles inside this restricted symmetry family. This does not prove all possible mappings optimal.",
+    "v5 Deep5000ns disjoint:best BFD count1293,work LB1290. No binpacking optimality claim for that map;retained all count alternatives.",
+    "A second coordinatewise relaxation gives every chip independent choices per layer:ceil(sum_layer min(waves[c],waves[c xor8])/192). G4whole lowcommand gives32bundles/chip in both campaigns because minimum6048(v5)or5968(v6)waves exceeds31*192=5952. Thus32*16=512bundles=6GiB is unavoidable in this family.",
+    "G4cyclic reaches31bundles/chip after20of40 layer flips,with5940waves/chip. Its coordinatewise lower bound is31/chip,so496bundles=5.8125GiB is tight in this family."
+  ],
+  "main_results": {
+    "G4_low_command_whole_GiB": 6.0,
+    "G4_low_command_cyclic_before_GiB": 5.90625,
+    "G4_low_command_cyclic_after_GiB": 5.8125,
+    "G4_whole_extra_allocated_fraction_after_control": 0.032258064516129004,
+    "G4_high_command_all_families_GiB_before": 5.90625,
+    "G4_high_command_all_families_GiB_after": 5.8125,
+    "Deep_BFD_allocated_bytes_changed_maps": 0,
+    "optimal_within_symmetry_family_maps": 23
+  },
+  "limits": "Standard symmetry/packing correction,not novel method. Coefficient-only virtual LSB same-address plane-block bundles;no actual device budget,router/attention/denseprefix/scales/ECC/overprovisioning fit claim. No heldout data used for this control. Native numerical ABI/calibration remains outside scope.",
+  "files": {
+    "all_maps_and_diagnostics": "summary.json",
+    "choices": "CAMPAIGN/MODEL.cmdN.FAMILY.choice.json",
+    "native_array_order_retained": "CAMPAIGN/MODEL.cmdN.FAMILY.arrays.npz",
+    "physical_certificates": "CAMPAIGN/MODEL.cmdN.FAMILY.physical.json.gz",
+    "protocol": "protocol.frozen.json"
+  }
+}

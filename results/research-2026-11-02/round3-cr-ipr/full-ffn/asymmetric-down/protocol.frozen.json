@@ -1,0 +1,143 @@
+{
+  "frozen_utc": "2026-11-02T13:36:59.697947+00:00",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/asymmetric_down.py": "40b87f69242c23668465703472491e9f183b62d7e2e0b9871f0d28ea2ce9f34e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/policy_addendum.py": "5b08764f1dafbd34d1a8f159c36b9db734905a548e33acdb304a1e77ac12a848",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/shaping_addendum.py": "4f35737011355f1beae57724476c1a00ca0b73566645d789f20686b70eefc37e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/pipeline/shaping/shaping.py": "19d5ff3555b46b8992a2fd3a978a817bd827744b0b0245fd4f3727202cdb5337",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_pipeline.py": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.cpp": "2ac76a9f17662727c7df8cb4c3b372daec1050c4d7dcd0c5e7dc65479fa10ad8",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.py": "922ba85f23e910d670ede4953a7c4cfdb294eb942ddbf6abb6d4ebcd3f9585dc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v5-W8-training/summary.json": "093801006fe2788a5fcd4439b1171fb850095fa376dc3cef56d9a1684a02238e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/g8-addendum/group_maps.frozen.npz": "222ba23fd7eff9a6fc8ad2c70c1b2469bc6ee76797d675bffcc3fcd16e85d3a5",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/asymmetric-down/Down_menus.frozen.npz": "7e03bc298ec7d98672285f6229c2787f669f09bfde95dd1784ec9d4745cf7082"
+  },
+  "strong_inputs": [
+    {
+      "layer": 0,
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/051.mean_work.npz",
+      "sha256": "2bfd2f77362343d52fb035478a69d9cd9535a34104d513e173ecb2f8e070de98"
+    },
+    {
+      "layer": 1,
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L1.input1/source.seed1.independent_paired.pool0.final.npz",
+      "sha256": "1a34039eb4b9d98f971b8fd41c6e55c58356717a6747f719e25c78edd5a23faa"
+    },
+    {
+      "layer": 2,
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/granite4tiny.L2.input1/source.seed0.counterbalanced.pool0.final.npz",
+      "sha256": "8a00f586dba4c93a40867eacfa055b10e6753870b469915b452996276c4e7d2b"
+    }
+  ],
+  "GU": [
+    "candidate",
+    "RR",
+    "g8_fixed"
+  ],
+  "Down_menu": [
+    "g1_disjoint",
+    "g2_disjoint",
+    "g2_cyclic",
+    "g4_disjoint",
+    "g4_cyclic",
+    "g8_disjoint",
+    "g8_cyclic",
+    "g16_disjoint",
+    "g12_cyclic",
+    "g2_reused_TRAIN_labels",
+    "g4_reused_TRAIN_labels",
+    "g8_reused_TRAIN_labels",
+    "g12_reused_strong_mask"
+  ],
+  "screen_indices": [
+    0,
+    8,
+    16,
+    24,
+    32,
+    40,
+    48,
+    56,
+    64,
+    73,
+    81,
+    89,
+    97,
+    105,
+    113,
+    121,
+    129,
+    137,
+    146,
+    154,
+    162,
+    170,
+    178,
+    186,
+    194,
+    202,
+    210,
+    219,
+    227,
+    235,
+    243,
+    251,
+    259,
+    267,
+    275,
+    283,
+    292,
+    300,
+    308,
+    316,
+    324,
+    332,
+    340,
+    348,
+    356,
+    365,
+    373,
+    381,
+    389,
+    397,
+    405,
+    413,
+    421,
+    429,
+    438,
+    446,
+    454,
+    462,
+    470,
+    478,
+    486,
+    494,
+    502,
+    511
+  ],
+  "screen_layers": [
+    0,
+    1,
+    2
+  ],
+  "screen": "Same entireDownmenu for every GUfamily. ExistingTRAIN64 perlayer, previouslyobservedroutes, noheldout.",
+  "selection": "Eachfamily independently retains onlyall192valid queries and128BFIFOvalid; minimize arithmeticmean fullFFNns over64aligned3layersums; deterministicmenu-name tie break. Freezewinner before512evaluation. This is TRAINselection, not unseenvalidation.",
+  "full_axes": {
+    "input_copies": [
+      1,
+      4
+    ],
+    "priority": [
+      "GF",
+      "DF"
+    ],
+    "activation_ns": 0
+  },
+  "pipeline": "copy500ns; candidate andRR commonGU use prior deterministicfirst-feasiblePBpolicy, permutation/dropconditional. G8GUI samefirst-feasiblepolicy but fixed0123sources; alltruthpagesordered. PrivateDown unshapedstrict500fixed0123, with initialcold perjob. g1N12fail is retained, neverrescued.",
+  "shared": "Always full sharedGU128rows/chip16chips; sharedDown96rows/chip16chips,C1024,unchangedforall menus.",
+  "native_contract": "PrivateDown fullC512inputvector for everyselectedroutedexpert; ownactivation/A8 andupload afterfullhostGUbarrier. No sharedx orprivatecontext multiplexing. Everymatrixownsonechip untilcomputeandlastONFIoutput.",
+  "capacity": "Onecopy usefulcoeff155713536B/layer. Allcontrols common2blocks/chip budget; GUblock0/privateDownblock1; privateDown fullmodel reservedWL<=192 onallchips. CommonGU may need less. No claimallFFNnecessarilyoneblock.",
+  "interpretation": "IfcompactingDownbenefitsallGUfamilies, attribute tocommonversusprivateoperand domains/sharding/startupcost, notsharedlayoutnovelty. Standardgroupmenus/oldlabels are strongcontrols, notnewalgorithms.",
+  "limitations": "Conditional9.7us producer/copy/PB/source/FIFO model; cadence sensitivity unmeasured. No fullinference,holdout,hardwaremeasurement orpublicationclaim."
+}

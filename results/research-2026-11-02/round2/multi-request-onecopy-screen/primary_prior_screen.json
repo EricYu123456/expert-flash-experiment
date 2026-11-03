@@ -1,0 +1,51 @@
+{
+  "primary_sources_only": true,
+  "retrieved_utc": "2026-11-02T02:58:32Z",
+  "not_exhaustive_priority_search": true,
+  "sources": [
+    {
+      "title": "PlaceMoE",
+      "url": "https://arxiv.org/html/2610.14798v1",
+      "read_sections": [
+        "II-B/C",
+        "III-A/B/C"
+      ],
+      "setting": "Training",
+      "relevant": "Joint physicallayout/replication/source-aware copy mapping with duplicate-freecommunication and non-deduplicated compute.",
+      "not_transferred": "Communication dedup cannot erase perrequest NAND reads orfullinputreload underonecontext."
+    },
+    {
+      "title": "HDA-MoE",
+      "url": "https://arxiv.org/html/2609.08682v1",
+      "read_sections": [
+        "V-B",
+        "V-C",
+        "V-D scope boundary"
+      ],
+      "setting": "3D DRAM NMP inference",
+      "relevant": "Hybrid expertfraction placement, load/link balance, prebroadcast andgreedy runtime dispatch.",
+      "not_transferred": "No free NAND broadcast/rewrites, replicas, alteredrouting ornewcontexts."
+    },
+    {
+      "title": "MoEShard",
+      "url": "https://euromlsys.eu/pdf/euromlsys25-12.pdf",
+      "read_sections": [
+        "Abstract",
+        "Introduction"
+      ],
+      "setting": "Encoder MoE GPU inference/TTFT",
+      "relevant": "Expert tensor sharding andkernel launch/loadbalance tradeoff.",
+      "not_transferred": "GPU row/column fusion doesnotprove AiF partialoutputs ormultiinput operation."
+    },
+    {
+      "title": "ElasticMoE",
+      "url": "https://arxiv.org/abs/2510.02613",
+      "read_sections": [
+        "Abstract only"
+      ],
+      "setting": "Elastic GPU/NPU serving",
+      "relevant": "Expert redistribution andweight/KV remapping during scaleup.",
+      "not_transferred": "No native NAND range/context support established."
+    }
+  ]
+}

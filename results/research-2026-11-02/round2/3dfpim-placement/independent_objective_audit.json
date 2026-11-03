@@ -1,0 +1,236 @@
+{
+  "scope": "Independent exact reduction of this fixed-atom movement objective to existing connectivity hypergraph partitioning",
+  "primary_prior": {
+    "title": "PaToH: Partitioning Tool for Hypergraphs",
+    "authors": "Umit V. Catalyurek and Cevdet Aykanat",
+    "version": "November1999; manual revised March2011",
+    "url": "https://faculty.cc.gatech.edu/~umit/PaToH/manual.pdf",
+    "read_depth": "Section2.1 Equation4b connectivity objective; Section4.2.2 fixed-cell interface. No PaToH binary execution claimed."
+  },
+  "construction": [
+    "Common input: one query net contains its 48 active GU cores and fixed input terminal, weight12*query frequency.",
+    "G/U pair: two-core net, marginal expert frequency weight.",
+    "Private activation: U core and twelve down consumers form one multicast net per neuron128 chunk, marginal-frequency weight.",
+    "Private output: each down core and fixed output terminal form one net.",
+    "Aggregated output: selected down cores for one output-row128 range and fixed output terminal form one query net."
+  ],
+  "metric": "sum_n weight[n]*(number of tile parts connected by net n - 1)",
+  "implication": "The existing-hardware movement problem in this conservative fixed-matrix-tile setting is an exact instance of standard connectivity hypergraph partitioning, including native multicast and local output aggregation. Backend expression/count validation is useful engineering; this is not a new objective or algorithm.",
+  "optimizer_limit": "Our annealing/greedy results are heuristic train-only values; no optimality, heldout benefit or native cycle advantage proved.",
+  "private_output_lower_bound": {
+    "K": 6,
+    "send_units": 15360,
+    "proof": "Let g>=2 be touched input tiles (48 active GU cores, capacity24). At least max(0,120-24*g) of72 active down cores lie outside these tiles. Each external tile/expert needs all512 z elements and contains at most12 down cores for that expert, so activation send >=512/12*max(0,120-24*g). Add1536*g common input and6*1536 private output. Minimum over integer g>=2 is15360 atg2. Other G-U traffic is nonnegative.",
+    "limits": "Relaxed route-specific bound, not proof a single fixed64expert layout attains it. Does not apply to output-aggregate policy or undocumented depth co-packing."
+  },
+  "exact_checks": [
+    {
+      "layer": 0,
+      "policy": "private",
+      "label": "marginal_multicast_affinity",
+      "send_units": 19716.375,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 2090,
+        "activation": 12220,
+        "private_output": 147456,
+        "common_input": 153696
+      }
+    },
+    {
+      "layer": 0,
+      "policy": "private",
+      "label": "query_aware_native_multicast",
+      "send_units": 19426.5,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 2796,
+        "activation": 12132,
+        "private_output": 147456,
+        "common_input": 148440
+      }
+    },
+    {
+      "layer": 0,
+      "policy": "aggregate",
+      "label": "marginal_multicast_affinity",
+      "send_units": 19698.9375,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 2164,
+        "activation": 13772,
+        "common_input": 153288,
+        "aggregate_output": 145959
+      }
+    },
+    {
+      "layer": 0,
+      "policy": "aggregate",
+      "label": "query_aware_native_multicast",
+      "send_units": 19275.4375,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 2920,
+        "activation": 15732,
+        "common_input": 148632,
+        "aggregate_output": 141123
+      }
+    },
+    {
+      "layer": 1,
+      "policy": "private",
+      "label": "marginal_multicast_affinity_best_native_restart",
+      "send_units": 19368.5,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 1736,
+        "activation": 9552,
+        "private_output": 147456,
+        "common_input": 151152
+      }
+    },
+    {
+      "layer": 1,
+      "policy": "private",
+      "label": "query_aware_native_multicast",
+      "send_units": 19153.0625,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 1725,
+        "activation": 9608,
+        "private_output": 147456,
+        "common_input": 147660
+      }
+    },
+    {
+      "layer": 1,
+      "policy": "aggregate",
+      "label": "marginal_multicast_affinity",
+      "send_units": 19241.8125,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 1624,
+        "activation": 8164,
+        "common_input": 151356,
+        "aggregate_output": 146725
+      }
+    },
+    {
+      "layer": 1,
+      "policy": "aggregate",
+      "label": "query_aware_native_multicast",
+      "send_units": 18970.0,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 2112,
+        "activation": 10620,
+        "common_input": 147204,
+        "aggregate_output": 143584
+      }
+    },
+    {
+      "layer": 2,
+      "policy": "private",
+      "label": "marginal_multicast_affinity",
+      "send_units": 20008.125,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 3174,
+        "activation": 13380,
+        "private_output": 147456,
+        "common_input": 156120
+      }
+    },
+    {
+      "layer": 2,
+      "policy": "private",
+      "label": "query_aware_native_multicast",
+      "send_units": 19661.375,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 3438,
+        "activation": 13460,
+        "private_output": 147456,
+        "common_input": 150228
+      }
+    },
+    {
+      "layer": 2,
+      "policy": "aggregate",
+      "label": "marginal_multicast_affinity",
+      "send_units": 19976.6875,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 3404,
+        "activation": 13416,
+        "common_input": 156432,
+        "aggregate_output": 146375
+      }
+    },
+    {
+      "layer": 2,
+      "policy": "aggregate",
+      "label": "query_aware_native_multicast",
+      "send_units": 19278.5,
+      "independent_standard_hypergraph_matches": true,
+      "weighted_cut_components": {
+        "gate_up_pair": 3176,
+        "activation": 14728,
+        "common_input": 147300,
+        "aggregate_output": 143252
+      }
+    }
+  ],
+  "fixed_address_checks": [
+    {
+      "policy": "private",
+      "shared_active_matrix_cores": 60,
+      "addresses_invariant": true
+    },
+    {
+      "policy": "aggregate",
+      "shared_active_matrix_cores": 60,
+      "addresses_invariant": true
+    }
+  ],
+  "exports": [
+    {
+      "path": "L0_private.hypergraph.json.gz",
+      "net_count": 2574,
+      "sha256": "fa55a6f5c4cf14f280a6fa6f00dca4d8112dd1482bf2dd46dc586ec6fe42d505"
+    },
+    {
+      "path": "L0_aggregate.hypergraph.json.gz",
+      "net_count": 17586,
+      "sha256": "e1120dab93c4847a6e16f10aa87c5b0c08c6295cfa54143208d5ed8474e1a79b"
+    },
+    {
+      "path": "L1_private.hypergraph.json.gz",
+      "net_count": 2787,
+      "sha256": "40449e397896c4657eb9316c21a00bd3425cde6cf45a8b1fdb436f73e7ff3057"
+    },
+    {
+      "path": "L1_aggregate.hypergraph.json.gz",
+      "net_count": 20103,
+      "sha256": "415e47ff905678183dc98526b9819ac102cdd37babb95e185cdae6e024345d17"
+    },
+    {
+      "path": "L2_private.hypergraph.json.gz",
+      "net_count": 2680,
+      "sha256": "66cbfd054ab3893da2653f7e30054c3cb21e1ca6a558d16c7f22c05c7ed5012a"
+    },
+    {
+      "path": "L2_aggregate.hypergraph.json.gz",
+      "net_count": 18712,
+      "sha256": "8a1569e76b21bba8e15414027577c14c65d0e3e5e22a7efe4cea1ee33e8335a2"
+    }
+  ],
+  "native_crosschecks": {
+    "attempts": 22,
+    "passed": 20,
+    "failed_original_random": [
+      "L0-private-original_random_1",
+      "L0-aggregate-original_random_1"
+    ]
+  }
+}

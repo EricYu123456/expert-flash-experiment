@@ -1,0 +1,55 @@
+{
+  "output": "/home/nfs_client/ericyu/expert_flash_experiment/models/granite4tiny-metadata.json",
+  "sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+  "expert_tensors": 120,
+  "first_layer_experts": [
+    {
+      "name": "blk.0.ffn_down_exps.weight",
+      "ggml_type": "Q6_K",
+      "shape_ggml": [
+        512,
+        1536,
+        64
+      ],
+      "n_bytes": 41287680,
+      "data_offset": 130044512,
+      "layer": 0,
+      "projection": "down",
+      "ffn_kind": "routed_expert",
+      "expert_count": 64,
+      "bytes_per_expert": 645120
+    },
+    {
+      "name": "blk.0.ffn_gate_exps.weight",
+      "ggml_type": "Q4_K",
+      "shape_ggml": [
+        1536,
+        512,
+        64
+      ],
+      "n_bytes": 28311552,
+      "data_offset": 172622432,
+      "layer": 0,
+      "projection": "gate",
+      "ffn_kind": "routed_expert",
+      "expert_count": 64,
+      "bytes_per_expert": 442368
+    },
+    {
+      "name": "blk.0.ffn_up_exps.weight",
+      "ggml_type": "Q4_K",
+      "shape_ggml": [
+        1536,
+        512,
+        64
+      ],
+      "n_bytes": 28311552,
+      "data_offset": 202218080,
+      "layer": 0,
+      "projection": "up",
+      "ffn_kind": "routed_expert",
+      "expert_count": 64,
+      "bytes_per_expert": 442368
+    }
+  ]
+}

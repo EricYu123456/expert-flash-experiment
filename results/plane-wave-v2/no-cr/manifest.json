@@ -1,0 +1,97 @@
+{
+  "schema_version": 2,
+  "study": "ordinary_read_only",
+  "date": "2026-11-01",
+  "command": [
+    "/home/ericyu/miniconda3/bin/python3",
+    "scripts/run_no_cr_study.py",
+    "--workers",
+    "8",
+    "--stage",
+    "both"
+  ],
+  "models": [
+    "granite",
+    "olmoe",
+    "deepseek",
+    "qwen3",
+    "mixtral"
+  ],
+  "protocol": {
+    "seed": 20261101,
+    "groups": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "widths": [
+      4,
+      2,
+      1
+    ],
+    "use_cr": false,
+    "proposals_per_start": 1024,
+    "starts": 2,
+    "initializations": [
+      "identity",
+      "v1_train_only_group_and_plane"
+    ],
+    "staged_budget": "g<16,w<4: half group(full w4 cost), half fixed-group plane; g16: all plane; w4: all group",
+    "proposals_count": "All randomly sampled swaps, including equal-slot-bin no-ops.",
+    "full_latency_objective": true,
+    "input_tokens": 128,
+    "training_prompts": 200,
+    "test_prompts": 100,
+    "test_windows": [
+      32,
+      128
+    ],
+    "original_initialization_kept_if_staged_final_objective_regresses": true,
+    "analytical_timing": "max(NAND lane completion, shared ECC work); ordinary 28 us each wave",
+    "assumptions": {
+      "chips": 16,
+      "planes": 4,
+      "page_bytes": 16384,
+      "block_wordlines": 192,
+      "ordinary_read_ns": 28000,
+      "shared_chip_ecc_bytes_per_second": 6400000000,
+      "matrix_block_command_ns": 250,
+      "host_phase_ns": 2000,
+      "input_element_bytes": 1,
+      "output_element_bytes": 4,
+      "host_bandwidth_bytes_per_ns": 8,
+      "channel_bandwidth_bytes_per_ns": 2,
+      "channels": 8,
+      "chip_channel_pair": "c and c+8",
+      "gate_up_stacked": true,
+      "independent_plane_addressing_and_multiple_contexts_required": true
+    }
+  },
+  "source_sha256": {
+    "run_no_cr_study.py": "fdeb8ffaf18976f0a9ee187980179143eecd6788a39c16bb6e55cd634739d267",
+    "joint_plane_search.py": "a4ea59cda820a1791610c68521af015c05424e541ab9f4ec8ca3ddd4b7473074",
+    "run_plane_wave_study.py": "395cc93371964a0d8f201c6581eeb18334b9ecc65f05dd628c667c9da51c86b2",
+    "plane_wave_model.py": "3a315947c668bd7aaa44acb23658510e901147bc48596a3f9ea6aef202741862",
+    "corpus_analysis.py": "d1686973505bf331a37d91e8cd9a2cf9b401742d69a47ea254db072491d3b3c9",
+    "aif_model.py": "baa452445e953fb3d096a840facd1801ee3870726c6667d38180b9526e06751b",
+    "overhead_model.py": "67642f688c9122fc4b66d6013921efb9c8eee8864bed44dd436cbe7fd5d5825d"
+  },
+  "corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+  "elapsed_seconds": 496.02779936790466,
+  "all_models_freeze_receipt": {
+    "granite": "7585681aa4bed9a4dbbcd6254e59712fb5c59e69cab31e17226e75ead7f0037d",
+    "olmoe": "0cde27f63e19975eabe2f1ab0c1c320858926c590cc489b174b31d32c6397815",
+    "deepseek": "b435d0b5238192200366cb74f9559c48535b22e0dedb5a955c5c4b1692fa82b4",
+    "qwen3": "45b2c8e3872c3fd7977d3e7f876e092a530fc654c24c9526dca8baaf3c1bb020",
+    "mixtral": "5b69f4d2a42149f6f6b2877bd7b9e757ff2556990bb0d4fd4b78d61bc3ff6839"
+  },
+  "bootstrap": {
+    "unit": "whole prompt; paired",
+    "resamples": 2000,
+    "seed": 20261101
+  },
+  "no_new_inference_or_nvme_measurements": true,
+  "timing_claim": "Conditional analytical FFN model latency; not measured end-to-end latency."
+}

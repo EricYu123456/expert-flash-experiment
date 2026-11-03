@@ -1,0 +1,96 @@
+{
+  "frozen_utc": "2026-11-02T13:01:27.111417+00:00",
+  "status": "frozen_before_full_FFN_execution",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.py": "922ba85f23e910d670ede4953a7c4cfdb294eb942ddbf6abb6d4ebcd3f9585dc",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.cpp": "2ac76a9f17662727c7df8cb4c3b372daec1050c4d7dcd0c5e7dc65479fa10ad8",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_pipeline.py": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/experiment_plan.frozen.json": "33b7c65710c0bb523492b596eecedbd2d874d4a3112a6d3a0e0e51c703bc92cc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/baselines/protocol.frozen.json": "f24cbd137382eca25c56b651663c4370b47dfb35a46c817565809abad8340ac9",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/baselines/frozen_TRAIN_packed_expert_order.npz": "739bb48af2b2ef37813923845c169b4e9a0d0e847be76414339d3ed84291c1bc"
+  },
+  "strong_inputs": [
+    {
+      "layer": 0,
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/native/051.mean_work.npz",
+      "sha256": "2bfd2f77362343d52fb035478a69d9cd9535a34104d513e173ecb2f8e070de98"
+    },
+    {
+      "layer": 1,
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/v2-fix1/granite4tiny.L1.input1/source.seed1.independent_paired.pool0.final.npz",
+      "sha256": "1a34039eb4b9d98f971b8fd41c6e55c58356717a6747f719e25c78edd5a23faa"
+    },
+    {
+      "layer": 2,
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/granite4tiny.L2.input1/source.seed0.counterbalanced.pool0.final.npz",
+      "sha256": "8a00f586dba4c93a40867eacfa055b10e6753870b469915b452996276c4e7d2b"
+    }
+  ],
+  "data": "Previously observed W8 TRAIN only:32prompts x16steps x first3MoE layers. No heldout data opened.",
+  "primary_profile": "strict100",
+  "secondary_profile": "cold_reset500",
+  "selection_disclosure": "100ns strict and500ns cold-reset profiles chosen after completed pipeline sensitivity showed exact320ns pass/321ns fail; this is supported conditional parameter analysis, not a prospectively unseen-hardware or heldout selection.",
+  "primary_GU": [
+    "candidate",
+    "sameWL_matching_keep_hot",
+    "sameWL_matching_sparse",
+    "IPR_standard_RR_row_safe",
+    "IPR_phase_aligned_balanced_shared",
+    "separate_GU",
+    "legacy_strong_whole_rows"
+  ],
+  "secondary_GU": [
+    "candidate",
+    "sameWL_matching_keep_hot"
+  ],
+  "generic_control": "exact alias of candidate layout/execution under same capabilities; zero difference, no independent repeated samples",
+  "main_down": [
+    "g16_equal",
+    "g12_cyclic"
+  ],
+  "old_strong_down": "smoke and explicit supplementary comparisons on same layer; no refit",
+  "copies": [
+    1,
+    4
+  ],
+  "priority": [
+    "GF",
+    "DF"
+  ],
+  "activation_ns": [
+    0,
+    2000
+  ],
+  "activation_sensitivity": "Main512 uses0. 2us sensitivity is smoke and main paired candidate/matchingkeep-hot if computationally practical; any reduced scope explicitly reported.",
+  "output_FIFO_capacities_bytes": [
+    64,
+    128,
+    256,
+    2048
+  ],
+  "source_order": "programmable conditional shared by all main controls; fixed order negative cases retained",
+  "resources": {
+    "host_submit_ns": 2000,
+    "command_ns": 250,
+    "pcie_Bps": 8000000000,
+    "channels": 8,
+    "channel_Bps": 2000000000,
+    "chip_to_channel": "chip%8; two chips per channel",
+    "one_GEMV_owner_until": "array/ECC compute end AND last ONFI result drained",
+    "timers": "resource-free causal page-completion offsets"
+  },
+  "pipeline": {
+    "cache_slots": 2,
+    "overwrite_at": "evaluation_start",
+    "copy_overlaps_recycle": true,
+    "copy_scope": "per_plane",
+    "skip_WL_CR": "user premise",
+    "cold_reset": "cold28us explicitly paid, no paced retention rescue",
+    "keep_hot": "all4plane array reads; inactive discarded beforeECC, conditional feature; physical overfetch paid"
+  },
+  "numeric_limits": "Replay performs no GEMV arithmetic. Complete-row and fragment correctness delegated to independent numeric evidence. Privatejob final padding resets; native emitted floor(pages*16384/columns) rows charged. Full input dimension/bytes never shortened.",
+  "host_assumptions": "Activation/A8 serialized host resource at declared0/2us, scales/address metadata resident host and no per-row measured cost, combine0ns; no original-GGUF-quality or measured-hardware claim.",
+  "FIFO": "Posthoc exact perchip produced full-row bytes minus continuous ONFI drained bytes. Above budget means invalid for that budget; no silent backpressure or large FIFO.",
+  "scheduler": "Fixed deterministic greedy ready queues, GF/DF phase priority; not global optimal schedule."
+}

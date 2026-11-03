@@ -1,0 +1,41 @@
+{
+  "status": "approved",
+  "phase": "TOOLING",
+  "reviewer": "/root/critic_sol",
+  "reviewed_at_utc": "2026-11-03T04:05:06Z",
+  "source_revision": 4,
+  "protocol_sha256": "0e59b5cc4d3fad695d500a1b50897864fa048ba682d51702914d66b9075e57c6",
+  "source_freeze_sha256": "00a08bfc5eee76d1d6b97d2826457853932058e72c416754f4390f37bbc811e1",
+  "registry_sha256": "7ed8766ed70ba1acb48e864003b1119f5b9e875fc03cd2832f963ee915a8bfc9",
+  "READY_sha256": "0675148fd6b8e33e4239be77260c5cde87c0ccb7626de85cc058fb325fdc99c9",
+  "synthetic_receipt_sha256": "1d0f7641c2e5b9980635fd8ccffb896c4ab42a633f3ad30d2495eb33adc898f4",
+  "synthetic_python_sha256": "8f81b5294759836ac0780af0e7cdaccf4dffea834722cf83a2254b0066da033e",
+  "blocking_findings": [],
+  "review_scope": "Read worker/harness/wire, activation and generated numerical/IPC tests. Independently verify all seven current source files equal immutable snapshots and receipt hashes. Root separately reviews runner/phase gates and the full95-dependency closure before actual launch.",
+  "verified_key_source_sha256": {
+    "worker": "5e80d368d3d9a71fc18d3cb800119b7d26697f6268ad1af3aa3b6266fba8b60a",
+    "harness": "6195e2cb2d6410b5e05295d92bce943c8fd07def46be6f67b29ace31c16a4f3a",
+    "wire": "855d6a457f0918cb6ff70b9a891daea463a43a46a3e8a64285277d97853b5a81"
+  },
+  "source_closure": [
+    "The evaluated Up callback owns detached F32 inputs and I32 IDs; metadata ask callbacks do not capture or mutate payloads.",
+    "Down requires the matching context/run/arm/subrun/decode/layer epoch and exact IDs/geometry. Zero pilot masks still round-trip and consume once. Weighted/out closure is checked before each decode call returns.",
+    "Reply headers, slot membership, duplicates, dimensions, length and finite values are validated before the first graph write. Only complete pilot output rows are scattered using true tensor strides; unselected slots and padding are preserved.",
+    "Canonical/local/factor replacements remain unweighted expert outputs in the original slots. The original live-alpha MUL and native reduction order are retained, and each subrun allocates fresh KV/context.",
+    "Registry/source hashes gate payload loading. Per-layer preprocessing paths are explicit, and their files are checked against approved payload-manifest hashes; a future refreshed registry can bind new preprocessing without silently loading old geometry.",
+    "Canonical full-H input A8, exact integer dots, F32 scale order, pinned full-I activation and Down match the reused reference functions. Host factor latents remain floating point; no extra A8 is imposed.",
+    "Caller-only BLAS1 is separately limited/read back; strict checks include the actual caller through the guarded execution path. GGML, FMA/OpenMP and the separate activation process check their actual eight workers and MXCSR/x87 requirements.",
+    "Generated synthetic receipts cover full-H/I1408/I1024 canonical reference/B1/batch/framing equality, local/PE/G interfaces, owned snapshots, noncontiguous slot writes, zero masks, stale epochs, worker faults and target-logit indices. Reviewer inspected receipts, did not execute the tests."
+  ],
+  "approval_limits": [
+    "TOOLING only: each model's first fixed FIT context, raw native128-token prefix and at most32 EOG-stopped greedy tokens for source/nohook, observer, original-copy, repeat, canonical and canonical-copy bit controls.",
+    "Canonical-copy is a repeat/copy control; the independent numerical evidence is the generated pinned-reference/B1/batch/IPC checks, not the copy arm alone.",
+    "This approves no DEVELOPMENT, PG acquisition, refresh collection/fitting, natural quality, bootstrap or TEST execution. The observer extension is currently a no-op and is not a refresh collector.",
+    "Current aggregate pilot-hit/trace diagnostics are tooling evidence, not complete per-operator refreshed deployment coverage or compression-cost measurements.",
+    "Original graph computation plus IPC/override work is quality-harness overhead, not compressed latency or8GB residency evidence. Numerical/tooling failures are invalid attempts, not scientific failures."
+  ],
+  "reviewer_actual_payload_read": false,
+  "reviewer_candidate_execution": false,
+  "reviewer_candidate_source_modified": false,
+  "scientific_success_or_failure_assigned": false
+}

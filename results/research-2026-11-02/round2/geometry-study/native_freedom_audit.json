@@ -1,0 +1,393 @@
+{
+  "created_utc": "2026-11-01T19:37:27.353025+00:00",
+  "scope": "Only existing dense native GEMV, ordinary reads, static physical placement, original INT8 values, host vector concatenation/scatter where explicitly stated. No new decoder, precision, sparse selector or PE contexts assumed.",
+  "verdict_zh": "最低總讀取工作量的whole-row family可精確化為gcd atoms後既有declustering；sameinputrun合併有prior且Granite4row-phase待證；指定11full+4quarterblockdiag family已被樂觀LP下界否決。更新scope：使用者並未禁止hostpartialsum，故column/2Dsharding應保留為既有denseGEMV組合，nativeoutputcontract待證；asymmetric512/1024 two-part mapping值得先作成本screen，但Cambricon2D是強prior，尚無投稿新穎性或硬體收益證據。",
+  "hardware_freedoms": [
+    {
+      "freedom": "Static complete-row ownership, chip masks, row permutation and output scatter",
+      "status": "Native GEMV-compatible at the primitive level; controller mapping/dispatch software still required.",
+      "remaining_gap": "If every shard is wave-aligned and work-minimal, scalar atom costs become additive and query-aware declustering covers load balancing. Published aif_post itself does not expose arbitrary masks."
+    },
+    {
+      "freedom": "Block/WL offsets and cross-block whole-row split",
+      "status": "AiF explicitly describes offsets and splitting a submatrix across IFP blocks into separate GEMVs.",
+      "remaining_gap": "This supports legal dense allocator baselines. Capacity improvement relative to the old wave-reserving allocator is an implementation correction unless it improves a matched legal capacity/command/read-wave frontier."
+    },
+    {
+      "freedom": "Same-input cross-expert selected-run coalescing",
+      "status": "A concatenated sequence of complete rows with the same input is an ordinary GEMV. Inactive rows may be overread/computed and discarded, with all actual costs charged.",
+      "remaining_gap": "Nonadditive shared-tail/read-run cost differs from fixed additive item costs. However Neuralink already combines selected links and overreads intervening inactive neurons. NAND-specific legality and work gain must be separately established."
+    },
+    {
+      "freedom": "Different-input block-diagonal fringe packing",
+      "status": "diag(A,B) times concatenate(xA,xB) equals concatenate(AxA,BxB), using an ordinary dense GEMV. The zero entries, larger input, inactive-partner work and outputs are real costs.",
+      "remaining_gap": "This is not a new multi-context PE. Small fringes may share a wave by paying structural zeros; complete full-wave tiles cannot gain because two-way block diagonal doubles useful-byte volume. The algebra/packing is established prior; NAND placement and measured gains would have to supply the contribution."
+    },
+    {
+      "freedom": "Per-plane independent offsets, input contexts, sparse PB slicing or raw-I32 modes",
+      "status": "Not established by the disclosed native AiF ABI; unavailable as assumptions for this study.",
+      "remaining_gap": "Ordinary NAND column/data-output commands do not prove the added on-die GEMV datapath exposes the same slicing behavior."
+    }
+  ],
+  "minimum_work_atomization": {
+    "notation": "W=65536 byte four-plane ordinary-read wave; C INT8 bytes per complete output row; R output rows; r_c whole-row chip shards; sum r_c=R.",
+    "cost": "Q=sum_c ceil(r_c*C/W). Byte-work lower bound Q>=ceil(R*C/W).",
+    "lemma_scope": "R*C is an integer multiple of W; all weights are read densely, without zero expansion or alternative arithmetic.",
+    "lemma": "Q=R*C/W iff every nonempty shard has r_c*C divisible by W. Equivalently r_c is a multiple of r0=W/gcd(W,C).",
+    "proof": "Every ceiling contributes nonnegative rounding loss. Since total exact byte work is integral, equality requires each rounding loss to vanish; the divisibility condition follows from gcd. Conversely these aligned shards have zero rounding loss.",
+    "atom": "r0 complete rows require q0=C/gcd(W,C) waves. Work-minimal placement is fixed-atom placement with additive q0 cost; atoms from the same expert on a chip can be joined into legal whole-row runs, charging block crossings.",
+    "implication": "A minimum-work compiler is a useful correctness/cost certification pass, but choosing these atoms and applying weighted query minmax declustering is not a new optimization principle. A publication claim needs a demonstrable issue outside that reduction and a matched strong baseline.",
+    "shape_table": [
+      {
+        "model": "granite3.1",
+        "phase": "gate_up",
+        "rows": 1024,
+        "row_bytes": 1024,
+        "topk": 8,
+        "minimum_row_atom": 64,
+        "waves_per_atom": 1,
+        "minimum_total_waves": 16,
+        "largest_possible_active_chips_at_minimum_work": 16,
+        "g16_rows": 64,
+        "g16_waves_per_chip": 1,
+        "g16_total_waves": 16,
+        "whole_wl_start_preserves_row_phase": true
+      },
+      {
+        "model": "granite3.1",
+        "phase": "down",
+        "rows": 1024,
+        "row_bytes": 512,
+        "topk": 8,
+        "minimum_row_atom": 128,
+        "waves_per_atom": 1,
+        "minimum_total_waves": 8,
+        "largest_possible_active_chips_at_minimum_work": 8,
+        "g16_rows": 64,
+        "g16_waves_per_chip": 1,
+        "g16_total_waves": 16,
+        "whole_wl_start_preserves_row_phase": true
+      },
+      {
+        "model": "qwen3",
+        "phase": "gate_up",
+        "rows": 1536,
+        "row_bytes": 2048,
+        "topk": 8,
+        "minimum_row_atom": 32,
+        "waves_per_atom": 1,
+        "minimum_total_waves": 48,
+        "largest_possible_active_chips_at_minimum_work": 16,
+        "g16_rows": 96,
+        "g16_waves_per_chip": 3,
+        "g16_total_waves": 48,
+        "whole_wl_start_preserves_row_phase": true
+      },
+      {
+        "model": "qwen3",
+        "phase": "down",
+        "rows": 2048,
+        "row_bytes": 768,
+        "topk": 8,
+        "minimum_row_atom": 256,
+        "waves_per_atom": 3,
+        "minimum_total_waves": 24,
+        "largest_possible_active_chips_at_minimum_work": 8,
+        "g16_rows": 128,
+        "g16_waves_per_chip": 2,
+        "g16_total_waves": 32,
+        "whole_wl_start_preserves_row_phase": false
+      },
+      {
+        "model": "olmoe",
+        "phase": "gate_up",
+        "rows": 2048,
+        "row_bytes": 2048,
+        "topk": 8,
+        "minimum_row_atom": 32,
+        "waves_per_atom": 1,
+        "minimum_total_waves": 64,
+        "largest_possible_active_chips_at_minimum_work": 16,
+        "g16_rows": 128,
+        "g16_waves_per_chip": 4,
+        "g16_total_waves": 64,
+        "whole_wl_start_preserves_row_phase": true
+      },
+      {
+        "model": "olmoe",
+        "phase": "down",
+        "rows": 2048,
+        "row_bytes": 1024,
+        "topk": 8,
+        "minimum_row_atom": 64,
+        "waves_per_atom": 1,
+        "minimum_total_waves": 32,
+        "largest_possible_active_chips_at_minimum_work": 16,
+        "g16_rows": 128,
+        "g16_waves_per_chip": 2,
+        "g16_total_waves": 32,
+        "whole_wl_start_preserves_row_phase": true
+      },
+      {
+        "model": "deepseek",
+        "phase": "gate_up",
+        "rows": 2816,
+        "row_bytes": 2048,
+        "topk": 6,
+        "minimum_row_atom": 32,
+        "waves_per_atom": 1,
+        "minimum_total_waves": 88,
+        "largest_possible_active_chips_at_minimum_work": 16,
+        "g16_rows": 176,
+        "g16_waves_per_chip": 6,
+        "g16_total_waves": 96,
+        "whole_wl_start_preserves_row_phase": true
+      },
+      {
+        "model": "deepseek",
+        "phase": "down",
+        "rows": 2048,
+        "row_bytes": 1408,
+        "topk": 6,
+        "minimum_row_atom": 512,
+        "waves_per_atom": 11,
+        "minimum_total_waves": 44,
+        "largest_possible_active_chips_at_minimum_work": 4,
+        "g16_rows": 128,
+        "g16_waves_per_chip": 3,
+        "g16_total_waves": 48,
+        "whole_wl_start_preserves_row_phase": false
+      },
+      {
+        "model": "mixtral",
+        "phase": "gate_up",
+        "rows": 28672,
+        "row_bytes": 4096,
+        "topk": 2,
+        "minimum_row_atom": 16,
+        "waves_per_atom": 1,
+        "minimum_total_waves": 1792,
+        "largest_possible_active_chips_at_minimum_work": 16,
+        "g16_rows": 1792,
+        "g16_waves_per_chip": 112,
+        "g16_total_waves": 1792,
+        "whole_wl_start_preserves_row_phase": true
+      },
+      {
+        "model": "mixtral",
+        "phase": "down",
+        "rows": 4096,
+        "row_bytes": 14336,
+        "topk": 2,
+        "minimum_row_atom": 32,
+        "waves_per_atom": 7,
+        "minimum_total_waves": 896,
+        "largest_possible_active_chips_at_minimum_work": 16,
+        "g16_rows": 256,
+        "g16_waves_per_chip": 56,
+        "g16_total_waves": 896,
+        "whole_wl_start_preserves_row_phase": false
+      },
+      {
+        "model": "granite4tiny",
+        "phase": "gate_up",
+        "rows": 1024,
+        "row_bytes": 1536,
+        "topk": 6,
+        "minimum_row_atom": 128,
+        "waves_per_atom": 3,
+        "minimum_total_waves": 24,
+        "largest_possible_active_chips_at_minimum_work": 8,
+        "g16_rows": 64,
+        "g16_waves_per_chip": 2,
+        "g16_total_waves": 32,
+        "whole_wl_start_preserves_row_phase": false
+      },
+      {
+        "model": "granite4tiny",
+        "phase": "down",
+        "rows": 1536,
+        "row_bytes": 512,
+        "topk": 6,
+        "minimum_row_atom": 128,
+        "waves_per_atom": 1,
+        "minimum_total_waves": 12,
+        "largest_possible_active_chips_at_minimum_work": 12,
+        "g16_rows": 96,
+        "g16_waves_per_chip": 1,
+        "g16_total_waves": 16,
+        "whole_wl_start_preserves_row_phase": true
+      }
+    ],
+    "potential_nonadditive_extensions": [
+      "Deliberately pay extra waves to increase fanout and reduce critical path. Parent mixed-width screens report negligible additional gains; no new claim here.",
+      "Same-input adjacency/run merging, compared against Neuralink-style access collapse.",
+      "Different-input block-diagonal padding, with explicit capacity/ECC/MAC/input/output charges."
+    ]
+  },
+  "granite4_row_phase_obstacle": {
+    "candidate": "Flatten each g16 GU shard of64rows×1536 into6 dense16KiB pages; adjacent experts share a middle WL.",
+    "arithmetic": {
+      "row_bytes": 1536,
+      "wave_bytes": 65536,
+      "wave_mod_row": 1024,
+      "smallest_full_wave_run_aligned_to_rows": 3,
+      "aligned_run_rows": 128
+    },
+    "conditional_correctness_statement": "For a row-major concatenated stream, an ordinary dense GEMV must begin on an original row boundary. Merely reading all bytes of a WL and discarding fringe outputs does not fix a start inside a row: all subsequent dot-product column phases remain displaced.",
+    "published_abi_check": "Personally reread original AiF Fig14 and §4.4 p536: one SREG; input dimension, block ID, block offset and page count; input loaded into PBs. §5.2 locates submatrix start page addresses. No prefix-skip, input-column-phase, per-plane offset list or fragment accumulation operand is documented.",
+    "unresolved": "The meaning of block offset is not specified enough to prove that a logical stream can start at plane2 and consume a row-aligned6-page interval without new chip behavior. Do not declare this impossible; do not assume the needed behavior is provided.",
+    "safe_full_WL_case": "If only full-WL row-major runs with no prefix support are admitted, valid boundaries repeat every3WL. An isolated64-row expert then expands to its128-row/3WL pair, recovering the old overread-bundle cost rather than the optimistic2WL union.",
+    "different_model_control": "DeepSeek GU has2048-byte rows dividing64KiB, so the specific WL-row-phase obstacle disappears. Its22-page g16 shard is5.5WL; even perfect top6 pairing saves at most3/36=8.333% GU NAND waves before full-cost/strong-layout comparisons."
+  },
+  "blockdiag_fringe_screen": {
+    "artifact": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/geometry-study/blockdiag_bound.json",
+    "artifact_sha256": "d61023e4e9cf926fa3ec658b35e161f7437c890253f5acca662c048b7c2a5af5",
+    "script": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_blockdiag_bound.py",
+    "script_sha256": "ec334103a5dcacd010d5a3c456605aab82b5f96389e307d5132662e3ef547c7f",
+    "candidate": {
+      "input_columns": 512,
+      "full_wave_rows": 128,
+      "quarter_rows": 32,
+      "full_wave_tiles_per_expert": 11,
+      "quarter_tiles_per_expert": 4,
+      "empty_chips_per_expert": 1,
+      "ordinary_wave_ns": 28000,
+      "dense_pair_shape": [
+        64,
+        1024
+      ],
+      "dense_pair_physical_pages": 4,
+      "pairs_inventory": 128,
+      "structural_zero_bytes_per_layer": 4194304,
+      "down_unique_weight_bytes_per_layer": 50331648,
+      "zero_overhead_fraction": 0.08333333333333333
+    },
+    "train_frozen_sha256": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+    "bound_derivation": [
+      "There are 15 per-expert chip jobs before fringe coactivation; top6 gives 90 jobs.",
+      "A selected pair in the fixed quarter-fringe pairing graph saves exactly one job. Each expert has four fringes, so its graph degree is four; repeated expert pairs are permitted.",
+      "For max chip load <=5, total jobs must be <=16*5=80, requiring at least ten coactive pairs on that query.",
+      "Thus P(max_load<=5) <= E[pairs]/10 by Markov. Also max_load>=5 since even twelve coactive pairs leave 78 jobs. E[max_load]>=6-E[pairs]/10.",
+      "The degree-at-most-four fractional matching LP maximizes expected coactive pairs using training pair frequencies. Dropping integer, chip, and placement constraints makes it an upper bound.",
+      "Explicit nonnegative dual vertex prices certify each edge weight <= sum of endpoint prices; four times sum of prices is an expected-pairs upper bound.",
+      "This lower bound ignores block splitting, ECC/MAC work on zeros, inactive-row outputs, input concatenation, inactive partner input slots and gang readiness. They cannot improve this NAND lower bound."
+    ],
+    "aggregate": {
+      "layers": 40,
+      "candidate_optimistic_sum_mean_maxwave_lower": 220.804589842726,
+      "frozen_g12_sum_mean_maxwave": 208.173828125,
+      "candidate_optimistic_nand_lower_ms": 6.182528515596328,
+      "frozen_g12_nand_ms": 5.8288671875,
+      "nand_lower_gap_ms": 0.35366132809632767,
+      "nand_lower_ratio_vs_g12": 1.0606741098604466,
+      "candidate_worse_bound_layers": 40
+    },
+    "uniform_control": {
+      "expected_coactive_pairs": 0.9523809523809523,
+      "optimistic_p5_upper": 0.09523809523809523,
+      "optimistic_mean_maxwave_lower": 5.904761904761905,
+      "reason": "Every four-regular multigraph has 128 edges; uniform top6 coactivation frequency is 30/(64*63)."
+    },
+    "verdict": "NO-GO for this exact 11-full/4-quarter/1-empty family on the frozen training screen: even the relaxed NAND bound loses to frozen g12.",
+    "falsifiable_gate": "Before any physical fit, candidate NAND lower bound must beat frozen g12 on training; it failed in all40layers. Changing geometry requires a new bound, not reusing this no-go as a universal result.",
+    "validation": "LP primal degrees checked; explicit nonnegative vertex-price dual certificate satisfies every edge constraint after conservative numerical repair. Fixed-top6 control reaches12pairs; uniform control equals128×30/(64×63). No heldout, weights or author sources changed."
+  },
+  "compiler_novelty_assessment": {
+    "strong_comparators": [
+      "2001 weighted hypergraph declustering after the exact gcd atomization",
+      "1994 variable-width staggered striping for overlapping device masks",
+      "Cambricon-LLM hardware-aware matrix tile shape and communication cost",
+      "FlashAccel coupled-plane groups and cross-operator dense packing",
+      "Neuralink selected-link coalescing with inactive-neuron overread",
+      "Conduit2026 page-aligned compilation and native instruction transformation; different hardware model, conceptual compiler prior only"
+    ],
+    "concrete_problem_if_reopened": "Jointly choose complete-row shards and legal same-input dense read intervals with explicit block/WL row-phase compatibility, structural-zero alternatives, native input/output bytes and bounded storage. This is more concrete than a generic hypergraph label, but the new mechanisms still need positive headroom and distinctions from existing packing/coalescing.",
+    "current_no_go": "Do not propose a new general NAND configuration compiler solely by composing gcd atomization, ordinary bin packing and a query-aware hypergraph solver. Existing favorable examples so far are baseline corrections or narrow shape gains, not evidence that the missing compiler itself enables substantial new performance.",
+    "what_would_change_the_verdict": [
+      "A fully legal interval/row map whose measured or calibrated gain survives same-geometry declustering and same-overread coalescing controls.",
+      "A different existing-hardware geometry showing a material achievable gap after relaxed work/capacity bounds; no such instance established in this task."
+    ]
+  },
+  "compound_replica_theorem_prior_audit": {
+    "parent_proposal": "64 experts×12 canonical full-wave down tiles;16 chips; any top6 must finish within5 waves/chip. Parent constructed688extra tile copies via20special experts each forbidding one nondefault omission color.",
+    "initial_check": "No counterexample found to the stated color-Hall sufficiency: every color is forbidden by only5experts, and each expert forbids at most one color. In any selected6, each color has an eligible expert; any>=2-color subset has all6 selected experts as neighbors. Thus four distinct expert representatives can cover the four colors. Two remaining experts can choose different available colors, obtaining2/2/1/1.",
+    "lower_bound_scope": "With fixed full-wave private-expert canonical tiles, any chip can own at most5 unreplicated tiles; any6 such tiles have at most6 expert owners and can be included in one top6 request. Hence extra copies>=768−16×5=688.",
+    "strong_primary_prior": "Bujtás–Tuza2012 formalizes replica-only batch retrieval via relaxed Hall conditions. Its singleton restriction and2n−mt storage-counting form are direct prior to this style of lower bound. Their arbitrary-atomic-query upper constructions do not automatically prove the present compound-query construction.",
+    "not_directly_same_problem": "Conventional CBC requires arbitrary requested atomic-item subsets; here a query includes all12tiles of each of6experts. Exact688construction for this family was not located in the bounded search. This absence is not novelty clearance.",
+    "withdrawn_generalization": "A suggested bytewise extension counting ceil(unreplicated_expert_bytes/W) separately per expert is not generally valid when block-diagonal padding and input concatenation are admitted. Two32-row×512-byte fringes can be stored as a64-row×1024-byte block diagonal and computed in one full wave. Keep canonical/private-expert-wave scope unless a stronger proof explicitly handles structural zeros.",
+    "performance_limit": "Parent reports only about1–3% whole routed-FFN opportunity for the current G4 case; this task does not label the theorem or system a breakthrough."
+  },
+  "sources": [
+    {
+      "id": "aif_native",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "year": 2025,
+      "venue": "ISCA",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "read_depth": "Original supplied PDF Fig14/§4.4 p536 and §5.2 pp537–538 reread. Local paper/aif.txt also checked. No RTL/API implementation obtained.",
+      "evidence": "Single native vector dimension/block/offset/page-count command; PB input reuse; cross-block GEMVs split. Offset granularity and PE prefix handling are not fully disclosed.",
+      "code_status": "No AiF-specific public artifact verified in fresh exact-title/GitHub search.",
+      "boundary": "Native array column-address commands cannot be assumed to change the PE input phase or implement sparse data selection."
+    },
+    {
+      "id": "neuralink_access_collapse",
+      "title": "Neuralink: Fast LLM Inference on Smartphones with Neuron Co-Activation Linking",
+      "year": 2025,
+      "venue": "ASPLOS2025 Vol3; arXiv2410.19274v3 dated2025-10-12",
+      "url": "https://arxiv.org/html/2410.19274v3",
+      "read_depth": "Original §5.1 reread, alongside prior §4/5 reading.",
+      "evidence": "Online access collapse combines nearby selected neuron links by also reading intervening inactive neurons, after offline coactivation ordering.",
+      "boundary": "UFS weight movement rather than on-die GEMV; does not establish AiF row-phase or plane-context support. Generic selected-run plus overread is already prior.",
+      "code_status": "No author implementation verified."
+    },
+    {
+      "id": "conduit_page_compiler",
+      "title": "Conduit: Programmer-Transparent Near-Data Processing Using Multiple Compute-Capable Resources in Solid State Drives",
+      "year": 2026,
+      "version": "arXiv2601.17633v1,2026-01-24",
+      "url": "https://arxiv.org/html/2601.17633v1",
+      "read_depth": "Original abstract, §4.2 and §4.3.1–4.3.2 read. No full evaluation audit.",
+      "evidence": "LLVM preprocessing forces4096-wide32-bit vectors matching16KiB pages and emits operand metadata. Runtime transforms instructions and schedules across controller, SSD-DRAM and IFP resources with contention/dependency costs.",
+      "boundary": "Different heterogeneous NDP/IFP operations; not evidence of an AiF compiler or supported on-die ISA. Broad page-aware compilation is not new.",
+      "code_status": "Paper links upstreamMQSim and other dependencies; no Conduit-specific public source verified."
+    },
+    {
+      "id": "crosssim_blockdiag",
+      "title": "CrossSim Inference Manual v2.0",
+      "year": 2022,
+      "version": "Last updated2022-07-25",
+      "url": "https://www.sandia.gov/app/uploads/sites/110/2022/07/CrossSim_Inference_manual_v2.0.pdf",
+      "github": "https://github.com/sandialabs/cross-sim",
+      "read_depth": "Original indexed §10.2/Fig10.1 pp57–58 excerpt and official repositoryREADME inspected; source implementation not audited.",
+      "evidence": "The manual packs multiple input-window MVMs into one larger block-diagonal MVM with zeros, discussing expanded matrix storage.",
+      "boundary": "Simulation optimization for analog crossbars, not NAND timing or hardware evidence. Used solely as primary evidence that block-diagonal input packing is established.",
+      "code_status": "Official open repository verified; no AiF performance calibration supplied."
+    },
+    {
+      "id": "batch_hall_2012",
+      "title": "Relaxations of Hall’s Condition: Optimal batch codes with multiple queries",
+      "authors": [
+        "Csilla Bujtás",
+        "Zsolt Tuza"
+      ],
+      "year": 2012,
+      "venue": "Applicable Analysis and Discrete Mathematics6:72–81",
+      "url": "https://doi.org/10.2298/AADM111130024B",
+      "fulltext_url": "https://pefmath.etf.bg.ac.rs/accepted/rad1246.pdf",
+      "read_depth": "Publisher-hosted accepted fulltext downloaded. Read introduction, §2 Definitions1–2/Theorem3 and singleton restriction, and indexed §4Theorem16; not every construction proof audited.",
+      "evidence": "Replica-only storage is a set system; bounded per-server retrieval is equivalent to a relaxed Hall condition. Theorem3(iii) limits singleton items per server. Theorem16 gives2n−mt in the t<k<=2t regime.",
+      "boundary": "The theorem16 parameter regime is not the current72atom/5read case. The singleton counting idea generalizes, but arbitrary atomic queries and six compound-expert queries differ. No claim of an exact prior688construction.",
+      "code_status": "Mathematical paper; no code artifact verified."
+    }
+  ],
+  "integrity": "Only the new script and new JSON audit artifacts created by this task were written; frozen author plans/source and heldout data unchanged.",
+  "scope_update_2026_11_02": {
+    "user_does_not_forbid_host_partial_sums": true,
+    "whole_row_theorem_is_family_specific": true,
+    "column_2D_is_not_automatically_new_hardware": true,
+    "plane_inputs_and_PB_replay_are_unverified_not_proven_impossible": true,
+    "followup_artifact": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/geometry-study/native_plane_context_audit.json",
+    "concrete_candidate": "Asymmetric512/1024column-partials with128-row blocks and two output partials, as detailed in followup."
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "status": "PASS full-matrix native idealFP32 rectangle composition",
+  "upstream_commit": "77044e8efe8dfccb09b2ecaca2f4bf55db8cb334",
+  "hardware": {
+    "tiles": 16,
+    "tiers_per_tile": 16,
+    "tier_shape": [
+      256,
+      256
+    ]
+  },
+  "results": {
+    "gate_up_grid_h26": {
+      "numeric_exact": true,
+      "max_abs_error": 0.0,
+      "shape": [
+        1280,
+        2560
+      ],
+      "native_tier_shape": [
+        256,
+        256
+      ],
+      "observed_native_tier_calls": 84,
+      "unique_fixed_addresses": 84,
+      "useful_coefficients": 3276800,
+      "reserved_native_coefficients": 5505024,
+      "native_coefficient_utilization": 0.5952380952380952,
+      "dense_original_grid_MVMs": 50,
+      "output_sha256": "cc0dee4314a19e9680efb287454560a3cad740e27cfb95493adaa8031be4d254",
+      "addresses_sha256": "0d107c8e6f88e3f854ebe858459cfabf46121a14af9db861422c64fac2758602"
+    },
+    "gate_up_two_stripes_min_output": {
+      "numeric_exact": true,
+      "max_abs_error": 0.0,
+      "shape": [
+        1280,
+        2560
+      ],
+      "native_tier_shape": [
+        256,
+        256
+      ],
+      "observed_native_tier_calls": 84,
+      "unique_fixed_addresses": 84,
+      "useful_coefficients": 3276800,
+      "reserved_native_coefficients": 5505024,
+      "native_coefficient_utilization": 0.5952380952380952,
+      "dense_original_grid_MVMs": 50,
+      "output_sha256": "cc0dee4314a19e9680efb287454560a3cad740e27cfb95493adaa8031be4d254",
+      "addresses_sha256": "0d107c8e6f88e3f854ebe858459cfabf46121a14af9db861422c64fac2758602"
+    },
+    "gate_up_three_stripes_min_io4": {
+      "numeric_exact": true,
+      "max_abs_error": 0.0,
+      "shape": [
+        1280,
+        2560
+      ],
+      "native_tier_shape": [
+        256,
+        256
+      ],
+      "observed_native_tier_calls": 54,
+      "unique_fixed_addresses": 54,
+      "useful_coefficients": 3276800,
+      "reserved_native_coefficients": 3538944,
+      "native_coefficient_utilization": 0.9259259259259259,
+      "dense_original_grid_MVMs": 50,
+      "output_sha256": "cc0dee4314a19e9680efb287454560a3cad740e27cfb95493adaa8031be4d254",
+      "addresses_sha256": "6c575000449217541a27b248458ecae362601fa3ff664b5f24852619325e7cfa"
+    },
+    "down_min_output": {
+      "numeric_exact": true,
+      "max_abs_error": 0.0,
+      "shape": [
+        2560,
+        640
+      ],
+      "native_tier_shape": [
+        256,
+        256
+      ],
+      "observed_native_tier_calls": 32,
+      "unique_fixed_addresses": 32,
+      "useful_coefficients": 1638400,
+      "reserved_native_coefficients": 2097152,
+      "native_coefficient_utilization": 0.78125,
+      "dense_original_grid_MVMs": 30,
+      "output_sha256": "58fab4eadab81ab5abed32342649a4a024aa8c435fc7c09a7f3baf3a7e2b6034",
+      "addresses_sha256": "1f945cd6a876a8c30db1dd6f3ae7ed245ada61c495a4a3bf038d39c8fee1f926"
+    }
+  },
+  "native_dense_atom_mapping_controls": {
+    "gate_up": {
+      "numeric_exact": true,
+      "max_abs_error": 0.0,
+      "shape": [
+        1280,
+        2560
+      ],
+      "native_tier_shape": [
+        256,
+        256
+      ],
+      "observed_native_tier_calls": 50,
+      "unique_fixed_addresses": 50,
+      "useful_coefficients": 3276800,
+      "reserved_native_coefficients": 3276800,
+      "native_coefficient_utilization": 1.0,
+      "dense_original_grid_MVMs": 50,
+      "output_sha256": "cc0dee4314a19e9680efb287454560a3cad740e27cfb95493adaa8031be4d254",
+      "addresses_sha256": "429a8dd1516d201101c3b4f28a020f6468b3395c307b953c00204ffab71ecc95"
+    },
+    "down": {
+      "numeric_exact": true,
+      "max_abs_error": 0.0,
+      "shape": [
+        2560,
+        640
+      ],
+      "native_tier_shape": [
+        256,
+        256
+      ],
+      "observed_native_tier_calls": 30,
+      "unique_fixed_addresses": 30,
+      "useful_coefficients": 1638400,
+      "reserved_native_coefficients": 1966080,
+      "native_coefficient_utilization": 0.8333333333333334,
+      "dense_original_grid_MVMs": 30,
+      "output_sha256": "58fab4eadab81ab5abed32342649a4a024aa8c435fc7c09a7f3baf3a7e2b6034",
+      "addresses_sha256": "fc8714215acd3c1548c2d384e717e82b62f7a9a70b744e4125019917f5873ec0"
+    }
+  },
+  "numerical_scope": "Known small integer values in fullQwen38 matrix dimensions; exactfloat32 dot products and host sums. No pretrainedweights, checkpointquantization, scaledoutputABI or physicalADC error simulation.",
+  "programming": "Outside adapter programs existingTier.weight slices with explicitfixedgeometry; no changes to originalTier.forward or Linear except per-instanceforward wrapper recording calls and returning originalresult.",
+  "timing_scope": "No schedule or chiptime executed here. AiFwave, command and channel quantities are not substituted for nativeTier MVM cost.",
+  "source_sha256": "01571d19334b55698219a60e3bd46816b9996c694515f21332f96d55e5921be1",
+  "upstream_git_diff": ""
+}

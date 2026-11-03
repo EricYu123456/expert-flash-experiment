@@ -1,0 +1,40 @@
+{
+  "created_utc": "2026-11-01T22:17:02.834316+00:00",
+  "issue": "The already executed extractor and later external performance replay used the same script filename. The replay replaced the extractor source after route extraction; data artifacts and frozen plans were not changed.",
+  "original_executed_extractor_path": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_external.py",
+  "original_executed_extractor_sha256": "2240c96253f6ff28283b7fe4edda3dd2b9b3c9077904c0fa40c0b699fa185cce",
+  "restored_extractor_path": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_external_extract.py",
+  "restored_extractor_sha256": "2240c96253f6ff28283b7fe4edda3dd2b9b3c9077904c0fa40c0b699fa185cce",
+  "raw_executed_source_snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-trace-audit/external-doc-grounded-stride1-short/source/extractor.executed.snapshot.py",
+  "snapshot_sha256": "2240c96253f6ff28283b7fe4edda3dd2b9b3c9077904c0fa40c0b699fa185cce",
+  "exact_original_content_restored": true,
+  "current_replay_runner_path": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_qwen38_external.py",
+  "current_replay_runner_sha256": "4916a778989fd8f6715584fefeac7fa6928c12ebb15abe88f68056945f1cbc34",
+  "current_replay_runner_modified": false,
+  "extractor_rerun": false,
+  "acquisition_audit_sha256": "409b76600fe2ef4195e53c73a23ecab233b635e62fc3011648490b2177215210",
+  "npz_views": {
+    "external_decode": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-trace-audit/external-doc-grounded-stride1-short/external_decode.npz",
+      "sha256": "2111de845e4e8938e2158d0fc778f7910c48879184aeb1900759cd764d5f4736",
+      "unchanged": true
+    },
+    "external_prefill": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-trace-audit/external-doc-grounded-stride1-short/external_prefill.npz",
+      "sha256": "794dfa5b7ae54053bd3351981f11e84e06d11693974987a8374b1849814016d8",
+      "unchanged": true
+    },
+    "warmup_decode": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-trace-audit/external-doc-grounded-stride1-short/warmup_decode.npz",
+      "sha256": "1bd1fc44657587952558d97e660cc3c16a4e1db65ee3c8f3213d4951c1710d56",
+      "unchanged": true
+    },
+    "warmup_prefill": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-trace-audit/external-doc-grounded-stride1-short/warmup_prefill.npz",
+      "sha256": "b7c0bac813f400d7324b16e14a230c5864554a4a8d5a098f1c60203a778f82a1",
+      "unchanged": true
+    }
+  },
+  "frozen240plans_sha256": "9db047b5335c4d95e45755dc62ee1b545ba97b1119ec39294d09a86299b5e505",
+  "remediation": "Use explicit external_extract versus external replay names. The archival snapshot preserves byte-identical content of the executed extractor; current replay source remains unchanged."
+}

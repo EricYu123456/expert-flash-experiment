@@ -1,0 +1,77 @@
+Reproduce from repository root:
+  python scripts/research_20261102_disturb_oracle.py
+
+Scope and physical interpretation
+The input is exactly each projection-study frozen true-chosen physical plan,
+verified by SHA256, plus all 200 frozen training prompts (128 decode steps).
+No heldout route cache is opened. Only routed expert INT8 LSB pages are included;
+attention, shared experts, ordinary CSB/MSB data, ECC parity and spare capacity
+are outside this artifact. The 192-WL block geometry is the project's inference
+from AiF's characterized NAND, not a disclosed simulator constant or a measured
+geometry for a new device. The script does not program weights or alter routing.
+
+Counter model
+For valid victim WL j, let f_j be its ordinary-read marginal per decoded token:
+  s_j = sum_{i in block} f_i - f_j
+        + (alpha-1)*(f_{j-1}+f_{j+1}).
+Only physical neighbors in that block count. Unoccupied WLs have f=0 and do not
+need copying, but stored never-selected experts remain valid and can be victims.
+This is the linear effective-read-count model from the early STRAW paper:
+  https://arxiv.org/html/2501.02517v1
+Its alpha and ERC thresholds are sensitivity knobs, not AiF LSB calibration.
+There is no independent fault probability or externally injected retry latency.
+No RBER/ECC-correctability mapping has been measured, so no new ECC retry decoder
+is modeled. Refresh follows accumulated read stress; finite projections use
+floor(total stress / threshold), with idealized resets rather than event replay.
+
+Maintenance oracles
+For threshold T and n valid pages in a block, block reclaim copies at rate
+  n * max_j(s_j) / T,
+while ideal independent WL reclaim copies at rate
+  sum_j(s_j) / T.
+Their difference is premature copy work under this homogeneous-threshold model;
+it is not all copying of cold data, since cold pages are physically disturbed.
+Copy reads/programs and block erases are exposed operation-cost sensitivities.
+The ideal WL erase floor is copied_pages/192. Read-induced disturbance from
+maintenance, retention, retry feedback, free-block GC and implementation metadata
+are omitted. These are first-order work bounds, not an implemented FTL.
+
+Any-placement lower bound
+Keep each chip/plane's original number B of 192-slot physical blocks and all
+stored pages. A block with n valid pages and source-rate sum F contributes
+(n-1)*F base stress. Relax each page into a fractional group of occupancy n_i:
+  minimize sum_i f_i*(n_i-1),
+  subject to 1<=n_i<=192 and sum_i 1/n_i<=B.
+With x_i=1/n_i this is convex. The dual minimizer satisfies
+n_i=clip(sqrt(mu/f_i),1,192). Zero-rate pages still cost 1/192 of a block.
+This relaxation allows fragmentation and grouping that the real ABI may not
+support, so it is an optimistic lower bound on every legal physical layout.
+
+Neighbor excess is bounded separately using the path graph of WLs. Full blocks
+have exactly 2B degree-one endpoint pages; all others have degree two. Assigning
+the largest rates to endpoints minimizes that relaxed cost. With H empty slots,
+at most B+H occupied runs exist, hence at least N-B-H valid adjacency edges.
+Assign their necessary degrees to the smallest rates, even if unconstructible.
+Adding separately minimized base and neighbor costs remains a valid lower bound.
+
+When N=192B, n_i must equal 192: base stress=(192-1)*sum_i f_i exactly, independent
+of hot/cold placement. The real Granite/Qwen3/OLMoE inputs verify this identity.
+All five plans have zero single-stream 192-WL scans. Physical occupancy, a whole
+stream scan, and single-expert block ownership must not be conflated.
+
+Resource duty
+Foreground work is total real page reads/token * 28 us. All current waves contain
+four real pages, verified against independent stream-wave counts. Work summed
+over planes counts resource consumption, not elapsed token time. Duty and
+removable-work fractions cannot bound token p99, where overlap/queueing matter.
+A bounded-suspend/time-driven FTL would be required if a material work opportunity
+survived. Here even the most permissive remaining work bounds are below 3% on
+the full stated sensitivity grid, so no new placement solver is justified.
+
+Existing capabilities
+The hotness baselines only relocate existing whole-row streams. Equal-shape slot
+permutation preserves every page/wave/block-run count and exact capacity. Repack
+is accepted only when every chip fits its original reserved block count. There
+are no extra copies, changed precision, voltages, decoder, PE, or read operation.
+The fractional and WL-reclaim oracles are comparison relaxations, not proposed
+hardware features or claims that the current driver already implements them.

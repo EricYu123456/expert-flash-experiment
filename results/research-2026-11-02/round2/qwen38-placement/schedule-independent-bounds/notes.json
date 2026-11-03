@@ -1,0 +1,93 @@
+{
+  "status": "PASS: frozen-control bounds and 256 native diagnostic costs",
+  "question": "How much of the old Qwen38 whole-row improvement survives arbitrary scheduling of the same frozen control jobs?",
+  "data": {
+    "tokens": 5519,
+    "layers": 48,
+    "per_control_layer_queries": 264912,
+    "source": "Previously used external-doc-grounded-stride1-short routes; no new dataset, fit, labels, or heldout task.",
+    "whole_feasible_mean_ms": 76.83462087044755,
+    "whole_feasible_p99_ms": 77.41433604000001
+  },
+  "readout": {
+    "strict_free_min_three_controls_mean_ms": 83.61952482152563,
+    "strict_free_min_reduction": 0.08114018783961674,
+    "nand_only_free_min_mean_ms": 82.2547207827505,
+    "nand_only_free_min_reduction": 0.06589408924769702,
+    "all_three_contracts_all_tokens_whole_below_relaxed_LB": true
+  },
+  "proof": [
+    "For each chip, sum the mandatory ordinary-read duration of its frozen selected jobs, including shared jobs. Reads on a single chip are serialized under the stated one-context ordinary-read contract. This gives the NAND-only lower bound max_chip sum_job waves*tR, regardless of expert/phase job order. No controller, host, input, output, or PCIe cost is needed for this lower bound.",
+    "For the fixed postcompute-output-drain DAG, chip ownership covers command, full input channel transfer, all ordinary-read waves, and all-page-fringe output channel drain. PCIe output is excluded from ownership. Thus host_initial + max_chip sum_owned is a lower bound. Serialized controller work, channel work, PCIe work, host work, and causal longest paths supply additional valid bounds; take their maximum.",
+    "The broader streaming relaxation replaces job read+output_channel by max(read,output_channel), drops the postcompute-drain causal path, and permits duplex PCIe. It retains full-input reload, mandatory job transfers, and one held chip context per job. It is not a proof of a specific native streaming implementation.",
+    "Each layer is a causal FFN step. Summing its per-query lower bound across 48 layers lower-bounds the aggregate FFN service for that token. This is not complete LLM wall time and does not add attention, routing, or inter-layer work.",
+    "A free control relaxation takes min(LB_g16,LB_groupbest,LB_overlap) separately for every layer/query, then sums 48 layers. This grants cost-free selection among three frozen copies/geometries and is therefore optimistic for those controls. It says nothing about unenumerated geometries, labels, command coalescing, native caching, or retiling."
+  ],
+  "geometry_and_IO": [
+    "Jobs and their order come from the original frozen plan and variant array, including fixed shared FFN. No lower_rows order is substituted. The coverage check verifies a complete nonoverlapping whole-row output range and full column range.",
+    "For each job p=ceil(rows*C/16384), waves=ceil(p/4), mode1 output_rows=floor(p*16384/C). Every whole-page-fringe output transfer is paid. Input size is actual per-expert/projection C times input_bytes, not Qwen constants. Common GU input dimension is explicitly checked across routed and shared experts.",
+    "Ordinary-read service is 28000ns/wave, command 250ns, host submission 2000ns, one-byte input and four-byte output. These are frozen model assumptions, not new measured hardware calibration. See protocol for every parameter."
+  ],
+  "validation": {
+    "native_diagnostic_costs": 256,
+    "layers": [
+      0,
+      16,
+      32,
+      47
+    ],
+    "tokens_per_layer_case": 16,
+    "cases": [
+      "group_g16",
+      "group_best",
+      "overlap_best",
+      "whole_row"
+    ],
+    "CPP_LB_match": "exact integer equality for all 256",
+    "old_mode1_feasible_cost_match": "exact integer equality for all 256",
+    "bulk": "Independent vectorized ledgers; all 3 bounds checked <= original saved feasible cost for every one of 264912 layer/query records per control and whole. All frozen input hashes rechecked after run."
+  },
+  "optional_EPYC_copy": {
+    "extra_once_per_48_layer_token_ns": 1243000,
+    "meaning": "Rounded observed P99 of a separate one-thread EPYC host F32 row-gather streaming benchmark. Whole-only scenario, not mandatory DMA tax or hardware worst-case guarantee. No addition to controls; no 48x repetition.",
+    "free_min_results": [
+      {
+        "contract": "strict",
+        "mean_whole_ns": 78077620.87044755,
+        "signed_reduction_vs_LB": 0.06627523850328643,
+        "positive_mean_certified_margin_ns": 5541903.951078087,
+        "tokens_whole_below_LB": 5519,
+        "token_fraction": 1.0
+      },
+      {
+        "contract": "streaming",
+        "mean_whole_ns": 78077620.87044755,
+        "signed_reduction_vs_LB": 0.06305540808081089,
+        "positive_mean_certified_margin_ns": 5254543.639427438,
+        "tokens_whole_below_LB": 5519,
+        "token_fraction": 1.0
+      },
+      {
+        "contract": "nand_only",
+        "mean_whole_ns": 78077620.87044755,
+        "signed_reduction_vs_LB": 0.050782494579677984,
+        "positive_mean_certified_margin_ns": 4177099.912302956,
+        "tokens_whole_below_LB": 5519,
+        "token_fraction": 1.0
+      }
+    ]
+  },
+  "limits": [
+    "Positive margins certify only the named frozen jobs/control set and service contracts. They do not establish a globally optimal cyclic baseline, any new theorem, nor a universal hardware speedup.",
+    "The old whole-row feasible cost remains the uncalibrated software replay. Controller-parameter sensitivity elsewhere reverses the comparison near 5us; this study does not remove that limitation.",
+    "Native AiF output dtype, numerical scale contract, MAC throughput, intra-job streaming, and direct scatter-DMA behavior remain unverified. The NAND-only control relaxation minimizes dependency on these assumptions but cannot validate the whole feasible hardware implementation.",
+    "Root v3 geometry alias/search-budget attribution issue is a separate later campaign. This study uses the earlier frozen native-full48 plans, fixed variant inventory, old mode1 outputs, and no refitting."
+  ],
+  "files": {
+    "protocol": "protocol.frozen.json",
+    "full_results": "summary.json",
+    "arrays": "bounds.npz",
+    "script": "scripts/research_20261103_schedule_independent_bounds.py"
+  },
+  "sources": "No new literature search required for this bounded code/data audit; inputs and source hashes are in protocol.frozen.json."
+}

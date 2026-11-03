@@ -1,0 +1,42 @@
+{
+  "status": "complete_true_route_handoff",
+  "sources": 15,
+  "pinned_official_model_configs": 13,
+  "routes": {
+    "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/screen/routes.npz",
+    "shape": [
+      32,
+      64,
+      40,
+      6
+    ],
+    "sha256": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+    "split": "First32 original train prompts; no test inference"
+  },
+  "metadata_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/granite4tiny-metadata.json",
+  "source_proof_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-source/source-proof.json",
+  "limits": [
+    "Only routed FFN service may be modeled; 40 always-active shared FFNs plus SSM/attention are outside that service.",
+    "Official released Q4_K_M routing is measured; hypothetical dense W8 NAND timing is a separate explicitly declared proxy, not measured end-to-end.",
+    "Granite g12 may improve chip-wave utilization without reducing its 48 physical page reads per expert.",
+    "No new sparsity, quantization, decoder, ABI or operator is proposed.",
+    "No novel placement mechanism or submission-ready breakthrough is established by the literature/config/trace handoff alone."
+  ],
+  "files_sha256": {
+    "results/research-2026-11-02/round2/neuron-layout-prior/prior_sources.json": "ef4c0bf7c6c619667a16159192709aa3796240f4b34f9fc88c1cbae6f0354f80",
+    "results/research-2026-11-02/round2/neuron-layout-prior/research_note.md": "e9b0edb1a700d354c2fd029dc94ff177d98f5a32967e0eee28befc06c9d202e2",
+    "results/research-2026-11-02/round2/neuron-layout-prior/model_configs.json": "b43a270b4de806eda4cd1e8932790f5f7613bf6e6c2836f2cc077e52443f96a4",
+    "results/research-2026-11-02/round2/neuron-layout-prior/geometry_bounds.py": "b433e9be75d8720349ff3b5afa28e387e98983da62d7a6910d1a173a185a514d",
+    "results/research-2026-11-02/round2/neuron-layout-prior/geometry_bounds.json": "a93e7b64c29f5e5e7f3979a5719f3b3d5dc8a10cca3df7c37b752b06f793bb79",
+    "results/research-2026-11-02/round2/neuron-layout-prior/download_granite4tiny.py": "e3de25358a49bf408df7810a39e7e48632743a1c4c01a57640540a373292e3b3",
+    "results/research-2026-11-02/round2/neuron-layout-prior/collect_granite4tiny.py": "92af2a430b09109a849b67992701b62ce1d784d5afe3993a848a04648934a39b",
+    "results/research-2026-11-02/round2/neuron-layout-prior/audit_routes.py": "fa58313310437c9b5074e7e49860684f7f1f8aa396371e69f065751112c2c24d",
+    "results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-source/source-proof.json": "0a74e78af5692a3ba4b7ab1e7fa3634c8ffe31911a03ccc6d8128640064019b7",
+    "results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-source/binary-source-proof.json": "1221eb0c49414b1dd410bf5c535464131fbff90103d473a13641b0245eea292a",
+    "results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/audit.json": "17d61d033854fb2f40c59cb484a123273cd164ee5a363aba13e9dca23cc530a1",
+    "results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/screen/routes.npz": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+    "results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/screen/validation.json": "3c253c7a197ae92ad9a8e0f6e4e3e67a8252eb930f2c8139092b8bb8d4657a6c",
+    "results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/smoke/routes.npz": "93c1bd27022e6577d6e8f6d5449e03d7267044b33933d1785471ae680aaed796",
+    "results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/smoke/validation.json": "fc7279f90e48cbb6a98991d1590e22b4c63cdd30b03fcad9d3f4526530553f46"
+  }
+}

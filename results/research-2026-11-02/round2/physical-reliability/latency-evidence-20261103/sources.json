@@ -1,0 +1,90 @@
+{
+  "sources": [
+    {
+      "id": "ar2_2021",
+      "title": "Reducing Solid-State Drive Read Latency by Optimizing Read-Retry",
+      "year": 2021,
+      "venue": "ASPLOS 2021",
+      "doi": "10.1145/3445814.3446719",
+      "url": "https://arxiv.org/html/2104.09611v1",
+      "read_depth": "Reread original HTML sections2.2,3.2.2,4,5.1,5.2.1-5.2.3,6.1; searched availability and SET FEATURE. Not a new complete-full-paper read.",
+      "evidence": "Original-chip timing control via SET FEATURE on FPGA custom controller;160 real48-layer TLC chips;120 randomly selected blocks/chip; all pages tested. Defaults tPRE24us,tEVAL5us,tDISCH10us. Analysis measures RBER at final-retry-step Vref and varies wear,retention,temperature. Reported statistics are maximum/average across tested pages. Temperature safety margin is explicit.",
+      "public_location_latency_data": "No downloadable chip/block/WL/page-keyed timing/RBER table or author code link found in this bounded search. This is not proof that authors never release it.",
+      "applicability": "Demonstrates that some commodity NAND implements timing adjustment without changing chip hardware. Does not prove AiF exposes the feature, give AiF-safe single-sense timing, or expose per-location speed bins."
+    },
+    {
+      "id": "aif_2025",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "year": 2025,
+      "venue": "ISCA 2025",
+      "doi": "10.1145/3695053.3731073",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "read_depth": "Local original extracted paper/aif.txt sections4.2.2 and4.3 reread, lines535-550,709-724; existing architecture audit retained.",
+      "evidence": "Conventional single-sensing read28us measured from an actual product is used to validate circuit modeling. Be-enc changes conventional(2,3,2) to LSB-prioritized(1,3,3), and IFP weights use fastest LSB pages.",
+      "public_location_latency_data": "No physical-location timing table or raw per-WL safe-tR sweep is disclosed in the inspected sections/artifacts.",
+      "applicability": "Between-page-type advantage already consumed by LSB-only placement. Paper does not establish fixed equal tR for every real WL as a universal fact; its modeled28us is one service value. No positive per-WL heterogeneity magnitude can be inferred."
+    },
+    {
+      "id": "qcflash_2026",
+      "title": "QCFlash: Bulk Bitwise Processing in3D NAND with Dynamic Sensing and Quad-level Encoding\u2014Artifact",
+      "year": 2026,
+      "venue": "CASES2026 artifact",
+      "doi": "10.5281/zenodo.21517028",
+      "url": "https://zenodo.org/records/21517028",
+      "preview": "https://zenodo.org/records/21517028/preview/QCFlash_artifact_v1.0.zip?include_deleted=0",
+      "read_depth": "Official author Zenodo metadata and complete archive file inventory/preview; archive not downloaded or executed in this bounded round.",
+      "evidence": "Open14.2MB artifact includes measured Vth/shared-page data from Micron96-layer QLC MT29F2T08GELBEJ4;data filenames vth_states_wl10.xlsx,wl11.xlsx,wl12.xlsx. Native decoding/bitwise/Vref-offset/RBER functions,MITcode+CCBY4data.",
+      "public_location_latency_data": "Accessible real physical-WL voltage/bit data, but disclosed artifact is not a tR/sensing-time sweep or ready/busy latency trace.",
+      "applicability": "Cannot map static Vth values into safe tR, ECC latency or retries without calibrated sensing dynamics, ECC and operating conditions. Not an AiF/LSB GEMV latency dataset."
+    },
+    {
+      "id": "dlv_2018",
+      "title": "DLV: Exploiting Device Level Latency Variations for Performance Improvement on Flash Memory Storage Systems",
+      "year": 2018,
+      "first_online": 2017,
+      "venue": "IEEE TCAD37(8)",
+      "doi": "10.1109/TCAD.2017.2766156",
+      "url": "https://people.cs.pitt.edu/~zhangyt/research/tcad2018b.pdf",
+      "read_depth": "Downloaded public author PDF; searched/examined model/tableI context, strong-block/RRS policy, evaluation methodology, and referenced public dataset19. Not a complete line-by-line paper read.",
+      "evidence": "Combines process-variation/retention-age-aware fast-block allocation and scheduling. TableI speed/reliability cases are from Monte Carlo threshold-distribution/device modeling trained with referenced datasets; evaluation uses SSDsim. Reference19 is Sun/Grayson/Wood2011 SNAPI reliability paper.",
+      "public_location_latency_data": "No location-keyed empirical tR/safe-timing table or public code link located in inspected text.",
+      "applicability": "Strong prior against generic hot-to-fast/process/retention mapping; simulated/model-derived latency is not original location-latency calibration."
+    },
+    {
+      "id": "nandflashsim",
+      "title": "NANDFlashSim: official framework/documentation",
+      "year": "MSST2012;later journal2016",
+      "url": "https://camelab.org/nfs/pmwiki.php",
+      "configuration_url": "https://camelab.org/nfs/pmwiki.php/Site/Configuration",
+      "code": "https://github.com/mj-nvram/NFS",
+      "read_depth": "Official overview/configuration/source-code pages and public repository landing page; no code execution or entire-repository audit.",
+      "evidence": "Models different physical page offsets and advanced command chains; timings co-validated with hardware prototype. Official configuration provides typical/worst-case device.ini samples for Micron MT29F8G08MAAWC andMT29F16G08QASWC.",
+      "public_location_latency_data": "Official pages expose a configurable simulator/sample timings, not a raw location-identified measured latency/reliability dataset.",
+      "applicability": "Useful public simulator; cannot label hand-configured same-LSB location variation as measured data."
+    },
+    {
+      "id": "mqsim",
+      "title": "MQSim: official FAST2018 simulator",
+      "year": 2018,
+      "venue": "FAST2018",
+      "url": "https://github.com/CMU-SAFARI/MQSim",
+      "paper": "https://www.usenix.org/system/files/conference/fast18/fast18-tavakkol.pdf",
+      "read_depth": "Official README NAND parameter list; original paper metadata/intro inspected in this round. No new full-source or full-paper read.",
+      "evidence": "Public input parameters Page_Read_Latency_LSB/CSB/MSB specify page-type service values. End-to-end SSD validation is distinct from raw physical-location timing characterization.",
+      "public_location_latency_data": "No chip/block/WL-indexed raw single-sense latency/safe-timing dataset supplied by inspected README.",
+      "applicability": "Supports categorical page-type modeling, not measured within-LSB variation. FLIN is a fairness/scheduling lead, not established here as a location-latency dataset."
+    },
+    {
+      "id": "rhs_2020",
+      "title": "Improving NAND flash performance with read heat separation",
+      "year": 2020,
+      "venue": "MASCOTS2020",
+      "url": "https://research.ibm.com/publications/improving-nand-flash-performance-with-read-heat-separation",
+      "author_pdf": "https://roman.pletka.ch/publications/pletka20200rhs_mascots.pdf",
+      "read_depth": "Official IBM abstract/page reread; author PDF link identified but tool retrieval timed out this round. Existing earlier repository reliability audit retained; no new fulltext claim.",
+      "evidence": "Read-heat-aware low-latency-page placement and enterprise controller implementation are explicit prior.",
+      "public_location_latency_data": "No original location-latency table download verified in bounded search.",
+      "applicability": "Strong fast-first/hot-cold comparison if real heterogeneous-page data is later available."
+    }
+  ]
+}

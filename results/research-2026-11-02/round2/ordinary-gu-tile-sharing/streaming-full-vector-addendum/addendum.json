@@ -1,0 +1,71 @@
+{
+  "status": "complete_bounded_readonly_addendum",
+  "conclusion": "Yes:controllergatherfollowedbyonefull-vectorlogicalDMAandoneoriginalCIDfinalCQEremovesthehostpartial-vectorstreaming/progressrequirement. ItdoesnotrequiremultiplecompletionsofonesingleCID. Thisisamoreconservativeconditionalcontroller-softwarecontract,notverifiedAiFfirmware.",
+  "removed_requirements": [
+    "Hostneednotobserve/usepartialGUvectors.",
+    "NoDMAofprefixdatawhilethatsameexpertvectorisstillbeinggathered.",
+    "NoextraCQE/progressnotificationforoneCID.",
+    "NoDMAaddressswitchbetweenexpertsduringanindividualfull-vectorlogicaltransfer."
+  ],
+  "DMA_precision": "Full-vectorDMAmeansonelogicaltransferafterfullvectoravailability,notonephysicallyatomicPCIetransactionoroneunboundedDMAinstruction. OrdinaryPRP/SGL/descriptorfragmentationremainsnormalandmustfinishbeforeCQE.",
+  "retained_conditions": [
+    "OutputFIFOhasdeterministiccomplete-roworder/width/reset/scaleassociation,andcontrollerknowsphysicalrow->logicalexpert/offsetmapping.",
+    "AllcoalescedlogicalGUrequestsuseidenticalfullinputbytes/dimension;oneinputcontextremainsresidentforentirefusednativecommand.",
+    "Foranexpert,allitsgate+uprowsacrossallchipsmustbereceivedandplacedexactlyonceinitsgatherbuffer;auxiliaryrowsaredropped,notmistakenforvalidoutputs.",
+    "Theexpertprefixhasfinalsuccess/ECCvaliditybeforeitssuccessfulCQE. Ifonlywholefusedcommand-endstatusisreliable,waitforit;bufferingalonecannotremove thisblock.",
+    "ExistingcontrollerRAMhasareservedavailablebudget>=88KiBvalidpayloadforthisonebatch,plusunquantifiedrequiredingress/metadata/inputresources;internalbufferwrite/readtrafficmustnotbeassumedfree.",
+    "FinitechipFIFOserviceislosslessunderchannelandcontrollercontention. Noautomaticpause,backpressure,unboundedFIFOorPEprogressportisassumed.",
+    "Logicalrequests/CIDsremainindependent;onefullvectorlogicalDMAthenonefinalCQE,afterdataisvisible. Buffersandinputlifetime/abort/timeoutstateareretainedsafely.",
+    "Thefusednativejobstillownseachchip/inputPBuntilitslastoutputdrain/end. EarlylogicalexpertcompletiondoesnotreleasethechiporallownewDowninputthere.",
+    "Hostperexpertactivation/fullDownA8vectorbarrierremains. Currentbarrieralreadyisperexpert,notallselectedexperts."
+  ],
+  "capacity": {
+    "model": "DeepSeekLite,one layer,one selectedtop6+shared GU batch",
+    "routed_experts": 6,
+    "routed_GU_rows_per_expert": 2816,
+    "shared_GU_rows": 5632,
+    "bytes_per_output": 4,
+    "routed_vector_bytes": 11264,
+    "routed_vector_KiB": 11,
+    "shared_vector_bytes": 22528,
+    "shared_vector_KiB": 22,
+    "full_batch_valid_output_rows": 22528,
+    "full_batch_valid_output_payload_bytes": 90112,
+    "full_batch_valid_output_payload_KiB": 88,
+    "meaning": "Sufficient payloadcapacity toholdallvalidGUoutputsfromthisonebatchbeforeanyhostDMA,under4-byteelementassumption. Full-vectorDMAs canfreeeachcompletedexpertbuffer. NotapublishedAiFbuffersizeorameasuredliveoccupancy.",
+    "exclusions": [
+      "Ingress/FIFO/DMA burststaging,alignment,metadata/rowmaps/completionstate,inputsandothercontrollerusers areadditional.",
+      "Auxiliaryfringerowsmustbedrainedanddiscarded;88KiBdoesnotassertthemaximumtotalFIFOtrafficorstaging.",
+      "Multipleconcurrenttokens/layers orsimultaneousDownoutputs requireadditionalreservedspace;notboundedbythissinglebatchledger.",
+      "AiFnativeoutputdtype remainsunpublished;4B/F32isthestudycontract,notverifiednativewireformat."
+    ]
+  },
+  "resource_path": "ChipFIFO->existingcontrollergatherbuffer->onefullvectorhostDMA->oneCQE->hostscatter/scaleifneeded->fullactivation/A8->Downqueue. NativeGUchipownerremainsactiveindependentlyuntilitsfusedviewends.",
+  "AiF_capacity_finding": "No numericalcontrollerDRAM/gatherallocationinAiF4.1/4.4/5.2/Table2. Do not claim88KiBexistsorisfree. OfficialCosmos+showsordinarycontrollerscanhaveadequateconfiguredDRAMandDMA/CQEprimitives,butdoesnotverifyAiF.",
+  "paper_precision": "AiFexplicitlypollsFIFOasoutputsaregenerated;itdoesnotexplicitlypromiseonewaveoutputbatch,readytime,nativepauseorFIFOcapacity. Asoftwarewave-sizeddrainpolicyneedsactualFIFOavailability,notaninventedper-wavecompletionevent.",
+  "experimental_scope": "No newtimings/native replays/inference/deviceoperations. Atmostafutureexplicitconditionaloptimisticsensitivity,withallfamiliesgivenidenticalcompletionpolicyandcost/capacityassumptions.",
+  "old_seal_unchanged": true,
+  "old_files_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/completion.json": "f35a34c2c85b7f2e0b6f2833512acb51c464ff791bbecd1e5511f28aad2ec41d",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/conditional_contract.json": "fa3acf88003b0ee31b06ae725b931ed8b6d3162fd0b63a37e408c0325d84ece4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/sources.json": "bb100baf8b13f88ae267dbd97a17925990bac180bb334f7edda4e408ebf214ae",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/notes.json": "f8b0abf564c6dedf4b18c9a39491a404ac3f8aa789a6e3ff322ef29949d43a38",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/blocking_unknowns.json": "aa281e2e37561e87c8d6db5d4545ecdbe45473626022bf1f20ab7f1fbba6988a",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/date_clarification.json": "a48f1ebe921dda0a327628c9cff743a6679a518e691c3a5c66da44695923bad8",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/capability_matrix.json": "980a1b1ce19d59088fd6d2fff578a7e62151ef2e35cc45931ef2fb5c5863e0ce",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/primary/acquisition.json": "ac107013b32cbe39b1020476a97dc275022a62e60ad8bfa0cdfaa54c30f436ff",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/primary/nvme-base-2.1.pdf": "4e31f826dd7ceaee311f93b74eef5c05ac32afe4ef45436534dfcfd6a40dc746",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/primary/spdk-nvme-spec.html": "e275df31871214e1394527a747f7e73f56da7837e4bc3d7742d4c937fd5f75ec",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/primary/nvme-base-2.1.txt": "3f23acdc0205e15c7f53d66e823d3c58cc71fde6c78ff9f4f9b169d978ca6c42",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/snapshots/01.aif.h": "25b3437f2f847554b3c31704ccef815fe85100b1ca01218d13f19b79d8f4d705",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/snapshots/08.io.c": "80d26efa01870a7a6eb09c1c509a9fa990d0de66294b83755d4087ca8c4d8a28",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/snapshots/09.nvmev.h": "d0ffc0cc4cc822f63d82313dc8e2dfa03a1e74648977ef82d526f5660891e7f1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/snapshots/07.research_20261103_ordinary_read_native.cpp": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/snapshots/02.aif.c": "573a89513fb7fa0846ce1142888252b1453755e3eabe3c6455ea8f8b86808c0e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/snapshots/04.nvmevirt-aif.patch": "6525fb1ef8691660daebc0199a5aa804add0abb606f558756cd8f7360ce1d233",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/snapshots/00.aif.txt": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/snapshots/06.research_20261103_ordinary_read_backend.py": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/snapshots/03.aif_replay.c": "c03ce664dac271d17f902a510515dd2233f8cb1858595e9984dbbe0725b86b45",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-gu-tile-sharing/streaming-capability-audit/snapshots/05.nvmevirt-source.json": "c52854e5198179b154f9d1bd01cd068c79c0881708d730e4a0e52c900daccfeb"
+  }
+}

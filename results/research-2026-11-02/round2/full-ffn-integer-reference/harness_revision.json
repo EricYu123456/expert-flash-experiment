@@ -1,0 +1,7 @@
+{
+  "v1_failed_stage": "results/research-2026-11-02/round2/full-ffn-integer-reference/harness-v1/pilot",
+  "failure": "Routing-shape assertion at final-layer prefill; upstream only materializes requested output token FFN at layer39. All six FFN projections in layers0-38 were overwritten before failure (234 callbacks).",
+  "correction": "Request all prefill-token logits, so upstream computes all FFN projections for all prompt tokens including layer39. Retain last-logit greedy selection.",
+  "prior_artifacts_retained": true,
+  "recorded_utc": "2026-11-01T22:38:51.007913+00:00"
+}

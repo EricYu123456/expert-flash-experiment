@@ -1,0 +1,224 @@
+{
+  "status": "complete frozen derived ledger and bounded host fallback microbenchmark",
+  "created_utc": "2026-11-01T23:16:07.868737+00:00",
+  "protocol_sha256": "a551f80425baaed8950b57d5978fa1320328ce3c9dd6d26d579a92244eac2a19",
+  "build_receipt_sha256": "19891d70779a5948dbd1907009403dc8f1fd8ededb1975fedd12566fb561d0eb",
+  "all_frozen_inputs_still_match": true,
+  "source_files": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_host_row_gather.py": "aea23c55f369d6a15b295e79ece908abcc18ebe824dc5270037a7dae8fccaeb3",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_host_row_gather.cpp": "86dc25f799f2e485bce94317873a4888a5c7e2ad59fdb70c613ac39684e280a8"
+  },
+  "summary_sha256": "d46d66b23c4ce3bc944bf6a37e42c5b40735f23f2ef28e91a77ef1c8f867ff5a",
+  "ledger_sha256": "d6aa6756994da50746a5b2911fddd504448acc61e2dda59a221451a1117b922a",
+  "host": "AMD EPYC9354, CPU31 pinned, one thread, first-touch local allocation. Its CCD L3 is32MiB; streaming replicas use128\u2013142MiB. No8-thread result, DMA or edge calibration.",
+  "scope": "Nominal rowwise-W8 metadata and opaque4B result gathering; actual checkpoints are not converted or numerically evaluated. Native rawI32 output/scaling contract remains unverified.",
+  "ledger_formulas": {
+    "routed_rows_per_expert": "2*I+H",
+    "shared_rows_per_merged_shared_FFN": "2*I_shared+H",
+    "resident_FP32_scale_bytes": "4*L*(E*(2I+H)+(2I_shared+H if shared else0))",
+    "per_token_FP32_scale_bytes": "4*L*(K*(2I+H)+(2I_shared+H if shared else0))",
+    "g16_band_entries": "2*16*L*(E+shared_objects) resident;2*16*L*(K+shared_objects) per token"
+  },
+  "derived_model_totals": [
+    {
+      "model": "granite3",
+      "moe_layers": 24,
+      "resident_routed_scales_FP32_bytes": 6291456,
+      "resident_shared_scales_FP32_bytes": 0,
+      "resident_total_scales_FP32_bytes": 6291456,
+      "per_token_scale_read_bytes": 1572864,
+      "per_token_useful_4B_output_bytes": 1572864,
+      "logical_fused_projection_handles_resident": 1536,
+      "logical_handle_bytes_at8B": 12288,
+      "g16_band_entries_resident": 24576,
+      "g16_band_bytes_at32B": 786432,
+      "g16_band_entries_per_token": 6144,
+      "separate_flash_metadata_projection_aligned_read_pages": 384,
+      "separate_flash_metadata_projection_aligned_read_bytes": 6291456
+    },
+    {
+      "model": "olmoe",
+      "moe_layers": 16,
+      "resident_routed_scales_FP32_bytes": 16777216,
+      "resident_shared_scales_FP32_bytes": 0,
+      "resident_total_scales_FP32_bytes": 16777216,
+      "per_token_scale_read_bytes": 2097152,
+      "per_token_useful_4B_output_bytes": 2097152,
+      "logical_fused_projection_handles_resident": 2048,
+      "logical_handle_bytes_at8B": 16384,
+      "g16_band_entries_resident": 32768,
+      "g16_band_bytes_at32B": 1048576,
+      "g16_band_entries_per_token": 4096,
+      "separate_flash_metadata_projection_aligned_read_pages": 256,
+      "separate_flash_metadata_projection_aligned_read_bytes": 4194304
+    },
+    {
+      "model": "deepseek",
+      "moe_layers": 26,
+      "resident_routed_scales_FP32_bytes": 32374784,
+      "resident_shared_scales_FP32_bytes": 798720,
+      "resident_total_scales_FP32_bytes": 33173504,
+      "per_token_scale_read_bytes": 3833856,
+      "per_token_useful_4B_output_bytes": 3833856,
+      "logical_fused_projection_handles_resident": 3380,
+      "logical_handle_bytes_at8B": 27040,
+      "g16_band_entries_resident": 54080,
+      "g16_band_bytes_at32B": 1730560,
+      "g16_band_entries_per_token": 5824,
+      "separate_flash_metadata_projection_aligned_read_pages": 390,
+      "separate_flash_metadata_projection_aligned_read_bytes": 6389760
+    },
+    {
+      "model": "qwen3",
+      "moe_layers": 48,
+      "resident_routed_scales_FP32_bytes": 88080384,
+      "resident_shared_scales_FP32_bytes": 0,
+      "resident_total_scales_FP32_bytes": 88080384,
+      "per_token_scale_read_bytes": 5505024,
+      "per_token_useful_4B_output_bytes": 5505024,
+      "logical_fused_projection_handles_resident": 12288,
+      "logical_handle_bytes_at8B": 98304,
+      "g16_band_entries_resident": 196608,
+      "g16_band_bytes_at32B": 6291456,
+      "g16_band_entries_per_token": 12288,
+      "separate_flash_metadata_projection_aligned_read_pages": 768,
+      "separate_flash_metadata_projection_aligned_read_bytes": 12582912
+    },
+    {
+      "model": "mixtral",
+      "moe_layers": 32,
+      "resident_routed_scales_FP32_bytes": 33554432,
+      "resident_shared_scales_FP32_bytes": 0,
+      "resident_total_scales_FP32_bytes": 33554432,
+      "per_token_scale_read_bytes": 8388608,
+      "per_token_useful_4B_output_bytes": 8388608,
+      "logical_fused_projection_handles_resident": 512,
+      "logical_handle_bytes_at8B": 4096,
+      "g16_band_entries_resident": 8192,
+      "g16_band_bytes_at32B": 262144,
+      "g16_band_entries_per_token": 2048,
+      "separate_flash_metadata_projection_aligned_read_pages": 512,
+      "separate_flash_metadata_projection_aligned_read_bytes": 8388608
+    },
+    {
+      "model": "granite4tiny",
+      "moe_layers": 40,
+      "resident_routed_scales_FP32_bytes": 26214400,
+      "resident_shared_scales_FP32_bytes": 573440,
+      "resident_total_scales_FP32_bytes": 26787840,
+      "per_token_scale_read_bytes": 3031040,
+      "per_token_useful_4B_output_bytes": 3031040,
+      "logical_fused_projection_handles_resident": 5200,
+      "logical_handle_bytes_at8B": 41600,
+      "g16_band_entries_resident": 83200,
+      "g16_band_bytes_at32B": 2662400,
+      "g16_band_entries_per_token": 8960,
+      "separate_flash_metadata_projection_aligned_read_pages": 560,
+      "separate_flash_metadata_projection_aligned_read_bytes": 9175040
+    },
+    {
+      "model": "qwen38",
+      "moe_layers": 48,
+      "resident_routed_scales_FP32_bytes": 377487360,
+      "resident_shared_scales_FP32_bytes": 737280,
+      "resident_total_scales_FP32_bytes": 378224640,
+      "per_token_scale_read_bytes": 8110080,
+      "per_token_useful_4B_output_bytes": 8110080,
+      "logical_fused_projection_handles_resident": 49248,
+      "logical_handle_bytes_at8B": 393984,
+      "g16_band_entries_resident": 787968,
+      "g16_band_bytes_at32B": 25214976,
+      "g16_band_entries_per_token": 16896,
+      "separate_flash_metadata_projection_aligned_read_pages": 1056,
+      "separate_flash_metadata_projection_aligned_read_bytes": 17301504
+    }
+  ],
+  "metadata_contract": [
+    "A single FP32 scale per logical output row is an explicit W8 format choice. It does not describe arbitrary GGUF Q8_0/Q4, NVFP4/FP8 blockwise metadata or a published AiF PE scale interface.",
+    "The host can retain dense row-scale vectors in ordinary DRAM and keep their logical row order while coefficient rows move. This uses existing software memory; its residency cost is reported rather than treated as free or added to MAC coefficient pages.",
+    "Scales are needed once per useful row if host dequantization applies them; primary opaqueF32 memcpy does not read scales. If the native opaque result already includes scale, the logical scales may be retained for model metadata without a per-token host read.",
+    "Two handles per expert assume gate/up vertically fused plus down. Handle indices can be implicit;8B handle and32B band entry tables are explicit uncompressed sizing examples, not mandatory lower bounds or an AiF command ABI. Existing FTL mappings/profile labels may compress or subsume them.",
+    "No per-row pointer table is necessary: original row_start plus dense scale/output base selects rows. The benchmark gather descriptor is exactly16B; native flash address and geometry are a separate assumed32B entry.",
+    "If metadata remains in flash, ordinary read work must be paid independently. Q38 per-projection page-aligned selected scale fetch is1056 pages=17,301,504B/token versus8,110,080B useful scales. Dense packing can reduce amplification but requires a real placement/fetch schedule; no free read or latency estimate is claimed.",
+    "DeepLite uses26 MoE layers and one merged sharedI2816 FFN per layer; one initial denseI10944 layer adds95,744B scales and same4B outputs separately. G4sharedI1024 appears in all40layers; Q38sharedI640 in48base layers, auxiliaryMTP excluded."
+  ],
+  "gather_contract": [
+    "Native outputs are represented by known4B words in16 separately64B-aligned chip staging buffers. Source space includes every complete output row in requested16KiB coefficient pages; only useful row bands are gathered into contiguous logical expert/projection outputs.",
+    "Q38 uses actual saved first-route item lists for all48layers in three frozen families. group_g16 means routed equal16; its shared FFN remains the original fitted shared control and may use fewer than16 chips, explaining16,752 total bands versus generic equal16 ledger16,896.",
+    "G4 uses all40frozen row allocations and existing training request0/step0 routes. Sealed G4 study originally excluded shared; a verified-shape equal16shared geometry is appended identically to every benchmark case, not claimed to be the old study shared placement.",
+    "Every destination scalar is checked bitwise before/after timing; source fringe is poisoned and excluded. C++ validates exact nonoverlapping coverage. Source words are synthetic known values, not actual model outputs or native numerical validation.",
+    "The operation traverses a full-token list of per-layer/per-phase row-band copies serially. The full-token staged working set is a benchmark choice, not a requirement to retain all layers live. Actual runtime could reuse smaller per-layer buffers.",
+    "Primary copy-only operation changes no values or column association. Conditional I32 convert/multiply uses small exact test integers and synthetic power-of-two row scales; it is a simple reference loop, not optimized/vendor kernel or verified native capability.",
+    "Conditional rescale stages only selected logical scale vectors; it does not benchmark arbitrary cache misses against the full360.7MiB model-scale table. Full resident memory is separately ledgered.",
+    "A documented direct DMA/scatter-to-logical-row-offset interface could remove host copy. Since that backend interface is unverified, this is an optional fallback cost, not a mandatory hardware tax.",
+    "The conditional one-multiply rescale probe uses input activation scale=1, or assumes the supplied row-factor vector is already combined. Forming factors for arbitrary per-expert activation scales, route alpha, biases or quantization is outside this probe and may add work; do not call it complete W8A8 inference cost."
+  ],
+  "benchmark_design": {
+    "samples_per_configuration": 256,
+    "configurations": 18,
+    "threads": 1,
+    "cache_conditions": [
+      "one full token warm",
+      "rotating>=128MiB"
+    ],
+    "timing": "std::chrono::steady_clock per full-token copy pass; initialization and checksum outside timed section",
+    "paired": false,
+    "repetitions": "One bounded campaign, no performance-based reruns or dropped outliers."
+  },
+  "qwen_comparisons": [
+    {
+      "operation": "opaque_F32_copy",
+      "cache": "warm_single_token",
+      "whole_median_ns": 242463,
+      "whole_p99_ns": 281843,
+      "overlap_median_ns": 230482,
+      "overlap_p99_ns": 259593,
+      "difference_of_medians_ns": 11981,
+      "interpretation": "Descriptive separate-run distributions, not paired causal placement differences. Keep both costs in matched controls; no significance claim."
+    },
+    {
+      "operation": "opaque_F32_copy",
+      "cache": "rotating_stream",
+      "whole_median_ns": 1166454,
+      "whole_p99_ns": 1242504,
+      "overlap_median_ns": 1230225,
+      "overlap_p99_ns": 2124575,
+      "difference_of_medians_ns": -63771,
+      "interpretation": "Descriptive separate-run distributions, not paired causal placement differences. Keep both costs in matched controls; no significance claim."
+    },
+    {
+      "operation": "conditional_I32_rowScale",
+      "cache": "warm_single_token",
+      "whole_median_ns": 1136144,
+      "whole_p99_ns": 1156664,
+      "overlap_median_ns": 1124724,
+      "overlap_p99_ns": 1143293,
+      "difference_of_medians_ns": 11420,
+      "interpretation": "Descriptive separate-run distributions, not paired causal placement differences. Keep both costs in matched controls; no significance claim."
+    },
+    {
+      "operation": "conditional_I32_rowScale",
+      "cache": "rotating_stream",
+      "whole_median_ns": 1473808,
+      "whole_p99_ns": 1527878,
+      "overlap_median_ns": 1481597,
+      "overlap_p99_ns": 8195747,
+      "difference_of_medians_ns": -7789,
+      "interpretation": "Descriptive separate-run distributions, not paired causal placement differences. Keep both costs in matched controls; no significance claim."
+    }
+  ],
+  "gap_sanity": {
+    "conditional_model_gap_ns": 7818914.94140625,
+    "whole_extra_native_bands": 2880,
+    "distinct_extra_host_fee_per_band_to_erase_gap_ns": 2714.9010213216147,
+    "whole_only_copy_payload_bandwidth_to_erase_gap_GBps": 1.0372385504607349,
+    "interpretation": [
+      "The measured EPYC opaque copy distributions are much smaller than7.819ms even if charged wholly to the new whole-row family. Both matched families need the same useful8,110,080B output payload, so common memory-copy/scaling work is not a new-only penalty.",
+      "Whole versus overlap has2880 additional bands. A distinct, unmodeled incremental host cost ofabout2.715us for each extra band could erase the conditional gap. It must be separate from the controller command duration already varied; do not double-count that dispatch cost.",
+      "If only whole-row needed copying and overlap had a proven zero-copy path, an effective payload copy rate at or belowabout1.04GB/s could consume the gap. No such asymmetric API is established; edge hosts are unmeasured.",
+      "No per-completion callback/syscall, host activation, native-to-host DMA, kernel wakeup, queue/synchronization or CPU/NAND overlap is measured here. Any of these could alter total runtime. EPYC server timing cannot calibrate a phone/edge host.",
+      "Separate-run median differences are not attributed to placement. In conditional old-overlap rescale streaming,p99=8.196ms outlier is retained; cause was not measured. Copy-only whole streamingp99=1.243ms. These descriptive tails are not probability guarantees."
+    ]
+  },
+  "reproduction": "python scripts/research_20261103_host_row_gather.py --prepare --run (regenerates only this study outputs; preserve existing frozen outputs before rerunning)."
+}

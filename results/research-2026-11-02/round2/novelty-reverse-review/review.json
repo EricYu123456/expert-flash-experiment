@@ -1,0 +1,264 @@
+{
+  "created_utc": "2026-11-01T20:57:58.264348+00:00",
+  "scope": "Existinghardware physical placement only. No new numerical format, sparsity, router, decoder, native operator or simultaneous chip context. Compiler/firmware/runtime metadata and scheduling of existing commands are potential software contributions, subject to a concrete implementation.",
+  "central_judgment": "Generic mathematical expressibility is not an impossibility theorem for systems contribution. Conversely, a new name or an unadapted baseline does not establish novelty. The question is whether a concrete legal backend compiler/runtime solves a previously unvalidated constraint interaction and survives equally capable adapted controls. No fixed performance percentage or new-mathematics requirement is imposed.",
+  "sources": [
+    {
+      "id": "aif",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing, ISCA2025",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "github": null,
+      "read_depth": "Supplied full paper; rechecked local paper/aif.txt sections4.1,4.4,5.1,5.2,6.1 and Mixtral table. Publisher direct fetch intermittently403; local original is available.",
+      "already_established": "Whole-row equal submatrices, contiguous IFP storage, PB reuse, blockID/offset/pagecount native GEMV, host activation, head/tensor overlap, software/firmware integration and Mixtral evaluation.",
+      "not_demonstrated_in_reviewed_material": "Reviewed paper does not evaluate fine-grained expert geometry with shared+routed phase-DAG profile/copy placement or quantify work-depth/mean-tail reversal. Its native disclosure does not establish extra simultaneous chip input contexts.",
+      "fair_same_backend_adaptation": "Keep existing denseGEMV and numeric contract; extend layout metadata/allocator and host/controller task tracking, not chip opcodes. Charge actual per-matrix host submissions and native commands. Original equal layout gets the same runtime overlap. No AiF-specific public artifact verified."
+    },
+    {
+      "id": "cambricon",
+      "title": "Cambricon-LLM, MICRO2024 / arXiv2409.15654v1",
+      "url": "https://arxiv.org/html/2409.15654v1",
+      "github": null,
+      "read_depth": "Read IV-B/IV-C/V-A/V-B and hardware table.",
+      "already_established": "Page-sized2D atoms; tile shape chosen for input/result traffic; request slicing and NPU/flash overlap.",
+      "not_demonstrated_in_reviewed_material": "No expert-specific shared/routed profile/copy readiness experiment located in v1; this does not clear later FlexLLM.",
+      "fair_same_backend_adaptation": "Optimize legal request shapes and input/output cost on our backend; preserve its planning idea, do not import its broadcast or slice-control hardware. Give legal contiguous fusion to this control too."
+    },
+    {
+      "id": "hda",
+      "title": "HDA-MoE, IEEE TCAD2026",
+      "url": "https://ieeexplore.ieee.org/document/11690625",
+      "github": "https://github.com/angerybob/HDA-MoE",
+      "read_depth": "Author README and node_allocation.py objective/constraints/source read; full paper not obtained. Pinned source commit56ea3725b2c621d4aea248f16345c34f5e06b8ed.",
+      "already_established": "Fractional expert shares, memory constraints, expert marginal compute load and full topK-set communication costs.",
+      "not_demonstrated_in_reviewed_material": "Reviewed objective t_comp+2*t_comm is not a NAND integer-page/nonpreemptive-job/host-activation DAG simulator. No absence claim about unreviewed full paper.",
+      "fair_same_backend_adaptation": "Round only into legal full-row profile catalog with exact page/wave/capacity costs, add shared as always-selected work, replay via identical native scheduler. Compare both original surrogate and strengthened integer-native objective; do not handicap it with infeasible fractional execution."
+    },
+    {
+      "id": "powerinfer2",
+      "title": "PowerInfer-2: Fast Large Language Model Inference on a Smartphone, arXiv2406.06282v3",
+      "url": "https://arxiv.org/html/2406.06282v3",
+      "github": "https://github.com/Tiiny-AI/PowerInfer",
+      "read_depth": "Read sections3.1,4.3,4.4,5. Current author-origin repository README links paper; no separate exact v2artifact verified.",
+      "already_established": "Breaks matrix barriers with neuron-cluster pipelines; packs corresponding Gate/Up/Down neurons and performs device-specific offline planning.",
+      "not_demonstrated_in_reviewed_material": "It is UFS offload plus CPU/NPU execution, not the reviewed AiF in-chip full-row geometry with integer read waves and single resident native context. Generic barrier removal is already prior.",
+      "fair_same_backend_adaptation": "For unchanged full-expert input/activation semantics, use an entire expert as a legal cluster if necessary; same ready dependencies, host activation and existing resources. The current strict scheduler is therefore a shared baseline, not itself a new pipeline invention."
+    },
+    {
+      "id": "deepseekv3",
+      "title": "DeepSeek-V3 Technical Report, section3.4.2",
+      "url": "https://arxiv.org/html/2412.19437v2",
+      "github": "https://github.com/deepseek-ai/DeepSeek-V3",
+      "read_depth": "Read inference/deployment3.4.1-3.4.2.",
+      "already_established": "Decode treats shared expert as always-selected heavy expert; deploys shared and redundant experts and balances loads.",
+      "not_demonstrated_in_reviewed_material": "GPU expert/token placement does not specify ordinary-NAND row/wave packing or a phase-specific GU-only copy plan. Shared replication itself is a direct prior, not new here.",
+      "fair_same_backend_adaptation": "Include shared and routed work, size-weighted costs and equal byte copy budgets. Allow phase-only/tensor-parallel copies where existing native operators permit them; include those as strengthened controls."
+    },
+    {
+      "id": "eplb",
+      "title": "Expert Parallelism Load Balancer, official deployed algorithm",
+      "url": "https://github.com/deepseek-ai/EPLB",
+      "github": "https://github.com/deepseek-ai/EPLB",
+      "read_depth": "Read full eplb.py and README. Pinned d52c72d5b2f2fb4c41afbf8eb21366820239913d, commit2025-03-24.",
+      "already_established": "Greedy heavy-load replication and hierarchical/global packing; group locality.",
+      "not_demonstrated_in_reviewed_material": "The source uses weighted expert counts and equal object-count packing, rather than finite-chip native phase jobs and predecessor readiness.",
+      "fair_same_backend_adaptation": "Use measured sensing/compute/byte cost weights, shared frequency1, actual byte/page capacity and native rowtiles. Remove artificial equal-count restrictions when storage is not binding. Runtime selectors and coalescing must be identical to candidate."
+    },
+    {
+      "id": "lplb",
+      "title": "Linear-Programming-Based Load Balancer, official early research implementation",
+      "url": "https://github.com/deepseek-ai/LPLB",
+      "github": "https://github.com/deepseek-ai/LPLB",
+      "read_depth": "Read full README, not CUDA solver internals or benchmarking. Pinned0490f79452f7ef277e814449600b1b1dd4c663b3, commit2025-11-19.",
+      "already_established": "Current-batch token assignments through replica-edge LP, with custom topologies and static replica placement. README explicitly lists token-count-only modeling and nonlinear GEMM timing as a limitation.",
+      "not_demonstrated_in_reviewed_material": "No ordinary-NAND nonlinear job/profile or cross-projection readiness objective demonstrated in README.",
+      "fair_same_backend_adaptation": "Adapt edges to same fixed rowtile copies; use current selected set, exact native service weights and the same DAG runtime. Benchmark CPU selector cost on the same host; do not charge its GPU100us example against a free candidate selector. A native-tile flow/LP oracle is essential."
+    },
+    {
+      "id": "megatron",
+      "title": "Megatron-Core shared expert overlap, version0.18.0 inference dispatcher",
+      "url": "https://docs.nvidia.com/megatron-core/developer-guide/0.18.0/apidocs/core/core.transformer.moe.token_dispatcher_inference.html",
+      "github": "https://github.com/NVIDIA/Megatron-LM/blob/core_v0.18.0/megatron/core/transformer/moe/token_dispatcher_inference.py",
+      "read_depth": "Read official0.15 shared-expert documentation and0.18 inference docs/source dispatch_preprocess/combine_postprocess. Downloaded tagged source SHA1d45d00eb580eeb4b3b61ef28536135fc8342f776273f10d058e904bbac42fcb.",
+      "already_established": "Shared expert replication across EP ranks and shared forward concurrent with dispatch, routed GEMMs and combine already exist.",
+      "not_demonstrated_in_reviewed_material": "CUDA stream overlap is not proof of legal simultaneous contexts on one AiF chip or of NAND copy granularity choices.",
+      "fair_same_backend_adaptation": "Always run shared as ready work in the same resourceDAG, with actual chip contention; never compare against serially added shared cost. Give all layouts identical shared/routed overlap and scheduling policies."
+    },
+    {
+      "id": "flexllm",
+      "title": "Cambricon-FlexLLM, TACO2026",
+      "url": "https://dl.acm.org/doi/10.1145/3844618",
+      "github": null,
+      "read_depth": "Metadata verified; full text still403/not obtained.",
+      "already_established": "Potential later flexible hardware-aware mapping threat.",
+      "not_demonstrated_in_reviewed_material": "Cannot claim its activation grouping/copy/dataflow overlap is absent.",
+      "fair_same_backend_adaptation": "Obtain primary full text before a first-of-kind or comprehensive novelty claim."
+    },
+    {
+      "id": "diamond",
+      "title": "DIAMoND: Dynamic Inference for Adaptive Edge MOE with Heterogeneous In-NAND and Near-DRAM Compute Architecture, ISCA2026",
+      "url": "https://doi.org/10.1109/ISCA66397.2026.00078",
+      "github": null,
+      "read_depth": "Official abstract/metadata only, inherited verified project source entry; full mapping not reviewed.",
+      "already_established": "Direct edgeMoE/NAND architecture prior.",
+      "not_demonstrated_in_reviewed_material": "Its detailed static mapping and expert scheduling remain unresolved.",
+      "fair_same_backend_adaptation": "Compare backend capabilities and exact native mapping once full text is available; do not declare all prior excluded."
+    }
+  ],
+  "actual_native_obligations": [
+    {
+      "id": "integer_shape",
+      "obligation": "Complete output rows must fit legal page/4planeWL/block streams; page/wave rounding is discrete and changes the number and duration of native calls.",
+      "phenomenon": "G4GU24waves cannot achieve maximum native-job depth2: arbitrary active-chip capacity1020rows<1024;25waves suffice. All16active24wave capacity1016. This creates a real work/depth frontier, not just equal-byte bucket load.",
+      "needed_software": "A profile enumerator and address-layout compiler that retains row identity, counts padding/block boundaries and emits existing GEMV extents. A certificate is useful evidence, not a prerequisite for systems publication."
+    },
+    {
+      "id": "single_context",
+      "obligation": "One chip job owns its input state and output path until channel drain; native matrix-block calls are nonpreemptive. Do not execute two private-input contexts on onechip.",
+      "phenomenon": "Less total work can have a worse attainable critical path; controller/channel/host contention can reverse rankings. A max-chip work lower bound need not be schedulable.",
+      "needed_software": "Asynchronous controller-side queues/completion tracking with explicit per-chip ownership and input reload. This is existing-command orchestration, not newPE hardware."
+    },
+    {
+      "id": "projection_ready",
+      "obligation": "All GU shard outputs for one expert must reach host, then the existing activation/input preparation executes, before any down job for that expert. Shared expert is an always-active peer task with its own GU/down dependency.",
+      "phenomenon": "Opposite placement increases own-expert depth3+1to3+2 yet attenuates routing-load slope; wave profiles shorten depth3to2 at added work. Copy benefit can reverse after adding shared tasks.",
+      "needed_software": "A graph compiler with row-output reassembly and exact completion counters, shared+routed tasks in one scheduler, and an optimizer that assesses full-block latency rather than serial phase sums."
+    },
+    {
+      "id": "static_copies_and_views",
+      "obligation": "Every potential copy is stored at fixed legal addresses and charged in pages/reserved space. Reading both adjacent rowtiles can be one longer existing command; onecopy still computes each logical row once.",
+      "phenomenon": "Replica-owner choice changes job size/count and sharedGU readiness, not merely device token counts.",
+      "needed_software": "A tensor-view manifest, fixedcopy allocation, legal contiguous coalescing, a causal current-route selector, and output gather. No runtime weight migration or extra execution contexts are needed."
+    },
+    {
+      "id": "host_abi_realization",
+      "obligation": "Paper aif_post/aif_gemv are matrix requests, and aif_post advertises equal-chip partitioning. A concrete firmware mapping layer must realize subsets/unequal rows/copies while keeping native chip commands unchanged.",
+      "phenomenon": "A metadata emulator cannot by itself prove an arbitrary plan can be installed or that six expertGU calls cost one host submission.",
+      "needed_software": "Either use existing per-matrix requests and charge actual host calls, or implement and measure software batching/controller metadata with unchanged chip ISA. Produce actual command traces and numeric output checks; do not silently assume a free new command or output ABI."
+    }
+  ],
+  "constructive_case": {
+    "file": "shared_copy_equivalence.json",
+    "sha256": "f6cf6c9397a775c1d3543a257734240e082793f6994d6d81a77ec5fa21f83d6c",
+    "conclusion": "The measured nA-only paired-copy policy is exactly two complete sharedGU copies, one g8striped on each half, plus A/B/hybrid views. All7nA states, both priorities and18actual replica traces match. This is a constructive same-backend equality, stronger than claiming generic RDA can express it.",
+    "consequence": "The current paired-row copy placement/selector cannot be presented as a distinct new replica algorithm. Its cost benefit may still support an implemented native backend/compiler finding. Independent per-pair or DAG-aware choices remain separate hypotheses and must beat this equal-view control."
+  },
+  "candidate_claims": [
+    {
+      "id": "minimum_systems_claim",
+      "text": "A semantics-preserving compiler/runtime for existing dense in-flash GEMV jointly chooses legal whole-row profiles and fixed replica views for shared+routed MoE, and executes their readinessDAG on finite chip/channel/host resources. It resolves a reproducible phase-only/expected-load ranking failure while preserving native operators and full outputs.",
+      "what_would_be_new": "The concrete lowering, legal physical plan/metadata, finite-context asynchronous execution and validated cost-aware planning on this backend, if no prior implementation already supplies them. Existing optimization primitives may be reused.",
+      "what_is_not_new": [
+        "Replication ofshared/hot experts",
+        "Fractional expertsharding",
+        "Breaking matrixbarriers",
+        "Coactivation-aware placement",
+        "Generic hypergraph/LP/flow search"
+      ],
+      "currently_missing": [
+        "Executable model image/PPAs and native command lowering for the plans",
+        "Measured selector/launch/gather/activation costs and consistent numericformat",
+        "End-to-end FFNblock including shared tasks, plus robust multi-model/shape evidence",
+        "Fair adapted native-tile EPLB/LPLB/HDA controls"
+      ]
+    },
+    {
+      "id": "minimum_empirical_claim",
+      "text": "On existing in-flash commands, spatial work and per-expert readiness depth form a quantized frontier. More total read work or an extra fixedGU copy can lower block tail, while a phase-only winner can lose after shared contention. A reusable planner/runtime exposes and exploits this frontier.",
+      "qualification": "A new theorem is not required. The phenomenon must be reproducible under one backend and survive same-feature baselines; one tiny trainingcase or a cost-model change is insufficient. A small effect can be informative if measured rigorously and explained; a large effect from denied baseline features is not."
+    },
+    {
+      "id": "current_shared_copy_status",
+      "text": "The supplied4.6%shared-copy result is evidence of a useful storage/performance tradeoff under the current simulator, not evidence that a new replication strategy has been invented.",
+      "qualification": "DeepSeek/EPLB/Megatron are direct conceptual prior; the exact three-view control is equivalent. An integration claim must contribute the native realization, broader characterization or a selector beyond that control and show why a generic adapted implementation does not already achieve it."
+    }
+  ],
+  "strong_controls": [
+    {
+      "control": "Two-full-sharedGU-copy A/B/hybrid selector",
+      "adaptation": "Exactly the tested layout and all three views; same120MiBfull40extra, same coalescing, hostinput and selected rows. This control must reproduce the current paired-copy results pointwise."
+    },
+    {
+      "control": "Native-tile EPLB plus current-load LP/flow",
+      "adaptation": "Treat legal rowjobs/projection stages as objects; sharedfrequency1 and actual sensing/compute cost; equal byte budget. Allow arbitrary count packing when physical capacity permits. Apply same copies, coalescing and DAG runtime. Include an oracle selector and a measured bounded-overhead implementation."
+    },
+    {
+      "control": "HDA integer-native profile adaptation",
+      "adaptation": "Use a catalog of feasible complete-row profiles, actual pages/waves and shared work; preserve coactivation/statistical objective as one control and strengthen to fullDAG as another. All plans run on the same scheduler; do not use infeasible continuous fractions or extra contexts."
+    },
+    {
+      "control": "Cambricon-style legal tile/request optimization",
+      "adaptation": "Minimize input/output and job costs over the same permitted whole-row shapes; no imported hardware broadcast/slicing. Give the same legal adjacent native-matrix coalescing."
+    },
+    {
+      "control": "PowerInfer-style expert-ready pipeline / Megatron-style shared overlap",
+      "adaptation": "Make these runtime features common to all placements. Wholeexpert cluster granularity respects unchanged activation/input preparation. Shared runs concurrently and contends for actual resources."
+    },
+    {
+      "control": "Generic selectively replicated declustering",
+      "adaptation": "Use the same fixed native-rowtiles, physical copybudget, legal coalescing and causal selector. Separate DAG-oblivious load balance from a DAG-aware cost extension. If the latter ties the candidate, do not claim a new placement algorithm; assess any compiler/runtime contribution on its actual implementation."
+    },
+    {
+      "control": "Wholeexpert/wholeGU copy Pareto baselines",
+      "adaptation": "Compare identical byte budgets, not identical replica counts. WholeGU duplication already matches120MiB. Whole sharedFFN duplication includes down and costs more, so compare on a storage/mean/tail frontier rather than using it as the sole weaker control."
+    }
+  ],
+  "falsification_experiments": [
+    {
+      "id": "F1_constructive_equal_view",
+      "test": "Replay two fullGU copies with A/B/hybrid views against current paired selector, identical graph and costs.",
+      "failure": "Exact equality is already verified; discard novelpaired-copy algorithm wording."
+    },
+    {
+      "id": "F2_copy_layout_selector_factorial",
+      "test": "Cross copylayouts(random/paired/frequency/coactivation) with selectors(fixed,current-loadflow,DAGaware), same bytes and runtime. Include no-copy and fullGU-copy controls.",
+      "failure": "If only adding the known hotshared copy matters, this is a replication application. If selector gains vanish with equal views, no new placement policy is established."
+    },
+    {
+      "id": "F3_same_backend_phase_joint",
+      "test": "Fit phase-only and joint objectives with matched budget, and also optimize phase-only plans against actual isolated resource schedules rather than only NANDbounds. Replay barrier/ready and shared overlap under identical resources.",
+      "failure": "If the difference comes from changing the baseline cost model, withholding overlap, or solver quality, do not attribute it to a native placement insight."
+    },
+    {
+      "id": "F4_shape_and_work_frontier",
+      "test": "Enumerate feasible rowprofiles from real model geometries; evaluate bytes/pages/waves/jobs/depth with calibrated costs. Include profiles with higher work and lower depth and the strongest simpleopposite/wave controls.",
+      "failure": "If extra work/depth is not charged, if only one cherry-picked geometry wins, or if a samebackend legal profilebaseline already dominates, narrow or drop the performanceclaim."
+    },
+    {
+      "id": "F5_coalescing_and_context",
+      "test": "Permit identical adjacent-row coalescing for all controls; audit every jobinput/output ownership interval and blockboundary. Add free-context/preemption only as explicitly unrealizable diagnostic upperbounds.",
+      "failure": "Any gain requiring extra contexts,newkernel semantics,or denied baseline coalescing fails the existinghardware claim."
+    },
+    {
+      "id": "F6_current_route_vs_marginals",
+      "test": "Use realroutes and labeled synthetic sensitivities with same expert marginals/different coactivation or same homecount histogram. Compare nativeflow and nA-only selectors.",
+      "failure": "If performance depends only on nA histogram, do not call the sharedselector coactivation-learning. Synthetic pathological loads cannot substitute for real workload benefit."
+    },
+    {
+      "id": "F7_realization_overhead",
+      "test": "Materialize static images/views and run an executable host/controller path; count actual aif_gemv submissions, interrupts,inputuploads,selector,gather,activation/combine. Validate functional full-row equivalence.",
+      "failure": "If gains vanish after real overhead, or require unimplemented request semantics,newrawoutputdtype or differentquantization, the speedclaim fails even if the simulator is internally consistent."
+    },
+    {
+      "id": "F8_full_block_and_tail",
+      "test": "Evaluate shared+routed in one resourceDAG across fullmodel layers; freeze family choices before newrouting. Report mean/P95/P99 and prompt-block uncertainty; never sum layerpercentiles or serially add shared cost.",
+      "failure": "If the benefit disappears with sharedcontention, distribution shift or a stronger simpletail baseline, revise the claim to the observed subcase. Current first3layerP99 does not establish fullmodel P99."
+    },
+    {
+      "id": "F9_backend_parameter_sensitivity",
+      "test": "Sweep or measure command/host/PE/transfer/read costs with the same profiles and all baselines. Separate physicalpages,allocatedwaves and reservedcapacity.",
+      "failure": "If an advantage is only a speculative timingconstant or an arbitrary equal-count capacityquota, it is not evidence of a robust systems speedup."
+    }
+  ],
+  "present_evidence": {
+    "routed_depth": "First3layer fulltrain: newjointdepth mean1.315149176ms, P991.36636612ms. Relative strongest previous mean1.319144006ms:0.303%; relative strongest previoustail1.412364ms:3.257%. Matchedwithinnewfamily mean benefit1.143%. These are different references, not a universalwinner.",
+    "shared": "Root/source shared-pipeline fulltrain first3layer screen reports bestonecopymean1.722549086ms vs bestcopymean1.643668789ms and bestonecopyP991.807190ms vs bestcopyP991.72432518ms. Fixed gatefirst and only a few mappings; generic samebudget controls remain missing.",
+    "evidence_boundary": "These are service simulations and traces, not measured AiFhardware. No percentage is treated as a novelty threshold. The originalQQUF/rawI8 format and hostABI scope must remain explicit."
+  },
+  "unresolved": [
+    "Cambricon-FlexLLM fulltext",
+    "DIAMoND fullmapping",
+    "Whether a public AiFimplementation can install the proposed physicalplans without unsupported commands",
+    "Generic native-tile replica selection and samebudget completeview controls on full shared/routed runtime"
+  ],
+  "conclusion": "Potentially publishable nativebackend systems work remains possible; the present result establishes neither publicationnovelty nor impossibility. Current paired-copy algorithm is constructively old-style tensorreplica/view selection. The strongest path is a concrete reusable legality/cost-aware compiler+runtime and a falsifiable resourceDAG finding, with baseline adaptations and numeric/physical evidence completed."
+}

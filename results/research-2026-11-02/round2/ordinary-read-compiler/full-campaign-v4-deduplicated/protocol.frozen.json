@@ -1,0 +1,47 @@
+{
+  "created_utc": "2026-11-01T23:46:11.560988+00:00",
+  "sources_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_compile.py": "f623067fa74b642b2cee307c4d548c879902b7679429389bfce5f60af9a65e79",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_backend.py": "add43117c1a1e59a199a462dc6694b486b602277c7d85c4c6af0effb80afaa43",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp": "c1036d53dc5e841f0f3349da672c21c6a075ec29763bbb348ddd72b61e3c753a",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_whole_row_compiler.py": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_native_labels.cpp": "4039a59b94be9d05ad029f251044622c5d71ac48193fa255989ed9ebaa8f2280"
+  },
+  "arguments": {
+    "models": [
+      "qwen38",
+      "granite4tiny",
+      "deepseek"
+    ],
+    "layers": null,
+    "all_layers": true,
+    "command_ns": [
+      250,
+      5000,
+      10000
+    ],
+    "fit_queries": 1024,
+    "select_queries": 64,
+    "iterations": 4000,
+    "replay_budget": 256,
+    "workers": 8,
+    "reuse_fitting": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3",
+    "output": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v4-deduplicated"
+  },
+  "build": {
+    "source": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp",
+    "source_sha256": "c1036d53dc5e841f0f3349da672c21c6a075ec29763bbb348ddd72b61e3c753a",
+    "binary": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v4-deduplicated/build/ordinary-read-c1036d53dc5e841f.so",
+    "binary_sha256": "903ba1b05da5595a924cc170ed90283fbf412523caf0d1a7abff801934802645",
+    "command": "c++ -std=c++17 -O3 -shared -fPIC SOURCE -o BINARY"
+  },
+  "reused_fitting_inputs_sha256": {
+    "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/protocol.frozen.json": "85e413c7bfd352fc0b53d38b1c3fdb2e30178daf8ea69140b6a79528bf5b5e95",
+    "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v3/summary.json": "10ec9a27436ee5629cc2e639234127cf278763a171ca6a5da97e9f2fdd9c802b"
+  },
+  "controls": "Same label-swap iterations and temperatures pergeometry; same complete-row native lowering, controller, channels, PCIe, output-fringe and single chip context. Disjoint, every cyclic width and whole-row work/depth alternatives. All16relative down rotations offered to each family.",
+  "selection": "Training-only finite candidate pairs, valid resource/ownership lowerbounds ordered exact event replay with explicit optional budget. Earlier control is an incumbent for larger pools.",
+  "geometry_deduplication": "Fit one canonical geometry once for identical variant multisets and identical initial assigned-vector histograms; retain family aliases. Identical geometry never gets another seeded search through a new label.",
+  "input_buffer": "32768B is the described AiF two16KiB input read latches perplane, inferred from paper Section4.4/Table2; not an exposed ISA maximum or cross-plane input-capacity aggregation. All seven A8 shapes fit.",
+  "limits": "Development data reused. No external validation, priority/new-algorithm claim, calibration, native PE arithmetic or full-model speedup. A label fitted for a phase bound need not be a global best label for full FFN service."
+}

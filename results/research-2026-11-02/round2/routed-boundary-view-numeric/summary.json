@@ -1,0 +1,50 @@
+{
+  "status": "MATERIALIZED",
+  "experts": [
+    1,
+    49,
+    45,
+    33,
+    10,
+    20
+  ],
+  "shared": true,
+  "layer": 0,
+  "TRAIN_route": {
+    "archive": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz",
+    "sha256": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "prompt": "train_mathematics_long_020",
+    "prompt_index": 0,
+    "decode_step": 0,
+    "layer": 0
+  },
+  "fixture_input_source": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-materialize/fixtures.npz",
+  "fixture_input_sha256": "2b0b857bdf1adce360305a54f8c5a9ade19b5cff02212dff2f4eef9b8acc42bd",
+  "fixtures": [
+    {
+      "fixture": 0,
+      "output_sha256": "f127627abfc839c501e4101cae5611442898a470b40e75a46195642a78cfdb17"
+    },
+    {
+      "fixture": 1,
+      "output_sha256": "4c4881acbfdd1a291b27cc9613062c35e2abe1e0017631cfd01668c3b0dbf0f4"
+    }
+  ],
+  "inventory": {
+    "base_useful_bytes": 18874368,
+    "stored_useful_bytes": 19270656,
+    "duplicated_boundary_rows": 258,
+    "duplicate_useful_bytes": 396288,
+    "stored_payload_pages": 1200,
+    "max_view_reserved_waves": 300,
+    "allocated_LSB_block_bytes": 201326592,
+    "allocation_count": 200,
+    "one_block_each_allocation": true
+  },
+  "source_sha256": "2e33d13d70e5ab47bd29d5bd6db3b08cdcfbac2a5afdfbb55f0b0e83e8320186",
+  "numeric_contract": "Existing GGUF-to_float fullrow W8 and logical F32 scales copied byte-exact and matched TRAIN FNV. Whole-vector dynamic A8[-127,127], F32 maxabs/127 and ties-away, exact I64 dot -> F32 once; F32(rowScale*inputScale) once, separate multiply. Existing fixture host F32 SwiGLU; no new inference/quality.",
+  "weight_quantization_performed": false,
+  "original_GGUF_opened": false,
+  "scope": "Construction proof only; original v4 geometry is not W8 TRAIN v5/v6 L0 winner.",
+  "materialize_seconds": 2.448412535712123
+}

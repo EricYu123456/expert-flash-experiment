@@ -1,0 +1,26 @@
+{
+  "reviewer": "critic_sol",
+  "at_utc": "2026-11-03 06:24:07 UTC",
+  "status": "hold_BENCH_BCD_source_gate",
+  "scope": "Source/metadata only. No actual BIND outcome or numerical/performance payload was read; no candidate or test was executed.",
+  "source_freeze_sha256": "9dcd169be9bdfe9a2b83bd01702c357e87d5af2b201cb550ff6eeb5dddb4ef8f",
+  "protocol_sha256": "5f21869ae968057a09ed1f5f64cf06f83aa22fa1dc442303fa6ce5c25f9b58be",
+  "phase_order_amendment_sha256": "cd8fb02247d0be93850c598097d95963c3538607118553d1b4941da1a64a835b",
+  "prior_numeric_review_sha256": "20cf1ec87eb8d5ede0915ad39daaf047be29b04936e32ddbf8a5c527f338ae31",
+  "blocking_finding": {
+    "file": "research_20261103_local_affine_stage3_run.py",
+    "lines": [58, 64, 102, 143],
+    "cause": "The outer monitored call starts _execute in a new session with the 600-second checkpoint. bench then invokes the numeric executable via another monitored call, again start_new_session=True. On deadline/RSS/affinity violation the outer monitor kills only killpg(_execute.pid). The numeric descendant's distinct process group is outside that group and can remain running after the phase is reported stopped.",
+    "required_closure": "Before BENCH_BCD release, close descendant cleanup for all nested sessions, or supply an explicit independently effective outer watchdog for the entire registered process tree. Do not claim the present killpg alone enforces the 600-second whole-phase budget. A narrow source fix and immutable diff/hash review suffice; no numerical method/grid change is needed.",
+    "scope_limit": "This does not invalidate the reviewed arithmetic or itself change the scientific classification. It does not revoke the existing rev003 BIND source gate; future phases must bind the actual source revision they execute."
+  },
+  "otherwise_closed": [
+    "BENCH_BCD has only B/C/D, rotation (order+trial)%3, five warmups, 31 timed invocations for each operator0/operator1/natural-partial/full-K-resource-only case and warm/cold condition. The fixed pool is 32 rows, but timed indices are0..30; report them as such.",
+    "The already reviewed CXX persistent cohort team, preallocated scratch, full-I activation, signed final-alpha order and true zero-hit behavior apply. Full-K coefficients are physically distinct replicas of two templates, explicitly not full-route quality or deployment evidence.",
+    "Cold pollution touches each of eight workers' disjoint128MiB ranges in one1GiB buffer, stride64, then barriers outside invocation timing. It is an observed cache condition, not a universal cold-cache or target-i9 distribution.",
+    "Before/after actual fileSHA plus size/mtime/device/inode checks cover FIT dependencies and every BIND output, including typed exports, sample x/IDs/final-alpha and layer manifests. Phase authorization binds BIND.complete SHA, source revision, protocol, amendment and exact upstream receipts.",
+    "Hardware snapshots record eight physical cores, one NUMA node, actual cache topology, compiler/CPU flags, load, available frequency metadata and disk. The observed topology is two32MiB L3 groups for CPUs0..3 and4..7, not a shared512MiB working-set assumption.",
+    "Sampling records aggregate descendant RSS/thread affinities every0.2s and labels peak as a lower bound. Research8e9 RSS, sample/replica/scratch/cache-buffer storage and hypothetical inclusive deployment budgets remain distinct; microbench does not establish full-DAG or best-target-host latency."
+  ],
+  "release_conditions": "After cleanup closure and exact revised-source review, actual BENCH still requires BIND OS0, all-bit numerical audit PASS, Root independent output hashes and a separately bound phase release. No performance judgement, GU go, new data, new round or TEST authorization is issued."
+}

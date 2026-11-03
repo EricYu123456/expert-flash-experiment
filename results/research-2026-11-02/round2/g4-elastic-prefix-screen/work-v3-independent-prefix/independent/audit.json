@@ -1,0 +1,97 @@
+{
+  "status": "PASS_bounded_native_gate_failed",
+  "source_sha256": "ae6b57aedad6126f1c4c09faaaa79bccec7f01edf1c4c4c1efed7d51701dd1f2",
+  "work_protocol_sha256": "dbf5d9b1789afb8d88081da50317c7b5cc12f7a693cab07f972cb03c5c09f316",
+  "native_protocol_sha256": "cabe3f64765a0ddf2735242bc7837d20d389b0f0e3a5011ace639750fca1ca29",
+  "checks": {
+    "exhaustive_expert_views": 65536,
+    "LP_box_dual_certificates": 2048,
+    "actual_row_greedy_endpoints": 4096,
+    "unique_original_row_maps": 3072,
+    "unique_row_assignments": 3145728,
+    "independent_native_schedules": [
+      {
+        "case": "B",
+        "query": 0,
+        "nodes": 1031,
+        "cost_ns": 551140
+      },
+      {
+        "case": "allA",
+        "query": 0,
+        "nodes": 791,
+        "cost_ns": 714376
+      },
+      {
+        "case": "greedy",
+        "query": 0,
+        "nodes": 986,
+        "cost_ns": 550314
+      },
+      {
+        "case": "B",
+        "query": 255,
+        "nodes": 1031,
+        "cost_ns": 577316
+      },
+      {
+        "case": "allA",
+        "query": 255,
+        "nodes": 791,
+        "cost_ns": 686376
+      },
+      {
+        "case": "greedy",
+        "query": 255,
+        "nodes": 876,
+        "cost_ns": 548124
+      },
+      {
+        "case": "B",
+        "query": 511,
+        "nodes": 1031,
+        "cost_ns": 578662
+      },
+      {
+        "case": "allA",
+        "query": 511,
+        "nodes": 791,
+        "cost_ns": 633564
+      },
+      {
+        "case": "greedy",
+        "query": 511,
+        "nodes": 876,
+        "cost_ns": 549146
+      }
+    ]
+  },
+  "baseline": {
+    "mean_ns": 561099.01953125,
+    "p99_ns": 580695.14
+  },
+  "greedy": {
+    "mean_ns": 551417.34765625,
+    "p99_ns": 577208.0
+  },
+  "improvement": {
+    "mean_pct": 1.7254836558239228,
+    "p99_pct": 0.6005113113224936
+  },
+  "allA": {
+    "mean_ns": 650493.359375,
+    "p99_ns": 743888.0
+  },
+  "stored_copy_rows": 23202,
+  "useful_copy_bytes": 35638272,
+  "extra_waves_per_layer": 512,
+  "extra_programmed_bytes_per_layer": 33554432,
+  "computed_mean_GU_rows_per_query": 8269.181640625,
+  "limits": [
+    "This checks row identities/counters/event costs, not real numerical output ABI or modelquality.",
+    "Native timing is synthetic; selector/hostscatter/extra runtime software cost is zero optimistic sensitivity.",
+    "Gate failed for selected fixedpairing and tested greedy selector, not all integer masks or layouts.",
+    "LP still permits about4.9% mean opportunity, so the broader independentview family is not ruled out.",
+    "No selectorbench, samebudgetcopy controls, heldout or all-layer expansion performed."
+  ]
+}

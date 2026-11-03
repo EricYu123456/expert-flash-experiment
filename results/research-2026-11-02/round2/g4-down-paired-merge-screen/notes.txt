@@ -1,0 +1,172 @@
+G4 whole-wave paired Down merge: finite screen and selected native no-go
+=====================================================================
+
+Decision: SEALED_FINITE_NO_GO. The authorized fixedgraph14 pure unitflow bits,
+after restoring all real source overhead, improve complete native FFN service
+by1.94856983695%mean and0.716982063945%P99 with selector/scatter time zero.
+Both are below the2%mean/5%tail resource-allocation gate. Stop selectorbench,
+strong replica controls, othergraph native, CP, weights, all-layer and heldout
+expansion. This is a finite candidate decision, not universal impossibility.
+
+Frozen sources/protocols
+-----------------------
+Main32graph LP/work source:
+scripts/research_20261103_g4_down_paired_merge_screen.py
+protocol32e5d4781aa0819cea26b569fecf3a35c7637702e39cdb1bba2b78eae6e192d9
+Integral unitflow source:
+scripts/research_20261103_g4_down_paired_unitflow_bound.py
+protocol0888018142a6b7b5919c071532fa9dd49a46125d5445e7e9c26041a08ae47ed8
+Selected native source:
+scripts/research_20261103_g4_down_paired_native_selected.py
+protocol88b9676392bc7412b89460df6b2ce86f51b7fedf84835a70a610a1be046c373a
+Each protocol was written before its computation; every input hash was checked
+before/after. Original CP0107, single-tile/Deep/elastic seals were not changed.
+All routes are the existing actual W8 G4L0 TRAIN512,32prompts x16decode.
+
+Ordinary full-row hardware/numerical contract
+-------------------------------------------
+Each routed Down has1536rows x512columns. Original B has12positive128row chips
+and4zeros. Pair the12positive chips into six directed(source,dest) edges, fixed
+offline. Source retains its original128rows; dest stores original128core plus
+another physical copy of source128rows. Runtime edge0 executes128+128; edge1
+executes0+256. Every edge always executes256unique useful rows and2waves.
+Each expert executes1536unique rows/12waves; jobs range12..6. At most one Down
+job per expert/chip, full private512-dimensional input every job, one chip
+context through output drain. GU/shared remain original B and every private
+Down waits for the whole expert GU->host activation->complete-vector A8 barrier.
+
+128x512=65536B=4pages=1wave;256x512=131072B=8pages=2waves. All prefixes end at
+full row/page/wave boundaries. Every computed Down row is useful and consumed
+once; no fringe, partialrow, partialdot, validR, MAC stop or extra context.
+Dest256 outputs correspond to original core IDs followed by source suffix IDs;
+scatter/scales must use those original logical row identities. Preserve full
+W8 rows and original F32 scale, identical private input A8/scale, original dot
+and once-only conversion/rescaling arithmetic. This branch verifies symbolic
+row/scale identity and modeled timing, not actual weights or PE output ABI.
+
+Resident per expert=2304row slots:1536unique logical rows+768duplicated slots.
+6copies/expert x64 x128rows x512B =24MiB useful/page storage=1536pages/384waves.
+These are copies even if stored in prior holes. No resident descriptor with
+2304slots is submitted as2304independent logical outputs. Each actual view is
+lowered with1536logical output rows. Physical row-ID inventories retain every
+original source row and identify copies rather than inventing aliases.
+
+Service and finite work/LP screen
+--------------------------------
+Original128job=28762ns=command250+fullinput256+read28000+output256.
+Merged256job=57018ns=250+256+56000+512. Therefore edge1 changes chip-owned
+work by-28762source,+28256dest and saves506ns aggregate command/input work.
+An aggregate saving or a lower bottleneck work does not prove causal latency.
+
+32routeblind layouts:16seeded random matching/directions,8random matchings
+directed toward lower expertGU+shared work,8deterministic low/high variants.
+For every512query, feasible policies use allsplit/allmerged starts and two36bit
+greedy passes. Continuous LP for all16384layout/queries relaxes bits to[0,1].
+Its reported lower bound is an exact integer dual certificate, not an unchecked
+floating solver objective: for any nonnegative integer chip weights w,
+  floor((w.base+sum_edges min(0,w.effect))/sumw)
+is <= the continuous and discrete optimum. audit_and_addresses.py independently
+recomputes all16384certificates with Python integers and all feasible loads.
+The float LP optimum is within~1ns of the conservative floor certificate.
+
+Best original greedy graph4:550043.55859375ns work,0.99289373%work improvement.
+Best continuous-LP graph15 gives535607.04296875ns work lower bound,4.18677911%
+optimistic native mean headroom after host. It is not a fractional execution
+proposal. Its large integrality gap motivates the stronger packet bound below.
+Two-pass samegraph zero-copy static repacks from allsplit/allmerged for4/15/14
+choose original B,555559.67578125ns work. This is a finite heuristic control,
+not global optimization over g6/down256 or mixed one-copy profiles.
+
+Stronger integral unit-packet relaxation
+---------------------------------------
+Keep every destination128core at real cost28762. Treat each source128packet
+as one integral28256ns packet assigned to source or dest, waiving source-only
+506ns command/input overhead. There are36packet edges/query. For a trial T,
+edge->two endpoint integral maxflow with chip capacity
+  floor((T-fixed_chip_work)/28256)
+is exactly the minimax uniformpacket relaxation. This is standard replicated
+job assignment, not a new theorem or actual chip work.
+
+GU never changes and the first logical expert has positive GU on all16chips.
+For the frozen canonical priority executor, commands start2000+c*250 before
+any28us read completes. Add these chip offsets before the flow and host2000ns
+afterward. This is an executor-specific necessary bound, not a scheduler-wide
+limit. Every one of16384flow optima was certified feasible atT/infeasible atT-1
+with119441SciPy Edmonds-Karp calls. Max remaining mean headroom is2.26512075%
+atgraph14; all P99headroom <=0.91969773%.17of32graphs are below2%mean outright.
+Source506ns was deliberately waived, so those assignments/bounds were not
+reported as actual work.
+
+Restoring real506ns for each source-endpoint packet gives legal split/merge
+bits. Two independently evaluated formulas agree for every32x512chip vector:
+originalbase+effect*bits, and relaxedbase+28256*packetcount+506*sourcecount.
+Graph14 pure restored work=545769.66015625ns,1.76218974%work gain. Choosing
+between already available restored/greedy bits lowers work to545562.8046875ns
+(1.79942345%), but this optional mixture was NOT used for authorized native.
+The fixed graph is chosen offline by TRAIN work; runtime does not choose32
+physical graphs for free. All these values are chip work, not native timings.
+
+Authorized full native result and checks
+---------------------------------------
+Only graph14 pure restored unitflow endpoints were replayed. Original B's512
+costs and512lower bounds match CP0107 exactly. The3072selected expert views
+retain1536unique Down rows; all ordinary lower_rows guards and independently
+restored chip-work vectors pass. Original GU/shared geometry remains exact.
+
+                                Original B         Fixedgraph14
+Native mean ns                  561099.01953125     550165.61328125
+Native P99 ns                   580695.14           576531.66
+Mean improvement                                   1.94856983695%
+P99 improvement                                    0.716982063945%
+
+q0/255/511 baseline and new have six independent Python ReferenceGraph checks;
+all5996node trace rows match the C++ event replay exactly. Every dependency,
+resource stage, single owner interval, complete input reload and full-GU
+activation barrier was checked. First-command offsets also match2000+c*250.
+Complete nodes and both traces are retained per case. Zero selector/scatter
+time is an optimistic sensitivity assumption; it is not measured host cost.
+Because even that optimistic replay misses the gate, no selector benchmark or
+heavy strong-control campaign was launched.
+
+Physical addresses and four byte ledgers
+---------------------------------------
+Static BFD repacking is allowed; original source physical addresses are not
+claimed unchanged. Graph4/15 and finalgraph14 all fit16single192WL LSB blocks,
+one/chip, with every stored matrix wholly inside one block. All source128 and
+dest128/256views are full-wave prefixes at that fixed band's start. The final
+graph14 row identity ledger checks all64masks x64experts=4096views. Symbolic
+ledger identities are separate from native descriptor output ordering.
+
+                               One-copy B       Resident copied inventory
+Useful coefficients MiB        148.5            172.5
+Programmed pages               9760             11296
+Reserved waves                 2440             2824
+Page/wave bytes MiB             152.5            176.5
+Allocated LSB block MiB         192              192
+Stored matrix bands            1824             1824
+
+Unchanged allocated block count does not make24MiB copies free: useful/page/
+wave resident inventories all explicitly grow. Ledgers exclude attention,
+dense weights, CSB/MSB, FTL/spares and host scale/map metadata. They are virtual
+coefficient certificates, not an actual device programming/capacity proof.
+
+Strong controls, prior and limitation
+------------------------------------
+Same24MiB/384wave useful/page budget funds32complete Down backups, each0.75MiB
+and12waves; it does not fund32wholeFFN backups. Before any claim, copy expert
+IDs, locations/profiles and selector effort must be fitted comparably, alongside
+generic partial RDA, samegraph static repacks and existing g6/down256x6 and
+mixed one-copy geometry controls. These heavy controls were not run because
+the fixed native gate failed. Thus no relative novelty or gain against those
+strong controls is claimed. Generic replicated allocation/flow is already
+standard (e.g. Selective Replicated Declustering for Arbitrary Queries,2009,
+section2 per-query network flow); no new algorithm/theorem follows here.
+
+The old4MiB single-edge G4 bound did not cover six independent disjoint edges,
+so this bounded test was a different finite family. Its modest positive modeled
+gain does not establish a new contribution. paper/aif.txt describes block ID,
+offset/pagecount dense GEMV and FIFO polling, but maxR/pagecount encodings,
+actual output/scaling/reset ABI and controller scatter remain unverified.
+kernel/aif.h explicitly provides metadata only, not weights/GEMV outputs.
+Clean wave-aligned prefixes remove fringe uncertainty; they do not prove the
+remaining native ABI or authorize new hardware functions.

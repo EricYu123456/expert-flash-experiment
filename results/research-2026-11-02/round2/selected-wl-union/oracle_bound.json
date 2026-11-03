@@ -1,0 +1,1850 @@
+{
+  "status": "complete training-only bound; no candidate hardware plan or method claim",
+  "models": [
+    {
+      "model": "granite4tiny",
+      "layers": [
+        0,
+        1,
+        2
+      ],
+      "train_ids": [
+        "train_summarization_short_027",
+        "train_programming_short_015",
+        "train_translation_medium_031",
+        "train_qa_short_003",
+        "train_qa_long_026",
+        "train_programming_long_020",
+        "train_translation_medium_022",
+        "train_qa_medium_004",
+        "train_long_context_long_005",
+        "train_long_context_medium_001",
+        "train_programming_short_030",
+        "train_mathematics_long_023",
+        "train_summarization_medium_016",
+        "train_mathematics_long_020",
+        "train_programming_medium_004",
+        "train_summarization_long_032",
+        "train_mathematics_long_008",
+        "train_long_context_short_018",
+        "train_programming_long_005",
+        "train_mathematics_short_012",
+        "train_programming_medium_013",
+        "train_programming_medium_019",
+        "train_mathematics_medium_028",
+        "train_programming_long_017",
+        "train_translation_short_006",
+        "train_mathematics_medium_001",
+        "train_summarization_long_011",
+        "train_summarization_medium_028",
+        "train_long_context_long_017",
+        "train_qa_short_027",
+        "train_summarization_long_020",
+        "train_summarization_short_003"
+      ],
+      "steps": 64,
+      "input_sha256": {
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/geometry-study/granite4tiny.frozen.json": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/screen/routes.npz": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/unbalanced-group/granite4tiny.screen.strong.frozen.json": "87a6893f76a3381877ca8952542d08ca65edf224fc47846a32ae004e3ae944cd"
+      },
+      "reference_routed_FFN_mean_ns": 1450723.640625,
+      "reference_down_ns": 516551.90625,
+      "GU": [
+        {
+          "layer": 0,
+          "columns": 1536,
+          "total_rows": 1024,
+          "reference_label": "strong_same_group",
+          "reference_mean_ns": 310064.28125,
+          "reference_flash_mean_ns": 291457.03125,
+          "reference_control_mean_ns": 12000.0,
+          "geometry": [
+            {
+              "g": 16,
+              "rows_per_shard": 64,
+              "bytes_per_shard": 98304,
+              "pages_per_shard": 6,
+              "full_WL_aligned": false,
+              "read_mechanism": "half-WL sharing; optimistic matching bound only"
+            },
+            {
+              "g": 8,
+              "rows_per_shard": 128,
+              "bytes_per_shard": 196608,
+              "pages_per_shard": 12,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            }
+          ],
+          "block_rule": "Every run crossing 192 WLs must split; relaxed away in the lower bound.",
+          "native_full_WL_row_boundary_legal": false,
+          "status": "relaxed mathematical bound; not an executable layout",
+          "max_weight_matching": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              19
+            ],
+            [
+              3,
+              62
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              7,
+              47
+            ],
+            [
+              8,
+              40
+            ],
+            [
+              9,
+              48
+            ],
+            [
+              10,
+              41
+            ],
+            [
+              11,
+              52
+            ],
+            [
+              13,
+              28
+            ],
+            [
+              14,
+              24
+            ],
+            [
+              15,
+              49
+            ],
+            [
+              16,
+              37
+            ],
+            [
+              17,
+              57
+            ],
+            [
+              18,
+              53
+            ],
+            [
+              20,
+              63
+            ],
+            [
+              21,
+              51
+            ],
+            [
+              22,
+              25
+            ],
+            [
+              23,
+              58
+            ],
+            [
+              26,
+              50
+            ],
+            [
+              27,
+              44
+            ],
+            [
+              29,
+              31
+            ],
+            [
+              30,
+              43
+            ],
+            [
+              32,
+              46
+            ],
+            [
+              33,
+              45
+            ],
+            [
+              34,
+              38
+            ],
+            [
+              35,
+              55
+            ],
+            [
+              36,
+              42
+            ],
+            [
+              39,
+              60
+            ],
+            [
+              54,
+              56
+            ],
+            [
+              59,
+              61
+            ]
+          ],
+          "matching_total_coactivation_count": 2711,
+          "matching_expected_selected_pairs": 1.32373046875,
+          "minimum_expected_critical_read_waves": 10.67626953125,
+          "candidate_optimistic_lower_bound_ns": 309543.546875,
+          "saving_upper_bound_ns": 520.734375,
+          "MAC_sensitivity": [
+            {
+              "compute_ns_per_64KiB_MAC_work": 0,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 310064.28125,
+              "candidate_optimistic_lower_bound_ns": 309543.546875,
+              "saving_upper_bound_ns": 520.734375
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 14000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 310064.28125,
+              "candidate_optimistic_lower_bound_ns": 309543.546875,
+              "saving_upper_bound_ns": 520.734375
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 28000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 310064.28125,
+              "candidate_optimistic_lower_bound_ns": 309543.546875,
+              "saving_upper_bound_ns": 520.734375
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 56000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 601521.3125,
+              "candidate_optimistic_lower_bound_ns": 608479.09375,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 112000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 1184435.375,
+              "candidate_optimistic_lower_bound_ns": 1206350.1875,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 0,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 310064.28125,
+              "candidate_optimistic_lower_bound_ns": 309543.546875,
+              "saving_upper_bound_ns": 520.734375
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 14000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 455792.796875,
+              "candidate_optimistic_lower_bound_ns": 459011.3203125,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 28000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 601521.3125,
+              "candidate_optimistic_lower_bound_ns": 608479.09375,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 56000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 892978.34375,
+              "candidate_optimistic_lower_bound_ns": 907414.640625,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 112000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 1475892.40625,
+              "candidate_optimistic_lower_bound_ns": 1505285.734375,
+              "saving_upper_bound_ns": 0.0
+            }
+          ],
+          "proof": "For phase-block-aligned tight packing of equal 4q+2-page shards, every two adjacent experts share one WL and no other pair shares a WL. For each chip W=K*(q+1)-selected_pairs. Maximum-weight perfect matching minimizes its expected W exactly. Arbitrary chip-specific matchings cannot beat this mean because E[max_chip W] >= max_chip E[W] >= this optimum; identical optimal matchings attain the flash expectation. Control, inactive outputs, block splits and native row legality are relaxed favorably.",
+          "other_page_offsets": "Even page offsets give the same matching family. At odd offsets, alternating bad experts cost one extra WL while every adjacent expert pair can share one WL: expected W=K*(q+1)+sum_bad P(selected)-sum_path P(both). Split path edges into two matchings; optimal perfect matching weight M is at least half the path-edge weight sum. Each bad expert has at most two neighbors, so path weight sum<=2*sum_bad P(selected). Therefore M>=path_weight_sum-sum_bad P(selected), and an aligned matching has no larger expected read work than any odd-offset order.",
+          "inactive_output_note": "All covered WL rows must really compute and transfer. Ignoring their extra output makes this a favorable lower bound, never a measured/predicted runtime.",
+          "native_limitation": "C1536 requires WL start and length multiples of3 for fully row-aligned dense runs; the safe 3WL pair bundle reads3WL even when one expert is selected."
+        },
+        {
+          "layer": 1,
+          "columns": 1536,
+          "total_rows": 1024,
+          "reference_label": "strong_same_group",
+          "reference_mean_ns": 311828.328125,
+          "reference_flash_mean_ns": 293220.703125,
+          "reference_control_mean_ns": 12000.0,
+          "geometry": [
+            {
+              "g": 16,
+              "rows_per_shard": 64,
+              "bytes_per_shard": 98304,
+              "pages_per_shard": 6,
+              "full_WL_aligned": false,
+              "read_mechanism": "half-WL sharing; optimistic matching bound only"
+            },
+            {
+              "g": 8,
+              "rows_per_shard": 128,
+              "bytes_per_shard": 196608,
+              "pages_per_shard": 12,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            }
+          ],
+          "block_rule": "Every run crossing 192 WLs must split; relaxed away in the lower bound.",
+          "native_full_WL_row_boundary_legal": false,
+          "status": "relaxed mathematical bound; not an executable layout",
+          "max_weight_matching": [
+            [
+              0,
+              45
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              2,
+              57
+            ],
+            [
+              3,
+              24
+            ],
+            [
+              4,
+              60
+            ],
+            [
+              5,
+              12
+            ],
+            [
+              6,
+              56
+            ],
+            [
+              7,
+              16
+            ],
+            [
+              8,
+              40
+            ],
+            [
+              9,
+              61
+            ],
+            [
+              10,
+              13
+            ],
+            [
+              11,
+              28
+            ],
+            [
+              14,
+              33
+            ],
+            [
+              15,
+              30
+            ],
+            [
+              17,
+              31
+            ],
+            [
+              19,
+              23
+            ],
+            [
+              20,
+              58
+            ],
+            [
+              21,
+              63
+            ],
+            [
+              22,
+              42
+            ],
+            [
+              25,
+              41
+            ],
+            [
+              26,
+              37
+            ],
+            [
+              27,
+              49
+            ],
+            [
+              29,
+              55
+            ],
+            [
+              32,
+              46
+            ],
+            [
+              34,
+              52
+            ],
+            [
+              35,
+              54
+            ],
+            [
+              36,
+              39
+            ],
+            [
+              38,
+              48
+            ],
+            [
+              43,
+              44
+            ],
+            [
+              47,
+              50
+            ],
+            [
+              51,
+              62
+            ],
+            [
+              53,
+              59
+            ]
+          ],
+          "matching_total_coactivation_count": 2567,
+          "matching_expected_selected_pairs": 1.25341796875,
+          "minimum_expected_critical_read_waves": 10.74658203125,
+          "candidate_optimistic_lower_bound_ns": 311512.296875,
+          "saving_upper_bound_ns": 316.03125,
+          "MAC_sensitivity": [
+            {
+              "compute_ns_per_64KiB_MAC_work": 0,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 311828.328125,
+              "candidate_optimistic_lower_bound_ns": 311512.296875,
+              "saving_upper_bound_ns": 316.03125
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 14000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 311828.328125,
+              "candidate_optimistic_lower_bound_ns": 311512.296875,
+              "saving_upper_bound_ns": 316.03125
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 28000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 311828.328125,
+              "candidate_optimistic_lower_bound_ns": 311512.296875,
+              "saving_upper_bound_ns": 316.03125
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 56000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 605049.03125,
+              "candidate_optimistic_lower_bound_ns": 612416.59375,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 112000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 1191490.4375,
+              "candidate_optimistic_lower_bound_ns": 1214225.1875,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 0,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 311828.328125,
+              "candidate_optimistic_lower_bound_ns": 311512.296875,
+              "saving_upper_bound_ns": 316.03125
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 14000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 458438.6796875,
+              "candidate_optimistic_lower_bound_ns": 461964.4453125,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 28000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 605049.03125,
+              "candidate_optimistic_lower_bound_ns": 612416.59375,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 56000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 898269.734375,
+              "candidate_optimistic_lower_bound_ns": 913320.890625,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 112000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 1484711.140625,
+              "candidate_optimistic_lower_bound_ns": 1515129.484375,
+              "saving_upper_bound_ns": 0.0
+            }
+          ],
+          "proof": "For phase-block-aligned tight packing of equal 4q+2-page shards, every two adjacent experts share one WL and no other pair shares a WL. For each chip W=K*(q+1)-selected_pairs. Maximum-weight perfect matching minimizes its expected W exactly. Arbitrary chip-specific matchings cannot beat this mean because E[max_chip W] >= max_chip E[W] >= this optimum; identical optimal matchings attain the flash expectation. Control, inactive outputs, block splits and native row legality are relaxed favorably.",
+          "other_page_offsets": "Even page offsets give the same matching family. At odd offsets, alternating bad experts cost one extra WL while every adjacent expert pair can share one WL: expected W=K*(q+1)+sum_bad P(selected)-sum_path P(both). Split path edges into two matchings; optimal perfect matching weight M is at least half the path-edge weight sum. Each bad expert has at most two neighbors, so path weight sum<=2*sum_bad P(selected). Therefore M>=path_weight_sum-sum_bad P(selected), and an aligned matching has no larger expected read work than any odd-offset order.",
+          "inactive_output_note": "All covered WL rows must really compute and transfer. Ignoring their extra output makes this a favorable lower bound, never a measured/predicted runtime.",
+          "native_limitation": "C1536 requires WL start and length multiples of3 for fully row-aligned dense runs; the safe 3WL pair bundle reads3WL even when one expert is selected."
+        },
+        {
+          "layer": 2,
+          "columns": 1536,
+          "total_rows": 1024,
+          "reference_label": "strong_same_group",
+          "reference_mean_ns": 312279.125,
+          "reference_flash_mean_ns": 293671.875,
+          "reference_control_mean_ns": 12000.0,
+          "geometry": [
+            {
+              "g": 16,
+              "rows_per_shard": 64,
+              "bytes_per_shard": 98304,
+              "pages_per_shard": 6,
+              "full_WL_aligned": false,
+              "read_mechanism": "half-WL sharing; optimistic matching bound only"
+            },
+            {
+              "g": 8,
+              "rows_per_shard": 128,
+              "bytes_per_shard": 196608,
+              "pages_per_shard": 12,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            }
+          ],
+          "block_rule": "Every run crossing 192 WLs must split; relaxed away in the lower bound.",
+          "native_full_WL_row_boundary_legal": false,
+          "status": "relaxed mathematical bound; not an executable layout",
+          "max_weight_matching": [
+            [
+              0,
+              13
+            ],
+            [
+              1,
+              52
+            ],
+            [
+              2,
+              59
+            ],
+            [
+              3,
+              25
+            ],
+            [
+              4,
+              31
+            ],
+            [
+              5,
+              21
+            ],
+            [
+              6,
+              40
+            ],
+            [
+              7,
+              58
+            ],
+            [
+              8,
+              44
+            ],
+            [
+              9,
+              61
+            ],
+            [
+              10,
+              36
+            ],
+            [
+              11,
+              56
+            ],
+            [
+              12,
+              27
+            ],
+            [
+              14,
+              53
+            ],
+            [
+              15,
+              39
+            ],
+            [
+              16,
+              32
+            ],
+            [
+              17,
+              46
+            ],
+            [
+              18,
+              42
+            ],
+            [
+              19,
+              54
+            ],
+            [
+              20,
+              48
+            ],
+            [
+              22,
+              38
+            ],
+            [
+              23,
+              41
+            ],
+            [
+              24,
+              35
+            ],
+            [
+              26,
+              45
+            ],
+            [
+              28,
+              33
+            ],
+            [
+              29,
+              60
+            ],
+            [
+              30,
+              37
+            ],
+            [
+              34,
+              62
+            ],
+            [
+              43,
+              57
+            ],
+            [
+              47,
+              63
+            ],
+            [
+              49,
+              50
+            ],
+            [
+              51,
+              55
+            ]
+          ],
+          "matching_total_coactivation_count": 2586,
+          "matching_expected_selected_pairs": 1.2626953125,
+          "minimum_expected_critical_read_waves": 10.7373046875,
+          "candidate_optimistic_lower_bound_ns": 311252.53125,
+          "saving_upper_bound_ns": 1026.59375,
+          "MAC_sensitivity": [
+            {
+              "compute_ns_per_64KiB_MAC_work": 0,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 312279.125,
+              "candidate_optimistic_lower_bound_ns": 311252.53125,
+              "saving_upper_bound_ns": 1026.59375
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 14000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 312279.125,
+              "candidate_optimistic_lower_bound_ns": 311252.53125,
+              "saving_upper_bound_ns": 1026.59375
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 28000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 312279.125,
+              "candidate_optimistic_lower_bound_ns": 311252.53125,
+              "saving_upper_bound_ns": 1026.59375
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 56000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 605951.0,
+              "candidate_optimistic_lower_bound_ns": 611897.0625,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 112000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 1193294.75,
+              "candidate_optimistic_lower_bound_ns": 1213186.125,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 0,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 312279.125,
+              "candidate_optimistic_lower_bound_ns": 311252.53125,
+              "saving_upper_bound_ns": 1026.59375
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 14000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 459115.0625,
+              "candidate_optimistic_lower_bound_ns": 461574.796875,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 28000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 605951.0,
+              "candidate_optimistic_lower_bound_ns": 611897.0625,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 56000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 899622.875,
+              "candidate_optimistic_lower_bound_ns": 912541.59375,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 112000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 1486966.625,
+              "candidate_optimistic_lower_bound_ns": 1513830.65625,
+              "saving_upper_bound_ns": 0.0
+            }
+          ],
+          "proof": "For phase-block-aligned tight packing of equal 4q+2-page shards, every two adjacent experts share one WL and no other pair shares a WL. For each chip W=K*(q+1)-selected_pairs. Maximum-weight perfect matching minimizes its expected W exactly. Arbitrary chip-specific matchings cannot beat this mean because E[max_chip W] >= max_chip E[W] >= this optimum; identical optimal matchings attain the flash expectation. Control, inactive outputs, block splits and native row legality are relaxed favorably.",
+          "other_page_offsets": "Even page offsets give the same matching family. At odd offsets, alternating bad experts cost one extra WL while every adjacent expert pair can share one WL: expected W=K*(q+1)+sum_bad P(selected)-sum_path P(both). Split path edges into two matchings; optimal perfect matching weight M is at least half the path-edge weight sum. Each bad expert has at most two neighbors, so path weight sum<=2*sum_bad P(selected). Therefore M>=path_weight_sum-sum_bad P(selected), and an aligned matching has no larger expected read work than any odd-offset order.",
+          "inactive_output_note": "All covered WL rows must really compute and transfer. Ignoring their extra output makes this a favorable lower bound, never a measured/predicted runtime.",
+          "native_limitation": "C1536 requires WL start and length multiples of3 for fully row-aligned dense runs; the safe 3WL pair bundle reads3WL even when one expert is selected."
+        }
+      ],
+      "new_read_saving_upper_bound_ns": 1863.359375,
+      "whole_routed_FFN_saving_upper_bound_pct": 0.12844344179827583,
+      "MAC_sensitivity": [
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 0,
+          "saving_upper_bound_ns": 1863.359375,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.12844344179827583,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 14000,
+          "saving_upper_bound_ns": 1863.359375,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.12844344179827583,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 28000,
+          "saving_upper_bound_ns": 1863.359375,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.12844344179827583,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 56000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 112000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 0,
+          "saving_upper_bound_ns": 1863.359375,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.12844344179827583,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 14000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 28000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 56000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 112000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        }
+      ],
+      "decision": "no-go for this read-packing branch: favorable whole-FFN bound below1%; do not expand ordering search or open heldout"
+    },
+    {
+      "model": "deepseek",
+      "layers": [
+        1,
+        2
+      ],
+      "train_ids": [
+        "train_summarization_short_027",
+        "train_programming_short_015",
+        "train_translation_medium_031",
+        "train_qa_short_003",
+        "train_qa_long_026",
+        "train_programming_long_020",
+        "train_translation_medium_022",
+        "train_qa_medium_004",
+        "train_long_context_long_005",
+        "train_long_context_medium_001",
+        "train_programming_short_030",
+        "train_mathematics_long_023",
+        "train_summarization_medium_016",
+        "train_mathematics_long_020",
+        "train_programming_medium_004",
+        "train_summarization_long_032",
+        "train_mathematics_long_008",
+        "train_long_context_short_018",
+        "train_programming_long_005",
+        "train_mathematics_short_012",
+        "train_programming_medium_013",
+        "train_programming_medium_019",
+        "train_mathematics_medium_028",
+        "train_programming_long_017",
+        "train_translation_short_006",
+        "train_mathematics_medium_001",
+        "train_summarization_long_011",
+        "train_summarization_medium_028",
+        "train_long_context_long_017",
+        "train_qa_short_027",
+        "train_summarization_long_020",
+        "train_summarization_short_003"
+      ],
+      "steps": 64,
+      "input_sha256": {
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/projection-study/deepseek.frozen_plan.json": "0ae1d30a49efeeb799061d9116889f0c0f1da642d624767c28ea2a1667e7cf5f",
+        "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/deepseek/analysis/train_routes.npz": "28f79c417e08578137e5bce0358070dc83b5a0ba2db8f39b1ad5382005cb8142",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/free-rows/deepseek.frozen.json": "5b483169c960d77360150005f21ef5846f32321101fe6b5d5cb5152fc567bc12"
+      },
+      "reference_routed_FFN_mean_ns": 3081543.1875,
+      "reference_down_ns": 1085629.3125,
+      "GU": [
+        {
+          "layer": 1,
+          "columns": 2048,
+          "total_rows": 2816,
+          "reference_label": "frozen_free_rows",
+          "reference_mean_ns": 997191.3125,
+          "reference_flash_mean_ns": 960695.3125,
+          "reference_control_mean_ns": 24000.0,
+          "geometry": [
+            {
+              "g": 16,
+              "rows_per_shard": 176,
+              "bytes_per_shard": 360448,
+              "pages_per_shard": 22,
+              "full_WL_aligned": false,
+              "read_mechanism": "half-WL sharing; optimistic matching bound only"
+            },
+            {
+              "g": 8,
+              "rows_per_shard": 352,
+              "bytes_per_shard": 720896,
+              "pages_per_shard": 44,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            }
+          ],
+          "block_rule": "Every run crossing 192 WLs must split; relaxed away in the lower bound.",
+          "native_full_WL_row_boundary_legal": true,
+          "status": "relaxed mathematical bound; not an executable layout",
+          "max_weight_matching": [
+            [
+              0,
+              27
+            ],
+            [
+              1,
+              40
+            ],
+            [
+              2,
+              39
+            ],
+            [
+              3,
+              47
+            ],
+            [
+              4,
+              51
+            ],
+            [
+              5,
+              43
+            ],
+            [
+              6,
+              21
+            ],
+            [
+              7,
+              36
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              9,
+              30
+            ],
+            [
+              10,
+              41
+            ],
+            [
+              11,
+              57
+            ],
+            [
+              13,
+              44
+            ],
+            [
+              14,
+              58
+            ],
+            [
+              15,
+              45
+            ],
+            [
+              16,
+              22
+            ],
+            [
+              17,
+              32
+            ],
+            [
+              18,
+              54
+            ],
+            [
+              19,
+              33
+            ],
+            [
+              20,
+              26
+            ],
+            [
+              23,
+              37
+            ],
+            [
+              24,
+              49
+            ],
+            [
+              25,
+              62
+            ],
+            [
+              28,
+              34
+            ],
+            [
+              29,
+              38
+            ],
+            [
+              31,
+              50
+            ],
+            [
+              35,
+              53
+            ],
+            [
+              42,
+              63
+            ],
+            [
+              46,
+              48
+            ],
+            [
+              52,
+              56
+            ],
+            [
+              55,
+              60
+            ],
+            [
+              59,
+              61
+            ]
+          ],
+          "matching_total_coactivation_count": 2450,
+          "matching_expected_selected_pairs": 1.1962890625,
+          "minimum_expected_critical_read_waves": 34.8037109375,
+          "candidate_optimistic_lower_bound_ns": 990999.90625,
+          "saving_upper_bound_ns": 6191.40625,
+          "MAC_sensitivity": [
+            {
+              "compute_ns_per_64KiB_MAC_work": 0,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 997191.3125,
+              "candidate_optimistic_lower_bound_ns": 990999.90625,
+              "saving_upper_bound_ns": 6191.40625
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 14000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 997191.3125,
+              "candidate_optimistic_lower_bound_ns": 990999.90625,
+              "saving_upper_bound_ns": 6191.40625
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 28000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 997191.3125,
+              "candidate_optimistic_lower_bound_ns": 990999.90625,
+              "saving_upper_bound_ns": 6191.40625
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 56000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 1957886.625,
+              "candidate_optimistic_lower_bound_ns": 1965503.8125,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 112000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 3879277.25,
+              "candidate_optimistic_lower_bound_ns": 3914511.625,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 0,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 997191.3125,
+              "candidate_optimistic_lower_bound_ns": 990999.90625,
+              "saving_upper_bound_ns": 6191.40625
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 14000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 1477538.96875,
+              "candidate_optimistic_lower_bound_ns": 1478251.859375,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 28000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 1957886.625,
+              "candidate_optimistic_lower_bound_ns": 1965503.8125,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 56000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 2918581.9375,
+              "candidate_optimistic_lower_bound_ns": 2940007.71875,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 112000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 4839972.5625,
+              "candidate_optimistic_lower_bound_ns": 4889015.53125,
+              "saving_upper_bound_ns": 0.0
+            }
+          ],
+          "proof": "For phase-block-aligned tight packing of equal 4q+2-page shards, every two adjacent experts share one WL and no other pair shares a WL. For each chip W=K*(q+1)-selected_pairs. Maximum-weight perfect matching minimizes its expected W exactly. Arbitrary chip-specific matchings cannot beat this mean because E[max_chip W] >= max_chip E[W] >= this optimum; identical optimal matchings attain the flash expectation. Control, inactive outputs, block splits and native row legality are relaxed favorably.",
+          "other_page_offsets": "Even page offsets give the same matching family. At odd offsets, alternating bad experts cost one extra WL while every adjacent expert pair can share one WL: expected W=K*(q+1)+sum_bad P(selected)-sum_path P(both). Split path edges into two matchings; optimal perfect matching weight M is at least half the path-edge weight sum. Each bad expert has at most two neighbors, so path weight sum<=2*sum_bad P(selected). Therefore M>=path_weight_sum-sum_bad P(selected), and an aligned matching has no larger expected read work than any odd-offset order.",
+          "inactive_output_note": "All covered WL rows must really compute and transfer. Ignoring their extra output makes this a favorable lower bound, never a measured/predicted runtime.",
+          "native_limitation": "C divides WL, so full-WL runs contain complete rows; native block/pagecount legality still belongs to the architecture audit."
+        },
+        {
+          "layer": 2,
+          "columns": 2048,
+          "total_rows": 2816,
+          "reference_label": "main_frozen",
+          "reference_mean_ns": 998722.5625,
+          "reference_flash_mean_ns": 962226.5625,
+          "reference_control_mean_ns": 24000.0,
+          "geometry": [
+            {
+              "g": 16,
+              "rows_per_shard": 176,
+              "bytes_per_shard": 360448,
+              "pages_per_shard": 22,
+              "full_WL_aligned": false,
+              "read_mechanism": "half-WL sharing; optimistic matching bound only"
+            },
+            {
+              "g": 8,
+              "rows_per_shard": 352,
+              "bytes_per_shard": 720896,
+              "pages_per_shard": 44,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            }
+          ],
+          "block_rule": "Every run crossing 192 WLs must split; relaxed away in the lower bound.",
+          "native_full_WL_row_boundary_legal": true,
+          "status": "relaxed mathematical bound; not an executable layout",
+          "max_weight_matching": [
+            [
+              0,
+              41
+            ],
+            [
+              1,
+              44
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              52
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              5,
+              56
+            ],
+            [
+              7,
+              23
+            ],
+            [
+              8,
+              46
+            ],
+            [
+              9,
+              34
+            ],
+            [
+              10,
+              21
+            ],
+            [
+              12,
+              51
+            ],
+            [
+              13,
+              37
+            ],
+            [
+              14,
+              22
+            ],
+            [
+              15,
+              48
+            ],
+            [
+              16,
+              25
+            ],
+            [
+              17,
+              18
+            ],
+            [
+              19,
+              47
+            ],
+            [
+              20,
+              28
+            ],
+            [
+              24,
+              49
+            ],
+            [
+              26,
+              43
+            ],
+            [
+              27,
+              63
+            ],
+            [
+              29,
+              38
+            ],
+            [
+              30,
+              45
+            ],
+            [
+              31,
+              53
+            ],
+            [
+              32,
+              39
+            ],
+            [
+              33,
+              60
+            ],
+            [
+              35,
+              57
+            ],
+            [
+              36,
+              54
+            ],
+            [
+              40,
+              55
+            ],
+            [
+              42,
+              61
+            ],
+            [
+              50,
+              58
+            ],
+            [
+              59,
+              62
+            ]
+          ],
+          "matching_total_coactivation_count": 2307,
+          "matching_expected_selected_pairs": 1.12646484375,
+          "minimum_expected_critical_read_waves": 34.87353515625,
+          "candidate_optimistic_lower_bound_ns": 992954.984375,
+          "saving_upper_bound_ns": 5767.578125,
+          "MAC_sensitivity": [
+            {
+              "compute_ns_per_64KiB_MAC_work": 0,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 998722.5625,
+              "candidate_optimistic_lower_bound_ns": 992954.984375,
+              "saving_upper_bound_ns": 5767.578125
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 14000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 998722.5625,
+              "candidate_optimistic_lower_bound_ns": 992954.984375,
+              "saving_upper_bound_ns": 5767.578125
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 28000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 998722.5625,
+              "candidate_optimistic_lower_bound_ns": 992954.984375,
+              "saving_upper_bound_ns": 5767.578125
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 56000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 1960949.125,
+              "candidate_optimistic_lower_bound_ns": 1969413.96875,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 112000,
+              "overlap_model": "max_overlap",
+              "reference_mean_ns": 3885402.25,
+              "candidate_optimistic_lower_bound_ns": 3922331.9375,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 0,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 998722.5625,
+              "candidate_optimistic_lower_bound_ns": 992954.984375,
+              "saving_upper_bound_ns": 5767.578125
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 14000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 1479835.84375,
+              "candidate_optimistic_lower_bound_ns": 1481184.4765625,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 28000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 1960949.125,
+              "candidate_optimistic_lower_bound_ns": 1969413.96875,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 56000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 2923175.6875,
+              "candidate_optimistic_lower_bound_ns": 2945872.953125,
+              "saving_upper_bound_ns": 0.0
+            },
+            {
+              "compute_ns_per_64KiB_MAC_work": 112000,
+              "overlap_model": "serial_read_compute",
+              "reference_mean_ns": 4847628.8125,
+              "candidate_optimistic_lower_bound_ns": 4898790.921875,
+              "saving_upper_bound_ns": 0.0
+            }
+          ],
+          "proof": "For phase-block-aligned tight packing of equal 4q+2-page shards, every two adjacent experts share one WL and no other pair shares a WL. For each chip W=K*(q+1)-selected_pairs. Maximum-weight perfect matching minimizes its expected W exactly. Arbitrary chip-specific matchings cannot beat this mean because E[max_chip W] >= max_chip E[W] >= this optimum; identical optimal matchings attain the flash expectation. Control, inactive outputs, block splits and native row legality are relaxed favorably.",
+          "other_page_offsets": "Even page offsets give the same matching family. At odd offsets, alternating bad experts cost one extra WL while every adjacent expert pair can share one WL: expected W=K*(q+1)+sum_bad P(selected)-sum_path P(both). Split path edges into two matchings; optimal perfect matching weight M is at least half the path-edge weight sum. Each bad expert has at most two neighbors, so path weight sum<=2*sum_bad P(selected). Therefore M>=path_weight_sum-sum_bad P(selected), and an aligned matching has no larger expected read work than any odd-offset order.",
+          "inactive_output_note": "All covered WL rows must really compute and transfer. Ignoring their extra output makes this a favorable lower bound, never a measured/predicted runtime.",
+          "native_limitation": "C divides WL, so full-WL runs contain complete rows; native block/pagecount legality still belongs to the architecture audit."
+        }
+      ],
+      "new_read_saving_upper_bound_ns": 11958.984375,
+      "whole_routed_FFN_saving_upper_bound_pct": 0.38808426970975235,
+      "MAC_sensitivity": [
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 0,
+          "saving_upper_bound_ns": 11958.984375,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.38808426970975235,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 14000,
+          "saving_upper_bound_ns": 11958.984375,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.38808426970975235,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 28000,
+          "saving_upper_bound_ns": 11958.984375,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.38808426970975235,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 56000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 112000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 0,
+          "saving_upper_bound_ns": 11958.984375,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.38808426970975235,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 14000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 28000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 56000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 112000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        }
+      ],
+      "decision": "no-go for this read-packing branch: favorable whole-FFN bound below1%; do not expand ordering search or open heldout"
+    },
+    {
+      "model": "qwen3",
+      "layers": [
+        0,
+        1
+      ],
+      "train_ids": [
+        "train_summarization_short_027",
+        "train_programming_short_015",
+        "train_translation_medium_031",
+        "train_qa_short_003",
+        "train_qa_long_026",
+        "train_programming_long_020",
+        "train_translation_medium_022",
+        "train_qa_medium_004",
+        "train_long_context_long_005",
+        "train_long_context_medium_001",
+        "train_programming_short_030",
+        "train_mathematics_long_023",
+        "train_summarization_medium_016",
+        "train_mathematics_long_020",
+        "train_programming_medium_004",
+        "train_summarization_long_032",
+        "train_mathematics_long_008",
+        "train_long_context_short_018",
+        "train_programming_long_005",
+        "train_mathematics_short_012",
+        "train_programming_medium_013",
+        "train_programming_medium_019",
+        "train_mathematics_medium_028",
+        "train_programming_long_017",
+        "train_translation_short_006",
+        "train_mathematics_medium_001",
+        "train_summarization_long_011",
+        "train_summarization_medium_028",
+        "train_long_context_long_017",
+        "train_qa_short_027",
+        "train_summarization_long_020",
+        "train_summarization_short_003"
+      ],
+      "steps": 64,
+      "input_sha256": {
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/projection-study/qwen3.frozen_plan.json": "fa63798a1a7cf473fc6ecd9bf5b3546836baab39b783fea25181d8111ecb3242",
+        "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/qwen3/analysis/train_routes.npz": "4bed198ec0532aaa393fa338aad61763c019b496bd2c78063405113063571db0",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/unbalanced-group/qwen3.screen.strong.frozen.json": "bd676d49084bc6e86b5d36ed91e2d40f216df243d7dd3718df6af49098c19921",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/free-rows/qwen3.frozen.json": "020592134955473fc698a8f80a93dcb81e41f6965f828d4e6e2bab7c723c5996"
+      },
+      "reference_routed_FFN_mean_ns": 2243035.046875,
+      "reference_down_ns": 814651.046875,
+      "GU": [
+        {
+          "layer": 0,
+          "columns": 2048,
+          "total_rows": 1536,
+          "reference_label": "main_frozen",
+          "reference_mean_ns": 714192.0,
+          "reference_flash_mean_ns": 672000.0,
+          "reference_control_mean_ns": 32000.0,
+          "geometry": [
+            {
+              "g": 16,
+              "rows_per_shard": 96,
+              "bytes_per_shard": 196608,
+              "pages_per_shard": 12,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            },
+            {
+              "g": 8,
+              "rows_per_shard": 192,
+              "bytes_per_shard": 393216,
+              "pages_per_shard": 24,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            }
+          ],
+          "block_rule": "Every run crossing 192 WLs must split; relaxed away in the lower bound.",
+          "native_full_WL_row_boundary_legal": true,
+          "status": "no new read saving; g16 and g8 full-WL aligned",
+          "incremental_read_saving_vs_same_cost_coalescing_control_ns": 0.0
+        },
+        {
+          "layer": 1,
+          "columns": 2048,
+          "total_rows": 1536,
+          "reference_label": "main_frozen",
+          "reference_mean_ns": 714192.0,
+          "reference_flash_mean_ns": 672000.0,
+          "reference_control_mean_ns": 32000.0,
+          "geometry": [
+            {
+              "g": 16,
+              "rows_per_shard": 96,
+              "bytes_per_shard": 196608,
+              "pages_per_shard": 12,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            },
+            {
+              "g": 8,
+              "rows_per_shard": 192,
+              "bytes_per_shard": 393216,
+              "pages_per_shard": 24,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            }
+          ],
+          "block_rule": "Every run crossing 192 WLs must split; relaxed away in the lower bound.",
+          "native_full_WL_row_boundary_legal": true,
+          "status": "no new read saving; g16 and g8 full-WL aligned",
+          "incremental_read_saving_vs_same_cost_coalescing_control_ns": 0.0
+        }
+      ],
+      "new_read_saving_upper_bound_ns": 0,
+      "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+      "MAC_sensitivity": [
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 0,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 14000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 28000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 56000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 112000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 0,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 14000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 28000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 56000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 112000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        }
+      ],
+      "decision": "no-go for this read-packing branch: favorable whole-FFN bound below1%; do not expand ordering search or open heldout"
+    },
+    {
+      "model": "granite",
+      "layers": [
+        0,
+        1
+      ],
+      "train_ids": [
+        "train_summarization_short_027",
+        "train_programming_short_015",
+        "train_translation_medium_031",
+        "train_qa_short_003",
+        "train_qa_long_026",
+        "train_programming_long_020",
+        "train_translation_medium_022",
+        "train_qa_medium_004",
+        "train_long_context_long_005",
+        "train_long_context_medium_001",
+        "train_programming_short_030",
+        "train_mathematics_long_023",
+        "train_summarization_medium_016",
+        "train_mathematics_long_020",
+        "train_programming_medium_004",
+        "train_summarization_long_032",
+        "train_mathematics_long_008",
+        "train_long_context_short_018",
+        "train_programming_long_005",
+        "train_mathematics_short_012",
+        "train_programming_medium_013",
+        "train_programming_medium_019",
+        "train_mathematics_medium_028",
+        "train_programming_long_017",
+        "train_translation_short_006",
+        "train_mathematics_medium_001",
+        "train_summarization_long_011",
+        "train_summarization_medium_028",
+        "train_long_context_long_017",
+        "train_qa_short_027",
+        "train_summarization_long_020",
+        "train_summarization_short_003"
+      ],
+      "steps": 64,
+      "input_sha256": {
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/projection-study/granite.frozen_plan.json": "c729bfef4d689f0ef915a5c79aea82b2ab66c160cfe0ddca0b02af9b962db9c9",
+        "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/granite/analysis/train_routes.npz": "a28b6da64175ec4f01f95fe730316deea2178f98811106e7ab229b17b521e7d9",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/unbalanced-group/granite.screen.strong.frozen.json": "fd835ed14bdc90d8d62070f0f3cef06dc378805d6d1b19ecdaa82a5eeeb32060",
+        "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/free-rows/granite.frozen.json": "210af3dd6745c0b688fa8df6f1c4044203b550fccb50dc271a4d517ca1580c59"
+      },
+      "reference_routed_FFN_mean_ns": 801363.9375,
+      "reference_down_ns": 285959.875,
+      "GU": [
+        {
+          "layer": 0,
+          "columns": 1024,
+          "total_rows": 1024,
+          "reference_label": "strong_same_group",
+          "reference_mean_ns": 261338.75,
+          "reference_flash_mean_ns": 238218.75,
+          "reference_control_mean_ns": 16000.0,
+          "geometry": [
+            {
+              "g": 16,
+              "rows_per_shard": 64,
+              "bytes_per_shard": 65536,
+              "pages_per_shard": 4,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            },
+            {
+              "g": 8,
+              "rows_per_shard": 128,
+              "bytes_per_shard": 131072,
+              "pages_per_shard": 8,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            }
+          ],
+          "block_rule": "Every run crossing 192 WLs must split; relaxed away in the lower bound.",
+          "native_full_WL_row_boundary_legal": true,
+          "status": "no new read saving; g16 and g8 full-WL aligned",
+          "incremental_read_saving_vs_same_cost_coalescing_control_ns": 0.0
+        },
+        {
+          "layer": 1,
+          "columns": 1024,
+          "total_rows": 1024,
+          "reference_label": "strong_same_group",
+          "reference_mean_ns": 254065.3125,
+          "reference_flash_mean_ns": 230945.3125,
+          "reference_control_mean_ns": 16000.0,
+          "geometry": [
+            {
+              "g": 16,
+              "rows_per_shard": 64,
+              "bytes_per_shard": 65536,
+              "pages_per_shard": 4,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            },
+            {
+              "g": 8,
+              "rows_per_shard": 128,
+              "bytes_per_shard": 131072,
+              "pages_per_shard": 8,
+              "full_WL_aligned": true,
+              "read_mechanism": "identical to same-cost ordinary run-coalescing control"
+            }
+          ],
+          "block_rule": "Every run crossing 192 WLs must split; relaxed away in the lower bound.",
+          "native_full_WL_row_boundary_legal": true,
+          "status": "no new read saving; g16 and g8 full-WL aligned",
+          "incremental_read_saving_vs_same_cost_coalescing_control_ns": 0.0
+        }
+      ],
+      "new_read_saving_upper_bound_ns": 0,
+      "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+      "MAC_sensitivity": [
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 0,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 14000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 28000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 56000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "max_overlap",
+          "compute_ns_per_64KiB_MAC_work": 112000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 0,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 14000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 28000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 56000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        },
+        {
+          "overlap_model": "serial_read_compute",
+          "compute_ns_per_64KiB_MAC_work": 112000,
+          "saving_upper_bound_ns": 0.0,
+          "whole_routed_FFN_saving_upper_bound_pct": 0.0,
+          "denominator_note": "Down service kept at original no-extra-MAC baseline, which favors the candidate. Full-WL aligned GU contributes zero new read saving relative to identical coalescing controls."
+        }
+      ],
+      "decision": "no-go for this read-packing branch: favorable whole-FFN bound below1%; do not expand ordering search or open heldout"
+    }
+  ],
+  "frozen_utc": "2026-11-01T19:25:00.146055+00:00",
+  "source_sha256": "7779835cfa018e8f3ea25e852eb8ad3effb530db03b74295b022fd404efe678a",
+  "networkx_version": "3.6.1",
+  "hardware": "16 chips,4planes,16KiB pages,64KiB WL wave,192WL/block,28us ordinary read,250ns command,2us host phase; same input GU only.",
+  "coalescing_control": "When shard length is a whole WL, tight packing and selected-WL union are exactly ordinary contiguous-run command coalescing on the existing layout. Both candidate and baseline must receive the same learned ordering and run cost. No incremental packing benefit is credited.",
+  "MAC_warning": "Synthetic sensitivity is specified in ns per64KiB of INT8 matrix MAC work, with max-overlap and serial variants. No PE throughput was measured or inferred from the6.4GB/s ECC/data path.",
+  "bound_scope": "g16 and g8 equal-row geometry only, as requested initial screen. No bound for arbitrary mixed width/row templates or new native operands is claimed.",
+  "no_heldout_opened": true,
+  "no_main_plan_changes": true
+}

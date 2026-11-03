@@ -33,11 +33,15 @@ target_compile_features(llama-route-trace PRIVATE cxx_std_17)
 add_executable(llama-local-quantize "${QUANTIZE_SOURCE}")
 target_link_libraries(llama-local-quantize PRIVATE llama)
 target_compile_features(llama-local-quantize PRIVATE cxx_std_17)
+add_executable(llama-corpus-trace "${CORPUS_TRACE_SOURCE}")
+target_link_libraries(llama-corpus-trace PRIVATE llama)
+target_compile_features(llama-corpus-trace PRIVATE cxx_std_17)
 CMAKE
 cmake -S "$driver_dir" -B "$build_dir" -G Ninja \
     -DCMAKE_BUILD_TYPE=Release -DLLAMA_SOURCE="$source_dir" \
     -DLLAMA_BUILD_COMMIT="$source_commit" \
     -DTRACE_SOURCE="$experiment_dir/scripts/llama_route_trace.cpp" \
+    -DCORPUS_TRACE_SOURCE="$experiment_dir/scripts/llama_corpus_trace.cpp" \
     -DQUANTIZE_SOURCE="$experiment_dir/scripts/llama_local_quantize.cpp"
-cmake --build "$build_dir" --target llama-route-trace llama-local-quantize -j "${BUILD_JOBS:-8}"
+cmake --build "$build_dir" --target llama-route-trace llama-local-quantize llama-corpus-trace -j "${BUILD_JOBS:-8}"
 printf 'Built %s\n' "$build_dir/llama-route-trace"

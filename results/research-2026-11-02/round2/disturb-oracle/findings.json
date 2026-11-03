@@ -1,0 +1,83 @@
+{
+  "disposition": "archive_this_total_work_direction_for_the_stated_grid",
+  "results": [
+    {
+      "model": "granite",
+      "reference_post_strong_WL_total_work_bound_percent": 0.0003950602553560747,
+      "sweep_max_post_strong_WL_total_work_bound_percent": 0.03456756685494785,
+      "sweep_max_parameters": {
+        "alpha": 9,
+        "erc_threshold": 10000,
+        "program_us": 700,
+        "erase_us": 5000,
+        "strong_policy": "original_allocator"
+      },
+      "full_physical_block_single_stream_scan_fraction": 0.0,
+      "explanation": "All physical blocks are fully occupied: base WL stress is permutation invariant; remaining adjacency-endpoint freedom is tiny."
+    },
+    {
+      "model": "qwen3",
+      "reference_post_strong_WL_total_work_bound_percent": 0.0006952803160262868,
+      "sweep_max_post_strong_WL_total_work_bound_percent": 0.06083371345240651,
+      "sweep_max_parameters": {
+        "alpha": 9,
+        "erc_threshold": 10000,
+        "program_us": 700,
+        "erase_us": 5000,
+        "strong_policy": "original_allocator"
+      },
+      "full_physical_block_single_stream_scan_fraction": 0.0,
+      "explanation": "All physical blocks are fully occupied: base WL stress is permutation invariant; remaining adjacency-endpoint freedom is tiny."
+    },
+    {
+      "model": "olmoe",
+      "reference_post_strong_WL_total_work_bound_percent": 0.0006656074828029265,
+      "sweep_max_post_strong_WL_total_work_bound_percent": 0.05823654489343173,
+      "sweep_max_parameters": {
+        "alpha": 9,
+        "erc_threshold": 10000,
+        "program_us": 700,
+        "erase_us": 5000,
+        "strong_policy": "original_allocator"
+      },
+      "full_physical_block_single_stream_scan_fraction": 0.0,
+      "explanation": "All physical blocks are fully occupied: base WL stress is permutation invariant; remaining adjacency-endpoint freedom is tiny."
+    },
+    {
+      "model": "deepseek",
+      "reference_post_strong_WL_total_work_bound_percent": 0.004193435260059685,
+      "sweep_max_post_strong_WL_total_work_bound_percent": 0.36834855250759796,
+      "sweep_max_parameters": {
+        "alpha": 9,
+        "erc_threshold": 10000,
+        "program_us": 700,
+        "erase_us": 5000,
+        "strong_policy": "original_allocator"
+      },
+      "full_physical_block_single_stream_scan_fraction": 0.0,
+      "explanation": "Unused slots permit a looser occupancy/fragmentation oracle; its remaining work bound is still reported with actual maintenance duty."
+    },
+    {
+      "model": "mixtral",
+      "reference_post_strong_WL_total_work_bound_percent": 0.029922330641539287,
+      "sweep_max_post_strong_WL_total_work_bound_percent": 2.8753056437590847,
+      "sweep_max_parameters": {
+        "alpha": 9,
+        "erc_threshold": 10000,
+        "program_us": 700,
+        "erase_us": 5000,
+        "strong_policy": "global_hotness_same_slots"
+      },
+      "full_physical_block_single_stream_scan_fraction": 0.0,
+      "explanation": "Unused slots permit a looser occupancy/fragmentation oracle; its remaining work bound is still reported with actual maintenance duty."
+    }
+  ],
+  "distinctions": [
+    "Hotness substantially reduces premature block-reclaim copies on some models, but that is known prior and much of this credit disappears with ideal WL reclaim.",
+    "All frozen stream segments are shorter than a whole physical 192-WL block; a zero full-block single-stream scan fraction must not be described as full-block expert scans.",
+    "Full physical block occupancy, full single-stream scan, and single-expert block ownership are different metrics.",
+    "All bounds concern homogeneous-threshold first-order serialized NAND resource work; no tail-latency, calibrated device or end-to-end speedup claim.",
+    "Extreme low ERC thresholds are sensitivity only; no AiF LSB calibration or extra read-retry decoder is introduced.",
+    "Fine-grain reclaim and arbitrary fractional packing are oracle relaxations; they do not authorize new hardware functionality."
+  ]
+}

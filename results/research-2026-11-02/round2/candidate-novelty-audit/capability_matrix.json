@@ -1,0 +1,85 @@
+{
+  "legend": "Not reported means only not found in the inspected sources/sections,not a proof of absence. N/A is architecture mismatch;functionalverification is not native NAND programming.",
+  "rows": [
+    {
+      "system": "PIMCOMP",
+      "complete_output_row_contract": "AGs may split dot input and accumulate;no opaque full-dot restriction",
+      "NAND_one_block_waves": "N/A crossbar units",
+      "work_depth_conflict": "Compute/load/memory tradeoffs;not this NAND integer frontier",
+      "strong_cyclic_controls": "No NAND cyclic-width control reported",
+      "numeric_and_address_evidence": "Functional instruction verifier+ONNX comparison;NAND block/WL certificate not reported",
+      "cost_adaptation": "Configurable profiler+layout/schedule feedback",
+      "source_id": "pimcomp"
+    },
+    {
+      "system": "Fast-OverlaPIM",
+      "complete_output_row_contract": "Loop/data-space partitioning;partial-sum movement allowed",
+      "NAND_one_block_waves": "N/A mainHBM bit-serial backend",
+      "work_depth_conflict": "Explicit readiness/overlap tradeoff;not whole-row ceil-wave conflict",
+      "strong_cyclic_controls": "Strong overlap-aware/equal-runtime controls;not NAND cyclic widths",
+      "numeric_and_address_evidence": "Temporal/spatial analysis;NAND numeric/address certificate not reported",
+      "cost_adaptation": "Configurable architecture/timing/link model",
+      "source_id": "fast_overlapim"
+    },
+    {
+      "system": "Stratum",
+      "complete_output_row_contract": "GUoutput partitions paired with Down input partitions;partial reduction",
+      "NAND_one_block_waves": "N/A tieredDRAM/NMP",
+      "work_depth_conflict": "Tier latency/utilization/causal overlap;not NAND row-period frontier",
+      "strong_cyclic_controls": "Expert/tier placement controls;not NAND cyclic widths",
+      "numeric_and_address_evidence": "Functional model not independently audited;no NAND address certificate",
+      "cost_adaptation": "In-house architecture/system model",
+      "source_id": "stratum"
+    },
+    {
+      "system": "Cambricon-LLM",
+      "complete_output_row_contract": "Page-sized2D atomic fragments",
+      "NAND_one_block_waves": "NativeNAND page atoms;not audited asAiF one-block whole-row jobs",
+      "work_depth_conflict": "Aspect-ratio input/output tradeoff andNPU/flash balance",
+      "strong_cyclic_controls": "Hardware-tiling ablation;no full cyclic-width search reported",
+      "numeric_and_address_evidence": "Error-correction evaluation;no whole-row placement certificate verified",
+      "cost_adaptation": "Explicitread/read-compute+inputbroadcast cost",
+      "source_id": "cambricon"
+    },
+    {
+      "system": "TileLens",
+      "complete_output_row_contract": "GPUcompute consumes tiledKfragments",
+      "NAND_one_block_waves": "4KiBmemory tiles;not IFPplane/wave commands",
+      "work_depth_conflict": "Readamplification/straggler dependence;not same full-dotwork/depth lattice",
+      "strong_cyclic_controls": "Row/column/tile-shape controls;not NAND cyclic ownership",
+      "numeric_and_address_evidence": "Explicitaddressformula/descriptors;no chip/block/WL ownership certificate",
+      "cost_adaptation": "Kernel/layout/HBF-latency sensitivity with new system support",
+      "source_id": "tilelens"
+    },
+    {
+      "system": "AiF",
+      "complete_output_row_contract": "EquallysplitdenseGEMV;opaque output contract unverified",
+      "NAND_one_block_waves": "Block/offset/pages command;cross-block split explicit",
+      "work_depth_conflict": "No work/depth geometry frontier in inspected paper",
+      "strong_cyclic_controls": "Equalshards;not allwidth cyclic query controls",
+      "numeric_and_address_evidence": "Dummy output timing evaluation;native numericalABI unverified",
+      "cost_adaptation": "PublishedtR/ONFI/PCIe+emulation;not our controller calibration",
+      "source_id": "aif"
+    },
+    {
+      "system": "RecFlash",
+      "complete_output_row_contract": "Embedding/SLSvectors;differentoperator",
+      "NAND_one_block_waves": "Pagecofetch/planedistribution onvanillaNAND",
+      "work_depth_conflict": "Utilization/command/dataout;not densewave-depth search",
+      "strong_cyclic_controls": "Frequency/remap/cache controls",
+      "numeric_and_address_evidence": "No dense-row native numeric/address certificate verified",
+      "cost_adaptation": "Three-phaseNANDreadaccounting",
+      "source_id": "recflash"
+    },
+    {
+      "system": "Current candidate",
+      "complete_output_row_contract": "Fullrow/fullinput/dotlength/scales preserved;CPUW8 proof",
+      "NAND_one_block_waves": "Explicit requestedpages/fourplane waves/singleblock jobs",
+      "work_depth_conflict": "Exactwork-at-depth witnesses;not claimed newDP/theorem",
+      "strong_cyclic_controls": "Allwidthcyclic+disjoint,aliasdedup,samefitcost;not globaloptimal",
+      "numeric_and_address_evidence": "ExactCPUreference+independentvirtualaddresses;nativeABI pending",
+      "cost_adaptation": "Command/inputcopies/outputfringe/hostcost configurable;uncalibrated",
+      "source_id": "local"
+    }
+  ]
+}

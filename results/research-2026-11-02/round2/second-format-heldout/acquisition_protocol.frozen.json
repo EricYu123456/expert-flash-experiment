@@ -1,0 +1,197 @@
+{
+  "schema": "expert_flash.second_heldout_protocol.v1",
+  "frozen_utc": "2026-11-02T00:11:46.670775+00:00",
+  "seed": 20261104,
+  "source_script_path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_second_heldout_sources.py",
+  "source_script_sha256": "b8618d92fd774329487f538f0e5afaf0336cb7d7187c731b6fa2adf07189ea3d",
+  "metadata_state_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/metadata_state.json",
+  "metadata_state_sha256": "596841a18d4efcbbd700e3a47c7cdcf0f222b43aafc8d26e62e18205f877d9da",
+  "source_specs": [
+    {
+      "key": "openbookqa_main_test",
+      "repo": "allenai/openbookqa",
+      "revision": "388097ea7776314e93a529163e0fea805b8a6454",
+      "config": "main",
+      "split": "test",
+      "kind": "qa_mc",
+      "file": "main/test-00000-of-00001.parquet",
+      "rows": 500,
+      "bytes": 55535,
+      "expected_sha256": "cd5483e366daa230c1c87bbdc512d8b7229f14f6dd04d19fc8b1a3855aaaa8a3",
+      "metadata_license": [
+        "unknown"
+      ],
+      "license_note": "Pinned HF card marks data license unknown. Official model-code repository has Apache2.0; it is not asserted to license this externally hosted dataset.",
+      "publisher_repo": "https://github.com/allenai/OpenBookQA",
+      "publisher_commit": "b51971646e9371a61508d9953fc706645e194a71"
+    },
+    {
+      "key": "boolq_validation",
+      "repo": "google/boolq",
+      "revision": "35b264d03638db9f4ce671b711558bf7ff0f80d5",
+      "config": "default",
+      "split": "validation",
+      "kind": "qa_bool",
+      "file": "data/validation-00000-of-00001.parquet",
+      "rows": 3270,
+      "bytes": 1257630,
+      "expected_sha256": "52355d11524b4b874a9b9dcc278feb10f672d52c4f4eff9872e695ede59820f8",
+      "metadata_license": [
+        "cc-by-sa-3.0"
+      ],
+      "license_note": "Official Google dataset README and pinned HF card both state CC-BY-SA3.0.",
+      "publisher_repo": "https://github.com/google-research-datasets/boolean-questions",
+      "publisher_commit": "90af34107399cc7a446b373dc4ee35b8001da7c2"
+    }
+  ],
+  "selection": {
+    "count_per_dataset": 8,
+    "ranking": "Ascending SHA256(UTF8(decimal_seed + verticalbar + source_key + verticalbar + source_id)); tie break source_id. Seed20261104. No tokenizer/model/answer-based selection.",
+    "openbookqa_source_id": "Publisher id string; duplicates or empty ids fail integrity checks.",
+    "boolq_source_id": "Canonical decimal zero-based pinned validation Parquet row index; HFschema has no publisher id field. It is a source-row id, not a claimed original Google id.",
+    "openbookqa_eligibility": "Nonempty string question_stem; exactly4nonempty string choices with4distinct nonempty labels. No length truncation or answerKey inspection.",
+    "boolq_eligibility": "Nonempty string passage and question. Full text preserved; no length, difficulty, answer or model-based filter.",
+    "openbookqa_render": "question_stem.strip()+LF+source-order label.strip()+dot+space+choice_text.strip(), LF-separated, final LF. No facts, answer or answer cue added.",
+    "boolq_render": "Literal Passage: +LF+passage.strip()+LF+LF+literal Question: +LF+question.strip()+LF. No answer or answer cue added.",
+    "item_order": "OpenBookQA ranks00..07, then BoolQ ranks00..07, same16prompt bytes supplied to both G4andDeep.",
+    "failures": "Fewer than8eligible, duplicate ids, duplicate selected prompts or invalid selected answers fail; do not relax/resample.",
+    "answers": "Read answer columns only after chosen row indices are fixed. Store labels/booleans in answers/answers.json; never append them to prompts."
+  },
+  "bindings_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/second-format-heldout/root_plan_bindings.json",
+  "bindings_sha256": "8b5e6dd88bf8988167c1fae3b3a2bfbf3776981acae48339e11ecf5140952929",
+  "bindings": {
+    "models": [
+      "granite4tiny",
+      "deepseek"
+    ],
+    "root_freeze_anchor": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/W8_selected_plans.frozen.json",
+      "sha256": "00507ff56f9197fb18511ad58303919214c03cba6f0c1440f6733ffc42944d00",
+      "frozen_utc": "2026-11-02T00:10:31.030633+00:00"
+    },
+    "model_checkpoint_sha256": {
+      "granite4tiny": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+      "deepseek": "09d9abe9170d14386b0a54fe3969035f6a770956cfefa7d2fbaa12e0900a2ba4"
+    },
+    "frozen_inputs": [
+      {
+        "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/W8_selected_plans.frozen.json",
+        "sha256": "00507ff56f9197fb18511ad58303919214c03cba6f0c1440f6733ffc42944d00",
+        "role": "train_compiled_plans",
+        "models": [
+          "granite4tiny",
+          "deepseek"
+        ]
+      },
+      {
+        "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v5-W8-training/summary.json",
+        "sha256": "093801006fe2788a5fcd4439b1171fb850095fa376dc3cef56d9a1684a02238e",
+        "role": "anchor_summary",
+        "models": [
+          "granite4tiny",
+          "deepseek"
+        ]
+      },
+      {
+        "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v5-W8-training/protocol.frozen.json",
+        "sha256": "83d9c65eb4260e3c94b96b0be507d6b955cb07e7dedaea116e26cf160f450763",
+        "role": "anchor_protocol",
+        "models": [
+          "granite4tiny",
+          "deepseek"
+        ]
+      },
+      {
+        "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v5-W8-training/source-snapshot/manifest.json",
+        "sha256": "ccc291b2c6b80d6477199227582c6124ad0b5787cc4a6a5ff9708891be5cc0b2",
+        "role": "anchor_snapshot_manifest",
+        "models": [
+          "granite4tiny",
+          "deepseek"
+        ]
+      },
+      {
+        "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/summary.json",
+        "sha256": "c85111c0ece822615b8f38e079de23bbf0fd383849a9f1b42ed1215aaf7c0392",
+        "role": "anchor_summary",
+        "models": [
+          "granite4tiny",
+          "deepseek"
+        ]
+      },
+      {
+        "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/protocol.frozen.json",
+        "sha256": "ce9d4af03242fdbcdbf541f76920ccc6e019974d050cf0bdfdcdae8ae37c72f7",
+        "role": "anchor_protocol",
+        "models": [
+          "granite4tiny",
+          "deepseek"
+        ]
+      },
+      {
+        "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/source-snapshot/manifest.json",
+        "sha256": "3915bc9ad6ba9fe3d8ac04e20a0ac3b65bbb1b22263eb3277ce688568179ad60",
+        "role": "anchor_snapshot_manifest",
+        "models": [
+          "granite4tiny",
+          "deepseek"
+        ]
+      },
+      {
+        "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/compiler_inputs.frozen.json",
+        "sha256": "49563291e385e5c58ee23a21c8c8714aa0a6f007066206030916d1b7fe42c4c1",
+        "role": "training_manifest",
+        "models": [
+          "granite4tiny",
+          "deepseek"
+        ]
+      },
+      {
+        "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/full-ffn-integer-reference/frozen_protocol.json",
+        "sha256": "3163341827c25b210c42126ae7465c1fe8be9827aab93d314a89ef8a54975f40",
+        "role": "numeric_protocol",
+        "models": [
+          "granite4tiny"
+        ]
+      },
+      {
+        "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/deepseek-full-ffn-integer-reference/protocol.frozen.json",
+        "sha256": "84e100600d882eb809d85fa1bdc3e469b0fb9a885e5627c60479339078a84a7a",
+        "role": "numeric_protocol",
+        "models": [
+          "deepseek"
+        ]
+      }
+    ],
+    "checkpoint_hash_provenance": "Exact existing model hashes inherited from the independently frozen numerical protocols. No model is downloaded or rehashed in acquisition; numeric runners own model verification.",
+    "dataset_revision_note": "Dataset HFcommit revisions are separately pinned in acquisition protocol; they are not model checkpoint revisions.",
+    "inference_contract": {
+      "decode_tokens": 16,
+      "preserve_full_prompts": true,
+      "no_tokenizer_based_selection": true,
+      "no_refitting_after_payload": true,
+      "no_benchmark_accuracy_claim": true
+    }
+  },
+  "workload_contract": {
+    "models": [
+      "granite4tiny",
+      "deepseek"
+    ],
+    "prompts": 16,
+    "decode_tokens": 16,
+    "input_policy": "Complete question/options and complete BoolQpassage/question; no128token truncation. Record actual model-tokenized lengths. No chat template in stored prompt bytes.",
+    "placement": "Frozen W8train-compiled plans unchanged; no placement/weight/scale calibration fit after target payload.",
+    "quality": "A16token free generation is not a benchmark accuracy estimate. Runner freezes and records any teacher-forcing/scoring contract separately before inference.",
+    "provenance": "Dataset commits are not checkpoint commits. Fresh within-project source formats do not establish model-pretraining decontamination or a representative full benchmark."
+  },
+  "preprotocol_exposure": "Official repository README schema examples were viewed; their membership in a target split was not tested. AI2homepage redirected to HFlanding, which may carry automatic previews. No target Parquet/JSONL/footer/viewer-rows endpoint was fetched, and no example is used for ranking or eligibility.",
+  "target_payload_opened_before_freeze": false,
+  "acquisition_limits": {
+    "payload_files": 2,
+    "total_expected_payload_bytes": 1313165,
+    "max_each_payload_bytes": 2097152,
+    "no_new_model": true,
+    "no_other_split": true
+  }
+}

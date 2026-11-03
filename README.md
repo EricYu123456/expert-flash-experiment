@@ -1,6 +1,12 @@
 # MoE FFN 的 AiF chip 分組與放置實驗
 
-本實驗找的是 routed FFN 延遲較低的固定配置，包含 chip 數量、短讀取造成的 cr-read 損失、命令與向量傳輸成本，以及 expert 同時啟用時的 chip 衝突。結果與圖表見 [results/report.md](results/report.md)。
+目前研究主線是 **不依賴 CR-read、適用有／無 shared expert 的 MoE in-flash 方法**。進度與判定見 [研究紀錄](docs/research_2026_11_03_campaign.md)、[專案理解](docs/research_2026_11_03_project_understanding.md)及 [即時狀態](results/research-2026-11-03-no-cr/state.json)。截至 2026-11-03，第二輪的固定八算子局部品質檢驗通過；Stage3 CPU 成本測量完成，等待成本與強基準審查。尚未證實完整模型的延遲收益或投稿價值。下方保留較早的配置與 CR-read 實驗背景。
+
+GitHub 保存程式、協定、審查紀錄及適合版控的結果。大型原始張量、模型、資料快取和重複產物保留在研究機器；範圍與檔案清單見 [版本保存說明](docs/github_snapshot.md)。
+
+本實驗找的是 routed FFN 延遲較低的固定配置，包含 chip 數量、短讀取造成的 cr-read 損失、命令與向量傳輸成本，以及 expert 同時啟用時的 chip 衝突。最新的 300 題結果與圖表見 [results/corpus-300-v1/report.md](results/corpus-300-v1/report.md)；原三題先導結果見 [results/report.md](results/report.md)。
+
+300-prompt 擴充實驗使用每模型相同的 200 題配置學習、100 題保留測試，涵蓋六任務與三種輸入長度，每題 128 次 decode 並保留前 32 步。方法、資料切分、固定配置驗證與重現指令見 [docs/corpus_300_protocol.md](docs/corpus_300_protocol.md)；新一輪輸出獨立放在 `results/corpus-300-v1/`，原有三題先導結果保留。
 
 使用真實 llama.cpp 推論擷取 routing，再將相同 expert 選擇送入 QEMU/KVM guest 裡的 NVMeVirt AiF 時序擴充。NVMeVirt 是實際載入的 Linux module；AiF GEMV、控制與向量傳輸是明確建模的延遲，沒有實體 flash PE 或 MAC lane 量測。模型數值運算保留在擷取 routing 的 llama.cpp 中，重播不以 dummy activations 決定後續 routing。
 
@@ -12,7 +18,7 @@
 
 實驗沒有修改主機 kernel、GRUB 或使用 host sudo。既有 sibling `llama.cpp-aif`、`nvmevirt` 專案沒有修改。
 
-## 方法
+## 原三題先導方法
 
 1. 以有效 MoE 推論擷取每個 decode input、每層選中的 expert IDs；與不開 tracing 的 greedy 輸出逐位元比較。
 2. 以論文的 INT8 權重、16 chips、每 chip 4 planes、16 KiB page、28 us 普通 LSB read、9.7 us cr-read、6.4 GB/s/chip 建立模型。GGUF 的 Q4/Q8 格式只用來取得真實 routing。
@@ -24,7 +30,7 @@
 
 每個 block run 的時間是 `28 + (P-1) × 9.7 us`；28 us 已包含第一次 precharge 與最後 discharge。四 planes 並行時，以最慢 plane 與 6.4 GB/s 管線上限的最大值計算，避免重複收取同一次讀取成本。
 
-## 重現現有分析
+## 重現原三題分析
 
 主機需有 Python、NumPy、Matplotlib；模型轉換需要本機已有的 Torch、Transformers、safetensors。使用來源樹的 `gguf-py`。所有分析使用 NFS 上既有 artifacts：
 
@@ -44,6 +50,14 @@ python3 scripts/run_analysis.py --name deepseek \
   --metadata /home/nfs_client/ericyu/expert_flash_experiment/models/deepseek-metadata.json \
   --traces-dir /home/nfs_client/ericyu/expert_flash_experiment/runs/deepseek-q8
 
+python3 scripts/run_analysis.py --name qwen3 \
+  --metadata /home/nfs_client/ericyu/expert_flash_experiment/models/qwen3-metadata.json \
+  --traces-dir /home/nfs_client/ericyu/expert_flash_experiment/runs/qwen3-q8
+
+python3 scripts/run_analysis.py --name mixtral \
+  --metadata /home/nfs_client/ericyu/expert_flash_experiment/models/mixtral-metadata.json \
+  --traces-dir /home/nfs_client/ericyu/expert_flash_experiment/runs/mixtral-q8
+
 python3 scripts/plot_results.py
 python3 scripts/plot_optimized.py
 ```
@@ -57,9 +71,15 @@ python3 scripts/plot_optimized.py
 ```bash
 bash scripts/build_llama_trace.sh
 bash scripts/convert_existing_moe.sh deepseek
+bash scripts/convert_existing_moe.sh qwen3
+bash scripts/convert_existing_moe.sh mixtral
 ```
 
-轉換由現有 DeepSeek safetensors 直接產生 Q8_0 GGUF，避免大型 F16 中間檔。其 BOS tokenizer 相容處理、完整來源清單、model hashes、路由與非 MoE layers 的區分，見 [docs/llama_trace.md](docs/llama_trace.md)。`convert_existing_moe.sh mixtral` 可使用現有 Mixtral；沒有為本輪自動再轉換完整 Mixtral。Qwen、Gemma 的現有檔案只完成相容性檢查，未列為已測模型。
+轉換由現有 safetensors 直接產生 Q8_0 GGUF，避免大型 F16 中間檔。2026-10-27 補測 Qwen3-30B-A3B-Instruct-2507-FP8 與 Mixtral-8x7B；前者先依 block scales 解量化，再轉為 Q8_0。模型與 tokenizer 來源均維持唯讀，AiF 計時仍統一使用 INT8。
+
+Mixtral 的來源設定 `add_prefix_space: null` 被 pinned converter 寫成 false，與 tokenizer.json 的 Metaspace 規則不符。`fix_mixtral_tokenizer.py` 修正 GGUF 中的單一 metadata byte，保留權重與 tensor layout，再重新計算完整 hash。修正後三組 prompt token IDs 與 Hugging Face 完全一致。DeepSeek 的 BOS 相容處理、來源清單、數值抽查、hashes 與 routing 驗證見 [docs/llama_trace.md](docs/llama_trace.md)。Qwen3.6、Gemma 4 尚未列為已測模型。
+
+補測結果與圖表為 `results/additional_models.json`、`results/additional_models.png`；五模型摘要由 `plot_optimized.py` 匯出。原三模型結果封存在 `results/archive/2026-10-19/`。`finalize_additional_models.py` 會先確認數值、tokenizer、routing、地址計畫與全部 v3 重播證據，再更新彙整；不會自行產生實驗結果。
 
 ## 無 host sudo 的 NVMeVirt
 

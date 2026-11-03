@@ -1,0 +1,260 @@
+{
+  "scope": "L0 TRAIN64 only; no new data/fitting outside frozenTRAIN; no heldout.",
+  "same_capacity": {
+    "packet_extra_coefficient_bytes": 33646080,
+    "packet_extra_programmed_page_bytes": 33554432,
+    "full_GU_copies": 10,
+    "GU_only_no_down_copies": true,
+    "unused_whole_GU_page_budget_bytes": 131072
+  },
+  "base": "Same strongest zero-copy static repack from learned A/B views, not the older phase-only plan.",
+  "controls": {
+    "frequency_whole_GU": {
+      "selected_experts": [
+        0,
+        93,
+        95,
+        98,
+        251,
+        316,
+        401,
+        426,
+        427,
+        470
+      ],
+      "profiles": {
+        "426": 0,
+        "93": 0,
+        "470": 552,
+        "401": 559,
+        "316": 0,
+        "427": 105,
+        "95": 0,
+        "98": 44,
+        "251": 0,
+        "0": 0
+      },
+      "fitting": "TRAIN exact mandatory-work marginal selection +two coordinate retarget sweeps;560 arbitrary3-high whole-GU profiles.",
+      "mean_mandatory_ns": 1570408.46875,
+      "mean_native_ns": 1572391.125,
+      "p99_native_ns": 1611402.98,
+      "extra_coefficient_bytes": 32768000,
+      "extra_programmed_page_bytes": 33423360,
+      "mean_gain_vs_static_pct": 0.21535006574552318,
+      "additions": [
+        {
+          "expert": 426,
+          "profile": 0,
+          "change_sum_ns": 0,
+          "frequency": 27
+        },
+        {
+          "expert": 93,
+          "profile": 0,
+          "change_sum_ns": 0,
+          "frequency": 15
+        },
+        {
+          "expert": 470,
+          "profile": 552,
+          "change_sum_ns": -56712,
+          "frequency": 13
+        },
+        {
+          "expert": 401,
+          "profile": 559,
+          "change_sum_ns": -27900,
+          "frequency": 12
+        },
+        {
+          "expert": 316,
+          "profile": 0,
+          "change_sum_ns": 0,
+          "frequency": 11
+        },
+        {
+          "expert": 427,
+          "profile": 105,
+          "change_sum_ns": -55800,
+          "frequency": 10
+        },
+        {
+          "expert": 95,
+          "profile": 0,
+          "change_sum_ns": 0,
+          "frequency": 9
+        },
+        {
+          "expert": 98,
+          "profile": 44,
+          "change_sum_ns": -84004,
+          "frequency": 9
+        },
+        {
+          "expert": 251,
+          "profile": 0,
+          "change_sum_ns": 0,
+          "frequency": 9
+        },
+        {
+          "expert": 0,
+          "profile": 0,
+          "change_sum_ns": 0,
+          "frequency": 8
+        }
+      ]
+    },
+    "greedy_whole_GU": {
+      "selected_experts": [
+        62,
+        98,
+        99,
+        134,
+        138,
+        167,
+        384,
+        401,
+        416,
+        470
+      ],
+      "profiles": {
+        "138": 0,
+        "470": 552,
+        "416": 349,
+        "98": 56,
+        "401": 559,
+        "99": 230,
+        "384": 523,
+        "62": 540,
+        "167": 556,
+        "134": 112
+      },
+      "fitting": "TRAIN exact mandatory-work marginal selection +two coordinate retarget sweeps;560 arbitrary3-high whole-GU profiles.",
+      "mean_mandatory_ns": 1565155.84375,
+      "mean_native_ns": 1567323.4375,
+      "p99_native_ns": 1601385.9,
+      "extra_coefficient_bytes": 32768000,
+      "extra_programmed_page_bytes": 33423360,
+      "mean_gain_vs_static_pct": 0.5369478000011751,
+      "additions": [
+        {
+          "expert": 138,
+          "profile": 0,
+          "change_sum_ns": -83852,
+          "frequency": 5
+        },
+        {
+          "expert": 470,
+          "profile": 552,
+          "change_sum_ns": -56712,
+          "frequency": 13
+        },
+        {
+          "expert": 416,
+          "profile": 349,
+          "change_sum_ns": -84004,
+          "frequency": 6
+        },
+        {
+          "expert": 98,
+          "profile": 15,
+          "change_sum_ns": -56256,
+          "frequency": 9
+        },
+        {
+          "expert": 401,
+          "profile": 559,
+          "change_sum_ns": -55648,
+          "frequency": 12
+        },
+        {
+          "expert": 99,
+          "profile": 230,
+          "change_sum_ns": -55952,
+          "frequency": 4
+        },
+        {
+          "expert": 384,
+          "profile": 510,
+          "change_sum_ns": -28356,
+          "frequency": 5
+        },
+        {
+          "expert": 62,
+          "profile": 540,
+          "change_sum_ns": -28204,
+          "frequency": 4
+        },
+        {
+          "expert": 167,
+          "profile": 254,
+          "change_sum_ns": -55344,
+          "frequency": 3
+        },
+        {
+          "expert": 134,
+          "profile": 112,
+          "change_sum_ns": -28204,
+          "frequency": 6
+        }
+      ]
+    }
+  },
+  "native_oracle_checks": [
+    {
+      "query": 0,
+      "all_native_assignments": 1024,
+      "work_selector_state": 816,
+      "work_selector_native_ns": 1573254,
+      "exact_native_best_state": 339,
+      "exact_native_best_ns": 1573184,
+      "selector_gap_ns": 70
+    },
+    {
+      "query": 63,
+      "all_native_assignments": 1024,
+      "work_selector_state": 66,
+      "work_selector_native_ns": 1545424,
+      "exact_native_best_state": 834,
+      "exact_native_best_ns": 1544924,
+      "selector_gap_ns": 500
+    }
+  ],
+  "python_checks": [
+    {
+      "case": "frequency_whole_GU",
+      "query": 0,
+      "native_ns": 1573254
+    },
+    {
+      "case": "frequency_whole_GU",
+      "query": 31,
+      "native_ns": 1572698
+    },
+    {
+      "case": "frequency_whole_GU",
+      "query": 63,
+      "native_ns": 1570824
+    },
+    {
+      "case": "greedy_whole_GU",
+      "query": 0,
+      "native_ns": 1546027
+    },
+    {
+      "case": "greedy_whole_GU",
+      "query": 31,
+      "native_ns": 1572698
+    },
+    {
+      "case": "greedy_whole_GU",
+      "query": 63,
+      "native_ns": 1570824
+    }
+  ],
+  "packet_mean_native_ns": 1569207.03125,
+  "packet_vs_best_whole_mean_gain_pct": -0.1201790074041531,
+  "elapsed_seconds": 2.0842553968541324,
+  "script_sha256": "810b06e56e5b57493509f69d019651014bafaaee1574544c05863ec8fa6a0ed0",
+  "limits": "Whole-copy location/ID fit is greedy+coordinate, not globally optimal. All selectors have uncharged host planning/scatter; no new selector/replication novelty. Native row-alias ABI and numeric proof remain external prerequisites."
+}

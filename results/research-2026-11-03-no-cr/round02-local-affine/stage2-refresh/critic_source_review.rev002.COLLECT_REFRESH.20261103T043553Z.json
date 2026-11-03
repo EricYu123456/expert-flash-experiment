@@ -1,0 +1,55 @@
+{
+  "reviewer": "/root/critic_sol",
+  "at_utc": "2026-11-03 04:35:53 UTC",
+  "status": "approved",
+  "phase": "COLLECT_REFRESH",
+  "source_gate_only": true,
+  "source_revision": 2,
+  "source_freeze_sha256": "8f89fc18a3583e28e22ff0129c5ac09eb3d23a06fdcf09ec6aaddcf333e9206b",
+  "protocol_sha256": "78045b99f1e4647475bc7a35ef27110856ed081dc8b2faace7ddd332b5b5d167",
+  "old_harness_source_freeze_sha256": "00a08bfc5eee76d1d6b97d2826457853932058e72c416754f4390f37bbc811e1",
+  "old_registry_sha256": "7ed8766ed70ba1acb48e864003b1119f5b9e875fc03cd2832f963ee915a8bfc9",
+  "train_metadata_sha256": "70facca3342311acc19d956b85388b95c6d16e7dd740d4355084c21e075f2c5e",
+  "synthetic_receipt_sha256": "c976b1b4869086ed3ae37f855e9ea5c1aa2241b67d7cbd758a403d456d006be1",
+  "acquisition_review": [
+    "Only the sixteen fixed unique TRAIN metadata objects are selected; protocol list exactly equals the pinned metadata items.",
+    "GCS request specifies each exact generation and requires the same x-goog-generation response, exact advertised byte size and base64 MD5.",
+    "Preserve raw bytes, response metadata, URL, UTC and SHA; no replacement after missing/changed/short objects.",
+    "Strict UTF8, CRLF then remaining CR to LF, Unicode-codepoint midpoint, suffix after first LF at or after midpoint or midpoint if none.",
+    "Tokenize the complete suffix jointly with the pinned native tokenizer, add_special=true, parse_special=false, no chat template; take first 768 IDs. Too-short input holds calibration."
+  ],
+  "trajectory_review": [
+    "Modes B=3/C_old=5/D_old=6 are fixed, in that order, with the same per-book immutable 768-token prefix.",
+    "Every arm/book rollout constructs and frees a distinct llama context/KV; the source model is read-only and old seed preprocessing/models remain registry-bound.",
+    "Six native 128-token prefix calls precede at most 32 greedy non-EOG-fed decode states, smallest-ID ties and full-vocabulary finite checks; EOG is recorded and never fed or padded.",
+    "Only B prefix states enter the multiset; all actual B/C/D decode states enter without hit/error sampling or deduplication."
+  ],
+  "ledger_and_pool_review": [
+    "Owned Up input/route IDs are detached; actual final live alpha is captured by the inherited native weighted callback.",
+    "Separate input and alpha ledgers join matching typed model/run/context/subrun/arm/decode/micro/layer/T/H/K/request/position/phase identity fields; differing record kinds and payload layouts are checked separately.",
+    "IDs, slots, finite values, bounds, exact state uniqueness and bidirectional ledger completeness are checked, including zero pilot masks.",
+    "Closed rows follow selected book order then B prefix/B decode/C decode/D decode and absolute position; expected states are checked for every book/arm/layer.",
+    "Every row has unit weight and typed provenance. Identical rows are retained. All arms of a book share one pg19train book group and are not treated as independent books.",
+    "Per-layer upper limit is 13824 new rows; collection does not query new off-route supervised targets or change any fitted model."
+  ],
+  "identity_and_resource_review": [
+    "Seven current refresh sources still equal immutable rev002 snapshots and receipt; protocol, TRAIN metadata and generated receipt hashes match.",
+    "Registry loading validates approved manifests, old canonical weights, all eight old C/D models and explicit old preprocessing; refreshed fitting is not active in this phase.",
+    "Original source GGUF stat identity is checked against the pinned historical metadata before use and unchanged after collection; this is reuse of the existing identity, not a newly computed GGUF content hash.",
+    "Launcher requires eight distinct physical cores and inherited process affinity; CPU-only model, eight GGML/FMA/activation workers and separately limited exact-DGEMM BLAS caller retain strict RN/MXCSR checks.",
+    "Worker live canonical/fallback row and activation counters are collection overhead, not deployment-latency or 8GB-residency evidence."
+  ],
+  "blockers": [],
+  "actual_release_requires": [
+    "Root independently verifies the final 127-dependency source closure.",
+    "Root verifies BIND_OLD_CAPTURE complete success and binds its exact receipt SHA into a separate COLLECT_REFRESH approval before acquisition or model contexts.",
+    "No current BIND outcomes or candidate payloads were inspected by this source-only review."
+  ],
+  "excluded_releases": [
+    "FIT_REFRESH",
+    "PG validation acquisition/evaluation",
+    "QUALITY",
+    "TEST"
+  ],
+  "reviewer_executed_candidate_or_read_book_weight_activation_target_fitted_payload": false
+}

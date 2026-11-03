@@ -1,0 +1,77 @@
+{
+  "status": "PASS complete fixedgraph14 native replay with restored real costs",
+  "protocol_sha256": "88b9676392bc7412b89460df6b2ce86f51b7fedf84835a70a610a1be046c373a",
+  "graph": 14,
+  "query_count": 512,
+  "baseline_cost_and_LB_exact_values": 1024,
+  "symbolic_expert_view_checks": 3072,
+  "baseline_native_mean_ns": 561099.01953125,
+  "new_native_mean_ns": 550165.61328125,
+  "baseline_native_p99_ns": 580695.14,
+  "new_native_p99_ns": 576531.66,
+  "mean_gain_pct": 1.948569836948555,
+  "p99_gain_pct": 0.7169820639449487,
+  "actual_chip_work_mean_ns": 545769.66015625,
+  "representative_node_trace_checks": [
+    {
+      "label": "q0.paired",
+      "cost_ns": 548536,
+      "nodes": 971,
+      "jobs": 188,
+      "every_node_trace_exact": true,
+      "dependencies_resources_owner_reload_barrier": true
+    },
+    {
+      "label": "q0.baseline",
+      "cost_ns": 551140,
+      "nodes": 1031,
+      "jobs": 200,
+      "every_node_trace_exact": true,
+      "dependencies_resources_owner_reload_barrier": true
+    },
+    {
+      "label": "q255.paired",
+      "cost_ns": 549178,
+      "nodes": 961,
+      "jobs": 186,
+      "every_node_trace_exact": true,
+      "dependencies_resources_owner_reload_barrier": true
+    },
+    {
+      "label": "q255.baseline",
+      "cost_ns": 577316,
+      "nodes": 1031,
+      "jobs": 200,
+      "every_node_trace_exact": true,
+      "dependencies_resources_owner_reload_barrier": true
+    },
+    {
+      "label": "q511.paired",
+      "cost_ns": 550452,
+      "nodes": 971,
+      "jobs": 188,
+      "every_node_trace_exact": true,
+      "dependencies_resources_owner_reload_barrier": true
+    },
+    {
+      "label": "q511.baseline",
+      "cost_ns": 578662,
+      "nodes": 1031,
+      "jobs": 200,
+      "every_node_trace_exact": true,
+      "dependencies_resources_owner_reload_barrier": true
+    }
+  ],
+  "native_provenance": {
+    "source": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp",
+    "source_sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+    "binary": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/g4-down-paired-merge-screen/native-graph14/build/ordinary-read-ef7994fa2ba37a4b.so",
+    "binary_sha256": "7c5464643956a1f9c7ca9d69c9a3e58d40e61e32d25759e0c66211bfbaa3563d",
+    "command": "c++ -std=c++17 -O3 -shared -fPIC SOURCE -o BINARY"
+  },
+  "gate_ge2mean_or5tail": false,
+  "selector_cost_ns": 0,
+  "selector_scope": "Zero-time optimistic sensitivity; not measured runtime selection.",
+  "next_step": "Stop selectorbench if gate fails; otherwise reportbefore same24MiB wholeDown32/partialRDA/staticcontrols/CPUselector. No native-device or novelty claim.",
+  "seconds": 1.9677426922135055
+}

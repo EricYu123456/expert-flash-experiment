@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "audit_utc": "2026-11-01T18:59:20.684335+00:00",
+  "frozen_plan_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/geometry-study/granite4tiny.frozen.json",
+  "frozen_plan_sha256": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+  "training_routes_unchanged_sha256": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+  "smoke_routes_unchanged_sha256": "93c1bd27022e6577d6e8f6d5449e03d7267044b33933d1785471ae680aaed796",
+  "metadata_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/granite4tiny-metadata.json",
+  "metadata_sha256": "e9b83008e3128440af9f65b2c771e52a5892085e8151bf4c8918397bbfbf96e6",
+  "model_sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+  "collections": [
+    {
+      "mode": "test16",
+      "shape": [
+        16,
+        64,
+        40,
+        6
+      ],
+      "route_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/test16/routes.npz",
+      "route_sha256": "33bc23abea53dd700a7dbe1aceda3528d3b3c7c63b5a8637a1c14bcb0226b6c7",
+      "raw_events": 40960,
+      "actual_experts_seen": 64,
+      "prompt_ids_match_immutable_selection": true,
+      "prompt_file_hashes_verified": true,
+      "packed_array_matches_every_raw_event": true,
+      "traced_untraced_full_prompt_ids_decode_ids_and_output_bytes_equal": true,
+      "trace_enabled_vs_disabled_controls": true,
+      "fresh_baseline_prefill": true,
+      "collection_after_frozen_plan_verified": true,
+      "frozen_before_and_after": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+      "fit_allowed": false,
+      "layout_modified": false,
+      "qualification": "Old corpus aggregate outcomes have been used with other models; this is not a blind source-family test. Granite4 routes were not collected before layout freeze.",
+      "selection_sha256": "df23cc9f1160acff4aeeddb6b0993c66d7777de55d9cbff0e4a0ec37d39e9e8c",
+      "validation_sha256": "71d7d4b267f0a53d35564316ae160bf42008ed922992515b30141bc1c5dbb773"
+    },
+    {
+      "mode": "external60",
+      "shape": [
+        60,
+        64,
+        40,
+        6
+      ],
+      "route_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/external60/routes.npz",
+      "route_sha256": "23cef2b170424dcff2996096a329cfb3f7501235bf0410fdbbc1fbdae7bfa721",
+      "raw_events": 153600,
+      "actual_experts_seen": 64,
+      "prompt_ids_match_immutable_selection": true,
+      "prompt_file_hashes_verified": true,
+      "packed_array_matches_every_raw_event": true,
+      "traced_untraced_full_prompt_ids_decode_ids_and_output_bytes_equal": true,
+      "trace_enabled_vs_disabled_controls": true,
+      "fresh_baseline_prefill": true,
+      "collection_after_frozen_plan_verified": true,
+      "frozen_before_and_after": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+      "fit_allowed": false,
+      "layout_modified": false,
+      "qualification": "The same public corpus was evaluated on other models; Granite4 routes were not observed before its layout freeze. This is not a new never-used benchmark family.",
+      "selection_sha256": "80ee9019e4d79b43a6e4a84c4987eb550c1d9603a97c0858da639271b3d697bf",
+      "validation_sha256": "7dbbc1cb04f4a2b367beb91509888d4db38f7309f67531e3dc32cdbbcf36e68c"
+    }
+  ],
+  "source_sha256": "2f1a36e7b49e47edab936f6a82443057e2d1dc0e2593f92fa277b327ced58869",
+  "routed_ffn_only": true,
+  "limitation": "Released fixed Q4_K_M checkpoint routing is measured. W8 physical service is a separate arithmetic model, not measured end-to-end latency or a quality claim. Both heldout corpora were previously used with other models; neither is a blind new source-family test."
+}

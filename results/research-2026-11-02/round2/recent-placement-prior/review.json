@@ -1,0 +1,238 @@
+{
+  "schema": "expert_flash.recent_placement_prior.v1",
+  "as_of_date": "2026-11-02",
+  "scope": "Existing-hardware physical placement. Literature/code inspection only; no model, dataset, external payload, fitting, or simulator execution.",
+  "sources": [
+    {
+      "id": "bigmomo",
+      "arxiv": "2609.14643",
+      "title": "BigMoMo: Efficient Inference of Large-Scale MoE with Speculative Decoding on Mobile Devices",
+      "authors": [
+        "Maoliang Li",
+        "Hailong Zou",
+        "Taohong Han",
+        "Haoze Chi",
+        "Jiayu Chen",
+        "Zihao Zheng",
+        "Zimo Guo",
+        "Jie Zhang",
+        "Guojie Luo",
+        "Xiang Chen"
+      ],
+      "year": 2026,
+      "version": "v2",
+      "history_utc": {
+        "v1": "2026-09-13T16:28:12Z",
+        "v2": "2026-10-03T03:20:25Z"
+      },
+      "venue": "Preprint, under review; no accepted venue verified",
+      "abs": "https://arxiv.org/abs/2609.14643",
+      "fulltext": "https://arxiv.org/html/2609.14643v2",
+      "github": null,
+      "github_status": "No author-associated artifact verified; bounded name/topic searches saved. Unrelated name matches are not attributed.",
+      "reading_depth": "Latest full main text read; equations 3/4 and sections 3.2, 4.3, 4.4, 5.4.2 inspected in detail.",
+      "paper_facts": {
+        "unit": "Whole-expert Flash slots; output-row tiling belongs to VTCM staging.",
+        "demand": "Actually Flash-loaded experts after pruning and DRAM residency filtering, per verification round.",
+        "objective": "K=3 recent-round hyperedges; maximize anchor overlap; profiled contiguous-anchor read plus scattered outsiders. Apply maximum-positive cumulative read-time swap.",
+        "movement": "Both experts must already be in shared DRAM; exchange writes preserve footprint and pause for critical reads.",
+        "address_scope": "UFS/file offsets, not exposed chip/plane mapping.",
+        "reported_cost": "13.42 MiB relocation writes/output token; 15.06% fewer read requests versus offline coactivation.",
+        "phase_evidence": "Nearby-round stability; five separate workloads. An explicit abrupt domain-transition amortization experiment was not located."
+      },
+      "anchors": [
+        "https://arxiv.org/html/2609.14643v2#S3.SS2",
+        "https://arxiv.org/html/2609.14643v2#S4.SS3",
+        "https://arxiv.org/html/2609.14643v2#S5.SS4"
+      ],
+      "inference": "Direct threat to generic runtime co-loading/hypergraph/contiguity claims. IFP does not naturally load weights into DRAM, so its relocation source reads cannot be assumed free. Eq4 itself contains read benefit, not an explicit program/erase/wear subtraction; this does not establish that the paper's measured runtime excluded write interference."
+    },
+    {
+      "id": "routide",
+      "arxiv": "2609.29032",
+      "title": "Paging the Experts: A Reproducible Characterization of Flash-Backed MoE Inference on iPhone",
+      "authors": [
+        "Musa Shams"
+      ],
+      "year": 2026,
+      "version": "v1",
+      "history_utc": {
+        "v1": "2026-09-24T05:05:28Z"
+      },
+      "venue": "Preprint; no accepted venue verified",
+      "abs": "https://arxiv.org/abs/2609.29032",
+      "fulltext": "https://arxiv.org/html/2609.29032v1",
+      "github": "https://github.com/MusaShams/Routide",
+      "commit": "d9c1df0dbfa395433abd5c715c8b0dbdea87e9bc",
+      "artifact_status": "Official paper-linked implementation and public result summaries; no weights downloaded.",
+      "reading_depth": "Full main text and claim-boundary appendices read; pinned README, packer, and positional reader inspected.",
+      "paper_facts": {
+        "unit": "One layer file, complete expert gate/up/down quantized tensors plus metadata, fixed stride aligned to 64 KiB.",
+        "objective": "Byte-budgeted DRAM caching and optional prefetch; not learned physical chip placement.",
+        "counters": "Logical expert bytes are distinguished from physical NAND reads; cold expert cache does not imply cold filesystem cache.",
+        "finding": "512 MiB LRU has zero demand hits on tested streams while random eviction has 18.8%; 576 MiB LRU has 38.58%.",
+        "semantics": "Same-runtime cache/prefetch controls preserve sequences; cross-runtime/device sequence equivalence not established.",
+        "phase_evidence": "Five recorded workloads and held-out prefetch cases, not online Flash reorganization."
+      },
+      "code_facts": {
+        "reader": "readExpert computes expert*blockStride and Darwin.pread(blockPayloadBytes).",
+        "packer": "Expert slices serialized consecutively to experts/layer-NNN.bin; padding fills fixed stride.",
+        "physical_scope": "File offsets only; no NAND chip/plane ownership API in inspected paths."
+      },
+      "anchors": [
+        "https://arxiv.org/html/2609.29032v1#S3",
+        "https://arxiv.org/html/2609.29032v1#S6",
+        "https://github.com/MusaShams/Routide/blob/d9c1df0dbfa395433abd5c715c8b0dbdea87e9bc/Sources/RoutideRuntime/ExpertPackReader.swift"
+      ],
+      "inference": "Strong measurement-boundary prior, not a physical declustering algorithm. Cache hit-rate improvements must not be relabeled in-place NAND-compute placement savings."
+    },
+    {
+      "id": "flashaccel",
+      "arxiv": "2607.10186",
+      "title": "FlashAccel: Leveraging High-Bandwidth Flash (HBF) for High-Throughput LLM Inference",
+      "authors": [
+        "Xinyu Wang",
+        "Yalong Xue",
+        "Xiaotian Sun",
+        "Xiaoyu Zhang",
+        "Xinjiang Zhang",
+        "Chunmeng Dou",
+        "Xueqi Li",
+        "Xiaoming Chen"
+      ],
+      "year": 2026,
+      "version": "v2",
+      "history_utc": {
+        "v1": "2026-07-11T08:03:13Z",
+        "v2": "2026-08-22T16:17:15Z"
+      },
+      "venue": "Preprint; no accepted venue verified",
+      "abs": "https://arxiv.org/abs/2607.10186",
+      "fulltext": "https://arxiv.org/html/2607.10186v2",
+      "github": "https://github.com/chenxm1986/FlashAccel",
+      "commit": "590af986fb3576802a6e54775460f221ffb6c802",
+      "artifact_status": "Author-associated explanation slides, mostly AI-generated per README. Recursive tree has README and one slides PDF only; no simulator implementation verified.",
+      "reading_depth": "Full latest main text read, with detailed sections III-B, IV, V, VI and VII-D.",
+      "paper_facts": {
+        "unit": "Megapage weight chunks striped round-robin across megaplanes; next operator starts at the following megaplane.",
+        "native_constraint": "A megaplane groups 32 planes at identical block/page offsets under shared commands.",
+        "objective": "Active plane fraction and maximum-versus-average plane load; balances physical sensing/transfer.",
+        "dynamic_part": "KV excess megapages copied to HBM and reads redirected; original HBF data remains.",
+        "mapping": "Object/chunk physical indexes and read manifests; architectural SRAM/HBF/GPU integration.",
+        "phase_evidence": "Static operator execution-order layout, active-request KV balancing. Coactivation-dependent expert masks not located."
+      },
+      "anchors": [
+        "https://arxiv.org/html/2607.10186v2#S3.SS2",
+        "https://arxiv.org/html/2607.10186v2#S4",
+        "https://arxiv.org/html/2607.10186v2#S5",
+        "https://arxiv.org/html/2607.10186v2#S6",
+        "https://github.com/chenxm1986/FlashAccel/tree/590af986fb3576802a6e54775460f221ffb6c802"
+      ],
+      "inference": "Physical parallelism/plane striping and operator carry-over are prior. HBF architectural commands cannot be treated as existing AiF capabilities. Transfer the layout objective only after lowering to AiF's legal complete dense jobs and resource accounting."
+    },
+    {
+      "id": "hbfsim_sluglab",
+      "arxiv": "2609.09800",
+      "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+      "authors": [
+        "Yanpeng Hu",
+        "Yiwei Yang",
+        "Yuanwu Zhu",
+        "Yusheng Zheng",
+        "Andi Quinn",
+        "Wei Zhang"
+      ],
+      "year": 2026,
+      "version": "v3",
+      "history_utc": {
+        "v1": "2026-09-09T06:51:45Z",
+        "v2": "2026-09-18T02:26:10Z",
+        "v3": "2026-09-30T01:13:17Z"
+      },
+      "venue": "Preprint; no accepted venue verified",
+      "abs": "https://arxiv.org/abs/2609.09800",
+      "fulltext": "https://arxiv.org/html/2609.09800v3",
+      "github": "https://github.com/SlugLab/HBFSim",
+      "commit": "696cc8418e2d2375cdfd249ca5833dfd97e1e0f2",
+      "artifact_status": "Official paper-linked simulator; source inspected, not built/run.",
+      "reading_depth": "Full text accessed; design, implementation, evaluation, related work and discussion read; introductory material skimmed. Pinned README and three placement/bank files inspected.",
+      "paper_facts": {
+        "mechanism": "PTX instrumentation injects modeled HBF completion at dependent consumption while preserving GPU asynchrony; optional bounded cache/backing file.",
+        "scope": "Modeled HBF with real GPU execution, thermal/retention/refresh coupling.",
+        "validation": "0.152% measures an injected-delay increment, not absolute physical HBF latency. CD8P is an NVMe reference, not HBF.",
+        "moe": "Measured deduplicated demand across three batch sizes; speculative prefetch test uses synthetic access stream and claims no timing gain."
+      },
+      "code_facts": {
+        "cache_policy": "CLOCK/LRU/Belady over equal-size complete experts; no I/O in policy.",
+        "layout": "Canonical host manifest separates live CUDA addresses from frozen physical stack/module extents. UCIe bank layout maps LPA by modulo geometry; reduced geometry is marked scenario-specific."
+      },
+      "anchors": [
+        "https://arxiv.org/html/2609.09800v3#S4",
+        "https://arxiv.org/html/2609.09800v3#S6.SS2",
+        "https://arxiv.org/html/2609.09800v3#S8",
+        "https://github.com/SlugLab/HBFSim/blob/696cc8418e2d2375cdfd249ca5833dfd97e1e0f2/adapters/vllm/ucie_placement.py"
+      ],
+      "inference": "Useful address-manifest/evaluation discipline, not a verified MoE coactivation chip-mapping algorithm. Fixed trace replay remains suitable for conditional placement cost if routes and numerical execution are held fixed; capacity/cache/migration policy changes require their own feedback model."
+    },
+    {
+      "id": "hbfsim_flashlabae",
+      "arxiv": "2610.23503",
+      "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+      "authors": [
+        "Jinheng Li",
+        "Guosheng Wang",
+        "Hongchao Du",
+        "Shangyu Wu",
+        "Qiao Li",
+        "Chun Jason Xue"
+      ],
+      "year": 2026,
+      "version": "v1",
+      "history_utc": {
+        "v1": "2026-10-16T14:14:14Z"
+      },
+      "venue": "RACS '26, November 17–20, 2026, Fukuoka; paper metadata. Conference is future relative to audit date.",
+      "doi": "https://doi.org/10.1145/3848591.3856870",
+      "abs": "https://arxiv.org/abs/2610.23503",
+      "fulltext": "https://arxiv.org/html/2610.23503v1",
+      "github": "https://github.com/FlashLabAE/HBFSim",
+      "commit": "332036a3293e4a54350cf5fb24de66e3c10e82bd",
+      "artifact_status": "Official paper-linked simulator; mapping documentation inspected, not built/run.",
+      "reading_depth": "Full main text read; sections 3.3, 3.5, 4.1, 4.3–4.5 and limitations scrutinized. Pinned README and full mapping-organizations document read.",
+      "paper_facts": {
+        "mechanism": "Serving frontend emits transaction DAGs; resource calendars model host FTL, HBM and physical HBF planes.",
+        "placement": "Page and extent mappings stripe consecutive pages; baseline block mapping serializes pages on one plane.",
+        "calibration": "Scheduler, GPU operator and host link calibrated. HBF/HBM4 timing unavailable; 18 of 30 parameter groups assumptions.",
+        "moe_routes": "Qwen3-235B routes synthetic uniform top8, with Zipf sensitivity; not real routing.",
+        "limitations": "Short decode/prefill windows omit GC interference; physical HBF timing/endurance assumptions."
+      },
+      "code_facts": {
+        "fairness": "Mapping-index comparisons need identical physical PPNs/planes or single-bank controls; striping gain is separate.",
+        "migration": "Live-page copies charged NAND to HBIO to HBM to HBIO to NAND; no free copyback. Programs split by cause and summed."
+      },
+      "anchors": [
+        "https://arxiv.org/html/2610.23503v1#S3.SS3",
+        "https://arxiv.org/html/2610.23503v1#S3.SS5",
+        "https://arxiv.org/html/2610.23503v1#S4.SS1",
+        "https://arxiv.org/html/2610.23503v1#S5",
+        "https://github.com/FlashLabAE/HBFSim/blob/332036a3293e4a54350cf5fb24de66e3c10e82bd/docs/reference/hbf-mapping-organizations.md"
+      ],
+      "inference": "Direct prior to host-managed physical stripe/resource ledgers and costed migration. Not a validation source for AiF timing, native output contract, or real MoE coactivation gains."
+    }
+  ],
+  "overall": {
+    "covered_claims": [
+      "Runtime co-loading hypergraph plus on-Flash expert reorganization",
+      "Logical whole-expert aligned packing plus cache/prefetch",
+      "Plane-aware striping and maximum-load-aware physical layout",
+      "Object-to-physical manifest and explicit copy/erase accounting"
+    ],
+    "not_established_by_these_sources": [
+      "Existing AiF complete-row native command lowering with no added contexts or operand features",
+      "Native GU-to-activation-to-private-down resource-DAG placement under real recorded routes",
+      "A positive, costed read-in-place migration result with no already-resident weight source"
+    ],
+    "warning": "An untested combination is not automatically novel. Generic declustering expressiveness is also not, alone, a proof that a constrained systems contribution is impossible.",
+    "newly_verified_drop_in_mechanism_found": false
+  }
+}

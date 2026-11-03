@@ -1,0 +1,57 @@
+{
+  "utc": "2026-11-02T15:16:44.252880+00:00",
+  "status": "frozen_before_new_route_inspection",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_prospective_replay.py": "2ec0ffc16446e81334628961238513f6bd7061aac1a45d63ad1557b8dc4897b3",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_g2_availability_ffn.py": "9c99dcf4d9e58cf4a2a6747fa4e0771ef902b89c7053adadb289479b151dc9e3",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-replica-full-ffn/replica_full_ffn.py": "1e46ebb6a53d4ea86e2dc498a41f568f86a1566c622b8e0faf8ce88468b62375",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/g2-availability-headroom/capacity-kernel/kernel_builder.py": "c8a5b060131f956919846aaf875fc380d13934dcf100de136778495e97eaa1ee",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/prospective-routes/protocol.frozen.json": "14a7f0dc4e562309e7a6ac7193b1a93f88fe77b70773ebaaad26e3c86d80861e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/g2-availability-full-ffn/support_maps.frozen.npz": "a5412c4aed77ab101dbc12e4fc56fc8b7ec78d71e0736711580be592070393d1",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/g2-availability-full-ffn/resident_layouts.frozen.json": "17d9cec1f976dbaa5f15b33c31769af94fa5427aaf50328f259dd2791006bbed",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/g2-availability-full-ffn/resident_jobs.frozen.json": "f2c992b34dec8eac655f116ea9723823be9ef31d698cdc4d4f3217b784ad1523",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/g2-availability-headroom/selected_adjacency.frozen.npz": "80077b8eba39c5e6e5ee707e2520d91a7ce1da1e5a327bf7e6b000fa494e5e57",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-replica-full-ffn/Down_job_maps.frozen.json": "fa9a6a7b780c11a15df52d85e19cf8a6830afb39f1adc20a957faf6a59cf1fd2",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-headroom/final-run/selection.frozen.json": "2791a99ba89bfeed4a7dea957c7ab9c86105f6af456724f121efd812e76a63d0",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-headroom/final-run/menus.frozen.npz": "25bfab3ba60fbf31027cf9b80c3ba8dc557eab5ac55144746b8127be21ed2adc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/g8-addendum/group_maps.frozen.npz": "222ba23fd7eff9a6fc8ad2c70c1b2469bc6ee76797d675bffcc3fcd16e85d3a5",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.py": "922ba85f23e910d670ede4953a7c4cfdb294eb942ddbf6abb6d4ebcd3f9585dc",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_pipeline.py": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.cpp": "2ac76a9f17662727c7df8cb4c3b372daec1050c4d7dcd0c5e7dc65479fa10ad8"
+  },
+  "capture_archive_already_exists": true,
+  "earlier_pre_capture_evaluation_plan": "No refitting. First3layers paired fullFFN comparisons: both candidate/RR GU, frozen g4triples and trained/IDslot/best_single_seed g2 supports, input1/4 and GF priority. Independent matching statistics on all40layers for the fixed IDslot support. Report every fallback, regression, payload, eventP99 and aligned3layerP99. Any extension is separately frozen, never selected from these outcomes.",
+  "timing_receipt": "Comparison axes frozen in capture protocol before inference; executable replay source completed after capture archive appeared, before root inspected any route or matching/performance outcome. No false pre-inference-code-freeze claim.",
+  "plans": [
+    "g4triples",
+    "g2_fitted",
+    "g2_IDslot",
+    "g2_seed"
+  ],
+  "GU_families": [
+    "candidate",
+    "RR"
+  ],
+  "input_copies": [
+    1,
+    4
+  ],
+  "priority": "GF",
+  "layers": [
+    0,
+    1,
+    2
+  ],
+  "samples": "All16prompts x16decode inputs, without selection, as authored and frozen in capture protocol.",
+  "dispatch": "Same deterministic cap1 matching then cap2 fallback; no unseen-route fitting, no cost oracle.",
+  "reports": "Per-event mean/P99; aligned3layer sum P99; paired regressions; prompt-cluster bootstrap 95% interval of mean paired reduction, seed2026110217,2000resamples. Capacity and all matching failures retained.",
+  "all40": "Fixed canonical IDslot support only, repeated identically across all40layers. Report matching statistics, not full40 FFN speed.",
+  "payload_MiB": {
+    "g4triples": 244.5,
+    "g2_fitted": 289.5,
+    "g2_IDslot": 289.5,
+    "g2_seed": 289.5
+  },
+  "FIFO_capacity_bytes": 128,
+  "limits": "Conditional W8/A8 service-model replay,16authored diagnostic prompts,not benchmark quality/nativehardware or newCBC. GU source permutation and preECCdrop remain conditional. Matching computation overhead not measured here; no original-GGUF-quality or fresh placed-logit equivalence claim."
+}

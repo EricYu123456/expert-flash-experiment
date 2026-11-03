@@ -1,0 +1,47 @@
+{
+  "metadata_only": {
+    "path": "/home/ericyu/expert_flash_experiment/kernel/aif.h",
+    "line": 11,
+    "known": "Timing metadata only, no weights or GEMV outputs."
+  },
+  "chip_operands_and_PE": {
+    "path": "/home/ericyu/expert_flash_experiment/paper/aif.txt",
+    "lines": [
+      744,
+      749,
+      761,
+      779
+    ],
+    "known": "C,block,offset,pagecount; sequential GEMV with INT8 PE."
+  },
+  "FIFO": {
+    "path": "/home/ericyu/expert_flash_experiment/paper/aif.txt",
+    "lines": [
+      818,
+      823
+    ],
+    "known": "Sequential result FIFO with controller polling.",
+    "unknown": [
+      "FIFO depth/backpressure",
+      "maxR/pagecount encoding",
+      "scalar format/scaling",
+      "early expert completion contract"
+    ]
+  },
+  "cross_block": {
+    "path": "/home/ericyu/expert_flash_experiment/paper/aif.txt",
+    "lines": [
+      925,
+      928
+    ],
+    "known": "Split into separate GEMV operations."
+  },
+  "host_post": {
+    "path": "/home/ericyu/expert_flash_experiment/paper/aif.txt",
+    "lines": [
+      847,
+      861
+    ],
+    "known": "Automatic equal submatrices, not arbitrary stream/range dispatch."
+  }
+}

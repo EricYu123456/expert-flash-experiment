@@ -1,0 +1,146 @@
+{
+  "status": "paused_and_sealed_for_new_root_priority",
+  "scope": "No newly defensible method established. Not a global no-go theorem for cache-coupled placement or multi-model SLOs.",
+  "primary_sources": [
+    {
+      "role": "AiF shared host/SSD projection splitting",
+      "url": "https://doi.org/10.1145/3695053.3731073"
+    },
+    {
+      "role": "MoE-Infinity request-aware caching",
+      "url": "https://arxiv.org/html/2401.14361v3"
+    },
+    {
+      "role": "MoE-Infinity primary implementation",
+      "url": "https://github.com/EfficientMoE/MoE-Infinity"
+    },
+    {
+      "role": "FlashMoE cache replacement",
+      "url": "https://arxiv.org/html/2601.17063v2"
+    },
+    {
+      "role": "Cache replay semantics and workload contamination",
+      "url": "https://arxiv.org/html/2608.07911v2"
+    },
+    {
+      "role": "Kernel managed cache and domain shift",
+      "url": "https://arxiv.org/html/2608.12103v1"
+    },
+    {
+      "role": "FlashBlox physical channel/die isolation",
+      "url": "https://www.usenix.org/conference/fast17/technical-sessions/presentation/huang"
+    },
+    {
+      "role": "UPI opportunistic SSD isolation",
+      "url": "https://www.usenix.org/conference/hotstorage18/presentation/kim-bryan"
+    },
+    {
+      "role": "PipeSwitch context switching",
+      "url": "https://www.usenix.org/conference/osdi20/presentation/bai"
+    },
+    {
+      "role": "SwitchFlow subgraph preemption",
+      "url": "https://ranger.uta.edu/~jrao/papers/middleware21.pdf"
+    },
+    {
+      "role": "MoE Serving online placement reconfiguration",
+      "url": "https://arxiv.org/abs/2607.17880"
+    }
+  ],
+  "findings": [
+    "Whole-expert host pinning changes residual queries. Re-optimizing their graph is ordinary cache-aware declustering, not a new physical mechanism.",
+    "Train screen first16 prompts pin LFU experts, next16x64 score; no test. Existing frozen layout menu provides strong controls. At50% pinned, best-existing-menu gains over oldchosen are7.139% G4,4.615% Qwen,.407% Granite; other3 zero. These are residual-flash-only, not end-to-end.",
+    "Pooled remaining NAND gap at50% pinned: G4 11.193%,Qwen5.582%,Granite5.096%,Deep3.870%,OLMoE/Mix0. The positive G4 gap is a loose already-known geometry/job-grain opportunity, not a discovered executable method; cannot declare all-cache no-go.",
+    "For exact equally-striped g16 experts, deleting whole cached experts leaves every chip balanced for every possible misssubset. Arbitrary routing shift or superposition of independent models still reaches aggregate NAND workbound pointwise. Pure throughput placement claim then has zero NAND headroom; commands/fairness need separate evidence.",
+    "Physical short-row padding could reduce nonpreemptive GEMV quantum. But stronger software/controller row chunks must be compared: Mixtral down8rows/7pages/2waves vs4rows/4pages/1wave both need64waves/256rows;4row version doubles command/input reload.",
+    "A priority token reservation across its host dependencies restricts lower-priority blocking to initial arrival. q8 toq4 maximum modeled run-service blocking reduction28.032us is~.285% Granite flash-residual tokenservice; not a large general tail mechanism. Actual hostgaps/utilization not calibrated, so constrained QoS cases remain open."
+  ],
+  "limitations": [
+    "Cache fraction is a research scenario, not a user memory budget.",
+    "Static pinning requires an initial cache-fill cost and host copies, reported as useful I8 bytes only; scales/padding/host execution are additional.",
+    "Host cache GEMV/combine costs are zeroed equally as an optimistic residual-flash screen; reported percentages are not end-to-end speedups.",
+    "Existing menu winner is selected on the same16 screening training prompts, favoring a strong cache-aware control; this is an optimistic control, not heldout validation.",
+    "Pooled relaxation permits route-adaptive fragment placement and ignores fanout/job-grain; a positive gap does not establish an executable method.",
+    "Cache changes residual queries; optimizing those with a hypergraph is not a newly identified mechanism.",
+    "Token-reservation scheduler bounds only initial lower-priority blocking by one native-run quantum; host gaps must be measured before claiming idle-capacity benefits.",
+    "No suspend/abort/preempt-in-flight GEMV is assumed; switching only between complete native dense-GEMV runs."
+  ],
+  "preemption_bound": {
+    "dense_no_work_inflation": {
+      "phase": "down",
+      "dense_wave_aligned_rows": 32,
+      "rows_per_chip": 256,
+      "columns": 14336,
+      "rows_per_native_run": 32,
+      "runs_per_chip": 8,
+      "pages_per_chip": 224,
+      "waves_per_chip": 56,
+      "max_nonpreemptive_nand_ns": 196000,
+      "phase_nand_ns": 1568000,
+      "control_ns": 32000,
+      "input_channel_ns": 114688,
+      "input_pcie_ns_once_per_host_phase": 1792,
+      "output_pcie_ns": 2048,
+      "max_nonpreemptive_run_service_ns": 214592,
+      "caveat": "All16 chips stream identical geometry; no extra host command per controller-internal run. Host output concat only."
+    },
+    "strong_small_page_aligned_chunk": {
+      "phase": "down",
+      "dense_wave_aligned_rows": 32,
+      "rows_per_chip": 256,
+      "columns": 14336,
+      "rows_per_native_run": 8,
+      "runs_per_chip": 32,
+      "pages_per_chip": 224,
+      "waves_per_chip": 64,
+      "max_nonpreemptive_nand_ns": 56000,
+      "phase_nand_ns": 1792000,
+      "control_ns": 128000,
+      "input_channel_ns": 458752,
+      "input_pcie_ns_once_per_host_phase": 1792,
+      "output_pcie_ns": 2048,
+      "max_nonpreemptive_run_service_ns": 74400,
+      "caveat": "All16 chips stream identical geometry; no extra host command per controller-internal run. Host output concat only."
+    },
+    "padded_one_wave_chunk": {
+      "phase": "down",
+      "dense_wave_aligned_rows": 32,
+      "rows_per_chip": 256,
+      "columns": 14336,
+      "rows_per_native_run": 4,
+      "runs_per_chip": 64,
+      "pages_per_chip": 256,
+      "waves_per_chip": 64,
+      "max_nonpreemptive_nand_ns": 28000,
+      "phase_nand_ns": 1792000,
+      "control_ns": 256000,
+      "input_channel_ns": 917504,
+      "input_pcie_ns_once_per_host_phase": 1792,
+      "output_pcie_ns": 2048,
+      "max_nonpreemptive_run_service_ns": 46368,
+      "caveat": "All16 chips stream identical geometry; no extra host command per controller-internal run. Host output concat only."
+    },
+    "reservation_scheduler": "Once a high-priority token starts, reserve required resources across its GU/host/down dependencies. Lower-priority work can block only its initial arrival, not each phase. This can waste actual host gaps; those are not calibrated here.",
+    "max_initial_blocking_improvement_over_q8_ns": 28032,
+    "max_relative_to_Granite_flash_residual_service_pct": 0.28545109311907935,
+    "note": "q8 and q4 have the same64 NAND waves/256rows; q4 doubles native commands and input reload versusq8. q32 uses56waves but has a larger quantum.32-row/7-wave is minimum wave-aligned zero-work-inflation, not the minimum legal software split.",
+    "qualification": "Offset units and partial-plane starting offsets are not fully specified by paper API. Separate row chunks stored at wave-aligned starts are a conservative existing-dense-GEMV construction. q8 needs7pages/2waves, q4 needs4pages/1wave. Existing controller run segmentation is a software capability assumption, not a new PE/context."
+  },
+  "inputs": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/projection-study/granite.frozen_plan.json": "c729bfef4d689f0ef915a5c79aea82b2ab66c160cfe0ddca0b02af9b962db9c9",
+    "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/granite/analysis/train_routes.npz": "a28b6da64175ec4f01f95fe730316deea2178f98811106e7ab229b17b521e7d9",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/unbalanced-group/granite.full.strong.frozen.json": "e4b2c16b898e0f0138e2d93b4a156c34bd2fd20b3d5e29e27f2795c5460b3577",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/projection-study/olmoe.frozen_plan.json": "1c27b8a3f3ca81733c075089be6f896f37e3b0f3ce0419134fe7067e49c6fdd2",
+    "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/olmoe/analysis/train_routes.npz": "428559317bd06e5b41d7487da0d049080593f6e3cf7311a40328674652c834a2",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/projection-study/deepseek.frozen_plan.json": "0ae1d30a49efeeb799061d9116889f0c0f1da642d624767c28ea2a1667e7cf5f",
+    "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/deepseek/analysis/train_routes.npz": "28f79c417e08578137e5bce0358070dc83b5a0ba2db8f39b1ad5382005cb8142",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/projection-study/qwen3.frozen_plan.json": "fa63798a1a7cf473fc6ecd9bf5b3546836baab39b783fea25181d8111ecb3242",
+    "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/qwen3/analysis/train_routes.npz": "4bed198ec0532aaa393fa338aad61763c019b496bd2c78063405113063571db0",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/unbalanced-group/qwen3.screen.strong.frozen.json": "bd676d49084bc6e86b5d36ed91e2d40f216df243d7dd3718df6af49098c19921",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/projection-study/mixtral.frozen_plan.json": "691154aaffc6620d42115b0c239691ac618898e6fd241e0ffdebc887ab84d3f2",
+    "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/mixtral/analysis/train_routes.npz": "8dd51438e296344606cd5b74f1ad10bf16cad600afdfada12c45381265184562",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/geometry-study/granite4tiny.frozen.json": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/screen/routes.npz": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/unbalanced-group/granite4tiny.screen.strong.frozen.json": "87a6893f76a3381877ca8952542d08ca65edf224fc47846a32ae004e3ae944cd"
+  }
+}

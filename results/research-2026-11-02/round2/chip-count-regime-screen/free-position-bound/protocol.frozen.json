@@ -1,0 +1,20 @@
+{
+  "status": "frozen_before_bound_execution",
+  "utc": "2026-11-02T04:58:46.293431+00:00",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_g4_m32_free_position_bound.py": "ca1340e6fc508ca969bcd4d3de34bfe7d8e169b4618bd9c5c4536f0387fec9e3",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/stage-b/granite4tiny.M32.minimum_depth.plan.npz": "3b48aa066d43bf06d40493b513b38919484f6766403a364d7e57719ab05e63ee",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/hint.frozen.npz": "c856ed6e9f24ca217f3879194b2752a9a73e0eeb71d57515b938d64ebeb62254",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/stage-b/protocol.frozen.json": "43565017a1eaacc0299c986a2f9cdf820c760b3b3a545bd459f273a4171d8e23",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/stage-b/source-snapshot/7c61f09756e24f11-7c61f09756e24f11-research_20261103_ordinary_read_backend.py": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/protocol.frozen.json": "18e728fb9ad4b0cd02cc6b04aa1aac34c55154d5173833007f35175ae246e8ab",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/producer-seal/report.json": "d16f81207ffef088c0861aa00106b03a03359ec86323f0eea1fc17a7d1c24cdc"
+  },
+  "backend": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/stage-b/source-snapshot/7c61f09756e24f11-7c61f09756e24f11-research_20261103_ordinary_read_backend.py",
+  "geometry": "32chips,64experts,K6. Each expert X5/O7 disjoint, GU25bands24x41+1x40, Down12x128. Shared exactly source stageB minimum_depth.",
+  "state": "Per chip0<=x,o,x+o<=6;sumx30,sumo42. Compute exact integer service from frozen Service, with copies1/4 separately.",
+  "bound": "Bitset DP tracks totalX0..30 and totalO0..42 across32chips. Binary-search sorted exact statecosts, independently compare set-DP atT andT-1. Also use7heavy first-acquire rank acrossglobal250ns command resource: host+min10wavework+6cmd ifmaxwaves<=10, versushost+11read ifanychip>=11. No chiplabel-specific dispatch or selector penalty.",
+  "construction": "Split X30/O42 incidences among5/7 leftvertices degree6, add20 degree6 dummyvertices to obtain32by32 degree6 bipartite multigraph, remove6perfectmatchings. Each color is one expert X5/O7.",
+  "physical_witness": "Use q0 orderedTRAIN expertIDs for6colors; remaining58experts use frozen coupled hint. One fixed image witnesses that route only, not512simultaneously. Repack all64plus shared in oneblock/chip, whole logical rows/scales, no copies, all read fringe charged.",
+  "forbidden": "No native replay, weights, model inference, heldout, newfit, pagebufferreuse, newMAC, earlypartialA8, validR/reset capability, real-time relocation or deployable selector claim."
+}

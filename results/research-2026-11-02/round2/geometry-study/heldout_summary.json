@@ -1,0 +1,160 @@
+{
+  "frozen_plan_sha256": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+  "source_sha256": "9875dd5cc9b4061e34dd980e030414a5cfa06aae7a8f067f89e1351cf91aebf9",
+  "results": [
+    {
+      "split": "test16",
+      "prompts": 16,
+      "decode_steps": 64,
+      "routes_sha256": "33bc23abea53dd700a7dbe1aceda3528d3b3c7c63b5a8637a1c14bcb0226b6c7",
+      "mean_ms": {
+        "g16": 22.73152,
+        "phase_group": 20.8626605625,
+        "g16_down": 20.82255165625,
+        "chosen": 19.74194996875,
+        "g12_identity": 20.10076621875,
+        "g12_marginal": 20.056233125
+      },
+      "down_mean_ms": {
+        "g16": 8.0672,
+        "phase_group": 8.10730890625,
+        "g16_down": 8.0672,
+        "chosen": 6.9865983125,
+        "g12_identity": 7.3454145625,
+        "g12_marginal": 7.30088146875
+      },
+      "chosen_gain_over_phase_group": 0.05371848860755768,
+      "chosen_gain_over_fixed_g16_down": 0.0518957381083337,
+      "coverage": {
+        "five_wave_events": 29858,
+        "down_events": 40960
+      },
+      "paired_prompt_bootstrap": [
+        5.26334238425656,
+        5.474578787095199
+      ],
+      "paired_prompt_bootstrap_fixed_g16_down": [
+        5.013464141883251,
+        5.354919937968168
+      ],
+      "conservative_drain": {
+        "mean_ms": {
+          "phase_group": 27.2268005625,
+          "g16_down": 27.05838165625,
+          "chosen": 26.29359996875
+        },
+        "gain": 0.0342750736212214,
+        "gain_over_fixed_g16_down": 0.028264132615756443
+      },
+      "command_sensitivity": {
+        "0": {
+          "mean_ms": {
+            "phase_group": 19.5126605625,
+            "chosen": 18.54194996875
+          },
+          "gain": 0.04974773125585652
+        },
+        "250": {
+          "mean_ms": {
+            "phase_group": 20.8626605625,
+            "chosen": 19.74194996875
+          },
+          "gain": 0.05371848860755768
+        },
+        "1000": {
+          "mean_ms": {
+            "phase_group": 24.9126605625,
+            "chosen": 23.34194996875
+          },
+          "gain": 0.06304868923210583
+        },
+        "5000": {
+          "mean_ms": {
+            "phase_group": 46.5126605625,
+            "chosen": 42.54194996875
+          },
+          "gain": 0.08536838240879552
+        }
+      }
+    },
+    {
+      "split": "external60",
+      "prompts": 60,
+      "decode_steps": 64,
+      "routes_sha256": "23cef2b170424dcff2996096a329cfb3f7501235bf0410fdbbc1fbdae7bfa721",
+      "mean_ms": {
+        "g16": 22.73152,
+        "phase_group": 21.196644199999998,
+        "g16_down": 21.114167775,
+        "chosen": 20.134124841666665,
+        "g12_identity": 20.366806308333334,
+        "g12_marginal": 20.369129816666668
+      },
+      "down_mean_ms": {
+        "g16": 8.0672,
+        "phase_group": 8.149676425,
+        "g16_down": 8.0672,
+        "chosen": 7.087157066666666,
+        "g12_identity": 7.319838533333333,
+        "g12_marginal": 7.322162041666667
+      },
+      "chosen_gain_over_phase_group": 0.05012677234698004,
+      "chosen_gain_over_fixed_g16_down": 0.04641636572073382,
+      "coverage": {
+        "five_wave_events": 98272,
+        "down_events": 153600
+      },
+      "paired_prompt_bootstrap": [
+        4.974173472267926,
+        5.0516083664820615
+      ],
+      "paired_prompt_bootstrap_fixed_g16_down": [
+        4.603906744498669,
+        4.677584619038297
+      ],
+      "conservative_drain": {
+        "mean_ms": {
+          "phase_group": 27.682916199999998,
+          "g16_down": 27.456671775,
+          "chosen": 26.828970175000002
+        },
+        "gain": 0.030847401293654153,
+        "gain_over_fixed_g16_down": 0.022861532713937205
+      },
+      "command_sensitivity": {
+        "0": {
+          "mean_ms": {
+            "phase_group": 19.8466442,
+            "chosen": 18.934124841666666
+          },
+          "gain": 0.04597852156453408
+        },
+        "250": {
+          "mean_ms": {
+            "phase_group": 21.196644199999998,
+            "chosen": 20.134124841666665
+          },
+          "gain": 0.05012677234698004
+        },
+        "1000": {
+          "mean_ms": {
+            "phase_group": 25.2466442,
+            "chosen": 23.734124841666667
+          },
+          "gain": 0.05990971894527408
+        },
+        "5000": {
+          "mean_ms": {
+            "phase_group": 46.8466442,
+            "chosen": 42.934124841666666
+          },
+          "gain": 0.08351760142369669
+        }
+      }
+    }
+  ],
+  "interpretation": "New-model heldout confirmation, not full-model or device latency; model selected after geometry screening, public source families previously used for other models.",
+  "hardware": "Same full-row dense GEMV on 16 chips, 4 same-address planes, 16KiB pages, 28us ordinary read; no CR.",
+  "control_cost_caveat": "250ns chip/block and 2us host phase are uncalibrated model parameters.",
+  "novelty": "Overlapping staggered striping and hypergraph declustering are prior art; novelty is not established."
+}

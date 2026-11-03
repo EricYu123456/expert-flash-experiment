@@ -1,0 +1,63 @@
+{
+  "schema": "expert_flash.fresh_text_source_notes.v1",
+  "manifest_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/manifest.json",
+  "manifest_sha256": "a7b28fb43eda7cf35f0add73aaab9d79c6536905aec6d057be5e113dbecdbedf",
+  "original_plan_sha256": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+  "numeric_protocol_sha256": "3163341827c25b210c42126ae7465c1fe8be9827aab93d314a89ef8a54975f40",
+  "existing_model_sha256": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+  "metadata_preview_erratum": {
+    "when": "Before target split acquisition protocol",
+    "observed": "Publisher landing-page metadata checks automatically displayed a few non-target train examples: WikiText103raw train and ARC-Challenge train.",
+    "target_splits_opened_at_that_time": false,
+    "selection_use": "None; no target split preview or answer-driven selection.",
+    "prevention": "The actual target Parquet files are only fetched by the acquire stage after protocol freeze."
+  },
+  "sources": [
+    {
+      "repo": "Salesforce/wikitext",
+      "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+      "split": "wikitext-2-raw-v1/test",
+      "url": "https://huggingface.co/datasets/Salesforce/wikitext/tree/b08601e04326c79dfdd32d625aee71d232d685c3",
+      "publisher": "Salesforce AI Research; card identifies Stephen Merity at Salesforce as contact.",
+      "citation": "Merity, Xiong, Bradbury and Socher, Pointer Sentinel Mixture Models, 2016, arXiv1609.07843.",
+      "license_metadata": [
+        "cc-by-sa-3.0",
+        "gfdl"
+      ],
+      "license_prose": "Pinned README Licensing Information links CC BY-SA4.0; this conflicts with its YAML metadata.",
+      "license_interpretation": "Both publisher statements are preserved. No definitive version resolution is asserted.",
+      "transform": "Select eligible raw row; retain full original row and nearest top-level Wikipedia article title; prompt is first160 whitespace words joined with spaces.",
+      "attribution": "Per-item article title, Wikipedia article URL and history URL in selected_source_records.json, plus exact publisher card snapshot. Original historical Wikipedia revision/author list is not provided by this dataset view.",
+      "sample_scope": "8 chunks from7 Wikipedia articles; not8 independent documents.",
+      "legacy_homepage_check": "Card's blog.einstein.ai homepage was unavailable through browser; the publisher HF repo remains pinned."
+    },
+    {
+      "repo": "allenai/ai2_arc",
+      "revision": "210d026faf9955653af8916fad021475a3f00453",
+      "split": "ARC-Challenge/validation",
+      "url": "https://huggingface.co/datasets/allenai/ai2_arc/tree/210d026faf9955653af8916fad021475a3f00453",
+      "publisher": "Ai2. Official https://allenai.org/data/arc redirects to this publisher HF repository.",
+      "citation": "Clark et al., Think you have Solved Question Answering? Try ARC, the AI2 Reasoning Challenge, 2018, arXiv1803.05457.",
+      "license_metadata": [
+        "cc-by-sa-4.0"
+      ],
+      "license_prose": "Licensing Information body is a More Information Needed placeholder; the YAML license is recorded as publisher-stated.",
+      "transform": "Full stem and choices in publisher order; normalized only leading/trailing whitespace plus fixed label punctuation/newlines.",
+      "answers": "Correct label/index/text retained only in answers/arc_answers.json. Prompts contain all choices but no appended correct label or answer cue.",
+      "sample_scope": "8 predeclared-length-eligible validation questions; not a benchmark accuracy estimate."
+    }
+  ],
+  "interpretation": [
+    "Dataset revisions and model checkpoint revisions are separate fields in the frozen protocol.",
+    "New workload means unused by the current placement fit/numeric experiments; model-pretraining contamination has not been ruled out.",
+    "No new model, quantization design, weight calibration or placement fit.",
+    "Free generation16/32tokens cannot be reported as ARC accuracy. Teacher forcing and numerical equivalence need separate inference protocols.",
+    "The acquisition protocol froze item-kind/order/rules, not unknown source identities before download; identities are deterministically resolved by its hash ranking."
+  ],
+  "coordination": {
+    "target_agent": "/root/full_ffn_integer_reference",
+    "authorized_by": "Explicit root instruction",
+    "manifest_delivered": true,
+    "requested_inference_scope": "Use LM first128 GGUF tokens with add_special=true/no template; preserve full ARC question/options and record actual token counts."
+  }
+}

@@ -1,0 +1,1295 @@
+        Occult: Optimizing Collaborative Communications across Experts for
+                 Accelerated Parallel MoE Training and Inference
+
+
+   Shuqing Luo 1 Pingzhi Li 1 Jie Peng 1 Yang (Katie) Zhao 2 Yu (Kevin) Cao 2 Yu Cheng 3 Tianlong Chen 1
+
+
+                           Abstract
+
+       Mixture-of-experts (MoE) architectures could
+       achieve impressive computational efficiency with                                                         Occult       Occult         Occult
+                                                                                                              (No Prune) (Prune, 2 GPUs)(Prune, 1 GPU)
+       expert parallelism, which relies heavily on all-to-
+       all communication across devices. Unfortunately,
+       such communication overhead typically consti-
+       tutes a significant portion of the total runtime,
+       hampering the scalability of distributed training
+                                                                                                                Occult       Occult         Occult
+       and inference for modern MoE models (consum-                                                           (No Prune) (Prune, 2 GPUs)(Prune, 1 GPU)
+
+       ing over 40% runtime in large-scale training). In
+       this paper, we first define collaborative commu-
+       nication to illustrate this intrinsic limitation, and
+       then propose system- and algorithm-level innova-
+       tions to reduce communication costs. Specifically,                                                          Occult      Occult       Occult
+                                                                                                                              (Prune, 2 (Prune, 1 GPU)
+                                                                                                                 (No Prune)    GPUs)
+       given a pair of experts co-activated by one token,
+       we call them as collaborated, which comprises 2                 Figure 1. Latency Comparison with Multiple Models & Tasks.
+       cases as intra- and inter-collaboration, depending              Occult can accelerate training & inference for modern MoE-
+       on whether they are kept on the same device. Our                LLMs on communication-intensive tasks.
+       pilot investigations reveal that augmenting the
+       proportion of intra-collaboration can accelerate
+       expert parallel at scale. It motivates us to strate-
+       gically optimize collaborative communication                    1. Introduction
+       for accelerated MoE training and inference,                     Transformer-based (Vaswani, 2017) large language mod-
+       dubbed Occult. Our designs are capable of                       els (LLMs) (Achiam et al., 2023; Touvron et al., 2023) have
+       either delivering exact results with reduced com-               demonstrated tremendous success in a broad spectrum of
+       munication cost, or controllably minimizing the                 downstream tasks, and scaling up model parameters is the
+       cost with collaboration pruning, materialized by                de facto approach to train more powerful LLMs (Jiang et al.,
+       modified fine-tuning. Comprehensive experi-                     2024; Liu et al., 2024b). Mixture-of-experts (MoE) empow-
+       ments on various MoE-LLMs demonstrate that                      ers LLMs with efficient parameter scaling via sparsity. It
+       Occult can be faster than popular state-of-the-                 replaces the standard feed-forward network with a group
+       art inference or training frameworks (more than                 of experts, and each token only activates a subset, which
+       1.5× speed up across multiple tasks and models)                 significantly improves computation efficiency.
+       with comparable or superior quality compared
+       to the standard fine-tuning. Code is available at               However, the giant scale of MoE parameters and the limited
+       https://github.com/UNITES-Lab/Occult.                           memory of a single GPU make it necessary to shard an MoE
+                                                                       layer across multiple GPUs for parallelized training and in-
+                                                                       ference. Among the common techniques, expert parallelism
+   1
+    The University of North Carolina at Chapel Hill 2 University       is a scalable and efficient approach (Lepikhin et al., 2021; Fe-
+of Minnesota Twin Cities 3 The Chinese University of Hong Kong.        dus et al., 2022), which distributes experts on multiple GPUs
+Correspondence to: Tianlong Chen <tianlong@cs.unc.edu>.                and dispatches tokens to the corresponding devices via all-
+Proceedings of the 42 nd International Conference on Machine           to-all communication. As illustrated in Figure 2(a), we can
+Learning, Vancouver, Canada. PMLR 267, 2025. Copyright 2025            outline a typical forward pass as Dispatch → All-to-All →
+by the author(s).                                                      Computing → All-to-All → Combine.
+
+                                                                   1
+        Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+Previous work has demonstrated that all-to-all communica-               Table 1. Approximated Linear Correlation between CT and
+tion is the main bottleneck (Li et al., 2023a) for both training        runtime. 214 prompt tokens at the prefilling stage are examined.
+                                                                                                      Occult       Occult          Occult          Occult
+and inference, especially under heavy workloads (Hwang                    OLMoE          MegaBlocks
+                                                                                                       Trivial    Rescheduled   Prune, 2 GPUs   Prune, 1 GPUs
+et al., 2023), where it can count for over 40% runtime. The              C¯T                 8           4            4              2               1
+reason is that communication across GPUs is much slower                  E(CT )              8          3.68         3.02           1.98             1
+                                                                         Intra / Inter   0.33/0.67    0.33/0.67    0.46/0.54     0.60/0.40          1/0
+than computation on a single one. GPUs on the same ma-
+                                                                         Latency (s)       24.50       15.93        12.53           9.22            5.82
+chine are typically connected via PCIe or NVLink, where
+the former provides low bandwidth, and the latter is higher
+                                                                           ⋆ For intra collaboration, only one replica of x is re-
+but only available on some cutting-edge devices. This makes
+                                                                             quired in the Dispatch stage. For Combine stage the
+communication efficiency a pivotal subject for scalable MoE
+                                                                             output of Ei and Ej can be pre-aggregated locally.
+deployment. For modern LLMs, heavy workload is a com-
+mon teaser, usually emerging in the following tasks:                       ⋆ For inter-collaboration, typically the token should be
+  ⋆ Training: Large batch can better utilize hardware re-                    duplicated twice. But if it can be transformed into intra-
+    sources, accelerating both pre-training and fine-tuning.                 collaboration, only one replica would be required.
+  ⋆ Long Sequence Prompting (Prefilling Stage of Infer-                 Therefore, the communication cost for expert parallelism
+    ence): A single forward pass can batch massive tokens.              can be optimized via maximizing intra-collaboration and
+                                                                        minimizing inter-collaboration. To formulate it, we first
+  ⋆ Concurrent Generation Requests (Decoding Stage of
+                                                                        propose a simple and practical criterion to measure the com-
+    Inference): Requests from different users are batched
+                                                                        munication budget, i.e., the average number of replicas for
+    together, and decoding is implemented step by step.
+                                                                        each token, denoted as CT . In Table 1, we present the strong
+The above motivates us to explore how to optimize commu-                linear correlation between CT and runtime. To push the effi-
+nication across devices to achieve lower latency and higher             ciency of expert parallel to the limit, Occult first resched-
+throughput. Previous MoE libraries (Hwang et al., 2023;                 ules expert placement leveraging profiled collaboration.
+Gale et al., 2023) typically make k replicas for each token             We utilize the statistics of intra- and inter-collaboration
+in expert parallelism, and dispatch them to different devices,          from a profiling dataset to derive a rescheduled placement,
+constituting the content of all-to-all communication. In fact,          which delivers around 20% reduction on CT and runtime,
+not all content is necessary: if a subset of activated experts          as shown in Table 1. Furthermore, we propose collabora-
+for one token is kept on the same device, then only one                 tion pruning for controllable and minimized CT , which
+replica would be required for this device. In the ideal case,           pushes communication efficiency to the limit controllably.
+if the activated experts are all kept on the same device, then
+the all-to-all cost would turn out to be almost negligible.             As an algorithm-system co-design scheme, Occult can ac-
+                                                                        celerate MoE training and inference with expert parallelism
+To implement this efficient communication, we develop a                 on communication-intensive tasks. Our contributions are:
+novel sparse matrix multiplication kernel tailored for ef-
+ficient all-to-all. Note that if only reusing previous libraries,          ⋆ Novel Perspective for Efficient Expert Parallel. We
+the streamlined token replicas for efficient communication                   propose to view the all-to-all communication in ex-
+cannot directly serve as the input/output of expert comput-                  pert parallelized MoE workflow from a novel collab-
+ing, otherwise extra memory footprint would be required.                     orative perspective, and propose an algorithm-system
+Therefore, we build a new sparse matrix multiplication ker-                  co-design scheme dubbed Occult to accelerate both
+nel for both forward and backward passes in Section 3.1,                     training and inference for MoE-LLMs.
+aiming at reducing unnecessary memory allocation or ac-
+cess. Based on this, expert placement turns out to be critical             ⋆ Higher Quality than Top-k Routing. We evaluate the
+for communication efficiency: an ideal placement should                      performance of MoE-LLMs tuned with collaboration
+make the routed experts for each token fall into as few de-                  pruning on extensive benchmarks, where Occult can
+vices as possible.                                                           achieve comparable or better performance than top-k
+                                                                             routing with improved computational efficiency.
+To this end, we propose to reformulate all-to-all in MoE
+workflow as Collaborative Communication. Given expert                      ⋆ Faster Training and Inference. Occult achieves
+Ei and Ej co-activated by a token x, we denote them as col-                  wall-clock speedup for training and inference with
+laborated. Furthermore, expert collaboration can be divided                  MoE-LLMs on communication-intensive tasks. 3 fron-
+into two categories: (1) Intra Collaboration: if Ei and Ej                   tier models and 3 tasks, including prefilling, decoding,
+are kept on the same device, and (2) Inter Collaboration: if                 and training, are examined, with an outlined compari-
+Ei and Ej are kept on different devices.                                     son in Figure 1. Occult consistently surpasses other
+                                                                             libraries and popular frameworks to varying degrees.
+This collaborative perspective inspires us with innovative
+solutions to advance MoE communication efficiency:
+                                                                    2
+ Classical
+             Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+            𝙾𝚁                   𝙾𝚁𝚁 All-to-All 𝙾𝚁𝚁     𝚂𝚁       𝙾𝚁𝚁 All-to-All 𝙾𝚁𝚁               𝙾𝚁             2.2. Measuring All-to-All Communication Complexity
+    GPU-0
+
+
+
+
+                                                                                        Combine
+                   Dispatch      𝙾𝙸𝚁            𝙾𝚁𝙸     𝚂𝙸       𝙾𝚁𝙸            𝙾𝙸𝚁
+                                                                                                                 We propose to measure the all-to-all communication com-
+            𝙾𝙸                                                                                    𝙾𝙸
+                                                                                                                 plexity with CT , motivated by 2 aspects:
+    GPU-1
+
+
+
+
+                                 𝙾𝚁𝙸            𝙾𝙸𝚁     𝚂𝙵       𝙾𝙸𝚁            𝙾𝚁𝙸
+
+
+
+
+                                                                                        Combine
+                   Dispatch
+
+
+
+
+                                                                                                                   1. In the Dispatch stage, typically k replicas are prepared
+ Occult w/o pruning 𝙾𝙸
+                     𝙸
+                                                𝙾𝙸𝙸     𝚂𝙳       𝙾𝙸𝙸            𝙾𝙸𝙸                                   for each token, serving as the all-to-all content. An in-
+                              (a) Classical MoE workflow (CT = 2).                                                    dividual replica may be reserved locally or transmitted
+                                 𝙾𝚁𝚁 All-to-All 𝙾𝚁𝚁     𝚂𝚁       𝙾𝚁𝚁 All-to-All 𝙾𝚁𝚁
+                                                                                                                      to another GPU, based on the routing choices.
+            𝙾𝚁                                                                                    𝙾𝚁
+    GPU-0
+
+
+
+
+                                                                                        Combine
+                   Dispatch
+
+
+
+
+                                                                                                                   2. Exactly measuring the communication volume leads to
+                                 𝙾𝙸𝚁            𝙾𝚁𝙸     𝚂𝙸       𝙾𝚁𝙸            𝙾𝙸𝚁
+                                                                                                                      varied evaluations on different datasets. CT can tackle
+            𝙾𝙸                                                                                    𝙾𝙸
+                                                                                                                      this issue, since it is the supremum of inter-device all-
+    GPU-1
+
+
+
+
+                                 𝙾𝚁𝙸            𝙾𝙸𝚁     𝚂𝙵       𝙾𝙸𝚁            𝙾𝚁𝙸
+
+
+
+
+                                                                                        Combine
+                   Dispatch
+
+
+
+
+                                                                                                                      to-all communication volume, making it task-agnostic.
+                                 𝙾𝙸𝙸            𝙾𝙸𝙸     𝚂𝙳       𝙾𝙸𝙸            𝙾𝙸𝙸                              As shown in Table 1, CT exhibits a strong linear correla-
+Occult w/ pruning
+
+  (b) Occult workflow w/o collaborative pruning (CT = 1.5).                                                      tion with wall-clock runtime, since it is highly related to
+                                𝙾𝚁𝚁 All-to-All 𝙾𝚁𝚁      𝚂𝚁      𝙾𝚁𝚁 All-to-All 𝙾𝚁𝚁
+                                                                                                                 communication overhead and memory footprint. Based on
+            𝙾𝚁                                                                                    𝙾𝚁
+  GPU-0
+
+
+
+
+                                                                                      Combine
+                 Dispatch
+
+
+
+
+                                                                                                                 this empirical relationship, we formulate the boundaries of
+                                𝙾𝙸𝚁            𝙾𝚁𝙸      𝚂𝙸      𝙾𝚁𝙸            𝙾𝙸𝚁                               the all-to-all communication budget: Consider a distributed
+                                                                                                                 system with Ne experts and Nd devices implementing top-k
+            𝙾𝙸                                                                                    𝙾𝙸
+   GPU-1
+
+
+
+
+                                𝙾𝚁𝙸            𝙾𝙸𝚁      𝚂𝙵      𝙾𝙸𝚁            𝙾𝚁𝙸
+                                                                                      Combine
+                 Dispatch
+
+
+
+
+                                                                                                                 routing, where Ne is divisible by Nd . We define CT and CT
+                                𝙾𝙸𝙸            𝙾𝙸𝙸      𝚂𝙳      𝙾𝙸𝙸            𝙾𝙸𝙸                               as the lower and upper bounds of CT respectively, where:
+                                                                                                                                k · Nd
+   (c) Occult workflow w. collaborative pruning (CT = 1).                                                                1≤⌈           ⌉ ≤ CT ≤ CT ≤ min{k, Nd }.1           (5)
+                                                                                                                                  Ne
+Figure 2. MoE workflows with 3 all-to-all communication                                                          Therefore the theoretically optimal budget for all-to-all com-
+strategies. We take 2 devices (D0 and D1 ) for expert parallel,                                                  munication can be formulated as CT = ⌈ k·N   Ne ⌉.
+                                                                                                                                                                d
+
+and Dji denotes tokens from device i dispatched to device j.
+                                                                                                                 2.3. Optimizing All-to-All Communication Complexity
+2. Preliminary                                                                                                   In Figure 2, we progressively optimize CT to improve com-
+2.1. Mixture-of-Experts and Expert Collaboration                                                                 munication efficiency of expert parallelism. Figure 2(a)
+                                                                                                                 shows the conventional expert parallelism. A key obser-
+Given an input token embedding x, the output of an MoE                                                           vation is that not all tokens require k replications: the red
+layer is the weighted sum of outputs from the Ne experts                                                         and green tokens necessitate only a single copy, since both
+{E0 , . . . , ENe −1 }:                                                                                          replicas are transmitted to the same device. Figure 2(b) de-
+                           N
+                           X e −1
+
+                  MoE(x) =        R(x)i · Ei (x),    (1)                                                         picts how leveraging this insight reduces the communication
+                                                      i=0                                                        cost CT from 2 to 1.5. Nonetheless, the yellow and blue
+where R(x)i is the output of router network R(·) for the i-th                                                    tokens still incur duplicate transmissions. Through strategic
+expert. For each token, the MoE layer aggregates the output                                                      optimization of the routing policy, as shown in Figure 2(c),
+of k experts based on the top-k highest scores obtained from                                                     we can achieve a further reduction in CT to 1, i.e., reaching
+the Softmax value of a gating function g(·), which is usually                                                    the theoretically minimum communication overhead.
+a single linear projection layer:
+                                                                                                                 2.4. Why Collaboration Pruning?
+                      R(x) = Top-K(Softmax(g(x)), k),                                                            To minimize the communication complexity CT , two poten-
+                                                                                                                 tial approaches emerge:
+                               (
+                                v, if v is in the top k,                                               (2)
+                 Top-K(v, k) =                                                                                     ❶ Pure system design: Dynamically optimize expert
+                                0, otherwise.
+                                                                                                                       placement for each mini-batch to reduce CT .
+To quantify the interactions among experts, we construct a
+                                                                                                                   ❷ Algorithm-system co-design: Adapt the routing policy
+graph C based on the expert co-activation patterns within a
+                                                                                                                       to align with a pre-defined expert placement, thereby
+token batch B. Each edge represents the co-activation times
+                                                                                                                       reducing CT while maintaining model performance.
+between 2 co-activated experts:
+                X                                                                                                Our empirical analysis demonstrates the unfeasibility of the
+        Ci,j =       1{R(x)i ̸= 0 ∧ R(x)j ̸= 0}.         (3)                                                     pure system design approach. For a collaboration graph C
+                                  x∈B                                                                            constructed from a mini-batch B, we analyze the number of
+We further normalize all edge values in C by dividing by the                                                     experts in the maximal connected subgraph as the number
+maximum edge value, yielding a matrix P ∈ RNe ×Ne with                                                           of tokens in B increases. Figure 3 shows this analysis across
+values in the interval [0, 1]:                                                                                      1
+                                                                                                                      The lower bound of CT is the number of devices that k can
+                Pi,j = Ci,j /  max      Ci,j .           (4)                                                     cover, which equals to ⌈k/(Ne /Nd )⌉ = ⌈ k·N d
+                                                                                                                                                                ⌉.
+                                                       0≤i,j≤Ne −1                                                                                         Ne
+
+
+                                                                                                             3
+       Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+
+
+
+Figure 3. Empirical correlation between the expert amount in the maximal connected sub-graph and token amount in a mini-batch
+for top-2, 4, 6, and 8 routing. We examine the last MoE layer for each model with the same inputs.
+four MoE-LLMs with top-2, 4, 6, and 8 routing. The results             ⋆ Simplified (SFD): The communication tensors for all-
+show that the maximal connected subgraph converges to                      to-all operations, serving as the input of the first linear
+the complete graph as the mini-batch token count increases,                layer and the output of the second linear layer. Each
+implying that optimal expert partitioning across distributed               token is replicated fewer than k times.
+devices for minimal CT is practically unattainable. There-             ⋆ Expanded (EPD): The intermediate token tensors be-
+fore, we adopt an algorithm-system co-design approach to                   tween the first and second linear projection layer,
+minimize the communication budget.                                         where each is replicated exactly k times.
+                                                                     The token counts across states follow ORI < SFD < EPD.
+3. Method                                                            All token tensors are maintained continuously in GPU HBM.
+                                                                     Each expert computing operator bridges two states for mem-
+In this section, we introduce Occult, an algorithm-system            ory efficiency, taking one as input and producing another as
+co-design approach that accelerates the MoE pipeline with            output. However, direct implementation across these states
+expert parallelism by optimizing collaborative communi-              presents challenges. State transitions require either token
+cation. Section 3.1 introduces our tailored sparse matrix            replication or reduction during computation on SRAM, ne-
+multiplication (SMM) implementation for efficient all-to-            cessitating token indexing. Moreover, this parallel token
+all communication. Section 3.2 describes the algorithmic             indexing process is still complex, due to the simultaneous
+design for expert placement rescheduling, which critically           consideration of devices, experts, and tokens.
+impacts the communication budget. Section 3.3 presents our
+collaboration pruning schemes that push CT to the limit.             To tackle this teaser, we introduce Bidirectional Re-
+                                                                     Index Matrix (BRIM), a novel data structure for unified data
+3.1. Sparse Matrix Multiplication for Efficient All-to-All           management. Each MoE layer requires 2 BRIMs, as pre-
+                                                                     sented in Figure 6. A BRIM provides two functions, namely
+Our system design originates from the key insights for effi-         Scattering and Merging, which support basic MoE opera-
+cient all-to-all communication. Consider 2 experts Ei and            tions including Dispatch, Combine, and expert computing.
+Ej that are co-activated by a token x, where the expert com-         Each function implements a two-stage process, aligned with
+puting results of them must be aggregated along with k − 2           our two-stage aggregation for Equation 1:
+other experts for x. When Ei and Ej are intra-collaborated,             ⋆ Merging: Stage one (EPD → SFD) integrates with
+the forward MoE pass exhibits the following properties:                   SMM, while stage two (SFD → ORI) integrates with
+  ⋆ The Dispatch stage requires only a single replica of x                Dispatch & Combine. As shown in the left part of
+    for all-to-all communication.                                         Figure 5, merging operates along the 1st dim of BRIM.
+  ⋆ The Combine stage allows pre-aggregation of expert                  ⋆ Scattering: Stage one (ORI → SFD) integrates with
+    computing results from Ei and Ej , maintaining consis-                Dispatch & Combine, while stage two (SFD → EPD)
+    tency with Dispatch.                                                  integrates with SMM. As shown in the right part of Fig-
+                                                                          ure 5, scattering operates along the 2nd dim of BRIM.
+  ⋆ To implement this symmetric and efficient communica-             We implement the basic MoE operations in Occult with
+    tion, the aggregation in Equation 1 should be split into         Triton (Tillet et al., 2019). For BRIM-based SMM operators,
+    two stages, i.e., summing the intra-collaboration results        each thread-block is assigned a sub-vector with a fixed num-
+    before all-to-all, and summing the inter-collaboration           ber of elements in a single BRIM1 row to enable tiled matrix
+    results after all-to-all, for each token x.                      multiplication.2 The expert can be determined by the sub-
+To implement these ideas and enhance efficiency, we need to          vector’s x-coordinate, ensuring that each thread-block loads
+deal with multiple tensor states, since tokens are selectively          2
+                                                                          Since BRIM is very sparse, directly splitting it into vectors
+repeated. In this paper, we outline them as 3 states:                with fixed length would cause a decrease in GPU utilization. There-
+  ⋆ Original (ORI): The raw input and output tensors for             fore, we further condense the obtained vectors from BRIM to re-
+    an MoE layer, where each token appears exactly once.             duce the total number of thread-blocks during runtime.
+
+                                                                 4
+                                                                                                   0
+
+
+
+
+                   GPU-
+                                                        0                0                                                       0                0
+                                 0           x 0                             x 0 x     MLP-        1         x 0 x     MLP-                               x 0          0
+                                                        1                1                                                       1                1
+                                 1           1 2                             1 2 3      0          2         1 2 3      1                                 1 2          1
+                                                        2                2                                                       2                2
+                                                                                                   3
+
+                                Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+                        GPU-0                Dispatch       All-to-All                        Intermediate                           All-to-All       Combine
+                                     Input                                                           0                                                        Output
+                                                        0                0                           1                           0                0
+                                      0        0 1      1                1   0 1 x                             0 1 x             1                1     0 1     0
+                                                                                      MLP-0          2                 MLP-1
+                                      1        2 x      2                2   x 2 3
+                                                                                                     3         x 2 3             2                2     2 x     1
+evice-0                                                           Expert-0      0
+                                0
+                        GPU-1
+
+
+
+
+evice-0     0                                0 1 x      0 1 x Expert-0
+                                                        0         0             10                   0                           0                0
+            10                  10
+                                21    0      x0x2103x   x0 21 3x
+                                                        1         1          x 021x                  1         x 0 x             1                1     x 0     0
+            21                                                               1 23
+                                                                                      MLP-0                            MLP-1
+evice-1                          2    1       x1 22 3   2x 2 3 Expert-1
+                                                                  2              23                  2         1 2 3             2                2     1 2     1
+evice-1
+             2                                                    Expert-1       3                   3
+                                      𝙾𝚁𝙸     BRIM0 𝚂𝙵𝙳              𝚂𝙵𝙳     BRIM1                𝙴𝙿𝙳          BRIM1            𝚂𝙵𝙳           𝚂𝙵𝙳      BRIM0 𝙾𝚁𝙸
+
+                 Figure 4. MoE workflow with proposed bidirectional re-index-guided all-to-all communication and expert computing. We take the
+                 forward process for illustration, where token tensors are stated as ORI, SFD and EPD, compactly stored on HBM and guided by BRIMs.
+          𝚂𝙵𝙳                 𝙾𝚁𝙸             BRIM0 Device-0 𝚂𝙵𝙳
+                              𝙾𝚁𝙸        0 1 BRIM  0 0 1 Device-0 𝚂𝙵𝙳
+          𝚂𝙵𝙳                  0                                     0                  Algorithm 1 Building expert placement.
+           0                   10        20 x1     20 x1             10
+          10                                                                            Require: Collaboration graph P ∈ RNe ×Ne , number of devices
+                                1         2 x       2 Device-1
+                                                       x             21
+          21                                                                               Nd for expert parallelism.
+           2                   Merging-1                Scattering-0 2
+                                                       Device-1                            Initialize expert placement L with Nd empty lists.
+tering-0                        Merging-1                Scattering-0
+                                                                                           for d ← 0, Nd − 1 do
+ tering-0                                                                                      if d == 0 then ▷ Choose the 2 most collaborative experts.
+                   (a) Merging (2nd stage) and Scattering (1st stage) with BRIM0
+                                                                                                    i, j = argmax(P) and push i, j to L[d] .
+                              𝚂𝙵𝙳             BRIM1 Expert-0 𝙴𝙿𝙳
+                                                                    𝙴𝙿𝙳
+                                                                                               else ▷ Expert with the least collaboration with used ones.
+                              𝚂𝙵𝙳
+                               0      0 1 x
+                                               BRIM01 1 Expert-0
+                                                          x          0                              Initialize Cinter as an empty dict.
+                               10      x0 21 3x     x0 21 3x         10                             for e ← 0, Ne − 1 do
+                               21                                    21
+                                        x 2 3        xExpert-1
+                                                        2 3
+                                                                     32                                  if e not in L then ▷ Traverse       the unused experts.
+                                2                                                                                                1
+                                                                                                                                       P
+                                                       Expert-1                                               Set Cinter [e] as |L|   · t∈L P[t,e] .
+                               Merging-0                 Scattering-13
+                                Merging-0                Scattering-1                                    end if
+                   (b) Merging (1st stage) and Scattering (2nd stage) with BRIM1                    end for ▷ Expert with least collaboration with used ones.
+                                                                                                    Index the minimal value from Cinter , and push it to L[d] .
+                 Figure 5. Functions of 2 BRIMs. Both BRIM0 and BRIM1 are                      end if        ▷ Initialize L[d] with 1 or 2 experts.
+                 2D matrices. BRIM0 ’s dimensions are defined by the number of                 while len(L[d] ) ≤ Ne /Nd do ▷ Progressive expert selection.
+                 devices for expert parallelism (first dimension) and the token count               Initialize Cintra as an empty dict.
+                 in the ORI tensor (second dimension). BRIM1 ’s dimensions are                      for e ← 0, Ne − 1 do
+                 defined by the number of local experts per device (first dimension)                     if e not in L then ▷ Traverse       the unused experts.
+                                                                                                              Set Cintra [e] as L1 · t∈L[d] P[t,e] .
+                                                                                                                                       P
+                 and the token count in the SFD tensor (second dimension).                                                        [d]
+                                                                                                         end if ▷ Collaboration with experts on device d.
+                 weights from one expert. Merging and scattering functions                          end for ▷ Expert with the most collaboration with L[d] .
+                                                                                                    Index the maximal value from Cintra , and push it to L[d] .
+                 primarily differ in their I/O patterns:
+                                                                                               end while
+                    ⋆ For merging (first stage): Each thread-block reads from              end for
+                       the EPD tensor based on the BRIM1 sub-vector values,                return L.
+                          and writes the cumulative dot-product results to the
+                          SFD tensor based on the BRIM1 vector’s y-coordinates.
+                          Multiple thread-blocks may write to the same HBM
+                                                                                                         together with a PyTorch-style pseudo-code for the whole
+                          region since results from different BRIM1 rows in the
+                                                                                                         pipeline in Appendix A.1.
+                          same column require aggregation (Figure 5(b)). This
+                          can be handled either through atomic add 3 or by se-                         3.2. Expert Placement Rescheduling
+                          rially aggregating results across local experts, yielding                    Since Occult’s communication efficiency CT improves
+                          identical results with similar runtime.                                      with increased intra-collaboration and decreased inter-
+                    ⋆ For scattering (second stage), each thread-block reads                           collaboration, expert placement becomes critical for op-
+                      from the SFD tensor based on the BRIM1 sub-vector’s                              timizing all-to-all communication. However, determining
+                      y-coordinates and writes the cumulative dot-product                              optimal placement is challenging due to the high variability
+                      results to the EPD tensor based on the values in the                             in routing choice distributions across different mini-batches.
+                      BRIM1 sub-vector.                                                                As discussed in Section 2.4, we propose determining a fixed
+                 We provide the implementation details for each basic op-                              near-optimal expert placement for off -the-shelf MoE-LLMs
+                 eration in our refactored MoE workflow in Appendix A.2,                               using a profiling dataset.
+                    3
+                      Some data types may not be supported for atomic add on                           We build a collaboration frequency graph P and formulate
+                 NVIDIA GPUs. We initialize the output tensor with Float32, and                        the rescheduling objective as evenly partitioning P into Nd
+                 transform it to the target type after computing.                                      sub-graphs, maximizing intra-collaboration while minimiz-
+
+                                                                                                 5
+        Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+
+      Pipeline:       𝙾𝚁𝙸 Dispatch 𝚂𝙵𝙳 All-to-All 𝚂𝙵𝙳 MLP-0 𝙴𝙿𝙳 MLP-1 𝚂𝙵𝙳 All-to-All 𝚂𝙵𝙳 Combine 𝙾𝚁𝙸
+                                                Forward Pass
+                           Scattering-0                       Scattering-1 Merging-0                             Merging-1
+
+
+
+
+                                                      BRIM1
+                      BRIM0
+
+
+
+
+                                                                                                        BRIM0
+   Functions:
+                              Merging-1                       Merging-0 Scattering-1                            Scattering-0
+                                                                                         Backward Pass
+Figure 6. Correlation between the functions of BRIM and the basic operations in MoE workflow. Each BRIM provides 2 functions.
+BRIM0 is employed for Dispatch & Combine, while BRIM1 is adopted for the sparse matrix multiplication.
+
+ing inter-collaboration. Each sub-graph represents device-              Expert-Similarity-based Pruning. We prepare an expert
+specific expert assignments. The assigned expert placement              similarity table for each MoE layer, named as T ∈ ZNe ×Ne ,
+L comprises Nd lists. We quantify collaboration metrics:                and then traverse the k routed experts in descending order
+  ⋆ Intra-collaboration for device d is measured from the               of routing score. Experts outside the Nd devices range are
+    average collaboration frequency among all expert pairs              replaced with the most similar available alternative from T
+    on device d. With expert pair set Sd = {(i, j)|i ∈                  that satisfies two conditions: (1) falls within the range of
+    Ld ∧ j ∈ Ld ∧ i ̸= j}:                                              Nd devices, and (2) has not been selected before.
+
+                 d       1 X                                            Following the empirical insights from MC-MoE (Li et al.,
+               Cintra =       ·           P[i,j] .                      2023b), we measure the expert similarity using router logits
+                        |Sd |    (i,j)∈Sd
+                                                                        obtained from the inference process on a profiling dataset.
+  ⋆ Inter-collaboration between devices d1 and d2 mea-
+                                                                        Implementation details are provided in Appendix A.3.
+    sures the average collaboration frequency across all
+    feasible cross-device expert pairs:                                 4. Experiments
+          d1 ,d2          1          X
+        Cinter   =                 ·                P[i,j] .
+                   |Ld1 | · |Ld2 |     i∈Ld1 ,j∈Ld2                     4.1. Experimental Setup
+To derive a near-optimal expert allocation scheme from P,               Models, Tasks, and Datasets. Models: We examine the
+we develop a clustering algorithm in Algorithm 1, inspired              effectiveness of Occult on three frontier MoE-LLMs:
+by farthest point sampling in point cloud learning (Qi et al.,          OLMoE-1B-7B (Muennighoff et al., 2024), Qwen1.5-MoE-
+2017). Compared to trivial expert placement, our reschedul-             A2.7B (Team, 2024), and DeepSeek-MoE (Dai et al., 2024).
+ing algorithm reduces CT by ∼ 20% while maintaining                     The configurations are provided in Table 2. Tasks and
+exact computation results, as shown in Table 1.                         datasets: To validate the effectiveness of collaboration prun-
+                                                                        ing, we tune the models with Alpaca (Taori et al., 2023),
+3.3. Expert Collaboration Pruning
+                                                                        and evaluate on six tasks: Winogrande (Sakaguchi et al.,
+We further optimize collaborative communication through
+                                                                        2021), WSC (Levesque et al., 2012), PIQA (Bisk et al.,
+algorithm-level collaboration pruning. This approach re-
+                                                                        2020), RACE (Lai et al., 2017), MathQA (Amini et al.,
+stricts the routing choice of each token to a pre-defined
+                                                                        2019) and RTE (Bentivogli et al., 2009). A more compre-
+range of Nd devices. Collaborations outside this scope are
+                                                                        hensive evaluation with extensive benchmarks is provided
+pruned and replaced by a legal alternative. The Nd devices
+                                                                        in Appendix B.
+are determined by traversing the tokens’ k routed experts
+in descending order of routing score until Nd devices are               Baselines and Evaluation Metrics. Baselines: For infer-
+reached. 4 . Expert replacement follows two proposed crite-             ence, we compare against vllm (Kwon et al., 2023) and
+ria for pruning implementation.                                         HuggingFace. For training, we compare against PyTorch
+                                                                        fully-sharded data parallel (FSDP) and DeepSpeed (Rajb-
+Routing-Score-based Pruning. We start by getting the
+                                                                        handari et al., 2022). We evaluate two popular MoE li-
+gating scores for all experts as the router network output,
+                       e −1                                             braries: Tutel (Hwang et al., 2023) and MegaBlocks (Gale
+denoted as {r(x)i }N i=0 . While conventional top-k routing
+                                                                        et al., 2023) (For MegaBlocks, both block sparse matrix mul-
+selects the largest k values for forward pass and weighted
+                                                                        tiplication and grouped GeMM for dMoE are examined).
+aggregation (Equations 1 and 2), we modify it with 2 steps:
+                                                    e −1
+                                                                        Since Occult is orthogonal to these general frameworks,
+  ❶ Gating score sorting:           Sort {r(x)i }Ni=0    as
+            ′ Ne −1
+                                                                        vllm and HuggingFace serve as references only. Evaluation
+      {r(x)i }i=0 in descending order.                                  metrics: We report accuracy for NLP tasks involved in this
+ ❷ Expert selection: Select top-k experts within the range              section, with F1 score and exact match score results pre-
+                                          e −1
+   of the Nd devices based on {r(x)′i }Ni=0 .                           sented in Appendix B.
+    4
+      Pruning would not be required if the k routed experts cover       Hardware and Software. All the experiments are con-
+less than Nd devices                                                    ducted on a single node using PCIe-connected NVIDIA
+
+                                                                    6
+        Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+
+
+
+Figure 7. Performance Comparison for Collaboration Pruning. Comprehensive evaluation across three MoE architectures shows
+performance trends under different pruning strategies. Note that 4-device collaboration pruning is equivalent to standard training with
+original top-k routing.
+                                                                         ❷ Although router-based pruning is easier to implement,
+                                                                           similarity-based pruning consistently outperforms it.
+
+                                                                        Explanation for Performance Enhancement. To inter-
+                                                                        pret the collaboration mechanism, we visualize an expert
+                                                                        from OLMoE’s first MoE layer in Figure 8. Single-device
+                                                                        pruning only preserves certain correlations while others are
+                                                                        wiped out. In contrast, two-device pruning can ensure the
+                                                                        potential collaboration between any pair of experts, main-
+                                                                        taining correlation patterns that more closely align with the
+                                                                        original model’s structure.
+                                                                        4.3. Accelerated Expert Parallelism
+                                                                        Prefilling. Figure 9 demonstrates Occult’s superior la-
+                                                                        tency performance compared to existing frameworks on
+                                                                        communication-intensive tasks. Using 214 prompt tokens
+Figure 8. Collaboration Analysis for OLMoE using 4-way ex-
+                                                                        with Occult, pruning on two devices, as our benchmark:
+pert parallelism. Examining expert 0 in the first MoE layer shows
+stable collaboration between no-pruning and 2-GPU scenarios,              ⋆ For OLMoE, it is 8.66× faster than Tutel, 1.70×
+while 1-GPU pruning leads to some patterns’ vanishing.                      faster than MegaBlocks and 1.86× faster than vllm.
+A6000 GPUs, each with 48GB HBM memory. We take
+                                                                          ⋆ For Qwen-MoE, it is 2.74× faster than Tutel, 0.71×
+BFloat16 for MoE parameters and activations, and Occult
+                                                                            faster than MegaBlocks and 1.60× faster than vllm.
+implements atomic add operations in Float32. Batch
+size and token amounts are recorded for individual devices.               ⋆ For DeepSeek-MoE, it is 5.64× faster than Tutel,
+                                                                            0.66× faster than MegaBlocks and 1.51× than vllm.
+4.2. Performance of Collaboration Pruning
+Effectiveness of Collaboration Pruning. Figure 7                        Pruning within 1 device can achieve the highest efficiency,
+presents performance comparisons for both router- and                   but with slightly inferior quality, while pruning within 2
+similarity-based pruning strategies with various device                 devices can achieve a superior trade-off.
+amounts. Our results demonstrate that:
+                                                                        Decoding. We visualize the latency comparison for full
+  ❶ While restricting collaboration within 1 device may                 generation in Figure 10. While Occult excels with large
+    hamper the model performance, expanding the con-                    batch generation and demonstrates the most consistent scal-
+    straint to 2 devices can achieve comparable or superior             ing across MoE-LLMs, indicating superior throughput, its
+    quality than standard training.                                     acceleration is limited for small batch sizes where commu-
+                                                                        nication is not necessarily a bottleneck.
+                                                                    7
+       Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+
+
+
+       Figure 9. Prefilling Latency Comparison with 4 GPUs. Occult achieves superior efficiency under scaled workload.
+
+
+
+
+Figure 10. Decoding Latency Comparison with 4 GPUs. Analysis with fixed prompt tokens (12800) and batch size (512) demonstrates
+Occult’s consistent latency advantages on communication-intensive decoding tasks.
+
+                                                                     ∼ 9×, and ∼ 20× speedup compared to MegaBlocks (Gale
+                                                                     et al., 2023), FSDP (PyTorch Fully Sharded Data Par-
+                                                                     allelism (Zhao et al., 2023)), DeepSpeed (Rajbhandari
+                                                                     et al., 2022), and Tutel (Hwang et al., 2023), respectively.
+                                                                     Occult is scalable for increasing GPUs involved in ex-
+                                                                     pert parallelism, while exhibiting the most stable latency
+                                                                     increasing trend with batch size growth compared to other
+                                                                     expert-parallel frameworks.
+
+                                                                     5. Related Works
+                                                                     Open-Source MoE-based LLMs. Most of the modern
+                                                                     MoE-LLMs adopt top-k routing with k ≥ 2, implying that
+                                                                     collaborative communication is universal. This enables
+                                                                     Occult as a general approach to advance efficiency for
+                                                                     scalable expert parallelism. We investigate some frontier
+                                                                     open-source MoE-LLMs in Table 2. The attempts in the
+Figure 11. Training Latency Comparison with 4 GPUs. With             early stage for sparsely scaling language models include
+fixed sequence length of 512 tokens, Occult demonstrates supe-       Nllb (Costa-jussà et al., 2022) and Switch-Transformers (Fe-
+rior performance across varying batch sizes.                         dus et al., 2022). In recent years, we have witnessed the
+                                                                     vibrant development of modern MoE-LLMs. For instance,
+Training. We evaluate the average latency per training
+                                                                     Mixtral (Jiang et al., 2024) outperforms Llama2-70B (Tou-
+step over 1k iterations with sequence length 512. We evalu-
+                                                                     vron et al., 2023) with 8×7B parameters. Phi-3.5-MoE (Ab-
+ate on OLMoE (Muennighoff et al., 2024) and DeepSeek-
+                                                                     din et al., 2024) contains 16 × 3.8B parameters, which is
+MoE (Dai et al., 2024) through tuning all the MoE mod-
+                                                                     on par with Gemini-1.5-Flash and GPT-4o-mini. Qwen1.5-
+ules and freezing other parameters. We take a compre-
+                                                                     MoE (Team, 2024) activates 2.7B parameters and matches
+hensive comparison among popular training frameworks
+                                                                     the performance of 7B models. DeepSeek-MoE (Dai et al.,
+with 4 GPUs in Figure 11, and examine the expert paral-
+                                                                     2024) introduces shared experts to learn common knowl-
+lelism training frameworks with 8 and 16 GPUs in Figure 12.
+                                                                     edge. OLMoE (Muennighoff et al., 2024) open-sources
+Experimental results demonstrate that Occult possesses
+                                                                     all data related to model training. PowerMoE (Shen et al.,
+superior memory efficiency, supporting the largest batch
+                                                                     2024b) trains the MoE model with a new learning rate sched-
+size under the same memory budget. Occult can also
+                                                                     uler. JetMoE (Shen et al., 2024a) surpasses Llama2-7B (Tou-
+speed up fine-tuning for MoE-based LLMs. For batch size
+                                                                     vron et al., 2023) with low training cost.
+8, Occult (two-device pruning) achieves 1.54×, 2.65×,
+
+                                                                 8
+         Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+
+
+
+Figure 12. More training latency comparison for expert parallelism frameworks. Owning to the communication- and memory-efficient
+design, Occult achieves superior training efficiency under both 8- and 16-way expert parallelism configurations.
+
+Table 2. Frontier Open-Source MoE-LLMs. The models we                               efficiency. MC-MoE (Li et al., 2023b) merges the experts
+used for experiments are highlighted in bold.                                       into low-rank and structurally sparse alternatives for better
+ Model                                k   # Experts   # MoE Layers   # Params       efficiency of inference.
+ Mixtral-8x7B (Jiang et al., 2024)    2      8            32          46.7 B        Principles of GPU Acceleration. Modern GPUs provide
+ Mixtral-8x22B (Jiang et al., 2024)   2      8            56          141 B         massive threads for parallel execution. Threads are grouped
+ Phi-3.5-MoE (Abdin et al., 2024)     2      16           32          41.9 B        into thread-blocks, which are executed on streaming multi-
+ Minimax-01 (Li et al., 2025)         2      32           80          456 B         processors (SMs). GPUs have a memory hierarchy, outlined
+ Qwen1.5-MoE (Team, 2024)             4      60           24          14.3 B
+                                                                                    as large but slow-accessed high bandwidth memory (HBM)
+ DeepSeek-MoE (Dai et al., 2024)      6      64           27          16.4 B
+                                                                                    and small but faster-accessed shared memory (SRAM). Ma-
+ DeepSeek-V2 (Liu et al., 2024a)      6     160           59          236 B
+ OLMoE (Muennighoff et al., 2024)     8      64           16          6.92 B
+                                                                                    trix multiplication is optimized on GPU using tiling, i.e.,
+ Qwen3-30B-A3B (Team, 2025)           8     128           48          30.5 B        partitioning the output matrix into small 2D blocks, where
+ Qwen3-235B-A22B (Team, 2025)         8     128           94          235 B         each block is computed using a thread-block in parallel.
+ DeepSeek-V3 (Liu et al., 2024b)      8     256           58          685 B         The size of an individual block can be manually adjusted to
+                                                                                    improve runtime performance.
+System Designs for Efficient MoE. DeepSpeed-
+                                                                                    6. Conclusion
+MoE (Rajbhandari et al., 2022) designs a new MoE
+architecture and an optimized inference system for efficient                        In this paper, we introduce Occult, an algorithm-system
+and scalable serving. Tutel (Hwang et al., 2023) provides a                         co-design approach to optimize all-to-all communication
+scalable MoE framework with adaptive parallelism/pipelin-                           in expert parallelism for accelerated MoE training and in-
+ing optimization at runtime. MegaBlocks (Gale et al.,                               ference. Comprehensive experiments show that it can con-
+2023) proposes block-sparse matrix multiplication to                                sistently speed up communication-intensive tasks for MoE-
+enable no discard of tokens. Hexa-MoE (Luo et al.,                                  LLMs. Occult is orthogonal to popular frameworks, there-
+2024) proposes expert-specific operators as an alternative                          fore, it can be further integrated with them for enhanced
+to GeMM or grouped GeMM to make MoE-training                                        efficiency. As preliminary research to advance efficiency in
+heterogeneous-aware. Janus (Liu et al., 2023) proposes a                            expert parallelism, some problems remain unsolved, such as
+data-centric strategy to eliminate all-to-all communication                         workload balancing. We will continue to explore this topic
+overhead under a large workload. APTMoE (Wei et al.,                                and try to provide improved solutions.
+2024) proposes an affinity-aware offloading technique to                            Acknowledgements
+enhance pipeline parallelism for fine-tuning MoE-LLMs.
+                                                                                    Pingzhi Li and Tianlong Chen are partially supported by
+Algorithm Designs for Efficient MoE. Hash-                                          Amazon Research Award, Cisco Faculty Award, UNC Ac-
+Layer (Roller et al., 2021) replaces the gating layer                               celerating AI Awards, NAIRR Pilot Award, OpenAI Re-
+in the common MoE model with a precomputed hash                                     searcher Access Award, and Gemma Academic Program
+function to reduce computation cost. MoE-I2 (Yang                                   GCP Credit Award.
+et al., 2024) proposes a two-stage compression scheme,
+including inter-expert pruning and intra-expert low-rank                            Impact Statement
+decomposition. Pre-gated MoE (Hwang et al., 2024)                                   This paper aims to improve the communication efficiency
+proposes a pre-gating function to enable the pre-fetching                           for training and inference with modern MoE-based LLMs.
+of MoE parameters so that it can be efficiently served on                           The efficiency advantage of such models might help de-
+memory-constrained devices. Expert Pruning (Lu et al.,                              mocratize access of language models. On the other hand,
+2024) proposes post-training approaches for task-agnostic                           whether such new algorithm would affect known issues such
+and task-specific expert pruning and skipping with                                  as biased and harmful outputs of language models remains
+MoE-LLMs to reduce the model size and improve inference                             an unexplored research question.
+
+                                                                                9
+       Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+References                                                              Fedus, W., Zoph, B., and Shazeer, N. Switch transformers:
+                                                                          Scaling to trillion parameter models with simple and ef-
+Abdin, M., Aneja, J., Awadalla, H., Awadallah, A., Awan,
+                                                                          ficient sparsity. Journal of Machine Learning Research,
+ A. A., Bach, N., Bahree, A., Bakhtiari, A., Bao, J., Behl,
+                                                                          23(120):1–39, 2022.
+  H., et al. Phi-3 technical report: A highly capable lan-
+  guage model locally on your phone. arXiv preprint                     Gale, T., Narayanan, D., Young, C., and Zaharia, M.
+  arXiv:2404.14219, 2024.                                                 Megablocks: Efficient sparse training with mixture-of-
+Achiam, J., Adler, S., Agarwal, S., Ahmad, L., Akkaya, I.,                experts. Proceedings of Machine Learning and Systems,
+  Aleman, F. L., Almeida, D., Altenschmidt, J., Altman, S.,               5:288–304, 2023.
+  Anadkat, S., et al. Gpt-4 technical report. arXiv preprint
+                                                                        Hendrycks, D., Burns, C., Basart, S., Zou, A., Mazeika, M.,
+  arXiv:2303.08774, 2023.
+                                                                          Song, D., and Steinhardt, J. Measuring massive multitask
+Amini, A., Gabriel, S., Lin, P., Koncel-Kedziorski, R., Choi,             language understanding. In International Conference on
+ Y., and Hajishirzi, H. Mathqa: Towards interpretable math                Learning Representations, 2021.
+ word problem solving with operation-based formalisms.
+ arXiv preprint arXiv:1905.13319, 2019.                                 Hwang, C., Cui, W., Xiong, Y., Yang, Z., Liu, Z., Hu, H.,
+                                                                         Wang, Z., Salas, R., Jose, J., Ram, P., et al. Tutel: Adap-
+Aroca-Ouellette, S., Paik, C., Roncone, A., and Kann, K.                 tive mixture-of-experts at scale. Proceedings of Machine
+  Prost: Physical reasoning about objects through space and              Learning and Systems, 5:269–287, 2023.
+  time. In Findings of the Association for Computational
+  Linguistics: ACL-IJCNLP 2021, pp. 4597–4608, 2021.                    Hwang, R., Wei, J., Cao, S., Hwang, C., Tang, X., Cao, T.,
+                                                                         and Yang, M. Pre-gated moe: An algorithm-system co-
+Bentivogli, L., Clark, P., Dagan, I., and Giampiccolo, D.
+                                                                         design for fast and scalable mixture-of-expert inference.
+  The fifth pascal recognizing textual entailment challenge.
+                                                                         In 2024 ACM/IEEE 51st Annual International Symposium
+  TAC, 7(8):1, 2009.
+                                                                         on Computer Architecture (ISCA), pp. 1018–1031. IEEE,
+Bisk, Y., Zellers, R., Gao, J., Choi, Y., et al. Piqa: Reasoning         2024.
+  about physical commonsense in natural language. In Pro-
+  ceedings of the AAAI conference on artificial intelligence,           Jiang, A. Q., Sablayrolles, A., Roux, A., Mensch, A., Savary,
+  volume 34, pp. 7432–7439, 2020.                                          B., Bamford, C., Chaplot, D. S., Casas, D. d. l., Hanna,
+                                                                           E. B., Bressand, F., et al. Mixtral of experts. arXiv
+Clark, C., Lee, K., Chang, M.-W., Kwiatkowski, T., Collins,                preprint arXiv:2401.04088, 2024.
+  M., and Toutanova, K. Boolq: Exploring the surprising
+  difficulty of natural yes/no questions. In Proceedings                Khashabi, D., Chaturvedi, S., Roth, M., Upadhyay, S., and
+  of the 2019 Conference of the North American Chapter                    Roth, D. Looking beyond the surface: A challenge set for
+  of the Association for Computational Linguistics: Hu-                   reading comprehension over multiple sentences. In Pro-
+  man Language Technologies, Volume 1 (Long and Short                     ceedings of the 2018 Conference of the North American
+  Papers), pp. 2924–2936, 2019.                                          Chapter of the Association for Computational Linguistics:
+                                                                         Human Language Technologies, Volume 1 (Long Papers),
+Costa-jussà, M. R., Cross, J., Çelebi, O., Elbayad, M.,                 pp. 252–262, 2018.
+  Heafield, K., Heffernan, K., Kalbassi, E., Lam, J., Licht,
+  D., Maillard, J., et al. No language left behind: Scal-               Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Yu,
+  ing human-centered machine translation. arXiv preprint                 C. H., Gonzalez, J., Zhang, H., and Stoica, I. Efficient
+  arXiv:2207.04672, 2022.                                                memory management for large language model serving
+                                                                         with pagedattention. In Proceedings of the 29th Sym-
+Dai, D., Deng, C., Zhao, C., Xu, R., Gao, H., Chen, D., Li, J.,
+                                                                         posium on Operating Systems Principles, pp. 611–626,
+  Zeng, W., Yu, X., Wu, Y., et al. Deepseekmoe: Towards
+                                                                         2023.
+  ultimate expert specialization in mixture-of-experts lan-
+  guage models. arXiv preprint arXiv:2401.06066, 2024.                  Lai, G., Xie, Q., Liu, H., Yang, Y., and Hovy, E. Race:
+Dasigi, P., Lo, K., Beltagy, I., Cohan, A., Smith, N. A., and             Large-scale reading comprehension dataset from exami-
+  Gardner, M. A dataset of information-seeking questions                  nations. arXiv preprint arXiv:1704.04683, 2017.
+  and answers anchored in research papers. arXiv preprint
+  arXiv:2105.03011, 2021.                                               Lepikhin, D., Lee, H., Xu, Y., Chen, D., Firat, O., Huang, Y.,
+                                                                          Krikun, M., Shazeer, N., and Chen, Z. Gshard: Scaling
+Dolan, B. and Brockett, C. Automatically constructing a                   giant models with conditional computation and automatic
+  corpus of sentential paraphrases. In Third international                sharding. In International Conference on Learning Rep-
+  workshop on paraphrasing (IWP2005), 2005.                               resentations, 2021.
+
+                                                                   10
+       Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+Levesque, H., Davis, E., and Morgenstern, L. The winograd            Mihaylov, T., Clark, P., Khot, T., and Sabharwal, A. Can
+  schema challenge. In Thirteenth international confer-               a suit of armor conduct electricity? a new dataset
+  ence on the principles of knowledge representation and              for open book question answering. arXiv preprint
+  reasoning, 2012.                                                    arXiv:1809.02789, 2018.
+Li, A., Gong, B., Yang, B., Shan, B., Liu, C., Zhu, C.,              Muennighoff, N., Soldaini, L., Groeneveld, D., Lo, K., Mor-
+  Zhang, C., Guo, C., Chen, D., Li, D., et al. Minimax-01:            rison, J., Min, S., Shi, W., Walsh, P., Tafjord, O., Lambert,
+  Scaling foundation models with lightning attention. arXiv           N., et al. Olmoe: Open mixture-of-experts language
+  preprint arXiv:2501.08313, 2025.                                    models. arXiv preprint arXiv:2409.02060, 2024.
+Li, J., Jiang, Y., Zhu, Y., Wang, C., and Xu, H. Accelerating        Qi, C. R., Yi, L., Su, H., and Guibas, L. J. Pointnet++:
+   distributed {MoE} training and inference with lina. In              Deep hierarchical feature learning on point sets in a met-
+  2023 USENIX Annual Technical Conference (USENIX                      ric space. Advances in neural information processing
+  ATC 23), pp. 945–959, 2023a.                                         systems, 30, 2017.
+Li, P., Zhang, Z., Yadav, P., Sung, Y.-L., Cheng, Y., Bansal,
+  M., and Chen, T. Merge, then compress: Demystify                   Rajbhandari, S., Li, C., Yao, Z., Zhang, M., Aminabadi,
+  efficient smoe with hints from its routing policy. arXiv             R. Y., Awan, A. A., Rasley, J., and He, Y. Deepspeed-moe:
+  preprint arXiv:2310.01334, 2023b.                                    Advancing mixture-of-experts inference and training to
+                                                                       power next-generation ai scale. In International con-
+Liu, A., Feng, B., Wang, B., Wang, B., Liu, B., Zhao, C.,              ference on machine learning, pp. 18332–18346. PMLR,
+  Dengr, C., Ruan, C., Dai, D., Guo, D., et al. Deepseek-v2:           2022.
+  A strong, economical, and efficient mixture-of-experts
+  language model. arXiv preprint arXiv:2405.04434,                   Reddy, S., Chen, D., and Manning, C. D. Coqa: A conversa-
+  2024a.                                                               tional question answering challenge. Transactions of the
+                                                                       Association for Computational Linguistics, 7:249–266,
+Liu, A., Feng, B., Xue, B., Wang, B., Wu, B., Lu, C., Zhao,            2019.
+  C., Deng, C., Zhang, C., Ruan, C., et al. Deepseek-
+  v3 technical report. arXiv preprint arXiv:2412.19437,              Roemmele, M., Bejan, C. A., and Gordon, A. S. Choice
+  2024b.                                                               of plausible alternatives: An evaluation of commonsense
+                                                                       causal reasoning. In 2011 AAAI spring symposium series,
+Liu, J., Cui, L., Liu, H., Huang, D., Wang, Y., and Zhang,             2011.
+  Y. Logiqa: a challenge dataset for machine reading com-
+  prehension with logical reasoning. In Proceedings of               Roller, S., Sukhbaatar, S., Weston, J., et al. Hash layers
+  the Twenty-Ninth International Conference on Interna-                for large sparse models. Advances in Neural Information
+  tional Joint Conferences on Artificial Intelligence, pp.             Processing Systems, 34:17555–17566, 2021.
+  3622–3628, 2021.
+                                                                     Sakaguchi, K., Bras, R. L., Bhagavatula, C., and Choi, Y.
+Liu, J., Wang, J. H., and Jiang, Y. Janus: A unified dis-              Winogrande: An adversarial winograd schema challenge
+  tributed training framework for sparse mixture-of-experts            at scale. Communications of the ACM, 64(9):99–106,
+  models. In Proceedings of the ACM SIGCOMM 2023                       2021.
+  Conference, pp. 486–498, 2023.
+Lu, X., Liu, Q., Xu, Y., Zhou, A., Huang, S., Zhang, B., Yan,        Shen, Y., Guo, Z., Cai, T., and Qin, Z. Jetmoe: Reaching
+  J., and Li, H. Not all experts are equal: Efficient expert           llama2 performance with 0.1 m dollars. arXiv preprint
+  pruning and skipping for mixture-of-experts large lan-               arXiv:2404.07413, 2024a.
+  guage models. arXiv preprint arXiv:2402.14800, 2024.
+                                                                     Shen, Y., Stallone, M., Mishra, M., Zhang, G., Tan, S.,
+Luo, S., Peng, J., Li, P., Wang, H., and Chen, T. Hexa-                Prasad, A., Soria, A. M., Cox, D. D., and Panda, R.
+  moe: Efficient and heterogeneous-aware moe accelera-                 Power scheduler: A batch size and token number agnostic
+  tion with zero computation redundancy. arXiv preprint                learning rate scheduler. arXiv preprint arXiv:2408.13359,
+  arXiv:2411.01288, 2024.                                              2024b.
+
+Miao, S.-Y., Liang, C.-C., and Su, K.-Y. A diverse corpus            Socher, R., Perelygin, A., Wu, J., Chuang, J., Manning,
+ for evaluating and developing english math word problem               C. D., Ng, A. Y., and Potts, C. Recursive deep models for
+ solvers. In Proceedings of the 58th Annual Meeting of the             semantic compositionality over a sentiment treebank. In
+ Association for Computational Linguistics, pp. 975–984,               Proceedings of the 2013 conference on empirical methods
+ 2020.                                                                 in natural language processing, pp. 1631–1642, 2013.
+
+                                                                11
+       Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+Taori, R., Gulrajani, I., Zhang, T., Dubois, Y., Li, X.,              Yang, C., Sui, Y., Xiao, J., Huang, L., Gong, Y., Duan,
+  Guestrin, C., Liang, P., and Hashimoto, T. B. Alpaca: A               Y., Jia, W., Yin, M., Cheng, Y., and Yuan, B. Moe-I2 :
+  strong, replicable instruction-following model. Stanford              Compressing mixture of experts models through inter-
+  Center for Research on Foundation Models. https://crfm.               expert pruning and intra-expert low-rank decomposition.
+  stanford. edu/2023/03/13/alpaca. html, 3(6):7, 2023.                  arXiv preprint arXiv:2411.01016, 2024.
+
+Team, Q. Qwen1.5-moe: Matching 7b model per-                          Zellers, R., Holtzman, A., Bisk, Y., Farhadi, A., and Choi,
+  formance with 1/3 activated parameters, February                      Y. Hellaswag: Can a machine really finish your sentence?
+  2024. URL https://qwenlm.github.io/blog/                              arXiv preprint arXiv:1905.07830, 2019.
+  qwen-moe/.
+                                                                      Zhao, Y., Gu, A., Varma, R., Luo, L., Huang, C.-C., Xu, M.,
+Team, Q. Qwen3: Think deeper, act faster, April 2025. URL               Wright, L., Shojanazeri, H., Ott, M., Shleifer, S., et al.
+  https://qwenlm.github.io/blog/qwen3/.                                 Pytorch fsdp: Experiences on scaling fully sharded data
+                                                                        parallel. Proceedings of the VLDB Endowment, 16(12):
+Tillet, P., Kung, H.-T., and Cox, D. Triton: an intermediate            3848–3860, 2023.
+   language and compiler for tiled neural network computa-
+   tions. In Proceedings of the 3rd ACM SIGPLAN Interna-
+   tional Workshop on Machine Learning and Programming
+  Languages, pp. 10–19, 2019.
+
+Touvron, H., Martin, L., Stone, K., Albert, P., Almahairi,
+  A., Babaei, Y., Bashlykov, N., Batra, S., Bhargava, P.,
+  Bhosale, S., et al. Llama 2: Open foundation and fine-
+  tuned chat models. arXiv preprint arXiv:2307.09288,
+  2023.
+
+Vaswani, A. Attention is all you need. Advances in Neural
+  Information Processing Systems, 2017.
+
+Wang, A., Singh, A., Michael, J., Hill, F., Levy, O., and Bow-
+ man, S. GLUE: A multi-task benchmark and analysis plat-
+ form for natural language understanding. In Linzen, T.,
+ Chrupała, G., and Alishahi, A. (eds.), Proceedings of the
+ 2018 EMNLP Workshop BlackboxNLP: Analyzing and In-
+ terpreting Neural Networks for NLP, pp. 353–355, Brus-
+ sels, Belgium, November 2018. Association for Compu-
+ tational Linguistics. doi: 10.18653/v1/W18-5446. URL
+ https://aclanthology.org/W18-5446/.
+
+Wei, Y., Du, J., Jiang, J., Shi, X., Zhang, X., Huang, D.,
+ Xiao, N., and Lu, Y. Aptmoe: Affinity-aware pipeline tun-
+ ing for moe models on bandwidth-constrained gpu nodes.
+ In SC24: International Conference for High Performance
+ Computing, Networking, Storage and Analysis, pp. 1–14.
+ IEEE, 2024.
+
+Welbl, J., Liu, N. F., and Gardner, M. Crowdsourcing
+ multiple choice science questions. In Proceedings of the
+ 3rd Workshop on Noisy User-generated Text, pp. 94–106,
+ 2017.
+
+Williams, A., Nangia, N., and Bowman, S. A broad-
+ coverage challenge corpus for sentence understanding
+ through inference. In Proceedings of the 2018 Confer-
+ ence of the North American Chapter of the Association
+ for Computational Linguistics: Human Language Tech-
+ nologies, Volume 1 (Long Papers), pp. 1112–1122, 2018.
+
+                                                                 12
+           Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+  A. Algorithm Details.
+  A.1. Refactored MoE Pipeline
+  We demonstrate the refactored MoE pipeline in Algorithm 2. Notice that the routing weights for the top-k experts are
+  modulated in the intermediate tokens rather than the output to ensure a symmetric pipeline. We will provide the details for
+  each basic MoE operator in the following.
+
+
+  Algorithm 2 PyTorch-style pseudocode of MoE pipeline.
+ 1 # x.shape: (num_tokens_ori, hidden_size)
+ 2 def MoE_forward(self, x):
+ 3    # (1) Assign tokens to experts.
+ 4    # ids.shape: (num_tokens_ori, self.top_k), w.shape: (num_tokens_ori, self.top_k)
+ 5    ids, w = router(x)
+ 6
+ 7    # (2) Build BRIM-0 for dispatch & combine.
+ 8    # brim_0.shape: (num_devices, num_tokens_ori)
+ 9    brim_0 = build_brim_0(x, ids)
+10
+11    # (3) Dispatch
+12    # x.shape: (num_tokens_sfd_0, hidden_size), ids.shape: (num_tokens_sfd_0, self.top_k)
+13    # w.shape: (num_tokens_sfd_0, self.top_k)
+14    x, ids, w = dispatch(x, ids, w, brim_0)
+15
+16    # (4) 1st all-to-all communication
+17    # x.shape: (num_tokens_sfd_1, hidden_size), ids_sfd.shape: (num_tokens_sfd_1, self.top_k)
+18    # w_sfd: (num_tokens_sfd_1, self.top_k)
+19    x, ids_sfd, w_sfd = all_to_all_0(x, ids, w, brim_0)
+20
+21    # (5) Build BRIM-1 for expert computing
+22    # brim_1.shape: (num_local_exps, num_tokens_sfd_1)
+23    # brim_w.shape: (num_local_exps, num_tokens_sfd_1)
+24    brim_1, brim_w = build_brim_1(x, ids_sfd, w_sfd)
+25
+26    # (6) Computing with local experts
+27    # x_epd.shape: (num_tokens_epd, intermediate_size), x.shape: (num_tokens_sfd_1, hidden_size)
+28    x_epd = smm_scattering(x, self.w1, brim_1)
+29    x_epd = weight_modulate(x_epd, brim_1, brim_w)
+30    x = smm_merging(x_epd, self.w2, brim_1)
+31
+32    # (7) 2nd all-to-all communication
+33    # x.shape: (num_tokens_sfd_0, hidden_size)
+34    x = all_to_all_1(x, brim_1)
+35
+36    # (8) Combine
+37    # x.shape: (num_tokens_ori, hidden_size)
+38    x = combine(x, brim_0)
+39
+40    return x
+  weight modulate: assign weights to tokens with EPD state in parallel.
+
+
+
+  A.2. Algorithms Details for Basic MoE Operations
+  Build BRIM0 .        BRIM0 is constructed on each device before Dispatch as an guidance. We provide the details in Algorithm 3.
+
+
+  Algorithm 3 Building BRIM0 .
+  Require: Input tokens x shaped as (Nori , D), routing choice r shaped as (Nori , Ne ), number of devices Nd for expert parallel, expert
+    placement L shaped as (Nd , ⌈Ne /Nd ⌉).
+    Initialize BRIM0 with an empty tensor shaped as (Nd , Nori ).
+    Initialize ctr ← 0.
+    for d ← 0, Nd − 1 do
+        for t ← 0, Nori − 1 do
+            if token xt,∗ activates experts kept on device d then
+                 BRIM0 [d, t] ← ctr.
+                 ctr ← ctr + 1
+            else
+                 BRIM0 [d, t] ← −1.
+            end if
+        end for
+    end for
+    return BRIM0 .
+
+
+                                                                          13
+        Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+Dispatch. In Dispatch stage, tokens, routing choices, and routing weights are processed together to selectively repeat for
+each token. We provide the algorithm details in Algorithm 4, where only tokens are processed as an example.
+
+
+
+
+Algorithm 4 Dispatch.
+Require: Input tokens x shaped as (Nori , D), BRIM0 shaped as (Nd , Nori ), tile size (M, N).
+  Initialize Nsfd with the amount of non-negative elements in BRIM0 .
+  Initialize xsfd with an empty tensor shaped as (Nsfd , D).
+  Prepare Nd · ⌈Nori /M⌉ · ⌈D/N⌉ thread-blocks
+  parfor d ← 0, Nd − 1 do
+      parfor tm ← 0, ⌈Nori /M⌉ − 1 do
+          parfor tn ← 0, ⌈D/N⌉ − 1 do
+              Load BRIM0 [d, tm · M : (tm + 1) · M] from HBM to SRAM, denoted as v.
+              Load x[tm · M : (tm + 1) · M, tn · N : (tn + 1) · N] from HBM to SRAM, denoted as c.
+              Write c to xsfd [v, tn · N : (tn + 1) · N] from SRAM to HBM.
+          end parfor
+      end parfor
+  end parfor
+  return xsfd .
+
+
+
+
+All-to-All. We take the all to all single interface of torch.distributed to implement the all-to-all commu-
+nication in Occult. On each device, the tokens after Dispatch can be further transmitted to device d based on the non-zero
+elements in BRIM0 [d, ∗], which serve as the indices.
+
+
+
+
+Build BRIM1 . BRIM1 is constructed after the 1st all-to-all communication to guide the sparse matrix multiplication
+kernels. The details for construction are provided in Algorithm 5.
+
+
+
+
+Algorithm 5 Building BRIM1 .
+Require: Input tokens xsfd shaped as (Nsfd , D), routing choice r sfd shaped as (Nsfd , Nlocexp ), local expert list Lloc shaped as (Nlocexp , ).
+  Initialize BRIM1 with an empty tensor shaped as (Nlocexp , Nsfd ).
+  Initialize ctr ← 0.
+  for e ← 0, Nlocexp − 1 do
+      for t ← 0, Nsfd − 1 do
+          if token xsfd [t, ∗] activates expert Lloc [e] then
+               BRIM1 [e, t] ← ctr
+               ctr ← ctr + 1
+          else
+               BRIM1 [e, t] ← −1
+          end if
+      end for
+  end for
+  return BRIM1 .
+
+
+
+
+Sparse Matrix Multiplication (Scattering). Sparse matrix multiplication with scattering function takes a token tensor
+with SFD state and weights as input, and a token tensor with EPD state as output, where the weight tensor is dense while the
+others are sparse. Details are provided in Algorithm 6.
+
+                                                                       14
+        Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+Algorithm 6 Sparse Matrix Multiplication with Scattering.
+Require: Input tokens xsfd shaped as (Nsfd , Din ), expert weights w shaped as (Nlocexp , Din , Dout ), BRIM1 shaped as (Nlocexp , Nsfd ), tile
+  size (M, K, N).
+  Initialize output tokens xepd with an empty tensor shaped as (Nepd , Dout ).
+  Prepare Nlocexp · ⌈Nsfd /M⌉ · ⌈Dout /N⌉ thread-blocks.
+  parfor e ← 0, Nlocexp − 1 do
+      parfor tm ← 0, ⌈Nsfd /M⌉ − 1 do
+          parfor tn ← 0, ⌈Dout /N⌉ − 1 do
+              On chip: Initialize c = 0 ∈ RM×N
+              for k ← 0, ⌈Din /K⌉ − 1 do
+                  Load xsfd [tm · M : (tm + 1) · M, k · K : (k + 1) · K] from HBM to SRAM as a.
+                  Load w[e, k · K : (k + 1) · K, tn · N : (tn + 1) · N] from HBM to SRAM as b.
+                  On chip: c ← c + a · b.
+              end for
+              Load BRIM1 [e, tm · M : (tm + 1) · M] from HBM to SRAM, denoted as v.
+              Write c to xepd [v, tn · N : (tn + 1) · N] from SRAM to HBM.
+          end parfor
+      end parfor
+  end parfor
+  return xepd .
+
+
+
+
+Weight Modulation. Since the MoE pipeline of Occult is symmetric, we modulate the routing weights on the interme-
+diate tokens rather than the output, which delivers the same results. Details are provided in Algorithm 7.
+
+
+
+
+Algorithm 7 Weight Modulation.
+Require: Intermediate tokens xepd shaped as (Nepd , D), routing weights w shaped as (Nsfd , Ne ), BRIM1 shaped as (Nlocexp , Nsfd ), local
+  expert list Lloc shaped as (Nlocexp , ), tile size (N, ).
+  Initialize modulated tokens x′epd with empty tensor shaped as (Nepd , D).
+  Prepare Nlocexp · Nsfd · ⌈D/N⌉ thread-blocks.
+  parfor e ← 0, Nlocexp − 1 do
+      parfor t ← 0, Nsfd − 1 do
+          parfor tn ← 0, ⌈D/N⌉ − 1 do
+              if BRIM1 [e, t] ≥ 0 then
+                   Load xepd [BRIM1 [e, t], tn · N : (tn + 1) · N] from HBM to SRAM, denoted as c.
+                   Write c · w[t, Lloc [e]] to x′epd [BRIM1 [e, t], tn · N : (tn + 1) · N] from SRAM to HBM.
+              end if
+          end parfor
+      end parfor
+  end parfor
+  return x′epd .
+
+
+
+
+Sparse Matrix Multiplication (Merging). Sparse Matrix Multiplication with merging function takes a token tensor with
+EPD state and weights as input, and a token tensor with SFD state as output, where the weight tensor is dense while the
+others are sparse. Details are provided in Algorithm 8.
+
+                                                                     15
+        Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+Algorithm 8 Sparse Matrix Multiplication with Merging.
+Require: Input tokens xepd shaped as (Nepd , Din ), expert weights w shaped as (Nlocexp , Din , Dout ), BRIM1 shaped as (Nlocexp , Nsfd ), tile
+  size (M, K, N).
+  Initialize output tokens xsfd with a zero tensor shaped as (Nsfd , Dout ).
+  Prepare Nlocexp · ⌈Nsfd /M⌉ · ⌈Dout /N⌉ thread-blocks.
+  parfor e ← 0, Nlocexp − 1 do
+      parfor tm ← 0, ⌈Nsfd /M⌉ − 1 do
+          parfor tn ← 0, ⌈Dout /N⌉ − 1 do
+              On chip: Initialize c = 0 ∈ RM×N .
+              Load BRIM1 [e, tm · M : (tm + 1) · M] from HBM to SRAM, denoted as v.
+              for k ← 0, ⌈Din /K⌉ − 1 do
+                  Load xepd [v, k · K : (k + 1) · K] from HBM to SRAM as a.
+                  Load w[e, k · K : (k + 1) · K, tn · N : (tn + 1) · N] from HBM to SRAM as b.
+                  On chip: c ← c + a · b.
+              end for
+              Write c to xsfd [tm · M : (tm + 1) · M, tn · N : (tn + 1) · N] from SRAM to HBM via Atomic Add.
+          end parfor
+      end parfor
+  end parfor
+  return xsfd .
+
+
+
+Combine. In Combine stage, different replicas of the same token computed on different devices are merged into the final
+output of an MoE layer. Details are provided in Algorithm 9.
+
+Algorithm 9 Combine.
+Require: Input tokens xsfd shaped as (Nsfd , D), BRIM0 shaped as (Nd , Nori ), tile size (M, N).
+  Initialize xori with a zero tensor shaped as (Nori , D).
+  for d ← 0, Nd − 1 do
+      parfor tm ← 0, ⌈Nori ⌉ − 1 do
+          parfor tn ← 0, ⌈D⌉ − 1 do
+              Load BRIM0 [d, tm · M : (tm + 1) · M] from HBM to SRAM, denoted as v.
+              Load xsfd [v, tn · N : (tn + 1) · N] from HBM to SRAM, denoted as c.
+              Add c to xori [tm · M : (tm + 1) · M, tn · N : (tn + 1) · N] from SRAM to HBM.
+          end parfor
+      end parfor
+  end for
+  return xori .
+
+
+
+A.3. Similarity Table Construction
+The empirical insights of MC-MoE (Li et al., 2023b) inspire us to measure the expert similarity with router logits, i.e.,
+experts with similar router logits tend to be more interchangeable with each other. A profiling dataset is required in this way.
+We denote the profiled router logits from model inference as H ∈ RNt ·Ne , including Nori tokens and Ne experts. Similarity
+table T ∈ ZNe ×Ne can be constructed via the cosine similarity between HT and H:
+                                                                   ⟨HT∗,i , H∗,j ⟩
+                                                        Ti,j =                       ,                                                     (6)
+                                                                 ∥H∗,i ∥2 · ∥H∗,j ∥2
+
+To make the similarity table more representative, the profiled token amount should be large enough. However, directly
+compute cosine similarity for it would cause overflow for floating point number. Therefore we change to compute the
+squared similarity:
+                                                 2
+                                                         ⟨HT∗,i , H∗,j ⟩2
+                                               Ti,j =         2           2,                                      (7)
+                                                       ∥H∗,i ∥2 · ∥H∗,j ∥2
+
+We further take an average for both numerator and denominator to normalize their scope:
+                                                                  1       T           2
+                                                       2         Nori · ⟨H∗,i · H∗,j ⟩
+                                                     Ti,j =    1            2           2,                                                 (8)
+                                                              Nori · ∥H∗,i ∥2 · ∥H∗,j ∥2
+
+
+                                                                     16
+          Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+This can be computed via accumulating small batches for both numerator and denominator.
+
+B. Full Evaluation Results
+We implement comprehensive evaluation to validate the effectiveness of collaboration pruning on model performance with
+23 popular benchmarks.
+For OLMoE, we provide the results in Table 3, where the raw off-the-shelf model performs best on 5 benchmarks. Apart from
+these tasks, router-based pruning outperforms similarity-based pruning on 12 benchmarks in total, while similarity-based
+pruning outperforms router-based pruning on 8 benchmarks.
+
+
+                                       Table 3. Full Evaluation Results for Collaboration Pruning with OLMoE.
+                                                                     Router-based    Router-based    Sim-based       Sim-based     Standard   Router-based   Sim-based
+ Method                                       Metric         Raw
+                                                                     Prune, 1 GPU   Prune, 2 GPUs   Prune, 1 GPU   Prune, 2 GPUs     SFT         Better        Better
+ WSC (Levesque et al., 2012)                 accuracy        83.52      75.09            86.45         73.63           83.52        86.08          ✓
+ Winogrande (Sakaguchi et al., 2021)         accuracy        68.35      61.40            68.11         61.56           68.82        69.53                       ✓
+ ASDiv (Miao et al., 2020)                   accuracy        4.56        2.86            9.59           2.86           8.33         9.37           ✓
+ OpenBookQA (Mihaylov et al., 2018)          accuracy        33.20      26.00            34.60         23.60           32.40        34.20          ✓
+ PIQA (Bisk et al., 2020)                    accuracy        80.09      73.45            80.41         71.98           80.47        80.85                       ✓
+ HellaSwag (Zellers et al., 2019)            accuracy        58.07      48.14            57.53         47.14           56.99        59.91          ✓
+ SST-2 (Socher et al., 2013)                 accuracy        62.61      75.92            86.35         74.66           85.44        83.94          ✓
+ MultiNLI (Williams et al., 2018)            accuracy        40.96      35.82            41.93         33.64           43.23        45.04                       ✓
+ QASPER (Dasigi et al., 2021)                F1 score        90.53      93.88            97.03         97.03           97.03        97.79                       ✓
+ MRPC (Dolan & Brockett, 2005)               accuracy        51.96      66.18            67.65         68.63           68.14        65.93                       ✓
+ MRPC (Dolan & Brockett, 2005)               F1 score        59.84      79.09            80.65         81.34           81.05        79.35                       ✓
+ MultiRC (Khashabi et al., 2018)             accuracy        57.16      57.22            57.24         56.70           57.10        57.16          ✓
+ WNLI (Wang et al., 2018)                    accuracy        54.93      53.52            60.56         59.15           57.75        53.52          ✓
+ RTE (Bentivogli et al., 2009)               accuracy        55.60      57.76            58.12         60.65           61.73        63.18                       ✓
+ QNLI (Wang et al., 2018)                    accuracy        52.65      51.35            50.94         50.28           49.99        50.05          ✓
+ MMLU (Hendrycks et al., 2021)               accuracy        50.54      38.30            47.86         37.59           46.88        49.46          ✓
+ RACE (Lai et al., 2017)                     accuracy        37.22      39.23            39.62         37.42           38.28        39.62          ✓
+ MathQA (Amini et al., 2019)                 accuracy        29.92      27.67            29.85         26.93           30.62        31.02                       ✓
+ SciQ (Welbl et al., 2017)                   accuracy        94.60      91.20            94.40         91.00           94.20        94.70          ✓
+ PROST (Aroca-Ouellette et al., 2021)        accuracy        28.24      25.80            28.99         26.80           27.84        29.16          ✓
+ BoolQ (Clark et al., 2019)                  accuracy        74.50      71.96            76.64         68.59           75.96        77.77          ✓
+ COPA (Roemmele et al., 2011)                accuracy        89.00      80.00            85.00         75.00           86.00        89.00                       ✓
+ LogiQA (Liu et al., 2021)                   accuracy        23.35      23.04            23.04         22.73           20.89        22.73          ✓
+ COQA (Reddy et al., 2019)               exact match score   56.42      50.90            56.37         47.63           53.23        55.35          ✓
+ COQA (Reddy et al., 2019)                   F1 score        71.20      66.17            70.99         63.28           68.85        70.84          ✓
+
+
+
+
+                                                                                    17
+          Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+For Qwen-MoE, we provide the results in Table 4, where the raw off-the-shelf model performs best on 5 benchmarks. Apart
+from these tasks, router-based pruning outperforms similarity-based pruning on 9 tasks, while similarity-based pruning
+outperforms router-based pruning on 11 tasks.
+
+
+                                    Table 4. Full Evaluation Results for Collaboration Pruning with Qwen-MoE.
+                                                                    Router-based    Router-based    Sim-based       Sim-based     Standard   Router-based   Sim-based
+ Method                                      Metric         Raw
+                                                                    Prune, 1 GPU   Prune, 2 GPUs   Prune, 1 GPU   Prune, 2 GPUs     SFT         Better        Better
+ WSC (Levesque et al., 2012)                accuracy        82.05      79.49            81.68         78.39          82.78         80.59                       ✓
+ Winogrande (Sakaguchi et al., 2021)        accuracy        68.43      68.11            69.06         66.06          70.24         70.01                       ✓
+ ASDiv (Miao et al., 2020)                  accuracy        4.38       16.36            12.28         12.49           10.63        11.28          ✓
+ OpenBookQA (Mihaylov et al., 2018)         accuracy        30.40      27.80            29.40         28.60          32.20         29.60                       ✓
+ PIQA (Bisk et al., 2020)                   accuracy        79.71      78.62            80.25         78.51           79.87        80.36          ✓
+ HellaSwag (Zellers et al., 2019)           accuracy        57.95      55.29            57.19         54.73           57.74        57.42                       ✓
+ SST-2 (Socher et al., 2013)                accuracy        68.46      78.21            77.41         73.17          87.04         82.22                       ✓
+ MultiNLI (Williams et al., 2018)           accuracy        49.77      49.83            51.88         46.41          54.40         52.50                       ✓
+ QASPER (Dasigi et al., 2021)               F1 score        90.81      98.78            97.03         98.04           86.65        97.54          ✓
+ MRPC (Dolan & Brockett, 2005)              accuracy        76.47      71.57            78.19         76.72           75.49        78.92          ✓
+ MRPC (Dolan & Brockett, 2005)              F1 score        85.62      82.48            85.19         83.76           84.52        83.10          ✓
+ MultiRC (Khashabi et al., 2018)            accuracy        37.50      43.15            39.62         38.72           40.14        36.67          ✓
+ WNLI (Wang et al., 2018)                   accuracy        57.75      43.66            54.93         56.34           56.34        54.93                       ✓
+ RTE (Bentivogli et al., 2009)              accuracy        68.23      69.68            69.68         65.34          75.45         71.12                       ✓
+ QNLI (Wang et al., 2018)                   accuracy        57.44      53.25            56.05         52.00           51.18        54.99          ✓
+ MMLU (Hendrycks et al., 2021)              accuracy        60.86      56.85            60.13         56.23           57.25        59.99          ✓
+ RACE (Lai et al., 2017)                    accuracy        39.43      40.67            41.34         39.43           41.05        41.72          ✓
+ MathQA (Amini et al., 2019)                accuracy        36.15      36.48            38.93         37.09          41.31         39.26                       ✓
+ SciQ (Welbl et al., 2017)                  accuracy        94.40      95.40            95.60         95.70           95.50        95.20                       ✓
+ PROST (Aroca-Ouellette et al., 2021)       accuracy        30.50      30.01            31.22         30.08          32.47         31.41                       ✓
+ BoolQ (Clark et al., 2019)                 accuracy        79.57      78.38            79.88         77.22          81.41         80.40                       ✓
+ COPA (Roemmele et al., 2011)               accuracy        84.00      81.00            86.00         79.00           83.00        83.00          ✓
+ LogiQA (Liu et al., 2021)                  accuracy        30.41      30.26            31.03         31.80          31.95         29.03                       ✓
+ COQA (Roemmele et al., 2011)           exact match score   64.40      65.93            66.77         66.28           64.48        66.23          ✓
+ COQA (Roemmele et al., 2011)               F1 score        78.60      78.15            80.04         79.30           77.53        79.48          ✓
+
+
+
+
+                                                                                   18
+          Optimizing Collaborative Communications across Experts for Accelerated Parallel MoE Training and Inference
+
+For DeepSeek-MoE, we provide the results in Table 5, where the raw off-the-shelf model performs best on 7 benchmarks.
+Apart from these tasks, router-based pruning outperforms similarity-based pruning on 11 benchmarks, while similarity-based
+pruning outperforms router-based pruning on 7 benchmarks.
+
+
+                                 Table 5. Full Evaluation Results for Collaboration Pruning with DeepSeek-MoE.
+                                                                    Router-based    Router-based    Sim-based       Sim-based     Standard   Router-based   Sim-based
+ Method                                      Metric         Raw
+                                                                    Prune, 1 GPU   Prune, 2 GPUs   Prune, 1 GPU   Prune, 2 GPUs     SFT         Better        Better
+ WSC (Levesque et al., 2012)                accuracy        84.98      78.75            83.88         82.05           84.62        84.62                       ✓
+ Winogrande (Sakaguchi et al., 2021)        accuracy        70.48      66.30            70.40         66.22           70.72        71.19                       ✓
+ ASDiv (Miao et al., 2020)                  accuracy        0.91        4.77            2.82           1.65           3.08         4.95           ✓
+ OpenBookQA (Mihaylov et al., 2018)         accuracy        32.20      29.60            33.40         29.20          34.20         34.20                       ✓
+ PIQA (Bisk et al., 2020)                   accuracy        78.73      77.15            79.92         77.26           79.76        79.11          ✓
+ HellaSwag (Zellers et al., 2019)           accuracy        58.06      54.05            58.36         53.71           58.31        58.49          ✓
+ SST-2 (Socher et al., 2013)                accuracy        64.68      65.71            76.72         59.40           73.05        78.33          ✓
+ MultiNLI (Williams et al., 2018)           accuracy        42.30      36.77            45.65         38.01           44.42        41.55          ✓
+ QASPER (Dasigi et al., 2021)               F1 score        93.06      90.24            95.74         98.04           97.03        91.67                       ✓
+ MRPC (Dolan & Brockett, 2005)              accuracy        68.63      68.14            68.38         67.65           68.38        68.38          ✓
+ MRPC (Dolan & Brockett, 2005)              F1 score        81.29      80.71            81.17         80.70           81.22        81.22                       ✓
+ MultiRC (Khashabi et al., 2018)            accuracy        57.03      54.68            56.72         56.60           56.68        57.01          ✓
+ WNLI (Wang et al., 2018)                   accuracy        50.70      43.66            45.07         45.07          52.11         47.89                       ✓
+ RTE (Bentivogli et al., 2009)              accuracy        62.82      61.01            62.09         61.01          65.34         60.29                       ✓
+ QNLI (Wang et al., 2018)                   accuracy        49.50      53.12            50.14         50.17           50.80        49.83          ✓
+ MMLU (Hendrycks et al., 2021)              accuracy        37.95      36.16            42.43         34.69           41.91        38.66          ✓
+ RACE (Lai et al., 2017)                    accuracy        38.85      38.56            39.81         38.47           39.62        40.10          ✓
+ MathQA (Amini et al., 2019)                accuracy        31.19      29.21            33.50         30.25           33.63        33.77                       ✓
+ SciQ (Welbl et al., 2017)                  accuracy        92.80      93.30            93.50         94.70           93.50        93.40          ✓
+ PROST (Aroca-Ouellette et al., 2021)       accuracy        28.72      28.26            29.60         28.91           28.79        28.64          ✓
+ BoolQ (Clark et al., 2019)                 accuracy        72.39      68.69            68.87         73.39           70.15        71.93                       ✓
+ COPA (Roemmele et al., 2011)               accuracy        90.00      84.00            89.00         86.00           87.00        88.00          ✓
+ LogiQA (Liu et al., 2021)                  accuracy        25.35      24.42            25.96         25.65           25.65        25.96          ✓
+ COQA (Reddy et al., 2019)              exact match score   64.15      64.02            63.83         62.25           62.80        63.17          ✓
+ COQA (Reddy et al., 2019)                  F1 score        77.79      77.38            77.33         75.46           77.05        76.72          ✓
+
+
+
+
+                                                                                   19
+

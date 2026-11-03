@@ -1,0 +1,16 @@
+{
+  "status": "conditional_kernel_service_envelope",
+  "native_support_verified": false,
+  "assumptions": [
+    {"name": "fixed_PB_source", "status": "enforced", "description": "Every physical wave uses fixed0123 source order; useful ECC pages are its subsequence. No source permutation or cache-read mux."},
+    {"name": "pre_ECC_drop", "status": "conditional_existing_strong_control", "description": "Dummy pages are physically read, discarded from read latches at array-ready, and never copied to cache or decoded. Existing cached pages remain reserved through their ECC end. Native discard/gating support is unverified."},
+    {"name": "skip_WL_CR", "status": "user_premise", "description": "All waves stay in a single block with no idle interval; selected WL may change."},
+    {"name": "IPR", "status": "primary_split_conditional", "description": "Phase and group split controls use independent plane WLs. Group plain and group whole-dummy controls read the same WL on all four planes and require no IPR."},
+    {"name": "whole_owner_dot", "status": "preserved", "description": "Consume all6 phase or12 group expert pages before another expert; shared pages follow. Dummy reads do not update the dot accumulator or reset its row phase. Existing common-input owner/scatter behavior is inherited; no new PE selector is added."},
+    {"name": "PB_model", "status": "fixed_conditional_model", "description": "One read and one cache weight page per plane, two other latches input; whole-page per-plane copy; cache reserved to ECC completion; evaluation overwrite starts6040ns after CR start; copy overlaps recycle."},
+    {"name": "timing", "status": "parameter_envelope", "description": "Cold first-ready28000ns, continuous CR9700ns, copy500ns primary or100ns sensitivity, chip-shared ECC6.4GB/s. First-ready28us/final-discharge0 is conservative accounting, not measured first-page timing."},
+    {"name": "all_dummy_input_domain", "status": "separate_explicit_extension", "description": "Sealed v1 requires a useful page in every wave. The restricted full-plane reference explicitly admits all-dummy waves and preserves the same resources.432 nonempty cases bridge exactly; separate independent audit is requested."},
+    {"name": "format_and_capacity", "status": "verified_ledger", "description": "W8_A8,1536-byte GU rows, exact source coefficients,58 declared additional fullGU copies. GU186MiB plus tripleprivateDown144MiB plus sharedDown1.5MiB equals331.5MiB within384MiB. No extra contexts,FIFO or undeclared weight copies."},
+    {"name": "attribution", "status": "standard_baseline", "description": "58 dual copies is minimal only within two-full-copy/capacity3 contract. Ordinary g8 wholeGU replicas are an equal-byte strong control. No phase-specific or new CBC algorithm claim."}
+  ]
+}

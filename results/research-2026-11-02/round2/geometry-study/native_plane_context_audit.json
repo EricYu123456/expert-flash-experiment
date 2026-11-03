@@ -1,0 +1,87 @@
+{
+  "created_utc": "2026-11-01T19:42:47.087181+00:00",
+  "scope": "Evidence audit of capabilities that may already exist inside the AiF design. A missing published host API is not proof of hardware impossibility. User permits physical placement using existing hardware; host partial-sum recombination and ordinary native GEMV compositions are not automatically excluded.",
+  "primary_source": {
+    "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+    "year": 2025,
+    "venue": "ISCA",
+    "url": "https://doi.org/10.1145/3695053.3731073",
+    "local_pdf": "/home/ericyu/expert_flash_experiment/AiF - Accelerating On-Device LLM Inference Using In-Flash Processing.pdf",
+    "read_depth": "Personally inspected original Fig14 and §4.4 p536, continued output-FIFO text p537, host interface/evaluation pp537–538. Rechecked local extracted text lines724–783,818–823 and847–879. This is not a die RTL or original firmware audit."
+  },
+  "per_plane_different_input": {
+    "status": "UNVERIFIED; neither proven supported by existing die behavior nor proven to require new hardware",
+    "positive_evidence": [
+      "Each plane has its own PB with multiple latches. Two otherwise unused latches can hold the input operand during single-sensing parameter reads.",
+      "Fig14 depicts four PBs connected to the chip compute path. Physically distributed operand storage is consistent with per-plane inputs, but does not establish independent programmability."
+    ],
+    "missing_evidence": [
+      "Whether the input-load operation can target each plane PB independently while preserving other plane input latches.",
+      "Whether each weight segment is paired with the input from the same source plane or with a globally chosen/broadcast input.",
+      "Whether concurrent plane computations with equal input dimension but different vectors are permitted by the actual native state machine.",
+      "How results identify row ranges and how plane-specific row/column phases are handled."
+    ],
+    "why_single_SREG_is_not_disproof": "A single global input-dimension register is compatible with different vectors of the same dimension in different plane PBs. A single drawn PE box does not determine operand multiplexing or lane topology.",
+    "why_host_API_is_not_disproof": "Published aif_gemv supplies one host input address; this establishes what that interface expresses, not all internal capabilities that controller firmware could potentially access.",
+    "ordinary_DATAIN_boundary": "Conventional NAND can load data into addressed cache/register paths, but that does not establish independent access to the particular two latches repurposed for GEMV inputs or their PE selection behavior. No native AiF load command encoding or RTL is published here.",
+    "experiment_boundary": "A plane-bin model with different plane inputs must be labeled conditional until these behaviors are demonstrated. Do not call it an existing-hardware result or assert a new PE is necessary solely from the current paper."
+  },
+  "PB_replay": {
+    "status": "UNVERIFIED",
+    "published_sequence": "A GEMV request sets dimensions/block/offset/page count, loads its input, reads matrix pages, executes the PE and drains the output FIFO.",
+    "not_disclosed": [
+      "An execute-existing-PB command or an independent PE retrigger.",
+      "The meaning of zero page count as compute-only.",
+      "Retention of the previous matrix PB contents while loading the next input and rerunning GEMV.",
+      "An exposed source selector routing random-data-output back through the PE."
+    ],
+    "random_dataout_boundary": "Random data output proves a conventional cache-to-I/O data path. It does not prove that reading the cache triggers a second PE execution or that the PE can reconsume its matrix without an array read.",
+    "required_condition_for_model": "Only enable read-once multiple-vector replay when the native compute trigger, operand preservation and execution semantics are established; otherwise it remains a conditional sensitivity case."
+  },
+  "column_or_2D_sharding": {
+    "operator_status": "Ordinary dense GEMVs on column slices followed by host partial sums are algebraically composable without a new matrix multiply operation. Whether they preserve the native numerical result depends on an undisclosed output contract.",
+    "user_scope_correction": "The user did not require bitwise equality or forbid host partial sums. Earlier whole-row-only exclusions were conservative modeling choices, not a user prohibition or proof that column sharding needs new hardware.",
+    "paper_output_evidence": "The paper specifies INT8 multipliers, an adder tree, sequential FIFO outputs and a host output address. It does not specify accumulator width, output element type, saturation, scale application or rounding.",
+    "local_driver_evidence": {
+      "header": "/home/ericyu/expert_flash_experiment/kernel/aif.h",
+      "header_sha256": "25b3437f2f847554b3c31704ccef815fe85100b1ca01218d13f19b79d8f4d705",
+      "metadata_comment_line": 11,
+      "meaning": "The local header explicitly describes metadata only, without weights or GEMV outputs. output_bytes is a traffic counter; completion reports cannot establish FP32 or raw-I32.",
+      "docs": "/home/ericyu/expert_flash_experiment/docs/vm-aif-abi.md"
+    },
+    "numeric_conditionals": [
+      "For signed INT8 operands,512 products have absolute sum <=512*16384=2^23, so an unscaled correctly accumulated partial returned as FP32 can exactly represent that integer.",
+      "If each512-wide output exposes that raw partial, host integer accumulation can recover the full integer dot product before the requested final rounding.",
+      "If full1536-wide native accumulation itself rounds in FP32, host-I64-then-round need not be bitwise identical; the user does not demand bitwise identity, but numerical error and quality still need an explicit check.",
+      "If the native output is scaled, quantized or saturated, host recombination must respect that contract. It cannot be certified from INT8 multipliers alone.",
+      "GGUF Q8_0 has per32-value FP16 scales; the timing model does not itself prove a matching native scale execution pipeline."
+    ],
+    "dtype_agent_agreement": "/root/repo_diagnostic_experiments independently reported the same absent output contract and metadata-only driver limitation."
+  },
+  "falsifiable_existing_operator_candidate": {
+    "name": "Granite4 GU asymmetric two-part 2D row/column mapping",
+    "scope_status": "Worth a bounded full-cost screen; existing-hardware numerical/output contract remains UNVERIFIED. No novelty clearance.",
+    "construction": "Use eight128-row output blocks and paired chips c,c+8. ColorA expert: chipgroupA takes columns0:1024 and groupB columns1024:1536. ColorB expert: groupA takes columns0:512 and groupB columns512:1536. Host sums each pair of128-row partial outputs.",
+    "row_legality": "New native input dimensions512 and1024 both divide16KiB pages and64KiB waves. Every shard consists of complete native rows; the1536-byte full-WL row-phase obstacle disappears.",
+    "inventory": "Each expert uses eight2-wave tiles plus eight1-wave tiles:24 ordinary waves, exactly the same useful weight/page work as g8. Six selected experts use96 native commands rather than g8’s48; outputs double rather than triple.",
+    "same_color_bound": "If nA+nB=6, new chip makespan is6+max(nA,nB); old g8 is3*max(nA,nB). For the same colors NAND savings are2*(max(nA,nB)−3) waves; this compares the same training assignment instead of giving the candidate extra information.",
+    "costs_to_charge": [
+      "48extra native commands per layer at the model’s250ns =12us.",
+      "Extra24576 output bytes at model outputFP32 per layer, giving an additional3.072us PCIe floor. Output type is an assumption, not hardware evidence.",
+      "Without proven input-PB reuse, load each command’s actual vector. Across each paired-channel the two partial inputs sum to1536bytes/expert; top6 gives9216bytes, or4.608us at2GB/s, plus host scatter/reduction and dependency costs.",
+      "Physical capacities, block boundaries, zero extra replicas and exact original coefficient coverage must be audited."
+    ],
+    "strong_priors": [
+      "Cambricon-LLM §V explicitly partitions input width across channels and output rows across cores, optimizes page tile shape and transfer traffic: https://arxiv.org/html/2409.15654v1 .",
+      "2001 query-aware declustering covers the subsequent fixed atom assignment objective. Asymmetric2D mapping or generic partial-sum recombination alone is not novel."
+    ],
+    "falsification_gate": "Stop if a same-layout/full-cost screen loses to learned g8 after actual command/input/output/reduction costs, or if its required numerical output semantics are unavailable on the existing hardware. Even positive few-percent service results do not establish a publishable new method."
+  },
+  "status_summary": {
+    "different_plane_x": "unverified",
+    "PB_read_once_replay": "unverified",
+    "column_sliced_native_GEMV": "existing operator composition, output/numerics unverified",
+    "new_hardware_requirement_established": false,
+    "paper_breakthrough_established": false
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "status": "posthoc_dev_diagnosis_complete",
+  "experts": {
+    "train_unseen": [],
+    "train_verylow": [
+      11,
+      26,
+      50
+    ],
+    "train_low": [
+      11,
+      26,
+      50,
+      52
+    ],
+    "activation_total_variation": 0.24186197916666666,
+    "activation_Jensen_Shannon_bits": 0.07168982596206244
+  },
+  "route_shift": {
+    "dev_queries_exact_train_set": 38,
+    "dev_queries_exact_ordered_train_route": 3,
+    "dev_pair_events": 7680,
+    "dev_pair_events_absent_train": 651,
+    "dev_unique_pairs_absent_train": 244
+  },
+  "regression": {
+    "regressed": {
+      "queries": 324,
+      "unseen_expert_queries": 0,
+      "low_expert_queries": 26,
+      "verylow_expert_queries": 20,
+      "work_peak_increases": 240,
+      "work_peak_equal": 36,
+      "work_peak_decreases": 48,
+      "nand_peak_increases": 176,
+      "nand_peak_equal": 148,
+      "nand_peak_decreases": 0
+    },
+    "improved": {
+      "queries": 177,
+      "unseen_expert_queries": 0,
+      "low_expert_queries": 6,
+      "verylow_expert_queries": 5,
+      "work_peak_increases": 53,
+      "work_peak_equal": 33,
+      "work_peak_decreases": 91,
+      "nand_peak_increases": 0,
+      "nand_peak_equal": 117,
+      "nand_peak_decreases": 60
+    },
+    "tied": {
+      "queries": 11,
+      "unseen_expert_queries": 0,
+      "low_expert_queries": 0,
+      "verylow_expert_queries": 0,
+      "work_peak_increases": 10,
+      "work_peak_equal": 0,
+      "work_peak_decreases": 1,
+      "nand_peak_increases": 0,
+      "nand_peak_equal": 11,
+      "nand_peak_decreases": 0
+    },
+    "native_delta_vs_owned_peak_delta_Pearson": 0.9927078160643659,
+    "native_delta_vs_nand_peak_delta_Pearson": 0.9921408693337599
+  },
+  "joint_witness": {
+    "dev_query_chip_violations": 444,
+    "dev_queries_with_violation": 273,
+    "minimal_subset_size_hist": {
+      "2": 110,
+      "3": 271,
+      "4": 63
+    },
+    "all_minimal_subsets_joint_absent_train": true,
+    "violations_with_all_experts_train_count_ge9": 410,
+    "explanation": "At shared-tier3 a new co-selected pair of X experts creates11readwaves; tiers2/1 require new triples/quadruples. Every saved minimal subset is directly absent from all512TRAIN route sets. Individualexperts neednotbe unseen or cold."
+  },
+  "completion_sha256": "22df224d1dca9cec5e7e7460b033efe4b21bf628f8fb64443bc5bb4c55f12427"
+}

@@ -1,0 +1,129 @@
+PASS: fixed GU layout3 + Down graph14 joint image contract
+========================================================
+
+This independent audit covers symbolic original-row ownership, scales by row
+identity, actual ordinary job work and complete combined virtual addresses.
+It does not fit a placement, run weights/heldout/native, or infer joint speed by
+adding single-branch gains. The frozen producer protocol SHA256 is
+1f3f2dffc0475467a18c8d8a999586a8f0591d99a4b76f4d3516e4d3d7273878.
+Our source is scripts/research_20261103_g4_joint_prefix_contract_audit.py;
+independent protocol SHA256:
+dc30e2540e1e9522be62665ad6f15ba778dcc5d4f78e7aa5012ee9b82283d7f1.
+All frozen inputs/source hashes remain unchanged. No old seal was edited.
+
+Two fixed images; separate logical dimensions
+---------------------------------------------
+For each routed expert GU consumes1024original rows (512gate+512up) with full
+common1536-element input. Down consumes1536original output rows with full private
+512-element input after the entire expert's unique GU outputs, host SwiGLU and
+complete-vector dynamic A8. Shared remains unchanged (including its own private
+input dimension). GU/Down have different logical namespaces; their row counts
+must not be combined into a fictitious operator dimension.
+
+GUlayout3 has eight source chips with original82/83core followed by copies to
+128rows. Seven sources append one low40range and a5/6row piece of the original
+high-destination prefix. The special source appends the45/46row high suffix.
+The original low/high destination weights remain resident. Independent u_i:
+source reads core or128; matching low job disappears iff u_i=1. High destination
+reads full82/83 if specialu7=0, prefix36/37/38 if specialu7=1 but not allu, and
+no job if all8u=1. z=AND8u is required; z cannot be independently selected.
+Copied high-prefix rows can still be computed at the original high destination.
+Host consumes exactly one owner per original row and drains/drops duplicates.
+
+GU meaningful computed row count can exceed1024; emitted page-fringe count can
+exceed that. Both are billed. A short82/83source reads8pages and emits85complete
+rows plus512B partial next row; real copied fringe is dropped. A short high
+prefix36..38reads4pages and emits42complete rows plus1024B partial tail, which
+can include real stored original high-suffix rows. Low40 reads4pages and has
+padding fringe. Long128 is exact12pages/3waves. No validR, skipped MAC, row-stop
+or partial output contribution is assumed. Immutable row scales remain indexed
+by original expert/gate-up/logical row rather than computed or physical index.
+
+Down14 pairs the12positive128row chips into6fixed directed source/dest edges.
+Dest128core plus copied source128suffix is resident; source128 remains stored.
+v=0 executes128+128, v=1 executes0+256. Each view consumes1536unique rows with
+12waves and6..12jobs. C512 makes128/256exact1/2waves; no Down fringe/partialrow.
+All copied Down rows reference the original expert/Down/logical-row scale.
+
+The images are fixed offline. Runtime chooses u/v prefix views, not alternative
+physical pairings or addresses. GU and Down phase legality forms a Cartesian
+product because each phase individually covers its own full logical outputs
+and the whole-GU/private-Down barrier is preserved. This establishes legal
+composition, not additive latency or a new replication/selector theorem.
+
+Independent exhaustive checks and joint work equation
+-----------------------------------------------------
+16384GU views (64x256) and4096Down views (64x64) independently pass original
+row coverage, scale IDs, computed/emitted/unique counters and ordinary page/
+wave/input/output service.241600nonzero view jobs fit the joint stored band's
+prefix pages/waves and stay within its192WL block. Full source/copy row-ID
+images and addresses are retained in physical_rows_and_addresses.json.gz.
+
+For original CP0107 full chip-work vector B_q,
+  W_q = B_q + sum(DG*u) + sum(DZ*AND8u) + sum(DD*v).
+DG/Z are the independently exhaust-checked GUlayout3 deltas. DD14 includes
+actual -28762source/+28256dest and all506ns source command/input overhead;
+the Down-only uniform-packet relaxation is not substituted as actual work.
+Each scalar uses ordinary complete-input reload, command, read waves and all
+emitted outputs. Same full GU input does not authorize weight/input residency
+reuse between jobs. One chip owns one context through output drain.
+
+All512chosen query vectors and4096producer path vectors match this equation;
+base service was rebuilt independently from original dimensions/pages. The
+producer uses host+maxwork as a necessary bound. Down-only fixed c*250first-
+dispatch offsets cannot be carried into this joint screen: GUu can remove
+first-expert jobs, so initial command chip order changes. An actual native
+graph must recompute contention and readiness for both phases together.
+
+Complete physical capacity ledger
+---------------------------------
+Both phases are jointly statically repacked; original source addresses are not
+claimed unchanged. Every coefficient band is wave-aligned, inside one block,
+and nonoverlapping with every other band. Views share resident starts and read
+shorter/full prefixes. Row slots/copies are not extra independent logical rows.
+Independent BFD jobs/addresses match every producer descriptor exactly.
+
+                                   CP0107 B        Joint fixed inventory
+Useful coefficient bytes           155713536       216517632
+Useful coefficient MiB             148.5           206.4873046875
+Programmed16KiB pages               9760            13344
+Reserved64KiB waves                 2440            3336
+Page/wave bytes MiB                 152.5           208.5
+Stored matrix bands                1824            1824
+Allocated LSB blocks               16              32
+Allocated LSB MiB                  192             384
+
+Additional useful copies:GU35638272B+Down25165824B=60804096B=57.9873046875MiB.
+Additional pages3584/waves896=56MiB. Useful copies exceed additional page/wave
+storage because GU suffixes fill2083840B of old padding. They remain copies
+even if an allocator hole absorbs them; unchanged/no-extra address occupancy
+must never erase their coefficient/page/wave ledger.
+
+Per-chip resident waves:
+226,216,194,197,201,201,211,207,200,223,207,217,215,204,204,213.
+Every chip exceeds192waves and BFD uses2blocks/chip, achieving the fixed-
+inventory per-chip ceil lower bound. This is not optimality over new placements.
+Allocated LSB capacity doubles, while useful coefficients grow57.9873MiB.
+No CSB/MSB, attention/dense weights, FTL/spare area or host scale/maps are
+included. This is a virtual coefficient certificate, not device programming.
+
+Strong budget controls and unresolved native details
+---------------------------------------------------
+Any continuation must compare the strongest zero-copy static/geometry controls
+and same-budget wholeGU+Down/partial replicated allocation with comparable TRAIN
+effort. A wholeGU copy has1.5MiB/24waves, wholeDown0.75MiB/12waves in clean
+whole-row profiles. Under896waves, combinations satisfy24g+12d<=896;37GU or
+74Downcopies use888waves, leaving8waves. WholeDown copies for more than64IDs
+would need an explicit multi-copy distribution. Residual useful/page/wave and
+per-chip block capacity must all be listed, including copied metadata/host
+cost before a claim. No strong controls are fitted in this independent audit.
+
+The visible AiF paper specifies block/offset/pagecount dense reads and FIFO
+polling. Exact output/scaling ABI, partial-tail/reset behavior, maxR/pagecount
+encoding and custom host scatter are not established by metadata-only aif.h.
+Combining already modeled prefix images does not prove these interfaces or
+authorize extra contexts, buffers, PE behavior or early Down readiness.
+
+This seal covers the contract/capacity/work stage only. Joint native costs and
+representative query traces are to be audited separately after production;
+there is no performance or novelty conclusion in this contract certificate.

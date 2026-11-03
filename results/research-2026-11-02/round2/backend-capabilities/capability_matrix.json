@@ -1,0 +1,120 @@
+{
+  "date": "2026-11-02",
+  "scope": "Primary-source capability audit, not a new backend implementation. Physical layouts may compose already-described dense operations and host reductions; no extra decoder, MAC, accumulator, context or quantization support is assumed.",
+  "required_composition": "For every output-row and input-column tile, obtain a known-scale partial dot product; sum all column partials before gate/up activation or other nonlinear operations. Charge every input load, output, command and reduction using the selected backend's own resource model.",
+  "backends": [
+    {
+      "name": "AiF",
+      "primary": "https://doi.org/10.1145/3695053.3731073",
+      "version": "ISCA 2025",
+      "read_depth": "Original paper Fig14, sections4.4,5.2,6.1; local extracted text and metadata-only driver header. No original RTL audit.",
+      "published_evidence": "Native GEMV takes input dimension, block, offset and page count; INT8 multipliers feed an adder tree and output FIFO. Host supplies input/output addresses. Cross-block matrices are split into commands. Evaluation uses NVMeVirt.",
+      "linear_tile_expression": "Dense row/column tiles are ordinary GEMV operands. Host partial sums are an operator composition, not inherently a hardware extension.",
+      "unverified": "Accumulator/output width, scale, saturation and rounding. Per-plane different inputs and PB replay also remain unverified.",
+      "CR_dependency": "GEMV composition does not algebraically require CR-read; ordinary-read timing and ECC assumptions need separate accounting.",
+      "artifact_maturity": "This workspace has a runnable metadata/timing emulator, not numeric GEMV output. No original public numeric AiF artifact verified.",
+      "two_backend_numeric_evidence": false,
+      "qualification": "Architecture-level composition conditional on numerical output contract; no silicon/commercial deployment claim."
+    },
+    {
+      "name": "Cambricon-LLM",
+      "primary": "https://arxiv.org/html/2409.15654v1",
+      "version": "MICRO 2024; arXiv v1 2024-09-24",
+      "read_depth": "SectionsIV-A/B/C,V-A/B,VII-A/B/C; Fig7 and equations; legal arXiv PDF text searched for numerical-contract details.",
+      "published_evidence": "SectionV splits input columns across channels and output rows across cores. Each atomic tile is one NAND page. Input broadcasts within a channel; each core computes its tile. SectionIV-B returns result vectors from output buffers to NPU. A Compute Core is shared by planes and only one plane occupies it at a time.",
+      "linear_tile_expression": "Explicit 2D atomic tiling already exists. Column partials must be combined mathematically; NPU is the documented return endpoint, but the paper does not explicitly name the partial-sum reducer.",
+      "unverified": "Exact reducer component/opcode, accumulator/output type, scale and rounding; arbitrary asymmetric per-expert tiling control.",
+      "CR_dependency": "Read-compute is distinct from CR-read; own page-read/core/channel scheduling applies.",
+      "artifact_maturity": "Original evaluation modifies SSDsim and uses NPU simulation and synthesized compute logic. A separate third-party timing reconstruction passed smoke tests; it has no numeric tensors.",
+      "two_backend_numeric_evidence": false,
+      "qualification": "Strong architectural prior for 2D tiling, not verified native numerical ABI or fabricated NAND."
+    },
+    {
+      "name": "SLIM die-level NSP",
+      "primary": "https://arxiv.org/html/2507.09201v1",
+      "version": "arXiv v1 2025-07-12; avoid confusing preprint/acceptance year with journal publication date",
+      "read_depth": "Sections5.1,5.4,6.1,6.3,7.1,7.3,7.5,7.6; Figs10-11 and hardware table. Author repository README/tree and Torch source inspected.",
+      "published_evidence": "Section5.4 issues GEMM commands, caches partial sums in PE output SRAM and issues reduce commands to collect and accumulate across PEs. Fused FFN completes each neuron's gate/up vectors before nonlinear/down computation. Dense die-level without prediction is an evaluated baseline. Section7.6 excludes multi-plane read.",
+      "linear_tile_expression": "Linear GEMM plus cross-PE reduction is described. Down/hidden-neuron partial sums naturally fit the fused flow. Arbitrary gate/up input-column splitting needs reduction before activation; that unfused control is not documented.",
+      "unverified": "Native command fields, projection-only/unfused mode, externally fixed mask control, accumulator/output width, scale and rounding.",
+      "CR_dependency": "No CR-read requirement; no AiF four-plane-wave timing transfer.",
+      "artifact_maturity": "Modified MQSim/TransPIM and synthesized HDL are reported. Public author sparse-ffn-llm is Torch model software, not the FTL/PE simulator or HDL.",
+      "two_backend_numeric_evidence": false,
+      "qualification": "Count only die-level NSP as in-flash; channel-level NSP and DRAM PIM are different execution locations."
+    },
+    {
+      "name": "Conduit",
+      "primary": "https://arxiv.org/html/2601.17633v1",
+      "version": "HPCA 2026; arXiv v1 submitted2026-01-24 UTC",
+      "read_depth": "Sections4.3.1-4.4; author HPCA slides title page; public Zenodo artifact descriptions, not restricted files.",
+      "published_evidence": "Vectorized operations are transformed into each resource's ISA. IFP uses Flash-Cosmos multi-wordline sensing and Ares-Flash shift-and-add, not a disclosed GEMV tile opcode. Compiler uses4096-element vectors with32-bit operands. Controller/DRAM/flash operations are separate resource choices.",
+      "linear_tile_expression": "General vector arithmetic is an architectural composition opportunity; it is not evidence for the same native digital NAND GEMV tile/output interface or its cost.",
+      "unverified": "Public executable native tile interface, complete numeric result contract and numerical GEMV execution.",
+      "CR_dependency": "Different IFP mechanisms and constraints; cannot substitute AiF ordinary-read or CR-read timing.",
+      "artifact_maturity": "Official Zenodo descriptions advertise a SimPy instruction-trace timing simulator; record20621620 files were Restricted when checked. No matching public GitHub artifact verified.",
+      "two_backend_numeric_evidence": false,
+      "qualification": "Do not count controller execution or DRAM PIM as a second NAND GEMV backend."
+    }
+  ],
+  "verified_repositories": [
+    {
+      "url": "https://github.com/dengls24/IFC-cambricon-llm",
+      "commit": "0a5361cbe5d3c68ab0d01459e8c76d6497a9110b",
+      "ownership": "Deng Lishuo third-party reconstruction. AUTHORS explicitly distinguishes repository author from original paper authors.",
+      "read_depth": "README, AUTHORS, CITATION, Makefile, simulator-stack documentation, public header, command timing source and test coverage.",
+      "execution": "make test passed locally on2026-11-02; see repository_smoke.json.",
+      "what_runs": "C shape/event/timing simulator with READ_COMPUTE and READ_SLICE command scheduling; optional C++/SystemC checks.",
+      "what_is_not_proved": "No numerical W,x,y GEMV implementation observed. Reproduction parameters include calibrated efficiencies; paper figure agreement is not independent hardware validation.",
+      "integration_value": "Bounded second timing-model experiment only after auditing/replacing fitted factors and preserving its actual shared-core/page constraints. Do not use it as numeric output-contract evidence.",
+      "license_note": "No license file verified; source was cloned/build-tested in /tmp, not vendored."
+    },
+    {
+      "url": "https://github.com/wh-xu/sparse-ffn-llm",
+      "tree_sha": "0e4c49abd3235e7fdd23db70a58ac3abace1a954",
+      "ownership": "SLIM author Weihong Xu public repository.",
+      "read_depth": "README, recursive file tree, sparse_llm/common_ops.py.",
+      "what_runs": "PyTorch sparse/approximate FFN software; no hardware-model run attempted.",
+      "what_is_not_proved": "No SLIM NAND-NSP FTL, reduction-command implementation, PE RTL or MQSim/TransPIM extension found in the inspected tree."
+    },
+    {
+      "url": "https://github.com/snu-csl/nvmevirt",
+      "ownership": "Official NVMeVirt SSD emulator; AiF paper builds on it.",
+      "read_depth": "AiF paper's methodology plus this workspace's derivative driver; upstream numeric AiF extension not found.",
+      "what_is_not_proved": "Generic NVMeVirt is not itself an AiF numeric GEMV backend."
+    }
+  ],
+  "additional_primary_artifact_evidence": [
+    {
+      "url": "https://cse.snu.ac.kr/ko/community/notice/25557?pageNum=5",
+      "date": "2026-09-08",
+      "read_depth": "Entire official SNU CSE announcement.",
+      "evidence": "Recruitment describes implementing functional GEMV, virtual ISA/command interface, NVMeVirt and llama.cpp integration; explicitly a simulated virtual SSD project rather than work on a physical AiFChip.",
+      "limit": "A development announcement is not proof that no private author functional model exists."
+    },
+    {
+      "url": "https://zenodo.org/records/20621387",
+      "version": "Conduit artifact v1, creator Rakesh Nadig",
+      "read_depth": "Public record and detailed description only; files Restricted."
+    },
+    {
+      "url": "https://zenodo.org/records/20621620",
+      "version": "Conduit artifact v3/latest record when inspected",
+      "read_depth": "Public record and description only; files Restricted. Later refetch returned429, not evidence of changed access.",
+      "evidence": "Description lists pre-generated instruction traces, SimPy resource scheduling and latency/utilization/opcount outputs. Trace element_size is overridden to32. Numeric GEMV output validation is not established."
+    },
+    {
+      "url": "https://people.inf.ethz.ch/omutlu/pub/Conduit_hpca26-talk.pdf",
+      "read_depth": "Author slides first page confirms HPCA2026 attribution."
+    }
+  ],
+  "search_limit": "Targeted GitHub repository searches for AiF+flash+LLM, NAND+GEMV, SLIM+NSP, NVLLM, and Conduit+SSD did not identify another matching public numerical digital-NAND GEMV implementation. This is a bounded search result, not a universal nonexistence claim. Unrelated commercial MLU software, GPU Flash-LLM, analog crossbars and embedded CPU flash loads are excluded.",
+  "decision": {
+    "two_public_numeric_backends_demonstrated": false,
+    "second_timing_model_smoke_tested": true,
+    "architectural_portability_claim_supported": "Some published digital NAND/NSP designs provide linear tiles and reductions without CR-read. Cambricon already uses2D page atoms; SLIM explicitly reduces PE partials. Exact candidate interface and numerical semantics remain conditional.",
+    "claim_not_supported": "Identical2D GU composition was executed numerically on two native NAND backends, or AiF timing transfers to another architecture.",
+    "minimum_next_evidence": "An original functional kernel/ISA or RTL showing output type/scale and pre-activation partial reduction. Compare known dense rows and column tiles against the same backend's unsplit operator, including mixed signs, extrema, scaling and rounding.",
+    "effort_gate": "Parent's full-cost preliminary gains are only about2.2% for Granite4 and1% for Qwen before host reduction. Do not build a large portability layer until numerical/interface evidence and measured host costs leave a positive margin.",
+    "novelty_boundary": "2D tiling and generic partial-sum reduction are strong prior art. Any eventual contribution must be a concrete legal physical mapping/scheduling improvement against that prior, not the composition identity."
+  }
+}

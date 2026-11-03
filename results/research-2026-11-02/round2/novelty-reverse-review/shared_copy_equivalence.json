@@ -1,0 +1,520 @@
+{
+  "status": "PASS constructive equivalence for the currently measured sharedGU replica selector",
+  "created_utc": "2026-11-01T20:53:06.298754+00:00",
+  "storage": "CopyA places contiguous logical rows[256p,256(p+1)) onchip p; copyB places the same rows onchip p+8, for p0..7. Each half stores a full2048x1536 sharedGU matrix. The hybrid reads the first128rows fromA and second128rows fromB in each pair.",
+  "budget": {
+    "one_tensor_bytes": 3145728,
+    "total_two_copy_bytes": 6291456,
+    "extra_bytes_full40": 125829120
+  },
+  "exhaustive_selector_states": [
+    {
+      "n_a": 0,
+      "selected_full_tensor_view": "A",
+      "logical_ranges": [
+        [
+          0,
+          0,
+          256
+        ],
+        [
+          1,
+          256,
+          256
+        ],
+        [
+          2,
+          512,
+          256
+        ],
+        [
+          3,
+          768,
+          256
+        ],
+        [
+          4,
+          1024,
+          256
+        ],
+        [
+          5,
+          1280,
+          256
+        ],
+        [
+          6,
+          1536,
+          256
+        ],
+        [
+          7,
+          1792,
+          256
+        ]
+      ],
+      "native_jobs": 8,
+      "chip_waves": 48,
+      "graph_nodes_byte_identical": true,
+      "both_priority_makespans_identical": true
+    },
+    {
+      "n_a": 1,
+      "selected_full_tensor_view": "A",
+      "logical_ranges": [
+        [
+          0,
+          0,
+          256
+        ],
+        [
+          1,
+          256,
+          256
+        ],
+        [
+          2,
+          512,
+          256
+        ],
+        [
+          3,
+          768,
+          256
+        ],
+        [
+          4,
+          1024,
+          256
+        ],
+        [
+          5,
+          1280,
+          256
+        ],
+        [
+          6,
+          1536,
+          256
+        ],
+        [
+          7,
+          1792,
+          256
+        ]
+      ],
+      "native_jobs": 8,
+      "chip_waves": 48,
+      "graph_nodes_byte_identical": true,
+      "both_priority_makespans_identical": true
+    },
+    {
+      "n_a": 2,
+      "selected_full_tensor_view": "A",
+      "logical_ranges": [
+        [
+          0,
+          0,
+          256
+        ],
+        [
+          1,
+          256,
+          256
+        ],
+        [
+          2,
+          512,
+          256
+        ],
+        [
+          3,
+          768,
+          256
+        ],
+        [
+          4,
+          1024,
+          256
+        ],
+        [
+          5,
+          1280,
+          256
+        ],
+        [
+          6,
+          1536,
+          256
+        ],
+        [
+          7,
+          1792,
+          256
+        ]
+      ],
+      "native_jobs": 8,
+      "chip_waves": 48,
+      "graph_nodes_byte_identical": true,
+      "both_priority_makespans_identical": true
+    },
+    {
+      "n_a": 3,
+      "selected_full_tensor_view": "hybrid",
+      "logical_ranges": [
+        [
+          0,
+          0,
+          128
+        ],
+        [
+          8,
+          128,
+          128
+        ],
+        [
+          1,
+          256,
+          128
+        ],
+        [
+          9,
+          384,
+          128
+        ],
+        [
+          2,
+          512,
+          128
+        ],
+        [
+          10,
+          640,
+          128
+        ],
+        [
+          3,
+          768,
+          128
+        ],
+        [
+          11,
+          896,
+          128
+        ],
+        [
+          4,
+          1024,
+          128
+        ],
+        [
+          12,
+          1152,
+          128
+        ],
+        [
+          5,
+          1280,
+          128
+        ],
+        [
+          13,
+          1408,
+          128
+        ],
+        [
+          6,
+          1536,
+          128
+        ],
+        [
+          14,
+          1664,
+          128
+        ],
+        [
+          7,
+          1792,
+          128
+        ],
+        [
+          15,
+          1920,
+          128
+        ]
+      ],
+      "native_jobs": 16,
+      "chip_waves": 48,
+      "graph_nodes_byte_identical": true,
+      "both_priority_makespans_identical": true
+    },
+    {
+      "n_a": 4,
+      "selected_full_tensor_view": "B",
+      "logical_ranges": [
+        [
+          8,
+          0,
+          256
+        ],
+        [
+          9,
+          256,
+          256
+        ],
+        [
+          10,
+          512,
+          256
+        ],
+        [
+          11,
+          768,
+          256
+        ],
+        [
+          12,
+          1024,
+          256
+        ],
+        [
+          13,
+          1280,
+          256
+        ],
+        [
+          14,
+          1536,
+          256
+        ],
+        [
+          15,
+          1792,
+          256
+        ]
+      ],
+      "native_jobs": 8,
+      "chip_waves": 48,
+      "graph_nodes_byte_identical": true,
+      "both_priority_makespans_identical": true
+    },
+    {
+      "n_a": 5,
+      "selected_full_tensor_view": "B",
+      "logical_ranges": [
+        [
+          8,
+          0,
+          256
+        ],
+        [
+          9,
+          256,
+          256
+        ],
+        [
+          10,
+          512,
+          256
+        ],
+        [
+          11,
+          768,
+          256
+        ],
+        [
+          12,
+          1024,
+          256
+        ],
+        [
+          13,
+          1280,
+          256
+        ],
+        [
+          14,
+          1536,
+          256
+        ],
+        [
+          15,
+          1792,
+          256
+        ]
+      ],
+      "native_jobs": 8,
+      "chip_waves": 48,
+      "graph_nodes_byte_identical": true,
+      "both_priority_makespans_identical": true
+    },
+    {
+      "n_a": 6,
+      "selected_full_tensor_view": "B",
+      "logical_ranges": [
+        [
+          8,
+          0,
+          256
+        ],
+        [
+          9,
+          256,
+          256
+        ],
+        [
+          10,
+          512,
+          256
+        ],
+        [
+          11,
+          768,
+          256
+        ],
+        [
+          12,
+          1024,
+          256
+        ],
+        [
+          13,
+          1280,
+          256
+        ],
+        [
+          14,
+          1536,
+          256
+        ],
+        [
+          15,
+          1792,
+          256
+        ]
+      ],
+      "native_jobs": 8,
+      "chip_waves": 48,
+      "graph_nodes_byte_identical": true,
+      "both_priority_makespans_identical": true
+    }
+  ],
+  "actual_replica_trace_checks": [
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L0.joint.rep1.sd0.df0.trace.json",
+      "sha256": "105183dcf8657f8e1c31ff004074004d456e958b690ed4b4350684e2a3f226aa",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L0.joint.rep1.sd8.df0.trace.json",
+      "sha256": "82e444a4f1ce82173eebd0a9ce16773ae6f52426e2b8ce0952e38657a217cf62",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L0.opposite.rep1.sd0.df0.trace.json",
+      "sha256": "2b5726a7ad92d987a7baadf1de0eea34712ac6f60d0ff737ca31d0ca2c10ff45",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L0.opposite.rep1.sd8.df0.trace.json",
+      "sha256": "5ba6d1b1d33d78902a42568301e01246d2c0f243ab9d570a8bf7123bcf5830b7",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L0.source.rep1.sd0.df0.trace.json",
+      "sha256": "ace9a4a6e81905dcfdbc14e6c30e8f3ec40c95db2e4c2d524f071d21d0ad936d",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L0.source.rep1.sd8.df0.trace.json",
+      "sha256": "02e0eaa9226ffa776d63425bf6ef5e71a39455ae5b203f00c922079941b40a4c",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L1.joint.rep1.sd0.df0.trace.json",
+      "sha256": "e2a4f41efff9b456384d3f36b6a855817746d97209d4d6b84418f20448e0da63",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L1.joint.rep1.sd8.df0.trace.json",
+      "sha256": "98a6ead7779ce1008565003d23d741d36993679d165330a2f8e9aad8a5f23fbc",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L1.opposite.rep1.sd0.df0.trace.json",
+      "sha256": "8830f0db8aa4e53d2479a185dbf4995a9080e10afe1930106bdfd2ea53a1d3b9",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L1.opposite.rep1.sd8.df0.trace.json",
+      "sha256": "f65752c22787f5eb07c26bca6efd9d890be448a2e41c961d2cd975421952ffab",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L1.source.rep1.sd0.df0.trace.json",
+      "sha256": "22ad85b758433497f0a44791d778ce0ff989722fc4ce132e2204151db710e4a9",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L1.source.rep1.sd8.df0.trace.json",
+      "sha256": "20d449ed9a798baa8338f872fdbff63bbf2dc92d66cf2676e8a9336c54e37df2",
+      "n_a": 4,
+      "matching_view": "B"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L2.joint.rep1.sd0.df0.trace.json",
+      "sha256": "6150baed963f3b9a75aa2e3360b0c6bb1dab047f911073ff54472e1ba45de84e",
+      "n_a": 2,
+      "matching_view": "A"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L2.joint.rep1.sd8.df0.trace.json",
+      "sha256": "966e0fac25e5a6ff01764982136d3bb93160dc658aa513b79e43ad0d8865f595",
+      "n_a": 2,
+      "matching_view": "A"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L2.opposite.rep1.sd0.df0.trace.json",
+      "sha256": "9fb86f8e4752ab2499cb6991f1bb67915d3ff3c5b2db8e72a12e48eedef4eb00",
+      "n_a": 2,
+      "matching_view": "A"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L2.opposite.rep1.sd8.df0.trace.json",
+      "sha256": "92477a5cdb5bb3d8e90fdffb2b0877293fa3f1d7dc973b01173bb845f244ce9e",
+      "n_a": 2,
+      "matching_view": "A"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L2.source.rep1.sd0.df0.trace.json",
+      "sha256": "721bd89ab96062716cbea3bd2fca5e6d802a1b579a28f0ddca0f1b26f18d6fae",
+      "n_a": 2,
+      "matching_view": "A"
+    },
+    {
+      "path": "results/research-2026-11-02/round2/shared-pipeline/L2.source.rep1.sd8.df0.trace.json",
+      "sha256": "55763c8a4aabf980734fb784bd3f724094b6f4084fcbcf5e9e2696844578787e",
+      "n_a": 2,
+      "matching_view": "A"
+    }
+  ],
+  "conclusion": "For the measured nA-only rule, a same-budget two-full-GU-copy baseline with A/B/hybrid views emits identical logical ranges, native jobs, dependency graph and schedules. Paired-row replica selection is not a distinct algorithm or physical layout in these experiments.",
+  "what_remains_open": [
+    "Independent choices across chip pairs were not used by the measured selector; a new policy must beat the full three-view baseline and a generic native-tile replica selector.",
+    "A compiler/runtime that lowers these existing ideas to legal NAND streams may still be a systems contribution, subject to implementation and evidence.",
+    "This equivalence is not a claim that generic expressibility makes all future systems work unpublishable."
+  ],
+  "root_source_sha256": "3099b658cf7735048ccdbce7b10a924c73f90c3e110b70dd27946871b67127c3",
+  "source_sha256": "245a0b913c9d483710f4809598acb226ae92bd8ed59bb84e37b4ee1e43d45e26"
+}

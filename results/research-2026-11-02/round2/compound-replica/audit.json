@@ -1,0 +1,6459 @@
+{
+  "status": "PASS_conditional_restricted_storage_theorem",
+  "created_utc": "2026-11-01T19:31:51.969970+00:00",
+  "unchanged_source_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_compound_replica_theorem.py": "18aaedff4939bc4cd8dd0081f461f186ceca09b3a7da2a4f509bfcd4ad499c19",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compound-replica/theorem.json": "bee2ac074264aa48efec41d3e05edbb2cdb132c6511f51cec6483b43db2ed576"
+  },
+  "auditor_source_sha256": "0e783872555d3182bf9dce7995051ed30b857a2a236498c8103b2ca4d6bd5229",
+  "type_compositions": 206,
+  "represented_routes": 74974368,
+  "expert_omit_row_maps": 236,
+  "primary_payload_mib": 48,
+  "copied_payload_mib": 43,
+  "stored_payload_mib": 91,
+  "stored_pages": 5824,
+  "storage_ratio": 1.8958333333333333,
+  "minimum_extra_canonical_copies": 688,
+  "source_counterexample_found": false,
+  "components_ns": {
+    "flash_ns": 140000,
+    "control_ns": 18000,
+    "host_ns": 2000,
+    "input_ns": 2304,
+    "output_ns": 4608
+  },
+  "phase_model_ns": 166912,
+  "native_dataflow": "Every run reads one full 128x512 I8 matrix, returns128 complete rows and takes one input vector. Per expert/chip there is exactly one executed run. Host scatters rows; no partial sums, coding, quantization or new accumulator type. GU->host activation->down dependency is retained.",
+  "software_required": "Controller stores/follows tile owner and row-offset maps, matches currently selected six experts to four omission choices and dispatches existing block/offset/page-count GEMVs. The published host aif_post does not directly expose these addresses. No new die PE is used.",
+  "numeric_scope": "236 structural expert/omit maps independently checked. The generator also ran synthetic INT64 reference GEMVs. Neither demonstrates a physical AiF result datatype or real model inference; full-row copies preserve the original per-row arithmetic instead of introducing a new type.",
+  "capacity": "The43MiB extra are useful/physical-page I8 payload. In this standalone phase all90-92 atoms/chip fit one192-wave block stripe; block reservation is192MiB including idle tails. Other model streams may share those tails. Do not equate page storage optimality with reserved-stripe optimality. Scale arrays, FTL/ECC/spare and other tensors are excluded.",
+  "timing_limit": "166912ns is an arithmetic model, not measured latency: it omits route-matcher/controller lookup work and host reassembly/activation compute. The72-command and transfer costs are explicit; tR28us/control250ns/host2us remain uncalibrated assumptions. No background/erase, q-replay or request SLO claim.",
+  "byte_bound_extension": {
+    "status": "valid_under_private_input_single_context_assumptions",
+    "not_an_inherent_property_of_existing_hardware": true,
+    "proof": "Let u_ec be logical weight bytes of expert e that have exactly one stored copy, on chip c. For every6-expert route S, native distinct-input GEMVs require at least sum_e_in_S ceil(u_ec/65536) waves on c. Thus at most five experts can have u_ec>0. A route containing all of those experts plus arbitrary others gives sum_e ceil(u_ec/65536)<=5, hence sum_e u_ec<=5W. Across16chips U<=80W. With logical bytes B=768W and no cross-item dedup or coding, stored useful bytes >=U+2(B-U)=2B-U, so extra>=688W. Construction attains that byte count without row fragmentation or padding.",
+    "requirements": [
+      "down experts have independent input contexts per ordinary NAND wave",
+      "no read-once/PB replay across those contexts or independent per-plane contexts",
+      "no dense block-diagonal zero embedding with concatenated expert inputs",
+      "all necessary weights stored on device; no host weight computation/cache shortcut",
+      "no coding or physical dedup across distinct logical weight items"
+    ],
+    "exclusions": "GU common-input row packing is not covered by sum-per-expert ceil. Neither are block-diagonal multi-expert dense matrices, altered cache/compute interfaces or cross-item representations. The byte bound is about copies, not erase-block tails. Do not claim unrestricted arbitrary-row optimality from this conditional lemma.",
+    "existing_hardware_counterexample": {
+      "matrices": [
+        "32x512 I8 expert A fringe",
+        "32x512 I8 expert B fringe"
+      ],
+      "embedding": "diag(W_A,W_B) has64rows x1024columns with32768bytes useful weights and32768bytes structural zeros; concatenate x_A and x_B.",
+      "separate_normal_read_waves": 2,
+      "combined_normal_read_waves": 1,
+      "combined_physical_bytes": 65536,
+      "combined_physical_pages": 4,
+      "no_new_PE_or_quantization": true,
+      "exact_synthetic_I8_dot_identity_checked": true,
+      "violates": "sum_e ceil(u_ec/W) as an unrestricted hardware lower bound",
+      "canonical_scope": "Two whole128x512 canonical tiles instead produce a256x1024 block diagonal matrix,256KiB/fourwaves versus original two full waves. This fringe counterexample does not refute the audited canonical tile construction."
+    }
+  },
+  "novelty_assessment": "Not established. The construction uses standard replicated declustering plus a mandatory singleton-byte counting lower bound and a four-color Hall matching. The exact compound-query parameter point is validated, but these ingredients look like a short corollary of existing replicated/batch-code theory. A full primary literature check is needed before claiming a new theorem, and this alone is not an architecture breakthrough.",
+  "prior_primary_urls": [
+    "https://repository.bilkent.edu.tr/bitstreams/938fed97-cc40-48c5-bbd8-01da42e95ae2/download",
+    "https://faculty.cse.louisville.edu/nihat/papers/TOS2013.pdf"
+  ],
+  "no_routing_or_model_weights_opened": true,
+  "no_parent_artifact_modified": true,
+  "storage_ledger": {
+    "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compound-replica/diagnostic_storage_ledger.json",
+    "sha256": "988bb017b5bdcafa6fff7021ce249df020d5decc45a784405546fa6f9d4cb50c"
+  },
+  "type_witnesses": [
+    {
+      "type_counts": [
+        0,
+        0,
+        0,
+        1,
+        5
+      ],
+      "route_count": 5,
+      "omitted": {
+        "9": 3,
+        "14": 0,
+        "16": 0,
+        "17": 1,
+        "18": 1,
+        "20": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        0,
+        2,
+        4
+      ],
+      "route_count": 50,
+      "omitted": {
+        "9": 0,
+        "11": 3,
+        "14": 0,
+        "16": 1,
+        "17": 1,
+        "18": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        0,
+        3,
+        3
+      ],
+      "route_count": 100,
+      "omitted": {
+        "9": 0,
+        "11": 0,
+        "12": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        0,
+        4,
+        2
+      ],
+      "route_count": 50,
+      "omitted": {
+        "9": 0,
+        "11": 0,
+        "12": 1,
+        "13": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        0,
+        5,
+        1
+      ],
+      "route_count": 5,
+      "omitted": {
+        "9": 0,
+        "11": 0,
+        "12": 1,
+        "13": 1,
+        "15": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        1,
+        0,
+        5
+      ],
+      "route_count": 5,
+      "omitted": {
+        "0": 3,
+        "14": 0,
+        "16": 0,
+        "17": 1,
+        "18": 1,
+        "20": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        1,
+        1,
+        4
+      ],
+      "route_count": 125,
+      "omitted": {
+        "0": 0,
+        "9": 3,
+        "14": 0,
+        "16": 1,
+        "17": 1,
+        "18": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        1,
+        2,
+        3
+      ],
+      "route_count": 500,
+      "omitted": {
+        "0": 0,
+        "9": 0,
+        "11": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        1,
+        3,
+        2
+      ],
+      "route_count": 500,
+      "omitted": {
+        "0": 0,
+        "9": 0,
+        "11": 1,
+        "12": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        1,
+        4,
+        1
+      ],
+      "route_count": 125,
+      "omitted": {
+        "0": 0,
+        "9": 0,
+        "11": 1,
+        "12": 1,
+        "13": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        1,
+        5,
+        0
+      ],
+      "route_count": 5,
+      "omitted": {
+        "0": 2,
+        "9": 0,
+        "11": 0,
+        "12": 1,
+        "13": 1,
+        "15": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        2,
+        0,
+        4
+      ],
+      "route_count": 50,
+      "omitted": {
+        "0": 0,
+        "4": 3,
+        "14": 0,
+        "16": 1,
+        "17": 1,
+        "18": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        2,
+        1,
+        3
+      ],
+      "route_count": 500,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "9": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        2,
+        2,
+        2
+      ],
+      "route_count": 1000,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "9": 1,
+        "11": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        2,
+        3,
+        1
+      ],
+      "route_count": 500,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "9": 1,
+        "11": 1,
+        "12": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        2,
+        4,
+        0
+      ],
+      "route_count": 50,
+      "omitted": {
+        "0": 0,
+        "4": 2,
+        "9": 0,
+        "11": 1,
+        "12": 1,
+        "13": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        3,
+        0,
+        3
+      ],
+      "route_count": 100,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "7": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        3,
+        1,
+        2
+      ],
+      "route_count": 500,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "9": 3,
+        "14": 1,
+        "16": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        3,
+        2,
+        1
+      ],
+      "route_count": 500,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "9": 1,
+        "11": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        3,
+        3,
+        0
+      ],
+      "route_count": 100,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "9": 1,
+        "11": 1,
+        "12": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        4,
+        0,
+        2
+      ],
+      "route_count": 50,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "8": 3,
+        "14": 1,
+        "16": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        4,
+        1,
+        1
+      ],
+      "route_count": 125,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "8": 3,
+        "9": 1,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        4,
+        2,
+        0
+      ],
+      "route_count": 50,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "8": 3,
+        "9": 1,
+        "11": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        5,
+        0,
+        1
+      ],
+      "route_count": 5,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "8": 3,
+        "10": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        0,
+        5,
+        1,
+        0
+      ],
+      "route_count": 5,
+      "omitted": {
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "8": 3,
+        "10": 3,
+        "9": 1
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        0,
+        0,
+        5
+      ],
+      "route_count": 5,
+      "omitted": {
+        "1": 3,
+        "14": 0,
+        "16": 0,
+        "17": 1,
+        "18": 1,
+        "20": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        0,
+        1,
+        4
+      ],
+      "route_count": 125,
+      "omitted": {
+        "1": 1,
+        "9": 3,
+        "14": 0,
+        "16": 0,
+        "17": 1,
+        "18": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        0,
+        2,
+        3
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "9": 0,
+        "11": 3,
+        "14": 0,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        0,
+        3,
+        2
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "9": 0,
+        "11": 0,
+        "12": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        0,
+        4,
+        1
+      ],
+      "route_count": 125,
+      "omitted": {
+        "1": 1,
+        "9": 0,
+        "11": 0,
+        "12": 1,
+        "13": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        0,
+        5,
+        0
+      ],
+      "route_count": 5,
+      "omitted": {
+        "1": 2,
+        "9": 0,
+        "11": 0,
+        "12": 1,
+        "13": 1,
+        "15": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        1,
+        0,
+        4
+      ],
+      "route_count": 125,
+      "omitted": {
+        "1": 1,
+        "0": 3,
+        "14": 0,
+        "16": 0,
+        "17": 1,
+        "18": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        1,
+        1,
+        3
+      ],
+      "route_count": 1250,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "9": 3,
+        "14": 0,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "route_count": 2500,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "9": 0,
+        "11": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        1,
+        3,
+        1
+      ],
+      "route_count": 1250,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "9": 0,
+        "11": 1,
+        "12": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        1,
+        4,
+        0
+      ],
+      "route_count": 125,
+      "omitted": {
+        "1": 1,
+        "0": 2,
+        "9": 0,
+        "11": 0,
+        "12": 1,
+        "13": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        2,
+        0,
+        3
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "4": 3,
+        "14": 0,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        2,
+        1,
+        2
+      ],
+      "route_count": 2500,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "4": 0,
+        "9": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        2,
+        2,
+        1
+      ],
+      "route_count": 2500,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "4": 0,
+        "9": 1,
+        "11": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        2,
+        3,
+        0
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "4": 2,
+        "9": 0,
+        "11": 1,
+        "12": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        3,
+        0,
+        2
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "4": 0,
+        "7": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        3,
+        1,
+        1
+      ],
+      "route_count": 1250,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "9": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        3,
+        2,
+        0
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "9": 1,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        4,
+        0,
+        1
+      ],
+      "route_count": 125,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "8": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        4,
+        1,
+        0
+      ],
+      "route_count": 125,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "8": 3,
+        "9": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        1,
+        5,
+        0,
+        0
+      ],
+      "route_count": 5,
+      "omitted": {
+        "1": 1,
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "8": 3,
+        "10": 3
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        0,
+        0,
+        4
+      ],
+      "route_count": 50,
+      "omitted": {
+        "1": 1,
+        "2": 3,
+        "14": 0,
+        "16": 0,
+        "17": 1,
+        "18": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        0,
+        1,
+        3
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "9": 3,
+        "14": 0,
+        "16": 0,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        0,
+        2,
+        2
+      ],
+      "route_count": 1000,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "9": 0,
+        "11": 3,
+        "14": 0,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        0,
+        3,
+        1
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "9": 0,
+        "11": 0,
+        "12": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        0,
+        4,
+        0
+      ],
+      "route_count": 50,
+      "omitted": {
+        "1": 1,
+        "2": 2,
+        "9": 0,
+        "11": 0,
+        "12": 1,
+        "13": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        1,
+        0,
+        3
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "0": 3,
+        "14": 0,
+        "16": 0,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        1,
+        1,
+        2
+      ],
+      "route_count": 2500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "9": 3,
+        "14": 0,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        1,
+        2,
+        1
+      ],
+      "route_count": 2500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "9": 0,
+        "11": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        1,
+        3,
+        0
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "0": 2,
+        "9": 0,
+        "11": 0,
+        "12": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        2,
+        0,
+        2
+      ],
+      "route_count": 1000,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "4": 3,
+        "14": 0,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        2,
+        1,
+        1
+      ],
+      "route_count": 2500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "4": 0,
+        "9": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        2,
+        2,
+        0
+      ],
+      "route_count": 1000,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "4": 2,
+        "9": 0,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        3,
+        0,
+        1
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "4": 0,
+        "7": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        3,
+        1,
+        0
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        2,
+        4,
+        0,
+        0
+      ],
+      "route_count": 50,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "8": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        3,
+        0,
+        0,
+        3
+      ],
+      "route_count": 100,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 3,
+        "14": 0,
+        "16": 0,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        3,
+        0,
+        1,
+        2
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "9": 3,
+        "14": 0,
+        "16": 0
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        3,
+        0,
+        2,
+        1
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "9": 0,
+        "11": 3,
+        "14": 0
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        3,
+        0,
+        3,
+        0
+      ],
+      "route_count": 100,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "9": 0,
+        "11": 0,
+        "12": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        3,
+        1,
+        0,
+        2
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "0": 3,
+        "14": 0,
+        "16": 0
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        3,
+        1,
+        1,
+        1
+      ],
+      "route_count": 1250,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "0": 0,
+        "9": 3,
+        "14": 0
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        3,
+        1,
+        2,
+        0
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "0": 0,
+        "9": 0,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        3,
+        2,
+        0,
+        1
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "0": 0,
+        "4": 3,
+        "14": 0
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        3,
+        2,
+        1,
+        0
+      ],
+      "route_count": 500,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "0": 0,
+        "4": 0,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        3,
+        3,
+        0,
+        0
+      ],
+      "route_count": 100,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "0": 0,
+        "4": 0,
+        "7": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        4,
+        0,
+        0,
+        2
+      ],
+      "route_count": 50,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 3,
+        "14": 0,
+        "16": 0
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        4,
+        0,
+        1,
+        1
+      ],
+      "route_count": 125,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "9": 3,
+        "14": 0
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        4,
+        0,
+        2,
+        0
+      ],
+      "route_count": 50,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "9": 0,
+        "11": 3
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        4,
+        1,
+        0,
+        1
+      ],
+      "route_count": 125,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "0": 3,
+        "14": 0
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        4,
+        1,
+        1,
+        0
+      ],
+      "route_count": 125,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "0": 0,
+        "9": 3
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        4,
+        2,
+        0,
+        0
+      ],
+      "route_count": 50,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "0": 0,
+        "4": 3
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        5,
+        0,
+        0,
+        1
+      ],
+      "route_count": 5,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "6": 3,
+        "14": 0
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        5,
+        0,
+        1,
+        0
+      ],
+      "route_count": 5,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "6": 3,
+        "9": 0
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        0,
+        5,
+        1,
+        0,
+        0
+      ],
+      "route_count": 5,
+      "omitted": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "6": 3,
+        "0": 0
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        0,
+        0,
+        5
+      ],
+      "route_count": 44,
+      "omitted": {
+        "19": 3,
+        "14": 0,
+        "16": 0,
+        "17": 1,
+        "18": 1,
+        "20": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        0,
+        1,
+        4
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "9": 3,
+        "14": 0,
+        "16": 1,
+        "17": 1,
+        "18": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        0,
+        2,
+        3
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "9": 0,
+        "11": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        0,
+        3,
+        2
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "9": 0,
+        "11": 1,
+        "12": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        0,
+        4,
+        1
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "9": 0,
+        "11": 1,
+        "12": 1,
+        "13": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        0,
+        5,
+        0
+      ],
+      "route_count": 44,
+      "omitted": {
+        "19": 2,
+        "9": 0,
+        "11": 0,
+        "12": 1,
+        "13": 1,
+        "15": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        1,
+        0,
+        4
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "0": 3,
+        "14": 0,
+        "16": 1,
+        "17": 1,
+        "18": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        1,
+        1,
+        3
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "9": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        1,
+        2,
+        2
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "9": 1,
+        "11": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        1,
+        3,
+        1
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "9": 1,
+        "11": 1,
+        "12": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        1,
+        4,
+        0
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "0": 2,
+        "9": 0,
+        "11": 1,
+        "12": 1,
+        "13": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        2,
+        0,
+        3
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "4": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        2,
+        1,
+        2
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "4": 2,
+        "9": 3,
+        "14": 1,
+        "16": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        2,
+        2,
+        1
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "4": 2,
+        "9": 1,
+        "11": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        2,
+        3,
+        0
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "4": 2,
+        "9": 1,
+        "11": 1,
+        "12": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        3,
+        0,
+        2
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "4": 2,
+        "7": 3,
+        "14": 1,
+        "16": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        3,
+        1,
+        1
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "4": 2,
+        "7": 3,
+        "9": 1,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        3,
+        2,
+        0
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "4": 2,
+        "7": 3,
+        "9": 1,
+        "11": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        4,
+        0,
+        1
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "4": 2,
+        "7": 3,
+        "8": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        4,
+        1,
+        0
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "0": 0,
+        "4": 2,
+        "7": 3,
+        "8": 3,
+        "9": 1
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        0,
+        5,
+        0,
+        0
+      ],
+      "route_count": 44,
+      "omitted": {
+        "19": 1,
+        "0": 0,
+        "4": 0,
+        "7": 2,
+        "8": 3,
+        "10": 3
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        0,
+        0,
+        4
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "1": 3,
+        "14": 0,
+        "16": 1,
+        "17": 1,
+        "18": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        0,
+        1,
+        3
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "9": 3,
+        "14": 0,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        0,
+        2,
+        2
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "9": 0,
+        "11": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        0,
+        3,
+        1
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "9": 0,
+        "11": 1,
+        "12": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        0,
+        4,
+        0
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "1": 2,
+        "9": 0,
+        "11": 1,
+        "12": 1,
+        "13": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        1,
+        0,
+        3
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "0": 3,
+        "14": 0,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "route_count": 55000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "0": 0,
+        "9": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        1,
+        2,
+        1
+      ],
+      "route_count": 55000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "0": 0,
+        "9": 1,
+        "11": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        1,
+        3,
+        0
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "0": 2,
+        "9": 0,
+        "11": 1,
+        "12": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        2,
+        0,
+        2
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "0": 0,
+        "4": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        2,
+        1,
+        1
+      ],
+      "route_count": 55000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "0": 0,
+        "4": 2,
+        "9": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        2,
+        2,
+        0
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "0": 0,
+        "4": 2,
+        "9": 1,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        3,
+        0,
+        1
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "0": 0,
+        "4": 2,
+        "7": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        3,
+        1,
+        0
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "0": 0,
+        "4": 2,
+        "7": 3,
+        "9": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        1,
+        4,
+        0,
+        0
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "0": 0,
+        "4": 2,
+        "7": 3,
+        "8": 3
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        2,
+        0,
+        0,
+        3
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 3,
+        "14": 0,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        2,
+        0,
+        1,
+        2
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "9": 3,
+        "14": 0,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        2,
+        0,
+        2,
+        1
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "9": 0,
+        "11": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        2,
+        0,
+        3,
+        0
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 2,
+        "9": 0,
+        "11": 1,
+        "12": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        2,
+        1,
+        0,
+        2
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "0": 3,
+        "14": 0,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        2,
+        1,
+        1,
+        1
+      ],
+      "route_count": 55000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "9": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        2,
+        1,
+        2,
+        0
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "0": 2,
+        "9": 0,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        2,
+        2,
+        0,
+        1
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "4": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        2,
+        2,
+        1,
+        0
+      ],
+      "route_count": 22000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "4": 2,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        2,
+        3,
+        0,
+        0
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "0": 0,
+        "4": 2,
+        "7": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        3,
+        0,
+        0,
+        2
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "3": 3,
+        "14": 0,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        3,
+        0,
+        1,
+        1
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "9": 3,
+        "14": 0
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        3,
+        0,
+        2,
+        0
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "9": 0,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        3,
+        1,
+        0,
+        1
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "0": 3,
+        "14": 0
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        3,
+        1,
+        1,
+        0
+      ],
+      "route_count": 11000,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "0": 0,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        3,
+        2,
+        0,
+        0
+      ],
+      "route_count": 4400,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "0": 0,
+        "4": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        4,
+        0,
+        0,
+        1
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 3,
+        "14": 0
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        4,
+        0,
+        1,
+        0
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "9": 3
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        4,
+        1,
+        0,
+        0
+      ],
+      "route_count": 1100,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "0": 3
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        1,
+        5,
+        0,
+        0,
+        0
+      ],
+      "route_count": 44,
+      "omitted": {
+        "19": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 2,
+        "6": 3
+      },
+      "target_counts": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        0,
+        0,
+        4
+      ],
+      "route_count": 4730,
+      "omitted": {
+        "19": 0,
+        "21": 3,
+        "14": 0,
+        "16": 1,
+        "17": 1,
+        "18": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        0,
+        1,
+        3
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "9": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        0,
+        2,
+        2
+      ],
+      "route_count": 94600,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "9": 1,
+        "11": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        0,
+        3,
+        1
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "9": 1,
+        "11": 1,
+        "12": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        0,
+        4,
+        0
+      ],
+      "route_count": 4730,
+      "omitted": {
+        "19": 0,
+        "21": 2,
+        "9": 0,
+        "11": 1,
+        "12": 1,
+        "13": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        1,
+        0,
+        3
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "0": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        1,
+        1,
+        2
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "0": 2,
+        "9": 3,
+        "14": 1,
+        "16": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        1,
+        2,
+        1
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "0": 2,
+        "9": 1,
+        "11": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        1,
+        3,
+        0
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "0": 2,
+        "9": 1,
+        "11": 1,
+        "12": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        2,
+        0,
+        2
+      ],
+      "route_count": 94600,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "0": 2,
+        "4": 3,
+        "14": 1,
+        "16": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        2,
+        1,
+        1
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "0": 2,
+        "4": 3,
+        "9": 1,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        2,
+        2,
+        0
+      ],
+      "route_count": 94600,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "0": 2,
+        "4": 3,
+        "9": 1,
+        "11": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        3,
+        0,
+        1
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "0": 2,
+        "4": 3,
+        "7": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        3,
+        1,
+        0
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "0": 2,
+        "4": 3,
+        "7": 3,
+        "9": 1
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        0,
+        4,
+        0,
+        0
+      ],
+      "route_count": 4730,
+      "omitted": {
+        "19": 0,
+        "21": 1,
+        "0": 0,
+        "4": 2,
+        "7": 3,
+        "8": 3
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        1,
+        0,
+        0,
+        3
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        1,
+        0,
+        1,
+        2
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "9": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        1,
+        0,
+        2,
+        1
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "9": 1,
+        "11": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        1,
+        0,
+        3,
+        0
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 2,
+        "9": 1,
+        "11": 1,
+        "12": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        1,
+        1,
+        0,
+        2
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "0": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      "route_count": 591250,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "0": 2,
+        "9": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        1,
+        1,
+        2,
+        0
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "0": 2,
+        "9": 1,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        1,
+        2,
+        0,
+        1
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "0": 2,
+        "4": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        1,
+        2,
+        1,
+        0
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "0": 2,
+        "4": 3,
+        "9": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        1,
+        3,
+        0,
+        0
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "0": 2,
+        "4": 3,
+        "7": 3
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        2,
+        0,
+        0,
+        2
+      ],
+      "route_count": 94600,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "2": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        2,
+        0,
+        1,
+        1
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "2": 1,
+        "9": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        2,
+        0,
+        2,
+        0
+      ],
+      "route_count": 94600,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "2": 2,
+        "9": 1,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        2,
+        1,
+        0,
+        1
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "2": 1,
+        "0": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        2,
+        1,
+        1,
+        0
+      ],
+      "route_count": 236500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "2": 1,
+        "0": 2,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        2,
+        2,
+        0,
+        0
+      ],
+      "route_count": 94600,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "2": 1,
+        "0": 2,
+        "4": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        3,
+        0,
+        0,
+        1
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "2": 1,
+        "3": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        3,
+        0,
+        1,
+        0
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        3,
+        1,
+        0,
+        0
+      ],
+      "route_count": 47300,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "0": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        2,
+        4,
+        0,
+        0,
+        0
+      ],
+      "route_count": 4730,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "5": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        0,
+        0,
+        0,
+        3
+      ],
+      "route_count": 132440,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 3,
+        "14": 1,
+        "16": 1,
+        "17": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        0,
+        0,
+        1,
+        2
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "9": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        0,
+        0,
+        2,
+        1
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "9": 1,
+        "11": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        0,
+        0,
+        3,
+        0
+      ],
+      "route_count": 132440,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 2,
+        "9": 1,
+        "11": 1,
+        "12": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        0,
+        1,
+        0,
+        2
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "0": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        0,
+        1,
+        1,
+        1
+      ],
+      "route_count": 1655500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "0": 2,
+        "9": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        0,
+        1,
+        2,
+        0
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "0": 2,
+        "9": 1,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        0,
+        2,
+        0,
+        1
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "0": 2,
+        "4": 3,
+        "14": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        0,
+        2,
+        1,
+        0
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "0": 2,
+        "4": 3,
+        "9": 1
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        0,
+        3,
+        0,
+        0
+      ],
+      "route_count": 132440,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "0": 2,
+        "4": 3,
+        "7": 3
+      },
+      "target_counts": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        1,
+        0,
+        0,
+        2
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "1": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        1,
+        0,
+        1,
+        1
+      ],
+      "route_count": 1655500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "1": 1,
+        "9": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        1,
+        0,
+        2,
+        0
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "1": 2,
+        "9": 1,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        1,
+        1,
+        0,
+        1
+      ],
+      "route_count": 1655500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "1": 1,
+        "0": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        1,
+        1,
+        1,
+        0
+      ],
+      "route_count": 1655500,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "1": 1,
+        "0": 2,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        1,
+        2,
+        0,
+        0
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "1": 1,
+        "0": 2,
+        "4": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        2,
+        0,
+        0,
+        1
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "1": 1,
+        "2": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        2,
+        0,
+        1,
+        0
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "1": 1,
+        "2": 2,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        2,
+        1,
+        0,
+        0
+      ],
+      "route_count": 662200,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "1": 1,
+        "2": 2,
+        "0": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        3,
+        3,
+        0,
+        0,
+        0
+      ],
+      "route_count": 132440,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "1": 1,
+        "2": 2,
+        "3": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        4,
+        0,
+        0,
+        0,
+        2
+      ],
+      "route_count": 1357510,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 3,
+        "14": 1,
+        "16": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        4,
+        0,
+        0,
+        1,
+        1
+      ],
+      "route_count": 3393775,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "9": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        4,
+        0,
+        0,
+        2,
+        0
+      ],
+      "route_count": 1357510,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 2,
+        "9": 1,
+        "11": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        4,
+        0,
+        1,
+        0,
+        1
+      ],
+      "route_count": 3393775,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "0": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        4,
+        0,
+        1,
+        1,
+        0
+      ],
+      "route_count": 3393775,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "0": 2,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        4,
+        0,
+        2,
+        0,
+        0
+      ],
+      "route_count": 1357510,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "0": 2,
+        "4": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        4,
+        1,
+        0,
+        0,
+        1
+      ],
+      "route_count": 3393775,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "1": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        4,
+        1,
+        0,
+        1,
+        0
+      ],
+      "route_count": 3393775,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "1": 2,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        4,
+        1,
+        1,
+        0,
+        0
+      ],
+      "route_count": 3393775,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "1": 2,
+        "0": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        4,
+        2,
+        0,
+        0,
+        0
+      ],
+      "route_count": 1357510,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "1": 2,
+        "2": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        5,
+        0,
+        0,
+        0,
+        1
+      ],
+      "route_count": 5430040,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "24": 3,
+        "14": 2
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        5,
+        0,
+        0,
+        1,
+        0
+      ],
+      "route_count": 5430040,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "24": 2,
+        "9": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        5,
+        0,
+        1,
+        0,
+        0
+      ],
+      "route_count": 5430040,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "24": 2,
+        "0": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        5,
+        1,
+        0,
+        0,
+        0
+      ],
+      "route_count": 5430040,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "24": 2,
+        "1": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    },
+    {
+      "type_counts": [
+        6,
+        0,
+        0,
+        0,
+        0
+      ],
+      "route_count": 7059052,
+      "omitted": {
+        "19": 0,
+        "21": 0,
+        "22": 1,
+        "23": 1,
+        "24": 2,
+        "25": 3
+      },
+      "target_counts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "components_ns": {
+        "flash_ns": 140000,
+        "control_ns": 18000,
+        "host_ns": 2000,
+        "input_ns": 2304,
+        "output_ns": 4608
+      }
+    }
+  ]
+}

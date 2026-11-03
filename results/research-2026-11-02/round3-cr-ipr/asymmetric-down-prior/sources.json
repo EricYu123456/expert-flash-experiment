@@ -1,0 +1,90 @@
+{
+  "status": "bounded_primary_source_audit",
+  "sources": [
+    {
+      "id": "stratum",
+      "url": "https://arxiv.org/html/2510.05245v1",
+      "local_source": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/coupled-closest-prior/primary/stratum.html",
+      "local_source_sha256": "225654a233d5c016db805bb5ade3a1073639c6d23f928f99e4a03e9081802629",
+      "inspected_sections": [
+        "S4.SS1",
+        "S5.SS2"
+      ],
+      "extracted_text": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/asymmetric-down-prior/primary/stratum.inspected-sections.txt",
+      "extracted_sha256": "d35a2baed3e8918756a4cb1851cafe2f62a616a2e1a8027e130ce67823f09654"
+    },
+    {
+      "id": "hda",
+      "url": "https://arxiv.org/html/2609.08682v1",
+      "local_source": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/coupled-closest-prior/primary/hda.html",
+      "local_source_sha256": "399a6819700182f126bd43ad20a667a638b57a815e057d6c67865a52950f05b1",
+      "inspected_sections": [
+        "S4.SS1",
+        "S4.SS2",
+        "S5.SS2"
+      ],
+      "extracted_text": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/asymmetric-down-prior/primary/hda.inspected-sections.txt",
+      "extracted_sha256": "b14698aa3a4a57be6c2a1570fd918ec8d1331986ec5e1450a978d49fb51e2db7"
+    },
+    {
+      "id": "slim",
+      "url": "https://arxiv.org/html/2507.09201v1",
+      "local_source": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/existing-capability-mechanism-screen/primary/slim.v1.html",
+      "local_source_sha256": "0a6866cac169e79ca1f50489bedbc164050fb2dae1b7a153697b72b2d4ec401e",
+      "inspected_sections": [
+        "S5.SS4",
+        "S6.SS1"
+      ],
+      "extracted_text": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/asymmetric-down-prior/primary/slim.inspected-sections.txt",
+      "extracted_sha256": "afbec3456dd4d3b06547867585c4c26faae609de579709bcd074f5da60e0181f"
+    },
+    {
+      "id": "aif",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "local_source": "/home/ericyu/expert_flash_experiment/paper/aif.txt",
+      "sha256": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7"
+    },
+    {
+      "id": "hda_code_snapshot",
+      "url": "https://github.com/PKU-SEC-Lab/HDA-MoE-TCAD26/blob/56ea3725b2c621d4aea248f16345c34f5e06b8ed/node_allocation.py",
+      "local_source": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/coupled-closest-prior/primary/official-node_allocation.py",
+      "sha256": "7c044365d8c106c1de52e825dac244045211ae6f59acf099f2914b006b3c0f3b"
+    },
+    {
+      "id": "existing_compiler",
+      "url": null,
+      "local_source": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_whole_row_compiler.py",
+      "sha256": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de"
+    },
+    {
+      "id": "initial_aif_notes",
+      "url": null,
+      "local_source": "/home/ericyu/expert_flash_experiment/docs/aif_model_notes.md",
+      "sha256": "b2a7c8f88cf1c4f5d4d6578b369a03ad43d1a0f0d43cf4a4403cd134e28d83b7"
+    },
+    {
+      "id": "round2_notes",
+      "url": null,
+      "local_source": "/home/ericyu/expert_flash_experiment/docs/research_2026_11_02_round2.md",
+      "sha256": "18441b3108efa1f7b2a388eb92f7e8de301601491711b326565470e1e1d9a875"
+    },
+    {
+      "id": "candidate_notes",
+      "url": null,
+      "local_source": "/home/ericyu/expert_flash_experiment/docs/ordinary_read_placement_candidate.md",
+      "sha256": "c8d5c0632d2d99490f92ad75b448e4caf07c240ba3587752b95f313bfa848d98"
+    }
+  ],
+  "live_checks": [
+    "Opened all3arXiv v1 primary URLs and AiF DOI via web.",
+    "Opened official HDA GitHub repository and fetched current main/node_allocation.py via connected GitHub; inspected compute_time, comm_time and ILP P variable dimensions. Did not execute author code."
+  ],
+  "github_limits": [
+    "No verified author Stratum/SLIM/AiF implementation established in this bounded pass; unrelated same-name GitHub hits excluded. This is not proof none exists.",
+    "Local llama.cpp-aif remote is a user fork, not evidence of an author AiF artifact."
+  ],
+  "version_limits": [
+    "SLIM inspected source is arXivv1; no completeness claim about later publication revisions.",
+    "Root requested no further expanded search after these primary checks."
+  ]
+}

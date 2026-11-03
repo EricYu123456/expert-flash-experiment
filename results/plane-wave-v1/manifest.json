@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "timezone": "Asia/Taipei",
+  "command": [
+    "/home/ericyu/miniconda3/bin/python3",
+    "scripts/run_plane_wave_study.py",
+    "--swap-trials",
+    "256"
+  ],
+  "models": [
+    "granite",
+    "olmoe",
+    "deepseek",
+    "qwen3",
+    "mixtral"
+  ],
+  "seed": 20261030,
+  "corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+  "configuration": {
+    "run_dir": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1",
+    "data": "/home/nfs_client/ericyu/expert_flash_experiment",
+    "old_results": "/home/ericyu/expert_flash_experiment/results/corpus-300-v1",
+    "output": "/home/ericyu/expert_flash_experiment/results/plane-wave-v1",
+    "models": [
+      "granite",
+      "olmoe",
+      "deepseek",
+      "qwen3",
+      "mixtral"
+    ],
+    "swap_trials": 256,
+    "seed": 20261030,
+    "bootstrap": 2000,
+    "stage": "both"
+  },
+  "software_sha256": {
+    "run_plane_wave_study.py": "395cc93371964a0d8f201c6581eeb18334b9ecc65f05dd628c667c9da51c86b2",
+    "plane_wave_model.py": "3a315947c668bd7aaa44acb23658510e901147bc48596a3f9ea6aef202741862",
+    "aif_model.py": "baa452445e953fb3d096a840facd1801ee3870726c6667d38180b9526e06751b",
+    "overhead_model.py": "67642f688c9122fc4b66d6013921efb9c8eee8864bed44dd436cbe7fd5d5825d",
+    "corpus_analysis.py": "d1686973505bf331a37d91e8cd9a2cf9b401742d69a47ea254db072491d3b3c9"
+  },
+  "elapsed_seconds": 391.7541596889496,
+  "bootstrap": {
+    "unit": "whole prompt; paired",
+    "resamples": 2000,
+    "seed": 20261030
+  },
+  "timing_claims": {
+    "ideal_overlap": "Conditional analytical lower bound; not guaranteed schedulable.",
+    "retained_cr_schedule": "Synchronous sense epochs plus serialized ECC drain; requires retention of cr-read state across gaps.",
+    "conservative_drain": "Every epoch uses a 28 us ordinary read followed by ECC drain; independent plane addressing and multiple contexts still required.",
+    "measured_hardware": false,
+    "nvme_kernel_supports_new_timing": false
+  },
+  "limitations": [
+    "Real routes from existing synthetic 300-prompt corpus; no new model inference.",
+    "Fixed INT8 dimensions, not original GGUF quantized weight byte size.",
+    "No prefill, attention, routing, shared experts, combine, DRAM cache, GC or channel bus timing for NAND command headers.",
+    "Training mask search is heuristic; test routes never select masks, g, or width.",
+    "Cache SHA-256 and original frozen-plan routing hashes are retained; full raw trace validation inherited from original corpus study."
+  ],
+  "configuration_sha256": "5bab9b22c374d624e865c9373ee5b0cdd40a01c2b83d2ed435331b90cf4d3f95"
+}

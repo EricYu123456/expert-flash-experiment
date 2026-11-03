@@ -1,0 +1,88 @@
+{
+  "status": "inconclusive_continue_same_Round2",
+  "reviewer": "/root/critic_sol",
+  "reviewed_at_utc": "2026-11-03T02:36:11Z",
+  "source_revision": 3,
+  "execution": "Completed unchanged frozen Stage0 SCORE at 2026-11-03T02:31:47.484451+00:00; OS return code zero.",
+  "artifact_sha256": {
+    "SCORE.complete.json": "c1bcc5f8f1e1e56fa62c29495bca32aaa125a3453bb66074d471b4e278e54a4f",
+    "SCORE.exit_receipt.json": "faee39e7425df7d0cb29172dc3ff5f41b08fcfb610a1192708a4580fb0b87694",
+    "comparisons.before_SCORE.frozen.json": "dfc69821226ae02fa77e19afd3a1cc185bc9d20829a6857e426ca508c8417c38",
+    "score_results/report.json": "33574a95da9b798124891a6098be1bcbebf19ed22ddbd0517092275ea692e9c8",
+    "score_results/paired_bootstrap.json": "2d4190bb0835315566cfa0d85fb63a669ffaeb61c33e7d81fdf31b5052a65d28",
+    "score_results/prompt_metrics.json": "eae6d17ae294fad1226387d335331e594edd6d8e748f6019b92892167ad09c4b"
+  },
+  "frozen_integrity": {
+    "points": 6664,
+    "comparisons": 10712,
+    "all_point_metadata_identical_to_freeze": true,
+    "all_original_comparison_fields_and_order_identical_to_freeze": true,
+    "SCORE_used_for_original_selection": false,
+    "post_hoc_family_filtering_performed": false
+  },
+  "family_undefined_cause": {
+    "root_operator": ["deepseek", 13, 10],
+    "phase": "decode",
+    "natural_hits": 9,
+    "positive_energy_prompts": 8,
+    "positive_prompt_indices_0based": [3, 12, 13, 14, 18, 19, 25, 29],
+    "bootstrap_seed": 20261103,
+    "bootstrap_repeats": 10000,
+    "independently_reconstructed_zero_denominator_draw_indices_0based": [2748, 5167],
+    "direct_undefined_comparisons": 1148,
+    "direct_undefined_individual_operator_comparisons": 384,
+    "direct_undefined_composites": 764,
+    "all_direct_undefined_share_this_root": true,
+    "literal_ties_among_direct_undefined": 174,
+    "other_nonliteral_zero_studentization_entries": 0,
+    "reported_literal_exact_ties": 1438,
+    "otherwise_defined_comparisons_propagated_to_family_inconclusive": 8126,
+    "max_t_cutoff95": null,
+    "interpretation": "The frozen no-draw-removal rule correctly leaves the entire nonliteral family without simultaneous inference. Preserve all comparisons and draws; do not rescue prefill, another model, or another subset post hoc."
+  },
+  "primary_descriptive_metrics": {
+    "definition": "Natural-route sum squared operator error divided by canonical teacher output energy; descriptive values, not simultaneous sign claims or whole-model quality.",
+    "columns": ["model", "layer", "expert", "prefill_local", "prefill_frozen_R1", "decode_local", "decode_frozen_R1", "decode_hits", "decode_hit_prompts", "N80_decode_local", "full_H_reference_decode"],
+    "rows": [
+      ["deepseek", 1, 40, 0.05022510854255974, 0.2909589179107849, 0.14827905190783447, 0.40902212062127974, 49, 21, 0.1529011147112895, 0.3129790452763363],
+      ["deepseek", 1, 14, 0.03658358507208283, 0.2661839177708231, 0.5330000313606995, 0.7936388168773463, 27, 21, 0.5513828589361196, 0.6777360812008755],
+      ["deepseek", 13, 56, 0.13865578893055938, 0.37167906386084926, 0.47950340497356414, 0.6753138089186568, 113, 30, 0.4599644940679913, 0.4196288474943168],
+      ["deepseek", 13, 10, 0.13574021434432465, 0.5169453434201327, 0.7454124993872083, 0.8011094977669183, 9, 8, 0.8020639550604033, 0.5119071967228231],
+      ["olmoe", 0, 6, 0.011961575427810612, 0.13325155672019995, 0.11403050247674067, 0.2698671665749027, 182, 40, 0.13858018338756506, 0.0799515822952138],
+      ["olmoe", 0, 17, 0.00911750667720502, 0.23963805371883642, 0.030703870629622786, 0.4723677809196422, 23, 14, 0.0412483900058592, 0.04772844954516137],
+      ["olmoe", 8, 3, 0.11606441966520367, 0.49617926632832027, 0.44254371891440475, 0.738945622609077, 153, 34, 0.49681093298141615, 0.39478281609146965],
+      ["olmoe", 8, 9, 0.07806562907737276, 0.3989820624388777, 0.4414064352681062, 0.7408153469116141, 45, 21, 0.579264667393363, 0.37811717616299995]
+    ],
+    "all_sixteen_point_differences_local_minus_frozen_control_negative": true,
+    "primary_unsupported_SCORE_rows": 0,
+    "full_H_reference_role": "Existing higher-active-work reference only, not a replacement matched comparator selected from SCORE."
+  },
+  "primary_cost_audit": {
+    "same_VALID_frozen_controls_used": true,
+    "control_family_for_all_primary_points": "R1 C32/r128",
+    "all_sixteen_phase_comparisons_still_cost_eligible_on_SCORE": true,
+    "active_coefficient_macs_local_and_control": 262144,
+    "host_projection_macs_local_and_control": 262144,
+    "local_retained_storage_bytes": 10478072,
+    "control_retained_storage_bytes": 2097656,
+    "primary_fallback_fraction": 0,
+    "scope": "Existing single-operator logical cost model; P is shared across experts and must not be summed as independent layer work. No native latency or full-system dominance follows."
+  },
+  "scientific_interpretation": [
+    "The original full-family statistical result is inconclusive. Descriptive primary differences do not establish a simultaneous positive or bounded negative result.",
+    "Primary local decode error ranges from 0.0307 to 0.7454, substantially above prefill 0.0091 to 0.1387. Do not present mixed/prefill VALID ranges as decode quality.",
+    "N80-to-N120 SCORE prefill improves for all eight primaries; decode improves for seven, while Deep L13 expert56 worsens from 0.45996 to 0.47950. Combined with improving VALID curves, this is not a convergence certificate.",
+    "FIT calibration is predominantly prefill; this is a bounded calibration-objective limitation, not proof that local maps are intrinsically unsuitable. Any later decode-focused calibration needs explicit same-round development and held-out planning.",
+    "Operator error does not establish acceptable NLL/tasks, free-running stability, or whole-model latency. Smaller representation and zero NAND traffic alone do not establish system dominance.",
+    "Continue the same Round2 with the already-frozen stronger controls. Neither a new valid experimental failure nor publication success is assigned. Do not modify the frozen Stage1 family in response to these outcomes."
+  ],
+  "stage1_preoutcome_freeze": {
+    "sha256": "42483d1490187fba7500a23bd9944c394a9e437ff00df365d13e32aa08e3269a",
+    "frozen_at_utc": "2026-11-03T02:31:18.435132+00:00",
+    "future_reuse_of_SCORE": "Development/exploratory only; separate source and data gates remain required."
+  },
+  "valid_experimental_failure_count_change": 0,
+  "reviewer_TEST_read": false,
+  "reviewer_candidate_implementation_executed": false,
+  "reviewer_candidate_source_modified": false
+}

@@ -1,0 +1,181 @@
+{
+  "status": "PASS",
+  "verification_protocol_sha256": "b7243f4c02fe28af30d36294ec086b212d577b73690caf7e048f1786883ea276",
+  "kernel_audit": {
+    "kernels": 508,
+    "source_output_rows_checked": 388608,
+    "copy_instances": 252,
+    "privatejobs_eachsingleblock": true
+  },
+  "synthetic_exact_rows": 23040,
+  "private_g2_kernel_ns": 89940,
+  "shared_g4_kernel_ns": 89940,
+  "private_owner_occupation_input1_ns": 90510,
+  "shared_owner_occupation_input1_ns": 90734,
+  "resource_accounting": "Kernel89940=28000+500+24*2560ns; arrayends76500ns. ECCwork61440ns. Startup+drainarecausal;notmax(array,ECC). Owneroccupationaddscommand250+inputC/2+lastpage4Browoutput/2.",
+  "copy_corners": [
+    {
+      "copy_ns": 0,
+      "feasible": true,
+      "makespan_ns": 89440,
+      "independent_reference": "EXACT",
+      "violations": []
+    },
+    {
+      "copy_ns": 100,
+      "feasible": true,
+      "makespan_ns": 89540,
+      "independent_reference": "EXACT",
+      "violations": []
+    },
+    {
+      "copy_ns": 500,
+      "feasible": true,
+      "makespan_ns": 89940,
+      "independent_reference": "EXACT",
+      "violations": []
+    },
+    {
+      "copy_ns": 1940,
+      "feasible": true,
+      "makespan_ns": 91380,
+      "independent_reference": "EXACT",
+      "violations": []
+    },
+    {
+      "copy_ns": 1941,
+      "feasible": false,
+      "makespan_ns": null,
+      "independent_reference": "EXACT",
+      "violations": [
+        {
+          "kind": "read_latch_overwrite",
+          "wave": 5,
+          "plane": 3,
+          "old_page": "e0.p19",
+          "release_ns": 72842,
+          "overwrite_ns": 72840,
+          "excess_ns": 2
+        }
+      ]
+    },
+    {
+      "copy_ns": 2000,
+      "feasible": false,
+      "makespan_ns": null,
+      "independent_reference": "EXACT",
+      "violations": [
+        {
+          "kind": "read_latch_overwrite",
+          "wave": 5,
+          "plane": 3,
+          "old_page": "e0.p19",
+          "release_ns": 72960,
+          "overwrite_ns": 72840,
+          "excess_ns": 120
+        }
+      ]
+    }
+  ],
+  "capacity": {
+    "group_resident_copies": [
+      42,
+      42,
+      42,
+      42,
+      42,
+      42
+    ],
+    "total_copy_instances": 252,
+    "Down_WL_per_private_chip": 252,
+    "GU_reserved_WL": 128,
+    "privatechip_block0_GU": "0..127",
+    "privatechip_block0_Down": "10whole6WLjobs128..187",
+    "privatechip_block1_Down": "32whole6WLjobs0..191",
+    "privatechip_unused_WL": "block0 188..191",
+    "private_Down_MiB": 189.0,
+    "shared_Down_MiB": 1.5,
+    "actual_total_with_onecopy_GU99MiB": 289.5,
+    "conservative_total_with_GUreservation128MiB": 318.5,
+    "budget_MiB": 384.0,
+    "nonempty_blocks": 28,
+    "phase_or_group_GU186_rejected": "Local2blockcapacityfails:GU186+Down252WL>384;only33whole6WLjobsfit.",
+    "local_overflow_WL_with_GU186": 54
+  },
+  "matching": {
+    "counterexample_route": [
+      40,
+      41,
+      42,
+      43,
+      44,
+      45
+    ],
+    "counterexample_union_groups": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "capacity1_failure": {
+      "feasible": false,
+      "capacity": 1,
+      "partial_assignment": {
+        "40": 4,
+        "41": 3,
+        "42": 2,
+        "43": 1,
+        "44": 5
+      },
+      "route": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ]
+    },
+    "capacity2_witness": {
+      "feasible": true,
+      "capacity": 2,
+      "assignment": {
+        "40": 3,
+        "41": 3,
+        "42": 2,
+        "43": 2,
+        "44": 1,
+        "45": 1
+      },
+      "group_load": [
+        0,
+        2,
+        2,
+        2,
+        0,
+        0
+      ],
+      "route": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ]
+    },
+    "universal_capacity2_proof": "Anyselectedsubsethasatmost6experts. Anyoneexpertalreadyhasatleast3neighbors,so2*|N(S)|>=6>=|S|;capacity2Hallholds. Atmosttwoseparatejobs/groupareexecutedserially,notconcurrentlywithmultipleprivateinputs.",
+    "universal_capacity1_impossible": "Eachgroupmisses22experts;choose6missingonegroup,then6expertsseeatmost5groups. Moregenerallyuniversalcapacity1wouldrequireeachgroupstore>=59experts,atleast354copyinstances;252isnotenough.",
+    "fixture_count": 515,
+    "fixture_scope": "NotTRAINandnotanestimateofrealmatchingfrequency."
+  },
+  "g4_triples_kernel_comparison": {
+    "two_g4_jobs_ns": 118440,
+    "one_g2_job_ns": 89940,
+    "reduction_ns": 28500,
+    "reduction_fraction": 0.2406281661600811,
+    "scope": "OnlybareprivateDownchipcompute: twoseparate12pageg4privatejobsagainstsingle24pageg2jobwhenperfectmatchingexists. FullFFNspeeduprequiresrealrouteavailabilityandcausalscheduling."
+  },
+  "interpretation": "Standardreplication/availability/sharddegreebaseline;notnewCBC,solverorhardware. NoTRAIN,heldoutorfullFFN. OnlyGU<=128WLjointplacementisverified."
+}

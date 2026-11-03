@@ -1,0 +1,100 @@
+{
+  "maps": [
+    {
+      "name": "free",
+      "id": "incumbent4",
+      "static_archive": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/plans/free.frozen.npz",
+      "archive_sha256": "8e8a505cd60300f5defde180a2e4ca1bd2508dfc2c1fc9cda7473b98dc8a0913",
+      "original_plan": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-coupled-cp/native/incumbent4.plan.npz",
+      "original_plan_sha256": "bdabb93e82613e0acbf50160a298b57cfe2fc962f0829643c4359e8f263443b9",
+      "all_static_arrays_exact_to_original": true,
+      "TRAIN_routes_removed": true,
+      "rows_sha256": "bacb6a5184fa571af4063cef714b0e93e6ccc8ca1b1ee0840320cd2199822aa3",
+      "one_copy_complete_rows": true,
+      "inventory": {
+        "valid_rows": 167424,
+        "useful_bytes": 155713536,
+        "pages": 9764,
+        "waves": 2441,
+        "jobs": 2424
+      },
+      "allocated_LSB_blocks": 32,
+      "fixed_priority": "GF"
+    },
+    {
+      "name": "common_cyclic",
+      "id": "incumbent0",
+      "static_archive": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/plans/common_cyclic.frozen.npz",
+      "archive_sha256": "6d7e1f65737d95b494d0a8be044b50e0d9cf6f7c4163a1f379a803875f3541ef",
+      "original_plan": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-cyclic-rotation-cp/native/incumbent0.plan.npz",
+      "original_plan_sha256": "d4b05bab21b356583bba0da6339c69593a499d455652c564dce63458ec3b3622",
+      "all_static_arrays_exact_to_original": true,
+      "TRAIN_routes_removed": true,
+      "rows_sha256": "88696de42061f5293575830011ad743cc33ca459c1b4ff839314891d9d40b1f0",
+      "one_copy_complete_rows": true,
+      "inventory": {
+        "valid_rows": 167424,
+        "useful_bytes": 155713536,
+        "pages": 9764,
+        "waves": 2441,
+        "jobs": 2424
+      },
+      "allocated_LSB_blocks": 32,
+      "fixed_priority": "GF"
+    },
+    {
+      "name": "phase_independent",
+      "id": "incumbent2",
+      "static_archive": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/plans/phase_independent.frozen.npz",
+      "archive_sha256": "a332ee663921a6f9ca36b1955b8eff29db1fc9ccf76785083488751f43107183",
+      "original_plan": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/g4-M32-independent-rotation-cp/native/incumbent2.plan.npz",
+      "original_plan_sha256": "2f94e452004185b2cec1c45f4960eae0e564b744fb201c0fdda3fc76c4935e0d",
+      "all_static_arrays_exact_to_original": true,
+      "TRAIN_routes_removed": true,
+      "rows_sha256": "ceccbd269ee6fd30fe4208f50bfe73ef9cc06dbd9d809ee91edd5edf3fd27536",
+      "one_copy_complete_rows": true,
+      "inventory": {
+        "valid_rows": 167424,
+        "useful_bytes": 155713536,
+        "pages": 9764,
+        "waves": 2441,
+        "jobs": 2424
+      },
+      "allocated_LSB_blocks": 32,
+      "fixed_priority": "GF"
+    }
+  ],
+  "numeric_contract": {
+    "source": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_w8_training_capture_granite4tiny.cpp",
+    "source_sha256": "4e99c2a318e17e85c8c91fd72b41c45fe53f1528234c4679f291edeaa5859380",
+    "helpers": [
+      {
+        "name": "quantize",
+        "body_sha256": "8bf3670bcc1004860187fe326f101f52548560ab1f877f655c59ba25e4184c3a",
+        "matches_existing_helper_identity": true
+      },
+      {
+        "name": "dot",
+        "body_sha256": "6668a90ec6eb57aa847d16d8f171f484114d124f89bfc363c287c336f7a97563",
+        "matches_existing_helper_identity": true
+      },
+      {
+        "name": "scale_output",
+        "body_sha256": "fe0495c884de190511585fcc502596760849844754e5f9cc27a1d77d2db54c1c",
+        "matches_existing_helper_identity": true
+      }
+    ],
+    "build_receipt": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/build/granite4tiny.build.json",
+    "build_receipt_sha256": "2f4a9d68631a2782c257deb14960d56cfd0e3b50a4d9acd1160714548a26963b",
+    "existing_binary_sha256": "8f5171680fdab9c0284c11af11ac214998a2087314d2302e0af869f5a8476b80",
+    "checkpoint_sha256_inherited": "5a38b08c441ae1adbafb1d2b8a7167e0d48734d83af68b268cefea1eec553dcd",
+    "checkpoint_reopened": false,
+    "coefficient_model": "Existing GGUF to_float per complete row, then fixed signed W8 [-127,127]. This is the declared full-FFN W8 numeric model; it is not a claim of equivalence to original GGUF Q4 arithmetic.",
+    "row_scale": "F32 maxabs(row)/127; zero row uses1. std::round then clamp [-127,127]. Original per-row scales remain associated with complete logical rows.",
+    "activation": "Once per entire operator input vector: F32 maxabs/127 (zero vector scale1), round and clamp to A8 [-127,127]. No row/chip partial scales; Down waits for the whole nonlinear hidden vector.",
+    "dot_and_output": "CPU exact I64 sum of I8 products; F32 sw*sx, cast integer sum to F32, then F32 multiply. Compile flags disable fast-math and FP contraction.",
+    "routing": "Actual ffn_moe_topk callback IDs; all40 full-FFN layers execute, attention/router retain GGUF. Fixed16 decode steps; no synthetic topk sampler.",
+    "capture_scope": "Canonical-only full-FFN route collection. New routed rows/logits are NOT rerun in a placed mode. Prior paired G4 andDeepSeek proofs are referenced, not extended by this capture. Shared/dense still execute the unchanged packed-vs-canonical I64 check in the old operator.",
+    "critical_limit": "Collector unsharded mode computes routed canonical rows and does not execute these three M32 maps. Its legacy16-chip packed shared helper is not a new M32 paired proof."
+  }
+}

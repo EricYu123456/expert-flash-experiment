@@ -1,0 +1,85 @@
+PASS: independent full free-A8 necessary-bound audit
+==================================================
+
+All32768mask/query optima were independently certified.512nA=0 cases equal
+max fixed work and T-1 violates fixed work. For all32256nonzero-A cases, SciPy
+Edmonds-Karp at T returns8nA units and at T-1 returns fewer;64512maxflow calls.
+Every feasible incidence matrix was checked0/1 with row sum8 and column load
+within capacity, so eight distinct chips/expert is enforced explicitly.
+The base GU/Down/shared service was rebuilt independently without importing
+root occupancy_table. Root uses the capacity reduction/binary search, not this
+explicit flow. Input/source hashes and TRAIN512 route equality pass unchanged.
+
+Source: scripts/research_20261103_g4_free_span_audit.py.
+Root frozen protocol SHA256:
+d1ef5b49803f5a98dc58830614f82f3a0825eac93025eb8b9edfc67e42d177c3
+Independent protocol SHA256:
+732edf93aba56f15c7a7a81b4ed5fc4e829e705bfc935d5f39e767bb0f2126a9
+
+Why the complete-bipartite condition is exact
+--------------------------------------------
+Fix one query and one A/B subset. n=nA selected A experts each need eight
+identical85274ns jobs, one per distinct chip. F_c is the fixed work from B GU,
+all selected private Down, and shared. T must be at least max F_c. Define
+  cap_c=min(n,max(0,floor((T-F_c)/85274))).
+The explicit network is source->expert capacity8, expert->each chip capacity1,
+chip->sink capacity cap_c. Total requested flow is8n. Thus cap_c<=n preserves
+the distinct-chip constraint, rather than treating all8n tasks as unrelated.
+
+Necessity: sum cap>=8n. Sufficiency: for every expert subset of size k<=n,
+the corresponding generalized Hall/mincut condition is
+  sum_c min(cap_c,k)>=8k.
+Because0<=cap_c<=n, min(cap_c,k)>=(k/n)cap_c. The total capacity condition
+therefore implies every such cut. This is the standard complete-bipartite
+b-matching/maxflow argument, not a new theorem. n=0 is a separate case: no
+A jobs exist, optimum=max F_c. Merely checking sumcaps>=0 without this fixed
+work lower bound would be incorrect; the audited implementation handles it.
+
+Service and native DAG contract
+-------------------------------
+A128rows x1536B =12pages/3waves. Its chip-owned stages cost command250ns,
+full1536B input reload768ns, NAND84000ns, and128nominal4B outputs256ns:
+85274ns total. All jobs reload full input; no independent plane context,
+page-buffer weight reuse, partial dot, activation in flash, new MAC or row-stop
+is introduced. Root's original Graph locks the chip at command start through
+channel output drain. Gaps while waiting for uploads/resources can lengthen
+that ownership interval; they cannot make these four stage costs disappear.
+Output PCIe, controller/channel contention, whole expert GU gathering/scatter,
+host SwiGLU, full512-vector A8, private Down submission and readiness likewise
+can only add restrictions beyond this pooled-work relaxation. Uncharged
+selector/scatter time remains optimistic. Native output/scaling/partial-row
+ABI limitations from the adjacent v1contract remain unresolved.
+
+For any legal fixed layout using this A128x8 or frozen B family and unchanged
+Down/shared, the actual query's A/B choice and job locations are a member of
+this relaxation. Each actual chip must do at least its summed owned stages,
+after initial host submit. Hence L_q=2000+min_masks min_assignment max_c W_qc
+is a necessary completion lower bound. The bound ignores finite stored copies,
+addresses, per-chip capacity, source-core retention and cross-query consistency.
+Its independently optimized locations can differ for every query. There is
+no assertion that a single binary or finite replica budget implements them.
+
+Numerical result and monotonicity
+--------------------------------
+Mean L=544199.24609375ns; P99 L=544898ns.
+Baseline native mean=561099.01953125ns; P99=580695.14ns.
+Maximum possible mean improvement under this relaxation=3.0119057153%;
+P99 improvement upper bound=6.1645323913%. These are optimistic upper limits
+on a future implementation's gain, not achieved or attainable speedups.
+
+Every query satisfies L_q<=baseline B native time. More strongly, all32768
+relaxed mask optima are <= the corresponding selected work-v1 fixed-layout
+mask work; all512L_q are <= both saved fixed-layout lower-bound vectors.
+fixed_layout_monotonicity.json records this full componentwise comparison.
+Componentwise L_q<=T_q implies mean(L)<=mean(T), and sorted order statistics
+and the same interpolated percentiles are monotone, so the P99 ratio is a valid
+upper bound on P99 improvement relative to the frozen baseline. It is not the
+99th percentile of per-query speedups, and combining these512queries does
+not establish a serving-arrival/SLO result.
+
+The relaxed headroom exceeds the screen's resource-allocation thresholds, so
+it permits a bounded search for a better single fixed A pattern plus original
+B. It does not authorize a claim of gain, native hardware change, infinite
+copies, all-layer campaign, weights/quality run or heldout expansion. No such
+work occurred in this independent audit. Coverage counts by nA are512,3072,
+7680,10240,7680,3072,512 for nA0..6; no values were sampled or omitted.

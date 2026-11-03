@@ -1,0 +1,53 @@
+{
+  "unique_placed_row_outputs": 197017600,
+  "same_input_I64_comparisons": 197017600,
+  "cross_run_F32_scalar_comparisons": 197017600,
+  "definition": "The I64 check and F32 cross-run check apply to the same197,017,600 placed output rows; do not sum them as394,035,200 independent scalar observations.",
+  "all_mode_callback_records": 16320,
+  "all_mode_jobs": 4,
+  "input_prompts": 2,
+  "per_mode_per_prompt_decode_steps": 16,
+  "breakdown_per_placed_run": [
+    {
+      "job": "train_programming_short_015",
+      "phase": "prefill",
+      "actual_prompt_or_decode_tokens": 75,
+      "callbacks_per_mode": 240,
+      "placed_output_rows": 56832000,
+      "same_input_I64_check_count": 56832000,
+      "cross_run_F32_scalar_check_count": 56832000,
+      "route_records_per_mode": 3000
+    },
+    {
+      "job": "train_programming_short_015",
+      "phase": "decode",
+      "actual_prompt_or_decode_tokens": 16,
+      "callbacks_per_mode": 3840,
+      "placed_output_rows": 12124160,
+      "same_input_I64_check_count": 12124160,
+      "cross_run_F32_scalar_check_count": 12124160,
+      "route_records_per_mode": 640
+    },
+    {
+      "job": "train_summarization_short_027",
+      "phase": "prefill",
+      "actual_prompt_or_decode_tokens": 153,
+      "callbacks_per_mode": 240,
+      "placed_output_rows": 115937280,
+      "same_input_I64_check_count": 115937280,
+      "cross_run_F32_scalar_check_count": 115937280,
+      "route_records_per_mode": 6120
+    },
+    {
+      "job": "train_summarization_short_027",
+      "phase": "decode",
+      "actual_prompt_or_decode_tokens": 16,
+      "callbacks_per_mode": 3840,
+      "placed_output_rows": 12124160,
+      "same_input_I64_check_count": 12124160,
+      "cross_run_F32_scalar_check_count": 12124160,
+      "route_records_per_mode": 640
+    }
+  ],
+  "logit_definition": "One100352-element vocabulary logit vector for final prefill token and each of16 decode steps per prompt;2*17*100352=3411968."
+}

@@ -1,0 +1,22 @@
+{
+  "created_utc": "2026-11-01T22:16:55.521440+00:00",
+  "arguments": {
+    "layers": 3,
+    "valid_budget": 24000,
+    "workers": 6,
+    "output": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/residue-mask-pilot"
+  },
+  "source_inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_residue_masks.py": "3102b9bf809f228bfaf98f6733976c4b1a64e27134a6866821a787c93bec650b",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_residue_masks.cpp": "dfc8e8225709a6868440fbf46002c7f16c57a3929104722b0db366a1d55ec74b",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-trace-audit/train_decode.npz": "953e8db87d4bc4a5b5b9a77f5aebae1578b1e522df5bf3ac6a32a591f9e8b145"
+  },
+  "moves": {
+    "0": "Swap complete two-phase cyclic profiles (strong matched-search control)",
+    "1": "Degree-preserving two-expert/two-chip trades of complete GU/down row pairs",
+    "2": "Degree-preserving trades of one phase"
+  },
+  "fit": "3200 training tokens per layer, all16requests steps0,4,...796. Two starts, same valid-move budget; original complement shared location held fixed.",
+  "prior": "Ordinary balanced declustering/local search baseline. Free masks and dependent rounding are known; no novelty claim.",
+  "evaluation": "512 samples from the same task, first3layers. Existing external task is development data and is not opened by this script."
+}

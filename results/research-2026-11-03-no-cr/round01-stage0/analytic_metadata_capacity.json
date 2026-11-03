@@ -1,0 +1,39 @@
+{
+  "status": "analytic_capacity_from_protocol_shapes_only",
+  "H": 2048,
+  "scope": "Full supported model Up metadata capacity, distinct from decode-touched cache report. No candidate data or empirical rates used. U64 norms and I64 Gram; no compression assumed. Deflation logical representation uses16 selected I8 weights plus one U64 residual per Up row.",
+  "models": {
+    "deepseek-v2-lite": {
+      "Up_rows_by_class": {
+        "dense": 10944,
+        "shared": 73216,
+        "routed": 2342912
+      },
+      "Up_rows": 2427072,
+      "Up_I8_bytes": 4970643456,
+      "global_U64_norm_bytes": 19416576,
+      "block128_U64_norm_bytes": 310665216,
+      "conditional_G_U64_C_I64_bytes": 38833152,
+      "deflation16_I8_plus_U64_residual_bytes": 58249728,
+      "all_bound_metadata_bytes": 427164672,
+      "deflation_coordinate_U32_bytes": 1728,
+      "all_bound_metadata_fraction_of_Up_I8": 0.0859375,
+      "raw_gate_I64_dynamic_bytes_per_dispatch": "I*8; optimistic extra output capability, no native ABI implied"
+    },
+    "olmoe-1b-7b": {
+      "Up_rows_by_class": {
+        "routed": 1048576
+      },
+      "Up_rows": 1048576,
+      "Up_I8_bytes": 2147483648,
+      "global_U64_norm_bytes": 8388608,
+      "block128_U64_norm_bytes": 134217728,
+      "conditional_G_U64_C_I64_bytes": 16777216,
+      "deflation16_I8_plus_U64_residual_bytes": 25165824,
+      "all_bound_metadata_bytes": 184549376,
+      "deflation_coordinate_U32_bytes": 1024,
+      "all_bound_metadata_fraction_of_Up_I8": 0.0859375,
+      "raw_gate_I64_dynamic_bytes_per_dispatch": "I*8; optimistic extra output capability, no native ABI implied"
+    }
+  }
+}

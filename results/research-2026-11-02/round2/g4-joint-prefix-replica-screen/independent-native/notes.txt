@@ -1,0 +1,41 @@
+PASS: read-only independent joint native ownership/resource audit
+================================================================
+
+Producer native protocol:
+3e0444b41dd66d5030a7518d1ed417676369aa46851a5ff2948f342ce030c17e
+Independent protocol:
+7bb6e63a572a375821d19aee4b5f8a22619e3dce25e81e4bb51a8a7c337dcc21
+Source: scripts/research_20261103_g4_joint_native_trace_audit.py.
+
+All512saved original-B costs and512LBs match CP0107. All512 computed joint
+rowcount arrays, ordinary work and full per-phase billing counters were rebuilt
+from chosen_u/chosen_v and the fixed physical images. All3072GU and3072Down
+owner maps (7864320individual row-owner entries) point to a real computed row
+of the correct original logical identity. GU consumption is1024unique rows
+even when computed/emitted counts are larger; Down consumption remains1536
+unique complete rows. Shared projections retain original dimensions/geometry.
+
+q0/255/511 baseline and joint descriptors were independently built into Python
+ReferenceGraph and rescheduled. All5496 trace nodes match saved C++ traces,
+including duration/start/end/phase/expert/chip/job. Every dependency, resource
+exclusive interval, chip ownership interval, complete input reload, fullGU
+activation/privateDown barrier and static resident prefix alias was checked.
+No C++ replay, other native query evaluation, selector benchmark, fitting,
+weights or heldout was performed. Aggregate512native statistics are checked
+from saved outputs; only these six traces were independently rescheduled.
+
+Baseline mean561099.01953125ns; jointmean549021.7734375ns:2.15242687536%.
+BaselineP99580695.14ns; jointP99578797.5ns:0.326787649712%.
+Relative to Down-only mean550165.61328125ns, joint saves only0.207908276369%.
+Joint P99 is worse than Down-only576531.66ns. Mean gate passes under zero
+selector/scatter cost; this is not achieved device speed or a contribution
+against strong zero-copy/same-budget/same-allocated controls.
+
+The producer's raw ordinary event core remains unchanged. No joint use of the
+Down-only fixed chip c*250firstdispatch lower bound is made: GU bits can remove
+initial commands. Ready dependencies are recomputed in the actual graph.
+
+Same-allocated A1/A2 controls are a separate physical witness. Contract notes
+in adjacent independent-contract distinguish coefficient/programmed/wave/block
+budgets. No relative claim is certified until those controls and software cost
+are handled; exact output/scaling/reset ABI remains unverified.

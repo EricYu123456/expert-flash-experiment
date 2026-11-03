@@ -1,0 +1,14 @@
+{
+  "status": "frozen_before_lowering_experiment",
+  "scope": "Reusable whole-row macro lowering prototype; canonical geometry only, no TRAIN or fullFFN campaign.",
+  "format": {"weight_bits": 8, "activation_bits": 8, "planes": 4, "page_bytes": 16384, "GU_single_output_row_bytes": 1536, "rows_per_three_page_macro": 32},
+  "candidate": "Six selected experts, each A=[0,1,2] before B=[0,1,3]; shared macros [3,2,3],[2,3,2],[3,2,3],[2,3,2] retain order.",
+  "RR": "All seven even/odd phase compositions. Even expert A=[0,1,2], B=[3,0,1]; odd expert A=[2,3,0], B=[1,2,3]. Native global RR shared pages0..11 have macros [0,1,2],[3,0,1],[2,3,0],[1,2,3].",
+  "additional_geometry_control": "The same RR routed layouts with candidate-style alternating shared plane patterns, resident at shared WL96+per-plane ordinal to avoid collisions. This is labelled a hybrid shared geometry, not native global RR.",
+  "exact_objective": "For fixed source0123, minimize physical cyclic slots including initial/intermacro/trailing dummy slots. State is per-expert-type counts A-unstarted/B-ready, shared macro progress, next cyclicplane. Every action is one whole3page macro; greedily place internal pages at earliest matching cyclic slot. An extra complete idle cycle is strictly dominated for this objective. For permutation source, minimize waves with current-wave occupied-plane mask; repeated plane opens a new wave. All useful macros retain one-owner page order.",
+  "witness_rule": "Emit deterministic lexicographically first optimum, then test strict500 pipeline. Do not equate its failure with impossibility of every optimal witness. If needed enumerate bounded optimal macro-order ties and preserve the search count/cap.",
+  "resources": "Every physical wave reads all4planes in one block, same finite2weight-latch model. Missing slots read unique true addresses from resident unselected routed experts. Dummy pages drop before ECC using the same explicitly conditional capability as prior strong baselines. No new copies, FIFO, PB source mux, retained idle gap or bias hold.",
+  "timing": {"cold_ns": 28000, "cr_ns": 9700, "ECC_bytes_per_second": 6400000000, "copy_ns": 500, "recycle_ns": 6040, "overwrite": "evaluation_start", "issue_policy": "strict_no_interval"},
+  "checks": "Exact useful-page/address conservation, macro and per-owner precedence, complete rows, physical address uniqueness and true-unselected dummy membership. Small brute-force ordered labelled-owner cases independently check DP optima. A separate finitePB recurrence checks selected event traces. All rejected attempts and reasons retained.",
+  "interpretation": "A compiler/lowering prototype and conditional service envelope, not a novel general solver or evidence that pre-ECC drop is natively supported. Strong RR may win. No sealed source/results are modified."
+}

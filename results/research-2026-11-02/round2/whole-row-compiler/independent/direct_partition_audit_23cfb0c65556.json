@@ -1,0 +1,1010 @@
+{
+  "created_utc": "2026-11-01T22:43:46.305020+00:00",
+  "audited_source": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_whole_row_compiler.py",
+  "executed_source_sha256": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+  "frozen_executed_source": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/whole-row-compiler/independent/compiler_source_23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de.py",
+  "certificate_sha256": "27b3cb11d1868d7f5b739022d425684f5a7b90ac75b50aa3ce7fddf3b12e9576",
+  "certificate_embedded_source_sha256": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+  "certificate_source_matches_executed": true,
+  "source_sha256_after_run": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+  "oracle": "Exhaustive nondecreasing positive integer partitions of R into <=M jobs; direct ceil(r_i*C/B) per partition. No wave interval/capacity DP used in oracle.",
+  "tiny_bounds": {
+    "B": [
+      1,
+      8
+    ],
+    "C": [
+      1,
+      12
+    ],
+    "R": [
+      1,
+      9
+    ],
+    "M": [
+      1,
+      4
+    ],
+    "depth": "every integer from 1 through ceil(R*C/B)"
+  },
+  "counts": {
+    "shapes": 3456,
+    "partition_cost_classes": 15360,
+    "depth_comparisons": 39060,
+    "exact_fill_lemma_cases": 1664
+  },
+  "minimum_work_dp_pass": true,
+  "failures": [],
+  "generated_profiles": [
+    {
+      "model": "granite3",
+      "phase": "gate_up",
+      "rows": 1024,
+      "columns": 1024,
+      "exact_payload_waves": 16,
+      "row_period": 64,
+      "wave_period": 1,
+      "minimum_depth": 1,
+      "exact_work_minimum_depth": 1,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 16,
+          "max_job_waves": 1,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 64,
+          "ordinary_full_plane_read_pages": 64,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 16,
+          "max_job_waves": 1,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 64,
+          "ordinary_full_plane_read_pages": 64,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 16,
+          "max_job_waves": 1,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 64,
+          "ordinary_full_plane_read_pages": 64,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_1",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 16,
+          "max_job_waves": 1,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 64,
+          "ordinary_full_plane_read_pages": 64,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "granite3",
+      "phase": "down",
+      "rows": 1024,
+      "columns": 512,
+      "exact_payload_waves": 8,
+      "row_period": 128,
+      "wave_period": 1,
+      "minimum_depth": 1,
+      "exact_work_minimum_depth": 1,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 16,
+          "max_job_waves": 1,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 32,
+          "ordinary_full_plane_read_pages": 64,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 8,
+          "max_job_waves": 1,
+          "positive_jobs": 8,
+          "single_block_jobs": true,
+          "useful_pages": 32,
+          "ordinary_full_plane_read_pages": 32,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 8,
+          "max_job_waves": 1,
+          "positive_jobs": 8,
+          "single_block_jobs": true,
+          "useful_pages": 32,
+          "ordinary_full_plane_read_pages": 32,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_1",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 8,
+          "max_job_waves": 1,
+          "positive_jobs": 8,
+          "single_block_jobs": true,
+          "useful_pages": 32,
+          "ordinary_full_plane_read_pages": 32,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "olmoe",
+      "phase": "gate_up",
+      "rows": 2048,
+      "columns": 2048,
+      "exact_payload_waves": 64,
+      "row_period": 32,
+      "wave_period": 1,
+      "minimum_depth": 4,
+      "exact_work_minimum_depth": 4,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 64,
+          "max_job_waves": 4,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 256,
+          "ordinary_full_plane_read_pages": 256,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 64,
+          "max_job_waves": 4,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 256,
+          "ordinary_full_plane_read_pages": 256,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 64,
+          "max_job_waves": 4,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 256,
+          "ordinary_full_plane_read_pages": 256,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_4",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 64,
+          "max_job_waves": 4,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 256,
+          "ordinary_full_plane_read_pages": 256,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "olmoe",
+      "phase": "down",
+      "rows": 2048,
+      "columns": 1024,
+      "exact_payload_waves": 32,
+      "row_period": 64,
+      "wave_period": 1,
+      "minimum_depth": 2,
+      "exact_work_minimum_depth": 2,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 32,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 128,
+          "ordinary_full_plane_read_pages": 128,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 32,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 128,
+          "ordinary_full_plane_read_pages": 128,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 32,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 128,
+          "ordinary_full_plane_read_pages": 128,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_2",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 32,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 128,
+          "ordinary_full_plane_read_pages": 128,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "deepseek",
+      "phase": "gate_up",
+      "rows": 2816,
+      "columns": 2048,
+      "exact_payload_waves": 88,
+      "row_period": 32,
+      "wave_period": 1,
+      "minimum_depth": 6,
+      "exact_work_minimum_depth": 6,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 96,
+          "max_job_waves": 6,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 352,
+          "ordinary_full_plane_read_pages": 384,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 88,
+          "max_job_waves": 6,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 352,
+          "ordinary_full_plane_read_pages": 352,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 88,
+          "max_job_waves": 6,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 352,
+          "ordinary_full_plane_read_pages": 352,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_6",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 88,
+          "max_job_waves": 6,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 352,
+          "ordinary_full_plane_read_pages": 352,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "deepseek",
+      "phase": "down",
+      "rows": 2048,
+      "columns": 1408,
+      "exact_payload_waves": 44,
+      "row_period": 512,
+      "wave_period": 11,
+      "minimum_depth": 3,
+      "exact_work_minimum_depth": 11,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 48,
+          "max_job_waves": 3,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 176,
+          "ordinary_full_plane_read_pages": 192,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 45,
+          "max_job_waves": 3,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 180,
+          "ordinary_full_plane_read_pages": 180,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 44,
+          "max_job_waves": 11,
+          "positive_jobs": 4,
+          "single_block_jobs": true,
+          "useful_pages": 176,
+          "ordinary_full_plane_read_pages": 176,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_3",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 45,
+          "max_job_waves": 3,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 180,
+          "ordinary_full_plane_read_pages": 180,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_11",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 44,
+          "max_job_waves": 11,
+          "positive_jobs": 4,
+          "single_block_jobs": true,
+          "useful_pages": 176,
+          "ordinary_full_plane_read_pages": 176,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "qwen3",
+      "phase": "gate_up",
+      "rows": 1536,
+      "columns": 2048,
+      "exact_payload_waves": 48,
+      "row_period": 32,
+      "wave_period": 1,
+      "minimum_depth": 3,
+      "exact_work_minimum_depth": 3,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 48,
+          "max_job_waves": 3,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 192,
+          "ordinary_full_plane_read_pages": 192,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 48,
+          "max_job_waves": 3,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 192,
+          "ordinary_full_plane_read_pages": 192,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 48,
+          "max_job_waves": 3,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 192,
+          "ordinary_full_plane_read_pages": 192,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_3",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 48,
+          "max_job_waves": 3,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 192,
+          "ordinary_full_plane_read_pages": 192,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "qwen3",
+      "phase": "down",
+      "rows": 2048,
+      "columns": 768,
+      "exact_payload_waves": 24,
+      "row_period": 256,
+      "wave_period": 3,
+      "minimum_depth": 2,
+      "exact_work_minimum_depth": 3,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 32,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 96,
+          "ordinary_full_plane_read_pages": 128,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 25,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 100,
+          "ordinary_full_plane_read_pages": 100,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 24,
+          "max_job_waves": 3,
+          "positive_jobs": 8,
+          "single_block_jobs": true,
+          "useful_pages": 96,
+          "ordinary_full_plane_read_pages": 96,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_2",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 25,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 100,
+          "ordinary_full_plane_read_pages": 100,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_3",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 24,
+          "max_job_waves": 3,
+          "positive_jobs": 8,
+          "single_block_jobs": true,
+          "useful_pages": 96,
+          "ordinary_full_plane_read_pages": 96,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "mixtral",
+      "phase": "gate_up",
+      "rows": 28672,
+      "columns": 4096,
+      "exact_payload_waves": 1792,
+      "row_period": 16,
+      "wave_period": 1,
+      "minimum_depth": 112,
+      "exact_work_minimum_depth": 112,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 1792,
+          "max_job_waves": 112,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 7168,
+          "ordinary_full_plane_read_pages": 7168,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 1792,
+          "max_job_waves": 112,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 7168,
+          "ordinary_full_plane_read_pages": 7168,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 1792,
+          "max_job_waves": 112,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 7168,
+          "ordinary_full_plane_read_pages": 7168,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_112",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 1792,
+          "max_job_waves": 112,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 7168,
+          "ordinary_full_plane_read_pages": 7168,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "mixtral",
+      "phase": "down",
+      "rows": 4096,
+      "columns": 14336,
+      "exact_payload_waves": 896,
+      "row_period": 32,
+      "wave_period": 7,
+      "minimum_depth": 56,
+      "exact_work_minimum_depth": 56,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 896,
+          "max_job_waves": 56,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 3584,
+          "ordinary_full_plane_read_pages": 3584,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 896,
+          "max_job_waves": 56,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 3584,
+          "ordinary_full_plane_read_pages": 3584,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 896,
+          "max_job_waves": 56,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 3584,
+          "ordinary_full_plane_read_pages": 3584,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_56",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 896,
+          "max_job_waves": 56,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 3584,
+          "ordinary_full_plane_read_pages": 3584,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "granite4tiny",
+      "phase": "gate_up",
+      "rows": 1024,
+      "columns": 1536,
+      "exact_payload_waves": 24,
+      "row_period": 128,
+      "wave_period": 3,
+      "minimum_depth": 2,
+      "exact_work_minimum_depth": 3,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 32,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 96,
+          "ordinary_full_plane_read_pages": 128,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 25,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 100,
+          "ordinary_full_plane_read_pages": 100,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 24,
+          "max_job_waves": 3,
+          "positive_jobs": 8,
+          "single_block_jobs": true,
+          "useful_pages": 96,
+          "ordinary_full_plane_read_pages": 96,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_2",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 25,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 100,
+          "ordinary_full_plane_read_pages": 100,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_3",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 24,
+          "max_job_waves": 3,
+          "positive_jobs": 8,
+          "single_block_jobs": true,
+          "useful_pages": 96,
+          "ordinary_full_plane_read_pages": 96,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "granite4tiny",
+      "phase": "down",
+      "rows": 1536,
+      "columns": 512,
+      "exact_payload_waves": 12,
+      "row_period": 128,
+      "wave_period": 1,
+      "minimum_depth": 1,
+      "exact_work_minimum_depth": 1,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 16,
+          "max_job_waves": 1,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 48,
+          "ordinary_full_plane_read_pages": 64,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 12,
+          "max_job_waves": 1,
+          "positive_jobs": 12,
+          "single_block_jobs": true,
+          "useful_pages": 48,
+          "ordinary_full_plane_read_pages": 48,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 12,
+          "max_job_waves": 1,
+          "positive_jobs": 12,
+          "single_block_jobs": true,
+          "useful_pages": 48,
+          "ordinary_full_plane_read_pages": 48,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_1",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 12,
+          "max_job_waves": 1,
+          "positive_jobs": 12,
+          "single_block_jobs": true,
+          "useful_pages": 48,
+          "ordinary_full_plane_read_pages": 48,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "qwen38",
+      "phase": "gate_up",
+      "rows": 1280,
+      "columns": 2560,
+      "exact_payload_waves": 50,
+      "row_period": 128,
+      "wave_period": 5,
+      "minimum_depth": 4,
+      "exact_work_minimum_depth": 5,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 64,
+          "max_job_waves": 4,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 208,
+          "ordinary_full_plane_read_pages": 256,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 51,
+          "max_job_waves": 4,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 204,
+          "ordinary_full_plane_read_pages": 204,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 50,
+          "max_job_waves": 5,
+          "positive_jobs": 10,
+          "single_block_jobs": true,
+          "useful_pages": 200,
+          "ordinary_full_plane_read_pages": 200,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_4",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 51,
+          "max_job_waves": 4,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 204,
+          "ordinary_full_plane_read_pages": 204,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_5",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 50,
+          "max_job_waves": 5,
+          "positive_jobs": 10,
+          "single_block_jobs": true,
+          "useful_pages": 200,
+          "ordinary_full_plane_read_pages": 200,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    },
+    {
+      "model": "qwen38",
+      "phase": "down",
+      "rows": 2560,
+      "columns": 640,
+      "exact_payload_waves": 25,
+      "row_period": 512,
+      "wave_period": 5,
+      "minimum_depth": 2,
+      "exact_work_minimum_depth": 5,
+      "pass_": true,
+      "errors": [],
+      "profiles": [
+        {
+          "name": "equal_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 32,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 112,
+          "ordinary_full_plane_read_pages": 128,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "balanced_wave_profile",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 26,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 104,
+          "ordinary_full_plane_read_pages": 104,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "exact_work_witness",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 25,
+          "max_job_waves": 5,
+          "positive_jobs": 5,
+          "single_block_jobs": true,
+          "useful_pages": 100,
+          "ordinary_full_plane_read_pages": 100,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_2",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 26,
+          "max_job_waves": 2,
+          "positive_jobs": 16,
+          "single_block_jobs": true,
+          "useful_pages": 104,
+          "ordinary_full_plane_read_pages": 104,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        },
+        {
+          "name": "depth_5",
+          "pass_": true,
+          "errors": [],
+          "total_waves": 25,
+          "max_job_waves": 5,
+          "positive_jobs": 5,
+          "single_block_jobs": true,
+          "useful_pages": 100,
+          "ordinary_full_plane_read_pages": 100,
+          "physical_allocation_scope": "Each positive job can start at a fresh wave-aligned block; logical certificate does not emit packed multi-job physical addresses."
+        }
+      ]
+    }
+  ],
+  "all_generated_profiles_pass": true,
+  "full_certificate_api_edge": {
+    "status": "certificate returned",
+    "balanced": null,
+    "R": 1,
+    "C": 3,
+    "B": 2,
+    "M": 4,
+    "valid_rows": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "valid_waves": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "cause": "No globally floor/ceil-balanced wave vector is feasible at any work <= equal-row work; balanced profile should be nullable or separately scoped."
+  },
+  "limits": [
+    "Zero-row matrices are outside the current positive-row API, although the arithmetic extends with zero work/depth.",
+    "Single-block is independently checked against a fresh wave-aligned block per job; dense packing, start offsets and reservation capacity need a physical address certificate.",
+    "Coefficient-only useful pages differ from full-plane ordinary-read pages; the latter equal waves*planes.",
+    "No claim about native latency, quantization metadata, PE output ABI, multi-block continuation or schedule optimality."
+  ]
+}

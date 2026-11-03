@@ -1,0 +1,411 @@
+{
+  "date": "2026-10-30",
+  "timezone": "Asia/Taipei",
+  "report": "/home/ericyu/expert_flash_experiment/results/plane-wave-v1/report.md",
+  "scope": "Plane-wave architectural model study with real stored routes, static layouts, mathematical and reference-implementation checks; no new physical NAND or NVMe kernel implementation.",
+  "requested_subagent_configuration": {
+    "count": 3,
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "max"
+  },
+  "validation": {
+    "unit_test_command": "python3 -m unittest discover -s tests -v",
+    "unit_tests_passed": 46,
+    "scalar_scheduler_checks": 675,
+    "heldout_baseline_inputs": 64000,
+    "independent_g16_predictions": 576000,
+    "virtual_bundle_plans": 15,
+    "virtual_plan_pages_interval_checked": 17602560,
+    "report_links_verified": true
+  },
+  "artifacts": {
+    "docs/plane_wave_architecture_review.md": {
+      "sha256": "b0de41015140c4f71695806e5c873c0188401469e7e12b075caad983e1753b1c",
+      "bytes": 15405
+    },
+    "results/plane-wave-v1/audit_final_results.json": {
+      "sha256": "7afafb7641ceef845130eeede1a0d04e42b9217b29805f56135990b1261263c3",
+      "bytes": 2139
+    },
+    "results/plane-wave-v1/audit_final_results.py": {
+      "sha256": "e8d4dfeccc738b0833185f22e0dc4caf8cb15d155d09e3cab060f5fd068a6097",
+      "bytes": 8232
+    },
+    "results/plane-wave-v1/audit_g16.json": {
+      "sha256": "8292fc388bb6244d9fc0480cb5cba3f866ff97d22cff1940c200b315ebd10f07",
+      "bytes": 6966
+    },
+    "results/plane-wave-v1/audit_g16.py": {
+      "sha256": "04b4aa2f8a760871b9aeeb82d0486ddd11a1bf9434580b146b3c39aec4147af5",
+      "bytes": 4424
+    },
+    "results/plane-wave-v1/audit_physical_plans.json": {
+      "sha256": "60f78cc325a96018762e0d43679e1def011583d07bf63cee583d995d107d3f4a",
+      "bytes": 6751
+    },
+    "results/plane-wave-v1/audit_physical_plans.py": {
+      "sha256": "8745e210a9a66ff1f3c6a270bd6d31f1c4e6d1926f443facb01a37ed2e8c5d2f",
+      "bytes": 7848
+    },
+    "results/plane-wave-v1/audit_reference.json": {
+      "sha256": "c6bec2bbd691ef86b71d57eb259708fda4031946f93db33d4a4f297d6c8254be",
+      "bytes": 3283
+    },
+    "results/plane-wave-v1/audit_reference.py": {
+      "sha256": "818408392347ba2b566ab74564ed2c5897ee7dd448f5ff4bfe651e14e506c8e5",
+      "bytes": 9706
+    },
+    "results/plane-wave-v1/audit_trace_provenance.json": {
+      "sha256": "c7c1b943651d762b5906ab752670d3dc4241aa39e30bf9761a538f64b6becb0e",
+      "bytes": 9462
+    },
+    "results/plane-wave-v1/audit_trace_provenance.py": {
+      "sha256": "7d9efedbaa95131548a738c0b7e364ff63b03d3339f702d1b59cd8a4722f4d00",
+      "bytes": 4963
+    },
+    "results/plane-wave-v1/deepseek.frozen_plan.json": {
+      "sha256": "17fdbf41eb90e274537bc1c6e77b7ba523e693bd2b7ba630bac7c6e0060fac2d",
+      "bytes": 626525
+    },
+    "results/plane-wave-v1/deepseek.token_costs.npz": {
+      "sha256": "69c79d4ac40612f7a8bf15cb95d364cb6b377c1216c4c6605cd17e7c60d9944f",
+      "bytes": 2238438
+    },
+    "results/plane-wave-v1/deepseek.validation.json": {
+      "sha256": "ac7c13b5eac2f4d1448dfbd00eeefa924e7968d9949f99389ad183e8c25b4d0e",
+      "bytes": 25660
+    },
+    "results/plane-wave-v1/figures/best_group_comparison.pdf": {
+      "sha256": "763ddf1e94cab9bd0d0909d30920194e488599beac374d9b5cf013738dc31cc2",
+      "bytes": 17448
+    },
+    "results/plane-wave-v1/figures/best_group_comparison.png": {
+      "sha256": "14efe70f2e4e487f3871b57e60a6b9b068e4960e6412a6ae2b92d1fbfdc6ca57",
+      "bytes": 59550
+    },
+    "results/plane-wave-v1/figures/best_group_comparison.svg": {
+      "sha256": "de730a5391552f1d81ccd4f774df691a34c1bef004a04856e4939905ab22e2e2",
+      "bytes": 42995
+    },
+    "results/plane-wave-v1/figures/fixed_g16.pdf": {
+      "sha256": "ebeae68cf2f81d17a567a2aa4873f1289ccc9f5eaa1a822fe4c962f9fcecb5bd",
+      "bytes": 22187
+    },
+    "results/plane-wave-v1/figures/fixed_g16.png": {
+      "sha256": "59a2cff6043062f8638549254308435c29bb0a205b120ca3f388dbaf45573995",
+      "bytes": 108258
+    },
+    "results/plane-wave-v1/figures/fixed_g16.svg": {
+      "sha256": "e060ef8a8bdf74de9ead60e736d9d8a245e8014bc55ca6cea0a5ae80d4630d1b",
+      "bytes": 70025
+    },
+    "results/plane-wave-v1/figures/synthetic_size_sweep.pdf": {
+      "sha256": "63031d21dd9617f12e8fd37910b05b048e350565e488482f19b6497df81205a4",
+      "bytes": 22683
+    },
+    "results/plane-wave-v1/figures/synthetic_size_sweep.png": {
+      "sha256": "c1fed93b560c2bb3210da431b9b3a7e890b693f53546786ce687cd8a45c6e0c6",
+      "bytes": 131799
+    },
+    "results/plane-wave-v1/figures/synthetic_size_sweep.svg": {
+      "sha256": "9f83d0e8cf8ea96a29f8a9c7f903aa38de8cd3165a1a3d5aa8a8bfc24a6c6087",
+      "bytes": 69337
+    },
+    "results/plane-wave-v1/fixed_g16.command.json": {
+      "sha256": "32f17d47296e8b4eafe16be81219910eadd64d186a23fd5186fba2aaeedd8a51",
+      "bytes": 5197
+    },
+    "results/plane-wave-v1/fixed_g16_diagnostics.json": {
+      "sha256": "fea9d59f3543cf456691af80a5f80138ee061e10eea2b0551015f99ce6bdf0e7",
+      "bytes": 23987
+    },
+    "results/plane-wave-v1/fixed_g16_per_prompt.csv": {
+      "sha256": "71d3e056644951a269e28b145a1b76c084da8b91723e65297d95c777e4d470e7",
+      "bytes": 896416
+    },
+    "results/plane-wave-v1/fixed_g16_reproduction_check.json": {
+      "sha256": "8b7ba6bf751b7944cf53c40a2f785e215d4181925b398bf46ce9bb87ecc466a4",
+      "bytes": 22542
+    },
+    "results/plane-wave-v1/fixed_g16_sensitivity.csv": {
+      "sha256": "8349e298b6775eff20d0fc5deefb89e528e92d8517fdbf01bc78f5243aaf6001",
+      "bytes": 73198
+    },
+    "results/plane-wave-v1/fixed_g16_summary.json": {
+      "sha256": "fbc112070221264aa1dd67b7283e69a1f6e544ab4a367776172a3ebe3e763eef",
+      "bytes": 144447
+    },
+    "results/plane-wave-v1/fixed_g16_token_costs.npz": {
+      "sha256": "d63022e30b451db6decce77d2e9f63c149ef24e51577fccf611e1e5876f34191",
+      "bytes": 347617
+    },
+    "results/plane-wave-v1/granite.frozen_plan.json": {
+      "sha256": "eb09f212fd708a1f7da4e432641dd867980618b484505837bda7ff8babed469a",
+      "bytes": 388051
+    },
+    "results/plane-wave-v1/granite.token_costs.npz": {
+      "sha256": "eee32055aa9a890fa8f47a534b12e8a6a2f4144ac79f3003564684526570c6d7",
+      "bytes": 2779314
+    },
+    "results/plane-wave-v1/granite.validation.json": {
+      "sha256": "164d9ae556045e676494d7e0ff056de36743bd14f4f02ef2dbccafecae43458f",
+      "bytes": 25658
+    },
+    "results/plane-wave-v1/heldout_candidates.json": {
+      "sha256": "35f49ee79148f529a855d43924418663adb408500d87453532667f7ca5b83d66",
+      "bytes": 562945
+    },
+    "results/plane-wave-v1/manifest.json": {
+      "sha256": "9af691897e3257b1de80ffa2cca8727292e874786cb2691e5bf6fb8ff195f710",
+      "bytes": 2684
+    },
+    "results/plane-wave-v1/microbench/results.csv": {
+      "sha256": "5b19b61e334a7a2ae19d44f02e864c98cfbeba2c4e3692ada676e7bcec0eb52a",
+      "bytes": 6725
+    },
+    "results/plane-wave-v1/microbench/results.json": {
+      "sha256": "c63f5389e569bc6a96015357d57907f8f2fe025bb9d429f9f53db524602cfcdd",
+      "bytes": 84873
+    },
+    "results/plane-wave-v1/mixtral.frozen_plan.json": {
+      "sha256": "e3040b0110768f2ac981d1089874f54eea1b61f026808533c740fa1f9c91d649",
+      "bytes": 289018
+    },
+    "results/plane-wave-v1/mixtral.token_costs.npz": {
+      "sha256": "177eedbd36692400f8f451d9f121e58f06d2f697f3986630cfa719ef717cf69a",
+      "bytes": 1247943
+    },
+    "results/plane-wave-v1/mixtral.validation.json": {
+      "sha256": "5140f58aa2975f169e27c12b1573753c6b61c0d475d9871df8745755945ff8e7",
+      "bytes": 25659
+    },
+    "results/plane-wave-v1/olmoe.frozen_plan.json": {
+      "sha256": "4cfa16b4198b49280bfc733ae47d893e5dec99a4267ff53e2b74e909a6a87282",
+      "bytes": 421087
+    },
+    "results/plane-wave-v1/olmoe.token_costs.npz": {
+      "sha256": "3001e93ff77f738698ed71da89a87caedaaf5cd3459ac618d4b2bd0dec96a7c5",
+      "bytes": 1939324
+    },
+    "results/plane-wave-v1/olmoe.validation.json": {
+      "sha256": "3c8db388608b2c48e0c173a6b9d2009c99094a2af48718f5bea46f493cfb0219",
+      "bytes": 25609
+    },
+    "results/plane-wave-v1/per_prompt.csv": {
+      "sha256": "bf8d0a03a66054b1339fe85a2e81de6a64de6f0b758636a0d50f05d8b26fa717",
+      "bytes": 2503500
+    },
+    "results/plane-wave-v1/qwen3.frozen_plan.json": {
+      "sha256": "c16e8bee655df5acf834070920eaf8cbacccb782392dc2e0df150dc50fb295b4",
+      "bytes": 1865037
+    },
+    "results/plane-wave-v1/qwen3.token_costs.npz": {
+      "sha256": "b6c7be29e59e9bfb9fbde82c24429222f2b2dec03c3f58ad231ff2c6fb46f273",
+      "bytes": 2400091
+    },
+    "results/plane-wave-v1/qwen3.validation.json": {
+      "sha256": "6d19e360ccd46d6ab06c96f8e918e7fc66e5f540dad6ceee581b099b9f25cb7b",
+      "bytes": 25655
+    },
+    "results/plane-wave-v1/report.md": {
+      "sha256": "468eac2a063356abf4fa64ac3c5f5fb16e65d9785c8350523ed195b3b07a54d3",
+      "bytes": 24512
+    },
+    "results/plane-wave-v1/sensitivity.csv": {
+      "sha256": "e83372344a6a63add9de4ea524dc1b249b56a01a0a06b50910d1d840aab822a0",
+      "bytes": 221148
+    },
+    "results/plane-wave-v1/static-bundles/deepseek.capacity.json": {
+      "sha256": "91762c84cae0c56acb620394c00bd8ec3c3b90b151ec050737f5f7d76e806950",
+      "bytes": 1048
+    },
+    "results/plane-wave-v1/static-bundles/deepseek.frozen_plan.json": {
+      "sha256": "b51b58cbb9f822dab14559772d8056cd3d7813d3ce842c8329bca9a4ff0fc4cc",
+      "bytes": 370222
+    },
+    "results/plane-wave-v1/static-bundles/granite.capacity.json": {
+      "sha256": "8dbb785e6c1f25eb587f621233c1a1106f75c00f3189d27e1db4dde601fc990b",
+      "bytes": 1036
+    },
+    "results/plane-wave-v1/static-bundles/granite.frozen_plan.json": {
+      "sha256": "6028987000b7cdd9809dbf21288b498e8ae898df7095a7a6121e09aeda68ad3a",
+      "bytes": 205503
+    },
+    "results/plane-wave-v1/static-bundles/manifest.json": {
+      "sha256": "8ca81ff3e152c11e3b7925e4fd088208f6b1aacef332655f8110e8fbcc315bbb",
+      "bytes": 62656
+    },
+    "results/plane-wave-v1/static-bundles/mixtral.capacity.json": {
+      "sha256": "bb1f0ba57ce582a948c1ad84a6c313adaf0181cf02916e28399b92c817dbf9ba",
+      "bytes": 1045
+    },
+    "results/plane-wave-v1/static-bundles/mixtral.frozen_plan.json": {
+      "sha256": "547a41d00b9352c7a0aaf4dc79cc532c3d00da60c591886034aa4d88fe14bc24",
+      "bytes": 136436
+    },
+    "results/plane-wave-v1/static-bundles/olmoe.capacity.json": {
+      "sha256": "d2189e22abbb0012a7e7d51f85b67063c9dccdef1520306f36dd5af05e1e39d8",
+      "bytes": 1039
+    },
+    "results/plane-wave-v1/static-bundles/olmoe.frozen_plan.json": {
+      "sha256": "ecd451a95560d1385a8ba155461e10de3d20df65e0b23a7b9e19064936432e28",
+      "bytes": 232506
+    },
+    "results/plane-wave-v1/static-bundles/per_prompt.csv": {
+      "sha256": "7dd488b009f8cead4f7324f974b483c47e26eb0a683e44dd953ea950edec0823",
+      "bytes": 109733
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/deepseek_g8_b1.json.gz": {
+      "sha256": "a31583620ed278d690f69dd60d995a77746183664337c90c067ff4e4a2c01517",
+      "bytes": 172847
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/deepseek_g8_b2.json.gz": {
+      "sha256": "e5d844d2f1c787f4ef135f335dddc0be1601ce6df3ce9dc6087fef467ae15cec",
+      "bytes": 157962
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/deepseek_g8_b4.json.gz": {
+      "sha256": "51ba8afce289613f2b2f89ac17ce748c5ce0bf102ccfdceff36a58758cfef1c0",
+      "bytes": 145415
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/granite_g4_b1.json.gz": {
+      "sha256": "8d728a38178284846296827123d741525fbbe63db63bbcdd175e2bb95621bb7b",
+      "bytes": 35108
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/granite_g4_b2.json.gz": {
+      "sha256": "a2f4e5433a6b1b961a02b6d052447d5df90266f95a8293ffad54eb842d54f5e4",
+      "bytes": 29414
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/granite_g4_b4.json.gz": {
+      "sha256": "c1bd85dd8e37871559477bd539b2065901bfd2d8ab5020e85bc1b55e51ccaec9",
+      "bytes": 27239
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/manifest.json": {
+      "sha256": "e93b4b4db20cf6f2fb52365af3c75ee7b65d0fcbc0811d0de34f536d4ad8e80c",
+      "bytes": 17902
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/mixtral_g16_b1.json.gz": {
+      "sha256": "63be3f643ea9b771e207ce82c63cf5c654d3f2378b69d135a0273df242270e4a",
+      "bytes": 34973
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/mixtral_g16_b2.json.gz": {
+      "sha256": "c8d398e3b67ccbe50d7e78223d5cd036c0429d8e7d93c7cdfdb77a2cee933ccd",
+      "bytes": 34475
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/mixtral_g16_b4.json.gz": {
+      "sha256": "2d6cd62e5b6b787864db4e63b67c7d48ea531dd1944b5a30a7adb7cae6c83407",
+      "bytes": 30590
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/olmoe_g8_b1.json.gz": {
+      "sha256": "5199ef1b238025c30e6e4f2ec2a3090c7ee39edfc4fe5069e44cbd01ac1880f4",
+      "bytes": 104609
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/olmoe_g8_b2.json.gz": {
+      "sha256": "7a6ca0cd4e4f3b7f7e32f185bd0e6dba0424311d6de89af791736291a7982db6",
+      "bytes": 97862
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/olmoe_g8_b4.json.gz": {
+      "sha256": "e278c680d43be8b3c6f44bf5af7deb630f50ba36589c43df05c249b9a2d4a121",
+      "bytes": 90673
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/qwen3_g8_b1.json.gz": {
+      "sha256": "e6f9e70227cf960816d4c34741f994afb8d9b5ece9e3aa29a8543be707ffb3af",
+      "bytes": 629768
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/qwen3_g8_b2.json.gz": {
+      "sha256": "6f5d15547628f0d080cd03601141d9b3964a912fa85a96aef212382fdc779cd1",
+      "bytes": 584982
+    },
+    "results/plane-wave-v1/static-bundles/physical-plans/qwen3_g8_b4.json.gz": {
+      "sha256": "86d3b4d5dfa41188d95c84138381c4cecb13f086da8949d77ee6fabfb9a391cb",
+      "bytes": 541560
+    },
+    "results/plane-wave-v1/static-bundles/physical_capacity.json": {
+      "sha256": "475d4df92e80559efb7fdb63fd172bb7f03bb4a65a7d4dffd585638b94fcf5b2",
+      "bytes": 16618
+    },
+    "results/plane-wave-v1/static-bundles/qwen3.capacity.json": {
+      "sha256": "d5e59ac9d8eae4e9a1550e237ba6a1976a1678c033ee8fee8b3e04b72b609c09",
+      "bytes": 1048
+    },
+    "results/plane-wave-v1/static-bundles/qwen3.frozen_plan.json": {
+      "sha256": "4f06b94b62a7cce761cf4303c47392a12cd5d56ce1b7caa3a6e831610d524adf",
+      "bytes": 1232534
+    },
+    "results/plane-wave-v1/static-bundles/summary.json": {
+      "sha256": "932f31111c361b8f7789eb64d08e790e00789ec4f892302cf67bc4652c95c3d3",
+      "bytes": 74581
+    },
+    "results/plane-wave-v1/static-bundles/training_candidates.json": {
+      "sha256": "511cb7cade748930dc8f79caa8e9151b8a72b9dac24df4907d6a120eae574928",
+      "bytes": 16457
+    },
+    "results/plane-wave-v1/static-bundles/validation.json": {
+      "sha256": "ec791eecb74fb0965d907d7f99466b49260a324c97e5f7ab163f5c793f50f553",
+      "bytes": 3136
+    },
+    "results/plane-wave-v1/summary.json": {
+      "sha256": "7199cdb76bb9e1fe091dfd799c59748db4c586294769d892b67c733d1eddfa53",
+      "bytes": 320860
+    },
+    "results/plane-wave-v1/synthetic/manifest.json": {
+      "sha256": "b40e40089b4c82b95a2034d373a20f988aa5a86188115171e7596a683054f793",
+      "bytes": 576
+    },
+    "results/plane-wave-v1/synthetic/results.csv": {
+      "sha256": "981e1d25ee5103f8de9ad7adb9dd1c9aa383a6c90093929b7126c6f991f1170e",
+      "bytes": 21718
+    },
+    "results/plane-wave-v1/synthetic/results.json": {
+      "sha256": "be1b834c9797e9dfbebab2f03a985f0dbbc005fdc7a01bcceed74a90bf1003a0",
+      "bytes": 88269
+    },
+    "results/plane-wave-v1/training_candidates.json": {
+      "sha256": "290f748cf19c0d023f851bf164a8e37e31f8805a114010df4edc5e41fb83d839",
+      "bytes": 279199
+    },
+    "results/plane-wave-v1/validation.json": {
+      "sha256": "c418cca9310b90d019b4d8188d48ef42137ebc1f578f5c7b477ce9bbee6e7ea0",
+      "bytes": 140549
+    },
+    "scripts/evaluate_fixed_g16_planes.py": {
+      "sha256": "cb02029ec5df6ba8cb4be70483486da34afd0c5c31dec9b0dd08bbd8b33579f0",
+      "bytes": 7265
+    },
+    "scripts/materialize_static_bundles.py": {
+      "sha256": "8f4b660bca1ccd3391a46eb9ed128aed93655f7576517a68aee54535d5f4b440",
+      "bytes": 6496
+    },
+    "scripts/plane_wave_model.py": {
+      "sha256": "3a315947c668bd7aaa44acb23658510e901147bc48596a3f9ea6aef202741862",
+      "bytes": 19473
+    },
+    "scripts/plane_wave_synthetic_sweep.py": {
+      "sha256": "1cb0ebb1162cf839b95aed6daac848adfae746634b60faae92ff6a44c977bf3b",
+      "bytes": 4251
+    },
+    "scripts/plot_plane_wave_study.py": {
+      "sha256": "6abe4ebd101d6a8aaff1ab950fc6d65bb062554255ada8c5b0f4022b237de5d5",
+      "bytes": 4593
+    },
+    "scripts/run_plane_wave_study.py": {
+      "sha256": "395cc93371964a0d8f201c6581eeb18334b9ecc65f05dd628c667c9da51c86b2",
+      "bytes": 33124
+    },
+    "scripts/static_wave_bundle_study.py": {
+      "sha256": "9f7fee2428676303de5c70094d7a36de3c995e19687ff54a0eadff96f36a8996",
+      "bytes": 23268
+    },
+    "tests/test_plane_wave_model.py": {
+      "sha256": "e3e50c249dd01e58dbaada07b2d50e775b148c01098df28f64b3c1c58a32e5c3",
+      "bytes": 11139
+    },
+    "tests/test_plane_wave_study.py": {
+      "sha256": "8045baceaf13b3caeee698a0e12f11663beb406649c8822617f4f1e69aa8b7cb",
+      "bytes": 5927
+    },
+    "tests/test_static_wave_bundle_study.py": {
+      "sha256": "d49bac1515a9b008d98e0a34a987d6fad0adc6f8526f66e067064b7602914572",
+      "bytes": 4444
+    }
+  }
+}

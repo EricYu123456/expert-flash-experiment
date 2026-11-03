@@ -1,0 +1,167 @@
+{
+  "layer": 0,
+  "scope": "Only frozen TRAIN64 selection queries; no heldout.",
+  "source_artifact": {
+    "family": "whole_rows",
+    "arrays": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v4-deduplicated/qwen38.L0.cmd250/whole_rows.npz",
+    "arrays_sha256": "52d3f121d0c1daf84d401729d70be54fc9f6141fc74b0b17a0da041024383627",
+    "plan": "results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v4-deduplicated/qwen38.L0.cmd250/whole_rows.plan.json",
+    "plan_sha256": "3e4df497fcbf192d5eb2a281a5cac5c13a0b0f607482f25496437de57427e770",
+    "useful_bytes": 2521497600,
+    "allocated_lsb_block_bytes": 2617245696,
+    "chip_blocks": [
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13
+    ]
+  },
+  "source_campaign_sha256": "27c02143de61d9a30115c7a2143f5fc6afbb25a137150824a3ebd8a8820ded3a",
+  "service": {
+    "chips": 16,
+    "channels": 8,
+    "planes": 4,
+    "page_bytes": 16384,
+    "block_wordlines": 192,
+    "input_bytes": 1,
+    "output_bytes": 4,
+    "ordinary_read_ns": 28000,
+    "command_ns": 250,
+    "host_submit_ns": 2000,
+    "pcie_bytes_per_second": 8000000000,
+    "channel_bytes_per_second": 2000000000,
+    "activation_ns": 0,
+    "combine_ns": 0,
+    "output_fringe": 1,
+    "down_first": 0,
+    "input_buffer_bytes": 32768
+  },
+  "source_mean_native_ns": 1595867.90625,
+  "cases": {
+    "xor8": {
+      "edge_fit": null,
+      "static_joint_fit": {
+        "mean_mandatory_ns": 1579361.53125,
+        "start": 2,
+        "sweeps": 3,
+        "accepted": 17
+      },
+      "static_native_fit": {
+        "sweeps": 3,
+        "accepted": 44,
+        "native_query_evaluations": 1920,
+        "objective": "TRAIN native mean; same fixed A/B views, no replicas"
+      },
+      "mean_static_native_ns": 1583153.703125,
+      "p99_static_native_ns": 1628380.74,
+      "mean_dynamic_mandatory_ns": 1579594.0,
+      "mean_dynamic_native_ns": 1581785.40625,
+      "p99_dynamic_native_ns": 1628406.64,
+      "dynamic_vs_best_static_mean_gain_pct": 0.0864285553764721,
+      "possible_dynamic_vs_best_static_upper_pct": 0.2248488645147595,
+      "duplicate_coefficient_bytes": 34078720,
+      "extra_programmed_page_bytes": 33554432,
+      "whole_GU_copy_budget_payload": 10,
+      "whole_GU_copy_budget_pages": 10
+    },
+    "priority": {
+      "edge_fit": null,
+      "static_joint_fit": {
+        "mean_mandatory_ns": 1577177.0625,
+        "start": 2,
+        "sweeps": 3,
+        "accepted": 16
+      },
+      "static_native_fit": {
+        "sweeps": 3,
+        "accepted": 31,
+        "native_query_evaluations": 1920,
+        "objective": "TRAIN native mean; same fixed A/B views, no replicas"
+      },
+      "mean_static_native_ns": 1580931.15625,
+      "p99_static_native_ns": 1628809.38,
+      "mean_dynamic_mandatory_ns": 1576530.5625,
+      "mean_dynamic_native_ns": 1578636.875,
+      "p99_dynamic_native_ns": 1628406.64,
+      "dynamic_vs_best_static_mean_gain_pct": 0.1451221478512732,
+      "possible_dynamic_vs_best_static_upper_pct": 0.2783545464711046,
+      "duplicate_coefficient_bytes": 33633280,
+      "extra_programmed_page_bytes": 33554432,
+      "whole_GU_copy_budget_payload": 10,
+      "whole_GU_copy_budget_pages": 10
+    },
+    "frequency": {
+      "edge_fit": null,
+      "static_joint_fit": {
+        "mean_mandatory_ns": 1578923.21875,
+        "start": 2,
+        "sweeps": 2,
+        "accepted": 19
+      },
+      "static_native_fit": {
+        "sweeps": 3,
+        "accepted": 34,
+        "native_query_evaluations": 1920,
+        "objective": "TRAIN native mean; same fixed A/B views, no replicas"
+      },
+      "mean_static_native_ns": 1582750.015625,
+      "p99_static_native_ns": 1629010.78,
+      "mean_dynamic_mandatory_ns": 1580484.875,
+      "mean_dynamic_native_ns": 1582645.109375,
+      "p99_dynamic_native_ns": 1629165.02,
+      "dynamic_vs_best_static_mean_gain_pct": 0.006628099760819239,
+      "possible_dynamic_vs_best_static_upper_pct": 0.14311423804380663,
+      "duplicate_coefficient_bytes": 33914880,
+      "extra_programmed_page_bytes": 33554432,
+      "whole_GU_copy_budget_payload": 10,
+      "whole_GU_copy_budget_pages": 10
+    },
+    "learned": {
+      "edge_fit": {
+        "passes": 2,
+        "changed_experts": 28,
+        "candidate_trials": 17176,
+        "mean_mandatory_ns": 1564894.8125,
+        "candidate_limit": 39
+      },
+      "static_joint_fit": {
+        "mean_mandatory_ns": 1572786.84375,
+        "start": 2,
+        "sweeps": 3,
+        "accepted": 20
+      },
+      "static_native_fit": {
+        "sweeps": 3,
+        "accepted": 32,
+        "native_query_evaluations": 1920,
+        "objective": "TRAIN native mean; same fixed A/B views, no replicas"
+      },
+      "mean_static_native_ns": 1575784.578125,
+      "p99_static_native_ns": 1611560.48,
+      "mean_dynamic_mandatory_ns": 1566894.8125,
+      "mean_dynamic_native_ns": 1569207.03125,
+      "p99_dynamic_native_ns": 1601607.9,
+      "dynamic_vs_best_static_mean_gain_pct": 0.41741409113335015,
+      "possible_dynamic_vs_best_static_upper_pct": 0.5641485358092391,
+      "duplicate_coefficient_bytes": 33646080,
+      "extra_programmed_page_bytes": 33554432,
+      "whole_GU_copy_budget_payload": 10,
+      "whole_GU_copy_budget_pages": 10
+    }
+  },
+  "elapsed_seconds": 7.124954420141876,
+  "script_sha256": "d9f98964d773ee9f44ddc76963ad8549eff452414b04ef5adc20f1b52471c68a",
+  "limitations": "Host selector/scatter time not charged; native prefix/row-map/physical view legality under separate audit. Logical B target is coreT+donor suffix, not a relabeled contiguous global rowrange. Useful results once, fringe outputs truly computed/transferred then discarded. Static controls retain exactly same A/B views but repack one view without replicas."
+}

@@ -1,0 +1,127 @@
+{
+  "status": "frozen_before_v2_fit",
+  "utc": "2026-11-02T01:27:51.269318+00:00",
+  "source_sha256": "8eda7630bc3c1fea52fd10380035b0e93f71c1544f7fd2d68e6f47f0d48d7ebd",
+  "v1_source_sha256": "b684522a894ba31acd6d076caff4454ee37bbd56ed7e3579f349b2bc7372a0fd",
+  "v1_completion_sha256": "4e997fe24f97ec0224894f88951281be5993fc8321e2fe1d904bec28179cb4a5",
+  "sources": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_shared_counterbalanced_v2.py",
+      "sha256": "8eda7630bc3c1fea52fd10380035b0e93f71c1544f7fd2d68e6f47f0d48d7ebd"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_shared_counterbalanced.py",
+      "sha256": "b684522a894ba31acd6d076caff4454ee37bbd56ed7e3579f349b2bc7372a0fd",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/b684522a894ba31a-research_20261103_shared_counterbalanced.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_topology_placement.py",
+      "sha256": "0bd52c70fdc380398bad0df1f99b8eaa2f2f7a81a135cc369311887dc729bc79",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/0bd52c70fdc38039-research_20261103_topology_placement.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_topology_placement_replay.py",
+      "sha256": "0d4fc512b639f0e551f6365a6e92797e3222792821db8b5dd1d4b9d3653f9464",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/0d4fc512b639f0e5-research_20261103_topology_placement_replay.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261102_whole_row_compiler.py",
+      "sha256": "23cfb0c6555678022d087f7b484c37b9991a6b09c97a8e1b9597ff7ddf9f96de",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/23cfb0c655567802-research_20261102_whole_row_compiler.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/source-snapshot/7c61f09756e24f11-research_20261103_ordinary_read_backend.py",
+      "sha256": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/7c61f09756e24f11-7c61f09756e24f11-research_20261103_ordinary_read_backend.py"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/full-campaign-v6-W8-input4/source-snapshot/ef7994fa2ba37a4b-research_20261103_ordinary_read_native.cpp",
+      "sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821",
+      "snapshot": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/shared-counterbalanced/source-snapshot/ef7994fa2ba37a4b-ef7994fa2ba37a4b-research_20261103_ordinary_read_native.cpp"
+    }
+  ],
+  "cases": [
+    [
+      "granite4tiny",
+      0,
+      1
+    ],
+    [
+      "granite4tiny",
+      0,
+      4
+    ],
+    [
+      "granite4tiny",
+      1,
+      1
+    ],
+    [
+      "granite4tiny",
+      1,
+      4
+    ],
+    [
+      "granite4tiny",
+      2,
+      1
+    ],
+    [
+      "granite4tiny",
+      2,
+      4
+    ],
+    [
+      "deepseek",
+      0,
+      1
+    ],
+    [
+      "deepseek",
+      0,
+      4
+    ],
+    [
+      "deepseek",
+      1,
+      1
+    ],
+    [
+      "deepseek",
+      1,
+      4
+    ],
+    [
+      "deepseek",
+      2,
+      1
+    ],
+    [
+      "deepseek",
+      2,
+      4
+    ]
+  ],
+  "seeds": [
+    20261103,
+    20261104
+  ],
+  "no_heldout": true,
+  "budget_per_family_per_sharedgeometry_per_seed": {
+    "stochastic_proposals": 20000,
+    "bounded_greedy_attempts": 4096
+  },
+  "shared_pool": "Exact v1 candidates; no new masks or geometry exclusive to a family.",
+  "families": [
+    "joint_simple_menu",
+    "independent_paired"
+  ],
+  "menu": "All saved phase templates including whole_rows balanced/depth, all16relativeDownrotations for ranking; top3distinctcyclic-orbit pairs plus frozenwhole incumbent; split totalbudget over4pairs.",
+  "moves": "Both controls mix singlephase and pairedphase expert/global moves. Cyclic pairedlocal changes both phase labels; does not introduce noncyclic masks.",
+  "independent_initial": [
+    "same routeblind coupled initialization as v1",
+    "retained fitted v1 unrestricted/coupled incumbent"
+  ],
+  "incumbents": "All contexts retain eligible v1 prior incumbents. Their earlier search is not charged to v2; no claim that a constrained family beats unrestricted optimum. Inheritance/incremental gains separately recorded.",
+  "selection": "Initial/final/inherited candidates get exact512native costs; TRAIN mean selects best. No automatic all-layer expansion."
+}

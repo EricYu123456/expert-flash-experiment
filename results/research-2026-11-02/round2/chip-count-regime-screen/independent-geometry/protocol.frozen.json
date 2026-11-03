@@ -1,0 +1,9 @@
+{
+  "utc": "2026-11-02T04:36:59.232744+00:00",
+  "source_sha256": "2ad3547d4bc8fad10bff5b60251dff07e6da825f8aa657f8c4ce40554198aab3",
+  "geometry_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/stage-a/geometry.json",
+  "geometry_sha256": "d6baa3c6c5c6b97aeadecc23ff5a1279ea9c51bc724b77970bc6f026ae419b8f",
+  "formulation": "capacity[j,w] = max over k in [0,depth] of capacity[j-1,w-k] + floor(k*65536/C); inactive slots have k=0.",
+  "proof": "Each complete-row job taking k waves has at most floor(k*B/C) rows. Conversely choose those capacities, then remove whole rows until total R; reads can only shrink. The least w with capacity[M,w]>=R is therefore the exact minimum aggregate waves with at most M single-block jobs of depth<=d.",
+  "scope": "Only row geometry. No command-cost/native-latency optimality, physical allocation, full-model inference, or hardware ABI claim. No producer import or heldout data."
+}

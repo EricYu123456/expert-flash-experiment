@@ -1,0 +1,58 @@
+{
+  "status": "PASS all24 frozen W8 model maps",
+  "anchor": {
+    "path": "results/research-2026-11-02/round2/ordinary-read-compiler/W8_selected_plans.frozen.json",
+    "sha256": "00507ff56f9197fb18511ad58303919214c03cba6f0c1440f6733ffc42944d00",
+    "training_manifest_sha256": "49563291e385e5c58ee23a21c8c8714aa0a6f007066206030916d1b7fe42c4c1"
+  },
+  "maps": 24,
+  "native_array_jobs_matched_to_global_logical_and_addresses": 1143424,
+  "campaigns": [
+    {
+      "name": "full-campaign-v5-W8-training",
+      "maps": 12,
+      "native_jobs": 579968,
+      "input_channel_copies": 1
+    },
+    {
+      "name": "full-campaign-v6-W8-input4",
+      "maps": 12,
+      "native_jobs": 563456,
+      "input_channel_copies": 4
+    }
+  ],
+  "checks": [
+    "All root summary/protocol/source-snapshot-manifest hashes match the immutable anchor. Every authoritative SHA-prefix snapshot is checked against its manifest, including the two distinct decode.routes.npz inputs. The initial basename-collision snapshots are not used.",
+    "No root backend/compiler import or allocator call. Independently derive expert/phase/row identities from array offsets, full C, native job rows/pages/waves and exact model shape, then compare local/global logical metadata and global physical addresses.",
+    "Every expert and shared matrix covers exactly its required full rows once, input C is original full dimension, every command fits a single same-address plane-block bundle and every physical interval is inside the block. Sorted reserved-wave intervals never overlap. Programmed pages and useful bytes are bounded inside those reservations.",
+    "Independent byte sums equal root payload/programmed-page/reserved-wave/allocated-block ledgers for all24 maps. Per-chip block-index IDs/counts and contiguous expert-base composition match. No actual physical device budget or minimum-bin optimality inferred.",
+    "Service axes are checked:16chips,8channels,4planes,16KiBpages,192WL/block;A8input/4Boutput,mode1requestedpagefringe,28usordinarywave,2us hostsubmit,8GB/sPCIe/2GB/schannel,zeroactivation/combine,32KiBdeclaredinputbuffer. Command250/5000ns matches each record. Copies absent/default1 in v5, explicit4 in v6, including global physical service documents.",
+    "Both campaigns use the identical frozen32TRAIN prompts x16decode source archives, representation fixed_full_FFN_W8A8_canonical_only, split train, completion flags true and exact prompt IDs/layer indices. All64 selection routes are checked against raw original route arrays via saved fit/selection indices. Token identities align across every layer before cost-vector sums.",
+    "Saved per-layer integer cost vectors sum exactly to global selection-cost vectors; independently recomputed means/P99 and finite-pool-certification counts agree. This is accounting validation of training FFN service, not a new timing campaign."
+  ],
+  "dense_prefix_boundary": {
+    "deep_MoE_layers": 26,
+    "shared_included_each_MoE_layer": true,
+    "raw_model_layer0_dense_in_global_maps": false,
+    "dense_dimensions": {
+      "D": 2048,
+      "I": 10944
+    },
+    "independently_derived_dense_I8_coefficient_bytes": 67239936,
+    "root_reported_cmd250_prefix_service_ns": 1852224,
+    "prefix_service_independently_replayed_here": false,
+    "meaning": "Do not present26MoE+shared coefficient capacity or FFN service as full model storage/time. Prefix service is root-reported separately; physical addresses for the prefix are outside this audit."
+  },
+  "limits": [
+    "No new heldout source or inference is read. The anchor declares frozen-before-acquisition ordering, but acquisition timing and new heldout quality are not independently audited here.",
+    "Declared archive representation and route indexing are checked; actual W8A8 capture/quality/numerical equivalence proofs belong to separate artifacts. PE output ABI and native hardware execution are still unverified.",
+    "These are legal virtual coefficient maps, not programmed devices or proven fit on an available chip capacity. Host scales, router/attention/SSM/non-MoE weights, ECC physical overhead/overprovisioning/FTL relocation and metadata are excluded.",
+    "No refit fairness/global mapping optimum, finite-pool generation completeness or minimum BFD block count proved. The audit source derives from the previous independent v3 address checker, adapted only for anchored W8 archive provenance,12maps/campaign and input-copy axes."
+  ],
+  "files": {
+    "audit_source": "audit_global_addresses_w8.py",
+    "individual_results": "CAMPAIGN/results.json",
+    "individual_protocols": "CAMPAIGN/protocol.frozen.json",
+    "individual_ledgers": "CAMPAIGN/ledger.csv"
+  }
+}

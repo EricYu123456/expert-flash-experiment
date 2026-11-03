@@ -1,0 +1,5858 @@
+{
+  "status": "complete train-only GU-stage NAND bounds; no full-DAG speedup claim",
+  "created_utc": "2026-11-01T20:52:10.117847+00:00",
+  "source_sha256": "91a0efd6a0df0dccdd7847530287753a84a08a4eef96cb623229775dcd1be027",
+  "frozen_source": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/geometry-study/granite4tiny.frozen.json",
+  "frozen_source_sha256": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+  "training_routes": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/screen/routes.npz",
+  "training_routes_sha256": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+  "train_slice": "32 prompts x 64 steps x all40 layers",
+  "training_prompt_ids": [
+    "train_summarization_short_027",
+    "train_programming_short_015",
+    "train_translation_medium_031",
+    "train_qa_short_003",
+    "train_qa_long_026",
+    "train_programming_long_020",
+    "train_translation_medium_022",
+    "train_qa_medium_004",
+    "train_long_context_long_005",
+    "train_long_context_medium_001",
+    "train_programming_short_030",
+    "train_mathematics_long_023",
+    "train_summarization_medium_016",
+    "train_mathematics_long_020",
+    "train_programming_medium_004",
+    "train_summarization_long_032",
+    "train_mathematics_long_008",
+    "train_long_context_short_018",
+    "train_programming_long_005",
+    "train_mathematics_short_012",
+    "train_programming_medium_013",
+    "train_programming_medium_019",
+    "train_mathematics_medium_028",
+    "train_programming_long_017",
+    "train_translation_short_006",
+    "train_mathematics_medium_001",
+    "train_summarization_long_011",
+    "train_summarization_medium_028",
+    "train_long_context_long_017",
+    "train_qa_short_027",
+    "train_summarization_long_020",
+    "train_summarization_short_003"
+  ],
+  "formulas": {
+    "onecopy": "84000*(1+max(nA,nB))",
+    "paired_shared": "84000*max(4,nA,nB)",
+    "fixed_routed_copy_set": "84000*(1+max(3,nA-selectedCopiedA,nB-selectedCopiedB))",
+    "hybrid": "Enumerate shared sourcehalf A/B and routedexpert64 offline. Online enumerate copiedexpert original/oppositehalf and sharedfixed128+128/legal256+0, then minimize exactGU peak.",
+    "independent_routed_oracle": "84000*max(4,max(nA,nB)-1) with per-route16tile placement",
+    "why_84000": "Each128 whole-output-row tile has1536 I8 columns:12 pages,3 ordinary28us waves.",
+    "budget": "Pairedshared extra16tiles=3MiB/layer equals two routedexpert GU copies,8tiles each."
+  },
+  "capacity": {
+    "extra_shared_full_model_bytes": 125829120,
+    "extra_shared_pages": 7680,
+    "extra_routed_expert_bytes": 1572864,
+    "global_budget_expert_copies": 80,
+    "full_model_routed_ffn_bytes": 6039797760,
+    "full_model_shared_ffn_bytes": 188743680,
+    "extra_pct_full_routed_plus_shared_ffn": 2.0202020202020203,
+    "extra_shared_per_chip_full_model_bytes": 7864320,
+    "reservations": "Payloads are whole128row tiles aligned to full64KiB waves; page and useful-byte budgets match. Block reservations/allocator overhead require physical materialization, not inferred from payload."
+  },
+  "native_GU_work": {
+    "onecopy_jobs": 64,
+    "paired_shared_jobs_balanced": 64,
+    "paired_shared_jobs_unbalanced": 56,
+    "routed_copy_jobs": 64,
+    "onecopy_ONFI_input_bytes": 98304,
+    "paired_shared_ONFI_input_bytes_unbalanced": 86016,
+    "all_policies_output_bytes": 32768,
+    "PCIe_common_input_bytes": 1536,
+    "command_ns": 250,
+    "host_initial_submission_ns": 2000,
+    "note": "These mandatory command/input/output costs are exposed, not included in NAND-only bounds. DAG/host activation/private down/channel contention must be replayed before any latency claim."
+  },
+  "totals": {
+    "onecopy": {
+      "mean_ns": 15167496.09375,
+      "p99_ns": 15960000.0,
+      "min_ns": 14112000,
+      "max_ns": 16380000,
+      "mean_reduction_vs_onecopy_pct": 0.0
+    },
+    "paired_shared": {
+      "mean_ns": 13589666.015625,
+      "p99_ns": 13944000.0,
+      "min_ns": 13440000,
+      "max_ns": 14196000,
+      "mean_reduction_vs_onecopy_pct": 10.402706342381517
+    },
+    "shared_half_budget": {
+      "mean_ns": 14309326.171875,
+      "p99_ns": 15036000.0,
+      "min_ns": 13524000,
+      "max_ns": 15372000,
+      "mean_reduction_vs_onecopy_pct": 5.657953801805304
+    },
+    "hot1": {
+      "mean_ns": 14824646.484375,
+      "p99_ns": 15708000.0,
+      "min_ns": 13860000,
+      "max_ns": 16044000,
+      "mean_reduction_vs_onecopy_pct": 2.2604232581030725
+    },
+    "optimal1": {
+      "mean_ns": 14812218.75,
+      "p99_ns": 15708000.0,
+      "min_ns": 13776000,
+      "max_ns": 16044000,
+      "mean_reduction_vs_onecopy_pct": 2.34235988296313
+    },
+    "hot2": {
+      "mean_ns": 14601439.453125,
+      "p99_ns": 15540000.0,
+      "min_ns": 13608000,
+      "max_ns": 15960000,
+      "mean_reduction_vs_onecopy_pct": 3.7320374907381826
+    },
+    "optimal2": {
+      "mean_ns": 14560751.953125,
+      "p99_ns": 15540000.0,
+      "min_ns": 13608000,
+      "max_ns": 15960000,
+      "mean_reduction_vs_onecopy_pct": 4.00029205133613
+    },
+    "optimal_hybrid_halfshared1routed": {
+      "mean_ns": 14017664.0625,
+      "p99_ns": 14784000.0,
+      "min_ns": 13440000,
+      "max_ns": 15372000,
+      "mean_reduction_vs_onecopy_pct": 7.580895515930319
+    },
+    "adaptive_routed_copy_placement_16tiles_oracle": {
+      "mean_ns": 13443445.3125,
+      "p99_ns": 13524000.0,
+      "min_ns": 13440000,
+      "max_ns": 13524000,
+      "mean_reduction_vs_onecopy_pct": 11.366746169530394
+    },
+    "global_budget_greedy80": {
+      "mean_ns": 14552425.78125,
+      "p99_ns": 15540000.0,
+      "min_ns": 13608000,
+      "max_ns": 16044000,
+      "mean_reduction_vs_onecopy_pct": 4.055186885813333
+    }
+  },
+  "layers": [
+    {
+      "layer": 0,
+      "n_a_histogram": [
+        1,
+        38,
+        374,
+        1148,
+        452,
+        34,
+        1
+      ],
+      "hot1": [
+        35
+      ],
+      "hot2": [
+        35,
+        19
+      ],
+      "optimal1": [
+        10
+      ],
+      "optimal2": [
+        10,
+        35
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 35,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 376031.25,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339117.1875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 356056.640625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 371888.671875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 371232.421875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 368689.453125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 367089.84375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 351914.0625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336082.03125,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer0.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 10,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 35,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [],
+      "global_budget_greedy_stats": {
+        "mean_ns": 376031.25,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 1,
+      "n_a_histogram": [
+        0,
+        48,
+        402,
+        1126,
+        436,
+        35,
+        1
+      ],
+      "hot1": [
+        62
+      ],
+      "hot2": [
+        62,
+        51
+      ],
+      "optimal1": [
+        62
+      ],
+      "optimal2": [
+        51,
+        62
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 62,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 377302.734375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339486.328125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357943.359375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 365285.15625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 365285.15625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 358517.578125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 358517.578125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 345925.78125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer1.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 51,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 62,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        62,
+        51
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 358517.578125,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 2,
+      "n_a_histogram": [
+        0,
+        44,
+        511,
+        1087,
+        380,
+        26,
+        0
+      ],
+      "hot1": [
+        26
+      ],
+      "hot2": [
+        26,
+        23
+      ],
+      "optimal1": [
+        26
+      ],
+      "optimal2": [
+        26,
+        41
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 19,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 378287.109375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "paired_shared": {
+          "mean_ns": 338871.09375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        },
+        "shared_half_budget": {
+          "mean_ns": 355523.4375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 371724.609375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 371724.609375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 369222.65625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 366720.703125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 352283.203125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336000.0,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 336000
+        }
+      },
+      "route_assignment_file": "layer2.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 26,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 41,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        26,
+        41
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 366720.703125,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 3,
+      "n_a_histogram": [
+        1,
+        61,
+        435,
+        983,
+        491,
+        74,
+        3
+      ],
+      "hot1": [
+        56
+      ],
+      "hot2": [
+        56,
+        21
+      ],
+      "optimal1": [
+        21
+      ],
+      "optimal2": [
+        21,
+        56
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 56,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 385546.875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 341865.234375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 362250.0,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 380296.875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 380173.828125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 374923.828125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 374923.828125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 357000.0,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336164.0625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer3.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 21,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 56,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        21,
+        56
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 374923.828125,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 4,
+      "n_a_histogram": [
+        6,
+        98,
+        441,
+        957,
+        467,
+        79,
+        0
+      ],
+      "hot1": [
+        1
+      ],
+      "hot2": [
+        1,
+        17
+      ],
+      "optimal1": [
+        1
+      ],
+      "optimal2": [
+        1,
+        17
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 1,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 388500.0,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 343751.953125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 366105.46875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 381773.4375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 381773.4375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 375375.0,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 375375.0,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 359419.921875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336246.09375,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer4.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 1,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 17,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        1,
+        17
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 375375.0,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 5,
+      "n_a_histogram": [
+        10,
+        75,
+        436,
+        961,
+        481,
+        83,
+        2
+      ],
+      "hot1": [
+        15
+      ],
+      "hot2": [
+        15,
+        19
+      ],
+      "optimal1": [
+        15
+      ],
+      "optimal2": [
+        15,
+        19
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 15,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 388048.828125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 343464.84375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 364833.984375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 379558.59375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 379558.59375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 372708.984375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 372708.984375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 356343.75,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336492.1875,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer5.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 15,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 19,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        15,
+        19,
+        8
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 367212.890625,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 6,
+      "n_a_histogram": [
+        0,
+        58,
+        465,
+        982,
+        485,
+        54,
+        4
+      ],
+      "hot1": [
+        26
+      ],
+      "hot2": [
+        26,
+        46
+      ],
+      "optimal1": [
+        26
+      ],
+      "optimal2": [
+        26,
+        53
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 26,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 384644.53125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 340921.875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 362373.046875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 377261.71875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 377261.71875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 374267.578125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 370781.25,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 354990.234375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336164.0625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer6.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 26,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 53,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        26,
+        53
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 370781.25,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 7,
+      "n_a_histogram": [
+        0,
+        48,
+        410,
+        1010,
+        516,
+        62,
+        2
+      ],
+      "hot1": [
+        38
+      ],
+      "hot2": [
+        38,
+        19
+      ],
+      "optimal1": [
+        11
+      ],
+      "optimal2": [
+        11,
+        19
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 19,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 383250.0,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 340675.78125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 359460.9375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 377794.921875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 376933.59375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 372339.84375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 371478.515625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 354005.859375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336082.03125,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer7.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 11,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 19,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        11,
+        19
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 371478.515625,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 8,
+      "n_a_histogram": [
+        4,
+        55,
+        511,
+        1068,
+        366,
+        43,
+        1
+      ],
+      "hot1": [
+        22
+      ],
+      "hot2": [
+        22,
+        26
+      ],
+      "optimal1": [
+        22
+      ],
+      "optimal2": [
+        22,
+        23
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 29,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 380625.0,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 340429.6875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357246.09375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 373365.234375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 373365.234375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 369796.875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 368402.34375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 353185.546875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336205.078125,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer8.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 22,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 23,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        22
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 373365.234375,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 9,
+      "n_a_histogram": [
+        1,
+        43,
+        362,
+        1046,
+        502,
+        91,
+        3
+      ],
+      "hot1": [
+        13
+      ],
+      "hot2": [
+        13,
+        29
+      ],
+      "optimal1": [
+        22
+      ],
+      "optimal2": [
+        13,
+        22
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 13,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 382921.875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 341824.21875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 358476.5625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 377753.90625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 376236.328125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 372216.796875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 371068.359375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 353308.59375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336164.0625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer9.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 13,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 22,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        22,
+        13,
+        24
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 366064.453125,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 10,
+      "n_a_histogram": [
+        1,
+        48,
+        446,
+        1067,
+        445,
+        41,
+        0
+      ],
+      "hot1": [
+        43
+      ],
+      "hot2": [
+        43,
+        60
+      ],
+      "optimal1": [
+        43
+      ],
+      "optimal2": [
+        10,
+        43
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 43,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 379968.75,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339732.421875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 359666.015625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 369673.828125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 369673.828125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 364341.796875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 360404.296875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 349740.234375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer10.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 10,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 43,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        43,
+        10,
+        60
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 355072.265625,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 11,
+      "n_a_histogram": [
+        0,
+        57,
+        536,
+        1080,
+        347,
+        28,
+        0
+      ],
+      "hot1": [
+        31
+      ],
+      "hot2": [
+        31,
+        55
+      ],
+      "optimal1": [
+        55
+      ],
+      "optimal2": [
+        31,
+        55
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 31,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 379189.453125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "paired_shared": {
+          "mean_ns": 339486.328125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        },
+        "shared_half_budget": {
+          "mean_ns": 354867.1875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 369796.875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 367541.015625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 358148.4375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 358148.4375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 345474.609375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336000.0,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 336000
+        }
+      },
+      "route_assignment_file": "layer11.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 31,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 55,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        55,
+        31,
+        57
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 353021.484375,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 12,
+      "n_a_histogram": [
+        0,
+        33,
+        483,
+        1081,
+        414,
+        37,
+        0
+      ],
+      "hot1": [
+        34
+      ],
+      "hot2": [
+        34,
+        24
+      ],
+      "optimal1": [
+        34
+      ],
+      "optimal2": [
+        24,
+        34
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 34,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 378533.203125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "paired_shared": {
+          "mean_ns": 338871.09375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357369.140625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 365941.40625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 365941.40625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 354990.234375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 354990.234375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 344777.34375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336000.0,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 336000
+        }
+      },
+      "route_assignment_file": "layer12.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 24,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 34,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        34,
+        24
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 354990.234375,
+        "p99_ns": 420000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 13,
+      "n_a_histogram": [
+        1,
+        50,
+        451,
+        1134,
+        380,
+        30,
+        2
+      ],
+      "hot1": [
+        4
+      ],
+      "hot2": [
+        4,
+        26
+      ],
+      "optimal1": [
+        60
+      ],
+      "optimal2": [
+        27,
+        60
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 27,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 377015.625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339527.34375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 356425.78125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 369181.640625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 368156.25,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 364710.9375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 360773.4375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 349042.96875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336123.046875,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer13.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 27,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 60,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        60,
+        27,
+        26
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 354703.125,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 14,
+      "n_a_histogram": [
+        1,
+        29,
+        398,
+        1068,
+        491,
+        59,
+        2
+      ],
+      "hot1": [
+        52
+      ],
+      "hot2": [
+        52,
+        48
+      ],
+      "optimal1": [
+        48
+      ],
+      "optimal2": [
+        48,
+        52
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 52,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 380050.78125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339855.46875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357410.15625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 371724.609375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 369181.640625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 360855.46875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 360855.46875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 349083.984375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336123.046875,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer14.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 48,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 52,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        48,
+        52
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 360855.46875,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 15,
+      "n_a_histogram": [
+        0,
+        20,
+        372,
+        1149,
+        464,
+        43,
+        0
+      ],
+      "hot1": [
+        25
+      ],
+      "hot2": [
+        25,
+        49
+      ],
+      "optimal1": [
+        25
+      ],
+      "optimal2": [
+        25,
+        30
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 25,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 375457.03125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "paired_shared": {
+          "mean_ns": 338583.984375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        },
+        "shared_half_budget": {
+          "mean_ns": 354662.109375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 362701.171875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 362701.171875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 358763.671875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 354867.1875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 346623.046875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336000.0,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 336000
+        }
+      },
+      "route_assignment_file": "layer15.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 25,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 30,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        25,
+        30,
+        34
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 349371.09375,
+        "p99_ns": 420000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 16,
+      "n_a_histogram": [
+        1,
+        40,
+        475,
+        1070,
+        421,
+        41,
+        0
+      ],
+      "hot1": [
+        44
+      ],
+      "hot2": [
+        44,
+        16
+      ],
+      "optimal1": [
+        16
+      ],
+      "optimal2": [
+        16,
+        44
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 44,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 379517.578125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339404.296875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 358353.515625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 370207.03125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 369591.796875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 360281.25,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 360281.25,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 349042.96875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer16.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 16,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 44,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        16,
+        44
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 360281.25,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 17,
+      "n_a_histogram": [
+        0,
+        40,
+        481,
+        1122,
+        379,
+        26,
+        0
+      ],
+      "hot1": [
+        58
+      ],
+      "hot2": [
+        58,
+        26
+      ],
+      "optimal1": [
+        26
+      ],
+      "optimal2": [
+        26,
+        58
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 58,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 376687.5,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "paired_shared": {
+          "mean_ns": 338707.03125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        },
+        "shared_half_budget": {
+          "mean_ns": 355318.359375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 366884.765625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 366802.734375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 357000.0,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 357000.0,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 345515.625,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336000.0,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 336000
+        }
+      },
+      "route_assignment_file": "layer17.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 26,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 58,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        26,
+        58,
+        2
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 351708.984375,
+        "p99_ns": 420000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 18,
+      "n_a_histogram": [
+        0,
+        42,
+        460,
+        1102,
+        405,
+        38,
+        1
+      ],
+      "hot1": [
+        37
+      ],
+      "hot2": [
+        37,
+        21
+      ],
+      "optimal1": [
+        37
+      ],
+      "optimal2": [
+        37,
+        48
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 37,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 378164.0625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339363.28125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357574.21875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 363685.546875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 363685.546875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 359296.875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 357861.328125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 345474.609375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer18.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 37,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 48,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        37,
+        48
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 357861.328125,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 19,
+      "n_a_histogram": [
+        1,
+        32,
+        387,
+        1105,
+        485,
+        38,
+        0
+      ],
+      "hot1": [
+        21
+      ],
+      "hot2": [
+        21,
+        27
+      ],
+      "optimal1": [
+        21
+      ],
+      "optimal2": [
+        21,
+        27
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 21,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 377630.859375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 338953.125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 356179.6875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 368566.40625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 368566.40625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 359871.09375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 359871.09375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 347115.234375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer19.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 21,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 27,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        21,
+        27
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 359871.09375,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 20,
+      "n_a_histogram": [
+        0,
+        35,
+        372,
+        1131,
+        470,
+        39,
+        1
+      ],
+      "hot1": [
+        10
+      ],
+      "hot2": [
+        10,
+        56
+      ],
+      "optimal1": [
+        10
+      ],
+      "optimal2": [
+        10,
+        56
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 10,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 376728.515625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339117.1875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 355810.546875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 366884.765625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 366884.765625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 361470.703125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 361470.703125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 350191.40625,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer20.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 10,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 56,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        10,
+        56
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 361470.703125,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 21,
+      "n_a_histogram": [
+        1,
+        45,
+        452,
+        1119,
+        398,
+        33,
+        0
+      ],
+      "hot1": [
+        17
+      ],
+      "hot2": [
+        17,
+        45
+      ],
+      "optimal1": [
+        17
+      ],
+      "optimal2": [
+        17,
+        42
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 42,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 377384.765625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339281.25,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 356958.984375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 367705.078125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 367705.078125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 362414.0625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 360281.25,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 349535.15625,
+          "p99_ns": 464519.99999999773,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer21.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 17,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 42,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        17,
+        42,
+        45
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 354990.234375,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 22,
+      "n_a_histogram": [
+        0,
+        47,
+        444,
+        1080,
+        443,
+        34,
+        0
+      ],
+      "hot1": [
+        48
+      ],
+      "hot2": [
+        48,
+        16
+      ],
+      "optimal1": [
+        48
+      ],
+      "optimal2": [
+        41,
+        48
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 48,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 379025.390625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "paired_shared": {
+          "mean_ns": 339322.265625,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        },
+        "shared_half_budget": {
+          "mean_ns": 358886.71875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 370166.015625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 370166.015625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 365326.171875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 364998.046875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 350601.5625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336000.0,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 336000
+        }
+      },
+      "route_assignment_file": "layer22.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 41,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 48,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        48,
+        41
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 364998.046875,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 23,
+      "n_a_histogram": [
+        4,
+        48,
+        475,
+        1086,
+        406,
+        29,
+        0
+      ],
+      "hot1": [
+        53
+      ],
+      "hot2": [
+        53,
+        55
+      ],
+      "optimal1": [
+        53
+      ],
+      "optimal2": [
+        20,
+        53
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 53,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 378943.359375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339486.328125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357328.125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 367089.84375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 367089.84375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 361060.546875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 360937.5,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 345474.609375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336164.0625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer23.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 20,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 53,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        53,
+        20,
+        55
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 355687.5,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 24,
+      "n_a_histogram": [
+        1,
+        37,
+        410,
+        1065,
+        495,
+        39,
+        1
+      ],
+      "hot1": [
+        26
+      ],
+      "hot2": [
+        26,
+        51
+      ],
+      "optimal1": [
+        26
+      ],
+      "optimal2": [
+        26,
+        51
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 26,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 379599.609375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339281.25,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357656.25,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 368525.390625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 368525.390625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 361716.796875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 361716.796875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 350150.390625,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336082.03125,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer24.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 26,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 51,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        26,
+        51
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 361716.796875,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 25,
+      "n_a_histogram": [
+        0,
+        50,
+        419,
+        1010,
+        513,
+        54,
+        2
+      ],
+      "hot1": [
+        63
+      ],
+      "hot2": [
+        63,
+        5
+      ],
+      "optimal1": [
+        63
+      ],
+      "optimal2": [
+        5,
+        63
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 5,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 383003.90625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 340429.6875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 359666.015625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 374185.546875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 374185.546875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 369345.703125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 369345.703125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 354826.171875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336082.03125,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer25.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 5,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 63,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        63
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 374185.546875,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 26,
+      "n_a_histogram": [
+        0,
+        57,
+        452,
+        1117,
+        389,
+        33,
+        0
+      ],
+      "hot1": [
+        2
+      ],
+      "hot2": [
+        2,
+        14
+      ],
+      "optimal1": [
+        2
+      ],
+      "optimal2": [
+        2,
+        14
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 61,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 377876.953125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "paired_shared": {
+          "mean_ns": 339691.40625,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357000.0,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 369878.90625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 369878.90625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 364054.6875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 364054.6875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 352283.203125,
+          "p99_ns": 464519.99999999773,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336000.0,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 336000
+        }
+      },
+      "route_assignment_file": "layer26.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 2,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 14,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        2,
+        14
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 364054.6875,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 27,
+      "n_a_histogram": [
+        0,
+        31,
+        416,
+        1066,
+        481,
+        54,
+        0
+      ],
+      "hot1": [
+        9
+      ],
+      "hot2": [
+        9,
+        47
+      ],
+      "optimal1": [
+        51
+      ],
+      "optimal2": [
+        24,
+        51
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 9,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 379763.671875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "paired_shared": {
+          "mean_ns": 339486.328125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357820.3125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 374964.84375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 373611.328125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 372011.71875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 368484.375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 353021.484375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336000.0,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 336000
+        }
+      },
+      "route_assignment_file": "layer27.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 24,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 51,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        51,
+        24
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 368484.375,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 28,
+      "n_a_histogram": [
+        3,
+        53,
+        469,
+        1038,
+        446,
+        39,
+        0
+      ],
+      "hot1": [
+        14
+      ],
+      "hot2": [
+        14,
+        10
+      ],
+      "optimal1": [
+        14
+      ],
+      "optimal2": [
+        4,
+        14
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 14,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 381445.3125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 340019.53125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 359912.109375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 371806.640625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 371806.640625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 368894.53125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 366515.625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 350273.4375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336123.046875,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer28.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 4,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 14,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        14,
+        4
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 366515.625,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 29,
+      "n_a_histogram": [
+        1,
+        46,
+        504,
+        1152,
+        331,
+        14,
+        0
+      ],
+      "hot1": [
+        43
+      ],
+      "hot2": [
+        43,
+        37
+      ],
+      "optimal1": [
+        43
+      ],
+      "optimal2": [
+        31,
+        43
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 7,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 375292.96875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 338542.96875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 352693.359375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 367582.03125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 367582.03125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 365326.171875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 363316.40625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 349289.0625,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer29.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 31,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 43,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        43
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 367582.03125,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 30,
+      "n_a_histogram": [
+        0,
+        43,
+        458,
+        1169,
+        348,
+        29,
+        1
+      ],
+      "hot1": [
+        26
+      ],
+      "hot2": [
+        26,
+        7
+      ],
+      "optimal1": [
+        26
+      ],
+      "optimal2": [
+        26,
+        44
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 3,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 375087.890625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339035.15625,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 354539.0625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 369960.9375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 369960.9375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 366351.5625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 365900.390625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 350929.6875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer30.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 26,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 44,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        26
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 369960.9375,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 31,
+      "n_a_histogram": [
+        2,
+        40,
+        438,
+        1112,
+        413,
+        42,
+        1
+      ],
+      "hot1": [
+        15
+      ],
+      "hot2": [
+        15,
+        41
+      ],
+      "optimal1": [
+        15
+      ],
+      "optimal2": [
+        15,
+        17
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 15,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 378000.0,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339609.375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 358312.5,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 370289.0625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 370289.0625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 365900.390625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 364464.84375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 350601.5625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336123.046875,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer31.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 15,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 17,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        15,
+        17
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 364464.84375,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 32,
+      "n_a_histogram": [
+        0,
+        21,
+        372,
+        1143,
+        463,
+        48,
+        1
+      ],
+      "hot1": [
+        12
+      ],
+      "hot2": [
+        12,
+        49
+      ],
+      "optimal1": [
+        12
+      ],
+      "optimal2": [
+        12,
+        56
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 56,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 376031.25,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 338912.109375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 355031.25,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 367335.9375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 367335.9375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 364792.96875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 363398.4375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 351093.75,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer32.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 12,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 56,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        12
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 367335.9375,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 33,
+      "n_a_histogram": [
+        3,
+        26,
+        403,
+        1086,
+        482,
+        47,
+        1
+      ],
+      "hot1": [
+        29
+      ],
+      "hot2": [
+        29,
+        41
+      ],
+      "optimal1": [
+        29
+      ],
+      "optimal2": [
+        29,
+        41
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 29,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 378779.296875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339322.265625,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357041.015625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 367910.15625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 367910.15625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 361019.53125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 361019.53125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 346171.875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336164.0625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer33.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 29,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 41,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        29,
+        41
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 361019.53125,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 34,
+      "n_a_histogram": [
+        0,
+        23,
+        396,
+        1094,
+        490,
+        44,
+        1
+      ],
+      "hot1": [
+        61
+      ],
+      "hot2": [
+        61,
+        60
+      ],
+      "optimal1": [
+        61
+      ],
+      "optimal2": [
+        15,
+        61
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 61,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 377958.984375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 338830.078125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 356015.625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 368197.265625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 368197.265625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 365285.15625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 363398.4375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 351011.71875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer34.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 15,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 61,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        61
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 368197.265625,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 35,
+      "n_a_histogram": [
+        3,
+        36,
+        469,
+        1107,
+        397,
+        34,
+        2
+      ],
+      "hot1": [
+        47
+      ],
+      "hot2": [
+        47,
+        37
+      ],
+      "optimal1": [
+        47
+      ],
+      "optimal2": [
+        37,
+        47
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 47,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 377876.953125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339281.25,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357041.015625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 371068.359375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 371068.359375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 365285.15625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 365285.15625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 350232.421875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336205.078125,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer35.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 37,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 47,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        47,
+        37
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 365285.15625,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 36,
+      "n_a_histogram": [
+        1,
+        49,
+        424,
+        1148,
+        370,
+        55,
+        1
+      ],
+      "hot1": [
+        55
+      ],
+      "hot2": [
+        55,
+        51
+      ],
+      "optimal1": [
+        55
+      ],
+      "optimal2": [
+        51,
+        55
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 55,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 377343.75,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 340429.6875,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 357902.34375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 369140.625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 369140.625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 363398.4375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 363398.4375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 351667.96875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336082.03125,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer36.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 51,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 55,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        55,
+        51
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 363398.4375,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 37,
+      "n_a_histogram": [
+        0,
+        40,
+        396,
+        1169,
+        414,
+        29,
+        0
+      ],
+      "hot1": [
+        54
+      ],
+      "hot2": [
+        54,
+        3
+      ],
+      "optimal1": [
+        3
+      ],
+      "optimal2": [
+        3,
+        55
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 3,
+        "copy_original_shared_half": "A",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 374882.8125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "paired_shared": {
+          "mean_ns": 338830.078125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        },
+        "shared_half_budget": {
+          "mean_ns": 356712.890625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot1": {
+          "mean_ns": 370083.984375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal1": {
+          "mean_ns": 368689.453125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "hot2": {
+          "mean_ns": 363890.625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 363275.390625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 350519.53125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336000.0,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 336000
+        }
+      },
+      "route_assignment_file": "layer37.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 3,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 55,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        3,
+        55
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 363275.390625,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 504000
+      }
+    },
+    {
+      "layer": 38,
+      "n_a_histogram": [
+        1,
+        37,
+        459,
+        1060,
+        449,
+        41,
+        1
+      ],
+      "hot1": [
+        2
+      ],
+      "hot2": [
+        2,
+        37
+      ],
+      "optimal1": [
+        2
+      ],
+      "optimal2": [
+        2,
+        7
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 2,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "B",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 379886.71875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 339363.28125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 359501.953125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 369796.875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 369796.875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 364792.96875,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "optimal2": {
+          "mean_ns": 364587.890625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 349412.109375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336082.03125,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer38.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 2,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 7,
+          "source_half": "B",
+          "destination_half": "A",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        2,
+        7
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 364587.890625,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    },
+    {
+      "layer": 39,
+      "n_a_histogram": [
+        1,
+        23,
+        388,
+        1153,
+        447,
+        36,
+        0
+      ],
+      "hot1": [
+        45
+      ],
+      "hot2": [
+        45,
+        50
+      ],
+      "optimal1": [
+        45
+      ],
+      "optimal2": [
+        45,
+        50
+      ],
+      "optimal_hybrid": {
+        "routed_expert": 45,
+        "copy_original_shared_half": "B",
+        "shared_extra_tiles": 8,
+        "routed_extra_tiles": 8,
+        "extra_useful_bytes": 3145728,
+        "extra_pages": 192,
+        "extra_stored_waves": 48,
+        "policy": "Joint per-route minimum over copied routedexpert original/oppositehalf and shared128+128 or legal256+0 rows; original shared tiles reused."
+      },
+      "shared_half_budget_copies_original_half": "A",
+      "stats": {
+        "onecopy": {
+          "mean_ns": 375210.9375,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "paired_shared": {
+          "mean_ns": 338501.953125,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "shared_half_budget": {
+          "mean_ns": 355400.390625,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot1": {
+          "mean_ns": 367007.8125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal1": {
+          "mean_ns": 367007.8125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "hot2": {
+          "mean_ns": 362783.203125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal2": {
+          "mean_ns": 362783.203125,
+          "p99_ns": 504000.0,
+          "min_ns": 336000,
+          "max_ns": 588000
+        },
+        "optimal_hybrid_halfshared1routed": {
+          "mean_ns": 350109.375,
+          "p99_ns": 420000.0,
+          "min_ns": 336000,
+          "max_ns": 504000
+        },
+        "adaptive_routed_copy_placement_16tiles_oracle": {
+          "mean_ns": 336041.015625,
+          "p99_ns": 336000.0,
+          "min_ns": 336000,
+          "max_ns": 420000
+        }
+      },
+      "route_assignment_file": "layer39.npz",
+      "optimal2_copy_rows": [
+        {
+          "expert": 45,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        },
+        {
+          "expert": 50,
+          "source_half": "A",
+          "destination_half": "B",
+          "rows": 1024,
+          "columns": 1536,
+          "tiles": 8,
+          "rows_per_tile": 128,
+          "extra_useful_bytes": 1572864,
+          "extra_pages": 96,
+          "extra_waves_stored": 24
+        }
+      ],
+      "global_budget_greedy_copies": [
+        45
+      ],
+      "global_budget_greedy_stats": {
+        "mean_ns": 367007.8125,
+        "p99_ns": 504000.0,
+        "min_ns": 336000,
+        "max_ns": 588000
+      }
+    }
+  ],
+  "global_greedy_steps": [
+    {
+      "step": 1,
+      "layer": 18,
+      "expert": 37,
+      "train_saved_3wave_units": 353
+    },
+    {
+      "step": 2,
+      "layer": 15,
+      "expert": 25,
+      "train_saved_3wave_units": 311
+    },
+    {
+      "step": 3,
+      "layer": 12,
+      "expert": 34,
+      "train_saved_3wave_units": 307
+    },
+    {
+      "step": 4,
+      "layer": 1,
+      "expert": 62,
+      "train_saved_3wave_units": 293
+    },
+    {
+      "step": 5,
+      "layer": 23,
+      "expert": 53,
+      "train_saved_3wave_units": 289
+    },
+    {
+      "step": 6,
+      "layer": 11,
+      "expert": 55,
+      "train_saved_3wave_units": 284
+    },
+    {
+      "step": 7,
+      "layer": 24,
+      "expert": 26,
+      "train_saved_3wave_units": 270
+    },
+    {
+      "step": 8,
+      "layer": 12,
+      "expert": 24,
+      "train_saved_3wave_units": 267
+    },
+    {
+      "step": 9,
+      "layer": 14,
+      "expert": 48,
+      "train_saved_3wave_units": 265
+    },
+    {
+      "step": 10,
+      "layer": 33,
+      "expert": 29,
+      "train_saved_3wave_units": 265
+    },
+    {
+      "step": 11,
+      "layer": 10,
+      "expert": 43,
+      "train_saved_3wave_units": 251
+    },
+    {
+      "step": 12,
+      "layer": 38,
+      "expert": 2,
+      "train_saved_3wave_units": 246
+    },
+    {
+      "step": 13,
+      "layer": 16,
+      "expert": 16,
+      "train_saved_3wave_units": 242
+    },
+    {
+      "step": 14,
+      "layer": 17,
+      "expert": 26,
+      "train_saved_3wave_units": 241
+    },
+    {
+      "step": 15,
+      "layer": 20,
+      "expert": 10,
+      "train_saved_3wave_units": 240
+    },
+    {
+      "step": 16,
+      "layer": 17,
+      "expert": 58,
+      "train_saved_3wave_units": 239
+    },
+    {
+      "step": 17,
+      "layer": 34,
+      "expert": 61,
+      "train_saved_3wave_units": 238
+    },
+    {
+      "step": 18,
+      "layer": 21,
+      "expert": 17,
+      "train_saved_3wave_units": 236
+    },
+    {
+      "step": 19,
+      "layer": 28,
+      "expert": 14,
+      "train_saved_3wave_units": 235
+    },
+    {
+      "step": 20,
+      "layer": 11,
+      "expert": 31,
+      "train_saved_3wave_units": 229
+    },
+    {
+      "step": 21,
+      "layer": 16,
+      "expert": 44,
+      "train_saved_3wave_units": 227
+    },
+    {
+      "step": 22,
+      "layer": 10,
+      "expert": 10,
+      "train_saved_3wave_units": 226
+    },
+    {
+      "step": 23,
+      "layer": 19,
+      "expert": 21,
+      "train_saved_3wave_units": 221
+    },
+    {
+      "step": 24,
+      "layer": 13,
+      "expert": 60,
+      "train_saved_3wave_units": 216
+    },
+    {
+      "step": 25,
+      "layer": 22,
+      "expert": 48,
+      "train_saved_3wave_units": 216
+    },
+    {
+      "step": 26,
+      "layer": 25,
+      "expert": 63,
+      "train_saved_3wave_units": 215
+    },
+    {
+      "step": 27,
+      "layer": 19,
+      "expert": 27,
+      "train_saved_3wave_units": 212
+    },
+    {
+      "step": 28,
+      "layer": 32,
+      "expert": 12,
+      "train_saved_3wave_units": 212
+    },
+    {
+      "step": 29,
+      "layer": 5,
+      "expert": 15,
+      "train_saved_3wave_units": 207
+    },
+    {
+      "step": 30,
+      "layer": 14,
+      "expert": 52,
+      "train_saved_3wave_units": 203
+    },
+    {
+      "step": 31,
+      "layer": 36,
+      "expert": 55,
+      "train_saved_3wave_units": 200
+    },
+    {
+      "step": 32,
+      "layer": 39,
+      "expert": 45,
+      "train_saved_3wave_units": 200
+    },
+    {
+      "step": 33,
+      "layer": 26,
+      "expert": 2,
+      "train_saved_3wave_units": 195
+    },
+    {
+      "step": 34,
+      "layer": 15,
+      "expert": 30,
+      "train_saved_3wave_units": 191
+    },
+    {
+      "step": 35,
+      "layer": 29,
+      "expert": 43,
+      "train_saved_3wave_units": 188
+    },
+    {
+      "step": 36,
+      "layer": 31,
+      "expert": 15,
+      "train_saved_3wave_units": 188
+    },
+    {
+      "step": 37,
+      "layer": 21,
+      "expert": 42,
+      "train_saved_3wave_units": 181
+    },
+    {
+      "step": 38,
+      "layer": 6,
+      "expert": 26,
+      "train_saved_3wave_units": 180
+    },
+    {
+      "step": 39,
+      "layer": 13,
+      "expert": 27,
+      "train_saved_3wave_units": 180
+    },
+    {
+      "step": 40,
+      "layer": 8,
+      "expert": 22,
+      "train_saved_3wave_units": 177
+    },
+    {
+      "step": 41,
+      "layer": 33,
+      "expert": 41,
+      "train_saved_3wave_units": 168
+    },
+    {
+      "step": 42,
+      "layer": 5,
+      "expert": 19,
+      "train_saved_3wave_units": 167
+    },
+    {
+      "step": 43,
+      "layer": 24,
+      "expert": 51,
+      "train_saved_3wave_units": 166
+    },
+    {
+      "step": 44,
+      "layer": 35,
+      "expert": 47,
+      "train_saved_3wave_units": 166
+    },
+    {
+      "step": 45,
+      "layer": 1,
+      "expert": 51,
+      "train_saved_3wave_units": 165
+    },
+    {
+      "step": 46,
+      "layer": 4,
+      "expert": 1,
+      "train_saved_3wave_units": 164
+    },
+    {
+      "step": 47,
+      "layer": 9,
+      "expert": 22,
+      "train_saved_3wave_units": 163
+    },
+    {
+      "step": 48,
+      "layer": 2,
+      "expert": 26,
+      "train_saved_3wave_units": 160
+    },
+    {
+      "step": 49,
+      "layer": 6,
+      "expert": 53,
+      "train_saved_3wave_units": 158
+    },
+    {
+      "step": 50,
+      "layer": 4,
+      "expert": 17,
+      "train_saved_3wave_units": 156
+    },
+    {
+      "step": 51,
+      "layer": 7,
+      "expert": 11,
+      "train_saved_3wave_units": 154
+    },
+    {
+      "step": 52,
+      "layer": 37,
+      "expert": 3,
+      "train_saved_3wave_units": 151
+    },
+    {
+      "step": 53,
+      "layer": 23,
+      "expert": 20,
+      "train_saved_3wave_units": 150
+    },
+    {
+      "step": 54,
+      "layer": 27,
+      "expert": 51,
+      "train_saved_3wave_units": 150
+    },
+    {
+      "step": 55,
+      "layer": 13,
+      "expert": 26,
+      "train_saved_3wave_units": 148
+    },
+    {
+      "step": 56,
+      "layer": 18,
+      "expert": 48,
+      "train_saved_3wave_units": 142
+    },
+    {
+      "step": 57,
+      "layer": 26,
+      "expert": 14,
+      "train_saved_3wave_units": 142
+    },
+    {
+      "step": 58,
+      "layer": 31,
+      "expert": 17,
+      "train_saved_3wave_units": 142
+    },
+    {
+      "step": 59,
+      "layer": 35,
+      "expert": 37,
+      "train_saved_3wave_units": 141
+    },
+    {
+      "step": 60,
+      "layer": 36,
+      "expert": 51,
+      "train_saved_3wave_units": 140
+    },
+    {
+      "step": 61,
+      "layer": 5,
+      "expert": 8,
+      "train_saved_3wave_units": 134
+    },
+    {
+      "step": 62,
+      "layer": 15,
+      "expert": 34,
+      "train_saved_3wave_units": 134
+    },
+    {
+      "step": 63,
+      "layer": 7,
+      "expert": 19,
+      "train_saved_3wave_units": 133
+    },
+    {
+      "step": 64,
+      "layer": 20,
+      "expert": 56,
+      "train_saved_3wave_units": 132
+    },
+    {
+      "step": 65,
+      "layer": 37,
+      "expert": 55,
+      "train_saved_3wave_units": 132
+    },
+    {
+      "step": 66,
+      "layer": 3,
+      "expert": 21,
+      "train_saved_3wave_units": 131
+    },
+    {
+      "step": 67,
+      "layer": 10,
+      "expert": 60,
+      "train_saved_3wave_units": 130
+    },
+    {
+      "step": 68,
+      "layer": 17,
+      "expert": 2,
+      "train_saved_3wave_units": 129
+    },
+    {
+      "step": 69,
+      "layer": 21,
+      "expert": 45,
+      "train_saved_3wave_units": 129
+    },
+    {
+      "step": 70,
+      "layer": 28,
+      "expert": 4,
+      "train_saved_3wave_units": 129
+    },
+    {
+      "step": 71,
+      "layer": 3,
+      "expert": 56,
+      "train_saved_3wave_units": 128
+    },
+    {
+      "step": 72,
+      "layer": 23,
+      "expert": 55,
+      "train_saved_3wave_units": 128
+    },
+    {
+      "step": 73,
+      "layer": 38,
+      "expert": 7,
+      "train_saved_3wave_units": 127
+    },
+    {
+      "step": 74,
+      "layer": 9,
+      "expert": 13,
+      "train_saved_3wave_units": 126
+    },
+    {
+      "step": 75,
+      "layer": 22,
+      "expert": 41,
+      "train_saved_3wave_units": 126
+    },
+    {
+      "step": 76,
+      "layer": 11,
+      "expert": 57,
+      "train_saved_3wave_units": 125
+    },
+    {
+      "step": 77,
+      "layer": 27,
+      "expert": 24,
+      "train_saved_3wave_units": 125
+    },
+    {
+      "step": 78,
+      "layer": 30,
+      "expert": 26,
+      "train_saved_3wave_units": 125
+    },
+    {
+      "step": 79,
+      "layer": 2,
+      "expert": 41,
+      "train_saved_3wave_units": 122
+    },
+    {
+      "step": 80,
+      "layer": 9,
+      "expert": 24,
+      "train_saved_3wave_units": 122
+    }
+  ],
+  "limitations": [
+    "Train selection and train scoring use the same routes; no validation/generalization claim.",
+    "optimal2 is exact among two complete routed-GU opposite-half expert copies, not arbitrary partial tiles or all replica layouts.",
+    "optimal_hybrid_halfshared1routed is exact among128 halfshared-plus-onewhole-routed choices, not all possible16tile shared/routed budgets.",
+    "global_budget_greedy80 is feasible with same total useful/page budget but not a global optimum; per-chip reservation capacity must be checked.",
+    "Stage bounds require all GU jobs ready together; joined GU/down DAG may change the ranking. No summing stage oracles as measured end-to-end latency.",
+    "Same existing abstract raw-I8/A8/output4B timing contract. The original GGUF numeric model and native AiF output/scales are not established by this script.",
+    "Shared replication and dynamic expert dispatch have direct prior art; these controls do not establish novelty."
+  ],
+  "primary_prior": [
+    {
+      "title": "DeepSeek-V3 technical report,3.4.2",
+      "url": "https://arxiv.org/html/2412.19437v2",
+      "relevance": "Decoding explicitly treats always-selected shared expert as heavy-loaded routed expert and deploys redundant/shared experts."
+    },
+    {
+      "title": "Official DeepSeek EPLB",
+      "url": "https://github.com/deepseek-ai/EPLB",
+      "relevance": "Duplicates heavy-loaded experts and packs replicas to balance execution load."
+    },
+    {
+      "title": "Official Megatron shared expert implementation",
+      "url": "https://github.com/NVIDIA/Megatron-LM/blob/main/megatron/core/transformer/moe/shared_experts.py",
+      "relevance": "Explicit shared-expert/dispatcher overlap state machine; overlap alone is prior art."
+    }
+  ]
+}

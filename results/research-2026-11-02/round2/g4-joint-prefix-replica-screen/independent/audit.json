@@ -1,0 +1,78 @@
+{
+  "status": "PASS_staged_native_gate_only_controls_pending",
+  "protocol_sha256": "3df265e102a3ff6f237660af6781ebb449bc9cc6c31637e59e04f986fc071c83",
+  "source_sha256": "46cea151ca599403d7be7eca0131b55ddcfea43f5f85afb3084eb56052bb3324",
+  "exact_rational_LP_certificates": 512,
+  "rational_denominator": 1000000000,
+  "chosen_joint_rows_checked": 512,
+  "GU_unique_ownership_maps": 3072,
+  "Down_unique_ownership_maps": 3072,
+  "all8policy_row_cost_checks": 4096,
+  "CP32_actualrow_costs_checked": 32,
+  "CP32_status": {
+    "optimal": 6,
+    "feasible": 26
+  },
+  "independent_event_traces": [
+    {
+      "query": 0,
+      "case": "baseline",
+      "nodes": 1031,
+      "cost_ns": 551140
+    },
+    {
+      "query": 0,
+      "case": "joint",
+      "nodes": 781,
+      "cost_ns": 549470
+    },
+    {
+      "query": 255,
+      "case": "baseline",
+      "nodes": 1031,
+      "cost_ns": 577316
+    },
+    {
+      "query": 255,
+      "case": "joint",
+      "nodes": 916,
+      "cost_ns": 548124
+    },
+    {
+      "query": 511,
+      "case": "baseline",
+      "nodes": 1031,
+      "cost_ns": 578662
+    },
+    {
+      "query": 511,
+      "case": "joint",
+      "nodes": 706,
+      "cost_ns": 578040
+    }
+  ],
+  "baseline": {
+    "mean_ns": 561099.01953125,
+    "p99_ns": 580695.14
+  },
+  "joint": {
+    "mean_ns": 549021.7734375,
+    "p99_ns": 578797.5
+  },
+  "improvement": {
+    "mean_pct": 2.1524268753560616,
+    "p99_pct": 0.32678764971237895
+  },
+  "incremental_vs_Down_only": {
+    "mean_pct": 0.20790827636936182,
+    "p99_pct": -0.39301224151331304
+  },
+  "stage_gate_passed": true,
+  "limitations": [
+    "OnlyfixedGU3+Down14 and one8pathjointgreedy policy onTRAINL0.",
+    "Zero software/selector/scatter cost is optimistic; no productionselector or samecapacity strongcontrols yet.",
+    "Passing2/5stagegate does not establish novelty, physicalexecution, modelquality, wholemodel orheldoutgain.",
+    "The strongest singlebranch has smaller P99; jointmean gain relative toDownonly is about0.208%.",
+    "CP32FEASIBLE cases are notoptimal; theirbits did notreplacegreedy512."
+  ]
+}

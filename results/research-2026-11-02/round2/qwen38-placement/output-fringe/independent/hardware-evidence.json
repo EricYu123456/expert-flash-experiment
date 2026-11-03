@@ -1,0 +1,42 @@
+{
+  "schema": "expert_flash.output_fringe_hardware_audit.v1",
+  "primary": {
+    "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+    "venue": "ISCA 2025",
+    "doi": "https://doi.org/10.1145/3695053.3731073",
+    "local_text": "/home/ericyu/expert_flash_experiment/paper/aif.txt",
+    "local_text_sha256": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7",
+    "read_scope": "Section4.4/Figure14, printed536–537; existing supplied paper text.",
+    "web_access_this_audit": "Publisher/DOI direct fulltext requests returned403. Publisher indexed metadata was visible; no newly fetched fulltext/ABI disclosure is claimed."
+  },
+  "explicit_disclosures": [
+    "GEMV command describes input dimension, matrix block ID, block offset and page count.",
+    "INT8 multiplication and adder tree; output elements enter FIFO sequentially and controller polls SREG."
+  ],
+  "not_established": [
+    "A valid-R output stop distinct from page count",
+    "Output scalar bitwidth, scale and rounding contract",
+    "Flush/discard behavior for the last incomplete C-wide dot product",
+    "Which unused plane slots in a reserved wave are sensed, corrected or emitted",
+    "Controller versus host discard/filtering and additional polling/packet cost"
+  ],
+  "conditional_models": {
+    "0": "Emit useful R results; requires appropriate result termination/filtering somewhere.",
+    "1": "Emit floor(ceil(R*C/16384)*16384/C) complete rows.",
+    "2": "Emit floor(ceil(R*C/65536)*65536/C) complete rows."
+  },
+  "inference": [
+    "Modes1/2 correctly price all emitted four-byte results on channel and PCIe without changing waves or source weights.",
+    "They are sensitivity cases, not bounds on every possible native output behavior.",
+    "Mode2 reading unused wave slots and both modes ignoring incomplete final accumulator require unverified semantics.",
+    "Small cost sensitivity does not validate native arbitrary-R execution, result framing or partial-output reconstruction.",
+    "The C++ interface is Qwen-specific: common upload320ns=2560/8, private upload80ns=640/8."
+  ],
+  "code_review": [
+    "The Python adapter pairs jobs in GU-all then down-all creation order; our independent builder matches all480 saved graphs.",
+    "C++ emitted row formulas, per-result bandwidth and context release at channel drain match the independent specification.",
+    "Representative and additional negative-case event replay uses separate set-based ready queues, not the production scheduler/library.",
+    "Every node duration rises or stays fixed in the negative controls; altered greedy resource order explains lower isolated makespans."
+  ],
+  "scope": "No fit/refit, new task/data or hardware experiment. Frozen source hashes and existing external NPZ rechecked."
+}

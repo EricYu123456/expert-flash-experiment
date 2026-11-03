@@ -1,0 +1,443 @@
+{
+  "status": "PASS bounded necessary-work screen",
+  "protocol_sha256": "b59dee313e078062b646241ec3b43ddd445a690e945064682dd731d7d3cefc13",
+  "source_sha256": "33aeb8e80ac859af76b62511a631d7848ff2ecd7c16c9dc0f0f4eda152775499",
+  "oracle_source_sha256": "0ec13512dbd9abf169d7dd1ae1aee7f3173ee78f532e1713897b5226759c3bcb",
+  "oracle_binary_sha256": "221bb1b2034d1ccd3436b756fe8af2590fd7ecae875be0b0cb27531d22019484",
+  "service": {
+    "chips": 16,
+    "channels": 8,
+    "planes": 4,
+    "page_bytes": 16384,
+    "block_wordlines": 192,
+    "input_bytes": 1,
+    "output_bytes": 4,
+    "ordinary_read_ns": 28000,
+    "command_ns": 250,
+    "host_submit_ns": 2000,
+    "pcie_bytes_per_second": 8000000000,
+    "channel_bytes_per_second": 2000000000,
+    "activation_ns": 0,
+    "combine_ns": 0,
+    "output_fringe": 1,
+    "down_first": 0,
+    "input_buffer_bytes": 32768,
+    "input_channel_copies": 1
+  },
+  "TRAIN_queries": 512,
+  "baseline_native_mean_ns": 561099.01953125,
+  "baseline_chip_work_mean_ns": 555559.67578125,
+  "baseline_native_LB_mean_ns": 557559.67578125,
+  "routeblind": [
+    {
+      "index": 0,
+      "mean_work_ns": 554714.9296875,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.15205316918692757
+    },
+    {
+      "index": 1,
+      "mean_work_ns": 554404.375,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.20795259836404734
+    },
+    {
+      "index": 2,
+      "mean_work_ns": 554086.1953125,
+      "p99_work_ns": 573729.38,
+      "mean_work_saving_pct": 0.2652245173622281
+    },
+    {
+      "index": 3,
+      "mean_work_ns": 554566.35546875,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.17879633022377384
+    },
+    {
+      "index": 4,
+      "mean_work_ns": 554562.23828125,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.1795374184775711
+    },
+    {
+      "index": 5,
+      "mean_work_ns": 554944.65234375,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.1107033977286287
+    },
+    {
+      "index": 6,
+      "mean_work_ns": 554610.82421875,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.17079201458704008
+    },
+    {
+      "index": 7,
+      "mean_work_ns": 554669.7421875,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.16018685886417527
+    },
+    {
+      "index": 8,
+      "mean_work_ns": 554821.75,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.13282565553597303
+    },
+    {
+      "index": 9,
+      "mean_work_ns": 554083.234375,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.2657574821595454
+    },
+    {
+      "index": 10,
+      "mean_work_ns": 555045.28515625,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.09258962581771835
+    },
+    {
+      "index": 11,
+      "mean_work_ns": 554728.296875,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.1496470932813576
+    },
+    {
+      "index": 12,
+      "mean_work_ns": 554125.05859375,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.2582291786175084
+    },
+    {
+      "index": 13,
+      "mean_work_ns": 554838.1640625,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.12987114619782414
+    },
+    {
+      "index": 14,
+      "mean_work_ns": 554243.5,
+      "p99_work_ns": 573692.0,
+      "mean_work_saving_pct": 0.23690988360506315
+    },
+    {
+      "index": 15,
+      "mean_work_ns": 554832.55859375,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.1308801230898382
+    },
+    {
+      "index": 16,
+      "mean_work_ns": 554667.16015625,
+      "p99_work_ns": 573692.0,
+      "mean_work_saving_pct": 0.16065162104231812
+    },
+    {
+      "index": 17,
+      "mean_work_ns": 554169.76953125,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.2501812695540728
+    },
+    {
+      "index": 18,
+      "mean_work_ns": 554618.171875,
+      "p99_work_ns": 573692.0,
+      "mean_work_saving_pct": 0.16946944627074245
+    },
+    {
+      "index": 19,
+      "mean_work_ns": 554351.15625,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.21753190232004505
+    },
+    {
+      "index": 20,
+      "mean_work_ns": 554472.33203125,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.1957204234578236
+    },
+    {
+      "index": 21,
+      "mean_work_ns": 554608.0234375,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.1712961514731548
+    },
+    {
+      "index": 22,
+      "mean_work_ns": 554834.78125,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.1304800479319579
+    },
+    {
+      "index": 23,
+      "mean_work_ns": 553968.8125,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.28635326691284213
+    },
+    {
+      "index": 24,
+      "mean_work_ns": 554570.91796875,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.17797508631445247
+    },
+    {
+      "index": 25,
+      "mean_work_ns": 554410.20703125,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.20690284052448105
+    },
+    {
+      "index": 26,
+      "mean_work_ns": 554241.85546875,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.23720589703469797
+    },
+    {
+      "index": 27,
+      "mean_work_ns": 554511.91015625,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.18859641379237457
+    },
+    {
+      "index": 28,
+      "mean_work_ns": 554462.1875,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.19754642554045132
+    },
+    {
+      "index": 29,
+      "mean_work_ns": 553866.8671875,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.3047032870716393
+    },
+    {
+      "index": 30,
+      "mean_work_ns": 554796.33984375,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.13739944973986118
+    },
+    {
+      "index": 31,
+      "mean_work_ns": 553929.49609375,
+      "p99_work_ns": 573734.0,
+      "mean_work_saving_pct": 0.29343016755266627
+    }
+  ],
+  "routeblind_best_index": 29,
+  "coordinate_passes": [
+    {
+      "pass_index": 1,
+      "changed_experts": 61,
+      "mean_work_ns": 548921.17578125,
+      "p99_work_ns": 573692.0
+    },
+    {
+      "pass_index": 2,
+      "changed_experts": 34,
+      "mean_work_ns": 547829.7734375,
+      "p99_work_ns": 573692.0
+    }
+  ],
+  "coordinate_edge_proposals": 23040,
+  "oracle_calls": 23075,
+  "oracle_query_evaluations": 1123840,
+  "selected_oracle_mean_ns": 547829.7734375,
+  "selected_oracle_p99_ns": 573692.0,
+  "selected_oracle_work_saving_pct": 1.3913721028942394,
+  "optimistic_native_saving_ceiling_using_hostprefix_pct": 2.0084237721827547,
+  "same_edges_zero_copy_static": {
+    "start": 0,
+    "mean_work_ns": 555559.67578125,
+    "p99_work_ns": 573734.0,
+    "bits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "passes": [
+      {
+        "pass_index": 1,
+        "accepted": 0,
+        "mean_work_ns": 555559.67578125
+      },
+      {
+        "pass_index": 2,
+        "accepted": 0,
+        "mean_work_ns": 555559.67578125
+      }
+    ]
+  },
+  "routeblind_best_same_edges_zero_copy_static": {
+    "start": 0,
+    "mean_work_ns": 555559.67578125,
+    "p99_work_ns": 573734.0,
+    "bits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "passes": [
+      {
+        "pass_index": 1,
+        "accepted": 0,
+        "mean_work_ns": 555559.67578125
+      },
+      {
+        "pass_index": 2,
+        "accepted": 0,
+        "mean_work_ns": 555559.67578125
+      }
+    ]
+  },
+  "selected_vs_same_edges_static_work_saving_pct": 1.3913721028942394,
+  "replica_budget": {
+    "experts": 64,
+    "one_tile_per_expert": true,
+    "tile_rows": 128,
+    "columns": 512,
+    "bytes_per_tile": 65536,
+    "total_resident_extra_bytes": 4194304,
+    "total_resident_extra_waves": 64
+  },
+  "independent_python64_checks": [
+    {
+      "query": 0,
+      "minimum_ns": 544972,
+      "all64_masks_checked": true
+    },
+    {
+      "query": 255,
+      "minimum_ns": 545142,
+      "all64_masks_checked": true
+    },
+    {
+      "query": 511,
+      "minimum_ns": 573058,
+      "all64_masks_checked": true
+    }
+  ],
+  "gate_reached_2pct": true,
+  "scope": "Finite32routeblind layouts plus atmost2TRAIN marginal coordinatepasses; perquery exact64choice necessary-work oracle only. No fullnative speed, selector, global optimum, inference or heldout claim.",
+  "seconds": 1.5048323841765523
+}

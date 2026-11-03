@@ -1,0 +1,326 @@
+{
+  "frozen_utc": "2026-11-01T23:50:02.415750+00:00",
+  "seed": "20261103",
+  "source_manifest": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/manifest.json",
+  "source_manifest_sha256": "5b2bc00709ad04cdf90ed9d117ec3ccc506317affdf1e1318e9b80adc9ab938d",
+  "eligible_metadata_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/eligible_train_filename_metadata.json",
+  "eligible_metadata_sha256": "7585104ad127a54236ee49b7513dfc15f53a47371a57aaf772cc2205109ec8d5",
+  "eligible_train_prompts": 200,
+  "task_order": [
+    "mathematics",
+    "long_context",
+    "qa",
+    "programming",
+    "translation",
+    "summarization"
+  ],
+  "task_order_rule": "SHA256(seed+NUL+task+NUL+task_name), then task name",
+  "within_task_rule": "SHA256(seed+NUL+prompt+NUL+prompt_id), then ID",
+  "selection_rule": "Balanced round-robin over seeded task order, next ranked TRAIN ID per task, skip exhausted tasks, stop at32. No length/content/output filtering.",
+  "selected_task_counts": {
+    "mathematics": 6,
+    "long_context": 6,
+    "qa": 5,
+    "programming": 5,
+    "translation": 5,
+    "summarization": 5
+  },
+  "selected_length_counts": {
+    "long": 15,
+    "short": 10,
+    "medium": 7
+  },
+  "selected": [
+    {
+      "id": "train_mathematics_long_020",
+      "task": "mathematics",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_mathematics_long_020.txt",
+      "selection_index": 0,
+      "task_rank": "5b299af344576b6f025a40171b496d561d31fb9386fcc01649490caebd5c3709",
+      "prompt_rank": "05cebf5d30f5947e7b925b0356780079ffc24a1cfab53f185e9206b26a5dfc25"
+    },
+    {
+      "id": "train_long_context_short_012",
+      "task": "long_context",
+      "length_bucket": "short",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_long_context_short_012.txt",
+      "selection_index": 1,
+      "task_rank": "73dc87bb1a4166217bfe3f0a8eb0c1c714df886fc09c61f3ac35cedcc94ef460",
+      "prompt_rank": "039bdac8360bf6a8ec339f6d1d869898d32a7db8bea8f1e6ea708ab8ad9c5829"
+    },
+    {
+      "id": "train_qa_long_020",
+      "task": "qa",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_qa_long_020.txt",
+      "selection_index": 2,
+      "task_rank": "8f55790402144782ee813a4579b734846154ec38376ddab73f25513cee2f0b5c",
+      "prompt_rank": "05c24457b61682f28c37407685b94973315d91870312b1ec1466a73fd4788619"
+    },
+    {
+      "id": "train_programming_short_015",
+      "task": "programming",
+      "length_bucket": "short",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_programming_short_015.txt",
+      "selection_index": 3,
+      "task_rank": "a43635c9e25da93d02ac4f1317af367e4627b8177f6434f5d99007e7b55eeb80",
+      "prompt_rank": "004f59e5da191a7cbab9cf0a70397bfa66b09d56d42045332d9ee77454bdff83"
+    },
+    {
+      "id": "train_translation_long_014",
+      "task": "translation",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_translation_long_014.txt",
+      "selection_index": 4,
+      "task_rank": "f5cac1e5c89a53147a0bf01e067b0697ce43a639b11525a78ed3dbf849b9799f",
+      "prompt_rank": "02281e2c46c1d3ffb78972cad7b9cb18fd573088096ec216e698c621248679d4"
+    },
+    {
+      "id": "train_summarization_medium_016",
+      "task": "summarization",
+      "length_bucket": "medium",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_summarization_medium_016.txt",
+      "selection_index": 5,
+      "task_rank": "f6a58689a559b086aeb84d5062bd3a535008d5a71268b7244992f432cee2c517",
+      "prompt_rank": "03bb4677a6fd34cb6c1e3420290b9f763059d27245baf9c1d3cef491f01c0e4a"
+    },
+    {
+      "id": "train_mathematics_medium_028",
+      "task": "mathematics",
+      "length_bucket": "medium",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_mathematics_medium_028.txt",
+      "selection_index": 6,
+      "task_rank": "5b299af344576b6f025a40171b496d561d31fb9386fcc01649490caebd5c3709",
+      "prompt_rank": "0e5d99beb49215bd75ae907f8b221bde9656318921bbe4dec837288b897fcf2d"
+    },
+    {
+      "id": "train_long_context_medium_016",
+      "task": "long_context",
+      "length_bucket": "medium",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_long_context_medium_016.txt",
+      "selection_index": 7,
+      "task_rank": "73dc87bb1a4166217bfe3f0a8eb0c1c714df886fc09c61f3ac35cedcc94ef460",
+      "prompt_rank": "08cfa8bcccd565230405047cf7366fa23c3857828621e456c7d955cc0603a5cd"
+    },
+    {
+      "id": "train_qa_long_026",
+      "task": "qa",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_qa_long_026.txt",
+      "selection_index": 8,
+      "task_rank": "8f55790402144782ee813a4579b734846154ec38376ddab73f25513cee2f0b5c",
+      "prompt_rank": "10df3d38b31f3bb0a2f272b3a76694bd4fab25de93ddfb141cbff34d3be25bbb"
+    },
+    {
+      "id": "train_programming_short_000",
+      "task": "programming",
+      "length_bucket": "short",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_programming_short_000.txt",
+      "selection_index": 9,
+      "task_rank": "a43635c9e25da93d02ac4f1317af367e4627b8177f6434f5d99007e7b55eeb80",
+      "prompt_rank": "006b383decdace3f21f68c1e2f3936433e2e9f6ed47df5e895b72e1193882424"
+    },
+    {
+      "id": "train_translation_medium_028",
+      "task": "translation",
+      "length_bucket": "medium",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_translation_medium_028.txt",
+      "selection_index": 10,
+      "task_rank": "f5cac1e5c89a53147a0bf01e067b0697ce43a639b11525a78ed3dbf849b9799f",
+      "prompt_rank": "15dda8a379961dfdb0c55b761f84474301801c9d28a94e5fb7194882d1ddcf4a"
+    },
+    {
+      "id": "train_summarization_medium_031",
+      "task": "summarization",
+      "length_bucket": "medium",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_summarization_medium_031.txt",
+      "selection_index": 11,
+      "task_rank": "f6a58689a559b086aeb84d5062bd3a535008d5a71268b7244992f432cee2c517",
+      "prompt_rank": "082e72778f9e3339bb6a47d5293056101c9d69e8991a0d48da4b1231e3162bb5"
+    },
+    {
+      "id": "train_mathematics_short_006",
+      "task": "mathematics",
+      "length_bucket": "short",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_mathematics_short_006.txt",
+      "selection_index": 12,
+      "task_rank": "5b299af344576b6f025a40171b496d561d31fb9386fcc01649490caebd5c3709",
+      "prompt_rank": "10fc97f7c7d4599baa1cece99bff3066b5abdc486727c482d98552526a529fc5"
+    },
+    {
+      "id": "train_long_context_medium_001",
+      "task": "long_context",
+      "length_bucket": "medium",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_long_context_medium_001.txt",
+      "selection_index": 13,
+      "task_rank": "73dc87bb1a4166217bfe3f0a8eb0c1c714df886fc09c61f3ac35cedcc94ef460",
+      "prompt_rank": "0b8d06056d5d98b6fe911b0835ebe42413a4b6e55cfc2b576e86809f355fe2a3"
+    },
+    {
+      "id": "train_qa_long_002",
+      "task": "qa",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_qa_long_002.txt",
+      "selection_index": 14,
+      "task_rank": "8f55790402144782ee813a4579b734846154ec38376ddab73f25513cee2f0b5c",
+      "prompt_rank": "11785a154c3a8bc085701fa840e41434639e53e9f71e556a7a1aba96a31c8879"
+    },
+    {
+      "id": "train_programming_long_011",
+      "task": "programming",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_programming_long_011.txt",
+      "selection_index": 15,
+      "task_rank": "a43635c9e25da93d02ac4f1317af367e4627b8177f6434f5d99007e7b55eeb80",
+      "prompt_rank": "0bc3ecb351587ea56cc2e537c41cf737d26753553eba2ba331fac00a9e728e0b"
+    },
+    {
+      "id": "train_translation_long_020",
+      "task": "translation",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_translation_long_020.txt",
+      "selection_index": 16,
+      "task_rank": "f5cac1e5c89a53147a0bf01e067b0697ce43a639b11525a78ed3dbf849b9799f",
+      "prompt_rank": "169f2717baa8324a07c60af4d65ac76285c502ff8ab6897f9fad6c865a31b666"
+    },
+    {
+      "id": "train_summarization_short_006",
+      "task": "summarization",
+      "length_bucket": "short",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_summarization_short_006.txt",
+      "selection_index": 17,
+      "task_rank": "f6a58689a559b086aeb84d5062bd3a535008d5a71268b7244992f432cee2c517",
+      "prompt_rank": "0c3a7833804680dfda82d109ad90a38ccffd1d2c154b2b46e20e086d00013ff4"
+    },
+    {
+      "id": "train_mathematics_long_011",
+      "task": "mathematics",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_mathematics_long_011.txt",
+      "selection_index": 18,
+      "task_rank": "5b299af344576b6f025a40171b496d561d31fb9386fcc01649490caebd5c3709",
+      "prompt_rank": "179f09922ea47054c0c21be33ad37ceac336c9ecec8c214cc1b1a23ea62a2763"
+    },
+    {
+      "id": "train_long_context_long_029",
+      "task": "long_context",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_long_context_long_029.txt",
+      "selection_index": 19,
+      "task_rank": "73dc87bb1a4166217bfe3f0a8eb0c1c714df886fc09c61f3ac35cedcc94ef460",
+      "prompt_rank": "0c1220e64eda4d483dc91e3eac1cf0a64d5a98d58e4ae1aa462b425040540445"
+    },
+    {
+      "id": "train_qa_long_014",
+      "task": "qa",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_qa_long_014.txt",
+      "selection_index": 20,
+      "task_rank": "8f55790402144782ee813a4579b734846154ec38376ddab73f25513cee2f0b5c",
+      "prompt_rank": "133b3b479979f9dd625c1f6e946845e1d41ce6c49b15945c77846412f82b1e05"
+    },
+    {
+      "id": "train_programming_long_032",
+      "task": "programming",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_programming_long_032.txt",
+      "selection_index": 21,
+      "task_rank": "a43635c9e25da93d02ac4f1317af367e4627b8177f6434f5d99007e7b55eeb80",
+      "prompt_rank": "178381cefcad8e66c4bc22874b7610dec2f4b826d9011cc3002a128511e99fac"
+    },
+    {
+      "id": "train_translation_long_005",
+      "task": "translation",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_translation_long_005.txt",
+      "selection_index": 22,
+      "task_rank": "f5cac1e5c89a53147a0bf01e067b0697ce43a639b11525a78ed3dbf849b9799f",
+      "prompt_rank": "1f0885399169020a4db97909ac4ad8c0b93191047c9c64042f61a533788a2394"
+    },
+    {
+      "id": "train_summarization_long_014",
+      "task": "summarization",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_summarization_long_014.txt",
+      "selection_index": 23,
+      "task_rank": "f6a58689a559b086aeb84d5062bd3a535008d5a71268b7244992f432cee2c517",
+      "prompt_rank": "120619fc78000d27359c3060ad7c2092b80bb781ad1e68649e2470628be0dd99"
+    },
+    {
+      "id": "train_mathematics_long_014",
+      "task": "mathematics",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_mathematics_long_014.txt",
+      "selection_index": 24,
+      "task_rank": "5b299af344576b6f025a40171b496d561d31fb9386fcc01649490caebd5c3709",
+      "prompt_rank": "194e6cd69bcc5b4870c9ca8224f158ddab9c773c7cff5ef220caf155662d7cbb"
+    },
+    {
+      "id": "train_long_context_short_015",
+      "task": "long_context",
+      "length_bucket": "short",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_long_context_short_015.txt",
+      "selection_index": 25,
+      "task_rank": "73dc87bb1a4166217bfe3f0a8eb0c1c714df886fc09c61f3ac35cedcc94ef460",
+      "prompt_rank": "26de77f6bcabb4a40679d61489707c540795dc51a1ad90c531f37512cabf4adb"
+    },
+    {
+      "id": "train_qa_long_023",
+      "task": "qa",
+      "length_bucket": "long",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_qa_long_023.txt",
+      "selection_index": 26,
+      "task_rank": "8f55790402144782ee813a4579b734846154ec38376ddab73f25513cee2f0b5c",
+      "prompt_rank": "1b7cbd7d673f6a275de6c439cd9751c15314aa1671358dc4a9218ebed767a945"
+    },
+    {
+      "id": "train_programming_short_003",
+      "task": "programming",
+      "length_bucket": "short",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_programming_short_003.txt",
+      "selection_index": 27,
+      "task_rank": "a43635c9e25da93d02ac4f1317af367e4627b8177f6434f5d99007e7b55eeb80",
+      "prompt_rank": "1f90e9b3f45c5ba72e937d60a3973a288369e56ac102a6a11d354f60bbbe9a88"
+    },
+    {
+      "id": "train_translation_medium_019",
+      "task": "translation",
+      "length_bucket": "medium",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_translation_medium_019.txt",
+      "selection_index": 28,
+      "task_rank": "f5cac1e5c89a53147a0bf01e067b0697ce43a639b11525a78ed3dbf849b9799f",
+      "prompt_rank": "3c8f75102db17945e7e37032395c1e48324f4ea4685f5021eac7dfaabf0bea92"
+    },
+    {
+      "id": "train_summarization_short_015",
+      "task": "summarization",
+      "length_bucket": "short",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_summarization_short_015.txt",
+      "selection_index": 29,
+      "task_rank": "f6a58689a559b086aeb84d5062bd3a535008d5a71268b7244992f432cee2c517",
+      "prompt_rank": "17be0bdcb16347bd410c33f8bb0e41ae0521cb13be0cd7ed80e5e8267aefc99b"
+    },
+    {
+      "id": "train_mathematics_short_003",
+      "task": "mathematics",
+      "length_bucket": "short",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_mathematics_short_003.txt",
+      "selection_index": 30,
+      "task_rank": "5b299af344576b6f025a40171b496d561d31fb9386fcc01649490caebd5c3709",
+      "prompt_rank": "1cb2361702234101a42ddf6e5ab9d650b11c8d05188f6af70fd6852d45071f67"
+    },
+    {
+      "id": "train_long_context_short_024",
+      "task": "long_context",
+      "length_bucket": "short",
+      "path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts/train_long_context_short_024.txt",
+      "selection_index": 31,
+      "task_rank": "73dc87bb1a4166217bfe3f0a8eb0c1c714df886fc09c61f3ac35cedcc94ef460",
+      "prompt_rank": "379e5446e603e98157c88cbcfe1701d1000ae752ecd7fcb3e8818784e564c9ad"
+    }
+  ],
+  "test_or_fresh_text_opened": false,
+  "aggregate_corpus_JSONL_opened": false,
+  "collector_source_sha256": "8af7b29057fac9a74d682051ae6bcd1c7ee6e61574fb4b8d7f72c00e092228ff"
+}

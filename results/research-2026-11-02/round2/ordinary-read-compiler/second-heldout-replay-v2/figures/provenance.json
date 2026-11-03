@@ -1,0 +1,97 @@
+{
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/second-heldout-replay-v2/summary.json": "3fe0dcc44086faca91c38b0e00a4d0a7f3ed581943cb26bba1b325329c054488",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/ordinary-read-compiler/second-heldout-replay-v2/per_prompt.json": "c6263600ac8bf8d92e0ebaf714d2b0329964a1ff9b22d8868f3ef183cbdee7d7",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/capacity-symmetry-control/summary.json": "952d5e1e0ea7be3e898603a3125b785abd377da1779fd1fd969e5c501cb139f2",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261103_same_format_figures.py": "01b938be6524ce9242173b4b7dac4a5f09729b6a5f05c4ddc60e6764d2dcd9c3"
+  },
+  "plotted_data": [
+    {
+      "model": "deepseek",
+      "copies": 1,
+      "command_ns": 250,
+      "mean_gain_pct": 3.2343646432268724,
+      "p99_gain_pct": 2.5838653748805562,
+      "moe_capacity_change_pct": -5.063291139240511,
+      "baseline_complete_ffn_mean_ms": 54.2094462890625,
+      "whole_complete_ffn_mean_ms": 52.456115125
+    },
+    {
+      "model": "deepseek",
+      "copies": 1,
+      "command_ns": 5000,
+      "mean_gain_pct": 1.8778641941410323,
+      "p99_gain_pct": 1.6353652736734947,
+      "moe_capacity_change_pct": -1.3157894736842146,
+      "baseline_complete_ffn_mean_ms": 57.1903456484375,
+      "whole_complete_ffn_mean_ms": 56.116388625
+    },
+    {
+      "model": "deepseek",
+      "copies": 4,
+      "command_ns": 250,
+      "mean_gain_pct": 3.2575320262427487,
+      "p99_gain_pct": 2.6783574479420036,
+      "moe_capacity_change_pct": -1.3157894736842146,
+      "baseline_complete_ffn_mean_ms": 55.3461391171875,
+      "whole_complete_ffn_mean_ms": 53.54322091015625
+    },
+    {
+      "model": "deepseek",
+      "copies": 4,
+      "command_ns": 5000,
+      "mean_gain_pct": 1.8676846368462563,
+      "p99_gain_pct": 1.5797277313823743,
+      "moe_capacity_change_pct": -1.3157894736842146,
+      "baseline_complete_ffn_mean_ms": 58.22829991015625,
+      "whole_complete_ffn_mean_ms": 57.1407788984375
+    },
+    {
+      "model": "granite4tiny",
+      "copies": 1,
+      "command_ns": 250,
+      "mean_gain_pct": 2.6404390658787302,
+      "p99_gain_pct": 3.869774671497106,
+      "moe_capacity_change_pct": 3.2258064516129004,
+      "baseline_complete_ffn_mean_ms": 24.510604265625,
+      "whole_complete_ffn_mean_ms": 23.8634166953125
+    },
+    {
+      "model": "granite4tiny",
+      "copies": 1,
+      "command_ns": 5000,
+      "mean_gain_pct": 0.0,
+      "p99_gain_pct": 0.0,
+      "moe_capacity_change_pct": 0.0,
+      "baseline_complete_ffn_mean_ms": 28.79665340625,
+      "whole_complete_ffn_mean_ms": 28.79665340625
+    },
+    {
+      "model": "granite4tiny",
+      "copies": 4,
+      "command_ns": 250,
+      "mean_gain_pct": 0.5797468818017459,
+      "p99_gain_pct": 1.258265898979083,
+      "moe_capacity_change_pct": 3.2258064516129004,
+      "baseline_complete_ffn_mean_ms": 25.136775453125,
+      "whole_complete_ffn_mean_ms": 24.99104578125
+    },
+    {
+      "model": "granite4tiny",
+      "copies": 4,
+      "command_ns": 5000,
+      "mean_gain_pct": 0.0,
+      "p99_gain_pct": 0.0,
+      "moe_capacity_change_pct": 0.0,
+      "baseline_complete_ffn_mean_ms": 29.3644610625,
+      "whole_complete_ffn_mean_ms": 29.3644610625
+    }
+  ],
+  "caption": "Uncalibrated ordinary-read service model, not device or full-model time. DeepSeek service adds the same raw0 dense prefix once; footprint covers MoE+shared coefficient LSB blocks only. Layouts were selected on TRAIN and frozen before text acquisition. P99 is descriptive across256 correlated positions. Per-prompt gains have16 units, not256 independent tasks. No confidence intervals or accuracy inference. G4 lowcommand input4 has66 slower token pairs despite positive16prompt means. Same numeric reference preserves logits/routes/tokens. Capacity symmetry is route-blind and applies to all layout families.\n",
+  "outputs_sha256": {
+    "caption.txt": "fec76ab7d433b73290bbf87f057ce771e7cd0c2083c51e8dea740e2885745364",
+    "same_format_heldout.pdf": "b9b72396ef5d62a45cbfe951861f659d3b2ce00125c6ac85bfacc112f26bebbf",
+    "same_format_heldout.svg": "05a1441e6514efd28566614f63ce895af11a62bcc5c271a4aba28427a29bb128",
+    "same_format_heldout.png": "7e21aaa451aeced0a2d5c59df75e0bdb6c562f5838c66932206260114f7c22c1"
+  }
+}

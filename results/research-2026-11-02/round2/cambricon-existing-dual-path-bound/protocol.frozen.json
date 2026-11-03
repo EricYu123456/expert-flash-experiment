@@ -1,0 +1,61 @@
+{
+  "status": "source_and_counting_rules_frozen_before_TRAIN_payload_read",
+  "utc": "2026-11-02T05:52:20.043221+00:00",
+  "source_sha256": "07fa52a28b93c7055c2900b800cbf0064b03429e65d6fa2e899eb196c921dae6",
+  "references": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_cambricon_dual_path_bound.py",
+      "sha256": "07fa52a28b93c7055c2900b800cbf0064b03429e65d6fa2e899eb196c921dae6",
+      "bytes": 13825
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/joint-prior/cambricon.html",
+      "sha256": "67d0cdad54384ae67db5b0ab207b305928dbe1d814dbafdb861bc744cc50eee3",
+      "bytes": 258397
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/qwen38-placement/joint-prior/cambricon.txt",
+      "sha256": "2813bc962dacc42870f9768ebd1f7b622e2da407fb8abb0fbd58c07e6d190cf9",
+      "bytes": 90106
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/existing-capability-mechanism-screen/notes.json",
+      "sha256": "7ec1d18ee94322b164c495c33b670811ff864d2fdbe7a98abf515b15ae96af71",
+      "bytes": 8047
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/chip-count-regime-screen/m32-prospective-tail-validation/independent/topology-portability/notes.json",
+      "sha256": "94c427ee15cc7803c31dfe3808c768fa8376118d9f9e087c940e2143559a10eb",
+      "bytes": 18526
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz",
+      "sha256": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+      "bytes": 136020
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/deepseek/decode.routes.npz",
+      "sha256": "11168c1e899c8ce0bf23e719e908f243fa09d30980a65488a3f92aa448344fed",
+      "bytes": 90835
+    }
+  ],
+  "scope": "Existing TRAIN only, first MoE route layer, 32prompts x16decode x6experts +shared; no new inference, heldout, fit, native backend or numerical execution.",
+  "primary": "https://arxiv.org/html/2409.15654v1 sectionsIV-B/C,V,VII-A/C TableII/IV",
+  "hardware": {
+    "channels": 8,
+    "chips_per_channel": 2,
+    "dies_per_chip": 2,
+    "cores_per_die": 1,
+    "planes_per_die": 2,
+    "page_bytes": 16384,
+    "NAND_read_ns": 30000,
+    "channel_bytes_per_second": 1000000000,
+    "NPU_reported_peak_ops_per_second": 2000000000000,
+    "combined_core_input_output_buffer_bytes": 2048
+  },
+  "tiling": "Fixed64rows x256columns W8 atomic pages. Row-major tile identity, original complete logical rows; pad only matrix-edge zero columns/rows, never omit bytes. Column slices reduced in original increasing-column order symbolically; no rawI32/output/reset ABI assumption.",
+  "controls": "Two routeblind onecopy uniform cyclic atomic layouts: cyclic local tile ordinals; cyclic global ordinals across all64experts+shared. Every complete atomic tile has one address/plane, no replicas. Best static global PIM fraction must optimize the same symbolic plane/core/channel/NPU resources; original paper alpha retained as analytic comparator, not assumed universally optimal.",
+  "oracle": "Perfect route-aware per-atomic read/PIM choice, no storage capacity or precedence overhead. Same physical page fetch is necessary on either path; same plane, shared core, channel, NPU constraints retained symbolically. No simultaneous core ownership by two planes.",
+  "calibration": "Core occupancy time, external result bytes/scale/reset/merge ABI, request command timing, NPU SRAM capacity and effective utilization unavailable. Do not substitute NANDtR for core occupancy or infer actual PEcount from a20us illustrativeexample. Publish symbolic LP, plus a deliberately coarse safe known-resource floor; cannot derive actual latency/gain ceiling without calibrated comparator.",
+  "stop": "No heavy simulator. If necessary resource headroom is unresolved due missing hardware service contract, seal as uncalibrated; never present differences between two lowerbounds as an upperbound on actual latency gain."
+}

@@ -1,0 +1,90 @@
+{
+  "status": "closed_Stage2_D_secondary_development_audit_only",
+  "at_utc": "2026-11-03T05:53:00.511386+00:00",
+  "QUALITY_complete_sha256": "3706e544a7f5c65d20e414ff43b4f40e6578f6ab8951b63282c45c5c3012faab",
+  "summary_sha256": "bdeb8c0ac8eec33658cb580c627b265e64092ebe3dbbcea11f14b97c49067136",
+  "scope": "Existing fixed D secondary outcomes only; no fit/query/forward/model/data acquisition, candidate code or simulator executed. Post-outcome two-endpoint diagnostic, not a new confirmatory family or change to C primary inference.",
+  "bootstrap": {
+    "repeats": 10000,
+    "paired_book_count": 16,
+    "seed": 2026110302,
+    "SD_ddof": 1,
+    "quantile": "linear95 centered maxabs-t",
+    "cutoff": 2.2303567713371737
+  },
+  "margin_NLL": 0.01980262729617973,
+  "models": {
+    "deepseek": {
+      "per_book_D_minus_B": [
+        0.010485113443935212,
+        0.008875600596572442,
+        -0.022107161475525494,
+        -0.0007790200270343384,
+        -0.023309956757167516,
+        -0.0018000616875784026,
+        -0.00968688003697249,
+        -9.151640285764984e-05,
+        0.010735063333110917,
+        0.0012540485365768461,
+        -0.009220384200984366,
+        -0.001991493159426927,
+        0.03646585708481975,
+        0.014113855249791474,
+        0.0033150167335969094,
+        -0.025275383068864787
+      ],
+      "D_minus_C_meanNLL": -0.003480983566035198,
+      "D_minus_B_meanNLL": -0.0005635813648755261,
+      "bootstrap_SD": 0.003808316891835955,
+      "simultaneous_development_NLL_band": [
+        -0.009057486731979586,
+        0.007930324002228534
+      ],
+      "relative_subsetPPL_point": -0.0005634225827283959,
+      "relative_subsetPPL_band": [
+        -0.009016591262225544,
+        0.007961852309742636
+      ],
+      "upper_below_ln1p02": true
+    },
+    "olmoe": {
+      "per_book_D_minus_B": [
+        0.004935511870625575,
+        0.0029308242421510755,
+        0.0059628810478988825,
+        0.0023854111722312332,
+        0.012504505175679359,
+        -0.0007809900004138726,
+        0.002776559654265931,
+        0.0006824768923143765,
+        -0.005294569888719458,
+        -0.008702828704231447,
+        -0.002892241627499459,
+        -0.0015040398865506788,
+        0.0010238553763430858,
+        0.008806265320740803,
+        0.008409254807653532,
+        0.054656070282935953
+      ],
+      "D_minus_C_meanNLL": 0.0006808171078979408,
+      "D_minus_B_meanNLL": 0.005368684108464056,
+      "bootstrap_SD": 0.003426411856532445,
+      "simultaneous_development_NLL_band": [
+        -0.0022734367771430593,
+        0.01301080499407117
+      ],
+      "relative_subsetPPL_point": 0.005383121317701193,
+      "relative_subsetPPL_band": [
+        -0.002270854477022598,
+        0.01309581379493255
+      ],
+      "upper_below_ln1p02": true
+    }
+  },
+  "both_D_upper_below_margin": true,
+  "limits": [
+    "Same eight partial operators only; cannot infer full64/all-layer quality",
+    "Two-percent shared budget viability is not strict C-vs-D quality Pareto dominance",
+    "No retuning/reselection/TEST/round-failure increment"
+  ]
+}

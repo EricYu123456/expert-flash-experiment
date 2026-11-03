@@ -1,0 +1,25 @@
+granite4tiny 0 [('whole_rows_03', 313137.031, [33, 0, 0, 31]), ('fixed_asymmetric_12', 301904.344, [0, 33, 31, 0]), ('mixed_0123', 301904.344, [0, 31, 33, 0])] mixed-extra 0.0 hostsum-budget 8159.9375
+granite4tiny 1 [('whole_rows_03', 314531.562, [32, 0, 0, 32]), ('fixed_asymmetric_12', 302369.188, [0, 32, 32, 0]), ('mixed_0123', 302369.188, [0, 32, 32, 0])] mixed-extra 0.0 hostsum-budget 9459.140625
+granite4tiny 2 [('whole_rows_03', 314285.469, [30, 0, 0, 34]), ('fixed_asymmetric_12', 302287.156, [0, 30, 34, 0]), ('mixed_0123', 302287.156, [0, 34, 30, 0])] mixed-extra 0.0 hostsum-budget 9991.96875
+qwen3 0 [('whole_rows_03', 401316.734, [65, 0, 0, 63]), ('fixed_asymmetric_12', 401473.578, [0, 65, 63, 0]), ('mixed_0123', 401316.734, [65, 0, 0, 63])] mixed-extra 0.0 hostsum-budget 1640.625
+qwen3 1 [('whole_rows_03', 410545.25, [63, 0, 0, 65]), ('fixed_asymmetric_12', 404549.75, [0, 63, 65, 0]), ('mixed_0123', 404549.75, [0, 65, 63, 0])] mixed-extra 0.0 hostsum-budget 7143.9375
+{
+  "granite4tiny": {
+    "routed_ffn_screen_total_ns": {
+      "legacy": 1539197.53125,
+      "best_fixed": 1511586.484375,
+      "mixed": 1511586.484375
+    },
+    "whole_ffn_mixed_gain_beyond_fixed_pct": 0.0,
+    "aggregate_mean_host_sum_budget_vs_legacy_ns": 27611.046875
+  },
+  "qwen3": {
+    "routed_ffn_screen_total_ns": {
+      "legacy": 2243035.046875,
+      "best_fixed": 2234250.484375,
+      "mixed": 2234250.484375
+    },
+    "whole_ffn_mixed_gain_beyond_fixed_pct": 0.0,
+    "aggregate_mean_host_sum_budget_vs_legacy_ns": 8784.5625
+  }
+}

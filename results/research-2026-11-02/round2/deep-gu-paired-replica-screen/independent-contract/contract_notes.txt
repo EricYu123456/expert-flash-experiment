@@ -1,0 +1,237 @@
+Independent Deep paired-GU boundary-replica contract audit
+========================================================
+
+PASS for the stated whole-row/prefix construction and necessary-work oracle.
+This audit supports sealing the bounded screen as no-go. It certifies neither a
+native speedup nor a device output ABI. No weights, heldout, inference, native
+replay, placement fitting, or root source changes were performed.
+
+Scope and independent executable checks
+---------------------------------------
+Source: scripts/research_20261103_deep_gu_paired_contract_audit.py.
+Frozen inputs: inputs.frozen.json. Source TRAIN routes are the completed Deep
+W8 TRAIN archive, layer0, 32prompts x16decode, 512 ordered top6 tuples. All routes
+match the inherited exact-native pilot. Root protocol SHA256:
+0792befa487713610dabd63abf08542047dbfa77ab9fa2f29a1b5c94f53df519.
+
+SciPy1.16.3 Edmonds-Karp independently checked all six matchings x512queries
+x two objectives =6144 optima. Each returned optimum is feasible and optimum-1ns
+is infeasible; 12288 max-flow checks. This uses a different algorithm from the
+root C++ Dinic implementation. Per-job service, page counts, output fringe,
+per-chip fixed work, static-choice work and static row multisets were rebuilt
+without importing the root occupancy/oracle implementation. Independent Euler
+walks for all3072 matching unions produce exactly three incoming extras/chip.
+All six layouts x64experts x256endpoint masks =98304 symbolic view cases pass
+complete logical-row coverage, uniqueness and original per-expert row multiset.
+
+Complete rows, prefixes and numerical invariants
+----------------------------------------------
+Deep H=2048, routed I=1408. GU has2816 complete output rows:1408gate+1408up.
+Each row is2048 W8 coefficient bytes. A16KiB page contains8 complete rows; a
+four-plane64KiB wave contains32. Therefore core160rows=20pages=5waves,
+long192rows=24pages=6waves and packet32rows=4pages=1wave. Every endpoint holds
+core160 followed by exactly one packet32. A high endpoint's packet is its own
+original final32rows; a matched low endpoint holds another physical copy of
+those identical32rows. Each edge executes exactly one long and one short
+prefix. The short prefix ends at a complete wave: there is no partial row,
+unselected computed suffix row, fringe drain/drop or new row-stop instruction
+needed in this C2048 construction. Every read job still executes an ordinary
+contiguous dense matrix against the entire same H-dimensional input.
+
+The16cores contain2560 unique logical rows. Eight distinct packets contribute
+256 more unique logical rows. The physical multiset contains3072 row slots:
+2816 original logical rows and256 duplicated slots. It does not contain3072
+independent logical rows. layout0_row_ids.json maps every stored slot back to
+its original expert/gate-up/logical-row identity. Both source and destination
+packet slots reference the same immutable original row scale. Other layouts
+have the same inventory and differ in packet destinations.
+
+Full-row numerical equivalence follows under the already fixed W8A8 arithmetic:
+retain original full-row W8 bytes and F32 row scales; retain full2048-element
+GU input A8 bytes/input scale; accumulate the complete row dot; perform the
+same I64->F32 conversion once and same F32 rowScale*inputScale multiplication
+once, with contraction off. Scatter each useful result to its original logical
+row. Do not re-quantize a packet, scale by physical output index, or infer row
+identity from chip-order output rowcounts after moving a suffix. A destination
+long prefix usually represents two disjoint original logical-row intervals.
+The prior numerical proof established the general complete-row prefix/scatter
+primitive on G4; this audit checks Deep symbolic row/scale identity, not actual
+Deep coefficient arithmetic or native PE output/scaling format.
+
+All experts still have16positive GU jobs and88waves per view. Each job reloads
+its whole input and owns the chip's sole context from command through output
+drain. There is no page-buffer weight reuse, extra plane context, partial dot,
+mid-command early-ready or activation in flash. After all2816 logical GU rows
+of one expert have arrived and been scattered, the host performs SwiGLU and
+quantizes the complete1408-element Down input once. Private Down requires that
+whole-expert barrier. Router weights, shared geometry and Down remain fixed.
+
+Standard orientation and exact fixed-graph chip-work objective
+-------------------------------------------------------------
+Each expert contributes a perfect matching on16chips. Six selected experts
+give48edges and degree6 at every chip, including parallel edges. Each component
+is even-degree, so follow an Euler closed walk and orient each traversed edge
+forward. Arrivals equal departures, hence indegree3 at every chip. The pure GU
+NAND workload is thus6*5+3=33waves/chip, reaching the average528/16=33. This is
+the elementary balanced Euler orientation construction, not a new theorem,
+batch code, or claim of worst-case full-FFN latency optimality.
+
+For the fixed native service, changing one prefix160->192 adds one28us read
+and128output bytes at2GB/s: delta=28064ns. Commands, full input reloads and
+number of jobs stay unchanged. Let F_qc contain all six5wave GU base jobs plus
+unchanged Down/shared ownership work. For assignment indegrees d_qc, the exact
+chip-owned work objective is max_c(F_qc+28064*d_qc).
+
+For a trial T, add source->one node per selected packet capacity1, packet->its
+two endpoint chip nodes capacity1, and chip->sink capacity
+  floor((T-F_qc)/28064), clipped to[0,6].
+All48units must flow. Integral flow chooses exactly one physical copy for every
+packet. This gives an exact minimax chip-work solution for this fixed graph and
+uniform incremental packet work. It may use indegrees other than3 to compensate
+fixed Down/shared imbalance. Endpoint-specific unequal packet costs, extra
+commands, incomplete prefixes or altered output service would require a new
+objective and cannot silently reuse this unit-capacity formulation.
+
+Chip-owned work is necessary, not sufficient, for native completion. Controller,
+channel and host contention and GU->activation->privateDown causality can add
+time and depend on which expert receives each extra. Equal joined-work ns does
+not imply equal native service. The earlier coupled-work-contract-audit has
+independent ReferenceGraph witnesses. No selector/scatter latency is added here;
+zero overhead makes this an optimistic screen, not an executable speed claim.
+
+For the currently frozen greedy executor only, the first logical expert has16
+positive GU jobs. The controller dispatches their commands in chip0..15 order,
+each250ns, starting at host_submit2000ns. All are dispatched within4us, before
+the earliest28us read can complete. Orientation cannot alter those first command
+start offsets. Therefore native finish >=2000+max_c(F_qc+28064*d_qc+c*250).
+Minimizing that expression with the same flow is a valid stronger necessary
+bound for this executor. It is not an arbitrary-scheduler bound.
+
+Quantitative bounded screen and endpoint-free relaxation
+------------------------------------------------------
+Baseline native mean:1959950.03125ns. Best of six finite matchings has mean
+chip work1935371.48046875ns (~0.80733% lower than baseline chip work). Its
+fixed-executor lower bound including host is1938898.30078125ns, so possible
+native mean improvement is at most1.0740952643%, before selector/scatter costs.
+
+Independently drop all packet endpoint restrictions and retain48 equal packets
+and at most6extras/chip. Feasibility becomes only
+  sum_c min(6,max(0,floor((T-F_qc-c*250)/28064))) >=48.
+This is an optimistic relaxation, not a legal stored layout or achieved policy.
+Its mean work is1936890.109375ns; +host gives1938890.109375ns and1.0745132039%
+optimistic native headroom. The best tested matching is only8.19140625ns above
+this endpoint-free mean. Removing even the6extras/chip restriction lowers this
+by another13.3203125ns, to1936876.7890625ns before host, or1.0751928290% headroom.
+The relaxation is tied to these fixed base work profiles, packet size, selected
+experts and current executor; it is not a global bound for other replica sizes,
+row maps, schedulers, hardware or whole-GU backups.
+
+The original <2% resource-allocation gate fails. Stop native replay and heavy
+same-budget controls for this candidate. This is a bounded no-go decision, not
+a universal impossibility result about replication.
+
+Physical storage and address ledger
+----------------------------------
+resident_addresses.json uses a fresh static repack of GU, original Down and
+shared jobs. It does not pretend original source addresses stay fixed. Every
+resident routed GU job is192rows/24pages/6waves, wave-aligned within one192WL
+block, with explicit chip/block/wordline intervals and no address overlaps.
+Every view is a5/6wave prefix at that same physical start. Down/shared rows,
+pages and jobs are preserved. The logical row-ID table carries copied identities
+separately from these stored-slot addresses. One physical64KiB copy per edge is
+resident even if an allocator hole happens to absorb it.
+
+                             One-copy       Paired resident       Increment
+Useful coefficient bytes     570949632       604504064             33554432
+Useful coefficient MiB       544.5           576.5                 32
+Programmed16KiB pages         35108           37156                 2048
+Reserved64KiB waves           8777            9289                  512
+Page/wave bytes MiB           548.5625        580.5625              32
+Native stored matrix jobs     2080            2080                  0
+Allocated LSB blocks          48              63                    15
+Allocated LSB bytes MiB       576             756                   180
+Repaired minimum blocks      48              62                    14
+Repaired LSB bytes MiB        576             744                   168
+
+All16baseline chips need3blocks. In the repacked paired inventory chip12 still
+uses3 in BFD, while each other chip uses4. This BFD ordering is not block-optimal:
+chip11 totals576waves and can fit3blocks. Its jobs are64x6,48x3,16x2,11,5waves;
+pack29x6+2+11+5 in block0,32x6 in block1, and3x6+48x3+15x2 in block2. Every
+block is exactly192waves. resident_addresses.repaired62.json records that
+valid repair and reaches every chip's ceil(total reserved waves/192),62blocks
+or744MiB in total. Other chips have more than576waves except chip12(574waves).
+Physical allocation granularity therefore matters:32MiB of extra coefficients
+is5.8769513315% of544.5MiB, while allocated LSB capacity grows29.1667% even with
+the repair (31.25% for the direct BFD certificate). These are fixed-inventory
+packing counts, not an optimum over other coefficient placements. This is
+only coefficient/LSB storage; CSB/MSB, FTL metadata, spare
+space, host scales/mapping tables, attention and dense model weights are not
+included. No claim of fitting a particular physical device capacity is made.
+
+Necessary same-budget controls if the gate had passed
+---------------------------------------------------
+A complete routed GU copy is2816*2048=5767168B=5.5MiB=88waves.32MiB can fund
+five complete copies (27.5MiB/440waves), leaving4.5MiB/72waves of useful budget.
+The residual must be explicitly assigned to legal full-row packet/Down copies
+in a strong hybrid control, or reported unused without claiming a fair optimum.
+Six complete copies require33MiB and are a useful slightly stronger overbudget
+control, not an exact32MiB comparison. Expert IDs, backup locations and row
+profiles must receive comparable TRAIN selection effort. Whole-copy control
+must start from the strongest legal zero-copy static repack, not the older map.
+Generic replicated-job allocation on exactly the same packet locations must
+match the flow oracle; that selector is already standard. Compare both useful/
+page/wave budgets and actual per-chip block allocation, since ignoring the
+paired inventory's extra allocated blocks would hide physical capacity cost.
+Root's finite gate fails before these heavy controls, so none was fitted here.
+
+Known AiF evidence and finite ABI conditions
+------------------------------------------
+paper/aif.txt:744-749,761-779 specifies input dimension, block ID, block offset
+and page count followed by ordinary INT8 dense GEMV. A20/24page prefix needs no
+row mask or early-stop feature beyond that ordinary page-count view. The job
+shapes160/192 are no larger than the existing192row GU candidate. Native maximum
+pagecount bits, max R, exact output format/scaling, FIFO depth/backpressure and
+custom row-to-logical-output mapping still are not established by visible code.
+paper/aif.txt:818-823 describes sequential FIFO/polling but does not expose those
+limits. The2KiB input dimension is below the8-32KiB typical inputs described at
+724-743; that typical range does not establish all legal dimensions. The whole
+job remains one input context. Cross-block jobs must split (925-928); our
+resident jobs do not cross. Host scatter and a controller range table are
+software requirements, not evidence that an actual supplied driver supports
+them. kernel/aif.h:11 explicitly says metadata only, no weights/GEMV outputs;
+therefore the trace/timing ABI cannot certify the native numerical or view ABI.
+These are existing ordinary-row-candidate limitations; they do not authorize
+inventing a larger buffer, new command, context or new PE behavior.
+
+What the old single-edge branch does and does not cover
+----------------------------------------------------
+routed-boundary-views tested Q38 C2560, one high-low pair/expert, a fixed two-view
+bit per expert and top10 choices; all other GU chips remained fixed. Its learned
+packet candidate was defeated by10same-budget complete-GU backups. G4's prior
+actual-weight proof likewise moved only one pair/expert. Neither finite family
+contains the present8independent matching edges/expert or the48edge/top6 union,
+so those results do not mechanically certify or exclude this exact cost screen.
+The physical primitive is the same common-core/copied-suffix prefix construction,
+and this wider family is a standard many-item replicated assignment instance.
+The shared Deep overlapping-range branch also already matched generic RDA on
+its fixed inventories. Merely extending to all8pairs is not a novel algorithm.
+
+Primary prior and claim boundary
+-------------------------------
+Oktay, Turk and Aykanat, Selective Replicated Declustering for Arbitrary Queries
+(Euro-Par2009), explicitly optimizes which items are copied and their disk
+locations under a replication budget; section2 states that per-query minimax
+copy retrieval is solvable by network flow. This directly covers the generic
+selection/placement mechanism, without the AiF phase DAG or measured timing.
+https://repository.bilkent.edu.tr/bitstreams/938fed97-cc40-48c5-bbd8-01da42e95ae2/download
+
+Bujtas and Tuza, Relaxations of Hall's Condition: Optimal batch codes with
+multiple queries (AADM2012,6(1):72-81, DOI10.2298/AADM111130024B), formulates
+replicated items as sets of servers and a bounded-multiplicity representative
+selection through a relaxed Hall condition. Our balanced matching union is an
+elementary application, not a new batch-code theorem.
+https://doiserbia.nb.rs/Article.aspx?id=1452-86301100024B
+
+The balanced-orientation proof above is included explicitly so no strong prior
+claim relies on a theorem name. We do not attribute native AiF context, output
+ABI, GU readiness or a physical performance result to either prior.

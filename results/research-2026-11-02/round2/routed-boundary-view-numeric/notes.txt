@@ -1,0 +1,73 @@
+PASS: fixed routed GU boundary-copy construction, Granite4 Tiny layer 0.
+
+This is a row-prefix materialization and CPU numeric construction proof. The
+original A counts and fixed Down/shared geometry come from the v4 deduplicated
+layer-0 whole_rows plan. It is not the v5/v6 W8 TRAIN layer-0 selected winner,
+not heldout or full-model inference, not a performance or novelty result.
+
+The fixed TRAIN route is [1,49,45,33,10,20], prompt
+train_mathematics_long_020, decode step 0, layer 0. Existing saved hidden-input
+fixtures x0/x1 and six router mixture coefficients are reused. Shared is added
+once, unweighted, as in the prior fixture. No new model inference, heldout data,
+GGUF read, model download, weight conversion or weight quantization occurred.
+
+All 21 complete gate/up/down W8 projections and logical F32 row scales were
+recovered from the existing shared-materialize/onecopy chip binaries. Their
+canonical W8/scales FNV fingerprints match the fixed W8 TRAIN ledgers exactly.
+Whole source chip-file SHA256 values and source inputs are sealed in manifest.
+
+Each expert selects a high chip s with 83 rows and t=s xor8 with 40 rows. The
+43-row source suffix is present on both chips. Each chip stores its common core
+then, for s/t only, that suffix. A selects source long and destination short;
+B selects source short and destination long. All remaining chip jobs are fixed.
+Both choices use one contiguous full-row coefficient prefix per active chip.
+Host row scatter restores the original gate/up logical row positions. Scales
+stay indexed by their original logical rows. No dot splitting or partial sums.
+
+Fresh-process replay imports no materializer and loads no canonical weight
+matrices. It reads every requested 16-KiB plane page through separately derived
+block/wordline/plane coordinates. Both fixtures run all 64 expert A/B masks:
+128 cases; 1,792 matrix phases; 3,145,728 F32 scalar comparisons and 2,424,832
+I64 row comparisons; zero mismatches through GU, F32 SwiGLU, whole-vector A8,
+Down and sequential router-weighted combine.
+
+The separate geometry/source audit directly rebuilds A rowids from the frozen
+v4 plan, checks B moves only the designated source suffix, checks unchanged
+Down/shared geometry, exact aliases/copies, route IDs and every source SHA.
+The standalone C++ helper audit uses verbatim frozen reference quantize,
+scale_output and equal_bits helpers, with fast-math disabled and FMA contraction
+off. All 28 operator vectors, 29,696 A8 components and 37,888 rescalings match.
+The host activation is the prior saved-fixture F32 SwiGLU implementation; this
+does not establish upstream llama activation equivalence or native AiF output.
+
+Physical inventory, for the selected six routed experts plus one shared branch:
+  base useful coefficients:          18,874,368 bytes (18 MiB)
+  extra copied full rows:            258 rows = 396,288 bytes
+  stored useful coefficients:        19,270,656 bytes
+  coefficient duplication overhead:  2.099609375% of this complete FFN selection
+  stored page-rounded payload:       1,200 pages
+  max-view reserved wave slots:      300
+  allA / allB requested work:         1,176 pages / 294 waves each
+  native jobs per complete view:     200
+  address reservations:              16 LSB blocks = 192 MiB, sparse virtual files
+All 200 allocations fit one 192-wordline block and their reserved ranges are
+disjoint. Sparse file reservation is not useful bytes or real-device footprint.
+Logical scales occupy 75,776 bytes separately. JSON manifests and diagnostic
+row hashes are host artifacts, not a calibrated runtime metadata format.
+
+Drain/drop limitation: a short 40-row prefix contains 61,440 useful coefficient
+bytes but requests four pages = 65,536 bytes. It therefore reads two complete
+copied packet rows plus 1,024 bytes of the next packet row. Those additional
+outputs/partial bytes are not useful rows in that view. The saved per-job ledger
+also counts long-prefix zero-padding complete rows and partial bytes. Software
+explicitly computes only useful complete rows. No new row-stop instruction is
+assumed. AiF valid-row, accumulator reset/partial-row flush, unused-plane output,
+and output ABI remain unknown. This is the same unresolved ordinary-row backend
+boundary and prevents claiming executable native hardware support or timing.
+
+First materialization stopped at an incorrect local assertion that router alpha
+had seven entries; the saved fixture has six and shared is added separately.
+The incomplete files were preserved in sibling directory
+routed-boundary-view-numeric.failed-alpha-arity. The corrected fresh directory
+completed all checks. No previously completed experiment or quality artifact
+was modified.

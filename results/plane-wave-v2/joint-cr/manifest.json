@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "date": "2026-11-01",
+  "command": [
+    "/home/ericyu/miniconda3/bin/python3",
+    "scripts/run_joint_plane_study.py",
+    "--stage",
+    "test",
+    "--workers",
+    "8"
+  ],
+  "models": [
+    "granite",
+    "olmoe",
+    "deepseek",
+    "qwen3",
+    "mixtral"
+  ],
+  "use_cr": true,
+  "seed": 20261101,
+  "configuration": {
+    "run_dir": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1",
+    "data": "/home/nfs_client/ericyu/expert_flash_experiment",
+    "old_results": "/home/ericyu/expert_flash_experiment/results/corpus-300-v1",
+    "v1_results": "/home/ericyu/expert_flash_experiment/results/plane-wave-v1",
+    "output": "/home/ericyu/expert_flash_experiment/results/plane-wave-v2/joint-cr",
+    "models": [
+      "granite",
+      "olmoe",
+      "deepseek",
+      "qwen3",
+      "mixtral"
+    ],
+    "swap_trials": 1024,
+    "seed": 20261101,
+    "workers": 8,
+    "bootstrap": 2000,
+    "stage": "test",
+    "use_cr": true
+  },
+  "software_sha256": {
+    "joint_plane_search.py": "a4ea59cda820a1791610c68521af015c05424e541ab9f4ec8ca3ddd4b7473074",
+    "run_joint_plane_study.py": "2fc224bffe064361e3f320ce9b6c204f668adaafad53803d296b892975f264fd",
+    "run_plane_wave_study.py": "395cc93371964a0d8f201c6581eeb18334b9ecc65f05dd628c667c9da51c86b2",
+    "plane_wave_model.py": "3a315947c668bd7aaa44acb23658510e901147bc48596a3f9ea6aef202741862",
+    "aif_model.py": "baa452445e953fb3d096a840facd1801ee3870726c6667d38180b9526e06751b",
+    "overhead_model.py": "67642f688c9122fc4b66d6013921efb9c8eee8864bed44dd436cbe7fd5d5825d",
+    "corpus_analysis.py": "d1686973505bf331a37d91e8cd9a2cf9b401742d69a47ea254db072491d3b3c9"
+  },
+  "elapsed_seconds": 149.03496646881104,
+  "bootstrap": {
+    "unit": "whole prompt; paired",
+    "resamples": 2000,
+    "seed": 20261101
+  },
+  "measured_hardware": false,
+  "limitations": [
+    "Analytical ideal NAND/ECC overlap; independent subset-plane addressing and contexts required.",
+    "Existing 300-prompt real routes and INT8 whole-output-row byte geometry; no new model inference.",
+    "Heuristic fixed-budget train-only search; no global optimum claim.",
+    "Excludes attention, prefill, routing, shared experts, DRAM cache, GC, and bus timing for NAND command headers."
+  ],
+  "configuration_sha256": "ba2cffba1e8396c9e8cd37131872544dc8312dda524d3c0f41896195c1c479dc"
+}

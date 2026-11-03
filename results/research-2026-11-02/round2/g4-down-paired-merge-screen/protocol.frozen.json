@@ -1,0 +1,47 @@
+{
+  "scope": "G4L0 CP0107 TRAIN512 input1/command250. Work/continuous-LP screen only; no native, weights, heldout or existing-seal changes.",
+  "inputs": [
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_g4_down_paired_merge_screen.py",
+      "sha256": "41acdc1dcb870c6b6c778605da964374d72aebbfa5f8470041178d625e7fa505"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/continuation/native/0107.npz",
+      "sha256": "7fb2789d65f9b59f73a516c5761161ca679fd2d0765c4ed7431a80d93c355abb"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/compact-coupled-solver/protocol.frozen.json",
+      "sha256": "a59c3b33bc507d5bf21c8cedac8341c21140913cdb5ed2c27849b4ed763f46d8"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz",
+      "sha256": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_native.cpp",
+      "sha256": "ef7994fa2ba37a4bbc63fa116cc92e86d60c0d87781e7642e36eab9ea4c57821"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/scripts/research_20261103_ordinary_read_backend.py",
+      "sha256": "7c61f09756e24f1157beb80fd02606f8043b3ebe03e5fe9453eb48a8117bcb48"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/paper/aif.txt",
+      "sha256": "7511dfada743ed7cbc9884dc7664c704e2430f4197ea19afb1cbe2db5e39a3b7"
+    },
+    {
+      "path": "/home/ericyu/expert_flash_experiment/kernel/aif.h",
+      "sha256": "25b3437f2f847554b3c31704ccef815fe85100b1ca01218d13f19b79d8f4d705"
+    }
+  ],
+  "layouts": "32 routeblind:16 seeded random directed matchings,8 seeded matchings directed to lower expertGU+shared chip work,8 deterministic low/high matching variants.",
+  "seed": 202611100,
+  "per_expert": "12positive Down128chips paired6edges. Each fixed dest core128+copied source128; originalsource retained. Split128+128 or merged0+256.",
+  "physical": "6copies x128rows x512columns x64experts=24MiB/384waves. All jobs read full private512 input after wholeGU/A8. Source/dest128/256 are exact1/2waves; no fringe or partial dots.",
+  "feasible": "For each query/layout, allsplit and allmerged starts, each two complete36bit greedy coordinate passes; strict maxchip-work improvement only.",
+  "LP": "All32layouts x512queries continuous x[0,1] minimax. Safe certificate from exact integer-quantized nonnegative chip dual weights: floor((w.base+sum min(0,w.effect))/sumw). No floating solver fun used as a safe bound.",
+  "static": "Selected best-feasible and best-LP layouts: same edge bits fixed/expert, zero-copy repack, two complete64x6 coordinate passes fromallsplit/allmerged. Work objective only; no globaloptimality.",
+  "gate": "Report any >=2% mean or >=5% P99 optimistic native headroom before native/strong copy controls. Lower bound is host+LP dual, no selector penalty and no assumed attainability.",
+  "strong_controls": "Same24MiB useful/page/wave budget can fund32 complete Down backups (each0.75MiB/12waves), not wholeFFN. Must fit IDs/locations/profiles with comparable TRAIN effort plus strong existing g6/down256 and mixed/static onecopy controls before a claim.",
+  "novelty": "Standard replicated-job allocation and LP; not a new theorem. Old4MiB single-edge and other sealed branches remain unchanged."
+}

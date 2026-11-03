@@ -1,0 +1,58 @@
+{
+  "matrix": [
+    {
+      "capability": "ChipFIFO can be drained while the matrix continues computing",
+      "classification": "Explicit paperdesign",
+      "evidence": "AiF4.4,p537,local819\u2013823:sequential outputelements,FIFOstatusinSREG,round-robincontrollerpollingduringcomputation.",
+      "boundary": "DoesnotdiscloseFIFOcapacity/fullflag/productionstall,drainburstsizeorquantitativeproductionrate."
+    },
+    {
+      "capability": "Host starts independent downstream work from an earlier vector portion",
+      "classification": "Explicit algorithmicintent;requestgranularity unresolved",
+      "evidence": "AiF5.1/Fig15,p537,local827\u2013832:head-level QKV/MHA overlap when anindividualvector setisgenerated.",
+      "boundary": "Couldbeindependenthead-sizedaif_gemv requests;doesnotproveper-prefixDMA/CQEofonesinglecommand."
+    },
+    {
+      "capability": "Controllercountsreceivedrowelementsandmapscontiguousranges tologicalexperts",
+      "classification": "Softwarecomposition conditionalonexistingoutputcontract",
+      "evidence": "SequentialFIFO +knownfullinputdimension +softwarephysicalrowtable permitscounter-baseddemultiplexing.",
+      "boundary": "No newPEprogressport isneededforthisalgorithm;outputelementwidth,roworder/reset/scaleanderrorvalidityarenotfullypublished."
+    },
+    {
+      "capability": "Multiplehostlogicalrequests can complete independently while sharing oneinternal nativecommand",
+      "classification": "Protocol-compatible controllerfirmwarecandidate,notAiFimplementationevidence",
+      "evidence": "NVMeBase2.1\u00a73.1.3 permitscompletionreordering;\u00a74.2CQEidentifiesSQID+CID. SPDKNVMeoverviewdescribesper-commandcallbacks.",
+      "boundary": "RetainoneoriginalCIDperexpert;ordinaryCQEformatcanstayunchanged. ControllerinternalcoalescingisnotNVMeFUSEandisnotmandatedbyNVMe."
+    },
+    {
+      "capability": "OnehostCID produces anearlysuccessfulCQEforaprefixandlaterfinishesitsremainingdata",
+      "classification": "Not the conservative protocolcontract",
+      "evidence": "NVMecommandcompletionretires thatlogicalrequest;CQEidentifiesthecompletedCID.",
+      "boundary": "Usemultipleoriginallogicalrequests/CIDsinstead. Anewprogressmemoryflag/eventAPIwouldbeasoftwareABIextensionandmustbeexplicit."
+    },
+    {
+      "capability": "Repo kernelABI hasrealrows/DMA/progress/expertcompletion",
+      "classification": "Absentininspectedmetadata-onlyimplementation",
+      "evidence": "kernel/aif.h:11;v1/v2/v3onlyaggregatebytes/pages/waves/costcounts. aif.c:48\u2013198returnsone nsecs_target. aif_replay.c:62\u201370synchronousoneioctlperpayload.",
+      "boundary": "ThisisnotproofAiFhardwarecannotstream;itmeanscurrentlocalemulationcannotvalidatetheproposedcontract."
+    },
+    {
+      "capability": "Earlyexpertcompletion releases chipinputPB/context",
+      "classification": "Excluded",
+      "evidence": "SinglefusednativeGEMVstillusesoriginalinputandproduceslaterrows. Existingordinary-readengineholdsownerfromcommandthroughfinalchanneldrain.",
+      "boundary": "Ownerrelease remainsnativejobfinaldrain/end;Downonthat chipmustwait,nosecondcontext/newinputisinserted."
+    },
+    {
+      "capability": "Asexpertprefixarrives,complete logicalGUcantrigger activation",
+      "classification": "Conditional,perexpertonly",
+      "evidence": "CurrentReferenceGraph.buildready[ei]alreadyjoinsonlythatexpertGUoutputs,notallselectedexperts.",
+      "boundary": "Waitforallchips/bands ofthatexpert,bothgate+up,hostDMAvisibilityandrequiredscatter/rescale;thenfullactivation/A8vectorbarrierbeforeanyDownjob."
+    },
+    {
+      "capability": "FIFOavailability grants per-wavepause/backpressureorfreebuffering",
+      "classification": "Notestablished;excludedfromaudit",
+      "evidence": "AiFdescribescontinuousmatrixflowandpolling,notanexplicitpauseopcodeorFIFOcapacity.",
+      "boundary": "Do not inferarbitraryproducerstall,PBresidency,unboundedFIFOorfreecontrollerstaging. Finiteflowcontrolmustbeexplicitlyjustifiedseparately."
+    }
+  ]
+}

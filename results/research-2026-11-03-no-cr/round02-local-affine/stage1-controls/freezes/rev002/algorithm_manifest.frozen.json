@@ -1,0 +1,75 @@
+{
+  "stage": "same Round2 compact controls",
+  "protocol_sha256": "42483d1490187fba7500a23bd9944c394a9e437ff00df365d13e32aa08e3269a",
+  "H": 2048,
+  "C": 32,
+  "input_PE": 128,
+  "N": [
+    80,
+    120
+  ],
+  "weight": "unweighted",
+  "guard": 100,
+  "families": [
+    "PE_RRR",
+    "G_RRR"
+  ],
+  "representations": [
+    [
+      128,
+      "F32",
+      "host_F32"
+    ],
+    [
+      128,
+      "W8",
+      "host_floatlatent"
+    ],
+    [
+      128,
+      "W8",
+      "native_A8latent"
+    ],
+    [
+      512,
+      "W8",
+      "host_floatlatent"
+    ],
+    [
+      512,
+      "W8",
+      "native_A8latent"
+    ]
+  ],
+  "gauges_W8": [
+    "identity",
+    "FITrmsfloor_maxRMS_div16"
+  ],
+  "FP32_gauge": "identity only",
+  "selection": "lowest actual VALID natural-route SSE/energy per operator,N,family,q,format,path; identity wins exact tie; no rank/path/format selection",
+  "fit": "same-N frozen Stage0 eta/lambda; same full120 unsupervised tree/P/meanX; within-leaf centered exact-real dequantized A8 design; free bias recalibrated on actual deployed same-N FIT predictions",
+  "matrix": "sum leaf mass*(cross.T@A+A.T@cross-A.T@cov@A); G uses pooled equivalents; symmetric F64; normalized by FIT rows",
+  "eigen": "one full symmetric F64 scipy.linalg.eigh driver evd; stable descending; largest-abs coordinate positive; retain values>1e-10*max(abs(all eigenvalues)); diagnose negative values below minus this tolerance; zero-pad to512; q128 prefix, no inclusion of nonpositive directions",
+  "gauge": "F64 real-fit B@actual-dequant-v RMS over same-N FIT rows, including actual nonzero leaf means; floor=maxRMS/16, allzero=>ones; absorb d into U and inverse d into B",
+  "F32_kernel": "AVX2 explicit FMA8 independent lanes; increasing k in each lane; tail uses lane k mod8; pair reduction ((0+1)+(2+3))+((4+5)+(6+7)); fixed per-sample path B1/batch; eight OMP workers RN/FTZ0/DAZ0 checked each call",
+  "FP32_path": "round factors toF32; B dot exactF32 A8codes then separate F32 commonsx; U dot F32 latent; final separate F32 bias",
+  "W8_host_path": "canonical exact integer B/A8 and F32 scale order; F32 latent retained; convert U_i8 lanes toF32, same FMA reduction, separate F32 row scale, separate F32 bias",
+  "W8_native_path": "canonical B/A8, full-q latent canonical A8 tiesaway, canonical U/A8, separate F32 bias; ordinary U reads, posts and two-factor dependence paid",
+  "oracle": "SVD gesdd actual stored F32/dequantizedW8 U, relative singular cut1e-10; fixed actual F32 bias; idealF64 U also reported. This is a mathematical real-lift fixed-span floor: finite FMA rounding can leave that span; not a universal rounded-kernel or all-U/NLL bound.",
+  "archive": "dtype/shape/finite/positive scale checked; path,gauge,family,q,input rank and unsupported behavior included in hash; reload executes same factors, never dense reconstructed map",
+  "comparisons": "before development SCORE: every selected gauge endpoint versus same-N fixed localbank, both phases; peroperator plus permodel/both equal-operator and pooled-energy composites; all predeclared paths/precisions retained, no automatic science classification",
+  "evaluation": "old SCORE only under separate SCORE_DEVELOPMENT approval; same40 prompt IDs maxT10000 seed20261103 frozen Stage0 formula; exploratory, TEST never opened",
+  "timing": "structural quality/development and shape-only SIMD checks; no target-host latency benchmark, cache-residency or zeroIO speed claim; shared placement host/AiF allowed symmetrically",
+  "compile_flags": [
+    "-std=c++17",
+    "-O3",
+    "-fPIC",
+    "-shared",
+    "-fopenmp",
+    "-mavx2",
+    "-mfma",
+    "-fno-fast-math",
+    "-ffp-contract=off"
+  ],
+  "no_stage0_source_or_output_mutation": true
+}

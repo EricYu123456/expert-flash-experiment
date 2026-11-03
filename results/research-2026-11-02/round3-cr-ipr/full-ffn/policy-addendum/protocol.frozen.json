@@ -1,0 +1,37 @@
+{
+  "frozen_utc": "2026-11-02T13:28:04.587639+00:00",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/policy_addendum.py": "5b08764f1dafbd34d1a8f159c36b9db734905a548e33acdb304a1e77ac12a848",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/shaping_addendum.py": "4f35737011355f1beae57724476c1a00ca0b73566645d789f20686b70eefc37e",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/pipeline/shaping/shaping.py": "19d5ff3555b46b8992a2fd3a978a817bd827744b0b0245fd4f3727202cdb5337",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_pipeline.py": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.cpp": "2ac76a9f17662727c7df8cb4c3b372daec1050c4d7dcd0c5e7dc65479fa10ad8",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_full_ffn.py": "922ba85f23e910d670ede4953a7c4cfdb294eb942ddbf6abb6d4ebcd3f9585dc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/baselines/frozen_TRAIN_packed_expert_order.npz": "739bb48af2b2ef37813923845c169b4e9a0d0e847be76414339d3ed84291c1bc",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/full-ffn/execution_plan.frozen.json": "82f63a9627325d6b4ec275099bfe5ac5437fa66ed57c594faa04d1cca005fa8b"
+  },
+  "data": "Existing W8 TRAIN first3layers512, no heldout.",
+  "layouts": {
+    "candidate": "candidate",
+    "RR": "IPR_standard_RR_row_safe",
+    "matching": "sameWL_matching_keep_hot"
+  },
+  "selection": "Same deterministic runtime compiler for all layouts: strict500 fill-only ifPB/rowfeasible; otherwise split10/prefix1; otherwise ascendingwave/index,prefix firstPBfeasible; otherwise explicitcoldreset fill-only. No fullFFNcost read by policy and no latency minimization.",
+  "configuration": "copy500ns,sourcepermutation,twoPBslots,evaluationstartoverwrite,perplane copyconcurrency,discardinactive-beforeECCconditional. No retained-bias pacing.",
+  "axes": {
+    "input_copies": [
+      1
+    ],
+    "priority": [
+      "GF"
+    ],
+    "Down": [
+      "g16_equal",
+      "g12_cyclic"
+    ],
+    "activation_ns": 0
+  },
+  "nature": "Router IDs and current ready stream shape are available to a sparse compiler; contract feasibility decisions are runtime scheduling, not heldout/fullFFNcost oracle. Static layout never changes.",
+  "scope_caveat": "Measuredhardwaretiming is unavailable; fixed9.7us cadence is a conditional micro-model. Rounding/cadencestretch controls can eliminate buffering failure or beat dummy-readshaping. Genericcompiler exactlytiescandidate."
+}

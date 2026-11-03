@@ -1,0 +1,95 @@
+結論：最小 overlap 是逐 expert 的基本 packing 推論，不能保證固定 routes 的
+native GU→activation→Down service 改善。即使每個 expert 在每個 chip 的 joined
+wave 數完全相同，joined ns 及 native service 仍可能不同；joined ns 也不能排序
+native service。本資料不是新 theorem、selector 或 optimizer 的貢獻。
+
+精確的 packing 條件
+-----------------
+固定 M 個 chips；某 expert 的兩 phase wave profiles 分別只有 a/a+1 及 b/b+1。
+令 G/D 為高 wave 的 chip 集合，|G|=h、|D|=k，overlap o=|G∩D|。2×2 表為：
+  neither = M-h-k+o；GU_only=h-o；Down_only=k-o；both=o。
+非負性恰好等價於 max(0,h+k-M) <= o <= min(h,k)。因此最小 overlap
+o_min=max(0,h+k-M)；joined wave histogram 的三個可能值及數量為：
+  a+b：M-h-k+o；a+b+1：h+k-2o；a+b+2：o。
+取 o_min 後，只剩相鄰兩整數（或一個整數）。總和始終是
+M(a+b)+h+k，並沒有減少總 waves。這是平衡固定和整數的標準計數：對孤立
+expert、相同 chips、僅 joined-wave 的對稱凸損失，它達到最平衡 histogram。
+若 h+k>M，所有合法配置本來都必須有 a+b+2；最小 overlap 甚至不降低該
+expert 的 joined-wave peak。G4/Deep 都在這個情況。
+
+上述條件只描述固定兩個 wave multisets 的配對。若波數不是相鄰整數，或換了
+active chips、job 數、block split、row/input bytes，不能直接套用這個兩集合式。
+Q38 的 0-overlap 亦是同一個式子的另一側，並非另一項新定理。
+
+為何不能直接推出 routes 與 native latency
+---------------------------------------
+1. 給定 route R 的工作是帶 chip 標籤的 aggregate，而非逐 expert 排序後的
+   histogram。每個 expert 的 histogram 較平衡，不能推出各 expert 加總後的
+   L_c = shared_c + Σ(e∈R) joined_work[e,c] 逐 chip 較小或 majorize 對手。
+2. 相同 joined waves 也不等於相同 joined ns。現有 Service 每個 native job
+   支付 command、完整 input channel reload、ordinary reads 及 emitted outputs。
+   G4 的 GU-only 與 Down-only 分別有一個及兩個 active jobs，phase input 長度
+   不同；Deep 全 chip 皆 active，但 page-rounded output rows 仍留下細微差異。
+   只有這些非 wave 成本在每個 chip 均為相同常數或同一 joined-wave 的仿射
+   函數時，才可把 joined waves 直接代換為 joined ns。
+3. NativeReplay/ReferenceGraph 保留整個 expert GU gather → activation → Down
+   submit/upload 的因果鏈；chip ownership、serialized commands、共享 channels
+   與 PCIe 亦保留。joined ns 是 ownership work lower bound，未包含所有等待、
+   phase 就緒與尾部 drain；它不是 makespan 的充分統計量。
+
+對本次固定 Service，腳本獨立用 occupancy_table 重算 W=max_c L_c，並核對
+candidate.work 完全相同。可寫精確分解 T(P)=W(P)+σ(P)，σ 定義為 native graph
+service 與 joined-work bound 的差。兩配置 A/B 的精確比較條件是：
+  T(A)<=T(B) iff σ(A)-σ(B) <= W(B)-W(A)。
+所以在相同外部常數下，若兩邊都證明 bound tight／相同 residual，W 才能直接
+排序 T；或必須有 residual 差上界小於工作節省的獨立證書。最小 overlap 並未
+提供這項證書。當現有 greedy scheduler 改變 ready/ownership 次序時，也不能
+擅自假設縮短某些 jobs 就保持其決策不變。實務上須用完整 native objective
+評估，或提供實際可行 trace 與相應 lower bound。
+
+可執行的三類 witness
+---------------------
+均是 G4 layer0，原 W8 TRAIN 第一個 decode route [1,49,45,33,10,20]，固定原
+shared geometry；沒有 heldout、inference、任意添加 delay 或新硬體功能。
+GU row multiset=83×6+82×3+40×7，Down=128×12+0×4；onecopy，完整 input，
+每 active chip 每 phase 一個 contiguous whole-row job。所有五張 map 的每個
+expert、每個 chip joined-wave 向量完全一致，且都是最小 overlap 5。
+
+  case                               joined W(ns)    native T(ns)   σ(ns)
+  base                                  573058          575356       2298
+  wave_equal_other_decomposition        572382          574446       2064
+  ns_equal_other_decomposition          573058          575122       2064
+  lower_joined_ns                       573058          575946       2888
+  higher_joined_ns                      573734          575872       2138
+
+第一對顯示相同 joined waves 不決定 ns；第二對 W 完全相同但 T 差 234ns。
+最後一對，W 省 676ns，σ 卻增加 750ns，因此 T 反而慢 74ns。最後兩圖的
+expert GU 就緒時間也不同，例如 expert20 為319335/320023ns、shared 為
+404630/405318ns；這些是正常 resource graph 排程結果，不是添加的等待。
+反例量級只用於否證充分性，不能解讀為有實務顯著性的速度差。
+
+每張 map 已保存完整 64 routed experts＋shared rows、lowered jobs、physical
+logical-row intervals/addresses、native trace 及獨立 Python ReferenceGraph trace。
+五個 native costs 都與獨立 ReferenceGraph 精確一致。逐 node JSON 可查看 deps、
+resource、phase/expert/chip、start/end。所有地址 coverage/nonoverlap 檢查通過。
+Discovery 僅作固定 TRAIN route 的機制反例：169個單交換與1024個固定seed
+phase-decompositions；發現足夠 witness 後停止，audit 未擴大候選搜尋。
+
+G4／Deep／Q38 row-byte ledger（每 routed expert；非完整模型成本）
+---------------------------------------------------------------
+  G4：hGU=9,hDown=12,o_min=5；categories neither/Gonly/Donly/both=0/4/7/5。
+      joined=2×11+3×5=37 waves。
+      GU1024×1536B=1572864B，100 pages/25waves，padding65536B。
+      Down1536×512B=786432B，48 pages/12waves，padding0。
+  Deep：hGU=8,hDown=13,o_min=5；categories=0/3/8/5。
+      joined=8×11+9×5=133 waves。
+      GU2816×2048B=5767168B，352 pages/88waves，padding0。
+      Down2048×1408B=2883584B，180 pages/45waves，padding65536B。
+  Q38：hGU=3,hDown=10,o_min=0；categories=3/3/10/0。
+      joined=4×3+5×13=77 waves。
+      GU1280×2560B=3276800B，204 pages/51waves，padding65536B。
+      Down2560×640B=1638400B，104 pages/26waves，padding65536B。
+
+以上 pages=ceil(rows*columns/16384)，waves=ceil(pages/4)，只算固定I8
+coefficient bytes；host scales/metadata、real NAND capacity/native ABI 未由此證明。
+Q38 是既有 geometry certificate 的名義I8 row shape，未讀其模型或測試routes。

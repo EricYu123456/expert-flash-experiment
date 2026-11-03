@@ -1,0 +1,101 @@
+{
+  "status": "PASS",
+  "inference_or_quantization_rerun": false,
+  "existing_function_body_proof_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/quality-build/unchanged_numeric_contract.json",
+  "existing_function_body_proof_sha256": "215fbd773f47586eef6efde73e5fb503a329aa963f94abdad11ebcdf2d8ad177",
+  "unchanged_functions": [
+    {
+      "function": "quantize",
+      "old_new_byte_exact": true,
+      "body_sha256": "8bf3670bcc1004860187fe326f101f52548560ab1f877f655c59ba25e4184c3a"
+    },
+    {
+      "function": "dot",
+      "old_new_byte_exact": true,
+      "body_sha256": "6668a90ec6eb57aa847d16d8f171f484114d124f89bfc363c287c336f7a97563"
+    },
+    {
+      "function": "scale_output",
+      "old_new_byte_exact": true,
+      "body_sha256": "fe0495c884de190511585fcc502596760849844754e5f9cc27a1d77d2db54c1c"
+    },
+    {
+      "function": "equal_bits",
+      "old_new_byte_exact": true,
+      "body_sha256": "f41f0a9d3db431a21b1dca6506e77d3af08661d06ae4e292b6e25fcca40336aa"
+    },
+    {
+      "function": "target",
+      "old_new_byte_exact": true,
+      "body_sha256": "4413e52f6d59cc004f48fde2f6ac67bb4c8477f44b6a85446180aa3e502a6fe6"
+    },
+    {
+      "function": "weight_cache",
+      "old_new_byte_exact": true,
+      "body_sha256": "0276e9e430afe76f862208b128b628a3d0fa8a75916fe2bab081749e7d6af7f9"
+    },
+    {
+      "function": "W8A8_audit",
+      "old_new_byte_exact": true,
+      "body_sha256": "bdb0a10c927c05622a33e61848cfa41c6ba6c7fb2e9f9df598f26394bd2e6df1"
+    }
+  ],
+  "cache_entry_counts": {
+    "earlier_train": 7359,
+    "fresh_teacher": 7515,
+    "fresh_generation": 7665
+  },
+  "fixed_cache_key": "weight_name/expert only; independent of token, activation, chip, phase-group or native job",
+  "weight_scope": "Original readonly GGUF full-row to_float, followed by one fixed full-C per-row W8 quantization before any chip assignment; cache reused thereafter.",
+  "activation_scope": "Whole full-C input vector quantized once per logical operator invocation/input vector before selected-expert and output-row loops, then identical bytes/scale reused for every chip/full-row job. Separate gate/up operators each quantize their identical full input; no global once-across-all-operators claim.",
+  "row_scales_depend_on_activation_or_layout": false,
+  "A8_scale_depends_on_chip_or_row_job_partition": false,
+  "source_lines": {
+    "quantize_full_vector": "scripts/research_20261103_teacher_forced_quality.cpp:52",
+    "weight_row_to_float_and_quantize": "scripts/research_20261103_teacher_forced_quality.cpp:73",
+    "placement_after_quantization": "scripts/research_20261103_teacher_forced_quality.cpp:82",
+    "A8_once_before_expert_row_loops": "scripts/research_20261103_teacher_forced_quality.cpp:121",
+    "full_C_dot_and_one_rescale": "scripts/research_20261103_teacher_forced_quality.cpp:129"
+  },
+  "actual_cross_workload_cache_comparisons": [
+    {
+      "left": "earlier_train",
+      "right": "fresh_teacher",
+      "common_expert_projection_entries": 7161,
+      "canonical_W8_and_fixed_row_scale_ledger_hashes_exact": true,
+      "scale_rows_byte_compared": 6151680,
+      "scale_bytes_compared": 24606720,
+      "all_F32_row_scale_bytes_identical": true
+    },
+    {
+      "left": "earlier_train",
+      "right": "fresh_generation",
+      "common_expert_projection_entries": 7269,
+      "canonical_W8_and_fixed_row_scale_ledger_hashes_exact": true,
+      "scale_rows_byte_compared": 6243840,
+      "scale_bytes_compared": 24975360,
+      "all_F32_row_scale_bytes_identical": true
+    },
+    {
+      "left": "fresh_teacher",
+      "right": "fresh_generation",
+      "common_expert_projection_entries": 7515,
+      "canonical_W8_and_fixed_row_scale_ledger_hashes_exact": true,
+      "scale_rows_byte_compared": 6453760,
+      "scale_bytes_compared": 25815040,
+      "all_F32_row_scale_bytes_identical": true
+    }
+  ],
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/quality-build/unchanged_numeric_contract.json": "215fbd773f47586eef6efde73e5fb503a329aa963f94abdad11ebcdf2d8ad177",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/quality/protocol.frozen.json": "d614c5f1cfcc8922b77902dad8f69be634880f7441497184de681fcc8227281d",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/full-ffn-integer-reference/main/weight_cache_ledger.jsonl": "b4da7bd5348ccbfc814f208a14d8df2f1c07cce073bcea78a99b3a22585f77be",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/quality/run/weight_cache_ledger.jsonl": "b1544d61df6afa61a76baad4fd23e9b6de1c7aa6b53e7886932bf6e6c06ba31f",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/fresh-format-heldout/generation/run/weight_cache_ledger.jsonl": "fb66b51de3593e6394eda652ac71afaed0a12cfb827b1260a2ba675e6154e4fb"
+  },
+  "audit_source_sha256": "50b0625a5ce5121c5bd7e005c25c2d28f0b9ccfb108f8fd97a590e3b3ddbe6a1",
+  "limits": [
+    "Existing frozen-artifact/source audit, not a new quality experiment or native-AiF ABI claim.",
+    "A8 is deliberately dynamic with the actual whole activation vector; numerical references can differ, while physical row partition does not enter quantization."
+  ]
+}

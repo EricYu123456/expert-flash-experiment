@@ -1,0 +1,244 @@
+{
+  "status": "PASS",
+  "audit_source_sha256": "9e131432146c6d3558101ada72f735afa1d2542ca0d8239f5f952cc7931add88",
+  "independent_engine_source_sha256": "36a53b2ef51c82677c9fd3440533edf7f14169df9227d43ad95686cbacfd11c6",
+  "protocol_sha256": "13470b7099b0211d732c0445b185f0f71b90a975dd58984f30aab3d753947e22",
+  "replay_inputs_and_sources_unchanged": true,
+  "frozen_old_plan_unchanged": true,
+  "route_extract_exact": true,
+  "placed_unsharded_routes_byte_exact": true,
+  "actual_route_shape": [
+    16,
+    16,
+    40,
+    6
+  ],
+  "prompts": 16,
+  "dataset_prompts": {
+    "lm": 8,
+    "arc": 8
+  },
+  "decode_positions_per_prompt": 16,
+  "refit": false,
+  "independently_recompiled_rescheduled_layer_queries": 20480,
+  "independent_scheduler": "Earlier separately implemented set-queue/linear-event engine; imports no authoritative Graph or new replay code.",
+  "native_jobs_checked": 3266560,
+  "retained_traces_checked": 80,
+  "retained_trace_nodes_checked": 66280,
+  "retained_trace_jobs_checked": 12760,
+  "all_native_job_shapes_waves_bounds_exact": true,
+  "all_retained_trace_start_end_resource_lock_causality_checks_exact": true,
+  "all_per_token_per_prompt_dataset_sum40_and_P99_exact": true,
+  "mean_reduction_fraction": 0.03945409203339523,
+  "totals": [
+    {
+      "case": "frozen_phase_group",
+      "samples": 256,
+      "mean_ns": 25573718.3125,
+      "p50_ns": 25559485.0,
+      "p95_ns": 26336037.0,
+      "p99_ns": 26573161.0,
+      "min_ns": 24536382,
+      "max_ns": 26650372
+    },
+    {
+      "case": "frozen_whole_rows",
+      "samples": 256,
+      "mean_ns": 24564730.4765625,
+      "p50_ns": 24558955.0,
+      "p95_ns": 25235885.0,
+      "p99_ns": 25572326.099999998,
+      "min_ns": 23619420,
+      "max_ns": 25745258
+    }
+  ],
+  "dataset_groups": [
+    {
+      "dataset_group": "lm",
+      "prompts": 8,
+      "phase_group": {
+        "samples": 128,
+        "mean_ns": 25549269.890625,
+        "p50_ns": 25555950.0,
+        "p95_ns": 26237359.5,
+        "p99_ns": 26405303.3,
+        "min_ns": 24536382,
+        "max_ns": 26476754
+      },
+      "whole_rows": {
+        "samples": 128,
+        "mean_ns": 24571544.015625,
+        "p50_ns": 24583672.0,
+        "p95_ns": 25179185.9,
+        "p99_ns": 25355268.82,
+        "min_ns": 23689920,
+        "max_ns": 25546020
+      },
+      "mean_reduction_fraction": 0.038268251076668314,
+      "paired_mean_delta_ns": 977725.875,
+      "per_prompt_mean_reduction_fractions": [
+        0.03895858923537121,
+        0.035903008134501424,
+        0.0372112150023437,
+        0.03885030941450773,
+        0.03653921483124056,
+        0.039760040639114314,
+        0.03939308997749025,
+        0.039530715058050836
+      ]
+    },
+    {
+      "dataset_group": "arc",
+      "prompts": 8,
+      "phase_group": {
+        "samples": 128,
+        "mean_ns": 25598166.734375,
+        "p50_ns": 25561485.0,
+        "p95_ns": 26458780.599999998,
+        "p99_ns": 26575530.2,
+        "min_ns": 24545452,
+        "max_ns": 26650372
+      },
+      "whole_rows": {
+        "samples": 128,
+        "mean_ns": 24557916.9375,
+        "p50_ns": 24551919.0,
+        "p95_ns": 25266193.2,
+        "p99_ns": 25702841.12,
+        "min_ns": 23619420,
+        "max_ns": 25745258
+      },
+      "mean_reduction_fraction": 0.04063766783259837,
+      "paired_mean_delta_ns": 1040249.796875,
+      "per_prompt_mean_reduction_fractions": [
+        0.042830789798855684,
+        0.04106085338422272,
+        0.03860786605497479,
+        0.04111903320237198,
+        0.038522436427854356,
+        0.04233412878138332,
+        0.04026442471447256,
+        0.040336412291033796
+      ]
+    }
+  ],
+  "route_provenance": [
+    {
+      "prompt_id": "fresh20261103_wikitext2_00",
+      "dataset_group": "lm",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "c7f0e131e70cfd18f4670e95624b9b5e10c60f62a0c1772a4e76ae97e2109468"
+    },
+    {
+      "prompt_id": "fresh20261103_wikitext2_01",
+      "dataset_group": "lm",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "1dbee9e046d6bfec148a0d1e83a1cfc35a9d8afe2c5d8cbb467f114654a85922"
+    },
+    {
+      "prompt_id": "fresh20261103_wikitext2_02",
+      "dataset_group": "lm",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "7b2e5880281cb7b5442b30cd75a8cd9eebd6fc376bcdd7c853ab8e23a846d025"
+    },
+    {
+      "prompt_id": "fresh20261103_wikitext2_03",
+      "dataset_group": "lm",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "fbd48a0a4a3448b0b1b69019b37916f9c75cfe80c0b84f0a27881df6fae4f098"
+    },
+    {
+      "prompt_id": "fresh20261103_wikitext2_04",
+      "dataset_group": "lm",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "fcef906e814273c70878b58ab2ec8d8a01ab4d4120fcc09ab553e846bceefd80"
+    },
+    {
+      "prompt_id": "fresh20261103_wikitext2_05",
+      "dataset_group": "lm",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "9e9f2690c4c574d7117e73e6e965debb408ff9890acdeacb4644afc78fe096c1"
+    },
+    {
+      "prompt_id": "fresh20261103_wikitext2_06",
+      "dataset_group": "lm",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "40b4e20cefcf45f9da767d45e191e19a682a2f61dd77da5d05592b3cbc6764dc"
+    },
+    {
+      "prompt_id": "fresh20261103_wikitext2_07",
+      "dataset_group": "lm",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "679e5c1e5044faaeba5d5fc01d6454f2db72b4c4907d53a958200e3d65114d8a"
+    },
+    {
+      "prompt_id": "fresh20261103_arc_challenge_00",
+      "dataset_group": "arc",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "b6ca743db0ed15d86828effed770fdfe752fe1e72eff0b9ccba22b51c447fa4d"
+    },
+    {
+      "prompt_id": "fresh20261103_arc_challenge_01",
+      "dataset_group": "arc",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "3c3e72ae3a7fa7035a92269f43b5e3a1f54da75322b79a02fa3337be19ac6020"
+    },
+    {
+      "prompt_id": "fresh20261103_arc_challenge_02",
+      "dataset_group": "arc",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "770d621b7a8ea17584cd904df212f5caca959c59b6cbc91fe767fa889d768ec9"
+    },
+    {
+      "prompt_id": "fresh20261103_arc_challenge_03",
+      "dataset_group": "arc",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "e4927995e8b4cad412fd5db78d0a5402455c49dddc572f22e8d2fe8a4c7d3e9e"
+    },
+    {
+      "prompt_id": "fresh20261103_arc_challenge_04",
+      "dataset_group": "arc",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "e0912e10e4fdd768375fa23a8234f93b10146d7f41ce5517e3000cb551c446ad"
+    },
+    {
+      "prompt_id": "fresh20261103_arc_challenge_05",
+      "dataset_group": "arc",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "891b9e2e9c8e0273512b0bb9aa7ace8483971ca5fdbe8f02c20779dad18805a3"
+    },
+    {
+      "prompt_id": "fresh20261103_arc_challenge_06",
+      "dataset_group": "arc",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "894a5038426ab321f0671fa39a28281f342fe83c95823bb5052e246a898bfd44"
+    },
+    {
+      "prompt_id": "fresh20261103_arc_challenge_07",
+      "dataset_group": "arc",
+      "decode_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "ee2aa7b81717c3721d15064d3d444af767954c6398255a44f503ab54d385ec91"
+    }
+  ],
+  "wall_seconds": 26.255564942024648,
+  "limits": [
+    "16 prompts,256within-prompt-correlated positions; descriptive results, not a large-sample confidence claim.",
+    "Uncalibrated software FFN service model; no actual hardware/native-AiF ABI/full-model latency claim."
+  ]
+}

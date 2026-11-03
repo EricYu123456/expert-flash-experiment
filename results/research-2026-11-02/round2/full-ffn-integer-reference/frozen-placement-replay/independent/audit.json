@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "completed_utc": "2026-11-01T22:56:16.179122+00:00",
+  "audit_source_sha256": "36a53b2ef51c82677c9fd3440533edf7f14169df9227d43ad95686cbacfd11c6",
+  "replay_protocol_sha256": "355ed0f887687d1ab8fa39da272dc97356151799b81ac01d0ee6704f4953a4af",
+  "independent_scheduler": "Separately implemented geometry compiler, set-based per-resource queues and linear event list; no replay/Graph/build_jobs imports.",
+  "frozen_geometry_sha256": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+  "refit_performed": false,
+  "route_provenance": [
+    {
+      "prompt": "train_programming_short_015",
+      "decode_layer_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "f36da862c57ae2b36e62ae58b0e86c7d93c6b9c0585dec1d9eb799c47a024bb4"
+    },
+    {
+      "prompt": "train_summarization_short_027",
+      "decode_layer_records": 640,
+      "placed_unsharded_byte_exact": true,
+      "source_sha256": "94ca34eb10a233edfc5cb04c0cf6f746e20dece7f52daeacbcc53250f1d66bd3"
+    }
+  ],
+  "actual_W8_decode_route_shape": [
+    2,
+    16,
+    40,
+    6
+  ],
+  "shared_cache_entries_checked": 120,
+  "shared_GU_rows_per_chip": 128,
+  "shared_down_rows_per_chip": 96,
+  "shared_down_columns": 1024,
+  "independently_rescheduled_layer_queries": 2560,
+  "retained_first_query_traces_checked": 80,
+  "retained_native_jobs_checked": 12760,
+  "retained_nodes_checked": 66280,
+  "all_resource_and_dependency_intervals_valid": true,
+  "all_whole_chip_ownership_intervals_valid": true,
+  "all_native_job_geometry_and_timing_valid": true,
+  "all_native_lower_bounds_exact": true,
+  "all_40layer_sum_arrays_and_P99_exact": true,
+  "totals": [
+    {
+      "case": "frozen_phase_group",
+      "mean_ns": 24808711.375,
+      "p99_ns": 25727952.9,
+      "per_prompt_mean_ns": [
+        24985874.875,
+        24631547.875
+      ]
+    },
+    {
+      "case": "frozen_whole_rows",
+      "mean_ns": 23742340.4375,
+      "p99_ns": 24558910.76,
+      "per_prompt_mean_ns": [
+        23938483.75,
+        23546197.125
+      ]
+    }
+  ],
+  "mean_reduction_fraction": 0.042983729440078555,
+  "mean_reduction_percent": 4.2983729440078555,
+  "wall_seconds": 13.20179007621482,
+  "limits": [
+    "Uncalibrated software FFN service replay, not hardware execution or full-model latency.",
+    "Two earlier training prompts and32 decode positions; no heldout/quality/generalization inference.",
+    "Shared gate64+up64 rows per chip can form a128-row whole-row concatenated native job with logical scatter; audit checks job shape/counts and CPU-reference partition, not programmed flash weight addresses.",
+    "F32 return byte costs and nominal28us reads are modeling assumptions; native AiF output ABI and latency are not established."
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "primary_only": true,
+  "sources": [
+    {
+      "id": "bigmomo",
+      "title": "BigMoMo: Efficient Inference of Large-Scale MoE with Speculative Decoding on Mobile Devices",
+      "version": "arXiv2609.14643v1,13Sep2026;preprint",
+      "url": "https://arxiv.org/html/2609.14643v1",
+      "read_depth": "Read3.2,4.1,4.3complete,4.4and5.1implementation;did not audit full evaluation orfigurepixels.",
+      "evidence": "4.3 uses recent co-loading hyperedges,selects a contiguous anchorregion,models one anchor read plus scattered outside-expertreads,and swaps experts by cumulative profiled readtime benefit. Swap preserves total footprint;writes wait for bothweights inDRAM andyield tocriticalreads.",
+      "relation": "Direct prior for single-copy query/co-loading-aware contiguous flashregions andruntime request consolidation.",
+      "unestablished": "No rawchip/WL/planehalf-wave geometry,overlapping singleton denseGEMVviews,or in-flash computation in inspected sections. UFSoffload\u2192DRAM\u2192HexagonNPU;physicalNANDmapping is not established.",
+      "code": "Paper describes approximately5000lines on llama.cpp/Hexagon;no authorBigMoMoartifact link verified in bounded paper/search. No code execution."
+    },
+    {
+      "id": "pimcomp",
+      "title": "PIMCOMP: An End-to-End DNN Compiler for Processing-In-Memory Accelerators",
+      "version": "arXiv2411.09159v1;TCAD2025,doi10.1109/TCAD.2024.3496847",
+      "url": "https://arxiv.org/html/2411.09159v1",
+      "read_depth": "RereadIII-A/B,V-Acomplete,VI-A/Bmethods;read entire official backend/InstructionOptimization.cpp at commit0cfbfa55cca22fcfebdb8dcfc75420dcbbbbdf77. No build/run.",
+      "evidence": "V-A groups crossbars that share identical input under oneMVM pseudo-instruction with parallel outputs. Official OptimizeInstruction invokes MergePreparation/MergeLoadOperation:adjacentLD/LMV/LLDI are merged;smallinputloads are grouped into64-element loads pluslocalmoves.",
+      "relation": "Direct same-input grouping andinstruction/data-load coalescing prior;generic fusion/inputreuse cannot be claimednew.",
+      "unestablished": "The audited optimization file contains no MVMfusion transform. AGs are crossbar programming groups;no ordinaryNANDwave,overlappingflashview orsingle-copy half-wave tailsharing is shown.",
+      "code": "https://github.com/sunxt99/PIMCOMP-NN/blob/0cfbfa55cca22fcfebdb8dcfc75420dcbbbbdf77/backend/InstructionOptimization.cpp"
+    },
+    {
+      "id": "tilelens",
+      "title": "TileLens: Efficiently Using Large-Granularity Memory Systems with Transparent Two-Dimensional Memory Layout",
+      "version": "arXiv2607.04031v1,4Jul2026;preprint/manuscriptvenueplaceholder",
+      "url": "https://arxiv.org/html/2607.04031v1",
+      "read_depth": "Reread2.3\u20132.6,3.1\u20133.3complete,4.2/4.3;previouslocalaudit of5retained. No sourcebuild.",
+      "evidence": "Astatic memorytile packs a 2Drectangle into one4KBregion;compute dimensions are multiples ofmemorytile dimensions. Alignment/padding andlogical-to-physical address translation are explicit. Discusses sharedrequests/straggler coupling betweenCTAs.",
+      "relation": "Direct granularity-aware matrixlayout/addresscompiler andreadamplification prior.",
+      "unestablished": "GPU/HBF matmul memoryfetches,not ordinaryNANDdenseGEMV. No cross-expert176row-tail pairing/selected-run fusedreadview shown. Evaluated system includes TMA/L2/MSHR/prefetch additions;cannot import those as existingAiF.",
+      "code": "No authorrunnableartifact verified in paper/boundedsearch;no same-name repository assumed related."
+    },
+    {
+      "id": "recflash",
+      "title": "RecFlash: Fast Recommendation System on In-Storage Computing with Frequency-Based Data Mapping",
+      "version": "arXiv2604.25338v1,28Apr2026;extension ofAPCCAS2025",
+      "url": "https://arxiv.org/html/2604.25338v1",
+      "read_depth": "ReadII-B,III-A,III-B,III-C1/2;no new implementation/evaluation audit.",
+      "evidence": "III-A/Fig4 remaps multiple requested embeddings into thesamephysicalpage,performs one arrayread andmultipledataouts;III-C addsfrequency remapping,planedistribution andpagecache.",
+      "relation": "Closest inspected rawNAND prior for placement that amortizes onepage sensing operation across multiple selected logicalitems.",
+      "unestablished": "Embedding SLS/indexeddataout,not full-inputdenseGEMV across complete outputrows or variable singleton/coactive overlappingreadviews. Controllercache is separateandmustnotbe assumedhere.",
+      "code": "No authorrunnableartifact verified in inspectedtext."
+    },
+    {
+      "id": "llmflash",
+      "title": "LLM in a flash: Efficient Large Language Model Inference with Limited Memory",
+      "version": "arXiv2312.11514v2,4Jan2024;ACL2024",
+      "url": "https://arxiv.org/html/2312.11514v2",
+      "read_depth": "Read2.2and3.2complete,3.3pointer/rowmanagement;not newfull-evaluationread.",
+      "evidence": "2.2 explicitly allows largerreads followed bydiscard.3.2 bundles corresponding up/down neuronvectors;closestfriend coactivationbundling was testedbutcaused repeatedloading ofhotneurons andreportednegative.",
+      "relation": "Direct largercontiguousread/overfetch-discard andcoactivationbundling prior,includinganegativeresult.",
+      "unestablished": "Flash\u2192DRAM\u2192CPU/GPUoffload;neither in-flashGEMV nor exactonecopy overlappingreadviews/hardwarewavegeometry is demonstrated.",
+      "code": "No newartifact claim in this audit."
+    },
+    {
+      "id": "aif",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "version": "ISCA2025,doi10.1145/3695053.3731073",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "read_depth": "Localpaper/aif.txt4.4/Fig14surroundingtext,5.2,footnote9reread;notnewRTL/functionaldriverproof.",
+      "evidence": "Nativecommand specifiesinputdimension,blockID,blockoffsetandmatrixpagecount;sequentialpages feedINT8PEs andoutputFIFO;cross-blockGEMV is splitinto commands.",
+      "relation": "Direct existingdensefullinput command capability for acontiguousmulti-expertrowstream,conditionaloncomplete-row/reset/outputsemantics.",
+      "unestablished": "Paperdoesnotexplicitlyimplementselectedexpertcoalescingviews ordisclosevalidrow/fringemasking/scale-outputABI. Callingtheprimitive oncompleterows issoftwarecomposition,not manufactureddeviceverification.",
+      "code": "Localtimingbackendreturnsdummyvectors;notfunctionalPEevidence."
+    }
+  ]
+}

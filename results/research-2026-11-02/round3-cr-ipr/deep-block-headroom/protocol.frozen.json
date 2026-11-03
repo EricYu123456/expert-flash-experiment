@@ -1,0 +1,61 @@
+{
+  "frozen_utc": "2026-11-02T14:03:51.038494+00:00",
+  "source_sha256": "3cb55e191abac42f163ea6fc80d4f9460d54d745d24ef8acb579830a6990f8e3",
+  "TRAIN": {
+    "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/deepseek/decode.routes.npz",
+    "sha256": "11168c1e899c8ce0bf23e719e908f243fa09d30980a65488a3f92aa448344fed"
+  },
+  "config": {
+    "H": 2048,
+    "I": 1408,
+    "E": 64,
+    "K": 6,
+    "shared_I": 2816,
+    "GU_chips": 16,
+    "planes": 4,
+    "page_bytes": 16384,
+    "block_WLs": 192,
+    "routed_pages_per_chip": 22,
+    "shared_pages_per_chip": 44,
+    "coefficient_bits": 8
+  },
+  "scope": "Existing W8/A8 TRAIN26layers512inputs only; common-input GU geometry/cold-cost screening, no fullFFN/heldout/inference.",
+  "capacity": "Matchedcontrols:2four-plane192WLblocks/chip,1452programmedpages/chip,176selectedpages/query/chip,onecopy,nooverfetch. Legacycompensator uses3blocks and is only extra-capacityreference.",
+  "execution": "Synchronous sameblock-index epochs. Within eachblock take one requestedpage from eachnonemptyplane in fixed0123order; tails shrinkmonotonically, so noidleplane resumes in thatblock. Everyactiveblock starts cold28us, later epochs9.7us under skip-WL premise. No independently advancingplanes/crossblockIPR assumed.",
+  "lower_bounds": "Global44pagewaves isonlyworkLB. Per-layout sumceil(blockpages/4) isintegerblockLB; summax(perblockplane) isconstructible NANDpage-wave count. Independentperplane blockwork is optimistic only. ECC6.4GB/s +first28us release gives anothernecessarybound, not completiontime.",
+  "universal44": "Anecessaryalltop6/globalprofilecapacitybound is44+(64-6)*ceil(22/4)=392>384pages/plane; hence2blocks cannot guarantee44waves foralltop6 underowner-homogeneouswholepageplacement. Not a scheduling/PB sufficientcondition ornewtheorem.",
+  "static_controls": [
+    "flatglobalRR sharedlast",
+    "wholeexperts32/32 RRphases sharedblock0",
+    "wholeexperts32/32 uniform4phases sharedblock0",
+    "blockstriped11/11 withglobalphasecontinuation",
+    "blockstriped11/11 uniform4phases"
+  ],
+  "TRAIN_controls": [
+    "frequencyorderedflatRR sharedfirst",
+    "frequent32wholeexperts block0+shared",
+    "capacityrepair ofaligned11/11 compensation byleastfrequencywholepageevacuation",
+    "TRAIN perblockphasecoordinatecontrol",
+    "generic8bin one-pagemoves withsharedjointlymovable"
+  ],
+  "learned_phase": {
+    "starts": [
+      "bothstaticstripedmaps"
+    ],
+    "passes": 4,
+    "expert_order": "ascendingID",
+    "objective": "lexicographic(sumNANDsimplecost,sumwaves,sumglobalplaneLB)",
+    "hard_capacity": true
+  },
+  "generic": {
+    "start": "bestTRAINmean incumbent among all matchedcontrols including learnedphase andcapacityrepair",
+    "passes": 4,
+    "expert_order": "0..64,sharedlast",
+    "proposal": "Everypositive sourcebin to everyother destinationbin, onepage, destinationresident<192; choosebeststrictlexicographicdelta once/expert/pass; stop ifnosuccess.",
+    "objective": "sum(9700*actualblockwaves+18300*activeblocks),thenwaves,thenglobalplaneLB; no newalgorithm/globaloptimumclaim"
+  },
+  "frequency": "TRAINperlayer selectioncounts; tiesexpertID. Hotgroup isfirst32frequencyrankedexperts. Capacityrepair choosesleastfrequencyexpertthenID, movesmaxneeded wholepages fromoverflowplanes tothatblocklowplane.",
+  "page_rows": "C2048 divides16KiB:8fullrows/page. Everypagekeepsfullinput andoriginalrowidentity; fixed0123pageorder maypermute rows/owners withscatter, neverpartialcolumn/dot ornewaccumulators.",
+  "omitted": "FinitePB/ECCtimeline/sourcecommand/nativeABI/FIFO/fullFFN/Down/control/vectorcosts. NANDsimplecosts andresourcelowerbounds are not achievednativecompletionlatency.",
+  "decision": "If standardstriping/compiler controls closeheadroom, reportnegativefornewalgorithm and stop; do not expand fullFFN automatically."
+}

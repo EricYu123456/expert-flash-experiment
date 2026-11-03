@@ -1,0 +1,51 @@
+{
+  "status": "conditional_service_envelope",
+  "native_confirmed": false,
+  "assumptions": [
+    {
+      "capability": "fixed0123ECCsource",
+      "status": "primaryconstraint",
+      "effect": "Useful ECC order is a subsequenceof0123eachphysicalwave; noPBpermutationormux."
+    },
+    {
+      "capability": "preECCdummyDrop",
+      "status": "conditional_existingstrongcontrol",
+      "effect": "Everydummyisactuallyread; atarrayreadydiscardreadlatchcontentswithoutcachecopy/ECC. Nativecommand/gate remainsunverified."
+    },
+    {
+      "capability": "skipWLCR_IPR",
+      "status": "userpremise",
+      "effect": "SameblockdifferentperplaneWLaddressesaccepted; arrays remain synchronous."
+    },
+    {
+      "capability": "wholeRowOwnerSwitch",
+      "status": "inherited_conditional",
+      "effect": "One3page1536B-rowmacro=32fullrows. Ownerswitch onlyatmacroboundary, oneactive dot; PEcommand/tag implementation notmeasured."
+    },
+    {
+      "capability": "twoWeightLatches",
+      "status": "fixedmodel",
+      "effect": "Onecache+onereadpageperplane; other2latchesinput. Wholepagecopy500ns, cacheheldthroughECCend."
+    },
+    {
+      "capability": "readOverwriteAtEvalStart",
+      "status": "conditional_model",
+      "effect": "6040nsrecycle window, copyoverlapsrecycle, perplanecopy."
+    },
+    {
+      "capability": "arrayCadence",
+      "status": "nominalfixed9700ns",
+      "effect": "Firstready28000ns, noidleCRorforcedrescue. Firstavailability conventionconservative, notmeasured."
+    },
+    {
+      "capability": "ECC",
+      "status": "nominal6.4GBpssharedchip",
+      "effect": "2560ns/page serialized; do not alsofold9.7us intoeffectivebandwidth."
+    },
+    {
+      "capability": "dummyAddresses",
+      "status": "verifiedledger",
+      "effect": "Uniqueexistingunselectedexpertphysicalpages, no vacantplaceholder, copiesoraddedFIFO."
+    }
+  ]
+}

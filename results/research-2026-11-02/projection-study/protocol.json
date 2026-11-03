@@ -1,0 +1,20 @@
+{
+  "purpose": "projection-specific fixed whole-row placement without CR",
+  "candidate_rule": "Each layer/phase chooses the lowest training mean among equal g16, existing trained whole-row g1/2/4/8/16 groups (w4 only), and the train-only wave-aligned row template. Ties prefer equal g16.",
+  "training_prompts": 200,
+  "test_prompts": 100,
+  "decode_steps": 128,
+  "no_test_grid_or_test_selection": true,
+  "evaluation_scope": "routed FFN projection service, not full-model latency",
+  "reused_test_warning": "The corpus test was used by earlier studies and its aggregate results were already known when proposing this method. This is exploratory fixed-test reuse, not a new blind confirmation.",
+  "hardware": "16 chips, 4 same-context planes/chip, 16KiB pages, 28us ordinary read, 6.4GB/s chip, 250ns/block-shard command, 2us/host phase; input INT8/output FP32",
+  "dependency": "gate_up -> host reassembly and activation -> down; no inter-layer or next-token overlap",
+  "unmeasured": "host row reassembly, activation/combine compute, physical PE/NAND and FTL",
+  "source_sha256": {
+    "research_20261102_projection_study.py": "35f12b723e18f2156b5b5edb03182618bc5458bb00e8990f1cb59cd46d18832f",
+    "research_20261102_diagnostics.py": "ad16307999c5d990d0fd9ac2d30a9eaaaf27ac10465eff311d3c7016c1a3c32b",
+    "materialize_plan.py": "2917cc202fdf80e06b96aa0ffd91f582af22bbfb0ee74eddecb21c6d8a829062",
+    "aif_model.py": "baa452445e953fb3d096a840facd1801ee3870726c6667d38180b9526e06751b"
+  },
+  "diagnostics_sha256": "d7a19b5f172ae59a9767f8a68902854fa8f1c7613f0642447dd6460e8ec1dd23"
+}

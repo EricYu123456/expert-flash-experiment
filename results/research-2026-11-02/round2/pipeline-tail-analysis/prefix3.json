@@ -1,0 +1,1623 @@
+{
+  "status": "descriptive train-only first3layer tail attribution; no full-model extrapolation",
+  "created_utc": "2026-11-01T20:42:39.794286+00:00",
+  "frozen_plan_sha256": "a55f17010b7b48c6c396dee92bb1d127a541e28a93b94aee2e42aac9f3dc2538",
+  "root_joint_sha256": "9890a583b2b79ff41dd084769bc31d11301dc5b8f1f92d8c41b6fd4449737ba6",
+  "training_routes_sha256": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+  "prompt_ids": [
+    "train_summarization_short_027",
+    "train_programming_short_015",
+    "train_translation_medium_031",
+    "train_qa_short_003",
+    "train_qa_long_026",
+    "train_programming_long_020",
+    "train_translation_medium_022",
+    "train_qa_medium_004",
+    "train_long_context_long_005",
+    "train_long_context_medium_001",
+    "train_programming_short_030",
+    "train_mathematics_long_023",
+    "train_summarization_medium_016",
+    "train_mathematics_long_020",
+    "train_programming_medium_004",
+    "train_summarization_long_032",
+    "train_mathematics_long_008",
+    "train_long_context_short_018",
+    "train_programming_long_005",
+    "train_mathematics_short_012",
+    "train_programming_medium_013",
+    "train_programming_medium_019",
+    "train_mathematics_medium_028",
+    "train_programming_long_017",
+    "train_translation_short_006",
+    "train_mathematics_medium_001",
+    "train_summarization_long_011",
+    "train_summarization_medium_028",
+    "train_long_context_long_017",
+    "train_qa_short_027",
+    "train_summarization_long_020",
+    "train_summarization_short_003"
+  ],
+  "source_arrays": {
+    "source": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/pipeline-joint-replay/zero/schedule_costs.npz",
+      "sha256": "7d4b6a92f3448f404e7520ffcd356a502154853ba5acf41ea4b8190a214be3f4"
+    },
+    "matched_phase": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/pipeline-joint-replay/zero/schedule_costs.npz",
+      "sha256": "7d4b6a92f3448f404e7520ffcd356a502154853ba5acf41ea4b8190a214be3f4"
+    },
+    "joint": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/pipeline-joint-replay/zero/schedule_costs.npz",
+      "sha256": "7d4b6a92f3448f404e7520ffcd356a502154853ba5acf41ea4b8190a214be3f4"
+    },
+    "wave": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/pipeline-gu-screen/full/schedule_costs.npz",
+      "sha256": "bce6242dc29c41e2344853913ee6c94cbea0c0b8f9e61538c3e9e029bfdc8d6f"
+    },
+    "opposite": {
+      "path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/pipeline-joint-replay/opposite-full/schedule_costs.npz",
+      "sha256": "d196d3451ec9bb1484b1f0b39a99f5e73805b69176885b8d53b7a4e378ff51a7"
+    }
+  },
+  "per_layer": [
+    {
+      "layer": 0,
+      "home_max_occupancy_counts": {
+        "3": 1148,
+        "4": 826,
+        "5": 72,
+        "6": 2
+      },
+      "families": {
+        "source": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 445161.640625,
+            "p95_ns": 517482.0,
+            "p99_ns": 574994.0,
+            "minimum_ns": 403446,
+            "maximum_ns": 658268,
+            "variance_ns2": 2096873723.7497559
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 432167.96875,
+            "p95_ns": 504000.0,
+            "p99_ns": 560000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 644000,
+            "variance_ns2": 2077612411.4990234
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 12993.671875,
+            "p95_ns": 14720.0,
+            "p99_ns": 15232.0,
+            "minimum_ns": 10958,
+            "maximum_ns": 15994,
+            "variance_ns2": 913545.7712402344
+          },
+          "latency_slope_ns_per_extra_home_expert": 77128.095595127,
+          "pearson_home_m_vs_latency": 0.9611334931303077,
+          "routing_bins": {
+            "3": {
+              "n": 1148,
+              "mean_ns": 408657.76829268294,
+              "p95_ns": 433208.0,
+              "p99_ns": 434208.0,
+              "minimum_ns": 403446,
+              "maximum_ns": 434208,
+              "variance_ns2": 90918965.88010964
+            },
+            "4": {
+              "n": 826,
+              "mean_ns": 484841.4745762712,
+              "p95_ns": 517482.0,
+              "p99_ns": 519235.0,
+              "minimum_ns": 433208,
+              "maximum_ns": 519482,
+              "variance_ns2": 237763232.3002011
+            },
+            "5": {
+              "n": 72,
+              "mean_ns": 566459.5833333334,
+              "p95_ns": 601756.0,
+              "p99_ns": 602046.0,
+              "minimum_ns": 544232,
+              "maximum_ns": 602756,
+              "variance_ns2": 341770045.2152778
+            },
+            "6": {
+              "n": 2,
+              "mean_ns": 643887.0,
+              "p95_ns": 656829.9,
+              "p99_ns": 657980.38,
+              "minimum_ns": 629506,
+              "maximum_ns": 658268,
+              "variance_ns2": 206813161.0
+            }
+          }
+        },
+        "matched_phase": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 445722.68359375,
+            "p95_ns": 517482.0,
+            "p99_ns": 575524.0,
+            "minimum_ns": 403446,
+            "maximum_ns": 658268,
+            "variance_ns2": 2138176033.1381683
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 432742.1875,
+            "p95_ns": 504000.0,
+            "p99_ns": 560000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 644000,
+            "variance_ns2": 2115371032.7148438
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 12980.49609375,
+            "p95_ns": 14720.0,
+            "p99_ns": 15364.499999999993,
+            "minimum_ns": 10958,
+            "maximum_ns": 15994,
+            "variance_ns2": 943408.6874847412
+          },
+          "latency_slope_ns_per_extra_home_expert": 77877.66044985983,
+          "pearson_home_m_vs_latency": 0.9610553703347682,
+          "routing_bins": {
+            "3": {
+              "n": 1148,
+              "mean_ns": 408881.0975609756,
+              "p95_ns": 433208.0,
+              "p99_ns": 434208.0,
+              "minimum_ns": 403446,
+              "maximum_ns": 434208,
+              "variance_ns2": 95789894.73264211
+            },
+            "4": {
+              "n": 826,
+              "mean_ns": 485735.9346246973,
+              "p95_ns": 517482.0,
+              "p99_ns": 519482.0,
+              "minimum_ns": 431196,
+              "maximum_ns": 519494,
+              "variance_ns2": 242228532.10710624
+            },
+            "5": {
+              "n": 72,
+              "mean_ns": 568581.9444444445,
+              "p95_ns": 601756.0,
+              "p99_ns": 602046.0,
+              "minimum_ns": 544232,
+              "maximum_ns": 602756,
+              "variance_ns2": 307790422.9969136
+            },
+            "6": {
+              "n": 2,
+              "mean_ns": 644387.0,
+              "p95_ns": 656879.9,
+              "p99_ns": 657990.38,
+              "minimum_ns": 630506,
+              "maximum_ns": 658268,
+              "variance_ns2": 192682161.0
+            }
+          }
+        },
+        "joint": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 438999.150390625,
+            "p95_ns": 490720.0,
+            "p99_ns": 546762.0,
+            "minimum_ns": 404446,
+            "maximum_ns": 630506,
+            "variance_ns2": 1575097691.7430077
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 426015.625,
+            "p95_ns": 476000.0,
+            "p99_ns": 532000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 616000,
+            "variance_ns2": 1567796630.859375
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 12983.525390625,
+            "p95_ns": 14208.0,
+            "p99_ns": 14732.0,
+            "minimum_ns": 11208,
+            "maximum_ns": 15994,
+            "variance_ns2": 682756.9895896912
+          },
+          "latency_slope_ns_per_extra_home_expert": 66530.40707591434,
+          "pearson_home_m_vs_latency": 0.9565852399494924,
+          "routing_bins": {
+            "3": {
+              "n": 1148,
+              "mean_ns": 407750.7630662021,
+              "p95_ns": 433208.0,
+              "p99_ns": 434208.0,
+              "minimum_ns": 404446,
+              "maximum_ns": 434208,
+              "variance_ns2": 69831887.25745124
+            },
+            "4": {
+              "n": 826,
+              "mean_ns": 472574.3123486683,
+              "p95_ns": 490720.0,
+              "p99_ns": 517482.0,
+              "minimum_ns": 459958,
+              "maximum_ns": 519482,
+              "variance_ns2": 224043895.5682979
+            },
+            "5": {
+              "n": 72,
+              "mean_ns": 547135.4444444445,
+              "p95_ns": 559274.9,
+              "p99_ns": 575994.0,
+              "minimum_ns": 544232,
+              "maximum_ns": 575994,
+              "variance_ns2": 46697823.91358024
+            },
+            "6": {
+              "n": 2,
+              "mean_ns": 616125.0,
+              "p95_ns": 629067.9,
+              "p99_ns": 630218.38,
+              "minimum_ns": 601744,
+              "maximum_ns": 630506,
+              "variance_ns2": 206813161.0
+            }
+          }
+        },
+        "wave": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 445599.5263671875,
+            "p95_ns": 465335.3,
+            "p99_ns": 492012.0,
+            "minimum_ns": 408238,
+            "maximum_ns": 494690,
+            "variance_ns2": 234746650.7121954
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 429898.4375,
+            "p95_ns": 448000.0,
+            "p99_ns": 476000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 476000,
+            "variance_ns2": 238130310.05859375
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 15701.0888671875,
+            "p95_ns": 17494.0,
+            "p99_ns": 18072.48,
+            "minimum_ns": 12126,
+            "maximum_ns": 18730,
+            "variance_ns2": 1833810.8837041855
+          },
+          "latency_slope_ns_per_extra_home_expert": 2815.1951499536126,
+          "pearson_home_m_vs_latency": 0.10484942317341216,
+          "routing_bins": {
+            "3": {
+              "n": 1148,
+              "mean_ns": 444402.4224738676,
+              "p95_ns": 465258.5,
+              "p99_ns": 492050.64,
+              "minimum_ns": 408238,
+              "maximum_ns": 494690,
+              "variance_ns2": 216349318.49486077
+            },
+            "4": {
+              "n": 826,
+              "mean_ns": 446699.14891041163,
+              "p95_ns": 465335.5,
+              "p99_ns": 491278.5,
+              "minimum_ns": 408458,
+              "maximum_ns": 494170,
+              "variance_ns2": 242242006.8071235
+            },
+            "5": {
+              "n": 72,
+              "mean_ns": 451556.0,
+              "p95_ns": 491022.0,
+              "p99_ns": 492228.92,
+              "minimum_ns": 408836,
+              "maximum_ns": 492760,
+              "variance_ns2": 366834881.7777778
+            },
+            "6": {
+              "n": 2,
+              "mean_ns": 464160.0,
+              "p95_ns": 464683.8,
+              "p99_ns": 464730.36,
+              "minimum_ns": 463578,
+              "maximum_ns": 464742,
+              "variance_ns2": 338724.0
+            }
+          }
+        },
+        "opposite": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 445543.46875,
+            "p95_ns": 460722.0,
+            "p99_ns": 491979.99999999994,
+            "minimum_ns": 432338,
+            "maximum_ns": 576194,
+            "variance_ns2": 268378140.13964844
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 433343.75,
+            "p95_ns": 448000.0,
+            "p99_ns": 476000.0,
+            "minimum_ns": 420000,
+            "maximum_ns": 504000,
+            "variance_ns2": 255288085.9375
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 12199.71875,
+            "p95_ns": 12722.0,
+            "p99_ns": 15979.999999999945,
+            "minimum_ns": 10722,
+            "maximum_ns": 72194,
+            "variance_ns2": 4474298.3427734375
+          },
+          "latency_slope_ns_per_extra_home_expert": 28472.488097470512,
+          "pearson_home_m_vs_latency": 0.9917657196770244,
+          "routing_bins": {
+            "3": {
+              "n": 1148,
+              "mean_ns": 432338.0,
+              "p95_ns": 432338.0,
+              "p99_ns": 432338.0,
+              "minimum_ns": 432338,
+              "maximum_ns": 432338,
+              "variance_ns2": 0.0
+            },
+            "4": {
+              "n": 826,
+              "mean_ns": 459579.14285714284,
+              "p95_ns": 460722.0,
+              "p99_ns": 460722.0,
+              "minimum_ns": 458722,
+              "maximum_ns": 460722,
+              "variance_ns2": 979591.8367346938
+            },
+            "5": {
+              "n": 72,
+              "mean_ns": 491447.77777777775,
+              "p95_ns": 492920.0,
+              "p99_ns": 492920.0,
+              "minimum_ns": 490920,
+              "maximum_ns": 492920,
+              "variance_ns2": 777006.1728395062
+            },
+            "6": {
+              "n": 2,
+              "mean_ns": 576194.0,
+              "p95_ns": 576194.0,
+              "p99_ns": 576194.0,
+              "minimum_ns": 576194,
+              "maximum_ns": 576194,
+              "variance_ns2": 0.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "layer": 1,
+      "home_max_occupancy_counts": {
+        "3": 1126,
+        "4": 838,
+        "5": 83,
+        "6": 1
+      },
+      "families": {
+        "source": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 449583.255859375,
+            "p95_ns": 519482.0,
+            "p99_ns": 575524.0,
+            "minimum_ns": 403446,
+            "maximum_ns": 659268,
+            "variance_ns2": 2353611684.2743797
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 436542.96875,
+            "p95_ns": 504000.0,
+            "p99_ns": 560000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 644000,
+            "variance_ns2": 2320267684.9365234
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 13040.287109375,
+            "p95_ns": 14720.0,
+            "p99_ns": 15482.0,
+            "minimum_ns": 10958,
+            "maximum_ns": 16756,
+            "variance_ns2": 1089842.3706932068
+          },
+          "latency_slope_ns_per_extra_home_expert": 81232.91285451464,
+          "pearson_home_m_vs_latency": 0.9675711088491004,
+          "routing_bins": {
+            "3": {
+              "n": 1126,
+              "mean_ns": 409806.71225577267,
+              "p95_ns": 434208.0,
+              "p99_ns": 434208.0,
+              "minimum_ns": 403446,
+              "maximum_ns": 434208,
+              "variance_ns2": 116644484.75379296
+            },
+            "4": {
+              "n": 838,
+              "mean_ns": 490436.0143198091,
+              "p95_ns": 518482.0,
+              "p99_ns": 519482.0,
+              "minimum_ns": 458958,
+              "maximum_ns": 519494,
+              "variance_ns2": 186185311.02604795
+            },
+            "5": {
+              "n": 83,
+              "mean_ns": 574210.8674698796,
+              "p95_ns": 602756.0,
+              "p99_ns": 604756.0,
+              "minimum_ns": 545232,
+              "maximum_ns": 604756,
+              "variance_ns2": 236132720.98243576
+            },
+            "6": {
+              "n": 1,
+              "mean_ns": 659268.0,
+              "p95_ns": 659268.0,
+              "p99_ns": 659268.0,
+              "minimum_ns": 659268,
+              "maximum_ns": 659268,
+              "variance_ns2": 0.0
+            }
+          }
+        },
+        "matched_phase": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 449549.791015625,
+            "p95_ns": 519482.0,
+            "p99_ns": 575994.0,
+            "minimum_ns": 403446,
+            "maximum_ns": 659268,
+            "variance_ns2": 2367027083.6750755
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 436515.625,
+            "p95_ns": 504000.0,
+            "p99_ns": 560000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 644000,
+            "variance_ns2": 2333421630.859375
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 13034.166015625,
+            "p95_ns": 14720.0,
+            "p99_ns": 15482.0,
+            "minimum_ns": 10958,
+            "maximum_ns": 16756,
+            "variance_ns2": 1095717.7693138123
+          },
+          "latency_slope_ns_per_extra_home_expert": 81593.78130625102,
+          "pearson_home_m_vs_latency": 0.969111434584885,
+          "routing_bins": {
+            "3": {
+              "n": 1126,
+              "mean_ns": 409554.8294849023,
+              "p95_ns": 434208.0,
+              "p99_ns": 434208.0,
+              "minimum_ns": 403446,
+              "maximum_ns": 434208,
+              "variance_ns2": 113347430.56950365
+            },
+            "4": {
+              "n": 838,
+              "mean_ns": 490695.0644391408,
+              "p95_ns": 518482.0,
+              "p99_ns": 519482.0,
+              "minimum_ns": 458958,
+              "maximum_ns": 519494,
+              "variance_ns2": 175890232.08892632
+            },
+            "5": {
+              "n": 83,
+              "mean_ns": 574186.7710843374,
+              "p95_ns": 602756.0,
+              "p99_ns": 604756.0,
+              "minimum_ns": 545232,
+              "maximum_ns": 604756,
+              "variance_ns2": 234780567.6945856
+            },
+            "6": {
+              "n": 1,
+              "mean_ns": 659268.0,
+              "p95_ns": 659268.0,
+              "p99_ns": 659268.0,
+              "minimum_ns": 659268,
+              "maximum_ns": 659268,
+              "variance_ns2": 0.0
+            }
+          }
+        },
+        "joint": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 439169.1240234375,
+            "p95_ns": 490720.0,
+            "p99_ns": 547232.0,
+            "minimum_ns": 404446,
+            "maximum_ns": 601744,
+            "variance_ns2": 1548845343.0588365
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 426220.703125,
+            "p95_ns": 476000.0,
+            "p99_ns": 532000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 588000,
+            "variance_ns2": 1540404415.1306152
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 12948.4208984375,
+            "p95_ns": 14208.0,
+            "p99_ns": 14732.0,
+            "minimum_ns": 11208,
+            "maximum_ns": 15994,
+            "variance_ns2": 660250.4341726303
+          },
+          "latency_slope_ns_per_extra_home_expert": 65335.917944683075,
+          "pearson_home_m_vs_latency": 0.9593260580590143,
+          "routing_bins": {
+            "3": {
+              "n": 1126,
+              "mean_ns": 407794.4831261101,
+              "p95_ns": 432208.0,
+              "p99_ns": 434208.0,
+              "minimum_ns": 404446,
+              "maximum_ns": 434208,
+              "variance_ns2": 71852078.78612736
+            },
+            "4": {
+              "n": 838,
+              "mean_ns": 470359.7183770883,
+              "p95_ns": 490720.0,
+              "p99_ns": 490720.0,
+              "minimum_ns": 459958,
+              "maximum_ns": 519482,
+              "variance_ns2": 183637611.28107038
+            },
+            "5": {
+              "n": 83,
+              "mean_ns": 547934.8192771084,
+              "p95_ns": 573894.0,
+              "p99_ns": 574354.0,
+              "minimum_ns": 544232,
+              "maximum_ns": 575994,
+              "variance_ns2": 63535352.389026
+            },
+            "6": {
+              "n": 1,
+              "mean_ns": 601744.0,
+              "p95_ns": 601744.0,
+              "p99_ns": 601744.0,
+              "minimum_ns": 601744,
+              "maximum_ns": 601744,
+              "variance_ns2": 0.0
+            }
+          }
+        },
+        "wave": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 448855.87060546875,
+            "p95_ns": 489649.3,
+            "p99_ns": 493887.92,
+            "minimum_ns": 408468,
+            "maximum_ns": 522784,
+            "variance_ns2": 289640452.7239796
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 433029.296875,
+            "p95_ns": 476000.0,
+            "p99_ns": 476000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 504000,
+            "variance_ns2": 292292110.44311523
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 15826.57373046875,
+            "p95_ns": 17740.0,
+            "p99_ns": 18234.12,
+            "minimum_ns": 12376,
+            "maximum_ns": 18860,
+            "variance_ns2": 1824261.6400716305
+          },
+          "latency_slope_ns_per_extra_home_expert": 1302.5133073384768,
+          "pearson_home_m_vs_latency": 0.04422530447309997,
+          "routing_bins": {
+            "3": {
+              "n": 1126,
+              "mean_ns": 448242.85612788633,
+              "p95_ns": 466260.0,
+              "p99_ns": 493937.5,
+              "minimum_ns": 408468,
+              "maximum_ns": 522784,
+              "variance_ns2": 288610907.48018897
+            },
+            "4": {
+              "n": 838,
+              "mean_ns": 449459.192124105,
+              "p95_ns": 490402.0,
+              "p99_ns": 493827.8,
+              "minimum_ns": 409204,
+              "maximum_ns": 521604,
+              "variance_ns2": 291116062.3700096
+            },
+            "5": {
+              "n": 83,
+              "mean_ns": 450890.3373493976,
+              "p95_ns": 466226.0,
+              "p99_ns": 493477.0,
+              "minimum_ns": 432376,
+              "maximum_ns": 493764,
+              "variance_ns2": 276275157.76571345
+            },
+            "6": {
+              "n": 1,
+              "mean_ns": 464666.0,
+              "p95_ns": 464666.0,
+              "p99_ns": 464666.0,
+              "minimum_ns": 464666,
+              "maximum_ns": 464666,
+              "variance_ns2": 0.0
+            }
+          }
+        },
+        "opposite": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 445955.1650390625,
+            "p95_ns": 460722.0,
+            "p99_ns": 492920.0,
+            "minimum_ns": 432338,
+            "maximum_ns": 576194,
+            "variance_ns2": 270877698.60166836
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 433767.578125,
+            "p95_ns": 448000.0,
+            "p99_ns": 476000.0,
+            "minimum_ns": 420000,
+            "maximum_ns": 504000,
+            "variance_ns2": 261789730.07202148
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 12187.5869140625,
+            "p95_ns": 12722.0,
+            "p99_ns": 16920.0,
+            "minimum_ns": 10722,
+            "maximum_ns": 72194,
+            "variance_ns2": 2814273.8313131332
+          },
+          "latency_slope_ns_per_extra_home_expert": 28335.50485633081,
+          "pearson_home_m_vs_latency": 0.9948614455819359,
+          "routing_bins": {
+            "3": {
+              "n": 1126,
+              "mean_ns": 432338.0,
+              "p95_ns": 432338.0,
+              "p99_ns": 432338.0,
+              "minimum_ns": 432338,
+              "maximum_ns": 432338,
+              "variance_ns2": 0.0
+            },
+            "4": {
+              "n": 838,
+              "mean_ns": 459581.18854415277,
+              "p95_ns": 460722.0,
+              "p99_ns": 460722.0,
+              "minimum_ns": 458722,
+              "maximum_ns": 460722,
+              "variance_ns2": 980172.1339021765
+            },
+            "5": {
+              "n": 83,
+              "mean_ns": 491546.5060240964,
+              "p95_ns": 492920.0,
+              "p99_ns": 492920.0,
+              "minimum_ns": 490920,
+              "maximum_ns": 492920,
+              "variance_ns2": 860502.2499637103
+            },
+            "6": {
+              "n": 1,
+              "mean_ns": 576194.0,
+              "p95_ns": 576194.0,
+              "p99_ns": 576194.0,
+              "minimum_ns": 576194,
+              "maximum_ns": 576194,
+              "variance_ns2": 0.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "layer": 2,
+      "home_max_occupancy_counts": {
+        "3": 1087,
+        "4": 891,
+        "5": 70,
+        "6": 0
+      },
+      "families": {
+        "source": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 447374.1953125,
+            "p95_ns": 517482.0,
+            "p99_ns": 573994.0,
+            "minimum_ns": 403446,
+            "maximum_ns": 601756,
+            "variance_ns2": 2001361677.7626343
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 434437.5,
+            "p95_ns": 504000.0,
+            "p99_ns": 560000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 588000,
+            "variance_ns2": 1983542968.75
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 12936.6953125,
+            "p95_ns": 14720.0,
+            "p99_ns": 14994.0,
+            "minimum_ns": 10958,
+            "maximum_ns": 15994,
+            "variance_ns2": 943848.6610717773
+          },
+          "latency_slope_ns_per_extra_home_expert": 75909.12702144224,
+          "pearson_home_m_vs_latency": 0.9573749508987931,
+          "routing_bins": {
+            "3": {
+              "n": 1087,
+              "mean_ns": 409458.3256669733,
+              "p95_ns": 433208.0,
+              "p99_ns": 434208.0,
+              "minimum_ns": 403446,
+              "maximum_ns": 434208,
+              "variance_ns2": 107558518.98501737
+            },
+            "4": {
+              "n": 891,
+              "mean_ns": 484341.83389450057,
+              "p95_ns": 516482.0,
+              "p99_ns": 518482.0,
+              "minimum_ns": 431196,
+              "maximum_ns": 519494,
+              "variance_ns2": 233582914.74681973
+            },
+            "5": {
+              "n": 70,
+              "mean_ns": 565608.2571428572,
+              "p95_ns": 575994.0,
+              "p99_ns": 601756.0,
+              "minimum_ns": 544232,
+              "maximum_ns": 601756,
+              "variance_ns2": 212399432.44816324
+            }
+          }
+        },
+        "matched_phase": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 445947.123046875,
+            "p95_ns": 516482.0,
+            "p99_ns": 573994.0,
+            "minimum_ns": 403446,
+            "maximum_ns": 603756,
+            "variance_ns2": 1903179030.0668907
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 433015.625,
+            "p95_ns": 504000.0,
+            "p99_ns": 560000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 588000,
+            "variance_ns2": 1888593505.859375
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 12931.498046875,
+            "p95_ns": 14720.0,
+            "p99_ns": 14994.0,
+            "minimum_ns": 10958,
+            "maximum_ns": 15994,
+            "variance_ns2": 903426.4902305603
+          },
+          "latency_slope_ns_per_extra_home_expert": 73989.98221901973,
+          "pearson_home_m_vs_latency": 0.9569383380425767,
+          "routing_bins": {
+            "3": {
+              "n": 1087,
+              "mean_ns": 408981.34498620057,
+              "p95_ns": 433208.0,
+              "p99_ns": 434208.0,
+              "minimum_ns": 403446,
+              "maximum_ns": 434208,
+              "variance_ns2": 97999734.2094114
+            },
+            "4": {
+              "n": 891,
+              "mean_ns": 482000.88664422,
+              "p95_ns": 490732.0,
+              "p99_ns": 518482.0,
+              "minimum_ns": 458958,
+              "maximum_ns": 519482,
+              "variance_ns2": 217032821.11734128
+            },
+            "5": {
+              "n": 70,
+              "mean_ns": 561059.9428571429,
+              "p95_ns": 590163.1,
+              "p99_ns": 603066.0,
+              "minimum_ns": 516470,
+              "maximum_ns": 603756,
+              "variance_ns2": 381460893.1395918
+            }
+          }
+        },
+        "joint": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 440975.7314453125,
+            "p95_ns": 490732.0,
+            "p99_ns": 547232.0,
+            "minimum_ns": 403446,
+            "maximum_ns": 575994,
+            "variance_ns2": 1573333852.7931123
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 428080.078125,
+            "p95_ns": 476000.0,
+            "p99_ns": 532000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 560000,
+            "variance_ns2": 1563579524.9938965
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 12895.6533203125,
+            "p95_ns": 14482.0,
+            "p99_ns": 15120.139999999994,
+            "minimum_ns": 10958,
+            "maximum_ns": 15994,
+            "variance_ns2": 769092.5887975693
+          },
+          "latency_slope_ns_per_extra_home_expert": 66742.78489747587,
+          "pearson_home_m_vs_latency": 0.9493901760359061,
+          "routing_bins": {
+            "3": {
+              "n": 1087,
+              "mean_ns": 408047.40386384545,
+              "p95_ns": 433208.0,
+              "p99_ns": 434208.0,
+              "minimum_ns": 403446,
+              "maximum_ns": 434208,
+              "variance_ns2": 77747913.40359132
+            },
+            "4": {
+              "n": 891,
+              "mean_ns": 472481.3265993266,
+              "p95_ns": 490720.0,
+              "p99_ns": 518482.0,
+              "minimum_ns": 458958,
+              "maximum_ns": 519494,
+              "variance_ns2": 239318185.05494905
+            },
+            "5": {
+              "n": 70,
+              "mean_ns": 551284.4,
+              "p95_ns": 575544.0,
+              "p99_ns": 575994.0,
+              "minimum_ns": 544232,
+              "maximum_ns": 575994,
+              "variance_ns2": 138108125.8971429
+            }
+          }
+        },
+        "wave": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 446075.45703125,
+            "p95_ns": 466253.2,
+            "p99_ns": 493403.06,
+            "minimum_ns": 408154,
+            "maximum_ns": 522178,
+            "variance_ns2": 295536509.2940521
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 430226.5625,
+            "p95_ns": 448000.0,
+            "p99_ns": 476000.0,
+            "minimum_ns": 392000,
+            "maximum_ns": 504000,
+            "variance_ns2": 298136169.43359375
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 15848.89453125,
+            "p95_ns": 17742.0,
+            "p99_ns": 18242.0,
+            "minimum_ns": 12210,
+            "maximum_ns": 18602,
+            "variance_ns2": 1767549.8824310303
+          },
+          "latency_slope_ns_per_extra_home_expert": 3257.8677113664376,
+          "pearson_home_m_vs_latency": 0.10692486949508563,
+          "routing_bins": {
+            "3": {
+              "n": 1087,
+              "mean_ns": 444534.22447102115,
+              "p95_ns": 465580.0,
+              "p99_ns": 493178.32,
+              "minimum_ns": 408154,
+              "maximum_ns": 522178,
+              "variance_ns2": 287568227.09956676
+            },
+            "4": {
+              "n": 891,
+              "mean_ns": 447452.0987654321,
+              "p95_ns": 490149.0,
+              "p99_ns": 493456.6,
+              "minimum_ns": 408792,
+              "maximum_ns": 522018,
+              "variance_ns2": 288762920.18553156
+            },
+            "5": {
+              "n": 70,
+              "mean_ns": 452485.9142857143,
+              "p95_ns": 490211.2,
+              "p99_ns": 502489.32000000007,
+              "minimum_ns": 433126,
+              "maximum_ns": 521928,
+              "variance_ns2": 403387708.39265305
+            }
+          }
+        },
+        "opposite": {
+          "latency": {
+            "n": 2048,
+            "mean_ns": 446170.462890625,
+            "p95_ns": 460722.0,
+            "p99_ns": 492920.0,
+            "minimum_ns": 432338,
+            "maximum_ns": 492920,
+            "variance_ns2": 249451449.85995102
+          },
+          "joined_nand_bound": {
+            "n": 2048,
+            "mean_ns": 434095.703125,
+            "p95_ns": 448000.0,
+            "p99_ns": 476000.0,
+            "minimum_ns": 420000,
+            "maximum_ns": 476000,
+            "variance_ns2": 249584590.91186523
+          },
+          "native_schedule_minus_nand_bound": {
+            "n": 2048,
+            "mean_ns": 12074.759765625,
+            "p95_ns": 12722.0,
+            "p99_ns": 16920.0,
+            "minimum_ns": 10722,
+            "maximum_ns": 16920,
+            "variance_ns2": 1041965.3094749451
+          },
+          "latency_slope_ns_per_extra_home_expert": 27934.084516197952,
+          "pearson_home_m_vs_latency": 0.9979120794879607,
+          "routing_bins": {
+            "3": {
+              "n": 1087,
+              "mean_ns": 432338.0,
+              "p95_ns": 432338.0,
+              "p99_ns": 432338.0,
+              "minimum_ns": 432338,
+              "maximum_ns": 432338,
+              "variance_ns2": 0.0
+            },
+            "4": {
+              "n": 891,
+              "mean_ns": 459480.6980920314,
+              "p95_ns": 460722.0,
+              "p99_ns": 460722.0,
+              "minimum_ns": 458722,
+              "maximum_ns": 460722,
+              "variance_ns2": 941773.3892107254
+            },
+            "5": {
+              "n": 70,
+              "mean_ns": 491548.5714285714,
+              "p95_ns": 492920.0,
+              "p99_ns": 492920.0,
+              "minimum_ns": 490920,
+              "maximum_ns": 492920,
+              "variance_ns2": 862040.8163265305
+            }
+          }
+        }
+      }
+    }
+  ],
+  "paired_three_layer_aggregation": {
+    "source": {
+      "paired_three_layer_sum": {
+        "n": 2048,
+        "mean_ns": 1342119.091796875,
+        "p95_ns": 1493922.0,
+        "p99_ns": 1554434.0,
+        "minimum_ns": 1210338,
+        "maximum_ns": 1691220,
+        "variance_ns2": 6650312602.030634
+      },
+      "sum_of_individual_layer_p99_ns": 1724512.0,
+      "covariance_ns2": [
+        [
+          2096873723.7497559,
+          55941905.59976196,
+          35586386.263549805
+        ],
+        [
+          55941905.59976196,
+          2353611684.2743783,
+          7704466.258621216
+        ],
+        [
+          35586386.263549805,
+          7704466.258621216,
+          2001361677.762621
+        ]
+      ],
+      "sum_of_layer_variances_ns2": 6451847085.786755,
+      "cross_layer_covariance_contribution_ns2": 198465516.24386597,
+      "variance_identity": "Var(sum layers)=sum Var(layers)+2sum pairwise Cov; numerically verified.",
+      "top1_exact_rank_count": 21,
+      "top1_route_indices": [
+        717,
+        946,
+        128,
+        305,
+        1432,
+        1710,
+        160,
+        649,
+        935,
+        1312,
+        417,
+        1005,
+        679,
+        1217,
+        1049,
+        1454,
+        1798,
+        1121,
+        1097,
+        1082,
+        892
+      ],
+      "top1_distinct_prompts": 15,
+      "top1_mean_original_home_m_by_layer": [
+        4.476190476190476,
+        4.476190476190476,
+        4.380952380952381
+      ],
+      "top1_extreme_home_m_ge5_occurrences": 28,
+      "per_layer_top1_intersection_counts": {
+        "0-1": 0,
+        "0-2": 0,
+        "1-2": 0
+      }
+    },
+    "matched_phase": {
+      "paired_three_layer_sum": {
+        "n": 2048,
+        "mean_ns": 1341219.59765625,
+        "p95_ns": 1471167.8,
+        "p99_ns": 1553434.0,
+        "minimum_ns": 1210338,
+        "maximum_ns": 1665470,
+        "variance_ns2": 6699342252.099838
+      },
+      "sum_of_individual_layer_p99_ns": 1725512.0,
+      "covariance_ns2": [
+        [
+          2138176033.138156,
+          76167565.12333024,
+          27886311.5701828
+        ],
+        [
+          76167565.12333024,
+          2367027083.6750917,
+          41426175.91634076
+        ],
+        [
+          27886311.5701828,
+          41426175.91634076,
+          1903179030.0668871
+        ]
+      ],
+      "sum_of_layer_variances_ns2": 6408382146.880135,
+      "cross_layer_covariance_contribution_ns2": 290960105.2197075,
+      "variance_identity": "Var(sum layers)=sum Var(layers)+2sum pairwise Cov; numerically verified.",
+      "top1_exact_rank_count": 21,
+      "top1_route_indices": [
+        1970,
+        717,
+        128,
+        1432,
+        1049,
+        305,
+        954,
+        1052,
+        1710,
+        412,
+        1121,
+        1005,
+        230,
+        1454,
+        935,
+        679,
+        1798,
+        1097,
+        1217,
+        892,
+        1082
+      ],
+      "top1_distinct_prompts": 16,
+      "top1_mean_original_home_m_by_layer": [
+        4.380952380952381,
+        4.619047619047619,
+        4.333333333333333
+      ],
+      "top1_extreme_home_m_ge5_occurrences": 29,
+      "per_layer_top1_intersection_counts": {
+        "0-1": 0,
+        "0-2": 0,
+        "1-2": 2
+      }
+    },
+    "joint": {
+      "paired_three_layer_sum": {
+        "n": 2048,
+        "mean_ns": 1319144.005859375,
+        "p95_ns": 1440398.0,
+        "p99_ns": 1509913.8599999994,
+        "minimum_ns": 1212338,
+        "maximum_ns": 1634696,
+        "variance_ns2": 4932821524.8085575
+      },
+      "sum_of_individual_layer_p99_ns": 1641226.0,
+      "covariance_ns2": [
+        [
+          1575097691.7430148,
+          18868788.056544103,
+          77698767.72300437
+        ],
+        [
+          18868788.056544103,
+          1548845343.0588362,
+          21204762.82725227
+        ],
+        [
+          77698767.72300437,
+          21204762.82725227,
+          1573333852.7931213
+        ]
+      ],
+      "sum_of_layer_variances_ns2": 4697276887.594973,
+      "cross_layer_covariance_contribution_ns2": 235544637.2136011,
+      "variance_identity": "Var(sum layers)=sum Var(layers)+2sum pairwise Cov; numerically verified.",
+      "top1_exact_rank_count": 21,
+      "top1_route_indices": [
+        1426,
+        1708,
+        160,
+        935,
+        1052,
+        1654,
+        373,
+        1294,
+        132,
+        230,
+        645,
+        1432,
+        305,
+        1798,
+        1121,
+        1217,
+        1454,
+        1082,
+        1021,
+        1097,
+        892
+      ],
+      "top1_distinct_prompts": 16,
+      "top1_mean_original_home_m_by_layer": [
+        4.380952380952381,
+        4.523809523809524,
+        4.428571428571429
+      ],
+      "top1_extreme_home_m_ge5_occurrences": 29,
+      "per_layer_top1_intersection_counts": {
+        "0-1": 0,
+        "0-2": 0,
+        "1-2": 0
+      }
+    },
+    "wave": {
+      "paired_three_layer_sum": {
+        "n": 2048,
+        "mean_ns": 1340530.8540039062,
+        "p95_ns": 1392471.9,
+        "p99_ns": 1420501.66,
+        "minimum_ns": 1279104,
+        "maximum_ns": 1450404,
+        "variance_ns2": 868827695.5074935
+      },
+      "sum_of_individual_layer_p99_ns": 1479302.98,
+      "covariance_ns2": [
+        [
+          234746650.71219587,
+          -3288128.916754348,
+          19083201.82291031
+        ],
+        [
+          -3288128.916754348,
+          289640452.7239798,
+          8656968.482477188
+        ],
+        [
+          19083201.82291031,
+          8656968.482477188,
+          295536509.2940521
+        ]
+      ],
+      "sum_of_layer_variances_ns2": 819923612.7302277,
+      "cross_layer_covariance_contribution_ns2": 48904082.77726638,
+      "variance_identity": "Var(sum layers)=sum Var(layers)+2sum pairwise Cov; numerically verified.",
+      "top1_exact_rank_count": 21,
+      "top1_route_indices": [
+        85,
+        892,
+        678,
+        1130,
+        1908,
+        399,
+        1041,
+        438,
+        535,
+        247,
+        1543,
+        1402,
+        748,
+        170,
+        377,
+        47,
+        130,
+        386,
+        991,
+        2016,
+        1535
+      ],
+      "top1_distinct_prompts": 18,
+      "top1_mean_original_home_m_by_layer": [
+        3.6666666666666665,
+        3.5714285714285716,
+        3.5714285714285716
+      ],
+      "top1_extreme_home_m_ge5_occurrences": 6,
+      "per_layer_top1_intersection_counts": {
+        "0-1": 0,
+        "0-2": 0,
+        "1-2": 0
+      }
+    },
+    "opposite": {
+      "paired_three_layer_sum": {
+        "n": 2048,
+        "mean_ns": 1337669.0966796875,
+        "p95_ns": 1382166.0,
+        "p99_ns": 1412364.0,
+        "minimum_ns": 1297014,
+        "maximum_ns": 1499452,
+        "variance_ns2": 815583208.088309
+      },
+      "sum_of_individual_layer_p99_ns": 1477820.0,
+      "covariance_ns2": [
+        [
+          268378140.13964844,
+          3517126.150177002,
+          6683845.0232543945
+        ],
+        [
+          3517126.150177002,
+          270877698.6016676,
+          3236988.57008934
+        ],
+        [
+          6683845.0232543945,
+          3236988.57008934,
+          249451449.85994875
+        ]
+      ],
+      "sum_of_layer_variances_ns2": 788707288.6012648,
+      "cross_layer_covariance_contribution_ns2": 26875919.487041473,
+      "variance_identity": "Var(sum layers)=sum Var(layers)+2sum pairwise Cov; numerically verified.",
+      "top1_exact_rank_count": 21,
+      "top1_route_indices": [
+        1211,
+        1214,
+        1217,
+        1230,
+        1432,
+        1467,
+        1970,
+        540,
+        1794,
+        305,
+        1049,
+        230,
+        425,
+        1454,
+        1798,
+        1097,
+        1121,
+        373,
+        717,
+        892,
+        1082
+      ],
+      "top1_distinct_prompts": 14,
+      "top1_mean_original_home_m_by_layer": [
+        4.428571428571429,
+        4.428571428571429,
+        4.476190476190476
+      ],
+      "top1_extreme_home_m_ge5_occurrences": 32,
+      "per_layer_top1_intersection_counts": {
+        "0-1": 0,
+        "0-2": 0,
+        "1-2": 0
+      }
+    }
+  },
+  "paired_source_tail": {
+    "matched_phase": {
+      "on_source_sum_top1": {
+        "n": 21,
+        "mean_ns": -4297.619047619048,
+        "p95_ns": 27762.0,
+        "p99_ns": 50771.60000000002,
+        "minimum_ns": -56512,
+        "maximum_ns": 56524,
+        "variance_ns2": 624673733.1882088
+      },
+      "overlap_with_source_sum_top1": 16,
+      "on_each_source_layer_top1": {
+        "0": {
+          "n": 21,
+          "mean_ns": 47.61904761904762,
+          "p95_ns": 0.0,
+          "p99_ns": 800.0000000000007,
+          "minimum_ns": 0,
+          "maximum_ns": 1000,
+          "variance_ns2": 45351.4739229025
+        },
+        "1": {
+          "n": 21,
+          "mean_ns": -1417.2380952380952,
+          "p95_ns": 0.0,
+          "p99_ns": 0.0,
+          "minimum_ns": -28762,
+          "maximum_ns": 0,
+          "variance_ns2": 37432038.27664399
+        },
+        "2": {
+          "n": 21,
+          "mean_ns": -20449.04761904762,
+          "p95_ns": 1000.0,
+          "p99_ns": 22409.60000000002,
+          "minimum_ns": -56524,
+          "maximum_ns": 27762,
+          "variance_ns2": 314343891.2834467
+        }
+      }
+    },
+    "joint": {
+      "on_source_sum_top1": {
+        "n": 21,
+        "mean_ns": -66539.90476190476,
+        "p95_ns": -28762.0,
+        "p99_ns": -27962.0,
+        "minimum_ns": -113048,
+        "maximum_ns": -27762,
+        "variance_ns2": 643702765.5147393
+      },
+      "overlap_with_source_sum_top1": 11,
+      "on_each_source_layer_top1": {
+        "0": {
+          "n": 21,
+          "mean_ns": -35324.380952380954,
+          "p95_ns": 0.0,
+          "p99_ns": 800.0000000000007,
+          "minimum_ns": -57524,
+          "maximum_ns": 1000,
+          "variance_ns2": 303635241.7596372
+        },
+        "1": {
+          "n": 21,
+          "mean_ns": -43875.42857142857,
+          "p95_ns": -28762.0,
+          "p99_ns": -27962.0,
+          "minimum_ns": -58524,
+          "maximum_ns": -27762,
+          "variance_ns2": 197308423.6734694
+        },
+        "2": {
+          "n": 21,
+          "mean_ns": -26022.761904761905,
+          "p95_ns": 1000.0,
+          "p99_ns": 1000.0,
+          "minimum_ns": -57524,
+          "maximum_ns": 1000,
+          "variance_ns2": 234904377.7052154
+        }
+      }
+    },
+    "wave": {
+      "on_source_sum_top1": {
+        "n": 21,
+        "mean_ns": -226766.38095238095,
+        "p95_ns": -187798.0,
+        "p99_ns": -165647.59999999998,
+        "minimum_ns": -331450,
+        "maximum_ns": -160110,
+        "variance_ns2": 1525436320.6167798
+      },
+      "overlap_with_source_sum_top1": 1,
+      "on_each_source_layer_top1": {
+        "0": {
+          "n": 21,
+          "mean_ns": -139328.57142857142,
+          "p95_ns": -112030.0,
+          "p99_ns": -111065.2,
+          "minimum_ns": -194690,
+          "maximum_ns": -110824,
+          "variance_ns2": 348940261.0068027
+        },
+        "1": {
+          "n": 21,
+          "mean_ns": -137727.33333333334,
+          "p95_ns": -111342.0,
+          "p99_ns": -110921.2,
+          "minimum_ns": -194602,
+          "maximum_ns": -110816,
+          "variance_ns2": 323267330.79365075
+        },
+        "2": {
+          "n": 21,
+          "mean_ns": -125927.80952380953,
+          "p95_ns": -109328.0,
+          "p99_ns": -108865.6,
+          "minimum_ns": -140868,
+          "maximum_ns": -108750,
+          "variance_ns2": 191779045.67800453
+        }
+      }
+    },
+    "opposite": {
+      "on_source_sum_top1": {
+        "n": 21,
+        "mean_ns": -163552.0,
+        "p95_ns": -141070.0,
+        "p99_ns": -96357.99999999996,
+        "minimum_ns": -218460,
+        "maximum_ns": -85180,
+        "variance_ns2": 592858044.5714285
+      },
+      "overlap_with_source_sum_top1": 11,
+      "on_each_source_layer_top1": {
+        "0": {
+          "n": 21,
+          "mean_ns": -92185.14285714286,
+          "p95_ns": -82074.0,
+          "p99_ns": -59064.39999999998,
+          "minimum_ns": -111836,
+          "maximum_ns": -53312,
+          "variance_ns2": 255564685.17006806
+        },
+        "1": {
+          "n": 21,
+          "mean_ns": -99223.71428571429,
+          "p95_ns": -83074.0,
+          "p99_ns": -83074.0,
+          "minimum_ns": -111836,
+          "maximum_ns": -83074,
+          "variance_ns2": 195752810.77551022
+        },
+        "2": {
+          "n": 21,
+          "mean_ns": -85384.66666666667,
+          "p95_ns": -82074.0,
+          "p99_ns": -82074.0,
+          "minimum_ns": -110836,
+          "maximum_ns": -82074,
+          "variance_ns2": 68396880.88888888
+        }
+      }
+    }
+  },
+  "mechanism": {
+    "opposite": "With K6 and original GUhome occupancy m=max(nA,6-nA), joined NAND work is exactly(12+m)waves. GU3wave jobs and down2wave jobs use opposite chip halves. Extra total work reduces sensitivity to routing imbalance; it does not shorten an expert own chain.",
+    "g12_best_possible_given_gu_home": "Even query-adaptive omitted colors give joined minima m3:14,m4:15,m5:18,m6:21waves. Opposite gives15,16,17,18 respectively. Thus for m>=5 its load bound beats any g12omitted-color plan under these fixed g8GU homes, while balanced queries can lose.",
+    "opposite_additional_precedence_bound": "The last GU expert on the busier half cannot finish before3m waves and still needs its2wave down job. Thus the resourceDAG lower bound is max(12+m,3m+2), giving15,16,17,20waves for m3..6. The m6 load-only18wave bound is unattainable; do not confuse it with feasible tail latency.",
+    "wave": "GU max native-job depth decreases3to2waves and expert uses all16chips, trading GUtotal24to25waves. Own-expert GU/down chain decreases4to3waves; this mechanism differs from opposite stage complementarity.",
+    "caution": "A joined-work lower bound does not establish an achievable schedule. The event results supply separate feasibility evidence; no new hardware or optimal scheduler is claimed."
+  },
+  "recommendation": {
+    "full40train": "Yes: evaluate fixed source/wave/opposite families across40layers before dismissing tail or claiming a robust mapping. Do not fit a new tail mapping first.",
+    "efficient_gate": "First compute all32x64x40 exact work/depth and routing-occupancy diagnostics; then a predeclared prompt-stratified schedule screen across40layers. Only if it persists run all2048routes for stable quantiles.",
+    "necessary_evidence": [
+      "Per-layer P99 must improve broadly, not only the three-layer sum through covariance.",
+      "Report full40paired routed-FFN latency sum, mean/P95/P99 and each-layer tails; percentile sums are not a full-model P99.",
+      "Use prompt-block uncertainty and unseen routing distributions only after all family/profile choices freeze.",
+      "Preserve same scheduler, buffer/context and actual increased wave/page/command costs. No host I/O/full-model inference claim.",
+      "Compare mean-tail Pareto frontier: current joint improves mean while opposite/wave improve tail. A mean winner is not a universal winner."
+    ],
+    "scope": "No full40schedule or new fit is run here; current evidence covers three layers,32training prompts only."
+  },
+  "limitations": [
+    "P99 uses2048correlated decode positions from32training prompts; descriptive tail, not an independent test.",
+    "Exact-rank top1uses21observations and deterministic tie order; quantile thresholds can contain more tied events.",
+    "The three-layer routing sequence and covariance do not establish full40-layer behavior.",
+    "All latencies remain conditional native-job service simulations with activation/combine0 and uncalibrated PE throughput."
+  ],
+  "source_sha256": "6383b174b52af3d54c2b9a502373d16519adf0f11eae9c91e19c6267a05c8627",
+  "vectors_sha256": "5d14ad96320f0ededc677e496410c3cd7c4f81ecd016ce45c44a0e598d9d2856"
+}

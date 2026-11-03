@@ -1,0 +1,53 @@
+granite4tiny: 0/32 validated; 32 pending
+granite4tiny: 8/32 complete, greedy outputs and all routes verified
+granite4tiny: 16/32 complete, greedy outputs and all routes verified
+granite4tiny: 24/32 complete, greedy outputs and all routes verified
+granite4tiny: 32/32 complete, greedy outputs and all routes verified
+granite4tiny: all 32 prompts validated
+{
+  "mode": "screen",
+  "split": "original train only",
+  "original_corpus_path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/corpus-300-v1/corpus/prompts.jsonl",
+  "original_corpus_sha256": "78ba55563a4c814748b27253daa2e89c31a86f115083e0a5fb7d944e6594755c",
+  "sample_policy": "First N train rows in immutable original corpus order.",
+  "steps": 64,
+  "batch_size": 8,
+  "threads": 8,
+  "collector_script_sha256": "a2faff199c1343bcdc231006161a7a75c70590d009628ee56cbd5d212b2442fe",
+  "trace_source_sha256": "37e7e3744189a9da753d9b2f2cc00ee7b443f9e17d901c3d0a8f26edc14e0655",
+  "binary_path": "/home/nfs_client/ericyu/expert_flash_experiment/runs/research-2026-11-02/granite4tiny/screen/llama-corpus-trace-ff34272c06fe7eb222665262b870516bd290579fd0ff6f606babb98d4b2aacb7",
+  "binary_sha256": "ff34272c06fe7eb222665262b870516bd290579fd0ff6f606babb98d4b2aacb7",
+  "prompt_composition": {
+    "('summarization', 'short')": 2,
+    "('programming', 'short')": 2,
+    "('translation', 'medium')": 2,
+    "('qa', 'short')": 2,
+    "('qa', 'long')": 1,
+    "('programming', 'long')": 3,
+    "('qa', 'medium')": 1,
+    "('long_context', 'long')": 2,
+    "('long_context', 'medium')": 1,
+    "('mathematics', 'long')": 3,
+    "('summarization', 'medium')": 2,
+    "('programming', 'medium')": 3,
+    "('summarization', 'long')": 3,
+    "('long_context', 'short')": 1,
+    "('mathematics', 'short')": 1,
+    "('mathematics', 'medium')": 2,
+    "('translation', 'short')": 1
+  },
+  "baseline": "Independent full untraced prefill and decode; no prefill cache reuse.",
+  "routed_selection": "Actual ffn_moe_topk callback; no synthetic routes or masks.",
+  "routes_shape": [
+    32,
+    64,
+    40,
+    6
+  ],
+  "route_path": "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/neuron-layout-prior/granite4tiny-routes/screen/routes.npz",
+  "route_sha256": "a6349fdb17ef09df0faa53cb4a6d5084445d65fbc2d94ef45c46da411e912f87",
+  "metadata_path": "/home/nfs_client/ericyu/expert_flash_experiment/models/granite4tiny-metadata.json",
+  "metadata_sha256": "e9b83008e3128440af9f65b2c771e52a5892085e8151bf4c8918397bbfbf96e6",
+  "run_directory": "/home/nfs_client/ericyu/expert_flash_experiment/runs/research-2026-11-02/granite4tiny/screen",
+  "status": "Actual 64-expert/top6 routes; traced/untraced greedy IDs, prompt IDs and output bytes identical."
+}

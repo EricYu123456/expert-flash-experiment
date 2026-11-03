@@ -1,0 +1,135 @@
+{
+  "checked_date": "2026-11-02",
+  "scope": "Screen physical-location/reliability mechanisms beyond the homogeneous g16 page-work floor; output-repair expansion is paused.",
+  "verdict": {
+    "breakthrough_established": false,
+    "positive_performance_evidence": "No new performance experiment was run in this literature subtask. No measured evidence presently supports a further 15-20% benefit over matched AiF all-LSB g16 plus strong reliability/maintenance baselines.",
+    "main_finding": "NAND location can change sensing count, retry work and future maintenance. Generic read-hot-to-fast, low-wear allocation, selective vulnerable-page refresh and layer-aware retry parameters are all strong prior art. Merely adding a synthetic fast/slow-chip table would not justify a paper.",
+    "recommended_next_step": "At most run one bounded endogenous-stress oracle/kill-test using the actual whole-row geometry and routed counts. First establish that block membership or measured quality asymmetry creates material headroom after STRAW. Do not start a coactivation optimizer before this gate passes."
+  },
+  "evidence_vs_inference": {
+    "primary_evidence": [
+      "AiF already stores all IFP weights in single-sensing reliable LSB pages under be-enc; CR can be disabled without discarding that design.",
+      "RHS/RLV already map hot reads to low-latency pages; ReadGuard maps priority to worst-page-retry block quality; DWR preserves low-wear areas for hot retrying data.",
+      "STRAW CAL2025 measures neighbor-dependent disturbance, WL quality classes and PEC-dependent thresholds, and reclaims only threatened valid WLs.",
+      "PTDM separates vulnerable page types/hot-read blocks; SWEEP mixes read-hot/write-hot data to let GC reset disturbance.",
+      "LaVAR/cubeFTL/PR2AR2 optimize read references or retry processing, so a universal naive Vref/retry sequence is a weak baseline.",
+      "QCFlash exposes measured Vth for only three QLC WLs; Flash-Gen describes measured single-chip data but no public raw dataset/model download was found."
+    ],
+    "our_inferences": [
+      "Under symmetric per-chip physical slot inventories and unconstrained independent placement, copying the same expert-rank assignment onto every chip can attain the per-token average-work lower bound. Coactivation cannot improve an already equal chip-load vector.",
+      "For whole-matrix reads, per-page marginal access counts determine linear accumulated stress. Joint routing matters only through a demonstrated nonlinear effect, time ordering, resets, queues or constraints that prevent the symmetric layout.",
+      "Large contiguous experts resemble sequential block scans, not STRAW's worst case of repeated reads of one WL. Directly applying that worst-case threshold to every full-matrix sweep fabricates maintenance work.",
+      "The best remaining physical opportunity is a placement that changes generated maintenance work, rather than simply reorders fixed page costs. Its size and novelty are not established."
+    ]
+  },
+  "analytical_screening": [
+    {
+      "name": "symmetric-cost alignment null",
+      "conditions": [
+        "Each chip has isomorphic fast/slow slot capacities and costs.",
+        "Each expert has the same shard size on each chip and can occupy corresponding slot types independently.",
+        "No additional block/neighbor/context/program-order constraint prevents the same assignment on all chips."
+      ],
+      "result": "Let t[e,c] be per-expert chip cost. Assign identically so t[e,c]=t[e] for every c. For any selected set S, max_c sum_{e in S} t[e,c] = (1/C) sum_c sum_{e in S} t[e,c]. This is the work lower bound; knowing coactivation cannot lower it.",
+      "implication": "An independent random physical quality permutation per chip is not by itself a barrier if arbitrary remapping can undo it. Heterogeneous cost profiles must be shown non-isomorphic or constrained, and compared with per-chip marginal rank and speed-proportional whole-row sharding."
+    },
+    {
+      "name": "linear-disturb marginal null",
+      "source": "straw_cal2025",
+      "model": "ERC[j] = Rblock - R[j] + (alpha[j]-1)*(R[j-1]+R[j+1])",
+      "result": "For a fixed physical map, fixed counters/reset state, and fixed marginal WL counts, ERC is unchanged by rearranging which reads co-occur in tokens. Coactivation is absent from this linear expression.",
+      "falsification": "Shuffle token composition/timing while preserving per-WL totals. Any different final ERC before reset must be explained by a modeled nonlinearity, otherwise it is an implementation error. Coactivation may alter when thresholds are crossed or how maintenance overlaps, not this accumulated-work identity."
+    },
+    {
+      "name": "full-scan neighbor-excess bound",
+      "conditions": "L physical WLs in a block, each read once per sweep, same alpha and tolerance; interior WL, fixed block membership and marginal reads, no refresh-reset/validity effects.",
+      "derivation": "An interior WL receives L-1 base stresses plus 2*(alpha-1) adjacent excess stresses per sweep. Thus even eliminating all adjacent excess can remove at most 2*(alpha-1)/(L-1+2*(alpha-1)) of this ERC.",
+      "illustrations": [
+        {"L":192,"alpha":9,"fraction":0.07729468599033816},
+        {"L":321,"alpha":9,"fraction":0.047619047619047616}
+      ],
+      "limits": "A stress bound, not a token-latency bound. Alpha=9 is STRAW Good@2K, not AiF calibration. Quality heterogeneity, changed block membership, threshold resets, validity or queueing invalidate the simple bound. L=192 is an AiF characterized-geometry inference, not a simulator disclosure."
+    },
+    {
+      "name": "maintenance-fraction ceiling",
+      "result": "In a serial additive model, eliminating all removable maintenance delay M from total T can reduce latency by at most M/T. For a 20% latency reduction, at least 20% of latency must be removable maintenance. With overlapped timelines this decomposition must use critical-path attributable delay, not total background device time.",
+      "implication": "Before optimizing placement, measure maintenance copies/erases and their critical-path blocking. A large raw ERC difference with negligible foreground blocking does not establish token speedup."
+    }
+  ],
+  "candidate_directions": [
+    {
+      "id": "endogenous_stress_block_assignment",
+      "status": "one bounded kill-test justified; not a novel algorithm claim yet",
+      "mechanism": "Use fixed one-copy expert shards, unchanged useful page count, and exact W8A8. Assign actual row/page spans to physical blocks/WLs so read-induced stress and collateral refresh work depend on real block membership and measured WL tolerance. Charge every required copy, program and erase. This changes future work, which can in principle escape the homogeneous read-work floor.",
+      "strongest_prior": ["straw_cal2025","straw_asplos2026","ptdm2023","sweep2026","dwr2022","luo2018"],
+      "novelty_criterion": "Must beat calibrated STRAW-style WL reclaim with the same placement freedom, capacity, validity and counter budget; a quality-ranked/hotness baseline and block heat grouping; and matched read-priority/bounded-suspend maintenance scheduling. Show a MoE-specific whole-row or phase constraint that actually prevents the generic solution. Do not call quality ranking or hot/cold isolation itself new.",
+      "necessary_physical_constraints": [
+        "Known mapping from page IDs to WL, page type, physical layer, block and plane.",
+        "Legal program order, free blocks and one-copy migration transition accounting.",
+        "Real target-device alpha/threshold versus PEC/retention for be-enc LSB, or explicitly measurement-derived sensitivity results without a hardware-performance claim.",
+        "For AiF, confirm compact ECC passes after adaptive retry and input buffers remain usable; otherwise specify the actual correct fallback."
+      ],
+      "experiment": [
+        "Replay actual expert/page marginals at their physically plausible rate, preserving row coverage and g16. Initialize every baseline at identical PEC, retention and data-placement age.",
+        "First compute an optimistic placement oracle minimizing maintenance copies/critical-path delay under STRAW and legal capacities. If the oracle is below the desired threshold, stop without implementing a learned solver.",
+        "Ablate separately: fixed block membership versus repacking; homogeneous versus profiled WL tolerance; alpha=1 versus profiled alpha; block RR versus exact WL RR versus bounded Space-Saving counters; no resets versus real resets.",
+        "Use identical-marginal shuffled traces to test whether the claimed effect needs joint routing or only per-expert frequency. Report this honestly.",
+        "Evaluate hours-equivalent steady-state read exposure, real seconds/tokens, cold-victim copies, erase count, maintenance completion, p50/p99 token latency and exact reliability threshold violations. Avoid extrapolating a short trace by inflating counts without preserving time-dependent retention."
+      ],
+      "no_go": [
+        "Oracle cannot provide material improvement after WL-level reclaim and matched suspend/read-priority baseline.",
+        "Only improvements over conservative block-level RR, or only from initializing the proposal on fresher blocks.",
+        "Required free/guard capacity exceeds budget or cost disappears when all weights already occupy private full blocks.",
+        "Synthetic worst-case single-WL stress is substituted for actual whole-matrix scans.",
+        "Same-marginal routing destroys no claimed average-work effect: then do not claim coactivation contributes."
+      ],
+      "headroom_assessment": "Unquantified and plausibly small for large whole-matrix/full-block experts. Neighbor-only full-scan contribution is limited under the stated analytical assumptions. Block membership/heterogeneous quality/nonlinear refresh are the only identified ways around that narrow bound, and need measured support."
+    },
+    {
+      "id": "finite_fast_page_capacity",
+      "status": "no-go for current AiF all-LSB premise unless a real capacity corner is proven",
+      "mechanism": "Physical cell capacity may force some model weights into slower page types, or a device may support a finite pSLC tier. Exact copies can then be assigned under a true capacity budget.",
+      "strongest_prior": ["aif2025","rhs2020","rlv2020","rlv2022","flexfs2009","lrr2026"],
+      "novelty_criterion": "Must derive the actual fast-slot budget from physical cells, model size and other data, and explain compatible exact GEMV/ECC on slow pages. Compare with global marginal rank on every chip, speed-proportional whole-row shards and equal capacity pSLC allocation. Generic tiering/hotness is already prior.",
+      "experiment": "Compute full-model INT8+metadata page footprint versus available be-enc LSB pages, accounting for all three projections, shared experts, attention and fixed ordinary-data reservation. If all fit, fast-page placement headroom is exactly zero. Only then sweep a real native mixed-mode device profile, conversion/programming overhead and actual input-PB constraints.",
+      "no_go": [
+        "The existing all-LSB baseline is artificially changed to TLC merely to create a fast tier.",
+        "pSLC converting a whole TLC block is charged as one page of capacity while pretending CSB/MSB remain freely usable.",
+        "Slow CSB/MSB GEMV implicitly retains reliable ECCLITE and free input latches without a mechanism.",
+        "Same per-chip costs are merely permuted; symmetric global rank already attains the work lower bound."
+      ],
+      "headroom_assessment": "Zero under the current stated all-LSB AiF placement if capacity is sufficient. No extra 15-20% opportunity established."
+    },
+    {
+      "id": "constrained_retry_alignment",
+      "status": "reject unconstrained version; only reopen after a measured binding physical constraint",
+      "mechanism": "Different chips could have non-isomorphic quality inventories or coupled page/plane/programming/fault domains that prevent identical per-expert service profiles.",
+      "strongest_prior": ["readguard2024","rhs2020","lrr2020","cubeftl2019","pr2ar2_2021"],
+      "novelty_criterion": "The constraint must be demonstrated in the actual digital NAND execution model, not imported from analog CIM or HBF subarrays. Joint routing must add benefit beyond per-chip marginal placement and unequal whole-row sharding at identical capacity.",
+      "experiment": "Start with a lower-bound/oracle using the measured profile and all legal remapping/row-sharding freedoms. Report the fraction of the sum-work gap left by the constraint, then the fraction a routing-aware method captures. Make all per-chip inventories isomorphic as a null; gains must disappear.",
+      "no_go": [
+        "No target-device map or ABI establishes the proposed coupled constraint.",
+        "A random chip quality permutation is freely reversible by mapping.",
+        "Oracle leaves less than meaningful headroom, consistent with root's approximately 0-0.2% early free-mask diagnostic.",
+        "The model uses large uniform LDPC retries on AiF all-LSB ECCLITE without evidence."
+      ],
+      "headroom_assessment": "No qualifying physical constraint with quantified remaining headroom found in the inspected primary/artifact evidence. Do not advertise this as the next promising coactivation method."
+    }
+  ],
+  "data_and_implementation_plan": {
+    "verified_open_measured_data": [{"source_id":"qcflash2026","usable_for":"cell sensing/offset/RBER correctness on three WLs","insufficient_for":"chip-wide retry/retention/disturb placement or AiF latency calibration"}],
+    "public_code_candidate": [{"source_id":"sweep2026","url":"https://github.com/912ssdlab/Source-Code-for-SWEEP","usable_for":"inspect FTL/page migration/GC baseline mechanisms","limitations":"not audited/run, no raw device data; verify license before copying code"}],
+    "published_model_candidate": [{"source_id":"straw_cal2025","usable_for":"an explicitly measurement-derived stress sensitivity model and falsification","limitations":"digitized selected curves are not raw data or AiF parameter validation; 2026 extension may materially change best baseline"}],
+    "missing_for_hardware_claim": ["be-enc LSB RBER/retry/timing versus physical WL, PEC and age", "supported read-retry/cache/plane commands and context/PB occupancy", "refresh/program/erase/suspend timings with maintenance progress", "legal programming and block-to-WL map", "PE/ECC fallback on degraded pages"],
+    "not_a_substitute": "MQSim/FEMU timing models, unlimited Flash-Gen generated samples, SMART-level SSD failure traces, and DRAM RowHammer datasets do not supply the missing physical NAND calibration."
+  },
+  "publication_claim_boundaries": [
+    "No claim of a breakthrough or measured 15-20% gain from this literature review.",
+    "No claim that using expert hotness for fast/low-wear/low-retry placement is new.",
+    "No claim that coactivation reduces linear disturbance with identical marginal read counts.",
+    "No claim that an analog NAND-CIM model or independent HBF subarray assumption establishes AiF plane independence.",
+    "No claim that data-approximation/error tolerance preserves exact W8A8 inference.",
+    "No claim of full-text review where sources.json labels metadata, abstract or excerpt-only access."
+  ]
+}

@@ -1,0 +1,366 @@
+{
+  "checked_date": "2026-11-02",
+  "language": "zh-TW report; bilingual source metadata",
+  "scope": "Primary papers, official project pages, author repositories, public artifacts; bounded literature search, not an exhaustive claim.",
+  "sources": [
+    {
+      "id": "aif",
+      "title": "AiF: Accelerating On-Device LLM Inference Using In-Flash Processing",
+      "year": 2025,
+      "venue": "ISCA",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "category": "digital_in_flash",
+      "evidence": "Local PDF and project evidence notes; selected original mapping/interface/evaluation sections checked.",
+      "relevance": "Equal full-chip row shards; CR-read and be-enc; direct baseline.",
+      "code": "No AiF-specific public artifact verified; NVMeVirt upstream is separate."
+    },
+    {
+      "id": "cambricon_llm",
+      "title": "Cambricon-LLM: A Chiplet-Based Hybrid Architecture for On-Device Inference of 70B LLM",
+      "year": 2024,
+      "venue": "MICRO",
+      "url": "https://arxiv.org/html/2409.15654v1",
+      "related_url": "https://www.chaselab.wiki/publication/2024-flashllm",
+      "category": "digital_in_flash",
+      "evidence": "Original full-text architecture and hardware-aware tiling sections IV–VII checked.",
+      "relevance": "Page-sized atomic tiles, two-dimensional channel/core mapping, broadcast, NPU/flash partition; generic page-aware tiling is prior art.",
+      "code": "No hardware-paper artifact verified. AlibabaResearch/flash-llm is unrelated GPU sparse inference."
+    },
+    {
+      "id": "cambricon_flexllm",
+      "title": "Cambricon-FlexLLM",
+      "year": 2026,
+      "venue": "ACM TACO",
+      "url": "https://doi.org/10.1145/3844618",
+      "category": "unresolved_close_prior",
+      "evidence": "Publication and author pages checked; ACM full text unavailable (403).",
+      "relevance": "Author description mentions grouping often-used-together data and workload adaptation; overlap with proposed mapping remains unresolved.",
+      "blocking_novelty_gap": true
+    },
+    {
+      "id": "diamond",
+      "title": "DIAMoND: Dynamic Inference for Adaptive Edge MOE with Heterogeneous In-NAND and Near-DRAM Compute Architecture",
+      "year": 2026,
+      "venue": "ISCA",
+      "url": "https://doi.org/10.1109/ISCA66397.2026.00078",
+      "category": "nand_cim_moe",
+      "evidence": "Official IEEE abstract and metadata only; full mapping mechanism not reviewed.",
+      "relevance": "Mask-based mapping for matrix/array size mismatch and online expert selection; must obtain full text before a novelty claim.",
+      "blocking_novelty_gap": true
+    },
+    {
+      "id": "nasic",
+      "title": "NASiC: 3D NAND-based CAM-Selected Multibit CIM Architecture for Efficient On-Device Mixture-of-Experts LLM Inference",
+      "year": 2026,
+      "venue": "DAC accepted per arXiv",
+      "url": "https://arxiv.org/html/2605.23294v1",
+      "category": "nand_cim_moe",
+      "evidence": "Architecture sections 3 and methodology 4.1 checked; official abstract says accepted DAC 2026.",
+      "relevance": "Interleaved expert placement with CAM selection, multibit analog CIM; requires circuit changes, not merely software placement."
+    },
+    {
+      "id": "nvllm",
+      "title": "NVLLM: A 3D NAND-Centric Architecture Enabling Edge on-Device LLM Inference",
+      "year": 2026,
+      "venue": "DAC",
+      "url": "https://arxiv.org/html/2604.25699v2",
+      "category": "digital_in_flash",
+      "evidence": "Original sections 3.1–3.5 and methodology 4.1–4.2 checked; v2 dated 2026-08-04.",
+      "relevance": "Plane-lane clusters, segmented dot products and OoO ECC; evaluated dense models, not routed expert placement."
+    },
+    {
+      "id": "dash",
+      "title": "Beyond Capacity: Scalable MoE LLM Inference via High-Bandwidth Flash with Direct GPU and HBM Paths",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/html/2608.14333v1",
+      "category": "hbf_offload",
+      "evidence": "Original architecture, expert data placement V-A2, and evaluation VI-A checked.",
+      "relevance": "Experts striped across HBF dies/planes; direct/relay routes. Four independent subarrays/plane is an explicit author assumption; not in-flash MAC.",
+      "code": "Upstream scale-snu/LLMSimulator cited; DASH modification not verified."
+    },
+    {
+      "id": "flash_cosmos",
+      "title": "Flash-Cosmos: In-Flash Bulk Bitwise Operations Using Inherent Computation Capability of NAND Flash Memory",
+      "year": 2022,
+      "venue": "MICRO",
+      "url": "https://arxiv.org/html/2209.05566v1",
+      "category": "nand_bitwise",
+      "evidence": "Original NAND/MWS/ESP/methodology sections checked by architecture agent.",
+      "relevance": "Bitwise multi-wordline sensing and programming constraints; not an interchangeable GEMV backend."
+    },
+    {
+      "id": "llm_flash",
+      "title": "LLM in a Flash: Efficient Large Language Model Inference with Limited Memory",
+      "year": 2024,
+      "venue": "ACL",
+      "url": "https://machinelearning.apple.com/research/efficient-large-language",
+      "full_text": "https://arxiv.org/html/2312.11514v2",
+      "category": "ssd_offload_layout",
+      "evidence": "Apple official page and original sections 3.1–3.3 checked.",
+      "relevance": "Windowing and row-column bundling; coactivation bundling and data organization already studied; flash-to-DRAM, not physical chip mapping."
+    },
+    {
+      "id": "bigmomo",
+      "title": "BigMoMo: Efficient Inference of Large-Scale MoE with Speculative Decoding on Mobile Devices",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/html/2609.14643v2",
+      "category": "ssd_offload_layout",
+      "evidence": "Original runtime on-flash organization 4.3 and scheduling 4.4 checked; v2 dated 2026-10-03.",
+      "relevance": "Co-loading hypergraph, contiguous anchor regions, expert swaps and background writes; logical contiguity, not specified NAND die/plane ownership. Some pruning changes computation."
+    },
+    {
+      "id": "mbolt",
+      "title": "mbolt: profile-guided layout optimization for MoE model files",
+      "year": 2026,
+      "venue": "Public implementation",
+      "url": "https://github.com/doramirdor/mbolt",
+      "category": "open_source_layout",
+      "evidence": "Author README and repository metadata checked; not reproduced.",
+      "relevance": "Coactivation-based GGUF reordering, up/gate/down interleaving, merged parallel pread. This is public prior art, not raw NAND control."
+    },
+    {
+      "id": "flash_moe_engine",
+      "title": "Flash-MoE SSD streaming engine",
+      "year": 2026,
+      "venue": "Public implementation and technical report",
+      "url": "https://github.com/danveloper/flash-moe",
+      "category": "open_source_offload",
+      "evidence": "Author README and file structure checked; technical-report PDF not reviewed.",
+      "relevance": "C/Metal, packed expert files, parallel pread, OS page cache. Performance headline not a same-routing comparison."
+    },
+    {
+      "id": "moe_infinity",
+      "title": "MoE-Infinity",
+      "year": 2025,
+      "venue": "ICLR",
+      "url": "https://arxiv.org/html/2401.14361v3",
+      "code": "https://github.com/EfficientMoE/MoE-Infinity",
+      "category": "moe_offload",
+      "evidence": "Original activation/caching sections and current author README checked.",
+      "relevance": "Activation-aware tracing, cache and prefetch. Current repository has CPU/SSD tiers and differs from paper; do not retroactively attribute current features."
+    },
+    {
+      "id": "edgemoe",
+      "title": "EdgeMoE: Empowering Sparse Large Language Models on Mobile Devices",
+      "year": 2023,
+      "venue": "arXiv",
+      "url": "https://arxiv.org/html/2308.14352v2",
+      "code": "https://github.com/UbiquitousLearning/mllm",
+      "category": "moe_offload",
+      "evidence": "Original expert quantization and management sections checked.",
+      "relevance": "Expert bitwidth, preloading and residency management; not NAND chip/plane placement."
+    },
+    {
+      "id": "fiddler",
+      "title": "Fiddler",
+      "year": 2025,
+      "venue": "ICLR",
+      "url": "https://arxiv.org/abs/2402.07033",
+      "code": "https://github.com/efeslab/fiddler",
+      "category": "moe_offload",
+      "evidence": "Official abstract and author README checked.",
+      "relevance": "CPU/GPU execution choice and transfer control; not physical flash placement."
+    },
+    {
+      "id": "pregated",
+      "title": "Pre-gated MoE",
+      "year": 2024,
+      "venue": "ISCA",
+      "url": "https://arxiv.org/pdf/2308.12066",
+      "code": "https://github.com/ranggihwang/Pregated_MoE",
+      "category": "moe_prefetch",
+      "evidence": "Official paper and artifact README checked.",
+      "relevance": "Changes gating to identify next-layer experts early; not a routing-preserving placement baseline."
+    },
+    {
+      "id": "promoe",
+      "title": "ProMoE",
+      "year": 2024,
+      "venue": "arXiv",
+      "url": "https://arxiv.org/html/2410.22134v3",
+      "code": "https://github.com/promoe-opensource/promoe",
+      "category": "moe_prefetch",
+      "evidence": "Original method sections checked.",
+      "relevance": "Prediction, chunked prefetch, preemption and reordered ready inference."
+    },
+    {
+      "id": "swapmoe",
+      "title": "SwapMoE",
+      "year": 2024,
+      "venue": "ACL",
+      "url": "https://aclanthology.org/2024.acl-long.363.pdf",
+      "category": "moe_residency",
+      "evidence": "Official abstract and method overview checked.",
+      "relevance": "Virtual experts and dynamic residency with quality tradeoffs; not exact fixed physical mapping."
+    },
+    {
+      "id": "klotski",
+      "title": "Klotski: Efficient Mixture-of-Expert Inference via Expert-Aware Multi-Batch Pipeline",
+      "year": 2025,
+      "venue": "ASPLOS",
+      "url": "https://arxiv.org/html/2502.06888v1",
+      "category": "multi_request_reuse",
+      "evidence": "Original sections 3–7 checked.",
+      "relevance": "Explicit weight sharing across batches; read-once/multi-input reuse alone is not new."
+    },
+    {
+      "id": "placemoe",
+      "title": "PlaceMoE: Accelerating MoE Training through Expert Placement and Replica Coordination",
+      "year": 2026,
+      "venue": "arXiv",
+      "url": "https://arxiv.org/html/2610.14798v1",
+      "category": "gpu_expert_placement",
+      "evidence": "Original sections III-A/B/C checked.",
+      "relevance": "Co-selection grouping, replica allocation and token-to-copy mapping; GPU/NPU training, not NAND, but abstract replication combination is prior art."
+    },
+    {
+      "id": "moetuner",
+      "title": "MoETuner",
+      "year": 2025,
+      "venue": "arXiv",
+      "url": "https://arxiv.org/html/2502.06643v1",
+      "category": "gpu_expert_placement",
+      "evidence": "Abstract and ILP method checked.",
+      "relevance": "Expert affinity/load/communication placement; adding a makespan objective alone is not new."
+    },
+    {
+      "id": "flashmoe_ssd",
+      "title": "FlashMoE: Reducing SSD I/O Bottlenecks via ML-Based Cache Replacement for Mixture-of-Experts Inference on Edge Devices",
+      "year": 2026,
+      "venue": "arXiv",
+      "url": "https://arxiv.org/html/2601.17063v2",
+      "category": "moe_cache",
+      "evidence": "Original sections 2–3 checked; v2 2026-10-05.",
+      "relevance": "Learned cache replacement, per-expert files; not physical NAND placement."
+    },
+    {
+      "id": "flashmoe_gpu",
+      "title": "FlashMoE: Fast Distributed MoE in a Single Kernel",
+      "year": 2025,
+      "venue": "NeurIPS",
+      "url": "https://flash-moe.github.io/",
+      "code": "https://github.com/osayamenja/FlashMoE",
+      "category": "name_disambiguation",
+      "evidence": "Author project page and repository checked.",
+      "relevance": "GPU-resident distributed kernel; unrelated to flash storage."
+    },
+    {
+      "id": "readguard",
+      "title": "ReadGuard: Integrated SSD Management for Priority-Aware Read Performance Differentiation",
+      "year": 2024,
+      "venue": "ACM TOS",
+      "url": "https://doi.org/10.1145/3676884",
+      "category": "nand_reliability_placement",
+      "evidence": "Original indexed sections 4–7 and 9 checked; formatted full PDF not obtained.",
+      "relevance": "Block quality based on worst-page retries, application priorities, migration costs; near-zero retries remove heterogeneity headroom.",
+      "code": "Raw measured lookup tables and modified MQSim not located."
+    },
+    {
+      "id": "rhs",
+      "title": "Improving NAND flash performance with read heat separation",
+      "year": 2020,
+      "venue": "MASCOTS",
+      "url": "https://research.ibm.com/publications/improving-nand-flash-performance-with-read-heat-separation",
+      "category": "nand_reliability_placement",
+      "evidence": "Official IBM abstract and metadata checked.",
+      "relevance": "Hot-read data on low-latency pages, including commercial SSD-controller implementation; hot experts on fast pages is not new."
+    },
+    {
+      "id": "straw",
+      "title": "Stress-Aware WL-Based Read Disturbance Management for High-Density NAND Flash Memory",
+      "year": 2026,
+      "venue": "ASPLOS",
+      "url": "https://doi.org/10.1145/3779212.3790228",
+      "earlier_work": "https://nvmw.ucsd.edu/nvmw2025-program/nvmw2025-final73.pdf",
+      "category": "nand_reliability",
+      "evidence": "Earlier NVMW extended abstract read; 2026 official publication metadata only.",
+      "relevance": "Wordline-level stress/reclaim; adjacent and non-adjacent reads differ. Do not attribute unreviewed 2026 extensions to earlier text."
+    },
+    {
+      "id": "retry_optimization",
+      "title": "Reducing Solid-State Drive Read Latency by Optimizing Read-Retry",
+      "year": 2021,
+      "venue": "ASPLOS",
+      "url": "https://arxiv.org/abs/2104.09611",
+      "category": "nand_reliability",
+      "evidence": "Original mechanism/characterization sections checked.",
+      "relevance": "CACHE READ and ECC-margin retry optimizations. CACHE READ is distinct from charge-recycling CR-read."
+    },
+    {
+      "id": "qcflash",
+      "title": "QCFlash: Bulk Bitwise Processing in 3D NAND with Dynamic Sensing and Quad-level Encoding — Artifact",
+      "year": 2026,
+      "venue": "CASES artifact",
+      "url": "https://zenodo.org/records/21517028",
+      "category": "measured_nand_data",
+      "evidence": "Official artifact description, dataset scope and license checked; archive not downloaded.",
+      "relevance": "Measured QLC threshold voltages/shared-page data, MIT code and CC BY 4.0 data; not an end-to-end physical retry latency trace."
+    },
+    {
+      "id": "nvmevirt",
+      "title": "NVMeVirt",
+      "url": "https://github.com/snu-csl/nvmevirt",
+      "category": "simulator",
+      "evidence": "Upstream repository metadata and current project integration checked.",
+      "relevance": "Keep existing full-system replay infrastructure; upstream has no AiF GEMV by default.",
+      "checked_commit": "61c90f7758cbd9545b4a4727e89377bf88eab060"
+    },
+    {
+      "id": "mqsim",
+      "title": "MQSim",
+      "url": "https://github.com/CMU-SAFARI/MQSim",
+      "category": "simulator",
+      "evidence": "Official repository and commit checked.",
+      "relevance": "SSD queues, FTL, channel/GC modeling; no verified ReadGuard/STRAW extension bundled.",
+      "checked_commit": "51f0f2d3fed92d88ef4a0fa61a38024b07bf9d16"
+    },
+    {
+      "id": "femu",
+      "title": "FEMU",
+      "url": "https://github.com/MoatLab/FEMU",
+      "category": "emulator",
+      "evidence": "Official current README checked.",
+      "relevance": "Full-system SSD/FTL/GC/open-channel research; emulator behavior must be validated, not a physical in-flash accelerator."
+    },
+    {
+      "id": "openssd",
+      "title": "CRZ OpenSSD OpenChannelSSD",
+      "url": "https://github.com/CRZ-Technology/OpenSSD-OpenChannelSSD",
+      "category": "hardware_platform",
+      "evidence": "Official repository checked by architecture agent.",
+      "relevance": "Potential controller/FTL measurement platform; supported low-level NAND commands and actual hardware availability remain to verify."
+    },
+    {
+      "id": "llmsimulator",
+      "title": "LLMSimulator",
+      "url": "https://github.com/scale-snu/LLMSimulator",
+      "category": "simulator",
+      "evidence": "Original DASH reference and upstream checked by architecture agent.",
+      "relevance": "DASH upstream foundation, not a verified DASH artifact."
+    },
+    {
+      "id": "hbfsim",
+      "title": "HBFSim",
+      "url": "https://github.com/SlugLab/HBFSim",
+      "category": "simulator",
+      "evidence": "Official README checked by architecture agent.",
+      "relevance": "GPU execution with modeled HBF timing; cannot supply measured AiF/retry parameters."
+    }
+  ],
+  "unresolved": [
+    "Obtain DIAMoND full mapping text.",
+    "Obtain Cambricon-FlexLLM full text.",
+    "No verified AiF-specific public artifact or raw ReadGuard/STRAW latency tables located.",
+    "FCMoE/FC-MoE and Edge-Infinity names not verified; not treated as established systems."
+  ],
+  "search_families": [
+    "MoE NAND in-flash computing physical expert chip die plane placement",
+    "MoE flash SSD coactivation hypergraph layout",
+    "NAND page wave tiling matrix partition",
+    "expert offloading caching prefetch replication multi-batch",
+    "NAND read retry wordline variation read disturb placement"
+  ],
+  "research_team": "Root plus four user-authorized GPT-6.1 Sol xhigh subagents"
+}

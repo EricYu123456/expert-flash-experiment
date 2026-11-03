@@ -1,0 +1,152 @@
+{
+  "date": "2026-11-02",
+  "scope": "Primary-source contract audit. No author simulator/RTL was obtained or executed; no root source, routes, model data or sealed studies modified.",
+  "main_result": "NVLLM documents digital dot-product lanes, internal segment accumulation and ECC readiness, but does not disclose enough input/context/output ISA to establish independent expert-private inputs, exported INT32 partials or arbitrary partial readiness. Conduit uses bulk-bitwise/shift-and-add IFP, not a native GEMV tile ISA; its advertised timing source remains restricted.",
+  "nvllm": {
+    "version": "arXiv2604.25699v2,2026-08-04; DAC2026 DOI10.1145/3770743.3804190; author-prepared preprint with supplementary discussion.",
+    "verified_from_text": [
+      {
+        "location": "3.1",
+        "fact": "k*k planes form one cluster, share peripheral circuitry and synchronously return PB rows. Evaluation uses2*2-plane clusters. Plane PBs feed cluster FIFO and per-lane segment buffers."
+      },
+      {
+        "location": "3.2 Algorithm1",
+        "fact": "One complete weight column w and activation vector a are divided into segments of factor d. Accumulator s starts at0; pointer starts at0; correct segments accumulate, faulty segments are recorded/corrected and subsequently accumulated; the algorithm returns final s."
+      },
+      {
+        "location": "3.3",
+        "fact": "Each OoO-ECDP contains2*d-wide segment buffer, inline checker, mixed-precision MAC and commit/scoreboard interface. Readiness refers to error checking/correction. Final accumulation follows in-order completion of weight columns."
+      },
+      {
+        "location": "3.4",
+        "fact": "Prefetch is per cluster/per layer, based on segment deadlines, with contiguous FFN weights across clusters. No random-read predictor or cross-expert context ISA is specified."
+      },
+      {
+        "location": "3.5 Algorithm2",
+        "fact": "A cluster-level bitmap can adjust complete weight-column work between NAND and NPU as KV attention latency changes."
+      },
+      {
+        "location": "4.1",
+        "fact": "Base system has32planes/8clusters,16KiB PBs and modeled5.12us read. The16C comparison uses64planes/16clusters. Plane timing is modeled with3D-FPIM; C++ system model incorporates NAND and DRAM models."
+      },
+      {
+        "location": "4.2",
+        "fact": "Verilog HDL synthesized with TSMC28nm; NAND side has512KiB cache FIFO,72KiB global buffer,16KiB activation buffer and a RISC-V coordinator."
+      },
+      {
+        "location": "Figure5(a-c), visually inspected PDFpage4",
+        "fact": "One NAND Activation Buffer is shown. Each depicted PE lane shows MAC Unit0/1, with16 a_i*b_i products in an adder tree; bias/accumulator selection depends on ptr reaching len(w)-1. Figure does not label accumulator width, scale, returned format or expert/context ID."
+      },
+      {
+        "location": "Table3 /4.3",
+        "fact": "NAND OoO-ECDP counts8/12/16; NPU4 without ECC; NAND350MHz and NPU500MHz; total307-486GOPS."
+      }
+    ],
+    "throughput_reconstruction": {
+      "status": "Inference matching published figure/table/total GOPS, not RTL or lane-interface validation.",
+      "effective_multipliers_per_ECDP": 32,
+      "assumption": "Interpret Figure5 as two16-product MAC units per ECDP, each accepting one product per multiplier per cycle; count one multiply and one add as2operations.",
+      "NAND_GOPS_8C": "8*2*16*2*0.350=179.2",
+      "NPU_GOPS": "4*2*16*2*0.500=128.0",
+      "total_GOPS_8C": 307.2,
+      "NAND_GOPS_16C": "16*2*16*2*0.350=358.4",
+      "total_GOPS_16C": 486.4,
+      "boundary": "This reconstructs aggregate peak arithmetic throughput. It does not prove real sustained bandwidth, segment/codeword bit count, issue freedom or independent activation contexts. Do not substitute AiF ECC bandwidth for this MAC model."
+    },
+    "not_disclosed_or_not_proven": [
+      "Per-plane independent inputs: contradicted as a general plane-resource assumption by shared synchronous cluster periphery; no per-plane compute context was disclosed.",
+      "Different expert-private activations concurrently on different clusters/lanes: not established. Shared activation storage and multiple lanes are not proof of independently addressable contexts.",
+      "Precise d units for the physical ECC codeword and bit-level encoding, FIFO depth per cluster, scoreboard/commit entry count and corrector service/queue timing.",
+      "Architectural opcodes, descriptor fields, accumulator reset signal, arbitrary vector-length/subrange programming and weight programmer/address map.",
+      "Accumulator width, signed arithmetic/saturation/widening rules, scaling, rounding or returned INT32/FP32 format.",
+      "Export of a single internal segment partial or partial-column result for host merging.",
+      "Early output-row readiness visible to a GU->activation->down scheduler, or a fully specified nonlinear-activation interface.",
+      "Rerunning another input against resident PB/FIFO weights without another array read."
+    ],
+    "safe_expression_boundary": "The paper expresses full-column dot products from internal segments; whole output columns can be distributed under its existing scheduler. It does not establish an external page-dot primitive with known numeric merge. Its ECC OoO is not a license to introduce arbitrary multi-expert contexts.",
+    "public_artifact_status": "No matching author repository or downloadable NVLLM functional/timing source found in paper links or bounded exact-title/author/GitHub searches. The paper links upstream3D-FPIM/Ramulator-style components, which are not its unpublished integrated simulator or RTL. SlugLab/HBFSim is a third-party collector, not an NVLLM implementation.",
+    "maturity": "Published simulated/synthesized architecture. No manufactured NVLLM silicon is claimed."
+  },
+  "conduit": {
+    "version": "arXiv2601.17633v1,2026-01-24; HPCA2026.",
+    "verified_from_text": [
+      {
+        "location": "2.1/2.2",
+        "fact": "Independent dies contain planes sharing periphery; same-die multi-plane operations require same page offset. IFP uses Flash-Cosmos multi-wordline sensing and Ares-Flash PB-latch arithmetic."
+      },
+      {
+        "location": "4.3.1",
+        "fact": "LLVM12 vectorization forces4096 elements of32bits=16KiB, with instruction metadata for pointers, element sizes and vector length."
+      },
+      {
+        "location": "4.3.2",
+        "fact": "Runtime splits vectors for narrower DRAM/controller widths, tracks dependencies and dispatches independent instructions concurrently to controller, DRAM and flash execution queues."
+      },
+      {
+        "location": "4.3.2 Instruction Transformation",
+        "fact": "ISP uses ARM MVE; PuD uses SIMDRAM/MIMDRAM/Proteus bbop-style ISA; IFP uses Flash-Cosmos MWS and Ares-Flash shift_and_add."
+      },
+      {
+        "location": "4.4",
+        "fact": "FTL enforces operand locality/alignment, e.g. Flash-Cosmos AND operands in the same block. Inter-resource movement uses existing reads/DMA. Lazy coherence can retain modified results in DRAM/PBs/registers until required elsewhere or evicted."
+      },
+      {
+        "location": "4.4",
+        "fact": "Computation mode suspends host I/O; GC/wear leveling still run. Do not add unmodeled concurrent host traffic as though it were the evaluated native mode."
+      },
+      {
+        "location": "4.5/5.1/5.2",
+        "fact": "Firmware framework runs on assumed prior NDP hardware. Its model extends MQSim/Ramulator/QEMU with per-resource queues, operand movement and computation cost models; it is not a manufactured SSD implementing all these functions."
+      },
+      {
+        "location": "Table2 versus4.3.1",
+        "fact": "Evaluation table uses4KiB physical flash pages, while vectorization discussion calls16KiB a typical aligned page. Keep this distinction explicit; do not silently treat each4096x32bit vector as one evaluated physical page."
+      }
+    ],
+    "numeric_boundary": "32-bit vector operands are a compiler/data-size setting, not proof of a raw INT32 GEMV return contract. No native GEMV tile opcode, fixed INT8 dot-product ABI, rounding contract or functional MoE numeric executor was established. Controller/DRAM operations must not be called in-flash computation.",
+    "artifact_check": {
+      "records": [
+        20621387,
+        20621620
+      ],
+      "concept_record": "20621386",
+      "same_concept_verified": true,
+      "record_v1_creator": "Nadig, Rakesh; ETH Zurich",
+      "record_v3_creator": "Anonymous, Anonymous",
+      "access_right_both": "restricted",
+      "files_public_api_both": [],
+      "public_description": "Advertises a SimPy trace timing simulator with FTL/Core/Flash/DRAM, latency functions and operation/resource counters. No weight/output execution is advertised in that description.",
+      "conclusion": "Public metadata/README descriptions are available; simulator files are not publicly downloadable through the checked records. No source or numeric result validation was performed. No matching author GitHub release verified."
+    },
+    "placement_boundary": "Operand co-location can change native bitwise/arithmetic instruction and movement costs, but this is a different layout problem from page-GEMV row sharding. A valid MoE experiment needs a fully specified bit-sliced arithmetic lowering and all temporary movements/writes; the public Conduit descriptions do not supply that executable contract."
+  },
+  "concrete_experiment_gate": {
+    "new_placement_mechanism_verified": false,
+    "reason": "Neither target currently gives a public, sufficiently specified native multi-context page-GEMV contract that permits a new large-placement experiment without additional assumptions.",
+    "safe_small_reconstruction": "One may reimplement NVLLM Algorithm1 for complete columns and reconstruct the aggregate PE-throughput ceiling above, holding one active activation vector per engine and using ordinary synchronized4-plane reads. Label it a paper-derived semantic/cost model, not an executed author backend. It calibrates a different backend but does not itself establish a new placement mechanism.",
+    "forbidden_shortcuts": [
+      "Assume each NVLLM plane gets a different x.",
+      "Treat ECC OoO as arbitrary expert OoO.",
+      "Expose internal segment sums as rawI32 without a disclosed output mode.",
+      "Claim Conduit public files were executed from its restricted README.",
+      "Port AiF read/MAC timing to either backend."
+    ],
+    "no_new_workload_or_source_code_added": true
+  },
+  "system_contribution_assessment": {
+    "generic_representability_not_a_rejection": "A problem being representable as declustering, discrepancy, DP or generic DAG mapping does not rule out a systems contribution. The preceding mask theorems constrain those particular claims, not the entire compiler project.",
+    "potential_claim": "Ordinary-read IFP whole-row semantic preservation, exact work/depth geometry compilation, physical address/command certificates and strong matched native controls can form a coherent systems claim without claiming first DP or first joint mapping.",
+    "most_important_missing_research_content": "A reusable, nontrivial legal-lowering/geometry mechanism whose practical benefit remains after best-width, unequal-row, dense block packing and same-scheduler controls, on more than an isolated shape. Certificates establish correctness; the measured surviving mechanism establishes the research contribution.",
+    "whole_row_numeric_contract": "Whole-row sharding can be proved against an opaque existing native row function F: preserve the complete row bytes/metadata, full input dimension and vector, per-row quantization metadata, then only scatter outputs. This does not require exported rawI32, unlike column splitting. It remains necessary to prove that command boundaries/addressing preserve that row function on the selected backend.",
+    "direct_prior_status": "No examined primary source directly supplies the same ordinary-NAND whole-row integer-wave geometry compiler plus physical/numerical certificate. This is a bounded literature finding, not a priority claim; Cambricon-FlexLLM/DIAMoND full texts remain unavailable.",
+    "closest_specific_priors": [
+      "AiF ISCA2025 section5.2 describes equal-sized matrix shards in sequential IFP blocks and cross-block suboperations; it already establishes placement and command machinery, but the examined text does not derive unequal whole-row integer-wave optimization.",
+      "Cambricon-LLM MICRO2024 sectionV derives2D page-sized atomic tiles and input/result-optimal aspect ratios; this is a direct NAND geometry/transfer prior, not the same whole-row numeric lowering.",
+      "SLIM neuron/page packing and fused sparse FFN are direct adjacent layout prior; do not present generic page alignment, even distribution or GU/down correspondence as new.",
+      "NVLLM sections3.1-3.4 optimize cluster-lane delivery and ECC-ready segments rather than the specified whole-row compiler.",
+      "Conduit sections4.3-4.4 vectorizes page-aligned operations and enforces data-placement constraints but uses a different bitwise/shift-add IFP primitive."
+    ],
+    "adjacent_system_precedent": "TileLens arXiv2607.04031v1 introduction describes transparent configurable tile-major layout compilation for GPU/HBF. It supports evaluating the contribution at the system/compiler level rather than treating generic layout representability as fatal. It also has new TMA/cache/prefetch hardware, so those mechanisms cannot be imported into this existing-hardware-only project.",
+    "tilelens_read_depth": "Abstract and introduction only; no full methods/artifact audit in this round."
+  }
+}

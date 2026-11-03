@@ -1,0 +1,10 @@
+{
+  "status": "frozen_before_kernel_capacity_check",
+  "scope": "Independent low-cost privateDown g2 and sharedDown g4 kernel/capacity witness; no TRAIN, heldout, fullFFN or placement fitting.",
+  "format": {"weight_bits": 8, "activation_bits": 8, "planes": 4, "page_bytes": 16384, "private_Down_row_bytes": 512, "private_rows_per_chip": 768, "shared_Down_row_bytes": 1024, "shared_rows_per_chip": 384},
+  "availability": "Canonical experts0..59 are four experts per lexicographically ordered4-subset of six2-chipgroups. Experts60..63 support012,345,034,125. Eachgroup stores42completeexpertcopies, total252. Rowshards remaincomplete, onefullprivateinput/dot/job.",
+  "capacity": "GU reservation is atmost128WL/plane/chip. EachprivateDownexpert has24pages/6fullWLwaves/chip. First10residentexpertjobs occupy block0WL128..187;32jobs occupy block1WL0..191. No job crossesblock; onecold/command/job. Sharedg4job24pages/6WL isblock0WL128..133. Common2blocks/chip. Phase/groupGUreplica186WL is explicitly incompatible locally:186+252=438>384.",
+  "timing": "Unchangedsealed finitePB, sourcefixed0123, strict500ns, evaloverwrite6040ns, two weightlatches, cold28000ns, CR9700ns, ECC6.4GB/s. No dummy/drop/IPR/PBpermutation needed: everywave reads4pages ononeWL.",
+  "proof_limits": "An arbitraryroute mayfail capacity1 matching: eachgroupmisses22experts, choose6allmissingonegroup. Minimumdegree3 guarantees capacity2foranytop6 byHall: anynonemptysubsethas>=3neighbors, whosecapacity2 is>=6>=subsetsize. Capacity2 serializes atmost2separateprivatejobs/chip, not simultaneousinputs. No newCBC claim.",
+  "checks": "All252copybands expanded toreal physicalpageaddresses; row/sourcecoverage across2chips exact1536rows, nojobcrossblock and GUreservationnoncollision. Sealedkernelcheck all6groups andbothchips, shared4chips, independent closedrecurrence and no-read-amplification checks. Deterministic matchingfixtures include explicit universalcounterexample."
+}

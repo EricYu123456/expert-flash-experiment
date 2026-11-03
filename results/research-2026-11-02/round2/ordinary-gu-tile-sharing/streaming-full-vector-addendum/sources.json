@@ -1,0 +1,40 @@
+{
+  "primary_only": true,
+  "sources": [
+    {
+      "id": "aif",
+      "url": "https://doi.org/10.1145/3695053.3731073",
+      "version": "ISCA2025",
+      "sections": "4.1p533;4.4pp536\u2013537/Fig14;5.1p537/Fig15;5.2p538;6.1/Table2p538",
+      "read_depth": "Rereadlocalpaper/aif.txtoverview,fullFIFOparagraph,headparallelism,hostAPIandTable2;searchalltextforcontrollerDRAM/buffer. DidnotreadnewRTL.",
+      "evidence": "4.1controllergatherssubvectorsandreturnsvector;4.4sequentialFIFO/SREGpollingduringcomputation;5.1head-wisehostoverlap;5.2outputaddressperlogicalGEMV;Table2giveschannels/chips/planes/pages/readlatency/bandwidth.",
+      "absent": "No controllerRAMcapacity/freeallocationpublishedininspectedpaper. FIFOasgenerateddoesnotdefineper-waveoutputreadytimesorpausing. Head-wiseoverlapdoesnotidentifyhostrequestgranularity."
+    },
+    {
+      "id": "nvme",
+      "url": "https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-Revision-2.1-2024.08.05-Ratified.pdf",
+      "version": "Base2.1,5Aug2024",
+      "sections": "1.5command-completiondefinition;3.1.3completionordering;3.4.1commandordering;3.4.2FUSEdistinction;3.4.4completion;4.2.1/Figs96\u201398CQE",
+      "read_depth": "RereadtheseexactsectionsinpreviouslydownloadedofficialPDFtext;notfullspec.",
+      "evidence": "EachcompletedlogicalcommandidentifiedbySQID+CID;completionsmayreorder. RetainingoneCIDperexpertandpostingonefinalCQEafteritsfulloutputtransferusesordinarycompletionsemantics.",
+      "boundary": "NVMedoesnotrequireinternalnativeGEMVcoalescing,anddoesnotcertifyAiFprefixECCorcontrollerbuffers."
+    },
+    {
+      "id": "localabi",
+      "url": null,
+      "sections": "kernel/aif.h:11\u201357;aif.c:48\u2013198;scripts/aif_replay.c:62\u201370",
+      "read_depth": "Rereadmetadata-onlypayload/process/completionandsequentialioctlloop;sourcehashesrecorded.",
+      "evidence": "No realoutputvectoraddress/data/gatherbufferorin-flightlogicalexperts. Oneaggregatedtimingtargetperrequest. No localfunctionalimplementationdemonstratesthiscontract.",
+      "boundary": "Missinglocalemulationisnotproofnewnativehardwareisneeded."
+    },
+    {
+      "id": "cosmos",
+      "url": "https://github.com/Cosmos-OpenSSD/Cosmos-plus-OpenSSD/tree/78601486bb5581e40628ec7e841dea8e97eff034/source/software/GreedyFTL-3.0.0",
+      "commit": "78601486bb5581e40628ec7e841dea8e97eff034",
+      "sections": "memory_map.h;data_buffer.h;ftl_config.h;nvme/host_lld.c",
+      "read_depth": "Officialrepositorypinnedcommit;readfourfiles,includingDMA/CQEfunctions. Nohardware/sourcebuildrun.",
+      "evidence": "DRAMstaticaddressmapthrough0x3fffffff;data-bufferentries16*USER_DIESwith16384bytes/slice(16MiBwhen8channels*8ways). Existinghost_lldprovidesdevice-addressDMA,donechecks,andset_nvme_cpl(sqId,cid,...). DirectDMAhas<=4KiB/16B-alignmentconstraints.",
+      "boundary": "Concreteexistingcontrollercapacity/DMA/CQEexampleonly. NotAiFcontroller,notfreeavailablememoryproof,notanAiF-compatibleinflashprototype. OnefullvectorlogicaltransfermayusenormalmultipleDMA/PRPdescriptors."
+    }
+  ]
+}

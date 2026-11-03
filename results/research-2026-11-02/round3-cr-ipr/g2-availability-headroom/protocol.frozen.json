@@ -1,0 +1,75 @@
+{
+  "status": "frozen_before_TRAIN_matching",
+  "utc": "2026-11-02T15:01:17.772952+00:00",
+  "inputs_sha256": {
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_g2_availability_headroom.py": "cec1b53cc66477f4a9c3542b84d5a2e22c37bdcd8ba975002d15011bfc95de5e",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_g2_availability_headroom.cpp": "1df8384a41feb4d275728b256afcc860ee14ed62ee2c0808d4cddd26fc267737",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round2/w8-format-training/granite4tiny/decode.routes.npz": "304deac32fab00cd0fd460bd1979dd82fe18ce47abf5cb96e8244f0208bfa9f4",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261102_cr_ipr_pipeline.py": "ad35d08e17b4458cb5a0f54732aafce338d0526f5888fb02fcfdcc507ad99905",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-replica-full-ffn/TRAIN512/report.json": "029f8c6324e94d6cb7a50645666f8edd4b70ea492d43065f7b872a9019bef013",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-replica-full-ffn/TRAIN512/service_arrays.npz": "439a305763d7d13eb9db0bd3f2061540ded193971cfe85d38bfb7c0ec0510598",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-replica-full-ffn/TRAIN512/trace.L0.candidate.triple_private_shared4.input1.GF.json": "029edfceb8bafa4297bf361259887f736fd54303581ac36882f8b4fb8086f17d",
+    "/home/ericyu/expert_flash_experiment/results/research-2026-11-02/round3-cr-ipr/down-replica-full-ffn/TRAIN512/trace.L0.candidate.triple_private_shared4.input4.GF.json": "153c4d481cc1603c5159f2877d79510584d3e18be1829f343697bc5c0eec4710"
+  },
+  "seeds": [
+    2026110200,
+    2026110201,
+    2026110202,
+    2026110203,
+    2026110204,
+    2026110205,
+    2026110206,
+    2026110207,
+    2026110208,
+    2026110209,
+    2026110210,
+    2026110211,
+    2026110212,
+    2026110213,
+    2026110214,
+    2026110215,
+    2026110216,
+    2026110217,
+    2026110218,
+    2026110219
+  ],
+  "seed_generator": "NumPy PCG64; layer seed=seed+10000*layer",
+  "swap_seed": 2026110264,
+  "swap_budget_per_layer": 2048,
+  "swap_rule": "Uniform distinct same-degree expert pairs; accept only strictly more perfect cap1 routes. Stop useful work once all512 match; no cost fitting.",
+  "fixed_degrees": "E0..59degree4,E60..63degree3 for all controls/seeds/swaps; each column42. Degree3 identities are not fitted.",
+  "selection": "Per layer choose greatest perfect count among IDslot+20seeds, ties by listed order; bounded swaps start there.",
+  "groups": [
+    [
+      0,
+      1
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      10,
+      11
+    ]
+  ],
+  "shared_chips": [
+    12,
+    13,
+    14,
+    15
+  ],
+  "scope": "Only first3layers of previously observed TRAIN512; no heldout, new arithmetic/quantization or fullFFN execution. Standard CBC/replicateddeclustering baseline, no theorem/solver novelty claim."
+}

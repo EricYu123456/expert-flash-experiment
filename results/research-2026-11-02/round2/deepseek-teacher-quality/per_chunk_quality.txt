@@ -1,0 +1,16 @@
+Existing frozen WikiText windows; DeepSeek Q8_GGUF -> fullFFN W8A8 supplemental quality sensitivity.
+No newblindtest/taskaccuracy/BF16/nativehardware claim. Positive deltaNLL orPPL is degradation; no quantizer/layout retuned.
+
+ID | Q8 PPL | W8 PPL | deltaPPL | ratio | deltaNLL
+fresh20261103_wikitext2_00 | 17.009505 | 17.649222 | +0.639716 | 1.03760933 | +0.03691935
+fresh20261103_wikitext2_01 | 25.274048 | 26.463735 | +1.189687 | 1.04707147 | +0.04599719
+fresh20261103_wikitext2_02 | 10.959666 | 10.980448 | +0.020781 | 1.00189617 | +0.00189438
+fresh20261103_wikitext2_03 | 12.365920 | 12.552230 | +0.186310 | 1.01506642 | +0.01495405
+fresh20261103_wikitext2_04 | 7.172703 | 7.202860 | +0.030157 | 1.00420439 | +0.00419558
+fresh20261103_wikitext2_05 | 61.186688 | 62.017622 | +0.830934 | 1.01358031 | +0.01348892
+fresh20261103_wikitext2_06 | 18.124710 | 18.648206 | +0.523495 | 1.02888297 | +0.02847372
+fresh20261103_wikitext2_07 | 11.347841 | 11.438623 | +0.090782 | 1.00799994 | +0.00796811
+
+Aggregate(1016positions): Q8PPL16.41021592, W8PPL16.72894539, ratio1.0194226252, deltaNLL+0.0192364133.
+Top1agreement943/1016; fullteacher router sites26624(raw1..26 atall128tokens). FirstW8window independentcontext bitrepeat:13,107,200logits.
+SourceandW8 contexts are independent withidentical128native-token IDs perwindow. Deep tokenization/window endpoints differfromG4, soPPLvalues are not crossmodel comparisons. Allsourceweights unchanged, fullFFN W8 helpers byte-exact andfixed rowweights/scales hashesmatchTRAIN.
