@@ -1,0 +1,46 @@
+{
+  "status": "reviewed_no_root_file_edits",
+  "reviewed_source": "/home/ericyu/expert_flash_experiment/scripts/research_20261109_cost_audit.py",
+  "source_sha256": "41d8ffd9845b79191e3c62ecdde39dbc7b630b3627813e318cd515e22f8bc3a2",
+  "checks": [
+    {
+      "heads": 3,
+      "method_B": 8514956,
+      "raw_B_without_forced_GU": 2736524,
+      "raw_spare_for_native_cache": 5778432,
+      "one_GU": 5778432,
+      "readout_MAC_per_head": 884736
+    },
+    {
+      "heads": 6,
+      "method_B": 11227544,
+      "raw_B_without_forced_GU": 5449112,
+      "raw_spare_for_native_cache": 5778432,
+      "one_GU": 5778432,
+      "readout_MAC_per_head": 884736
+    },
+    {
+      "heads": 9,
+      "method_B": 13940132,
+      "raw_B_without_forced_GU": 8161700,
+      "raw_spare_for_native_cache": 5778432,
+      "one_GU": 5778432,
+      "readout_MAC_per_head": 884736
+    },
+    {
+      "heads": 12,
+      "method_B": 16652720,
+      "raw_B_without_forced_GU": 10874288,
+      "raw_spare_for_native_cache": 5778432,
+      "one_GU": 5778432,
+      "readout_MAC_per_head": 884736
+    }
+  ],
+  "definition": "7 binary factor payloads+4byte rank per head; artifact JSON excluded; method-specific workspace separately scoped",
+  "notes": [
+    "strong raw remaining-budget whole-matrix native cache is legal, excluding replaced heads avoids duplicate credit",
+    "V+U coefficient MAC and private latent A8 event count are correct",
+    "B is incremental coefficient residency, not full host peak memory; scalar quant/affine/rescale work is outside coefficient-MAC totals",
+    "generic matched-readout-equality boolean should reflect/guard actual equality; current same-rank calls are equal"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "CPU_only": true,
+  "export_argv": [
+    "taskset",
+    "-c",
+    "0",
+    "env",
+    "CUDA_VISIBLE_DEVICES=",
+    "OPENBLAS_NUM_THREADS=1",
+    "OMP_NUM_THREADS=1",
+    "python3",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/spec2-controls/source-v1/research_20261109_shared_feature_fit_constant.py",
+    "--train",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/train",
+    "--output",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/spec2-controls/train16"
+  ],
+  "export_exit_code": 0,
+  "numeric_audit": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/spec2-controls/train16/VALID_cpp_numeric.json",
+  "numeric_audit_exit_code": 0,
+  "contract_tests": {
+    "tests": 1,
+    "status": "PASS"
+  },
+  "no_VALID_or_TEST_labels_opened": true
+}

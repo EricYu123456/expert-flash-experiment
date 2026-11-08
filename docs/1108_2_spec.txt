@@ -1,0 +1,415 @@
+**我建議繼續做一輪，但不要直接擴大原本的「完整 shared-z 取代 expert」方案。下一輪應該改成：先保留 raw-x 已經能做到的部分，再檢查少量 shared features 是否能提供真正額外的價值。**
+
+也就是把主要候選從：
+
+\[
+\widehat F_e(x)=C_ez_s(x)+b_e
+\]
+
+改成：
+
+\[
+\boxed{
+\widehat F_e(x)
+=
+\underbrace{A_ex+b_e}_{\text{便宜的主路徑}}
++
+\underbrace{B_ez_s[J](x)}_{\text{少量共享非線性補充}}
+}
+\]
+
+**先測 128／256 個 shared features，而不是先擴大到八個 prototypes、重新訓練整個 shared basis，或接 NVMeVirt。**
+
+我核對了報告、逐 expert 的 FP／W8A8 結果、量化歸因與成本資料，也看了 ZIP 裡已存在的 **11/09 第二輪協定與程式**。那份協定的大方向合理，但我會修改實驗順序和判斷標準，避免花很多時間改善一個仍然輸給便宜 baseline 的方案。report_20261108.zh.md[原實驗報告](sandbox:/mnt/data/shared_features_next_steps/evidence/report_20261108.zh.md) · protocol_20261109.md[ZIP 中的 11/09 協定](sandbox:/mnt/data/shared_features_next_steps/evidence/protocol_20261109.md)
+
+---
+
+# 一、這次結果最重要的訊息：不只是量化出了問題
+
+## 1. 即使不量化，完整 shared-z 也沒有勝過 raw-x
+
+我從你附的 CSV 重新整理：
+
+| Layer／Expert | raw-x：FP NMSE | shared-z：FP NMSE | shared-z：W8A8 NMSE |
+|---|---:|---:|---:|
+| 1／14 | **0.7862** | 0.8186 | 0.8187 |
+| 1／40 | **0.7425** | 0.7875 | 0.7880 |
+| 13／10 | **0.7192** | 0.7741 | 0.7746 |
+| 13／56 | **0.7465** | 0.7670 | 0.7671 |
+| 26／0 | **0.4294** | 0.4357 | 0.6332 |
+| 26／1 | **0.2085** | 0.2478 | 0.5096 |
+
+來源是本次上傳的local_TEST_per_expert.csv[逐 expert 結果](sandbox:/mnt/data/shared_features_next_steps/evidence/local_TEST_per_expert.csv)，不是新訓練結果。
+
+這表示有兩種不同問題：
+
+**Layer 26：量化確實破壞了 readout 需要的資訊。**  
+因此，修正 whole-vector A8 很值得做。
+
+**Layer 1／13：即使沒有 readout 量化，shared-z 仍輸給 raw-x。**  
+這裡不能只靠 equalization 解釋失敗；還涉及特徵是否適合線性重建、訓練目標、資料支持度與泛化。
+
+所以我會修正上一輪自己的主張：
+
+> **目前沒有證據支持「把 raw input 換成完整 native shared feature，是更好的 expert 表示」。但仍值得檢查「shared feature 是否能補充 raw input 做不到的部分」。**
+
+這不是宣稱 shared features 完全沒用。舊 FP readout 也不是所有重新訓練方法的品質下界；換訓練分布與目標後，結果可能改變。只是現在不應把所有問題都歸咎於 INT8。
+
+## 2. `passes_this_pilot_margin` 是有效結果，但曝光量太低，還不能支撐擴大
+
+報告的品質判定沒有錯；問題在它能支持的範圍。
+
+依成本資料，固定 native routing 中被替換的 slots 約占全模型 **0.386%**；對全模型 routed 權重工作的反事實節省只有 **0.1286%**。我另外用真正被計入 NLL 的 15 個位置重算，shared arm 是：
+
+\[
+\frac{9017}{1000\times15\times26\times6}
+\approx0.3853\%.
+\]
+
+這和報告的 16-position native trace 是不同分母，兩者不能混用，但都指出同一件事：**目前改動非常稀疏。**review_numbers.json[重算數據與分母](sandbox:/mnt/data/shared_features_next_steps/review_numbers.json)
+
+因此，下一輪不能只問：
+
+> 「改完以後，PPL 還在 2% 以內嗎？」
+
+而應該問：
+
+> **「在相同品質容忍值與記憶體預算下，這個方法能比 optimized raw-x 多消除多少真正工作？」**
+
+這也需要補一個目前缺少的控制：**同樣六個 experts 直接省略，或使用 TRAIN-only 常數輸出，是否也能通過這個低曝光配置？**現在沒有這個結果，不能假設會通過；但它能幫我們判斷，小 PPL 變化究竟來自有效重建，還是測試本來就不敏感。
+
+---
+
+# 二、第一個實驗：先修量化，但把它當診斷，不當成新方法成功
+
+我會先固定原本六個 experts，避免一開始同時改 features、資料長度、訓練權重和替換範圍。
+
+比較下面這個小矩陣：
+
+| Basis | FP 診斷 | 原 W8A8 | 修正後 W8A8 |
+|---|---|---|---|
+| raw-x | 保留 | 保留 | runtime equalization＋QDQ-input fit |
+| full shared-z | 保留 | 保留 | runtime equalization＋QDQ-input fit |
+
+**兩種 basis 都要得到同樣的校準能力。**不能修好 shared-z，卻繼續拿未優化的 raw-x 當比較對象。
+
+## 正確修法：讓 A8 看到的是調整後的特徵
+
+例如：
+
+\[
+\widetilde z=S^{-1}(z-\mu),
+\]
+
+再執行：
+
+\[
+\widetilde z
+\rightarrow A8
+\rightarrow QDQ
+\rightarrow \text{擬合 readout}.
+\]
+
+這裡 QDQ 是「量化後，再還原成可供擬合使用的數值」。模型學習的輸入應該接近部署時真正能拿到的輸入，而不是先在漂亮的 FP 特徵上擬合，最後才突然量化。
+
+**Runtime 的平移／縮放必須保留在 A8 之前。**不能把它全部折回 \(C\)，又回到原始 \(z\) 上做同一種 A8，卻以為已經修正 activation encoding。
+
+你 11/09 的程式已經採取這個方向，也做了 row-W8 後的 TRAIN bias recalibration；這部分值得沿用。code_review\.md[實作審查摘錄](sandbox:/mnt/data/shared_features_next_steps/evidence/code_review.md)
+
+這類平移／縮放與量化難度轉移，本來就是 SmoothQuant、Outlier Suppression+ 等方法處理的問題。**把它修好是必要的基礎工作，但不能單獨當成論文創新。**[Proceedings of Machine Learning Research](https://proceedings.mlr.press/v202/xiao23c.html)
+
+## 不要只看「90% features 變成零」
+
+你附的 VALID 診斷有一個很重要的現象：
+
+> shared-z 本身的 A8 重建 NMSE 只有約 0.0023，但經過 \(C\) 後，輸出誤差大幅增加。
+
+所以應該同時檢查：
+
+\[
+\|z-QDQ(z)\|^2
+\]
+
+和：
+
+\[
+\|Cz-C\,QDQ(z)\|^2.
+\]
+
+第二個更直接反映 readout 在意的資訊有沒有被保留下來。**90% A8 zeros 不是「可以安全刪掉 90% features」的證據。**quantization_VALID.json[原量化歸因結果](sandbox:/mnt/data/shared_features_next_steps/evidence/quantization_VALID.json)
+
+這一輪的判斷應是：
+
+**若修完量化，只是把 layer 26 拉回舊 FP 水準，而 shared-z 仍沒有勝過同步優化的 raw-x，量化問題算修好，但共享特徵的研究命題還沒有成立。**
+
+---
+
+# 三、我最建議的修改：不要丟掉 \(x\)，只讓 shared features 補殘差
+
+原方案要求：
+
+> 一份替別的功能訓練出來的 shared feature，獨自重建 routed expert 的整個輸出。
+
+這個要求可能太強。
+
+比較合理的新問題是：
+
+> **raw-x 已經能重建的部分先保留；shared feature 只需要提供剩下那一小部分有用的非線性資訊。**
+
+## 1. 先測 128／256 個 features，不先加寬
+
+使用：
+
+\[
+\widehat F_e(x)
+=
+A_ex+b_e+B_ez_s[J](x),
+\qquad |J|\in\{128,256,512\}.
+\]
+
+你的 11/09 `FeatureFactory.definition()` 已支援這種任意指定大小的 hybrid。**`hybrid_x_z128`、`hybrid_x_z256` 可以透過現有 `--bases` 指定，不必先重寫 capture 或 live adapter。**目前預設只有 512／768，但程式並沒有把寬度限制在這兩個值。code_review\.md[相關程式摘錄](sandbox:/mnt/data/shared_features_next_steps/evidence/code_review.md)
+
+為什麼我特別建議縮到 128／256？因為額外 features 必須付出真正的成本。
+
+依你這個模型的 \(H=2048、I=1408\)，原 expert 有 \(3HI\) 個係數：
+
+| 方案 | Readout 寬度 | 每次替換的 raw 係數節省 | 要比 raw-x 省更多工作，所需替換覆蓋率 |
+|---|---:|---:|---:|
+| raw-x | 2048 | **51.52%** | 基準 |
+| x＋128 shared | 2176 | 48.48% | 至少約 **1.06 倍** |
+| x＋256 shared | 2304 | 45.45% | 至少約 **1.13 倍** |
+| x＋512 shared | 2560 | 39.39% | 至少約 **1.31 倍** |
+| full shared-z／x＋768 shared | 2816 | 33.33% | 至少約 **1.55 倍** |
+
+這個門檻來自：
+
+\[
+\text{覆蓋率}\times\text{每次替換節省量}
+\]
+
+的比較，只計係數工作；還沒有加入 host basis、傳輸、控制、padding 與依賴成本。review_numbers.json[計算程式與結果](sandbox:/mnt/data/shared_features_next_steps/review_numbers.json)
+
+**所以 full shared-z 即使精度稍微變好，也不一定值得。**它必須讓可替換的工作明顯增加，才能補回每個 readout 比 raw-x 更大的成本。
+
+反過來，128 個 shared features 只要帶來適度、穩定的 coverage 改善，就比較有機會值得部署。
+
+## 2. 不只做 concat，要檢查「條件增益」
+
+你現在的 11/09 程式，已經用 TRAIN raw-x residual correlation 選 shared features，這比直接挑最大 activation 好；但我還會加一個診斷：
+
+先擬合：
+
+\[
+F_e(x)\approx A_ex+b_e,
+\]
+
+再看：
+
+\[
+r_e(x)=F_e(x)-(A_ex+b_e)
+\]
+
+是否能被少量 shared features **在未參與擬合的資料上**預測。
+
+更嚴格一點，可以先扣除 shared features 中「線性看 \(x\) 就能預測」的部分：
+
+\[
+r_z(x)=z_s[J](x)-(Px+c),
+\]
+
+然後測：
+
+\[
+r_e(x)\approx B_er_z(x).
+\]
+
+這樣問的是：
+
+> **shared features 是否帶來超過 raw input 線性模型的額外訊號，而不是只是另一種較大、較好擬合的 input 表示？**
+
+Feature selection 最好使用按文章／prompt 分組的 out-of-fold residual，避免挑到只對 TRAIN 擬合殘差有用的 features。先做 FP 診斷，再做真正 W8A8；否則可能只是改善了編碼誤差，卻被誤認成新的非線性資訊。
+
+這個診斷不一定增加 runtime 矩陣。實數代數中：
+
+\[
+Ax+B(z-Px-c)+b
+=
+(A-BP)x+Bz+(b-Bc).
+\]
+
+但**折疊後仍須重新量化與驗證**，不能把實數等價當作 W8A8 bitwise 等價。
+
+## 3. 保留一個真正可以退回的 raw-x 模型
+
+我會先凍結最佳 raw-x，擬合小型 shared residual；有訊號後才聯合調整 \(A、B\)，並給兩部分不同的 regularization。
+
+特別注意：**concat 後的 whole-vector A8 scale 和 row-W8 scale 可能改變。**所以不能只說「令 \(B=0\)，理論上就包含 raw-x」，便認為部署結果一定不差。應保留原來已匯出的 raw-x 路徑，作為實際可選的 fallback。
+
+---
+
+# 四、第二個必修問題：router 加權合理，但你現在的預設太極端
+
+報告指出，11/08 在所有捕捉到的 \(x\) 上等權擬合；實際上卻只有 router 選中該 expert 時才會使用 readout。這確實可能讓訓練目標和部署情境不一致。fit_audit_20261108.md[擬合審核](sandbox:/mnt/data/shared_features_next_steps/evidence/fit_audit_20261108.md)
+
+11/09 已加入：
+
+\[
+w_{t,e}
+=
+(1-\beta)
++
+\beta
+\frac{
+\mathbf 1[e\in S_t]\alpha_{t,e}^{2}
+}{
+\operatorname{mean}_{TRAIN}
+\left(\mathbf 1[e\in S_t]\alpha_{t,e}^{2}\right)
+}.
+\]
+
+但目前預設 \(\beta\) 只有 **0 與 0.99**。我會至少補上 **0.5、0.9**，不要只比較「完全不加權」和「幾乎只看 selected rows」。
+
+## 為什麼這很重要？
+
+有效樣本數可以先看：
+
+\[
+N_{\mathrm{eff}}
+=
+\frac{(\sum_t w_t)^2}{\sum_t w_t^2}.
+\]
+
+做一個說明用的計算：假設某 expert 只在 4% 的 rows 被選中，而且 selected rows 的 \(\alpha\) 相同。
+
+在 \(\beta=0.99\) 下：
+
+- 9,600 rows 的 weight-only \(N_{\mathrm{eff}}\) 約 **391**。
+- 增加到 38,400 rows，也約只有 **1,566**。
+
+**這不是你目前 TRAIN 的實測支持度，而是這種權重設定的示例。**實際還要考慮同一篇文章、同一段序列內的相關性。review_numbers.json[推導數值](sandbox:/mnt/data/shared_features_next_steps/review_numbers.json)
+
+因此：
+
+> **Gram matrix 滿秩，不代表一個 2,816 維 readout 已經有足夠的獨立訓練支持。**
+
+這也不表示 \(N_{\mathrm{eff}}<\) feature width 就不能用 ridge；而是應該同時看 effective degrees of freedom、TRAIN／VALID gap，以及不同文章數的 learning curve。
+
+我會保留 64-token capture，但不要把「600 段 × 更多 tokens」當成和「更多獨立文章」相同的擴充。另外，這次每段都重新從 BOS 開始，應把 **BOS／非 BOS、早／晚位置**分開診斷；主品質評估仍保留完整規則，不能只挑有利的位置。
+
+---
+
+# 五、什麼時候才擴成全部 experts？以及擴大後該看什麼？
+
+## 先有共享增益，再增加覆蓋率
+
+我會把順序定成：
+
+| 階段 | 主要實驗 | 進入下一階段的理由 |
+|---|---|---|
+| **A：原六 experts** | 分離量化、加權與 basis 效果；補 drop／mean 控制 | 確認不是數值或低曝光造成的假象 |
+| **B：原六 experts** | optimized raw-x 對 hybrid128／256／512 | shared residual 在多個 experts 上有穩定增益 |
+| **C：擴 experts** | TRAIN 固定的 8／16／32／64 expert cohorts，先單層再三層 | 相同品質下，真正可消除的工作增加 |
+| **D：擴 layers／正式測試** | 擴大適用層數，凍結後使用新的 TEST | 出現可擴展的模型級品質—成本優勢 |
+
+**不是每個階段都重新跑一千題 TEST。**局部 fitting 用 calibration-VALID，部署配置用 quality-VALID；方法和 eligibility 凍結後，才使用新的 article-held-out TEST。11/09 協定已規劃這個區分，應保留。
+
+## 三層實驗本身有一個容易忽略的上限
+
+即使 layer 1／13／26 的 **全部 active experts** 都能改成 full shared-z readout，按目前維度：
+
+\[
+\frac{3}{26}\times
+\left(1-\frac{2816}{3\times1408}\right)
+=
+3.846\%.
+\]
+
+也就是，**只在三層做完整替換，最多減少約 3.85% 的全模型 routed 係數工作**，尚未計其他成本。
+
+這不應用來否決三層機制實驗；但它表示，若研究要有明顯的全模型收益，最後必須證明能擴展到更多 layers，不能只靠最後一層量化修好。review_numbers.json[各寬度的上限計算](sandbox:/mnt/data/shared_features_next_steps/review_numbers.json)
+
+## 不要直接把 `registry.best_per_expert.tsv` 當成部署政策
+
+我檢查了 11/09 程式：這個 registry 目前主要依 **VALID NMSE**選 winner，寬度只在同分時才參與比較。
+
+這適合作為「哪種表示重建比較準」的診斷，**還不是「哪個模型值得部署」的決策**。code_review\.md[程式選擇邏輯](sandbox:/mnt/data/shared_features_next_steps/evidence/code_review.md)
+
+部署應該保留每個 expert 的品質—成本候選，再決定 eligibility，並且報告：
+
+> 有多少真正的改善來自 shared features，而不是最後大多選回 raw-x？
+
+成本還要計入不同 basis contexts：同一 token 若使用 raw-x、pure-z、hybrid128、hybrid256，不能把它們全當成同一份免費的 input vector。
+
+最後，比較對象必須包含相同 host 預算下的 native hot-GU／完整 expert residency，以及放得下時的 host-resident \(C\)。**不要為了讓 flash 有事做，刻意把可留在 host 的 readout 送到 flash。**
+
+---
+
+# 六、若 shared residual 還是沒有價值，我會改測什麼？
+
+**我不會立刻用八個 prototypes 救這個方案。**那會同時增加 GU 計算、resident bytes、配對選擇、訓練支持度與 input contexts；很容易把問題變複雜，卻沒有回答「shared nonlinear features 到底是否有價值」。
+
+我會先做一個更有判別力的控制：
+
+> **保留 raw-x，再補少量「target expert 自己的 private neurons」，而不是別人的 shared features。**
+
+形式是：
+
+\[
+\widehat F_e(x)
+=
+A_ex+b_e
++
+D_e[:,J_e]
+\left[
+\operatorname{SiLU}(G_e[J_e,:]x)
+\odot U_e[J_e,:]x
+\right].
+\]
+
+讓 \(A_ex+b_e\) 擬合剩餘輸出。
+
+它有一個很適合你目前實驗的同 payload 比較點：若保留 **256 個 private neurons**，
+
+\[
+H^2+3H\times256
+=
+H\times2816.
+\]
+
+**剛好等於 full shared-z readout 的 raw 係數數量。**
+
+這能回答：
+
+> **目前缺少的，到底是一點共享非線性，還是必須保留 target 自己的一點非線性？**
+
+不過，同 payload 不等於同系統成本：private GU、host residency、phase dependency 都要另計。而且，只算部分 \(z_e\) 時，拿不到原完整 vector-A8 的最大值，**不能把這個 private branch 宣稱為原生 bit-exact contribution**；必須定義新的量化路徑並重新驗證。
+
+這個控制若勝出，可以支持轉向「partial expert／private-neuron 的 host–flash 分工」。但它本身還不是已成立的新論文；PCoMoE 等工作已經研究 expert 內部 expansion／projection 的細粒度組合與重用，不能只靠「把 expert 拆開」宣稱新穎性。[ACL Anthology](https://aclanthology.org/2026.emnlp-main.2048/)
+
+---
+
+# 七、我會怎麼設定繼續投入的門檻？
+
+我會先訂兩個層次，避免又陷入只改善局部指標的循環。
+
+**機制門檻：**shared residual 必須在多個 experts、至少一個非最後層，對 optimized raw-x 顯示穩定的未見資料增益。例如，可先把 selected-\(\alpha^2\) 局部誤差改善約 10% 當作投入門檻；這只是團隊分配實驗資源的標準，不是品質保證或 ISCA 錄取標準。
+
+**系統門檻：**在相同品質容忍值與完整 host 記憶體預算下，candidate 必須改善可消除工作量或延遲的取捨。局部 NMSE 降低，但 readout 太大、host basis 太慢、或只能替換極少 experts，都不算通過。
+
+如果結果是：
+
+> equalization 修好 layer 26，但 hybrid 的 shared 部分仍沒有帶來增量，且品質—成本曲線輸給 raw-x，
+
+那就應該**停止這個 native-shared 重用分支**，而不是再加更多 prototypes 和 predictor。這不否定所有共享表示，只表示目前這條低成本後處理路線沒有足夠支持。
+
+---
+
+## 我的具體建議
+
+**下一個要跑的，就是原六 experts 上的「optimized raw-x／optimized shared-z／hybrid128／hybrid256」對照。先隔離量化，再加入 router weighting，並補 drop／constant controls。**
+
+你 ZIP 裡的 11/09 工具已經能做其中大部分，不需要重新建立實驗框架。真正需要新增的是：**增量訊號診斷、較小的 hybrid 寬度、有效樣本檢查，以及從 NMSE winner 改成品質—成本決策。**
+
+這輪我已重算你提供的數據，並執行原專案 11/08、11/09 的 **6 個 fitting tests，全部通過**。這些是合成與流程測試；ZIP 沒有 NFS 上的原始 activations／readouts／模型，所以我沒有宣稱已跑出上述修改的新 LLM 品質。
+
+NEXT_EXPERIMENTS.zh.md[完整下一輪實驗規格](sandbox:/mnt/data/shared_features_next_steps/NEXT_EXPERIMENTS.zh.md) · shared_features_next_steps.zip[下載重算程式、數據、來源摘錄與測試紀錄](sandbox:/mnt/data/shared_features_next_steps.zip)

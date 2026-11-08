@@ -1,0 +1,668 @@
+{
+  "scope": "calibration VALID native-hidden-state diagnostics, no fresh TEST or live LLM quality",
+  "branch": "native hot prototype pool; side branch after 1108_2_spec prioritization",
+  "source_sha256": "755d675113485d67b878139f8490e0016ebcf423c792ccb7776b1a878e15ab69",
+  "layers": {
+    "1": {
+      "selection": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal/layer1/selection.json",
+      "selection_sha256": "f4411df02b94a00972e9d5446e8c2182622adb0d7a19b29c05bbce6aa2508313",
+      "prototype_ids": [
+        8,
+        13,
+        25,
+        26,
+        40,
+        43,
+        54,
+        56
+      ],
+      "paired_experts": 64,
+      "legal_nonowners": {
+        "experts": 56,
+        "prototype_beats_raw_count": 7,
+        "prototype_at_least_10percent_better_count": 5,
+        "raw_alpha2_NMSE_pooled": 0.41382836265783346,
+        "prototype_alpha2_NMSE_pooled": 0.4418023475328419,
+        "prototype_to_raw_pooled_SSE_ratio": 1.067598036769022
+      },
+      "lambdas": [
+        1,
+        3,
+        10
+      ],
+      "betas": [
+        0,
+        0.99
+      ],
+      "fit_wall_seconds": 674.5917936596088,
+      "aggregate_VALID": {
+        "raw_x_eq": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.3721953342762891,
+            "mean_cosine": 0.7100679801884074,
+            "row_nmse_median": 0.4501747064423632,
+            "row_nmse_p95": 0.9189750837605164,
+            "target_energy": 64249.06328309168,
+            "squared_error": 23913.20158558876
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.3265552825863785,
+            "mean_cosine": 0.7833231356146094,
+            "row_nmse_median": 0.3422846150311158,
+            "row_nmse_p95": 0.7957840512428783,
+            "target_energy": 73228.6472192322,
+            "squared_error": 23913.20158609459
+          },
+          "eligible_slots": 75582,
+          "total_slots": 75582,
+          "slot_coverage": 1.0,
+          "eligible_alpha_mass_fraction": 1.0,
+          "mean_required_prototypes_per_token": 0.0,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.0,
+          "cross_expert_slots": 0,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "raw_x_eq.excluding_owners": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.32876900484250865,
+            "mean_cosine": 0.7577978646949489,
+            "row_nmse_median": 0.36385734608289777,
+            "row_nmse_p95": 0.8940869122360037,
+            "target_energy": 64249.06328309168,
+            "squared_error": 21123.100597645414
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.28845405998980483,
+            "mean_cosine": 0.8165258122552286,
+            "row_nmse_median": 0.2800333420757929,
+            "row_nmse_p95": 0.7796194312082457,
+            "target_energy": 73228.6472192322,
+            "squared_error": 21123.100597948658
+          },
+          "eligible_slots": 59269,
+          "total_slots": 75582,
+          "slot_coverage": 0.784168188192956,
+          "eligible_alpha_mass_fraction": 0.7973634600639343,
+          "mean_required_prototypes_per_token": 0.0,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.0,
+          "cross_expert_slots": 0,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "best_cross_prototype": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.40288472114240814,
+            "mean_cosine": 0.6724133753436548,
+            "row_nmse_median": 0.5148218973283692,
+            "row_nmse_p95": 0.9608168339965005,
+            "target_energy": 64249.06328309168,
+            "squared_error": 25884.965944469324
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.35348141647092823,
+            "mean_cosine": 0.7592479117490633,
+            "row_nmse_median": 0.393650805993122,
+            "row_nmse_p95": 0.8398597894277701,
+            "target_energy": 73228.6472192322,
+            "squared_error": 25884.965945304095
+          },
+          "eligible_slots": 75582,
+          "total_slots": 75582,
+          "slot_coverage": 1.0,
+          "eligible_alpha_mass_fraction": 1.0,
+          "mean_required_prototypes_per_token": 3.902198936254664,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 2.9894419306184012,
+          "cross_expert_slots": 75582,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "best_cross_prototype.excluding_owners": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.3558697472351114,
+            "mean_cosine": 0.7268001630360389,
+            "row_nmse_median": 0.4157254884205994,
+            "row_nmse_p95": 0.9363238888132053,
+            "target_energy": 64249.06328309168,
+            "squared_error": 22864.297910646514
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.31223160306633935,
+            "mean_cosine": 0.7957989186449105,
+            "row_nmse_median": 0.31640001494263564,
+            "row_nmse_p95": 0.822652540910968,
+            "target_energy": 73228.6472192322,
+            "squared_error": 22864.2979116403
+          },
+          "eligible_slots": 59269,
+          "total_slots": 75582,
+          "slot_coverage": 0.784168188192956,
+          "eligible_alpha_mass_fraction": 0.7973634600639343,
+          "mean_required_prototypes_per_token": 3.208303564340716,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 2.5098833055489402,
+          "cross_expert_slots": 59269,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "proto_or_raw": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.369572090013929,
+            "mean_cosine": 0.7131185707389887,
+            "row_nmse_median": 0.44886922232607196,
+            "row_nmse_p95": 0.9189922601623994,
+            "target_energy": 64249.06328309168,
+            "squared_error": 23744.660598969378
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.3242537108265504,
+            "mean_cosine": 0.7856093772789161,
+            "row_nmse_median": 0.34045500830730757,
+            "row_nmse_p95": 0.7957840512428783,
+            "target_energy": 73228.6472192322,
+            "squared_error": 23744.66059964439
+          },
+          "eligible_slots": 75582,
+          "total_slots": 75582,
+          "slot_coverage": 1.0,
+          "eligible_alpha_mass_fraction": 1.0,
+          "mean_required_prototypes_per_token": 0.686830197666111,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.43248392474398667,
+          "cross_expert_slots": 11139,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "proto_or_raw.excluding_owners": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.3274833399102518,
+            "mean_cosine": 0.7590625931034883,
+            "row_nmse_median": 0.36528931158302835,
+            "row_nmse_p95": 0.8941285447289754,
+            "target_energy": 64249.06328309168,
+            "squared_error": 21040.49783005199
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.2873260483356532,
+            "mean_cosine": 0.8175015882992299,
+            "row_nmse_median": 0.28007944724455774,
+            "row_nmse_p95": 0.7785123599432113,
+            "target_energy": 73228.6472192322,
+            "squared_error": 21040.497830467604
+          },
+          "eligible_slots": 59269,
+          "total_slots": 75582,
+          "slot_coverage": 0.784168188192956,
+          "eligible_alpha_mass_fraction": 0.7973634600639343,
+          "mean_required_prototypes_per_token": 0.4761451139160118,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.28879892037786775,
+          "cross_expert_slots": 7237,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        }
+      },
+      "cost_notes": {
+        "host_GU_per_prototype_W8_scales_bytes": 5778432,
+        "number_resident_prototypes": 8,
+        "GU_MAC_per_computed_prototype_row": 5767168,
+        "prototype_execution": "only required prototype/input rows; de-duplicate within token, cost never free",
+        "required_strong_control": "same hot GU cache + exact native owners + enhanced raw_x for remaining experts",
+        "native_owner_hits_are_cross_reuse": false,
+        "latency_or_speedup_claim": false
+      },
+      "all64_diagnostic": {
+        "experts": 64,
+        "prototype_beats_raw_count": 9,
+        "prototype_at_least_10percent_better_count": 6,
+        "raw_alpha2_NMSE_pooled": 0.4098449624858844,
+        "prototype_alpha2_NMSE_pooled": 0.4386683345076059,
+        "prototype_to_raw_pooled_SSE_ratio": 1.0703275010308666
+      }
+    },
+    "13": {
+      "selection": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal/layer13/selection.json",
+      "selection_sha256": "4baabf89cd3aadef6057ace50105bdf427ce3a583f29ff4cc5763d7f8b8de331",
+      "prototype_ids": [
+        5,
+        10,
+        18,
+        22,
+        28,
+        32,
+        35,
+        61
+      ],
+      "paired_experts": 64,
+      "legal_nonowners": {
+        "experts": 56,
+        "prototype_beats_raw_count": 0,
+        "prototype_at_least_10percent_better_count": 0,
+        "raw_alpha2_NMSE_pooled": 0.7624245241402997,
+        "prototype_alpha2_NMSE_pooled": 0.8380768494372111,
+        "prototype_to_raw_pooled_SSE_ratio": 1.0992259861816696
+      },
+      "lambdas": [
+        1,
+        3,
+        10
+      ],
+      "betas": [
+        0,
+        0.99
+      ],
+      "fit_wall_seconds": 689.3635302362964,
+      "aggregate_VALID": {
+        "raw_x_eq": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.7389910608503534,
+            "mean_cosine": 0.5266361130201123,
+            "row_nmse_median": 0.7537934869962694,
+            "row_nmse_p95": 0.9238372518447073,
+            "target_energy": 920962.0085807487,
+            "squared_error": 680582.6917239598
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.502099355191969,
+            "mean_cosine": 0.7457786320893233,
+            "row_nmse_median": 0.43187961796615243,
+            "row_nmse_p95": 0.7414569875266159,
+            "target_energy": 1355474.1400692444,
+            "squared_error": 680582.6917081564
+          },
+          "eligible_slots": 75582,
+          "total_slots": 75582,
+          "slot_coverage": 1.0,
+          "eligible_alpha_mass_fraction": 1.0,
+          "mean_required_prototypes_per_token": 0.0,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.0,
+          "cross_expert_slots": 0,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "raw_x_eq.excluding_owners": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.355320277415612,
+            "mean_cosine": 0.7491725291445759,
+            "row_nmse_median": 0.38966423963420344,
+            "row_nmse_p95": 0.8600000385034938,
+            "target_energy": 920962.0085807487,
+            "squared_error": 327236.47637815087
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.24141845772697693,
+            "mean_cosine": 0.869516813258299,
+            "row_nmse_median": 0.19860454357428295,
+            "row_nmse_p95": 0.5816358817436341,
+            "target_energy": 1355474.1400692444,
+            "squared_error": 327236.47638431727
+          },
+          "eligible_slots": 54459,
+          "total_slots": 75582,
+          "slot_coverage": 0.720528697308883,
+          "eligible_alpha_mass_fraction": 0.674223005771637,
+          "mean_required_prototypes_per_token": 0.0,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.0,
+          "cross_expert_slots": 0,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "best_cross_prototype": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.8247711725094773,
+            "mean_cosine": 0.42455952683579323,
+            "row_nmse_median": 0.8539224231135709,
+            "row_nmse_p95": 0.9776087321392584,
+            "target_energy": 920962.0085807487,
+            "squared_error": 759582.9156538274
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.5603817093902282,
+            "mean_cosine": 0.7050993655721491,
+            "row_nmse_median": 0.49196051124077234,
+            "row_nmse_p95": 0.8021207020448978,
+            "target_energy": 1355474.1400692444,
+            "squared_error": 759582.9156462528
+          },
+          "eligible_slots": 75582,
+          "total_slots": 75582,
+          "slot_coverage": 1.0,
+          "eligible_alpha_mass_fraction": 1.0,
+          "mean_required_prototypes_per_token": 4.026990553306343,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 3.0585853774708265,
+          "cross_expert_slots": 75582,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "best_cross_prototype.excluding_owners": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.39248855613172573,
+            "mean_cosine": 0.7069826026373891,
+            "row_nmse_median": 0.4480050359644124,
+            "row_nmse_p95": 0.9282977622488402,
+            "target_energy": 920962.0085807487,
+            "squared_error": 361467.0490000321
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.2666720362443084,
+            "mean_cosine": 0.8520436077335904,
+            "row_nmse_median": 0.22463803824532655,
+            "row_nmse_p95": 0.6370162825968063,
+            "target_energy": 1355474.1400692444,
+            "squared_error": 361467.0490087683
+          },
+          "eligible_slots": 54459,
+          "total_slots": 75582,
+          "slot_coverage": 0.720528697308883,
+          "eligible_alpha_mass_fraction": 0.674223005771637,
+          "mean_required_prototypes_per_token": 3.2196554735254423,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 2.4534412955465585,
+          "cross_expert_slots": 54459,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "proto_or_raw": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.7389910608503534,
+            "mean_cosine": 0.5266361130201123,
+            "row_nmse_median": 0.7537934869962694,
+            "row_nmse_p95": 0.9238372518447073,
+            "target_energy": 920962.0085807487,
+            "squared_error": 680582.6917239598
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.502099355191969,
+            "mean_cosine": 0.7457786320893233,
+            "row_nmse_median": 0.43187961796615243,
+            "row_nmse_p95": 0.7414569875266159,
+            "target_energy": 1355474.1400692444,
+            "squared_error": 680582.6917081564
+          },
+          "eligible_slots": 75582,
+          "total_slots": 75582,
+          "slot_coverage": 1.0,
+          "eligible_alpha_mass_fraction": 1.0,
+          "mean_required_prototypes_per_token": 0.0,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.0,
+          "cross_expert_slots": 0,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "proto_or_raw.excluding_owners": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.355320277415612,
+            "mean_cosine": 0.7491725291445759,
+            "row_nmse_median": 0.38966423963420344,
+            "row_nmse_p95": 0.8600000385034938,
+            "target_energy": 920962.0085807487,
+            "squared_error": 327236.47637815087
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.24141845772697693,
+            "mean_cosine": 0.869516813258299,
+            "row_nmse_median": 0.19860454357428295,
+            "row_nmse_p95": 0.5816358817436341,
+            "target_energy": 1355474.1400692444,
+            "squared_error": 327236.47638431727
+          },
+          "eligible_slots": 54459,
+          "total_slots": 75582,
+          "slot_coverage": 0.720528697308883,
+          "eligible_alpha_mass_fraction": 0.674223005771637,
+          "mean_required_prototypes_per_token": 0.0,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.0,
+          "cross_expert_slots": 0,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        }
+      },
+      "cost_notes": {
+        "host_GU_per_prototype_W8_scales_bytes": 5778432,
+        "number_resident_prototypes": 8,
+        "GU_MAC_per_computed_prototype_row": 5767168,
+        "prototype_execution": "only required prototype/input rows; de-duplicate within token, cost never free",
+        "required_strong_control": "same hot GU cache + exact native owners + enhanced raw_x for remaining experts",
+        "native_owner_hits_are_cross_reuse": false,
+        "latency_or_speedup_claim": false
+      },
+      "all64_diagnostic": {
+        "experts": 64,
+        "prototype_beats_raw_count": 0,
+        "prototype_at_least_10percent_better_count": 0,
+        "raw_alpha2_NMSE_pooled": 0.7681217330523198,
+        "prototype_alpha2_NMSE_pooled": 0.8527191294416717,
+        "prototype_to_raw_pooled_SSE_ratio": 1.110135402696111
+      }
+    },
+    "26": {
+      "selection": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal/layer26/selection.json",
+      "selection_sha256": "d5686ee851671c26ffdb352e549135ed68357b0cace91e9c8c4b0eda429b70a0",
+      "prototype_ids": [
+        2,
+        6,
+        19,
+        27,
+        28,
+        32,
+        43,
+        51
+      ],
+      "paired_experts": 64,
+      "legal_nonowners": {
+        "experts": 56,
+        "prototype_beats_raw_count": 1,
+        "prototype_at_least_10percent_better_count": 1,
+        "raw_alpha2_NMSE_pooled": 0.1114835073404261,
+        "prototype_alpha2_NMSE_pooled": 0.12743293477143294,
+        "prototype_to_raw_pooled_SSE_ratio": 1.1430653538940396
+      },
+      "lambdas": [
+        1,
+        3,
+        10
+      ],
+      "betas": [
+        0,
+        0.99
+      ],
+      "fit_wall_seconds": 698.5070164930075,
+      "aggregate_VALID": {
+        "raw_x_eq": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.1368733796949171,
+            "mean_cosine": 0.6928577557214847,
+            "row_nmse_median": 0.5189409792933328,
+            "row_nmse_p95": 0.8267933006401835,
+            "target_energy": 43898441.99736637,
+            "squared_error": 6008528.119520823
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.015306779935320114,
+            "mean_cosine": 0.9673804199449342,
+            "row_nmse_median": 0.01821765225748988,
+            "row_nmse_p95": 0.2867113616176514,
+            "target_energy": 392540307.8997172,
+            "squared_error": 6008528.108763771
+          },
+          "eligible_slots": 75582,
+          "total_slots": 75582,
+          "slot_coverage": 1.0,
+          "eligible_alpha_mass_fraction": 1.0,
+          "mean_required_prototypes_per_token": 0.0,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.0,
+          "cross_expert_slots": 0,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "raw_x_eq.excluding_owners": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.07642222545554034,
+            "mean_cosine": 0.8152246012252427,
+            "row_nmse_median": 0.2804188803620592,
+            "row_nmse_p95": 0.7531582243715176,
+            "target_energy": 43898441.99736637,
+            "squared_error": 3354816.631469693
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.008546425810875712,
+            "mean_cosine": 0.9820448617169494,
+            "row_nmse_median": 0.008123009027359695,
+            "row_nmse_p95": 0.1798432015045983,
+            "target_energy": 392540307.8997172,
+            "squared_error": 3354816.6192432423
+          },
+          "eligible_slots": 56972,
+          "total_slots": 75582,
+          "slot_coverage": 0.7537773543965495,
+          "eligible_alpha_mass_fraction": 0.6997444033622742,
+          "mean_required_prototypes_per_token": 0.0,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.0,
+          "cross_expert_slots": 0,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "best_cross_prototype": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.16048121586812505,
+            "mean_cosine": 0.6045375006843032,
+            "row_nmse_median": 0.6451818466665936,
+            "row_nmse_p95": 0.9271699422526093,
+            "target_energy": 43898441.99736637,
+            "squared_error": 7044875.346453719
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.017946883962257285,
+            "mean_cosine": 0.9613153535559738,
+            "row_nmse_median": 0.02275595337294811,
+            "row_nmse_p95": 0.332027035551006,
+            "target_energy": 392540307.8997172,
+            "squared_error": 7044875.356384971
+          },
+          "eligible_slots": 75582,
+          "total_slots": 75582,
+          "slot_coverage": 1.0,
+          "eligible_alpha_mass_fraction": 1.0,
+          "mean_required_prototypes_per_token": 3.517980471540843,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 2.7293800111137574,
+          "cross_expert_slots": 75582,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "best_cross_prototype.excluding_owners": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.08874703143986137,
+            "mean_cosine": 0.7707112285301232,
+            "row_nmse_median": 0.3527573034230385,
+            "row_nmse_p95": 0.8532962440548516,
+            "target_energy": 43898441.99736637,
+            "squared_error": 3895856.412101204
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.00992472963581095,
+            "mean_cosine": 0.9789520191038312,
+            "row_nmse_median": 0.009937148768624091,
+            "row_nmse_p95": 0.2056300329901961,
+            "target_energy": 392540307.8997172,
+            "squared_error": 3895856.427062678
+          },
+          "eligible_slots": 56972,
+          "total_slots": 75582,
+          "slot_coverage": 0.7537773543965495,
+          "eligible_alpha_mass_fraction": 0.6997444033622742,
+          "mean_required_prototypes_per_token": 2.8032864967849487,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 2.267444629673732,
+          "cross_expert_slots": 56972,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "proto_or_raw": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.1358755716231462,
+            "mean_cosine": 0.6944098258757396,
+            "row_nmse_median": 0.5167716613241874,
+            "row_nmse_p95": 0.8206179703796919,
+            "target_energy": 43898441.99736637,
+            "squared_error": 5964725.899757683
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.01519519338264881,
+            "mean_cosine": 0.9674516109976771,
+            "row_nmse_median": 0.018032547937224152,
+            "row_nmse_p95": 0.2867113616176514,
+            "target_energy": 392540307.8997172,
+            "squared_error": 5964725.889020709
+          },
+          "eligible_slots": 75582,
+          "total_slots": 75582,
+          "slot_coverage": 1.0,
+          "eligible_alpha_mass_fraction": 1.0,
+          "mean_required_prototypes_per_token": 0.08843375406842899,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.08367071524966262,
+          "cross_expert_slots": 1114,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        },
+        "proto_or_raw.excluding_owners": {
+          "routed": {
+            "rows": 12597,
+            "nmse": 0.07542487838104653,
+            "mean_cosine": 0.81675664696807,
+            "row_nmse_median": 0.27909064425800606,
+            "row_nmse_p95": 0.7449872788057676,
+            "target_energy": 43898441.99736637,
+            "squared_error": 3311034.6487687835
+          },
+          "shared_plus_routed": {
+            "rows": 12597,
+            "nmse": 0.008434890812320434,
+            "mean_cosine": 0.9821157076719992,
+            "row_nmse_median": 0.008074408472617197,
+            "row_nmse_p95": 0.17935086148502458,
+            "target_energy": 392540307.8997172,
+            "squared_error": 3311034.6365687586
+          },
+          "eligible_slots": 56972,
+          "total_slots": 75582,
+          "slot_coverage": 0.7537773543965495,
+          "eligible_alpha_mass_fraction": 0.6997444033622742,
+          "mean_required_prototypes_per_token": 0.08843375406842899,
+          "mean_extra_prototypes_beyond_native_hot_GU_hits": 0.08367071524966262,
+          "cross_expert_slots": 1114,
+          "contract": "slot-order F32(alpha*expert-output) sums; every unregistered expert remains native"
+        }
+      },
+      "cost_notes": {
+        "host_GU_per_prototype_W8_scales_bytes": 5778432,
+        "number_resident_prototypes": 8,
+        "GU_MAC_per_computed_prototype_row": 5767168,
+        "prototype_execution": "only required prototype/input rows; de-duplicate within token, cost never free",
+        "required_strong_control": "same hot GU cache + exact native owners + enhanced raw_x for remaining experts",
+        "native_owner_hits_are_cross_reuse": false,
+        "latency_or_speedup_claim": false
+      },
+      "all64_diagnostic": {
+        "experts": 64,
+        "prototype_beats_raw_count": 1,
+        "prototype_at_least_10percent_better_count": 1,
+        "raw_alpha2_NMSE_pooled": 0.17635046380883423,
+        "prototype_alpha2_NMSE_pooled": 0.20404973872744844,
+        "prototype_to_raw_pooled_SSE_ratio": 1.1570694758627942
+      }
+    }
+  },
+  "TEST_arrays_opened": false
+}

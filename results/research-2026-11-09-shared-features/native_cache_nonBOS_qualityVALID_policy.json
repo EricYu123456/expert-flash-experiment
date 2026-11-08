@@ -1,0 +1,214 @@
+{
+  "status": "frozen_before_TEST",
+  "selection_source": "Same native fresh quality-VALID200 ledger as v1; not TRAIN.",
+  "parent_policy_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/native-cache-policy-qualityVALID64-v1/policy.frozen.json",
+  "parent_policy_sha256": "1eccb1c0f8992f5d34436a71db4317d2878d5fe8b3e87a36fc21cd33b1f35b88",
+  "source_code_sha256": "93e1c7beee400a2f4a8b49a38960aa56f7f42bfcbf7a25195dd4ef196b48312d",
+  "prompts": 200,
+  "articles": 200,
+  "layers": 26,
+  "experts_per_layer": 64,
+  "primary_scope": "Only NLL-causal non-BOS prefill positions1..62, 62 positions per prompt.",
+  "primary_event_count": 1934400,
+  "BOS_event_count_separate": 31200,
+  "primary_policy_rule": "Non-BOS NLL62 event frequency descending; layer/expert ID ascending ties. For B>=0 choose the first min(1664,floor(B/unit_bytes)) entries. Freeze before TEST; no TEST reordering.",
+  "units_bytes": {
+    "GU_W8_plus_row_scales": 5778432,
+    "D_W8_plus_row_scales": 2891776,
+    "full_expert_W8_plus_row_scales": 8670208
+  },
+  "same_VALID_selection_and_estimation_is_optimistic": true,
+  "TEST_opened": false,
+  "BOS_aggregate_cache_counterfactual": {
+    "F32_vector_payload_bytes": 212992,
+    "KiB": 208.0,
+    "condition": "Assume deterministic BOS at reset position0 and an implemented replacement of each layer routed aggregate that preserves exact arithmetic/context behavior.",
+    "implemented": false,
+    "all26_layer_aggregate_bitchecked": false,
+    "claim": "208KiB payload arithmetic only; not a validated exact-cache or measured benefit."
+  },
+  "policy_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/native-cache-policy-qualityVALID64-nonBOS-v2/policy.frozen.json",
+  "policy_sha256": "d8488d488958bffecc163bd43c5ffaf6951f810298b2ac6366a990bcd51cf908",
+  "primary_top20": [
+    {
+      "rank": 1,
+      "layer": 10,
+      "expert": 19,
+      "event_count": 4603,
+      "prompt_article_incidence": 194,
+      "other_prefill_scope_event_count": 4668,
+      "cumulative_event_count": 4603
+    },
+    {
+      "rank": 2,
+      "layer": 14,
+      "expert": 63,
+      "event_count": 3891,
+      "prompt_article_incidence": 199,
+      "other_prefill_scope_event_count": 3947,
+      "cumulative_event_count": 8494
+    },
+    {
+      "rank": 3,
+      "layer": 21,
+      "expert": 61,
+      "event_count": 3608,
+      "prompt_article_incidence": 199,
+      "other_prefill_scope_event_count": 3657,
+      "cumulative_event_count": 12102
+    },
+    {
+      "rank": 4,
+      "layer": 1,
+      "expert": 8,
+      "event_count": 3426,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3656,
+      "cumulative_event_count": 15528
+    },
+    {
+      "rank": 5,
+      "layer": 16,
+      "expert": 29,
+      "event_count": 3426,
+      "prompt_article_incidence": 197,
+      "other_prefill_scope_event_count": 3480,
+      "cumulative_event_count": 18954
+    },
+    {
+      "rank": 6,
+      "layer": 25,
+      "expert": 9,
+      "event_count": 3381,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3458,
+      "cumulative_event_count": 22335
+    },
+    {
+      "rank": 7,
+      "layer": 24,
+      "expert": 26,
+      "event_count": 3324,
+      "prompt_article_incidence": 162,
+      "other_prefill_scope_event_count": 3379,
+      "cumulative_event_count": 25659
+    },
+    {
+      "rank": 8,
+      "layer": 13,
+      "expert": 18,
+      "event_count": 3320,
+      "prompt_article_incidence": 191,
+      "other_prefill_scope_event_count": 3370,
+      "cumulative_event_count": 28979
+    },
+    {
+      "rank": 9,
+      "layer": 12,
+      "expert": 13,
+      "event_count": 3317,
+      "prompt_article_incidence": 199,
+      "other_prefill_scope_event_count": 3373,
+      "cumulative_event_count": 32296
+    },
+    {
+      "rank": 10,
+      "layer": 13,
+      "expert": 5,
+      "event_count": 3284,
+      "prompt_article_incidence": 197,
+      "other_prefill_scope_event_count": 3323,
+      "cumulative_event_count": 35580
+    },
+    {
+      "rank": 11,
+      "layer": 13,
+      "expert": 28,
+      "event_count": 3251,
+      "prompt_article_incidence": 178,
+      "other_prefill_scope_event_count": 3308,
+      "cumulative_event_count": 38831
+    },
+    {
+      "rank": 12,
+      "layer": 6,
+      "expert": 37,
+      "event_count": 3199,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3243,
+      "cumulative_event_count": 42030
+    },
+    {
+      "rank": 13,
+      "layer": 10,
+      "expert": 33,
+      "event_count": 3186,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3207,
+      "cumulative_event_count": 45216
+    },
+    {
+      "rank": 14,
+      "layer": 18,
+      "expert": 23,
+      "event_count": 3135,
+      "prompt_article_incidence": 197,
+      "other_prefill_scope_event_count": 3187,
+      "cumulative_event_count": 48351
+    },
+    {
+      "rank": 15,
+      "layer": 11,
+      "expert": 40,
+      "event_count": 3115,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3148,
+      "cumulative_event_count": 51466
+    },
+    {
+      "rank": 16,
+      "layer": 22,
+      "expert": 57,
+      "event_count": 3108,
+      "prompt_article_incidence": 198,
+      "other_prefill_scope_event_count": 3147,
+      "cumulative_event_count": 54574
+    },
+    {
+      "rank": 17,
+      "layer": 8,
+      "expert": 33,
+      "event_count": 2936,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 2952,
+      "cumulative_event_count": 57510
+    },
+    {
+      "rank": 18,
+      "layer": 12,
+      "expert": 19,
+      "event_count": 2875,
+      "prompt_article_incidence": 180,
+      "other_prefill_scope_event_count": 2926,
+      "cumulative_event_count": 60385
+    },
+    {
+      "rank": 19,
+      "layer": 24,
+      "expert": 60,
+      "event_count": 2839,
+      "prompt_article_incidence": 198,
+      "other_prefill_scope_event_count": 2888,
+      "cumulative_event_count": 63224
+    },
+    {
+      "rank": 20,
+      "layer": 11,
+      "expert": 60,
+      "event_count": 2802,
+      "prompt_article_incidence": 187,
+      "other_prefill_scope_event_count": 2854,
+      "cumulative_event_count": 66026
+    }
+  ]
+}

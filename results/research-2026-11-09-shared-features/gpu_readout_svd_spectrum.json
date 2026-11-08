@@ -1,0 +1,1204 @@
+{
+  "status": "weight_spectrum_diagnostic_only",
+  "source_sha256": "1fa8d8d3ae3dc71246a81bfe690b89f2c7f34e2b8e2f4fc5e19073d37da38a34",
+  "handoff": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registry_handoff.json",
+  "handoff_sha256": "a90e28f83f4ddeb5f08ad9aa0a9ecabe948a4ed62b6f67be64dffa398a9be042",
+  "hardware": {
+    "gpu": "NVIDIA L40S",
+    "device": "cuda:0",
+    "torch": "2.5.1+cu121",
+    "CUDA": "12.1",
+    "cpu_affinity": [
+      64,
+      65
+    ],
+    "CPU_threads": 2,
+    "nvidia_smi": "0, NVIDIA L40S, GPU-390b16fb-b979-826e-5ea8-d98a528e08c2, 535.288.01, 46068 MiB, 441 MiB"
+  },
+  "records": [
+    {
+      "family": "prototype25",
+      "expert": 4,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.9857908417470753,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/layer1/prototype_25_eq.expert4.i8": "cf3389d7268449466df3408d29ca501d495ebde39d609574040999729a324226",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/layer1/prototype_25_eq.expert4.scales.f32": "dcb57074aaf82d6a0a21e2e9257797f0c88316c6dcbf352e3ce4d03c452eccec"
+      },
+      "Frobenius_squared": 3.933705864452464,
+      "Frobenius_energy_relative_check_error": 2.220446049250313e-16,
+      "stable_rank": 8.602836364478675,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert4.singular.f64",
+      "singular_sha256": "064192653bf92e39501fff4313d4d4b70e4768c9ef69f409d3df752eeb03d041",
+      "ranks_for_energy": {
+        "0.9": 140,
+        "0.95": 207,
+        "0.99": 373
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.8861022027454067,
+          "FP_optimal_weight_Frobenius_relative_error": 0.11389779725459326,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.969533519129116,
+          "FP_optimal_weight_Frobenius_relative_error": 0.030466480870883994,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9972995089034082,
+          "FP_optimal_weight_Frobenius_relative_error": 0.0027004910965917617,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 51,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13253561267629266,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/layer1/prototype_25_eq.expert51.i8": "4a6e38aef0dba914711d84aefb4f134d11af2854a540df633196a58ddc85616f",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/layer1/prototype_25_eq.expert51.scales.f32": "cac6d88e0fdac7465a1fd9b988aef2959c0a9c4c0a1b9b64298ebd11d71893de"
+      },
+      "Frobenius_squared": 6.652939897917104,
+      "Frobenius_energy_relative_check_error": 1.1102230246251565e-16,
+      "stable_rank": 15.398739816211183,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert51.singular.f64",
+      "singular_sha256": "6ba20b103ae805da1e38e4998b209e6b090e253ea757af6bcfd5b644e71ccfc0",
+      "ranks_for_energy": {
+        "0.9": 145,
+        "0.95": 222,
+        "0.99": 424
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.8817765420561541,
+          "FP_optimal_weight_Frobenius_relative_error": 0.11822345794384592,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9625562276305779,
+          "FP_optimal_weight_Frobenius_relative_error": 0.03744377236942209,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9949154628241598,
+          "FP_optimal_weight_Frobenius_relative_error": 0.005084537175840231,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 60,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.1324033490382135,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/layer1/prototype_25_eq.expert60.i8": "7ae3f43929d4af9334e01e4c0139af4fb04c11452696380a9fc22fec69bffde1",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/layer1/prototype_25_eq.expert60.scales.f32": "9cd04f0ea724a4aefa71781d6e292e981630b8eca38edbe2f0199747d4c75fff"
+      },
+      "Frobenius_squared": 5.024632608743329,
+      "Frobenius_energy_relative_check_error": 0.0,
+      "stable_rank": 18.161189224591663,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert60.singular.f64",
+      "singular_sha256": "487fca9a0d85c6723cf867511e3b0c7dfb9161b5587241b0e126f209d893a86c",
+      "ranks_for_energy": {
+        "0.9": 169,
+        "0.95": 244,
+        "0.99": 430
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.851940887479267,
+          "FP_optimal_weight_Frobenius_relative_error": 0.148059112520733,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9552525748670654,
+          "FP_optimal_weight_Frobenius_relative_error": 0.044747425132934615,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.995053851247045,
+          "FP_optimal_weight_Frobenius_relative_error": 0.00494614875295496,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 58,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.134044436737895,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert58.i8": "6fa5aa2f0ac47f43d9614974d99c92b1fbc3210470aca4646d1a906ea9c152cd",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert58.scales.f32": "808e3c4772d146cb82ed2f85d6325aa8cf4cc0371c48769c703e19a3cb395cf5"
+      },
+      "Frobenius_squared": 1.4378307539059048,
+      "Frobenius_energy_relative_check_error": 4.440892098500626e-16,
+      "stable_rank": 9.346532946950445,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert58.singular.f64",
+      "singular_sha256": "30e8d9cfb93bc71725df40d1ee1b71c4af15866cdaf81315f367c0224ca6b3ae",
+      "ranks_for_energy": {
+        "0.9": 232,
+        "0.95": 340,
+        "0.99": 602
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.7915754762972842,
+          "FP_optimal_weight_Frobenius_relative_error": 0.2084245237027158,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9148613725535402,
+          "FP_optimal_weight_Frobenius_relative_error": 0.08513862744645984,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9825968051353727,
+          "FP_optimal_weight_Frobenius_relative_error": 0.01740319486462727,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 5,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13397604506462812,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert5.i8": "1780f421031cc2564e3368031d54ff2f87994ef4606c7282a9655d7aa6a82382",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert5.scales.f32": "dee40b75a00de7c05724b926ff07a7e0a9e08f74d65e8f7e0b23c9fa07a5c7d3"
+      },
+      "Frobenius_squared": 4.744686839717502,
+      "Frobenius_energy_relative_check_error": 3.3306690738754696e-16,
+      "stable_rank": 31.519708034500006,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert5.singular.f64",
+      "singular_sha256": "b1f61574951726b0e764f061c4fcc2937542c2e6109ddfda06e668b52da9bdc2",
+      "ranks_for_energy": {
+        "0.9": 249,
+        "0.95": 356,
+        "0.99": 605
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.765433212538328,
+          "FP_optimal_weight_Frobenius_relative_error": 0.23456678746167203,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9049390300423785,
+          "FP_optimal_weight_Frobenius_relative_error": 0.09506096995762148,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9816711978341357,
+          "FP_optimal_weight_Frobenius_relative_error": 0.0183288021658643,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 17,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.1350316721946001,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert17.i8": "06ad4f2fb290719fc350b73bf4943a5cacf82b4ce2d021db0bdeccf098468729",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert17.scales.f32": "7fce4b25650e251490855a6d554e841370e08d75b3b4016e3f9ba1cdc3f5c807"
+      },
+      "Frobenius_squared": 1.7005416004935912,
+      "Frobenius_energy_relative_check_error": 2.220446049250313e-16,
+      "stable_rank": 32.75553194566851,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert17.singular.f64",
+      "singular_sha256": "56d64872c18b106f0fe211e1ba160416ba29305f54880d33aaf32c4301d0af01",
+      "ranks_for_energy": {
+        "0.9": 419,
+        "0.95": 560,
+        "0.99": 841
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.600451998169824,
+          "FP_optimal_weight_Frobenius_relative_error": 0.399548001830176,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.7853901750245278,
+          "FP_optimal_weight_Frobenius_relative_error": 0.2146098249754722,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9365265035381412,
+          "FP_optimal_weight_Frobenius_relative_error": 0.06347349646185885,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 62,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.1327973771840334,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert62.i8": "7ff20d137d0bfd2a7173d27bda214d822428f6eea9f248c785de02aecd069b09",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert62.scales.f32": "b40cc7e9c8cfc40de32cdfde4532a25b99afa3a104e6e2ddee75ffcf08217f00"
+      },
+      "Frobenius_squared": 9.3170053901948,
+      "Frobenius_energy_relative_check_error": 2.220446049250313e-16,
+      "stable_rank": 21.58216101518238,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert62.singular.f64",
+      "singular_sha256": "a9a61bff6e4e9a1271a390dcd4ef82c9ed61d457dda1dc7eaa7cd2cc833a0fb9",
+      "ranks_for_energy": {
+        "0.9": 181,
+        "0.95": 272,
+        "0.99": 499
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.845480377739795,
+          "FP_optimal_weight_Frobenius_relative_error": 0.154519622260205,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9439927212505096,
+          "FP_optimal_weight_Frobenius_relative_error": 0.05600727874949041,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9908867122790757,
+          "FP_optimal_weight_Frobenius_relative_error": 0.009113287720924346,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 22,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13392848800867796,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert22.i8": "b5d69272bcd2a38bcc2f06eb9e786b6d954af027411664914a02d494109fcff8",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert22.scales.f32": "0053560468e7111c3f28d98c07dd9767d4f70f2f163e546225931978d9c494c9"
+      },
+      "Frobenius_squared": 2.888963495266596,
+      "Frobenius_energy_relative_check_error": 6.661338147750939e-16,
+      "stable_rank": 29.399011015699166,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert22.singular.f64",
+      "singular_sha256": "1e12f5fcc663ff1a10bd017544732b18e7936d2be333186e11721d0d05ab2920",
+      "ranks_for_energy": {
+        "0.9": 237,
+        "0.95": 330,
+        "0.99": 562
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.7617229711626591,
+          "FP_optimal_weight_Frobenius_relative_error": 0.23827702883734092,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.913879157169829,
+          "FP_optimal_weight_Frobenius_relative_error": 0.08612084283017096,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9860227240013709,
+          "FP_optimal_weight_Frobenius_relative_error": 0.01397727599862908,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 1,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13304498698562384,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert1.i8": "30326dfa6bd53f23f7380b796071d4c4bf735f5abef75d793817d9f5d83f0b26",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert1.scales.f32": "1faaef648b3f5500b17520ebfa3ead3c137f2784d4ef10c7d4f2c43b9e094bcb"
+      },
+      "Frobenius_squared": 1.9435898636838949,
+      "Frobenius_energy_relative_check_error": 6.661338147750939e-16,
+      "stable_rank": 38.44136809467668,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert1.singular.f64",
+      "singular_sha256": "41d79f93b797402bdd01d0bad4c68b0db5b1821825693d8a439a91cbe7c0c1fe",
+      "ranks_for_energy": {
+        "0.9": 228,
+        "0.95": 331,
+        "0.99": 591
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.7838046351891604,
+          "FP_optimal_weight_Frobenius_relative_error": 0.21619536481083956,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.918260899379725,
+          "FP_optimal_weight_Frobenius_relative_error": 0.08173910062027501,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9837953964745225,
+          "FP_optimal_weight_Frobenius_relative_error": 0.01620460352547748,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 28,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13332210620865226,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert28.i8": "f1523ad481de8164aa6f274753d3c6cb2519395d81dd036282ddc8cc985ddd4d",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert28.scales.f32": "11a58d38a42c9fa594576a1e31c1870ffd7072aa708cf45b35abafc6f6d181f4"
+      },
+      "Frobenius_squared": 2.423315598800345,
+      "Frobenius_energy_relative_check_error": 4.440892098500626e-16,
+      "stable_rank": 38.78053830624987,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert28.singular.f64",
+      "singular_sha256": "3629775cbdc2d464d7f4c699dfeb5942de5789c4639c22a7db40d257341b6d69",
+      "ranks_for_energy": {
+        "0.9": 209,
+        "0.95": 300,
+        "0.99": 543
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.7969685084017842,
+          "FP_optimal_weight_Frobenius_relative_error": 0.20303149159821576,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9309552099048723,
+          "FP_optimal_weight_Frobenius_relative_error": 0.06904479009512765,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.987872341910213,
+          "FP_optimal_weight_Frobenius_relative_error": 0.012127658089786997,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 38,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13318797200918198,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert38.i8": "37850b0c99ed79f6657ef5b814c10875803beb0cfb9b148d8507518e6bf1b228",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert38.scales.f32": "e7687e242915e4851768d4ba2a75bf3500df671d59663161f83c635e8c8d1662"
+      },
+      "Frobenius_squared": 9.961248325544155,
+      "Frobenius_energy_relative_check_error": 2.220446049250313e-16,
+      "stable_rank": 31.27378997001503,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert38.singular.f64",
+      "singular_sha256": "3360aa4547ef1433769c3bb48e2d26556576d4130e002dac5cba4b8ada05d122",
+      "ranks_for_energy": {
+        "0.9": 228,
+        "0.95": 317,
+        "0.99": 530
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.7706282043252869,
+          "FP_optimal_weight_Frobenius_relative_error": 0.2293717956747131,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.920480953281259,
+          "FP_optimal_weight_Frobenius_relative_error": 0.079519046718741,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9885539532127336,
+          "FP_optimal_weight_Frobenius_relative_error": 0.01144604678726635,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "prototype25",
+      "expert": 50,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13304717605933547,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert50.i8": "0c023d894bfd38e30dda0c2c960331fd466a62990d6788eabd7b0176450e4620",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/fit-extra9/prototype_25_eq.expert50.scales.f32": "3b45a99d29bf7238b268b2e4df588906ea8b2f57bf68dbe91be23184dbceff21"
+      },
+      "Frobenius_squared": 0.6600151912424017,
+      "Frobenius_energy_relative_check_error": 2.220446049250313e-16,
+      "stable_rank": 27.022664474050064,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/prototype25.expert50.singular.f64",
+      "singular_sha256": "bcded3b8b18e15e8a9b075b505984db1fd92763c832f63b50ed0628e796a268d",
+      "ranks_for_energy": {
+        "0.9": 190,
+        "0.95": 270,
+        "0.99": 483
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.8212639079651319,
+          "FP_optimal_weight_Frobenius_relative_error": 0.17873609203486807,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9438823486876702,
+          "FP_optimal_weight_Frobenius_relative_error": 0.05611765131232982,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9918887092510431,
+          "FP_optimal_weight_Frobenius_relative_error": 0.00811129074895689,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 4,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13049069978296757,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/raw-subset/cohort11/layer1/raw_x_select1408_eq.expert4.i8": "45712b6f3a283f51b1cdbbb31f5d901581edadec291e33ce08d2a91256e67c38",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/raw-subset/cohort11/layer1/raw_x_select1408_eq.expert4.scales.f32": "3954801475da9f40fb75ae150dc79bbc31844b97eedc0df53b1af917b6e1dd36"
+      },
+      "Frobenius_squared": 4.6102792281508655,
+      "Frobenius_energy_relative_check_error": 2.220446049250313e-16,
+      "stable_rank": 7.315469420457231,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert4.singular.f64",
+      "singular_sha256": "2c22dd0b49b1a4dc8a1d844c7b8b651f1cadb964506069918e188e673c092690",
+      "ranks_for_energy": {
+        "0.9": 95,
+        "0.95": 140,
+        "0.99": 263
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.9405490344965024,
+          "FP_optimal_weight_Frobenius_relative_error": 0.0594509655034976,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9891846363994315,
+          "FP_optimal_weight_Frobenius_relative_error": 0.01081536360056845,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9993783455652964,
+          "FP_optimal_weight_Frobenius_relative_error": 0.0006216544347036335,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 51,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13155545806512237,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/raw-subset/cohort11/layer1/raw_x_select1408_eq.expert51.i8": "0019084b3286016c2b1bdff76d094ec4b964bdbce9e4a7392ded7d59283d9260",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/raw-subset/cohort11/layer1/raw_x_select1408_eq.expert51.scales.f32": "a4320288a7bebf47f50e3e62e6da490029b57f85c0f3e5d40c7ed2413a35c22c"
+      },
+      "Frobenius_squared": 6.824982928579501,
+      "Frobenius_energy_relative_check_error": 1.1102230246251565e-15,
+      "stable_rank": 13.32722189280415,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert51.singular.f64",
+      "singular_sha256": "7592215c923edd70f272b54e5b9b8ba6401e8b374859071fecc95564797fbce0",
+      "ranks_for_energy": {
+        "0.9": 99,
+        "0.95": 152,
+        "0.99": 298
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.932929023618824,
+          "FP_optimal_weight_Frobenius_relative_error": 0.06707097638117598,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9846303213351593,
+          "FP_optimal_weight_Frobenius_relative_error": 0.015369678664840736,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.998776041111479,
+          "FP_optimal_weight_Frobenius_relative_error": 0.001223958888521004,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 60,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13126649800688028,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/raw-subset/cohort11/layer1/raw_x_select1408_eq.expert60.i8": "3cb7c94e59cf69ce50a05ad6cf0921cfecdcc1f230935eae896dfb64fff5c003",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/raw-subset/cohort11/layer1/raw_x_select1408_eq.expert60.scales.f32": "d046d0a3dd1164c5f584ef98c9fa2401fe864d969e3b72aa509e32115efd7271"
+      },
+      "Frobenius_squared": 5.558756180299463,
+      "Frobenius_energy_relative_check_error": 6.661338147750939e-16,
+      "stable_rank": 10.712068570414493,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert60.singular.f64",
+      "singular_sha256": "386cf7643cdd59f6f6a39bf0721a60ee6d91900e1af7837173882e258f07f688",
+      "ranks_for_energy": {
+        "0.9": 117,
+        "0.95": 169,
+        "0.99": 301
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.9146897429128452,
+          "FP_optimal_weight_Frobenius_relative_error": 0.08531025708715478,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9832519046071826,
+          "FP_optimal_weight_Frobenius_relative_error": 0.016748095392817408,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9989826782252716,
+          "FP_optimal_weight_Frobenius_relative_error": 0.0010173217747283525,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 58,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13461691699922085,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert58.i8": "cf41b260df623a73d2cdc30ee63132e4bb4eaf664ccd1b187fb0a953a5a25ef6",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert58.scales.f32": "637fd04db83698852bd05b4e72f275ec21b7c85e354508897176918247ef3527"
+      },
+      "Frobenius_squared": 3.9950269672141725,
+      "Frobenius_energy_relative_check_error": 3.3306690738754696e-16,
+      "stable_rank": 16.036142604140895,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert58.singular.f64",
+      "singular_sha256": "70cb12df9ec496b034162222e89650ac5dc1d5b7c6466f3811eb28ee58127763",
+      "ranks_for_energy": {
+        "0.9": 334,
+        "0.95": 461,
+        "0.99": 734
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.6743950988469641,
+          "FP_optimal_weight_Frobenius_relative_error": 0.32560490115303586,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.8462794751596695,
+          "FP_optimal_weight_Frobenius_relative_error": 0.1537205248403305,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9625364816996484,
+          "FP_optimal_weight_Frobenius_relative_error": 0.03746351830035155,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 5,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13313666405156255,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert5.i8": "58c4f2713150d53fb278cc48133a5327f41e502ba39e95fc1c2d0ca2fb5eddf3",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert5.scales.f32": "b3b6196ec1b9fec10e68659f815b4d32f0b4aed8f8860d74ce11ad6bd5c595e0"
+      },
+      "Frobenius_squared": 3.9609004445299005,
+      "Frobenius_energy_relative_check_error": 6.661338147750939e-16,
+      "stable_rank": 27.977534858665052,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert5.singular.f64",
+      "singular_sha256": "106679145b5ca2bf1be979abd94b720505fa3b1f15c26978fff0bfa66a1b7373",
+      "ranks_for_energy": {
+        "0.9": 221,
+        "0.95": 308,
+        "0.99": 517
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.7836108939501168,
+          "FP_optimal_weight_Frobenius_relative_error": 0.21638910604988315,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9248161200916758,
+          "FP_optimal_weight_Frobenius_relative_error": 0.0751838799083242,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9896582197470382,
+          "FP_optimal_weight_Frobenius_relative_error": 0.01034178025296184,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 17,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13523128582164645,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert17.i8": "9320fb789f64d4b0e2d12c2c16342885d2e0ffefc9cd422674bfddeb966e059e",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert17.scales.f32": "ef1da2c5bd42c4965903cead208e2bc88d613d92b37fa89e41e5bb319e1224b7"
+      },
+      "Frobenius_squared": 2.810717607354759,
+      "Frobenius_energy_relative_check_error": 1.3322676295501878e-15,
+      "stable_rank": 39.93771719932872,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert17.singular.f64",
+      "singular_sha256": "61cb7b8dd77e3be6fa7f71c215d22d657e296dffc14046131eee4e2f4f914104",
+      "ranks_for_energy": {
+        "0.9": 416,
+        "0.95": 555,
+        "0.99": 832
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.5913249390270983,
+          "FP_optimal_weight_Frobenius_relative_error": 0.40867506097290174,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.784017546182548,
+          "FP_optimal_weight_Frobenius_relative_error": 0.21598245381745196,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9379002417039884,
+          "FP_optimal_weight_Frobenius_relative_error": 0.062099758296011554,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 62,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.13238300196826458,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert62.i8": "0616d85335005fa02fd6f20c1f176914c221b6524cc0279c0f91cad0aaba1e28",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert62.scales.f32": "34301ba09f48cadbbced9861741e17e713e0c2a8c88c31eb69714c126f5d9b57"
+      },
+      "Frobenius_squared": 7.360471772397728,
+      "Frobenius_energy_relative_check_error": 4.440892098500626e-16,
+      "stable_rank": 20.618594695952876,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert62.singular.f64",
+      "singular_sha256": "9fb00276636cbb10500ed5493c4ce3a244d29d961b320c9f87e9144fc8b9e218",
+      "ranks_for_energy": {
+        "0.9": 156,
+        "0.95": 227,
+        "0.99": 410
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.8677878215351505,
+          "FP_optimal_weight_Frobenius_relative_error": 0.13221217846484945,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9618082165638294,
+          "FP_optimal_weight_Frobenius_relative_error": 0.03819178343617058,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.995824829470119,
+          "FP_optimal_weight_Frobenius_relative_error": 0.004175170529881034,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 22,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.1335117518901825,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert22.i8": "587e5412b4c94f604fc234913acb07c64a16a2324e8f1070c83b0fb8996eb5b7",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert22.scales.f32": "985137a4099c13ca3ae16b6bfd3ba5247c5670e92b3b4756c438a735d815d06f"
+      },
+      "Frobenius_squared": 2.7177883454228464,
+      "Frobenius_energy_relative_check_error": 6.661338147750939e-16,
+      "stable_rank": 26.894765186194434,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert22.singular.f64",
+      "singular_sha256": "b4f0c700699a0cf4a8dff74eb8eab2713bc86d98eedf26b1cce10123468af374",
+      "ranks_for_energy": {
+        "0.9": 226,
+        "0.95": 316,
+        "0.99": 544
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.7718476862610525,
+          "FP_optimal_weight_Frobenius_relative_error": 0.2281523137389475,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.921359357951281,
+          "FP_optimal_weight_Frobenius_relative_error": 0.07864064204871901,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9875956551226323,
+          "FP_optimal_weight_Frobenius_relative_error": 0.012404344877367746,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 1,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.1343040387146175,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert1.i8": "098c1ab8f81e3d57f52a9928b3981a6ae7066cd452c95f0196b6f46c9da7aa21",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert1.scales.f32": "b6323d6c962f26195e1d682a69413fa1919835684b9cbf269512956e034e85be"
+      },
+      "Frobenius_squared": 4.9187424391901065,
+      "Frobenius_energy_relative_check_error": 4.440892098500626e-16,
+      "stable_rank": 61.361688115758426,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert1.singular.f64",
+      "singular_sha256": "e6f0155b48a638f563284612c0e2949fcd66bcc3addc4248c13e146248b77694",
+      "ranks_for_energy": {
+        "0.9": 324,
+        "0.95": 449,
+        "0.99": 724
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.6720416141073441,
+          "FP_optimal_weight_Frobenius_relative_error": 0.3279583858926559,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.8526893799084748,
+          "FP_optimal_weight_Frobenius_relative_error": 0.14731062009152518,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9650481712875144,
+          "FP_optimal_weight_Frobenius_relative_error": 0.03495182871248559,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 28,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.1329677328467369,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert28.i8": "67080ffc1fde8c434c08a574d3259ef3296fae405a69dd8af753c0b981107c5c",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert28.scales.f32": "0c6f2a5a42aa861e4980b01e08f6b3a2f33f89d8c636c8a42736752b48618588"
+      },
+      "Frobenius_squared": 2.3929969368647344,
+      "Frobenius_energy_relative_check_error": 1.1102230246251565e-15,
+      "stable_rank": 36.89045249369809,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert28.singular.f64",
+      "singular_sha256": "b6e14cab583d20ab84a541c6dc68b3fd3b92516d34135734c2322186e2f40daa",
+      "ranks_for_energy": {
+        "0.9": 211,
+        "0.95": 303,
+        "0.99": 548
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.7942082311324077,
+          "FP_optimal_weight_Frobenius_relative_error": 0.20579176886759232,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9297527453237667,
+          "FP_optimal_weight_Frobenius_relative_error": 0.07024725467623327,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9874824923914147,
+          "FP_optimal_weight_Frobenius_relative_error": 0.012517507608585277,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 38,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.1327535049058497,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert38.i8": "b9341d5308817c71dce41dfc799589eb1354b58632342c7b32a809b1a83e1c6f",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert38.scales.f32": "18074088cf22b7dbcfe76f9aca29a745217bbc21846c0471cf58a6bbd11a65be"
+      },
+      "Frobenius_squared": 7.329385944099394,
+      "Frobenius_energy_relative_check_error": 8.881784197001252e-16,
+      "stable_rank": 18.54938765496866,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert38.singular.f64",
+      "singular_sha256": "e84374f4d4d866c735bbf788166d9949e47a6a12d4db4d283dd4978a4e110c7f",
+      "ranks_for_energy": {
+        "0.9": 188,
+        "0.95": 262,
+        "0.99": 445
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.8177559319654154,
+          "FP_optimal_weight_Frobenius_relative_error": 0.1822440680345846,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9473241037246939,
+          "FP_optimal_weight_Frobenius_relative_error": 0.05267589627530611,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.9943129192459482,
+          "FP_optimal_weight_Frobenius_relative_error": 0.0056870807540517765,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    },
+    {
+      "family": "raw_x_select1408_eq",
+      "expert": 50,
+      "hidden": 2048,
+      "width": 1408,
+      "driver": "gesvd",
+      "seconds": 0.1333189900033176,
+      "arithmetic": "F32 W8 dequant -> CUDA FP64 SVD",
+      "input_payload_sha256": {
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert50.i8": "fa77a9091f0f5118eda09ce2abdad668a29b12b384ff9d0d3ed61f802fdba58e",
+        "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/subset-extra9/raw_x_select1408_eq.expert50.scales.f32": "bc8f6310b1320caf44a89ffd56a9531bd2e66d77fb169eb5b3f54101d3af1a77"
+      },
+      "Frobenius_squared": 2.684436710272027,
+      "Frobenius_energy_relative_check_error": 6.661338147750939e-16,
+      "stable_rank": 44.37653563707233,
+      "singular_values_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/learned-gu-gpu/svd-spectrum/raw_x_select1408_eq.expert50.singular.f64",
+      "singular_sha256": "50efd219be6a4336f0e792dbaa91cd115331a00d40d1c6c27840c92f77b61ffe",
+      "ranks_for_energy": {
+        "0.9": 250,
+        "0.95": 347,
+        "0.99": 589
+      },
+      "ranks": {
+        "128": {
+          "retained_Frobenius_energy": 0.7380468885299364,
+          "FP_optimal_weight_Frobenius_relative_error": 0.2619531114700636,
+          "two_factor_coefficients": 442368,
+          "two_W8_factors_plus_row_scales_bias_bytes": 459264,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "256": {
+          "retained_Frobenius_energy": 0.9044969420106069,
+          "FP_optimal_weight_Frobenius_relative_error": 0.09550305798939307,
+          "two_factor_coefficients": 884736,
+          "two_W8_factors_plus_row_scales_bias_bytes": 902144,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        },
+        "512": {
+          "retained_Frobenius_energy": 0.983490720417647,
+          "FP_optimal_weight_Frobenius_relative_error": 0.016509279582353042,
+          "two_factor_coefficients": 1769472,
+          "two_W8_factors_plus_row_scales_bias_bytes": 1787904,
+          "original_W8_plus_scales_bias_bytes": 2899968,
+          "new_runtime_latent_A8_required": true
+        }
+      }
+    }
+  ],
+  "GPU_peak_memory": {
+    "allocated_bytes": 126444032,
+    "reserved_bytes": 130023424
+  },
+  "seconds": 5.101300319191068,
+  "no_activation_or_target_arrays_opened": true,
+  "runtime_implemented": false,
+  "limits": "No factor W8 or latent-A8 validation. Weight Frobenius energy does not bound expert output error without activation covariance; both families receive identical rank/compression options."
+}

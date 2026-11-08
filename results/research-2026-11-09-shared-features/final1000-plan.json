@@ -1,0 +1,152 @@
+{
+  "stage": "test",
+  "output": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/final1000-quality64-rank256",
+  "binary": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/build/shared-feature-quality-factorized",
+  "steps": 16,
+  "max_tokens": 64,
+  "prompts": 1000,
+  "arms": [
+    {
+      "name": "native",
+      "registry": "-"
+    },
+    {
+      "name": "prototype25_dense_k12",
+      "registry": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.prototype25.k12.tsv"
+    },
+    {
+      "name": "prototype25_rank256_k12",
+      "registry": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/factorized-readouts/formal-export/registry.prototype25.rank256.k12.tsv"
+    },
+    {
+      "name": "raw_x_select1408_eq_rank256_k12",
+      "registry": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/factorized-readouts/formal-export/registry.raw_x_select1408_eq.rank256.k12.tsv"
+    },
+    {
+      "name": "selected_alpha2_mean_k12",
+      "registry": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.selected_alpha2_mean.k12.tsv"
+    }
+  ],
+  "cpu_groups": [
+    [
+      0,
+      1,
+      2,
+      3
+    ],
+    [
+      4,
+      5,
+      6,
+      7
+    ],
+    [
+      8,
+      9,
+      10,
+      11
+    ],
+    [
+      12,
+      13,
+      14,
+      15
+    ],
+    [
+      16,
+      17,
+      18,
+      19
+    ],
+    [
+      20,
+      21,
+      22,
+      23
+    ],
+    [
+      24,
+      25,
+      26,
+      27
+    ],
+    [
+      28,
+      29,
+      30,
+      31
+    ],
+    [
+      32,
+      33,
+      34,
+      35
+    ],
+    [
+      36,
+      37,
+      38,
+      39
+    ],
+    [
+      40,
+      41,
+      42,
+      43
+    ],
+    [
+      44,
+      45,
+      46,
+      47
+    ],
+    [
+      48,
+      49,
+      50,
+      51
+    ],
+    [
+      52,
+      53,
+      54,
+      55
+    ],
+    [
+      56,
+      57,
+      58,
+      59
+    ],
+    [
+      60,
+      61,
+      62,
+      63
+    ]
+  ],
+  "source_files": [
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261109_shared_feature_quality_factorized.cpp",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261109_factorized_readout.hpp",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261109_shared_feature_transform.hpp",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261108_shared_feature_capture.cpp",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261109_quality_analysis.py",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261109_quality_summary.py",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261109_final_quality_summary.py",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261109_freeze_final.py",
+    "/home/ericyu/expert_flash_experiment/scripts/research_20261109_cost_audit.py",
+    "/home/ericyu/expert_flash_experiment/docs/research_2026_11_09_shared_features_protocol.md",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/factorized-readouts/formal/selection.json",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/factorized-readouts/formal-export/handoff.json",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/factorized-readouts/formal-export/new_runtime_cpp_audit.json",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/factorized-runtime-smoke/audit.json",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/factor256_native_VALID_identity.json",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25_quality_VALID200_k12.json",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/factor256_quality_VALID200_k12.json"
+  ],
+  "purpose": "Frozen five-arm experiment-heldout1000 articles; sole primary rank256 shared nonlinear vs native, TF63 + fresh live greedy16. No TEST-dependent tuning.",
+  "shards_per_arm": 16,
+  "threads_per_worker": 4,
+  "primary_arm": "prototype25_rank256_k12",
+  "selection_receipt": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/final-selection.frozen.json"
+}

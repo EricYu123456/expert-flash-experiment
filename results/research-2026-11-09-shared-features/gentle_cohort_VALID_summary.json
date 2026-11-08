@@ -1,0 +1,154 @@
+{
+  "status": "complete_calibration_VALID_only",
+  "betas": [
+    0,
+    0.5,
+    0.9,
+    0.99
+  ],
+  "lambdas": [
+    1,
+    3,
+    10
+  ],
+  "TRAIN_rows": 37845,
+  "VALID_rows": 12597,
+  "context_tokens": 64,
+  "rows": [
+    {
+      "layer": 1,
+      "expert": 4,
+      "prototype": 25,
+      "raw_width": 2048,
+      "prototype_width": 1408,
+      "subset_width": 1408,
+      "raw_beta": 0.99,
+      "prototype_beta": 0.99,
+      "subset_beta": 0.99,
+      "raw_alpha2_NMSE": 0.11795119748956157,
+      "prototype_alpha2_NMSE": 0.10444098690401153,
+      "subset_alpha2_NMSE": 0.12438697868335369,
+      "prototype_to_raw_SSE_ratio": 0.8854593181493926,
+      "prototype_to_subset_SSE_ratio": 0.8396456607397969,
+      "nonBOS_prototype_to_raw_SSE_ratio": 0.8854593181493926,
+      "nonBOS_article_bootstrap_CI95": [
+        0.8638698762193352,
+        0.9083653232822907
+      ],
+      "nonBOS_selected_rows": 666,
+      "nonBOS_articles": 56,
+      "BOS_alpha2_fraction": 0.0
+    },
+    {
+      "layer": 1,
+      "expert": 27,
+      "prototype": 13,
+      "raw_width": 2048,
+      "prototype_width": 1408,
+      "subset_width": 1408,
+      "raw_beta": 0.99,
+      "prototype_beta": 0.99,
+      "subset_beta": 0.99,
+      "raw_alpha2_NMSE": 0.18593901672334853,
+      "prototype_alpha2_NMSE": 0.16357659363555313,
+      "subset_alpha2_NMSE": 0.19518947455958596,
+      "prototype_to_raw_SSE_ratio": 0.8797324871247029,
+      "prototype_to_subset_SSE_ratio": 0.8380400326638398,
+      "nonBOS_prototype_to_raw_SSE_ratio": 0.8797324871247029,
+      "nonBOS_article_bootstrap_CI95": [
+        0.8529656580846403,
+        0.912676353419252
+      ],
+      "nonBOS_selected_rows": 1401,
+      "nonBOS_articles": 56,
+      "BOS_alpha2_fraction": 0.0
+    },
+    {
+      "layer": 1,
+      "expert": 51,
+      "prototype": 25,
+      "raw_width": 2048,
+      "prototype_width": 1408,
+      "subset_width": 1408,
+      "raw_beta": 0.99,
+      "prototype_beta": 0.99,
+      "subset_beta": 0.99,
+      "raw_alpha2_NMSE": 0.24192954148421716,
+      "prototype_alpha2_NMSE": 0.20722968916392714,
+      "subset_alpha2_NMSE": 0.25269169743622655,
+      "prototype_to_raw_SSE_ratio": 0.8565704208448073,
+      "prototype_to_subset_SSE_ratio": 0.8200890304922942,
+      "nonBOS_prototype_to_raw_SSE_ratio": 0.8565704208448073,
+      "nonBOS_article_bootstrap_CI95": [
+        0.8341566890276954,
+        0.8826736999898768
+      ],
+      "nonBOS_selected_rows": 826,
+      "nonBOS_articles": 56,
+      "BOS_alpha2_fraction": 0.0
+    },
+    {
+      "layer": 1,
+      "expert": 60,
+      "prototype": 25,
+      "raw_width": 2048,
+      "prototype_width": 1408,
+      "subset_width": 1408,
+      "raw_beta": 0.99,
+      "prototype_beta": 0.99,
+      "subset_beta": 0.99,
+      "raw_alpha2_NMSE": 0.1498827739548185,
+      "prototype_alpha2_NMSE": 0.1328758674237654,
+      "subset_alpha2_NMSE": 0.15681551327920037,
+      "prototype_to_raw_SSE_ratio": 0.8865319470523026,
+      "prototype_to_subset_SSE_ratio": 0.8473387909472202,
+      "nonBOS_prototype_to_raw_SSE_ratio": 0.8865191274903385,
+      "nonBOS_article_bootstrap_CI95": [
+        0.8608318361165215,
+        0.9101501832342723
+      ],
+      "nonBOS_selected_rows": 964,
+      "nonBOS_articles": 56,
+      "BOS_alpha2_fraction": 0.27180528133776544
+    },
+    {
+      "layer": 26,
+      "expert": 63,
+      "prototype": 6,
+      "raw_width": 2048,
+      "prototype_width": 1408,
+      "subset_width": 1408,
+      "raw_beta": 0.9,
+      "prototype_beta": 0.5,
+      "subset_beta": 0.9,
+      "raw_alpha2_NMSE": 0.008540768434373448,
+      "prototype_alpha2_NMSE": 0.006378378513294603,
+      "subset_alpha2_NMSE": 0.00878565983876746,
+      "prototype_to_raw_SSE_ratio": 0.7468155309800905,
+      "prototype_to_subset_SSE_ratio": 0.7259988014957593,
+      "nonBOS_prototype_to_raw_SSE_ratio": 0.7468155309800907,
+      "nonBOS_article_bootstrap_CI95": [
+        0.6084022977780726,
+        0.9597600389808939
+      ],
+      "nonBOS_selected_rows": 1114,
+      "nonBOS_articles": 55,
+      "BOS_alpha2_fraction": 0.0
+    }
+  ],
+  "limits": "Cohort and prototype assignments selected with calibration VALID; article bootstrap intervals are descriptive after selection. No fresh TEST/model quality claim. Readout width reductions do not include prototype GU resident bytes/MAC or prove system speedup.",
+  "proto25_group3_GU_W8_and_scale_bytes": 5778432,
+  "proto25_group3_C_W8_bytes": 8650752,
+  "same_group3_raw2048_C_W8_bytes": 12582912,
+  "extra_GU_ownership": "If prototype GU was not already resident in both arms, charge it separately; quality/cost comparisons require matched hot-GU cache control.",
+  "registry_sha256": {
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/registry.best_cross_prototype.candidate5.tsv": "717e3de9bd22fadeae3054d275c499ceeb4f80fd8565b17de07b80ea64e05d8c",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/registry.best_cross_prototype.proto25_group3.tsv": "57530b0b005fa762d870d6430ed9989eb216cbf2f4a8e7614e18218aef1600da",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/registry.raw_x_eq.candidate5.tsv": "bd0b73a3ee0c3e275c7dce2606310495b1930ba8ec146f18ed2c0b825a57cae6",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/registry.raw_x_eq.proto25_group3.tsv": "801a3b4c1f4631cd4a1468e1e277259f51d76a9b99849cb9046af1bafd717ec9"
+  },
+  "selection_sha256": {
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/layer1/selection.json": "bcd262017d9e96ccbd634c8a6827a167144c457c81bbb329c034d3e7af53a064",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/formal-gentle/layer26/selection.json": "b38883bf763fec902287ce98f553462eab5d9dab65e98b8aa97dab917125eed6"
+  }
+}

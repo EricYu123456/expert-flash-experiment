@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "client_date": "2026-11-09",
+  "CPU_only": true,
+  "command": "taskset -c 24-31 env OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=8 python3 -m unittest discover -s tests -p 'test_research_20261109_shared_feature_fit*.py' -q",
+  "exit_code": 0,
+  "tests": 6,
+  "tests_source_sha256": {
+    "test_research_20261109_shared_feature_fit.py": "769b7ba27cce147d1592a9b2fb12cf94ddb85b2641abb2499f5f08698445ec6e",
+    "test_research_20261109_shared_feature_fit_proto.py": "2861ba3b5dbd90fbe226a67751f58df36715ef65bc16fe9debbf30b82fbfca44",
+    "test_research_20261109_shared_feature_fit_joint.py": "3e9b2c73c6d7f7cd3b7c745309eb99f029975f07362c0c037bba068412005f49"
+  },
+  "coverage": [
+    "runtime equalization/QDQ and routed-weighted selected objective",
+    "TRAIN-only prompt-disjoint rank/score and prototype-owner self exclusion",
+    "weighted moment mixture versus direct weighted ridge",
+    "prototype source vectors and no extra dense input projection",
+    "true native slot-order fallback aggregation",
+    "joint g=0 guard, eta0 byte identity and unchanged readout width",
+    "joint end-to-end VALID aggregate does not increase over eta0"
+  ],
+  "fresh_TEST_targets_opened": false,
+  "11_08_TEST_opened": false,
+  "formal_full64_completion_claimed_by_this_receipt": false,
+  "additional_raw_subset_contract_tests": {
+    "tests": 2,
+    "status": "PASS",
+    "command": "taskset -c 0 env CUDA_VISIBLE_DEVICES= OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python3 -m unittest discover -s tests -p 'test_research_20261109_shared_feature_fit_raw_subset.py' -v",
+    "scope": "deployed W8 row scales in feature ranking; gather and affine before new vector A8 boundary"
+  }
+}

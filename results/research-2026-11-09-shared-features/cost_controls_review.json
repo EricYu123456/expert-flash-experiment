@@ -1,0 +1,651 @@
+{
+  "status": "review_complete",
+  "reviewed_source_path": "/home/ericyu/expert_flash_experiment/scripts/research_20261109_cost_audit.py",
+  "reviewed_source_sha256": "d55752507b9c76779127c5da17ec7c0c6636c87cc47b905157d672aa3a61fb60",
+  "review_source_sha256": "f76893918f4bf4e275d36392faf29303c4004e1e8d0dbc6921079bf96da99939",
+  "findings": [
+    {
+      "priority": 1,
+      "lines": [
+        44,
+        56,
+        59
+      ],
+      "finding": "Ranking and denominator are restricted to 3 layers. Final single-layer cohorts require all26-layer native cache competitors and all26 routed denominator; shared FFN/attention/LMhead remain excluded from that arithmetic denominator."
+    },
+    {
+      "priority": 1,
+      "lines": [
+        62,
+        64
+      ],
+      "finding": "With all private C resident and identical eligible experts/native GU pool, raw-x and nonlinear readout have exactly the same modeled flash coefficient work. Representation advantage must come from quality/coverage/host cost, not assigning raw C to flash."
+    },
+    {
+      "priority": 1,
+      "lines": [
+        66,
+        72
+      ],
+      "finding": "Hard-coded fullraw2048 is not the actual same-width rawsubset1408 control. Read actual registry payload and transform sizes, and optionally fill remaining equal budget using the frozen native-cache ranking."
+    },
+    {
+      "priority": 1,
+      "lines": [
+        29,
+        62
+      ],
+      "finding": "Assert prototype owners are disjoint from substituted heads. Native-owner overlap can offset extra GU only for identical native weights and an unchanged native owner path; a learned GU with the same owner ID is a distinct basis/cache."
+    },
+    {
+      "priority": 2,
+      "lines": [
+        41,
+        89
+      ],
+      "finding": "Incremental C+GU budget is not a complete host memory budget. Specify common native shared FFN, nonFFN tensors, KV/workspace, page/allocator overhead and whether original fallback stays flash or host; full native residency is a legitimate upper-budget control."
+    },
+    {
+      "priority": 2,
+      "lines": [
+        62,
+        87
+      ],
+      "finding": "Resident C has no flash coefficient reads, but still has host weight/activation traffic, H*r readout MACs, transform/A8 contexts and potentially serial GU\u2192SwiGLU\u2192A8\u2192C latency. Do not infer speedup from coefficient access work."
+    },
+    {
+      "priority": 2,
+      "lines": [
+        56,
+        83
+      ],
+      "finding": "Separate deterministic BOS from nonBOS; freeze rankings before TEST. NLL63/all64/decode exposures need separate causal scopes, and VALID-selected cache hit estimates on VALID are optimistic."
+    },
+    {
+      "priority": 2,
+      "lines": [
+        49,
+        50
+      ],
+      "finding": "Pure GU/full-expert equal-unit prefixes are valid strong policies, not a global optimum over arbitrary mixed GU/D/full-expert caching and page granularity."
+    }
+  ],
+  "calibration_cost_table": [
+    {
+      "cohort": 3,
+      "method_inventory": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.prototype25.k3.tsv",
+        "registry_sha256": "57530b0b005fa762d870d6430ed9989eb216cbf2f4a8e7614e18218aef1600da",
+        "readout_bytes": 8699904,
+        "transform_metadata_bytes": 23936,
+        "native_prototype_GU_bytes": 5778432,
+        "incremental_host_bytes": 14502272
+      },
+      "raw2048_inventory_without_extra_GU": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.raw_x_eq.k3.tsv",
+        "registry_sha256": "801a3b4c1f4631cd4a1468e1e277259f51d76a9b99849cb9046af1bafd717ec9",
+        "readout_bytes": 12632064,
+        "transform_metadata_bytes": 34816,
+        "native_prototype_GU_bytes": 0,
+        "incremental_host_bytes": 12666880
+      },
+      "raw1408_inventory_without_extra_GU": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.raw_x_select1408_eq.k3.tsv",
+        "registry_sha256": "ff11b8bdca0589839ecfe68624fc258e37efbabeeb654e90d7b7f4c2cddf8b31",
+        "readout_bytes": 8699904,
+        "transform_metadata_bytes": 23936,
+        "native_prototype_GU_bytes": 0,
+        "incremental_host_bytes": 8723840
+      },
+      "raw1408_same_GU_inventory_bytes": 14502272,
+      "scopes": {
+        "NLL63": {
+          "method_and_same_eligibility_same_GU_resident_raw": {
+            "baseline_all26_routed_event_coefficient_bytes": 17042160844800,
+            "saved_event_coefficient_bytes": 33626090496,
+            "saved_fraction": 0.0019731119077109394
+          },
+          "same_budget_all26_native_cache": {
+            "GU": {
+              "cached_layer_experts": [
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ]
+              ],
+              "cache_payload_bytes": 11556864,
+              "unspent_budget_bytes": 2945408,
+              "saved_event_coefficient_bytes": 49082001408,
+              "saved_fraction": 0.0028800339261541574
+            },
+            "full_expert": {
+              "cached_layer_experts": [
+                [
+                  10,
+                  19
+                ]
+              ],
+              "cache_payload_bytes": 8670208,
+              "unspent_budget_bytes": 5832064,
+              "saved_event_coefficient_bytes": 39908967424,
+              "saved_fraction": 0.002341778591778592
+            }
+          },
+          "warning": "Optimistic same-VALID selection/evaluation. Native-route counterfactual only; not fresh TEST, candidate AR exposure, flash IO or speed."
+        },
+        "nonBOS_NLL62": {
+          "method_and_same_eligibility_same_GU_resident_raw": {
+            "baseline_all26_routed_event_coefficient_bytes": 16771650355200,
+            "saved_event_coefficient_bytes": 31892048896,
+            "saved_fraction": 0.0019015450608956897
+          },
+          "same_budget_all26_native_cache": {
+            "GU": {
+              "cached_layer_experts": [
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ]
+              ],
+              "cache_payload_bytes": 11556864,
+              "unspent_budget_bytes": 2945408,
+              "saved_event_coefficient_bytes": 49082001408,
+              "saved_fraction": 0.0029264860862534183
+            },
+            "full_expert": {
+              "cached_layer_experts": [
+                [
+                  10,
+                  19
+                ]
+              ],
+              "cache_payload_bytes": 8670208,
+              "unspent_budget_bytes": 5832064,
+              "saved_event_coefficient_bytes": 39908967424,
+              "saved_fraction": 0.0023795492142266337
+            }
+          },
+          "warning": "Optimistic same-VALID selection/evaluation. Native-route counterfactual only; not fresh TEST, candidate AR exposure, flash IO or speed."
+        }
+      }
+    },
+    {
+      "cohort": 6,
+      "method_inventory": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.prototype25.k6.tsv",
+        "registry_sha256": "a8c46f4b700eb85c4ddbbbb1bc342ba8ad1aea1d7ef8f76d78d3fb2e7ae770ef",
+        "readout_bytes": 17399808,
+        "transform_metadata_bytes": 23936,
+        "native_prototype_GU_bytes": 5778432,
+        "incremental_host_bytes": 23202176
+      },
+      "raw2048_inventory_without_extra_GU": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.raw_x_eq.k6.tsv",
+        "registry_sha256": "822f29201efbd819e1c733d665b152ebdd59bb22a614c4f486bf707e0fe564d5",
+        "readout_bytes": 25264128,
+        "transform_metadata_bytes": 34816,
+        "native_prototype_GU_bytes": 0,
+        "incremental_host_bytes": 25298944
+      },
+      "raw1408_inventory_without_extra_GU": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.raw_x_select1408_eq.k6.tsv",
+        "registry_sha256": "6751a6c7f40fc920716f175ce24edafb1980c6670ffb6d49b86b5a43b34eb871",
+        "readout_bytes": 17399808,
+        "transform_metadata_bytes": 23936,
+        "native_prototype_GU_bytes": 0,
+        "incremental_host_bytes": 17423744
+      },
+      "raw1408_same_GU_inventory_bytes": 23202176,
+      "scopes": {
+        "NLL63": {
+          "method_and_same_eligibility_same_GU_resident_raw": {
+            "baseline_all26_routed_event_coefficient_bytes": 17042160844800,
+            "saved_event_coefficient_bytes": 53940387840,
+            "saved_fraction": 0.003165114349713381
+          },
+          "same_budget_all26_native_cache": {
+            "GU": {
+              "cached_layer_experts": [
+                [
+                  1,
+                  8
+                ],
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ],
+                [
+                  21,
+                  61
+                ]
+              ],
+              "cache_payload_bytes": 23113728,
+              "unspent_budget_bytes": 88448,
+              "saved_event_coefficient_bytes": 90883178496,
+              "saved_fraction": 0.005332843606139933
+            },
+            "full_expert": {
+              "cached_layer_experts": [
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ]
+              ],
+              "cache_payload_bytes": 17340416,
+              "unspent_budget_bytes": 5861760,
+              "saved_event_coefficient_bytes": 73644746752,
+              "saved_fraction": 0.004321326821326821
+            }
+          },
+          "warning": "Optimistic same-VALID selection/evaluation. Native-route counterfactual only; not fresh TEST, candidate AR exposure, flash IO or speed."
+        },
+        "nonBOS_NLL62": {
+          "method_and_same_eligibility_same_GU_resident_raw": {
+            "baseline_all26_routed_event_coefficient_bytes": 16771650355200,
+            "saved_event_coefficient_bytes": 52206346240,
+            "saved_fraction": 0.0031127733487368806
+          },
+          "same_budget_all26_native_cache": {
+            "GU": {
+              "cached_layer_experts": [
+                [
+                  1,
+                  8
+                ],
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ],
+                [
+                  21,
+                  61
+                ]
+              ],
+              "cache_payload_bytes": 23113728,
+              "unspent_budget_bytes": 88448,
+              "saved_event_coefficient_bytes": 89727492096,
+              "saved_fraction": 0.005349950076211806
+            },
+            "full_expert": {
+              "cached_layer_experts": [
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ]
+              ],
+              "cache_payload_bytes": 17340416,
+              "unspent_budget_bytes": 5861760,
+              "saved_event_coefficient_bytes": 73644746752,
+              "saved_fraction": 0.004391025641025641
+            }
+          },
+          "warning": "Optimistic same-VALID selection/evaluation. Native-route counterfactual only; not fresh TEST, candidate AR exposure, flash IO or speed."
+        }
+      }
+    },
+    {
+      "cohort": 9,
+      "method_inventory": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.prototype25.k9.tsv",
+        "registry_sha256": "7737b07f4d349336492759661414aeccb388491eb042794a2dca61979837a9ad",
+        "readout_bytes": 26099712,
+        "transform_metadata_bytes": 23936,
+        "native_prototype_GU_bytes": 5778432,
+        "incremental_host_bytes": 31902080
+      },
+      "raw2048_inventory_without_extra_GU": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.raw_x_eq.k9.tsv",
+        "registry_sha256": "5835e0023c8a664f714725230b3033bcb0792ba3d145a5e26d19bb3de84be6f8",
+        "readout_bytes": 37896192,
+        "transform_metadata_bytes": 34816,
+        "native_prototype_GU_bytes": 0,
+        "incremental_host_bytes": 37931008
+      },
+      "raw1408_inventory_without_extra_GU": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.raw_x_select1408_eq.k9.tsv",
+        "registry_sha256": "395fcc19339dcc3c302679baf998a291b42f061657999f1fae7dc45f160efe2e",
+        "readout_bytes": 26099712,
+        "transform_metadata_bytes": 23936,
+        "native_prototype_GU_bytes": 0,
+        "incremental_host_bytes": 26123648
+      },
+      "raw1408_same_GU_inventory_bytes": 31902080,
+      "scopes": {
+        "NLL63": {
+          "method_and_same_eligibility_same_GU_resident_raw": {
+            "baseline_all26_routed_event_coefficient_bytes": 17042160844800,
+            "saved_event_coefficient_bytes": 79049310208,
+            "saved_fraction": 0.004638455823054855
+          },
+          "same_budget_all26_native_cache": {
+            "GU": {
+              "cached_layer_experts": [
+                [
+                  1,
+                  8
+                ],
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ],
+                [
+                  16,
+                  29
+                ],
+                [
+                  21,
+                  61
+                ]
+              ],
+              "cache_payload_bytes": 28892160,
+              "unspent_budget_bytes": 3009920,
+              "saved_event_coefficient_bytes": 110680086528,
+              "saved_fraction": 0.006494486675483487
+            },
+            "full_expert": {
+              "cached_layer_experts": [
+                [
+                  1,
+                  8
+                ],
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ]
+              ],
+              "cache_payload_bytes": 26010624,
+              "unspent_budget_bytes": 5891456,
+              "saved_event_coefficient_bytes": 105082920960,
+              "saved_fraction": 0.006166056166056166
+            }
+          },
+          "warning": "Optimistic same-VALID selection/evaluation. Native-route counterfactual only; not fresh TEST, candidate AR exposure, flash IO or speed."
+        },
+        "nonBOS_NLL62": {
+          "method_and_same_eligibility_same_GU_resident_raw": {
+            "baseline_all26_routed_event_coefficient_bytes": 16771650355200,
+            "saved_event_coefficient_bytes": 77315268608,
+            "saved_fraction": 0.004609878394229023
+          },
+          "same_budget_all26_native_cache": {
+            "GU": {
+              "cached_layer_experts": [
+                [
+                  1,
+                  8
+                ],
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ],
+                [
+                  16,
+                  29
+                ],
+                [
+                  21,
+                  61
+                ]
+              ],
+              "cache_payload_bytes": 28892160,
+              "unspent_budget_bytes": 3009920,
+              "saved_event_coefficient_bytes": 109524400128,
+              "saved_fraction": 0.006530329324093158
+            },
+            "full_expert": {
+              "cached_layer_experts": [
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ],
+                [
+                  21,
+                  61
+                ]
+              ],
+              "cache_payload_bytes": 26010624,
+              "unspent_budget_bytes": 5891456,
+              "saved_event_coefficient_bytes": 104926857216,
+              "saved_fraction": 0.006256203473945409
+            }
+          },
+          "warning": "Optimistic same-VALID selection/evaluation. Native-route counterfactual only; not fresh TEST, candidate AR exposure, flash IO or speed."
+        }
+      }
+    },
+    {
+      "cohort": 12,
+      "method_inventory": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.prototype25.k12.tsv",
+        "registry_sha256": "5e35384fc2cb4645bf5f89fa15339102b6863a43a2492abe2d2218bcadd8182c",
+        "readout_bytes": 34799616,
+        "transform_metadata_bytes": 23936,
+        "native_prototype_GU_bytes": 5778432,
+        "incremental_host_bytes": 40601984
+      },
+      "raw2048_inventory_without_extra_GU": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.raw_x_eq.k12.tsv",
+        "registry_sha256": "a9100e46899fdf7e75922d02713e7211256e0f6963bf285be96cbaafabb223ef",
+        "readout_bytes": 50528256,
+        "transform_metadata_bytes": 34816,
+        "native_prototype_GU_bytes": 0,
+        "incremental_host_bytes": 50563072
+      },
+      "raw1408_inventory_without_extra_GU": {
+        "registry_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/proto25-cohort12/registries/registry.raw_x_select1408_eq.k12.tsv",
+        "registry_sha256": "38e6cb1ff8f66ce2c06d59b2e1a06ed763f89b7ba42c9a4b4b42829f42b9ad1b",
+        "readout_bytes": 34799616,
+        "transform_metadata_bytes": 23936,
+        "native_prototype_GU_bytes": 0,
+        "incremental_host_bytes": 34823552
+      },
+      "raw1408_same_GU_inventory_bytes": 40601984,
+      "scopes": {
+        "NLL63": {
+          "method_and_same_eligibility_same_GU_resident_raw": {
+            "baseline_all26_routed_event_coefficient_bytes": 17042160844800,
+            "saved_event_coefficient_bytes": 105649508352,
+            "saved_fraction": 0.006199302383901415
+          },
+          "same_budget_all26_native_cache": {
+            "GU": {
+              "cached_layer_experts": [
+                [
+                  1,
+                  8
+                ],
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ],
+                [
+                  16,
+                  29
+                ],
+                [
+                  21,
+                  61
+                ],
+                [
+                  24,
+                  26
+                ],
+                [
+                  25,
+                  9
+                ]
+              ],
+              "cache_payload_bytes": 40449024,
+              "unspent_budget_bytes": 152960,
+              "saved_event_coefficient_bytes": 149424473088,
+              "saved_fraction": 0.008767929985450949
+            },
+            "full_expert": {
+              "cached_layer_experts": [
+                [
+                  1,
+                  8
+                ],
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ],
+                [
+                  21,
+                  61
+                ]
+              ],
+              "cache_payload_bytes": 34680832,
+              "unspent_budget_bytes": 5921152,
+              "saved_event_coefficient_bytes": 136365031424,
+              "saved_fraction": 0.008001628001628002
+            }
+          },
+          "warning": "Optimistic same-VALID selection/evaluation. Native-route counterfactual only; not fresh TEST, candidate AR exposure, flash IO or speed."
+        },
+        "nonBOS_NLL62": {
+          "method_and_same_eligibility_same_GU_resident_raw": {
+            "baseline_all26_routed_event_coefficient_bytes": 16771650355200,
+            "saved_event_coefficient_bytes": 103915466752,
+            "saved_fraction": 0.006195899899605367
+          },
+          "same_budget_all26_native_cache": {
+            "GU": {
+              "cached_layer_experts": [
+                [
+                  1,
+                  8
+                ],
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ],
+                [
+                  16,
+                  29
+                ],
+                [
+                  21,
+                  61
+                ],
+                [
+                  24,
+                  26
+                ],
+                [
+                  25,
+                  9
+                ]
+              ],
+              "cache_payload_bytes": 40449024,
+              "unspent_budget_bytes": 152960,
+              "saved_event_coefficient_bytes": 148268786688,
+              "saved_fraction": 0.008840441074543967
+            },
+            "full_expert": {
+              "cached_layer_experts": [
+                [
+                  1,
+                  8
+                ],
+                [
+                  10,
+                  19
+                ],
+                [
+                  14,
+                  63
+                ],
+                [
+                  21,
+                  61
+                ]
+              ],
+              "cache_payload_bytes": 34680832,
+              "unspent_budget_bytes": 5921152,
+              "saved_event_coefficient_bytes": 134630989824,
+              "saved_fraction": 0.008027295285359802
+            }
+          },
+          "warning": "Optimistic same-VALID selection/evaluation. Native-route counterfactual only; not fresh TEST, candidate AR exposure, flash IO or speed."
+        }
+      }
+    }
+  ],
+  "units_bytes": {
+    "GU": 5778432,
+    "D": 2891776,
+    "full_expert": 8670208
+  },
+  "full_model_weight_budget": {
+    "metadata_sha256": "76bc65fa3f07436199f1f6b2688f01a0c7ccdb97a29b6c7d67c2eba11327e27c",
+    "modeled_native_all_weight_bytes": 15803794016,
+    "modeled_native_all_weight_GiB": 14.718430131673813,
+    "source_GGUF_file_bytes": 16702520416,
+    "native_shared_GU_all26_bytes": 300478464,
+    "all26_routed_native_W8_scales_bank_bytes": 14427226112,
+    "note": "If available host budget can hold all native model weights plus KV/workspace, native all-resident is exact and has zero routed flash coefficient work. The harness retains source GGUF plus verification caches; this inventory is not measured process RSS."
+  },
+  "compute_formulas": {
+    "native_routed_MAC_per_event": 8650752,
+    "native_prototype_GU_MAC_per_required_row": 5767168,
+    "C_MAC_per_replaced_event": "2048 * input_width",
+    "extra_prototype_rows": "Per token/layer deduplicate required native owners; only required owners not naturally selected count as extra beyond native work.",
+    "optimized_MAC_after": "native_MAC - replaced_events*3HI + sum(H*readout_width) + extra_native_proto_rows*2HI; not the functional harness wall time.",
+    "width1408_single_replacement_no_owner_hit": "Extra GU 2HI + C HI = original expert 3HI; compute savings require same-row multihead reuse or native-owner overlap.",
+    "A8_contexts": "Count unique (layer,basis_id) actually used on each token; distinct transformations are distinct contexts even when prototype phi is shared."
+  },
+  "no_TEST_or_system_benchmark": true
+}

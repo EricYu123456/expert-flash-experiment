@@ -1,0 +1,153 @@
+{
+  "status": "passed",
+  "purpose": "Choose CPU experimental worker/thread scheduling; no model compression or AiF speedup inference.",
+  "binary_sha256": "918cad60ad955d7d3a5b42997ea63b4fe4b2ebb061f0e0e24d54bf4d286916de",
+  "jobs_sha256": "4c66ff6433e2466957ca27aa85a475b1df882f08fbd32df70b5f50da07fecc6f",
+  "input_tokens_max": 64,
+  "AR_steps_max": 16,
+  "cases": {
+    "4": {
+      "cpu_group": "40-43",
+      "wall_seconds_including_model_load": 41.99600756028667,
+      "maxRSS_KiB": 46098136,
+      "warm_process_status_KiB": {
+        "VmHWM": 44435764,
+        "VmRSS": 44376656,
+        "RssAnon": 13634144,
+        "RssFile": 30742512,
+        "RssShmem": 0
+      },
+      "prompts": {
+        "wikitext2_train_0000": {
+          "seconds": 29.134477576,
+          "sum_nll_F64": 162.2323680851314,
+          "mean_nll_F64": 2.5751169537322447,
+          "actual_generated_length": 16,
+          "stopped_eog": false,
+          "generated_token_ids": [
+            14590,
+            1021,
+            429,
+            14590,
+            11372,
+            438,
+            53183,
+            655,
+            82,
+            1022,
+            3144,
+            19766,
+            280,
+            27003,
+            1962,
+            207
+          ]
+        },
+        "wikitext2_train_0001": {
+          "seconds": 7.723556762,
+          "sum_nll_F64": 196.77037438919422,
+          "mean_nll_F64": 3.123339276018956,
+          "actual_generated_length": 16,
+          "stopped_eog": false,
+          "generated_token_ids": [
+            285,
+            7083,
+            279,
+            4910,
+            2051,
+            285,
+            438,
+            21807,
+            430,
+            254,
+            14049,
+            280,
+            254,
+            24306,
+            91780,
+            1245
+          ]
+        }
+      }
+    },
+    "8": {
+      "cpu_group": "40-47",
+      "wall_seconds_including_model_load": 28.77006721822545,
+      "maxRSS_KiB": 46095124,
+      "warm_process_status_KiB": {
+        "VmHWM": 44481084,
+        "VmRSS": 44481084,
+        "RssAnon": 13709132,
+        "RssFile": 30771952,
+        "RssShmem": 0
+      },
+      "prompts": {
+        "wikitext2_train_0000": {
+          "seconds": 18.466627463,
+          "sum_nll_F64": 162.2323680851314,
+          "mean_nll_F64": 2.5751169537322447,
+          "actual_generated_length": 16,
+          "stopped_eog": false,
+          "generated_token_ids": [
+            14590,
+            1021,
+            429,
+            14590,
+            11372,
+            438,
+            53183,
+            655,
+            82,
+            1022,
+            3144,
+            19766,
+            280,
+            27003,
+            1962,
+            207
+          ]
+        },
+        "wikitext2_train_0001": {
+          "seconds": 4.466386701,
+          "sum_nll_F64": 196.77037438919422,
+          "mean_nll_F64": 3.123339276018956,
+          "actual_generated_length": 16,
+          "stopped_eog": false,
+          "generated_token_ids": [
+            285,
+            7083,
+            279,
+            4910,
+            2051,
+            285,
+            438,
+            21807,
+            430,
+            254,
+            14049,
+            280,
+            254,
+            24306,
+            91780,
+            1245
+          ]
+        }
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "prompt_id": "wikitext2_train_0000",
+      "NLL_top1_token_records_identical": true,
+      "input_and_generated_tokens_identical": true,
+      "all_exactly_equal": true
+    },
+    {
+      "prompt_id": "wikitext2_train_0001",
+      "NLL_top1_token_records_identical": true,
+      "input_and_generated_tokens_identical": true,
+      "all_exactly_equal": true
+    }
+  ],
+  "memory_interpretation": "MaxRSS includes GGUF file mappings, including possible duplicate mappings inside one worker, and cannot be multiplied by worker count to estimate physical RAM. Warm RssAnon is a useful private-weight/workspace proxy; count source GGUF shared file residency once and add each arm private C/transform payload separately. Two prompts are a small scheduling pilot."
+}

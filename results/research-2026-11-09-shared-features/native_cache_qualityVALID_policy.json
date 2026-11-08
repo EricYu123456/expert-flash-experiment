@@ -1,0 +1,218 @@
+{
+  "status": "frozen_before_TEST",
+  "selection_source": "Native 200-article fresh quality-VALID64; NOT TRAIN.",
+  "selection_source_folder": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/quality_valid_native",
+  "source_corpus_manifest_sha256": "0af3c84e99ab5101bb311cd63b5f0bfe957019751dbbd0f469e8d9ae33562215",
+  "source_code_sha256": "3968cad7184e4775bc2e523514c21a565ecfaf021c315b6d1dcad4635fda9811",
+  "prompts": 200,
+  "articles": 200,
+  "layers": 26,
+  "experts_per_layer": 64,
+  "primary_scope": "NLL causal prefill positions0..62; 63 positions per prompt, including BOS.",
+  "auxiliary_scope": "All64 prefill positions; last prefix is not NLL-causal in AR0 runs.",
+  "primary_event_count": 1965600,
+  "auxiliary_event_count": 1996800,
+  "primary_policy_rule": "Sort NLL63 event count descending, layer/expert ID ascending ties. For arbitrary incremental B choose the first min(1664,floor(B/unit_bytes)) entries; no TEST-driven reordering or scope choice.",
+  "units_bytes": {
+    "GU_W8_plus_row_scales": 5778432,
+    "D_W8_plus_row_scales": 2891776,
+    "full_expert_W8_plus_row_scales": 8670208
+  },
+  "calibration_caveat": "Ranking and apparent hit/byte savings on this same quality-VALID are optimistic. Compare frozen policies only on >=1000 fresh TEST prompts for the primary result.",
+  "scope_limits": [
+    "No router alpha exists for all26 layers in these route logs, so ranking is event-frequency, not alpha-weighted.",
+    "GU-only and full-expert prefixes are legal uniform-size static policies, not a claim of globally optimal mixed-granularity cache allocation.",
+    "Per-event uncached coefficient-byte work is not physical flash traffic, latency, TPOT or a speedup."
+  ],
+  "TEST_opened": false,
+  "policy_path": "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/native-cache-policy-qualityVALID64-v1/policy.frozen.json",
+  "policy_sha256": "1eccb1c0f8992f5d34436a71db4317d2878d5fe8b3e87a36fc21cd33b1f35b88",
+  "primary_top20": [
+    {
+      "rank": 1,
+      "layer": 10,
+      "expert": 19,
+      "event_count": 4603,
+      "prompt_article_incidence": 194,
+      "other_prefill_scope_event_count": 4668,
+      "cumulative_event_count": 4603
+    },
+    {
+      "rank": 2,
+      "layer": 14,
+      "expert": 63,
+      "event_count": 3891,
+      "prompt_article_incidence": 199,
+      "other_prefill_scope_event_count": 3947,
+      "cumulative_event_count": 8494
+    },
+    {
+      "rank": 3,
+      "layer": 1,
+      "expert": 8,
+      "event_count": 3626,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3656,
+      "cumulative_event_count": 12120
+    },
+    {
+      "rank": 4,
+      "layer": 21,
+      "expert": 61,
+      "event_count": 3608,
+      "prompt_article_incidence": 199,
+      "other_prefill_scope_event_count": 3657,
+      "cumulative_event_count": 15728
+    },
+    {
+      "rank": 5,
+      "layer": 16,
+      "expert": 29,
+      "event_count": 3426,
+      "prompt_article_incidence": 197,
+      "other_prefill_scope_event_count": 3480,
+      "cumulative_event_count": 19154
+    },
+    {
+      "rank": 6,
+      "layer": 25,
+      "expert": 9,
+      "event_count": 3381,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3458,
+      "cumulative_event_count": 22535
+    },
+    {
+      "rank": 7,
+      "layer": 24,
+      "expert": 26,
+      "event_count": 3324,
+      "prompt_article_incidence": 162,
+      "other_prefill_scope_event_count": 3379,
+      "cumulative_event_count": 25859
+    },
+    {
+      "rank": 8,
+      "layer": 13,
+      "expert": 18,
+      "event_count": 3320,
+      "prompt_article_incidence": 191,
+      "other_prefill_scope_event_count": 3370,
+      "cumulative_event_count": 29179
+    },
+    {
+      "rank": 9,
+      "layer": 12,
+      "expert": 13,
+      "event_count": 3317,
+      "prompt_article_incidence": 199,
+      "other_prefill_scope_event_count": 3373,
+      "cumulative_event_count": 32496
+    },
+    {
+      "rank": 10,
+      "layer": 13,
+      "expert": 5,
+      "event_count": 3284,
+      "prompt_article_incidence": 197,
+      "other_prefill_scope_event_count": 3323,
+      "cumulative_event_count": 35780
+    },
+    {
+      "rank": 11,
+      "layer": 13,
+      "expert": 28,
+      "event_count": 3251,
+      "prompt_article_incidence": 178,
+      "other_prefill_scope_event_count": 3308,
+      "cumulative_event_count": 39031
+    },
+    {
+      "rank": 12,
+      "layer": 6,
+      "expert": 37,
+      "event_count": 3199,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3243,
+      "cumulative_event_count": 42230
+    },
+    {
+      "rank": 13,
+      "layer": 10,
+      "expert": 33,
+      "event_count": 3186,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3207,
+      "cumulative_event_count": 45416
+    },
+    {
+      "rank": 14,
+      "layer": 18,
+      "expert": 23,
+      "event_count": 3135,
+      "prompt_article_incidence": 197,
+      "other_prefill_scope_event_count": 3187,
+      "cumulative_event_count": 48551
+    },
+    {
+      "rank": 15,
+      "layer": 11,
+      "expert": 40,
+      "event_count": 3115,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3148,
+      "cumulative_event_count": 51666
+    },
+    {
+      "rank": 16,
+      "layer": 22,
+      "expert": 57,
+      "event_count": 3108,
+      "prompt_article_incidence": 198,
+      "other_prefill_scope_event_count": 3147,
+      "cumulative_event_count": 54774
+    },
+    {
+      "rank": 17,
+      "layer": 8,
+      "expert": 39,
+      "event_count": 2984,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 3018,
+      "cumulative_event_count": 57758
+    },
+    {
+      "rank": 18,
+      "layer": 8,
+      "expert": 33,
+      "event_count": 2936,
+      "prompt_article_incidence": 200,
+      "other_prefill_scope_event_count": 2952,
+      "cumulative_event_count": 60694
+    },
+    {
+      "rank": 19,
+      "layer": 12,
+      "expert": 19,
+      "event_count": 2875,
+      "prompt_article_incidence": 180,
+      "other_prefill_scope_event_count": 2926,
+      "cumulative_event_count": 63569
+    },
+    {
+      "rank": 20,
+      "layer": 24,
+      "expert": 60,
+      "event_count": 2839,
+      "prompt_article_incidence": 198,
+      "other_prefill_scope_event_count": 2888,
+      "cumulative_event_count": 66408
+    }
+  ],
+  "source_route_files": 200,
+  "route_records_with_source_and_line_SHA": 332800,
+  "ranking_tsv_paths": [
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/native-cache-policy-qualityVALID64-v1/ranking_nll63.tsv",
+    "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-09-shared-features/native-cache-policy-qualityVALID64-v1/ranking_prefill64.tsv"
+  ]
+}
