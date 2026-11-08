@@ -1,5 +1,7 @@
 # MoE FFN 的 AiF chip 分組與放置實驗
 
+**2026-11-08 新實驗：**依 `docs/1108_spec.txt` 完成 DeepSeek native shared pre-Down features 的 CPU 驗證，使用 600 TRAIN／200 VALID／1000 TEST prompts，並對同一 1000 題實際執行原生、shared-feature 與 raw-x 三組生成。三層六 experts 的 shared 替換通過短上下文 2% subset-PPL 門檻（+0.541%，article-cluster 95% CI −0.072%～+1.194%），但局部六點均弱於較小的 raw-x readout，尚未支持 shared nonlinear basis 的部署優勢。完整結果、範圍與重現紀錄見 [本輪報告](results/research-2026-11-08-shared-features/report.zh.md)及 [協定](docs/research_2026_11_08_shared_features_protocol.md)。大型產物均留在 NFS。
+
 目前研究主線是 **不依賴 CR-read、適用有／無 shared expert 的 MoE in-flash 方法**。進度與判定見 [研究紀錄](docs/research_2026_11_03_campaign.md)、[專案理解](docs/research_2026_11_03_project_understanding.md)及 [即時狀態](results/research-2026-11-03-no-cr/state.json)。截至 2026-11-03，第二輪最早層全64-expert固定配置已完成品質驗證：OLMoE相對subset-PPL退化95%區間為10.62%–21.25%，超過2%預定門檻，判此配置有界失敗；DeepSeek保留未定。已依使用者於 2026-11-03 的要求停止研究並保存最後快照。累計兩次實驗失敗、剩八次機會；第三輪候選尚未進入實驗，十輪尚未完成。尚未證實完整模型延遲收益或投稿價值。下方保留較早的配置與 CR-read 實驗背景。
 
 GitHub 保存程式、協定、審查紀錄及適合版控的結果。大型原始張量、模型、資料快取和重複產物保留在研究機器；範圍與檔案清單見 [版本保存說明](docs/github_snapshot.md)。

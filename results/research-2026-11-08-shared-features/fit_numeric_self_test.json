@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "CPU_only": true,
+  "near_half_ties_away": true,
+  "full_2816_exact_integer_dots": true,
+  "zero_scale_contract": true,
+  "numeric_contract": "row-W8 and whole-vector A8: F32 amax/127, zero scale=1; F32 quotient then round ties away from zero to [-127,127]; exact integer dot; F32(dot) * F32(weight_scale * input_scale); separate F32 bias addition. FP diagnostic: stored F32 coefficient, FP64 dot, cast F32 then F32 bias; not the C++ FMA reduction contract.",
+  "canonical_Cpp_quantize_rescale_bitwise_match": true,
+  "canonical_library_sha256": "aa698796d29a1b9b49d30d5f78a1437277688ff17368f8379da1cb2d5b3c3788",
+  "synthetic_shared_teacher_test": {
+    "rows": 400,
+    "nmse": 2.129902108638535e-15,
+    "mean_cosine": 0.9999999999999991,
+    "row_nmse_median": 1.826678814047182e-15,
+    "row_nmse_p95": 6.513164523606095e-15,
+    "target_energy": 3941773.0143210143,
+    "squared_error": 8.395590654976802e-09
+  },
+  "synthetic_independent_basis_negative_control": {
+    "rows": 400,
+    "nmse": 0.9275576462033093,
+    "mean_cosine": 0.29271423613931974,
+    "row_nmse_median": 0.9090283490318553,
+    "row_nmse_p95": 2.9730592167710146,
+    "target_energy": 3941773.0143210143,
+    "squared_error": 3656221.699031323
+  }
+}

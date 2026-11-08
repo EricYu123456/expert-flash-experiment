@@ -1,0 +1,269 @@
+{
+  "status": "complete",
+  "scope": "Fixed six-expert shared_z pilot; coefficient/capacity and native-routing exposure only.",
+  "metadata_sha256": "76bc65fa3f07436199f1f6b2688f01a0c7ccdb97a29b6c7d67c2eba11327e27c",
+  "source_sha256": "f20bf5b2ab6db5cdad8b723532644f693b92eae88eae2a7868dcb1d9a0c22436",
+  "static_cost": {
+    "precision": "One byte per canonical W8 coefficient; F32 complete-row scales and F32 readout biases. Non-FFN tensors retain source GGUF bytes. No AiF page padding or ECC is assumed.",
+    "per_expert": {
+      "native_GU_coefficients": 5767168,
+      "native_D_coefficients": 2883584,
+      "native_total_coefficients": 8650752,
+      "C_coefficients": 5767168,
+      "net_coefficient_saving": 2883584,
+      "coefficient_saving_fraction": 0.3333333333333333,
+      "native_W8_scale_bytes": 19456,
+      "C_W8_scale_bytes": 8192,
+      "C_F32_bias_bytes": 8192
+    },
+    "fixed_six_pilot": {
+      "eligible": {
+        "1": [
+          14,
+          40
+        ],
+        "13": [
+          10,
+          56
+        ],
+        "26": [
+          0,
+          1
+        ]
+      },
+      "original_coefficients": 51904512,
+      "replacement_coefficients": 34603008,
+      "net_coefficient_saving": 17301504,
+      "coefficient_saving_fraction_within_each_measured_layer_routed_bank": 0.010416666666666666,
+      "coefficient_saving_fraction_across_all_26_routed_banks": 0.001201923076923077,
+      "original_six_with_scales": {
+        "bytes": 52021248,
+        "MiB": 49.611328125
+      },
+      "all_six_C_with_scales_and_bias": {
+        "bytes": 34701312,
+        "MiB": 33.09375
+      },
+      "net_capacity_saving_if_original_six_removed": {
+        "bytes": 17319936,
+        "MiB": 16.517578125
+      },
+      "additional_capacity_if_all_original_fallbacks_retained": {
+        "bytes": 34701312,
+        "MiB": 33.09375
+      },
+      "fallback_retained_total_expert_capacity": {
+        "bytes": 86722560,
+        "MiB": 82.705078125
+      }
+    },
+    "host_residency": {
+      "native_shared_GU_for_three_target_layers": {
+        "bytes": 34670592,
+        "MiB": 33.064453125
+      },
+      "native_shared_D_for_three_target_layers_if_host_resident": {
+        "bytes": 17326080,
+        "MiB": 16.5234375
+      },
+      "incremental_host_bytes_to_keep_all_six_C_instead_of_flash": {
+        "bytes": 34701312,
+        "MiB": 33.09375
+      },
+      "host_shared_GU_plus_all_six_C": {
+        "bytes": 69371904,
+        "MiB": 66.158203125
+      },
+      "host_shared_GU_D_plus_all_six_C": {
+        "bytes": 86697984,
+        "MiB": 82.681640625
+      },
+      "interpretation": "Shared GU/D already belong to the checkpoint; residency moves these weights rather than creating them. If the host budget can hold shared GU plus all six C matrices, the strongest same-representation control keeps C on host and pays no C flash reads. All C are not free under a budget that only fits shared GU. Biases/scales are included; KV, activations, workspace and allocator overhead need additional host capacity."
+    },
+    "full_model_weight_accounting": {
+      "conversion_materialized_in_loaded_GGUF": false,
+      "actual_source_GGUF_file_bytes_retained_by_functional_harness": 16702520416,
+      "functional_harness_note": "The current quality harness loads the complete original GGUF, builds native W8 caches, and adds readouts. Reported removal savings describe a possible tensor conversion after quality eligibility is accepted, not measured process RSS or a smaller GGUF already created.",
+      "canonical_FFN_coefficients": 14911930368,
+      "canonical_FFN_row_scale_bytes": 33269248,
+      "all_26_routed_banks_coefficients": 14394851328,
+      "all_26_routed_banks_row_scale_bytes": 32374784,
+      "non_FFN_source_GGUF_tensor_bytes": 854595584,
+      "retained_GGUF_header_and_padding_bytes": 3998816,
+      "baseline_modeled_weight_bytes": {
+        "bytes": 15803794016,
+        "MiB": 15071.672454833984
+      },
+      "pilot_replacement_originals_removed_modeled_weight_bytes": {
+        "bytes": 15786474080,
+        "MiB": 15055.154876708984
+      },
+      "pilot_original_fallbacks_retained_modeled_weight_bytes": {
+        "bytes": 15838495328,
+        "MiB": 15104.766204833984
+      },
+      "pilot_fraction_of_modeled_weight_bytes_saved_if_originals_removed": 0.0010959353167008527,
+      "exclusions": [
+        "KV cache",
+        "activations and workspace",
+        "physical flash page/alignment/ECC overhead",
+        "runtime metadata beyond row scales and biases"
+      ]
+    },
+    "hypothetical_all64_all26_NOT_VALIDATED": {
+      "replaced_experts": 1664,
+      "coefficient_saving_fraction_in_routed_banks": 0.3333333333333333,
+      "net_coefficient_saving": 4798283776,
+      "all_26_native_shared_GU_residency": {
+        "bytes": 300478464,
+        "MiB": 286.55859375
+      },
+      "all_1664_C_with_scales_and_bias_residency": {
+        "bytes": 9623830528,
+        "MiB": 9178.0
+      },
+      "shared_GU_plus_all_1664_C_residency": {
+        "bytes": 9924308992,
+        "MiB": 9464.55859375
+      },
+      "quality_evidence": false,
+      "interpretation": "Arithmetic extrapolation only. The pilot measures six fixed experts across three layers, so it cannot support this all-expert/all-layer conversion."
+    }
+  },
+  "system_speedup_claim": false,
+  "native_TEST_exposure": {
+    "status": "complete",
+    "prompts": 1000,
+    "positions_per_prompt": 16,
+    "retained_positions_include_BOS": true,
+    "total_model_token_positions": 16000,
+    "source": "Native W8 capture routing, teacher-forced first 16 tokens. This is a workload diagnostic, not post-replacement routing or timing.",
+    "layers": {
+      "1": {
+        "rows": 16000,
+        "experts": {
+          "14": {
+            "selected_expert_token_events": 1146,
+            "fraction_of_token_positions_selected": 0.071625,
+            "sum_native_router_alpha": 60.594816248863935,
+            "native_alpha_mass_fraction_within_layer": 0.009674294359967164
+          },
+          "40": {
+            "selected_expert_token_events": 1796,
+            "fraction_of_token_positions_selected": 0.11225,
+            "sum_native_router_alpha": 92.2430979795754,
+            "native_alpha_mass_fraction_within_layer": 0.01472711591144458
+          }
+        },
+        "eligible_expert_token_events": 2942,
+        "fraction_of_top6_execution_slots": 0.030645833333333334,
+        "fraction_of_tokens_with_any_eligible_expert": 0.17475,
+        "mean_eligible_slots_per_token": 0.183875,
+        "eligible_router_alpha_mass": 152.83791422843933,
+        "all_top6_router_alpha_mass": 6263.486926716752,
+        "weighted_eligible_alpha_fraction": 0.024401410271411742,
+        "coefficient_read_saving_fraction_for_this_layer_routed_FFN": 0.010215277777777778
+      },
+      "13": {
+        "rows": 16000,
+        "experts": {
+          "10": {
+            "selected_expert_token_events": 3521,
+            "fraction_of_token_positions_selected": 0.2200625,
+            "sum_native_router_alpha": 333.0293059628457,
+            "native_alpha_mass_fraction_within_layer": 0.05037603877506357
+          },
+          "56": {
+            "selected_expert_token_events": 577,
+            "fraction_of_token_positions_selected": 0.0360625,
+            "sum_native_router_alpha": 26.25395500473678,
+            "native_alpha_mass_fraction_within_layer": 0.003971332947692436
+          }
+        },
+        "eligible_expert_token_events": 4098,
+        "fraction_of_top6_execution_slots": 0.0426875,
+        "fraction_of_tokens_with_any_eligible_expert": 0.25525,
+        "mean_eligible_slots_per_token": 0.256125,
+        "eligible_router_alpha_mass": 359.28326096758246,
+        "all_top6_router_alpha_mass": 6610.8672706456855,
+        "weighted_eligible_alpha_fraction": 0.054347371722756,
+        "coefficient_read_saving_fraction_for_this_layer_routed_FFN": 0.014229166666666666
+      },
+      "26": {
+        "rows": 16000,
+        "experts": {
+          "0": {
+            "selected_expert_token_events": 705,
+            "fraction_of_token_positions_selected": 0.0440625,
+            "sum_native_router_alpha": 31.478727569803596,
+            "native_alpha_mass_fraction_within_layer": 0.004050569185649255
+          },
+          "1": {
+            "selected_expert_token_events": 1881,
+            "fraction_of_token_positions_selected": 0.1175625,
+            "sum_native_router_alpha": 220.94061936996877,
+            "native_alpha_mass_fraction_within_layer": 0.028429842429105533
+          }
+        },
+        "eligible_expert_token_events": 2586,
+        "fraction_of_top6_execution_slots": 0.0269375,
+        "fraction_of_tokens_with_any_eligible_expert": 0.161625,
+        "mean_eligible_slots_per_token": 0.161625,
+        "eligible_router_alpha_mass": 252.41934693977237,
+        "all_top6_router_alpha_mass": 7771.433131257072,
+        "weighted_eligible_alpha_fraction": 0.03248041161475479,
+        "coefficient_read_saving_fraction_for_this_layer_routed_FFN": 0.008979166666666667
+      }
+    },
+    "eligible_expert_token_events_three_layers": 9626,
+    "execution_slot_exposure_across_three_captured_layers": 0.03342361111111111,
+    "weighted_native_alpha_exposure_across_three_captured_layers": 0.03703130861354831,
+    "execution_slot_exposure_across_all_26_MoE_layers": 0.0038565705128205128,
+    "all_26_MoE_routed_FFN_coefficient_read_saving_fraction": 0.0012855235042735043,
+    "all_26_MoE_weighted_alpha_exposure": null,
+    "uncaptured_alpha_limitation": "Only three layers store router alpha. The full-model execution-slot denominator is known (26 x 6 per token), but full-model alpha-weighted exposure is unavailable and is not extrapolated.",
+    "timing_limitation": "Coefficient work counts assume selected native FFNs read once without caching and omit shared work, host GU, dependencies, row scales/biases, transfer, control and overlap. They are not speedups.",
+    "input_sha256": {
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard0/capture_manifest.json": "39e0c692bf5fd8797a52dde46359e21017d87ad27da37bf05de44a5cedd3b947",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard0/layer1/selected_experts.i32": "7a865b5a2572455910b41e8d9443a974cd9b83ffa186ee41976da99c7f4c4488",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard0/layer1/routing_weights.f32": "cc51886ba00480e0dced795edee9b583cf4d3a10857222546ca383ddab1757e4",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard0/layer1/rows.jsonl": "9008d7ed29dfeb92b7c61870e4a11f4c095949fefdd330570b8da1fab230b28b",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard0/layer13/selected_experts.i32": "3780235a2f7c301087b8f678e9a888ca47041f5b088383764a0759fbbfa46103",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard0/layer13/routing_weights.f32": "dcbf8527ff9ffa7553388173141339bd7d92cd9532b9f59ce7fd07acef41b8df",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard0/layer13/rows.jsonl": "9008d7ed29dfeb92b7c61870e4a11f4c095949fefdd330570b8da1fab230b28b",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard0/layer26/selected_experts.i32": "58e36eaa05b97eb1a2de2b4fc20db3b02452c8cb09429a8074c9291fddc79a58",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard0/layer26/routing_weights.f32": "03b632129fbe93d30e73ea57d2766ad29a49f52b84cc55979001ee1518ad117e",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard0/layer26/rows.jsonl": "9008d7ed29dfeb92b7c61870e4a11f4c095949fefdd330570b8da1fab230b28b",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard1/capture_manifest.json": "cbefd0b6f43b92729789594b7d41bff749423226f7f1b16ae89834a9a18c21b7",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard1/layer1/selected_experts.i32": "f9a1d8d95998b4b09f3a344ef487a88319f47581e1aae3971a5451389cb832aa",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard1/layer1/routing_weights.f32": "91182fe355e2a6906a4c740eb9333bb3e5758aeebb29790532265a870abc9203",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard1/layer1/rows.jsonl": "0d17f7043db95a1370ae1e885993e5e1354a070b752e4b7cddc32743eaf59136",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard1/layer13/selected_experts.i32": "a840cacd095912e927da28bbe6dcdc0a5daa861c0061c44db76b3f4f431da2e8",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard1/layer13/routing_weights.f32": "3e1e837c5b9d88207a4bc9eab5fec26e9fb860941542513e5c0e279d2f360fe5",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard1/layer13/rows.jsonl": "0d17f7043db95a1370ae1e885993e5e1354a070b752e4b7cddc32743eaf59136",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard1/layer26/selected_experts.i32": "751b166e230c1b9da3ef08130e0b01cb73c2fd64057b2752b061ee308bba8964",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard1/layer26/routing_weights.f32": "271efe99da41b1bf8f88eae47dd2d2c68f7e8c3f456fdfb9b652bdf2ba439eff",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard1/layer26/rows.jsonl": "0d17f7043db95a1370ae1e885993e5e1354a070b752e4b7cddc32743eaf59136",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard2/capture_manifest.json": "7162b5fac0c5827f2573361fa7a9fc85524884a667700e3fd6a811b91975240f",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard2/layer1/selected_experts.i32": "91f4b325557b598a83c4f66ad81b2c09694f2ba158b7aff7a3e31a2ecfd91380",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard2/layer1/routing_weights.f32": "61d4dead32fe9a81660800b28aab067273cbe46d0c05d444fcfd06e2857af0e7",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard2/layer1/rows.jsonl": "d7125fe159f5e5c07986f64cb1d7011b82fc89e2018a01af7f0712e4d69c68c5",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard2/layer13/selected_experts.i32": "7ffa52aa918ecd0c6000b932c061b9165f8ef1714583e91f08f5232f545f7ab6",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard2/layer13/routing_weights.f32": "64763a8d9703d2635b462dca63f553aa89d0441a150a8f028d2f99e36e6f7e35",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard2/layer13/rows.jsonl": "d7125fe159f5e5c07986f64cb1d7011b82fc89e2018a01af7f0712e4d69c68c5",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard2/layer26/selected_experts.i32": "504abcb03e7c3066c5f4906ecb8085bce95ff8af7633ab3716665d2e1dc15b08",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard2/layer26/routing_weights.f32": "a72c4282b8a21d428bc84974673eccdfc37b930ae3757ece5e94fe7a11718f6e",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard2/layer26/rows.jsonl": "d7125fe159f5e5c07986f64cb1d7011b82fc89e2018a01af7f0712e4d69c68c5",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard3/capture_manifest.json": "77e1d98cce3d6fee0d5c4f4cb3ca32c40614ad0139ca86dc8094ac864c3b6cce",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard3/layer1/selected_experts.i32": "100de61f4bdcd2bec4fe8bb4c2f826502ef56e2e830e566689dbabbbe0b7649c",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard3/layer1/routing_weights.f32": "69508f93f1d9a004d6a0939a8b61d8cdece0d07551ccdc4327aa916b9e788081",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard3/layer1/rows.jsonl": "eb2c8fce7ccc61be2234207116e89be101e2e1bb03aa7eb4f00500ad113d590e",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard3/layer13/selected_experts.i32": "44efc05e53297aec563ea3c41cb7d9efdf5fa601689a89f5983e81dd7825e5b2",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard3/layer13/routing_weights.f32": "65966b2713171799130e1ce8061a22b68d89a96dbf577778abb0c77bfb4ba5d8",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard3/layer13/rows.jsonl": "eb2c8fce7ccc61be2234207116e89be101e2e1bb03aa7eb4f00500ad113d590e",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard3/layer26/selected_experts.i32": "9440e1b4bf49a4e14b3423f9b7f9e13a5bf9e2953fb3276c2189b1a42c4e9f2b",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard3/layer26/routing_weights.f32": "cd60a998012492f5f85febe3bb280b99d8093257999d761872441206fe7b6595",
+      "/home/nfs_client/ericyu/expert_flash_experiment/research-2026-11-08-shared-features/captures/test/shard3/layer26/rows.jsonl": "eb2c8fce7ccc61be2234207116e89be101e2e1bb03aa7eb4f00500ad113d590e"
+    }
+  }
+}

@@ -1,0 +1,421 @@
+**你的質疑成立。我會撤掉「為了讓 cr-read 連續，所以必須把 expert 限制在 chip group」這個核心動機，不再用它支撐論文。**
+
+這次重新檢查專案、重播現有 routing，並做了數值與成本檢查後，我的建議是：
+
+> **把研究從「完整 expert 應該放在哪裡」，轉向「host 應該保存哪些可供多個 expert 共用的非線性計算，讓 flash 根本不必再讀取那些 GU 權重」。**
+>
+> 具體入口是：**重用 native shared expert 在 Down projection 之前的中間特徵，讓不同 routed experts 使用各自的 readout，而不是直接替換成另一個 expert 的最終輸出。**
+
+這是我現在認為值得正式投入驗證的方向。**本輪已驗證它的數學機制、部分資料流與數值契約，也找到了會讓它失敗的成本條件；但尚未驗證它在原始 LLM 上能維持品質，不能把下面的結果稱為已完成 ISCA 論文。**
+
+---
+
+# 一、先處理你指出的問題：原本哪一部分真的不成立？
+
+## 1. 不應該再靠「不能跳讀」取得優勢
+
+AiF 原文明確要求的是 **同一個 block、相繼讀取時沒有間隔**，並描述如何調整前後 target WL 的電壓；它用相鄰 WL 說明，但沒有充分支持「任何不相鄰 WL 都必須重新支付 28 μs」這麼強的限制。AiF - Accelerating On-Device LL…
+
+因此，這次我直接給 baseline 更強的能力：
+
+**同 block 可以跳過未選中的 expert；selected experts 可以合併執行；另外再給 independent-plane 的強控制。**
+
+這裡仍要區分：**能跳 WL，不等於不同 planes 一定能獨立選不同 WL，也不等於所有 input contexts 都免費常駐。**但我不打算靠這些尚未釐清的限制，來保住舊方案。
+
+在這個強基準下，如果每個 expert 都跨全部 chips 分片，所有 chips 本來就可以一起工作。這也是 AiF 原本的通用矩陣布局方式。AiF - Accelerating On-Device LL…
+
+接下來真正卡住的是：
+
+> **原生計算需要的權重，已經接近每頁讀一次。這時再換排列，不能把必要的頁面變不見。**
+
+這個判斷限於「固定模型表示、固定數值格式、完整執行原生 experts」的方案，不是說任何新架構都不可能改善。
+
+## 2. 你的專案其實已經有證據指出這件事
+
+我檢查了 uploaded ZIP 裡的強基準與歷史結果。最有代表性的是：
+
+| 既有 CR 實驗 | 條件性服務時間 | 每層有效 payload |
+|---|---:|---:|
+| 單副本版本 | 318.720 μs | 148.5 MiB |
+| 三副本 candidate | 280.526 μs | 244.5 MiB |
+| **相同三副本容量的 round-robin** | **281.891 μs** | **244.5 MiB** |
+
+所以三副本 candidate 相對單副本看起來改善約 12%，但相對**相同容量**的簡單分配，只剩 **0.484%**。這是專案原有的 conditional service model 結果，不是我本輪量到的新 TPOT。
+
+另外，原紀錄已經搜尋過 **28,032 個單請求 GU/Down pipeline timelines**；local-affine 也不是尚未嘗試的空白方向，較後續的 OLMoE 測試曾出現明顯品質退化。相關原始路徑與摘錄已保留在PROJECT_AUDIT.md[專案審核紀錄](sandbox:/mnt/data/moe_research_revision/evidence/PROJECT_AUDIT.md)。
+
+**因此，要保留的是你的 trace、數值 reference、地址配置與 timing infrastructure；要換掉的是研究的主要控制變數。**
+
+---
+
+# 二、這輪我實際做了哪些驗證？
+
+不只重新讀論文。我在解壓後的專案之外另建目錄，做了以下檢查：
+
+| 檢查 | 實際結果 | 能支持什麼 |
+|---|---|---|
+| 原專案單元測試 | **60 個通過** | 現有測試可正常執行，不代表全部硬體假設已驗證。 |
+| 真實 routing 重播 | 四份 control traces，共 **64 個 decode positions、2,816 個 layer/token events** | 可研究這批 routing 的重複工作，不能當成大規模獨立測試。 |
+| 八個位置合併後的 expert 讀取去重 | Qwen3 **51.43%**；Granite4Tiny **54.90%** | 有跨 token 重讀空間，但不是系統 speedup。 |
+| 改用 window-aware cache ranking | 比 frequency 額外改善最高約 **1.72%**，多個點為零或略負 | 不足以把新 cache 分數當主要貢獻。 |
+| Multi-context 執行正確性 | **1,950 組設定、31,200 個輸出向量逐位一致** | 在合成權重與明確算術契約下，grouped execution 可以正確。 |
+| Shared-GU 執行正確性 | **1,440 個構造案例逐位一致** | 已存在共享 GU 時，計算一次再重組可以正確。 |
+| Shared-GU 的錯誤量化捷徑 | **1,186／1,440 案例不一致** | 共用浮點特徵，不代表能直接共用所有 expert 原本的 A8 編碼。 |
+
+**後三項的權重與數值輸入是合成的，不是原 checkpoint；我沒有把它們當成模型精度結果。**完整輸入、程式和輸出都在最後的實驗包。
+
+我也沒有把「跨八個 token 少讀一半」直接當成答案。加入示例性的 draft 成本與接受率後，收益會大幅縮小：在一組「25% host expert cache、接受率 0.9、增加 MAC 吞吐」的條件模型中，得到 Qwen 約 **1.01×**、Granite 約 **0.93×**。
+
+而且，read-once multi-input、speculative expert footprint 已有 SLIM、SpecFit、EdgeXpert 等直接前作。**因此，單純把同一頁服務多個 token，也不是我現在要推薦的唯一新主張。**[arXiv](https://arxiv.org/html/2507.09201v1)
+
+---
+
+# 三、我建議的新主線：不要替換 expert 的答案，改為共用產生答案的非線性特徵
+
+## 1. 原來的 substitution，替換單位太大
+
+一個 SwiGLU expert 可以寫成：
+
+\[
+F_e(x)
+=
+D_e\left[
+\operatorname{SiLU}(G_ex)\odot U_ex
+\right].
+\]
+
+你們現在的 substitution，大致是在比較：
+
+\[
+F_e(x)\quad\longrightarrow\quad F_j(x).
+\]
+
+問題是，**另一個 expert 的完整輸出，不一定適合取代原 expert**。你之前的 residual sensing 實驗也沒有找到可靠改善。loop_RESULTS
+
+我想換成另一個問題：
+
+> **兩個 experts 的最終答案可以不同，但它們是否能使用同一份非線性特徵，再透過不同的投影產生各自的答案？**
+
+這不要求：
+
+\[
+F_e(x)\approx F_j(x).
+\]
+
+它要求的是：
+
+\[
+F_e(x)\approx C_e z(x),\qquad
+F_j(x)\approx C_j z(x),
+\]
+
+其中 \(C_e\)、\(C_j\) 不同。
+
+這樣，**共用的是特徵計算，不是把兩個 experts 的身份與輸出直接合併。**
+
+## 2. 最小實驗不需要先訓練全新的 feature pool
+
+我會先從模型本來就有的 shared expert 下手。
+
+取它 **Down projection 之前**的向量：
+
+\[
+z_s(x)
+=
+\operatorname{SiLU}(G_sx)\odot U_sx.
+\]
+
+原本 shared expert 的輸出仍然照算：
+
+\[
+F_s(x)=D_sz_s(x).
+\]
+
+對部分 routed experts，另外擬合：
+
+\[
+\boxed{
+\widehat F_e(x)
+=
+C_e\,z_s[J_e](x)+b_e
+}
+\]
+
+其中 \(J_e\) 表示這個 expert 使用哪些 shared features；第一輪先用全部 features，避免一開始就混入 feature selection 的問題。
+
+**注意：\(C_e\) 是重新擬合的 readout，不是把原本的 \(D_e\) 硬接到 shared expert 上。**
+
+整個 MoE 的原 router 與聚合權重保留：
+
+\[
+\widehat y
+=
+F_s(x)
++
+\sum_{e\in S(x)}\alpha_e\,\widehat F_e(x).
+\]
+
+不適合近似的 expert，仍然使用原本的 \(F_e\)。
+
+這仍然是**近似模型**。保留 router 的程式不等於後續 routing 永遠相同；前面 hidden state 改變後，後面必須重新實際執行。
+
+## 3. Host／flash 分工因此變得不同
+
+| 部分 | 原來 | 新方向 |
+|---|---|---|
+| Host residency | 保存完整熱門 expert | 保存一份可服務多個 experts 的 GU 特徵產生器 |
+| Flash 權重 | 每個 expert 的 G、U、D | 可近似 expert 的私有 \(C_e\)，加上必要的原生 fallback |
+| 非線性計算 | 各 expert 各算一次 | 共用的部分算一次 |
+| Flash input | 各 expert 的中間向量不同 | 多個 readouts 可使用同一份 shared feature |
+| Placement 的價值 | 主要看 expert 命中率 | 看這份 resident 計算能替多少 experts 消除多少真實工作 |
+
+**每個 \(C_e\) 仍然可以跨全部 chips 切 output rows。**所以這個方案不靠限制 chip group，也不怕 baseline 能跳著讀。
+
+它減少的是：
+
+> **某些原本必讀的 GU 權重，以及 GU→host nonlinear→Down 的部分依賴。**
+
+不是把同樣的權重換個位置而已。
+
+---
+
+# 四、為什麼「shared 的中間特徵」值得測？它與之前的失敗差在哪？
+
+關鍵是：
+
+\[
+\text{shared 的中間特徵}
+\neq
+\text{shared 的最終輸出}.
+\]
+
+Down projection 可能丟掉其他 expert 用得到的資訊。
+
+我做了一個可以由 SwiGLU 明確構造的例子：
+
+\[
+z(t)=
+\begin{bmatrix}
+t^2\sigma(t)\\
+t^2\sigma(-t)
+\end{bmatrix}.
+\]
+
+令 shared expert 的 Down 是 \([1,1]\)，則：
+
+\[
+F_s(t)=t^2.
+\]
+
+另一個 readout 使用 \([1,-1]\)，則：
+
+\[
+F_e(t)=t^2\tanh(t/2).
+\]
+
+對 \(t\) 和 \(-t\)：
+
+**shared output 完全相同，但 routed output 符號相反；保留中間特徵則能區分。**
+
+我實際檢查了 1,000 對輸入，這個構造成立。
+
+但這個例子的證據範圍要說準確：
+
+**它沒有證明你們的 CERS 一定輸。**CERS 還能看 \(x\)，足夠強的 nonlinear predictor 當然可能自己重建需要的資訊。它只證明：
+
+> **「由另一個 expert 的最終輸出不好重建」，不能直接推出「由它的中間非線性特徵也不好重建」。**
+
+因此，下一個實驗要比較的是**同容量、同計算成本**的 predictor，而不只是給新方法更多 features，再宣布它更準。
+
+我也做了負控制：把合成 teacher 改成使用完全獨立的 GU features，shared-hidden readout 的 normalized squared error 約為 **0.92**，沒有神奇地恢復精確輸出。
+
+**所以，這個方向的核心未知非常清楚：真實模型是否存在足夠的可重用非線性特徵。不是「只要加個線性層就一定可以」。**
+
+---
+
+# 五、這條路有機會改善多少？我把不利的成本也算進去了
+
+以官方 DeepSeek-V2-Lite 設定為例：
+
+\[
+H=2048,\quad I=1408,\quad I_s=2816,\quad K=6,
+\]
+
+共有 64 個 routed experts，27 層中的第一層為 dense，因此是 26 個 MoE layers。[Hugging Face](https://huggingface.co/deepseek-ai/DeepSeek-V2-Lite/raw/main/config.json)
+
+## 1. 權重工作量確實有可以減少的部分
+
+原 routed expert 的三個矩陣共有：
+
+\[
+3HI
+\]
+
+個係數。
+
+使用寬度 \(r\) 的 shared-feature readout，則是：
+
+\[
+Hr.
+\]
+
+因此 raw coefficient work 的降低比例是：
+
+\[
+1-\frac{r}{3I}.
+\]
+
+全部使用 \(2816\) 個 shared features 時：
+
+\[
+1-\frac{2816}{3\times1408}
+=
+33.3\%.
+\]
+
+**這是 raw 權重工作量，不是 speedup，更不是品質已通過。**
+
+## 2. Shared GU 不能當免費，還可能增加依賴
+
+原 native routed GU，可以和 shared GU 並行；新的 readout 卻必須等 shared feature 出來。
+
+我用對 baseline 很有利的條件模型檢查：同 block 自由跳讀、完美 packing、每個 phase 只支付一次啟動；NAND 參數取 AiF 的 28 μs／9.7 μs、16 KiB page。AiF - Accelerating On-Device LL…
+
+在**假設 host 有效頻寬為 86.4 GB/s**的情況：
+
+| Shared-feature 寬度 \(r\) | Routed raw 權重減少 | 原生 FFN＋shared 的服務時間模型 | 新方案的服務時間模型 |
+|---:|---:|---:|---:|
+| 2816 | 33.3% | 521.6 μs | **471.9 μs** |
+| 2112 | 50.0% | 521.6 μs | **394.3 μs** |
+| 1408 | 66.7% | 521.6 μs | **316.7 μs** |
+
+這裡最重要的不是最後一列，而是第一列：
+
+> **少讀 33.3% 權重，加入 shared-feature 依賴後，這個模型只剩約 10.5% 的階段加速。**
+
+而且 host 有效頻寬降到 20 GB/s 時，全寬版本反而約 **0.945×，比原生慢**。
+
+上述尚未加入所有 command、nonlinear、ECC／PE、傳輸等成本，因此不是端到端預測。**不能再次拿一個漂亮的 bytes reduction，包裝成已驗證的系統速度。**
+
+## 3. 記憶體也有一個必須正面面對的反例
+
+這個設定下，raw W8 的 shared GU 全模型約 **286 MiB**；連同 shared Down 約 **429 MiB**。
+
+但 \(r=1408\) 時，全部 routed readouts 約 **4.47 GiB**，可能已經能放進 host 預算。
+
+那麼，強 baseline 就必須是：
+
+> **把壓縮後的 readout 模型全部放 host，直接運算。**
+
+不能為了讓 in-flash 看起來必要，故意把已經放得下的矩陣送去 flash。
+
+因此，最小全寬版本是**品質與機制診斷入口**，不是直接能投稿的終版。要形成完整研究，必須找到有意義的品質—容量—延遲區間。
+
+## 4. 精度不夠時，可以留 private features，但必須有明確上限
+
+一個可研究的延伸是：
+
+\[
+\widehat F_e
+=
+C_ez_s[J_e]
++
+D_e^{\mathrm{private}}\phi_e^{\mathrm{private}}(x).
+\]
+
+令 private intermediate width 為 \(m\)，則 routed flash 係數量約為：
+
+\[
+H(r+3m).
+\]
+
+要比原本少讀，至少需要：
+
+\[
+\boxed{r+3m<3I}.
+\]
+
+**不能無限制加入 private branch 把精度救回來，最後其實比原模型讀得更多。**
+
+---
+
+# 六、新穎性不能只叫「共享特徵」：這些前作必須正面比較
+
+我不會把 generic shared GU pool 當成這輪新發現。你的專案裡已有尚未完成的 Candidate B，外部文獻也有很近的方案。
+
+| 前作 | 已經做了什麼 | 我們必須額外證明什麼 |
+|---|---|---|
+| **SPICE** | Shared expert output 加低秩 input residual，處理部分 misses。 | Down 前的非線性特徵，在相同成本下是否比 output-based surrogate 更有用。 |
+| **PCoMoE** | 拆開 expansion／projection，組合路徑並重用 expansion。 | 固定原 router 的校準式 readout、host residency 與 NAND 成本是否形成不同且更好的設計點。 |
+| **MoLAE** | 共享 latent input/output maps，保留 expert-specific nonlinear operations。 | 不能只贏未優化的低秩版本；必須給它同容量與合法的 shared-lift 合併。 |
+| **UoE** | 重用 routing neurons 的中間 activation，形成 virtual shared expert。 | 不能宣稱首次重用中間特徵；研究對象是既有 checkpoint 的成本受限轉換與部署。 |
+
+以上是直接相關的 primary sources。[arXiv](https://arxiv.org/html/2608.21240v2)
+
+因此，我會把可能的論文命題收斂成：
+
+> **在相同模型品質與完整 host 記憶體預算下，聯合選擇 resident nonlinear basis、可使用該 basis 的 experts，以及私有 readout 的實體執行方式，能消除強 free-skip baseline 仍必須讀取的權重；而一般壓縮方法加最佳後處理布局，無法取得相同的品質—延遲結果。**
+
+這個命題比「換一個 placement score」強，但也有明確的否決條件：
+
+**若 generic MoLAE／PCoMoE／SPICE 加上同樣 host allocation 已經做到一樣好，就不能只因為我們用了 AiF，宣稱有新貢獻。**
+
+---
+
+# 七、下一個實驗應該做什麼？我已準備好最小擬合工具
+
+## 第一個實驗：先測 native shared features，不先重訓整個模型
+
+使用你們現有的 DeepSeek W8 reference，對幾個固定 layers／experts，擷取：
+
+\[
+x,\quad z_s,\quad F_s(x),\quad F_e(x).
+\]
+
+其中 \(z_s\) 必須是 **shared Down 的 input**，不能誤抓成 shared output。
+
+然後比較：
+
+**raw \(x\)、shared output、\(x+\)shared output、shared 中間特徵，以及同容量 nonlinear input-only control。**
+
+第一輪先不改 shared GU，只擬合私有 readout。這樣才能把問題隔離成：
+
+> **既有 shared computation 是否已經提供有用的非線性基底？**
+
+而不是同時改模型、改 router、改 feature pool、改 placement，最後不知道是哪一項有效。
+
+我已寫好 `fit_shared_readout.py`，包含 prompt-disjoint 分割檢查、VALID 選正則化、row-W8 readout、實際宣告的 A8/W8 predictor 評估，也完成合成 fixture 測試。
+
+**它還不是原模型的完整 adapter。**尤其工具目前的 rounding 契約與專案 C++ reference 不完全相同，接回原生數值路徑前必須統一；我已在規格中明確標記。
+
+## 第二個實驗：不是只看局部 MSE，要看真實生成
+
+先做單層替換，再做多層與真正 autoregressive execution。
+
+你之前已經看過：局部看起來不錯的 surrogate，不一定能保住整體品質。因此，**不能因為 readout 對某個 expert 的 MSE 小，就直接使用 native routing trace 計算替換後的完整效能。**
+
+第一輪也先用**離線固定 eligibility**：哪些 experts 採用 readout，由校準與驗證決定；不要立刻再加入一個複雜 confidence predictor，讓精度問題和決策問題混在一起。
+
+## 第三個實驗：通過品質後，才接你的實體布局與 NVMeVirt
+
+這時原專案就很有價值：
+
+讀取的 tensor 從部分原生 GU／Down，改成 private readouts；保留全部 chips 的 row striping；把共用 input 的 readouts 合併發送；計入原生 fallback 的另一種 input、額外命令、host basis latency，以及真正的 phase dependencies。
+
+**這不是推翻重寫整套專案，而是把它從「尋找更好的排列」改為「驗證新的表示是否真的省下硬體工作」。**
+
+---
+
+## 我的最終取捨
+
+**我不建議繼續把 chip grouping／相鄰性當主論文方向。**你現在的懷疑有充分理由，而且專案自己的強基準也支持這個判斷。
+
+我會把主線換成：
+
+> **Host 保存可供多個 experts 使用的非線性特徵產生器；flash 保存不同 experts 的私有讀出。Placement 的目標從命中完整 expert，改成用有限 host 容量消除最多有品質保障的 flash 工作。**
+
+本輪的結果支持「這是一個不同於完整 expert substitution、也不同於局部線性替代的可實作機制」，**但尚不支持「原始模型一定有足夠的共享特徵」。**這個缺口需要原 checkpoint 與 activation captures；它們不在這次上傳的 ZIP 裡，所以我沒有假裝跑出新的 LLM accuracy。
+
+所有新程式、輸入 trace、結果、反例、前作界線與下一個實驗協定已整理完成，原專案未修改：
+
+README.md[完整研究報告](sandbox:/mnt/data/moe_research_revision/README.md) · NEXT_EXPERIMENT.md[真模型實驗規格](sandbox:/mnt/data/moe_research_revision/NEXT_EXPERIMENT.md) · moe_research_revision.zip[下載可重跑程式與全部結果](sandbox:/mnt/data/moe_research_revision.zip)

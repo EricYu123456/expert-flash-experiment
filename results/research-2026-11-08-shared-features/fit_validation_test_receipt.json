@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "client_date": "2026-11-08",
+  "CPU_only": true,
+  "unit_tests": {
+    "command": "OMP_NUM_THREADS=8 OPENBLAS_NUM_THREADS=1 python3 -m unittest discover -s tests -p test_research_20261108_shared_feature_fit.py -v",
+    "exit_code": 0,
+    "tests_run": 4,
+    "checks": [
+      "1000 synthetic TEST prompts and independent shared teacher",
+      "selection exists before TEST targets can be read",
+      "defer-test does not require or open future TEST capture",
+      "global rows.jsonl IDs override shard-local prompt indices",
+      "underdetermined TRAIN and overlapping prompt IDs fail closed"
+    ],
+    "source_sha256": "3c5fa5ec22b7c8672b01d1008528ff83221529691cc989edb3b2748f1b64e8cd"
+  },
+  "numeric_self_test_receipt": "fit_numeric_self_test.json",
+  "numeric_self_test_sha256": "36b00a39f1dea566227a233cd9cf2c7a1026e4d172b70dc7f3f6602036d04d90",
+  "fit_source_sha256": "af535291acde1ddf36e60a404010265b2b96c28570f4d6f7e169519509ef7182",
+  "frozen_fit_source_sha256": "af535291acde1ddf36e60a404010265b2b96c28570f4d6f7e169519509ef7182",
+  "current_source_equals_executed_frozen_source": true,
+  "real_local_TEST": {
+    "same_distinct_prompts_used_across_layers": 1000,
+    "rows_per_layer_and_expert": 16000,
+    "layers": [
+      1,
+      13,
+      26
+    ],
+    "experts": {
+      "1": [
+        14,
+        40
+      ],
+      "13": [
+        10,
+        56
+      ],
+      "26": [
+        0,
+        1
+      ]
+    },
+    "train_prompts": 600,
+    "valid_prompts": 200,
+    "split_disjoint": true,
+    "selection_and_payload_hash_checks_passed": true,
+    "lambdas": [
+      1e-06,
+      0.0001,
+      0.01,
+      0.03,
+      0.1,
+      0.3,
+      1,
+      3,
+      10,
+      100
+    ],
+    "TEST_did_not_select_models": true
+  },
+  "reproduction_CLI_syntax_parse": "PASS",
+  "reproduction_CLI_sha256": "742559d664d98061fe8e507241785f133773a91bb7adef68f209b2cb7f78fca9",
+  "live_LLM_quality_judgment_in_this_receipt": false
+}
